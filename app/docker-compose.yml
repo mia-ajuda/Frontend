@@ -1,0 +1,16 @@
+# EXPO needs a ip to run QRCode properly
+# use make, do not use docker-compose up alone
+
+version: "3"
+services:
+  front:
+    build: .
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    stdin_open: true
+    tty: true
