@@ -11,5 +11,4 @@ export default function Main() {
       />
     </View>
   );
-  
 }

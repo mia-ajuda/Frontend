@@ -7,7 +7,6 @@ RUN apk update && apk upgrade
 # apk add git
 
 RUN apk add --no-cache bash
-RUN npm install -g yarn
 
 RUN yarn global add expo-cli
 
