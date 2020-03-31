@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4B8AB9"
+    backgroundColor: "#fff",
+    marginHorizontal: 20
   },
   splash: {
     height: "100%",
