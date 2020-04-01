@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import fonts from "../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
   container: {
@@ -7,9 +8,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff"
   },
-  text: {
-    fontFamily: "montserrat-semibold",
-    fontSize: 20
+  text1: {
+    ...fonts.h1
+  },
+  text2: {
+    ...fonts.h2
+  },
+  text3: {
+    ...fonts.p
   }
 });
 
