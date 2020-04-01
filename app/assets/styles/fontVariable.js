@@ -12,7 +12,7 @@ const fonts = {
   subtitle: {
     color: colors.dark,
     fontFamily: fontFamily,
-    fontSize: minimumTextSize * 1.3
+    fontSize: minimumTextSize * 1.2
   },
   body: {
     color: colors.dark,
