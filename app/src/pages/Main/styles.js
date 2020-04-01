@@ -9,13 +9,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   text1: {
-    ...fonts.h1
+    ...fonts.title
   },
   text2: {
-    ...fonts.h2
+    ...fonts.subtitle
   },
   text3: {
-    ...fonts.p
+    ...fonts.body
   }
 });
 

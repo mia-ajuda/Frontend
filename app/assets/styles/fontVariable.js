@@ -1,17 +1,17 @@
-const biggestSize = 24;
+const minimumTextSize = 16;
 
 const fonts = {
-  h1: {
-    fontSize: biggestSize,
+  title: {
+    fontSize: minimumTextSize * 1.5,
     fontFamily: "montserrat-semibold"
   },
-  h2: {
+  subtitle: {
     fontFamily: "montserrat-medium",
-    fontSize: biggestSize * 0.8
+    fontSize: minimumTextSize * 1.3
   },
-  p: {
+  body: {
     fontFamily: "montserrat-regular",
-    fontSize: biggestSize * 0.6
+    fontSize: minimumTextSize
   }
 };
 
