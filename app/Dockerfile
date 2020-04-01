@@ -8,11 +8,11 @@ RUN apk update && apk upgrade
 
 RUN apk add --no-cache bash
 
-RUN yarn global add expo-cli
+RUN npm install expo-cli --global
 
 ADD package.json package.json
 
-RUN yarn
+RUN npm install
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
 
