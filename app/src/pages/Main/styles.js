@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   text1: {
-    ...fonts.title
+    ...fonts.title,
+    fontFamily: "montserrat-semibold"
   },
   text2: {
     ...fonts.subtitle

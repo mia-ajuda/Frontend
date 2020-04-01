@@ -1,16 +1,17 @@
 const minimumTextSize = 16;
+const fontFamily = "montserrat-regular";
 
 const fonts = {
   title: {
-    fontSize: minimumTextSize * 1.5,
-    fontFamily: "montserrat-semibold"
+    fontFamily: fontFamily,
+    fontSize: minimumTextSize * 1.5
   },
   subtitle: {
-    fontFamily: "montserrat-medium",
+    fontFamily: fontFamily,
     fontSize: minimumTextSize * 1.3
   },
   body: {
-    fontFamily: "montserrat-regular",
+    fontFamily: fontFamily,
     fontSize: minimumTextSize
   }
 };
