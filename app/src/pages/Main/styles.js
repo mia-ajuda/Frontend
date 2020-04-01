@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../assets/styles/fontVariable";
+import colors from "../../../assets/styles/colorVariables";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +18,10 @@ const styles = StyleSheet.create({
   },
   text3: {
     ...fonts.body
+  },
+  btn: {
+    backgroundColor: colors.danger,
+    color: colors.danger
   }
 });
 
