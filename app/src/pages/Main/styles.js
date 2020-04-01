@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4B8AB9"
+    backgroundColor: "#fff"
   },
-  splash: {
-    height: "100%",
-    width: "100%"
+  text: {
+    fontFamily: "montserrat-semibold",
+    fontSize: 20
   }
 });
 

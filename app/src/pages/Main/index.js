@@ -5,10 +5,7 @@ import styles from "./styles";
 export default function Main() {
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../images/splash.png")}
-        style={styles.splash}
-      />
+      <Text style={styles.text}>Projeto Mia Ajuda em Ação</Text>
     </View>
   );
 }
