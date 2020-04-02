@@ -8,8 +8,8 @@ import {
 } from "expo-location";
 
 export default function Main() {
-  const [currentRegion, setCurrentRegion] = useState(null)
-  console.log(currentRegion)
+  const [currentRegion, setCurrentRegion] = useState(null);
+  console.log(currentRegion);
   useEffect(() => {
     async function getLocation() {
       const { granted } = await requestPermissionsAsync();
@@ -30,22 +30,23 @@ export default function Main() {
   }, []);
   return (
     <View style={styles.container}>
-      <MapView 
-        initialRegion={currentRegion} 
-        style={styles.map}>
-         { currentRegion && (<Marker
-            coordinate={
-              {
-                latitude: currentRegion.latitude,
-                longitude: currentRegion.longitude  
-              }
-            }
+      <MapView initialRegion={currentRegion} style={styles.map}>
+        {currentRegion && (
+          <Marker
+            coordinate={{
+              latitude: currentRegion.latitude,
+              longitude: currentRegion.longitude
+            }}
             draggable
-            onDragEnd = {(newCoordinates) => {
-              const {latitude, longitude} = newCoordinates.nativeEvent.coordinate
-              setCurrentRegion({...currentRegion, latitude, longitude})
-            }} 
-          />)}
+            onDragEnd={newCoordinates => {
+              const {
+                latitude,
+                longitude
+              } = newCoordinates.nativeEvent.coordinate;
+              setCurrentRegion({ ...currentRegion, latitude, longitude });
+            }}
+          />
+        )}
       </MapView>
     </View>
   );
