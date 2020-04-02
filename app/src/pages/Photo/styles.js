@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
   title: {
     ...fonts.body,
     color: colors.primary
+  },
+  button: {
+    ...fonts.title,
+    color: colors.dark
   }
 });
 

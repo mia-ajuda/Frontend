@@ -2,6 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Image } from "react-native";
+import { Icon } from "react-native-elements";
 
 import Login from "./pages/Login";
 import Location from "./pages/Location";
@@ -22,14 +24,73 @@ const MainRoutes = () => (
       activeBackgroundColor: colors.primary,
       tabStyle: {
         justifyContent: "center"
-      }
+      },
+      showLabel: false
     }}
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let selectConfig;
+
+        if (route.name == "main") {
+          selectConfig = focused
+            ? {
+                src: require("../assets/images/whileLogo.png"),
+                size: { height: 40, width: 40 }
+              }
+            : {
+                src: require("../assets/images/whiteCat.png"),
+                size: { height: 25, width: 25, resizeMode: "contain" }
+              };
+
+          return <Image source={selectConfig.src} style={selectConfig.size} />;
+        }
+
+        if (route.name === "helpList") {
+          selectConfig = focused
+            ? { color: colors.primary, raised: true, name: "outdent" }
+            : { color: colors.light, raised: false, name: "outdent" };
+        }
+        if (route.name === "needingList") {
+          selectConfig = focused
+            ? { color: colors.primary, raised: true, name: "outdent" }
+            : { color: colors.light, raised: false, name: "outdent" };
+        }
+        if (route.name === "notification") {
+          selectConfig = focused
+            ? { color: colors.primary, raised: true, name: "bell" }
+            : { color: colors.light, raised: false, name: "bell" };
+        }
+        if (route.name === "settings") {
+          selectConfig = focused
+            ? {
+                color: colors.primary,
+                raised: true,
+                name: "user-circle"
+              }
+            : {
+                color: colors.light,
+                raised: false,
+                name: "user-circle"
+              };
+        }
+
+        return (
+          <Icon
+            raised={selectConfig.raised}
+            size={18}
+            name={selectConfig.name}
+            type="font-awesome"
+            color={selectConfig.color}
+          />
+        );
+      }
+    })}
     initialRouteName="main"
   >
-    <BottomNavigation.Screen name="profile" component={Main} />
-    <BottomNavigation.Screen name="list1" component={Main} />
+    <BottomNavigation.Screen name="notification" component={Main} />
+    <BottomNavigation.Screen name="helpList" component={Main} />
     <BottomNavigation.Screen name="main" component={Main} />
-    <BottomNavigation.Screen name="list2" component={Main} />
+    <BottomNavigation.Screen name="needingList" component={Main} />
     <BottomNavigation.Screen name="settings" component={Main} />
   </BottomNavigation.Navigator>
 );

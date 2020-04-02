@@ -9,8 +9,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    color: colors.primary,
-    ...fonts.body
+    ...fonts.body,
+    color: colors.primary
+  },
+  button: {
+    ...fonts.title,
+    color: colors.dark
   }
 });
 
