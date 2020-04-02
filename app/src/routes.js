@@ -18,6 +18,9 @@ const StackNavigation = createStackNavigator();
 const MainRoutes = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
+      style: {
+        height: 60
+      },
       activeTintColor: colors.light,
       inactiveTintColor: colors.dark,
       inactiveBackgroundColor: colors.primary,
@@ -77,7 +80,7 @@ const MainRoutes = () => (
         return (
           <Icon
             raised={selectConfig.raised}
-            size={18}
+            size={20}
             name={selectConfig.name}
             type="font-awesome"
             color={selectConfig.color}
@@ -113,7 +116,7 @@ const AuthRoutes = () => (
 
 const Routes = () => (
   <NavigationContainer>
-    <AuthRoutes />
+    <MainRoutes />
   </NavigationContainer>
 );
 
