@@ -12,6 +12,7 @@ import Photo from "./pages/authPages/Photo";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
+import CreateHelp from "./pages/helpPages/createHelp";
 
 const BottomNavigation = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
@@ -109,13 +110,14 @@ const AuthRoutes = () => (
     <StackNavigation.Navigator
       initialRouteName="login"
       screenOptions={{
-        headerShown: false
+        // headerShown: false
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
       <StackNavigation.Screen name="signUp" component={SignUp} />
       <StackNavigation.Screen name="photo" component={Photo} />
+      <StackNavigation.Screen name="createHelp" component={CreateHelp} />
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
         name="forgotPassword"

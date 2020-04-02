@@ -6,7 +6,7 @@ import Input from "../../components/UI/input";
 import Button from "../../components/UI/button";
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function Main() {
+export default function Main({ navigation }) {
   return (
     <ScrollView>
       <Container style={styles.container}>
@@ -15,7 +15,9 @@ export default function Main() {
         <Text style={styles.text3}>Projeto Mia Ajuda em Ação em body</Text>
         <View style={styles.btnContainer}>
           <Button title="White" type="white" />
-          <Button title="Danger" type="danger" />
+          <Button title="Danger" type="danger" onPress={() => 
+          navigation.navigate("createHelp")
+        }/>
         </View>
         <Button title="Warning" large type="warning" />
         <Button title="Default" large />
