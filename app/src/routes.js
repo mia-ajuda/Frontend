@@ -16,7 +16,6 @@ import CreateHelp from "./pages/helpPages/createHelp";
 
 const BottomNavigation = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
-const MainNavigation = createStackNavigator();
 
 const MainRoutes = () => (
   <BottomNavigation.Navigator
@@ -100,20 +99,11 @@ const MainRoutes = () => (
   >
     <BottomNavigation.Screen name="notification" component={Main} />
     <BottomNavigation.Screen name="helpList" component={Main} />
-    <BottomNavigation.Screen name="main" component={MainPageRoutes} />
+    <BottomNavigation.Screen name="main" component={Main} />
     <BottomNavigation.Screen name="needingList" component={Main} />
     <BottomNavigation.Screen name="settings" component={Main} />
   </BottomNavigation.Navigator>
 );
-
-const MainPageRoutes = () => (
-  <MainNavigation.Navigator
-  initialRouteName="main"
-  >
-    <MainNavigation.Screen name="main" component={Main} options={{ headerShown: false }}/>
-    <MainNavigation.Screen name="createHelp" component={CreateHelp}/>
-  </MainNavigation.Navigator>
-)
 
 const AuthRoutes = () => (
   <>
@@ -127,7 +117,7 @@ const AuthRoutes = () => (
       <StackNavigation.Screen name="location" component={Location} />
       <StackNavigation.Screen name="signUp" component={SignUp} />
       <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen name="createHelp" component={CreateHelp} />
+      <StackNavigation.Screen name="createHelp" component={CreateHelp} options={{headerShown: true}}/>
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
         name="forgotPassword"
