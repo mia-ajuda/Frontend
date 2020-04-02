@@ -1,5 +1,8 @@
 import { StyleSheet } from "react-native";
 
+import colors from "../../../assets/styles/colorVariables";
+import fonts from "../../../assets/styles/fontVariable";
+
 export default StyleSheet.create({
   cardContainer: {
     maxWidth: 740,
@@ -17,7 +20,7 @@ export default StyleSheet.create({
 
     elevation: 2,
 
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.light,
     borderRadius: 8,
 
     justifyContent: "center",
@@ -35,12 +38,12 @@ export default StyleSheet.create({
   },
 
   titleContent: {
-    fontWeight: "bold",
-    fontSize: 22,
+    ...fonts.title,
+    fontFamily: "montserrat-semibold",
+    color: colors.primary,
 
     lineHeight: 30,
-    textAlign: "center",
-    color: "#4B8AB9"
+    textAlign: "center"
   },
 
   cardDescription: {
@@ -48,22 +51,22 @@ export default StyleSheet.create({
     maxWidth: "100%",
     maxHeight: "70%",
 
-    alignItems: "flex-end",
-    justifyContent: "flex-end"
+    alignItems: "flex-start",
+    justifyContent: "center"
   },
 
   descriptionContent: {
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: 10,
+    fontSize: 12,
 
-    lineHeight: 12,
-    color: "#353535"
+    lineHeight: 14,
+    color: colors.dark
   },
 
   categoryWarning: {
     marginTop: 10,
-    backgroundColor: "#F7EF6E",
+    backgroundColor: colors.secondary,
     borderRadius: 8,
 
     maxWidth: 200,
@@ -71,14 +74,12 @@ export default StyleSheet.create({
 
     paddingHorizontal: 15,
 
-    alignSelf: "flex-start",
+    alignSelf: "flex-start"
   },
 
   categoryName: {
-    color: "#353535",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 15,
+    ...fonts.body,
+    fontFamily: "montserrat-semibold",
     lineHeight: 30,
     textAlign: "center"
   }
