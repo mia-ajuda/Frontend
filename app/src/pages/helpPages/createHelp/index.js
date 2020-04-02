@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Picker } from "react-native";
+import { View, Picker, Text } from "react-native";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
@@ -8,21 +8,29 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function CreateHelp({ navigation }) {
   return (
-    <View> 
-      
-    <ScrollView>
+    <View style={{
+      height: '100%',
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+    }}>
       <Container style={styles.container}>
-        <View style={styles.btnContainer}>
+        <Input label="Título" />
+        <View>
+          <Text style={styles.label}>Categoria</Text>
+          <View style={styles.picker}>
+            <Picker label="Categoria">
+              <Picker.Item label="" value="" />
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker>
+          </View>
         </View>
-        <Input label="Título"/>
-        <Picker>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker>
         <Input label="Descrição" textarea />
-        <Button title="Preciso de ajuda" large />
       </Container>
-    </ScrollView>
+      <Container style={styles.btnContainer}>
+          <Button title="Preciso de ajuda" large />
+      </Container>
     </View>
   );
 }
