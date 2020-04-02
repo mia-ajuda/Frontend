@@ -13,7 +13,7 @@ import { UserContext } from "../../../store/contexts/userContext";
 import { actionGetUserData } from "../../../store/actions";
 import userService from "../../../services/User";
 
-export default function SignUp({ navigation }) {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +31,7 @@ export default function SignUp({ navigation }) {
   };
 
   const loginHandler = () => {
-    const data = [{mail: email, pass: password}];
+    const data = [{ mail: email, pass: password }];
     console.log(data);
     clearState();
   };
@@ -80,7 +80,7 @@ export default function SignUp({ navigation }) {
         <TouchableOpacity
           style={styles.signUP}
           onPress={() => {
-            navigation.navigate("signUp");
+            navigation.navigate("registrationData");
           }}
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
