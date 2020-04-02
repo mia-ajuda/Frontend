@@ -15,7 +15,7 @@ export default function Main({ navigation }) {
         <Text style={styles.text3}>Projeto Mia Ajuda em Ação em body</Text>
         <View style={styles.btnContainer}>
           <Button title="White" type="white" />
-          <Button title="Danger" type="danger" onPress={() => 
+          <Button title="Danger" type="danger" press={() => 
           navigation.navigate("createHelp")
         }/>
         </View>

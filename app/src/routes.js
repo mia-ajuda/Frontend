@@ -110,7 +110,7 @@ const AuthRoutes = () => (
     <StackNavigation.Navigator
       initialRouteName="login"
       screenOptions={{
-        // headerShown: false
+        headerShown: false
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
