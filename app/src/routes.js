@@ -34,7 +34,6 @@ const MainRoutes = () => (
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let selectConfig;
-        let icon;
 
         switch (route.name) {
           case "main":
