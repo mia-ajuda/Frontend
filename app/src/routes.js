@@ -5,10 +5,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
 import { Icon } from "react-native-elements";
 
-import Login from "./pages/Login";
-import Location from "./pages/Location";
-import SignUp from "./pages/SignUp";
-import Photo from "./pages/Photo";
+import Login from "./pages/authPages/Login";
+import Location from "./pages/authPages/Location";
+import SignUp from "./pages/authPages/SignUp";
+import Photo from "./pages/authPages/Photo";
+import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 
@@ -33,48 +34,52 @@ const MainRoutes = () => (
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let selectConfig;
+        let icon;
 
-        if (route.name == "main") {
-          selectConfig = focused
-            ? {
-                src: require("../assets/images/whileLogo.png"),
-                size: { height: 40, width: 40 }
-              }
-            : {
-                src: require("../assets/images/whiteCat.png"),
-                size: { height: 25, width: 25, resizeMode: "contain" }
-              };
+        switch (route.name) {
+          case "main":
+            selectConfig = focused
+              ? {
+                  src: require("../assets/images/whileLogo.png"),
+                  size: { height: 40, width: 40 }
+                }
+              : {
+                  src: require("../assets/images/whiteCat.png"),
+                  size: { height: 25, width: 25, resizeMode: "contain" }
+                };
+            return (
+              <Image source={selectConfig.src} style={selectConfig.size} />
+            );
 
-          return <Image source={selectConfig.src} style={selectConfig.size} />;
-        }
+          case "helpList":
+            selectConfig = focused
+              ? { color: colors.primary, raised: true, name: "outdent" }
+              : { color: colors.light, raised: false, name: "outdent" };
+            break;
 
-        if (route.name === "helpList") {
-          selectConfig = focused
-            ? { color: colors.primary, raised: true, name: "outdent" }
-            : { color: colors.light, raised: false, name: "outdent" };
-        }
-        if (route.name === "needingList") {
-          selectConfig = focused
-            ? { color: colors.primary, raised: true, name: "outdent" }
-            : { color: colors.light, raised: false, name: "outdent" };
-        }
-        if (route.name === "notification") {
-          selectConfig = focused
-            ? { color: colors.primary, raised: true, name: "bell" }
-            : { color: colors.light, raised: false, name: "bell" };
-        }
-        if (route.name === "settings") {
-          selectConfig = focused
-            ? {
-                color: colors.primary,
-                raised: true,
-                name: "user-circle"
-              }
-            : {
-                color: colors.light,
-                raised: false,
-                name: "user-circle"
-              };
+          case "needingList":
+            selectConfig = focused
+              ? { color: colors.primary, raised: true, name: "outdent" }
+              : { color: colors.light, raised: false, name: "outdent" };
+            break;
+          case "notification":
+            selectConfig = focused
+              ? { color: colors.primary, raised: true, name: "bell" }
+              : { color: colors.light, raised: false, name: "bell" };
+            break;
+          case "settings":
+            selectConfig = focused
+              ? {
+                  color: colors.primary,
+                  raised: true,
+                  name: "user-circle"
+                }
+              : {
+                  color: colors.light,
+                  raised: false,
+                  name: "user-circle"
+                };
+            break;
         }
 
         return (
@@ -108,15 +113,20 @@ const AuthRoutes = () => (
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
-      <StackNavigation.Screen name="signup" component={SignUp} />
+      <StackNavigation.Screen name="signUp" component={SignUp} />
       <StackNavigation.Screen name="photo" component={Photo} />
+      <StackNavigation.Screen name="main" component={MainRoutes} />
+      <StackNavigation.Screen
+        name="forgotPassword"
+        component={ForgotPassword}
+      />
     </StackNavigation.Navigator>
   </>
 );
 
 const Routes = () => (
   <NavigationContainer>
-    <MainRoutes />
+    <AuthRoutes />
   </NavigationContainer>
 );
 

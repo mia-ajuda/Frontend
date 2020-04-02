@@ -11,11 +11,7 @@ export default function Location({ navigation }) {
       <Text style={styles.title}>Location page </Text>
       <Text style={styles.title}>Location page </Text>
       <Text style={styles.title}>Location page </Text>
-      <TouchableOpacity
-        onPress={() => {
-          alert("registered!");
-        }}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate("main")}>
         <Text style={styles.button}>REGISTER</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.goBack()}>

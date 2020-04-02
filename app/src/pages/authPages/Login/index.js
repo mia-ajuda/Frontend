@@ -13,10 +13,17 @@ export default function Login({ navigation }) {
       <Text style={styles.title}>Login page </Text>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("signup");
+          navigation.navigate("signUp");
         }}
       >
         <Text style={styles.button}>SIGN UP</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("forgotPassword");
+        }}
+      >
+        <Text style={styles.button}>ForgotPassword</Text>
       </TouchableOpacity>
     </View>
   );
