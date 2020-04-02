@@ -1,29 +1,35 @@
-import React, { useContext } from "react";
+import React from 'react';
+import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text } from 'react-native';
+import styles from './styles';
 
-import { View, Text, TouchableOpacity } from "react-native";
-import styles from "./styles";
-import { UserContext } from "../../../store/contexts/userContext";
-
-export default function SignUp({ navigation }) {
-  const { user } = useContext(UserContext);
+export default function SignUp (){
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SignUp page </Text>
-      <Text style={styles.title}>SignUp page </Text>
-      <Text style={styles.title}>SignUp page </Text>
-      <Text style={styles.title}>SignUp page </Text>
-      <Text style={styles.title}>SignUp page </Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("photo");
-          console.log(user);
-        }}
-      >
-        <Text style={styles.button}>NEXT PAGE</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.button}>Back</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAvoidingView style={styles.background}>
+      <View style={styles.viewText}>
+        <Text style={styles.text}>Precisamos de algumas informações para poder realizar seu cadastro!! Pode me dizer seu nome e data de nascimento?</Text>
+      </View>
+      <View style={styles.inputView}>
+        <Text style={styles.inputText}>Nome Completo</Text>
+        <TextInput style={styles.input}
+          placeholder="Insira seu Nome Completo"
+          placeholderTextColor={'#BDBDBD'}
+        />
+        <Text style={styles.inputText}>Data de Nascimento</Text>
+        <TextInput style={styles.input}
+          placeholder="00/00/0000"
+          placeholderTextColor={'#BDBDBD'}
+        />
+        <Text style={styles.inputText}>CPF</Text>
+        <TextInput style={styles.input}
+          placeholder="000000000-00"
+          placeholderTextColor={'#BDBDBD'}
+        />
+        </View>
+        <View style={styles.btnView}>
+          <TouchableOpacity style={styles.login}>
+            <Text style={styles.btnText}>ENTRAR</Text>
+          </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 }

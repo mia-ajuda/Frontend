@@ -1,20 +1,56 @@
 import { StyleSheet } from "react-native";
-import colors from "../../../../assets/styles/colorVariables";
-import fonts from "../../../../assets/styles/fontVariable";
+
 
 const styles = StyleSheet.create({
-  container: {
+  background:{
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f7f7f7'
   },
-  title: {
-    ...fonts.body,
-    color: colors.primary
+  viewText:{
+    flex: 2,
+    width: '80%',
+    justifyContent: 'center',
   },
-  button: {
-    ...fonts.title,
-    color: colors.dark
+  text:{
+    textAlign: 'justify',
+    fontSize: 20,
+    fontFamily: "montserrat-semibold",
+  },
+  inputView:{
+    flex:2,
+    width: '80%',
+  }
+  ,
+  input:{
+    height:50,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: '#4b8ab9',
+    marginBottom: 10
+  },
+  inputText:{
+    fontSize: 20,
+    fontFamily: "montserrat-semibold",
+    color: "#4b8ab9"
+  },
+  btnView:{
+    flex: 1,
+    width: '80%',
+    justifyContent:'center'
+
+  },
+  login: {
+    alignItems:'center',
+    justifyContent: 'center',
+    height:50,
+    backgroundColor: '#4b8ab9',
+    borderRadius: 5,
+  },
+  btnText:{
+    color: '#f7f7f7',
+    fontFamily: "montserrat-semibold"
   }
 });
 
