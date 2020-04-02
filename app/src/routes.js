@@ -7,7 +7,9 @@ import { Icon } from "react-native-elements";
 
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
-import SignUp from "./pages/authPages/SignUp";
+import RegistrationData from "./pages/authPages/RegistrationData";
+import PersonalData from "./pages/authPages/PersonalData";
+import RiskGroup from "./pages/authPages/RiskGroup";
 import Photo from "./pages/authPages/Photo";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
@@ -114,7 +116,9 @@ const AuthRoutes = () => (
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
-      <StackNavigation.Screen name="signUp" component={SignUp} />
+      <StackNavigation.Screen name="registrationData" component={RegistrationData} />
+      <StackNavigation.Screen name="personalData" component={PersonalData} />
+      <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
       <StackNavigation.Screen name="photo" component={Photo} />
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
