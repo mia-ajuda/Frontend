@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Picker } from "react-native";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
@@ -14,9 +14,13 @@ export default function CreateHelp({ navigation }) {
       <Container style={styles.container}>
         <View style={styles.btnContainer}>
         </View>
-        <Input label="Label" placeholder="Input placeholder" />
-        <Input label="Text area" textarea />
-        <Button label="Preciso de ajuda" title="Default" large />
+        <Input label="Título"/>
+        <Picker>
+        <Picker.Item label="Java" value="java" />
+        <Picker.Item label="JavaScript" value="js" />
+      </Picker>
+        <Input label="Descrição" textarea />
+        <Button title="Preciso de ajuda" large />
       </Container>
     </ScrollView>
     </View>
