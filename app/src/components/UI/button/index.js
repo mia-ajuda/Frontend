@@ -43,7 +43,6 @@ export default function Button({ title, press, type, large, disabled }) {
       <TouchableOpacity
         activeOpacity={1.0}
         style={[isLarge, styles.btnDisabled]}
-        onPress={press}
       >
         <Text style={styles.textDisabled}>{title}</Text>
       </TouchableOpacity>
