@@ -2,10 +2,10 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   cardContainer: {
-    width: "90%",
-    height: "25%",
     maxWidth: 740,
     maxHeight: 240,
+
+    marginTop: 20,
 
     shadowColor: "#000",
     shadowOffset: {
@@ -18,14 +18,15 @@ export default StyleSheet.create({
     elevation: 2,
 
     backgroundColor: "#F7F7F7",
-    borderRadius: 10,
+    borderRadius: 8,
 
     justifyContent: "center",
     alignItems: "flex-start",
 
     paddingLeft: 20,
     paddingRight: 20,
-    paddingBottom: 15
+    paddingBottom: 15,
+    paddingTop: 10
   },
 
   cardTitle: {
@@ -35,9 +36,9 @@ export default StyleSheet.create({
 
   titleContent: {
     fontWeight: "bold",
-    fontSize: 26,
+    fontSize: 22,
 
-    lineHeight: 36,
+    lineHeight: 30,
     textAlign: "center",
     color: "#4B8AB9"
   },
@@ -54,32 +55,30 @@ export default StyleSheet.create({
   descriptionContent: {
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: 12,
+    fontSize: 10,
 
-    lineHeight: 18,
+    lineHeight: 12,
     color: "#353535"
   },
 
   categoryWarning: {
-    marginTop: 5,
+    marginTop: 10,
     backgroundColor: "#F7EF6E",
     borderRadius: 8,
 
     maxWidth: 200,
-    maxHeight: 50,
+    maxHeight: 30,
 
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
 
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center"
+    alignSelf: "flex-start",
   },
 
   categoryName: {
     color: "#353535",
     fontStyle: "normal",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 15,
     lineHeight: 30,
     textAlign: "center"
   }
