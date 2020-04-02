@@ -20,6 +20,7 @@ export default function Main() {
       <Button title="Disabled" large disabled/>
 
       <Input label="Label" placeholder="Input placeholder" />
+      <Input label="Text area" textarea />
     </Container>
   );
 }

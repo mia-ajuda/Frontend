@@ -5,11 +5,10 @@ import colors from "../../../../assets/styles/colorVariables";
 const styles = StyleSheet.create({
   input: {
     ...fonts.body,
-    height: 40,
     borderWidth: 2,
     borderRadius: 5,
     borderColor: colors.primary,
-    paddingLeft: 10
+    padding: 10
   },
   label: {
     ...fonts.body,
