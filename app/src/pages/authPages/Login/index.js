@@ -13,12 +13,11 @@ import styles from "./styles";
 export default function SignUp({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState([]);
 
   const clearState = () => {
-    setEmail('')
-    setPassword('')
-}
+    setEmail("");
+    setPassword("");
+  };
 
   const emailHandler = enteredEmail => {
     setEmail(enteredEmail);
@@ -29,9 +28,9 @@ export default function SignUp({ navigation }) {
   };
 
   const loginHandler = () => {
-      setData([{ mail: email, pass: password}]);
-      console.log(data);
-      clearState();
+    const data = [{mail: email, pass: password}];
+    console.log(data);
+    clearState();
   };
 
   return (
@@ -49,6 +48,7 @@ export default function SignUp({ navigation }) {
           placeholder="Email"
           autoCorrect={false}
           onChangeText={emailHandler}
+          value={email}
         />
 
         <TextInput
@@ -57,6 +57,7 @@ export default function SignUp({ navigation }) {
           placeholder="Senha"
           autoCorrect={false}
           onChangeText={passwordHandler}
+          value={password}
         />
 
         <TouchableOpacity
@@ -67,10 +68,6 @@ export default function SignUp({ navigation }) {
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
         </TouchableOpacity>
-          
-        <View>
-          
-        </View>
       </View>
       <View style={styles.viewLogin}>
         <TouchableOpacity style={styles.login} onPress={loginHandler}>
