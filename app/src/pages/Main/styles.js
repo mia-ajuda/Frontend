@@ -5,9 +5,11 @@ import colors from "../../../assets/styles/colorVariables";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    height: "100%",
+    flexDirection: "column",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff"
+    backgroundColor: "#f7f7f7"
   },
   text: {
     fontFamily: "montserrat-semibold",

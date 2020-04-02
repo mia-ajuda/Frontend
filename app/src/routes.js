@@ -22,6 +22,7 @@ const MainRoutes = () => (
       style: {
         height: 60
       },
+      keyboardHidesTabBar: true,
       activeTintColor: colors.light,
       inactiveTintColor: colors.dark,
       inactiveBackgroundColor: colors.primary,
