@@ -3,25 +3,23 @@ import { StyleSheet } from "react-native";
 import colors from "../../../assets/styles/colorVariables";
 
 export default StyleSheet.create({
+  helpListContainer: {
+    backgroundColor: colors.primary,
+    width: "100%",
 
-    helpListContainer: {
-        backgroundColor: colors.primary,
-        width: "100%", 
-        
-        alignSelf: "flex-end",
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-    },
+    alignSelf: "flex-end",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
 
-    listContent: {
-        width: "90%",
+  listContent: {
+    width: "90%",
 
-        alignSelf: "center"
-    },
+    alignSelf: "center",
+  },
 
-    buttonStyle: {
-        padding: 10,
-        margin: 0
-    }
-
+  buttonStyle: {
+    padding: 10,
+    margin: 0,
+  },
 });

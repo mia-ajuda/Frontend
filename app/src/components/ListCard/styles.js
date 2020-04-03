@@ -13,7 +13,7 @@ export default StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
@@ -29,12 +29,12 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 15,
-    paddingTop: 10
+    paddingTop: 10,
   },
 
   cardTitle: {
     maxWidth: "100%",
-    maxHeight: "30%"
+    maxHeight: "30%",
   },
 
   titleContent: {
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     color: colors.primary,
 
     lineHeight: 30,
-    textAlign: "center"
+    textAlign: "center",
   },
 
   cardDescription: {
@@ -52,7 +52,7 @@ export default StyleSheet.create({
     maxHeight: "70%",
 
     alignItems: "flex-start",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   descriptionContent: {
@@ -61,7 +61,7 @@ export default StyleSheet.create({
     fontSize: 12,
 
     lineHeight: 14,
-    color: colors.dark
+    color: colors.dark,
   },
 
   categoryWarning: {
@@ -74,13 +74,13 @@ export default StyleSheet.create({
 
     paddingHorizontal: 15,
 
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
 
   categoryName: {
     ...fonts.body,
     fontFamily: "montserrat-semibold",
     lineHeight: 30,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
