@@ -31,8 +31,9 @@ export default function Login({ navigation }) {
   };
 
   const loginHandler = () => {
-    const data = [{ mail: email, pass: password }];
-    console.log(data);
+    const data = [email,password];
+    console.log("email", data[0]);
+    console.log("senha",data[1]);
     clearState();
   };
 
