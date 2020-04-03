@@ -7,7 +7,6 @@ export default StyleSheet.create({
     helpListContainer: {
         backgroundColor: colors.primary,
         width: "100%", 
-        height: "70%",
         
         alignSelf: "flex-end",
         borderTopLeftRadius: 8,
@@ -18,5 +17,11 @@ export default StyleSheet.create({
         width: "90%",
 
         alignSelf: "center"
+    },
+
+    buttonStyle: {
+        padding: 10,
+        margin: 0
     }
+
 });
