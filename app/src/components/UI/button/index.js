@@ -38,7 +38,7 @@ export default function Button({ title, press, type, large, disabled }) {
       break;
   }
 
-  if (disabled) {
+  if (disabled == true) {
     btn = (
       <TouchableOpacity
         activeOpacity={1.0}
