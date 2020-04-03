@@ -11,7 +11,7 @@ export default function Input({ label, placeholder, change, value, textarea }) {
         style={styles.input}
         placeholder="..."
         placeholderTextColor={"#BDBDBD"}
-        onChange={change}
+        onChangeText={change}
         value={value}
         numberOfLines={6}
         textAlignVertical="top"
@@ -24,7 +24,7 @@ export default function Input({ label, placeholder, change, value, textarea }) {
         style={styles.input}
         placeholder={placeholder}
         placeholderTextColor={"#BDBDBD"}
-        onChange={change}
+        onChangeText={change}
         value={value}
       />
     );

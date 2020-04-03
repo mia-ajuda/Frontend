@@ -28,9 +28,7 @@ export default function Login({ navigation }) {
   };
 
   const loginHandler = () => {
-    const data = [email,password];
-    console.log("email", data[0]);
-    console.log("senha",data[1]);
+    const data = [email, password];
     clearState();
   };
 
