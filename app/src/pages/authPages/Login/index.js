@@ -7,8 +7,6 @@ import { actionGetUserData } from "../../../store/actions";
 
  const Login = ({ navigation }) => {
   const { user, dispatch } = useContext(UserContext);
-  console.log("state");
-  console.log(user);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login page </Text>

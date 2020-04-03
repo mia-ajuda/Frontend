@@ -36,8 +36,15 @@ class User {
   }
 
   async getUserData() {
-    //const response = await
-    return (await api.get(`/user/${this._id}`)).data;
+    let userData;
+    api
+      .get(`/use/${this._id}`)
+      .then((res) => {
+        userData = res.data.name;
+      })
+      .catch((error) => {});
+
+    return userData;
   }
 
   helpAnUser() {}
