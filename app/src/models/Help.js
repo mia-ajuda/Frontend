@@ -1,27 +1,18 @@
+import api from "../services/Api";
+
 export default class Help {
-  constructor(
-    id,
-    title,
-    description,
-    status,
-    possibleHelpers,
-    categoryId,
-    ownerId,
-    helperId,
-    creationDate,
-    finishedDate
-  ) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.status = status;
-    this.possibleHelpers = possibleHelpers;
-    this.categoryId = categoryId;
-    this.ownerId = ownerId;
-    this.helperId = helperId;
-    this.creationDate = creationDate;
-    this.finishedDate = finishedDate;
-  }
+  _id;
+  _title;
+  _description;
+  _status;
+  _possibleHelpers;
+  _categoryId;
+  _ownerId;
+  _helperId;
+  _creationDate;
+  _finishedDate;
+
+  constructor() {}
 
   getAllHelp() {}
 
@@ -33,3 +24,8 @@ export default class Help {
 
   deleteHelp() {}
 }
+
+const help = new Help();
+Object.freeze(help);
+
+export default help;

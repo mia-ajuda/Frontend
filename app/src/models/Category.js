@@ -1,9 +1,16 @@
+import api from "../services/Api";
+
 class Category {
-  constructor(id, name, description) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-  }
+  _id;
+  _name;
+  _description;
+
+  constructor() {}
 
   getAllCategories() {}
 }
+
+const category = new Category();
+Object.freeze(category);
+
+export default category;
