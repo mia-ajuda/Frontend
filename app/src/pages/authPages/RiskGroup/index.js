@@ -1,16 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity
 } from "react-native";
-import Container from "../../../components/Container";
-import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 
 export default function RiskGroup({ navigation }) {
+
+  const [hiv, setHiv] = useState(false);
+  const [doencasRespiratorias, setDoencasRespiratorias] = useState(false);
+  const [diabetes, setDiabetes] = useState(false);
+  const [hipertensao, setHipertensao] = useState(false);
+  const [doencasCardiovasculares, setDoencasCardiovasculares] = useState(false);
+
+
+  const hivPress = () => {
+    if(hiv == true){
+      setHiv(false);
+    }
+    else
+      setHiv(true);
+  }
+
+  const doencasRespiratoriasPress = () => {
+    if(doencasRespiratorias == true){
+      setDoencasRespiratorias(false);
+    }
+    else
+      setDoencasRespiratorias(true);
+  }
+
+  const diabetesPress = () => {
+    if(diabetes == true){
+      setDiabetes(false);
+    }
+    else
+      setDiabetes(true);
+  }
+
+  const hipertnsaoPress = () => {
+    if(hipertensao == true){
+      setHipertensao(false);
+    }
+    else
+      setHipertensao(true);
+  }
+
+  
+
+  const doencasCardiovascularesPress = () => {
+    if(doencasCardiovasculares == true){
+      setDoencasCardiovasculares(false);
+    }
+    else
+    setDoencasCardiovasculares(true);
+  }
+
+  const continueHandler = () => {
+    const data = [{dRespiratoria: doencasRespiratorias, sida: hiv, diabete: diabetes, hip: hipertensao, dcardio: doencasCardiovasculares}]
+    console.log(data);
+  }
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.viewText}>
@@ -21,26 +73,26 @@ export default function RiskGroup({ navigation }) {
       </View>
       <View style={styles.input}>
         <View style={styles.inputItem}>
-        <Button large title="Doenças Respiratórias" />
+        <Button type={doencasRespiratorias? 'white' : null} press={doencasRespiratoriasPress} large title="Doenças Respiratórias" />
         </View>
         <View style={styles.inputItem}>
-        <Button large title="HIV" />
+        <Button type={hiv ? 'white' : null} press={hivPress} large title="HIV" />
         </View>
         <View style={styles.inputItem}>
-        <Button large title="Diabétes" />
+        <Button type={diabetes ? 'white' : null} press={ diabetesPress } large title="Diabétes" />
+        </View>
+        <View  style={styles.inputItem}>
+        <Button  type={hipertensao ? 'white' : null} press={hipertnsaoPress} large title="Hipertensão" />
         </View>
         <View style={styles.inputItem}>
-        <Button large title="Hipertensão" />
-        </View>
-        <View style={styles.inputItem}>
-        <Button large title="Doenças Cardiovasculares" />
+        <Button type={doencasCardiovasculares ? 'white' : null} press={doencasCardiovascularesPress} large title="Doenças Cardiovasculares" />
         </View>
       </View>
       <View style={styles.btnView}>
         <Button
           title="Continuar"
           large
-          press={() => navigation.navigate("login")}
+          press={continueHandler}
         />
       </View>
     </KeyboardAvoidingView>
