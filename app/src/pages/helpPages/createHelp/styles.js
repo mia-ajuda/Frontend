@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   btnContainer: {
-    height: "25%",
+    height: "22%",
   },
   input: {
     ...fonts.body,
