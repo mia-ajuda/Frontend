@@ -85,5 +85,3 @@ export default function Login({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
-
-export default Login;

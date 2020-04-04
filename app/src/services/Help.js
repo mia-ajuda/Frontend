@@ -1,9 +1,17 @@
-import api from "../services/Api";
+import api from "./Api";
 
-export default class HelpService {
+class HelpService {
   constructor() {}
 
   getAllHelp() {}
+
+  async getNearHelp(coords) {
+    const { longitude, latitude } = coords;
+    const helps = await api.get(
+      `/Help?near=true&coords=${longitude},${latitude}`
+    );
+    return helps.data;
+  }
 
   getAllHelpForCategory() {}
   getAllHelpForUser() {}
