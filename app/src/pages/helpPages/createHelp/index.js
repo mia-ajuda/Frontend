@@ -4,6 +4,7 @@ import styles from "./styles";
 import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
+import colors from "../../../../assets/styles/colorVariables";
 
 export default function CreateHelp() {
   let [title, setTitle] = useState("");
@@ -53,7 +54,11 @@ export default function CreateHelp() {
                 <Picker.Item label="" value="" />
 
                 {categories.map((category) => (
-                  <Picker.Item label={category.title} value={category.id} />
+                  <Picker.Item
+                    color={colors.dark}
+                    label={category.title}
+                    value={category.id}
+                  />
                 ))}
               </Picker>
             </View>

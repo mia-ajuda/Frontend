@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.primary,
   },
+  pikerItem: {
+    ...fonts.body,
+    color: colors.primary,
+  },
   label: {
     ...fonts.body,
     fontFamily: "montserrat-semibold",
