@@ -5,7 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 
 import styles from "./styles";
@@ -19,11 +19,11 @@ export default function Login({ navigation }) {
     setPassword("");
   };
 
-  const emailHandler = enteredEmail => {
+  const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = enteredPassword => {
+  const passwordHandler = (enteredPassword) => {
     setPassword(enteredPassword);
   };
 
@@ -85,3 +85,5 @@ export default function Login({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
+
+export default Login;
