@@ -19,7 +19,6 @@ export default StyleSheet.create({
   },
 
   buttonStyle: {
-    padding: 10,
-    margin: 0,
+    padding: 2,
   },
 });
