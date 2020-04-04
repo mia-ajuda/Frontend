@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Text } from "react-native";
+import { Text, SafeAreaView, ScrollView, View } from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
@@ -9,14 +9,14 @@ export default function RegistrationData({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
-  const emailHandler = enteredEmail => {
+  const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = enteredPassword => {
+  const passwordHandler = (enteredPassword) => {
     setPassword(enteredPassword);
   };
-  const confirmHandler = enteredConfirm => {
+  const confirmHandler = (enteredConfirm) => {
     setConfirm(enteredConfirm);
   };
 
@@ -29,28 +29,31 @@ export default function RegistrationData({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.viewText}>
-        <Text style={styles.text1}>
-          Pra começar a fazer seu cadastro, preencha seu email e senha!!
-        </Text>
-      </View>
-      <View style={styles.inputView}>
-        <Input
-          change={emailHandler}
-          label="Email"
-          placeholder="email@exemplo.com"
-        />
-        <Input change={passwordHandler} label="Senha" placeholder="Senha" />
-        <Input
-          change={confirmHandler}
-          label="Confirmar senha"
-          placeholder="Confirme sua senha"
-        />
-      </View>
-      <View style={styles.btnView}>
-        <Button title="Continuar" large press={continueHandler} />
-      </View>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.safeAreaView}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+          <Text style={styles.text1}>
+            Pra começar a fazer seu cadastro, preencha seu email e senha!!
+          </Text>
+        </View>
+        <View style={styles.form}>
+          <Input
+            change={emailHandler}
+            label="Email"
+            placeholder="email@exemplo.com"
+          />
+          <Input tp="password" change={passwordHandler} label="Senha" placeholder="Senha" />
+          <Input
+            change={confirmHandler}
+            label="Confirmar senha"
+            placeholder="Confirme sua senha"
+            tp="password"
+          />
+        </View>
+        <View style={styles.form} >
+          <Button title="Continuar" large press={continueHandler} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
