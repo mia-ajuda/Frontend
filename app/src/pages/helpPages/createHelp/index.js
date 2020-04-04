@@ -10,7 +10,7 @@ export default function CreateHelp() {
   let [category, setCategory] = useState("");
   let [description, setDescription] = useState("");
   let [buttonDisabled, setButtonDisabled] = useState(true);
-  
+
   useEffect(() => {
     if (title && category && description) {
       setButtonDisabled(false);
@@ -18,6 +18,20 @@ export default function CreateHelp() {
       setButtonDisabled(true);
     }
   }, [title, category, description]);
+
+  const categories = [
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+    { id: "1", title: "Categoria" },
+  ];
 
   return (
     <Container>
@@ -37,10 +51,10 @@ export default function CreateHelp() {
                 onValueChange={(itemValue) => setCategory(itemValue)}
               >
                 <Picker.Item label="" value="" />
-                <Picker.Item label="Categoria 1" value="Categoria 1" />
-                <Picker.Item label="Categoria 2" value="Categoria 2" />
-                <Picker.Item label="Categoria 3" value="Categoria 3" />
-                <Picker.Item label="Categoria 4" value="Categoria 4" />
+
+                {categories.map((category) => (
+                  <Picker.Item label={category.title} value={category.id} />
+                ))}
               </Picker>
             </View>
           </View>
