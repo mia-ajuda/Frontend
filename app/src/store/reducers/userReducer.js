@@ -4,12 +4,9 @@ import { actionGetUserData } from "../actions";
 export const userReducer = (state, action) => {
   switch (action.type) {
     case actionGetUserData:
-      console.log("recuder");
-      return user.getUserData();
-      break;
+      return action.data;
 
     default:
       return state;
-      break;
   }
 };

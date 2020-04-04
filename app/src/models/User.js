@@ -1,7 +1,7 @@
 import api from "../services/Api";
 
 class User {
-  _id = "5e87703c2f7c740026d916fd";
+  _id = "5e87c879c20beb002649f5be";
   _name;
   _birthday;
   _cpf;
@@ -36,15 +36,10 @@ class User {
   }
 
   async getUserData() {
-    let userData;
-    api
-      .get(`/use/${this._id}`)
-      .then((res) => {
-        userData = res.data.name;
-      })
-      .catch((error) => {});
-
-    return userData;
+    let userData = await api.get(`/user/${this._id}`);
+    console.log("userData.data");
+    console.log(userData.data);
+    return userData.data.name;
   }
 
   helpAnUser() {}
