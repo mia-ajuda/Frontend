@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Tile } from "react-native-elements";
 
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
+import fonts from "../assets/styles/fontVariable";
 
 const BottomNavigation = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
@@ -109,9 +110,22 @@ const MainRoutes = () => (
 const AuthRoutes = () => (
   <>
     <StackNavigation.Navigator
+      screenOptions={{}}
       initialRouteName="login"
       screenOptions={{
         headerShown: false,
+        headerStyle: {
+          height: 100,
+          backgroundColor: colors.primary,
+        },
+        headerTitleStyle: {
+          ...fonts.title,
+          color: colors.light,
+          fontFamily: "montserrat-medium"
+        },
+
+        headerTintColor: colors.light,
+        headerTitleAlign: "center",
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
@@ -123,7 +137,11 @@ const AuthRoutes = () => (
       <StackNavigation.Screen name="personalData" component={PersonalData} />
       <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
       <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen name="createHelp" component={CreateHelp} options={{headerShown: true}}/>
+      <StackNavigation.Screen
+        name="createHelp"
+        component={CreateHelp}
+        options={{ headerShown: true, title: "Pedir Ajuda" }}
+      />
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
         name="forgotPassword"
