@@ -106,12 +106,24 @@ const MainRoutes = () => (
   </BottomNavigation.Navigator>
 );
 
+const backImage = require("../assets/images/back.png");
+
 const AuthRoutes = () => (
   <>
     <StackNavigation.Navigator
-      screenOptions={{}}
       initialRouteName="login"
       screenOptions={{
+        headerBackImage: () => (
+          <Image
+            source={backImage}
+            style={{
+              flex: 1,
+              resizeMode: "contain",
+              width: 10,
+              marginLeft: 5,
+            }}
+          />
+        ),
         headerShown: false,
         headerStyle: {
           height: 100,
@@ -120,7 +132,7 @@ const AuthRoutes = () => (
         headerTitleStyle: {
           ...fonts.title,
           color: colors.light,
-          fontFamily: "montserrat-medium"
+          fontFamily: "montserrat-medium",
         },
 
         headerTintColor: colors.light,
