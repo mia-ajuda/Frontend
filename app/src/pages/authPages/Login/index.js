@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
 import { actionGetUserData } from "../../../store/actions";
-import User from "../../../models/User";
+import userService from "../../../services/User";
 
 const Login = ({ navigation }) => {
   const { dispatch } = useContext(UserContext);
@@ -17,10 +17,10 @@ const Login = ({ navigation }) => {
       <Text style={styles.title}>Login page </Text>
       <TouchableOpacity
         onPress={async () => {
-          // navigation.navigate("signUp");
-          const data = await User.getUserData();
-
-          dispatch({ type: actionGetUserData, data });
+          navigation.navigate("signUp");
+          const userData = await userService.logIn();
+          console.log(userData);
+          dispatch({ type: actionGetUserData, data: userData });
         }}
       >
         <Text style={styles.button}>SIGN UP</Text>

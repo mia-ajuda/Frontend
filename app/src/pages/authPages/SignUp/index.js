@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { View, Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
+import { UserContext } from "../../../store/contexts/userContext";
 
 export default function SignUp({ navigation }) {
+  const { user } = useContext(UserContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SignUp page </Text>
@@ -14,6 +16,7 @@ export default function SignUp({ navigation }) {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("photo");
+          console.log(user);
         }}
       >
         <Text style={styles.button}>NEXT PAGE</Text>

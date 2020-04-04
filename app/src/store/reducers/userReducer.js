@@ -1,4 +1,3 @@
-import user from "../../models/User";
 import { actionGetUserData } from "../actions";
 
 export const userReducer = (state, action) => {
