@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Tile } from "react-native-elements";
 
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
+import fonts from "../assets/styles/fontVariable";
 
 const BottomNavigation = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
@@ -21,7 +22,7 @@ const MainRoutes = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
       style: {
-        height: 60
+        height: 60,
       },
       keyboardHidesTabBar: true,
       activeTintColor: colors.light,
@@ -29,9 +30,9 @@ const MainRoutes = () => (
       inactiveBackgroundColor: colors.primary,
       activeBackgroundColor: colors.primary,
       tabStyle: {
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      showLabel: false
+      showLabel: false,
     }}
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
@@ -43,11 +44,11 @@ const MainRoutes = () => (
             selectConfig = focused
               ? {
                   src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 }
+                  size: { height: 40, width: 40 },
                 }
               : {
                   src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" }
+                  size: { height: 25, width: 25, resizeMode: "contain" },
                 };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
@@ -74,12 +75,12 @@ const MainRoutes = () => (
               ? {
                   color: colors.primary,
                   raised: true,
-                  name: "user-circle"
+                  name: "user-circle",
                 }
               : {
                   color: colors.light,
                   raised: false,
-                  name: "user-circle"
+                  name: "user-circle",
                 };
             break;
         }
@@ -93,7 +94,7 @@ const MainRoutes = () => (
             color={selectConfig.color}
           />
         );
-      }
+      },
     })}
     initialRouteName="main"
   >
@@ -108,16 +109,33 @@ const MainRoutes = () => (
 const AuthRoutes = () => (
   <>
     <StackNavigation.Navigator
+      screenOptions={{}}
       initialRouteName="login"
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        headerStyle: {
+          height: 100,
+          backgroundColor: colors.primary,
+        },
+        headerTitleStyle: {
+          ...fonts.title,
+          color: colors.light,
+          fontFamily: "montserrat-medium"
+        },
+
+        headerTintColor: colors.light,
+        headerTitleAlign: "center",
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
       <StackNavigation.Screen name="signUp" component={SignUp} />
       <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen name="createHelp" component={CreateHelp} options={{headerShown: true}}/>
+      <StackNavigation.Screen
+        name="createHelp"
+        component={CreateHelp}
+        options={{ headerShown: true, title: "Pedir Ajuda" }}
+      />
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
         name="forgotPassword"

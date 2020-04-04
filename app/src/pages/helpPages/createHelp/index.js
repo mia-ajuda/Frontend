@@ -10,7 +10,7 @@ export default function CreateHelp() {
   let [category, setCategory] = useState("");
   let [description, setDescription] = useState("");
   let [buttonDisabled, setButtonDisabled] = useState(true);
-
+  
   useEffect(() => {
     if (title && category && description) {
       setButtonDisabled(false);
