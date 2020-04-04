@@ -52,7 +52,7 @@ export default class HelpList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      iconName: "sort-up",
+      iconName: "caret-up",
     };
 
     this.handlePress = this.handlePress.bind(this);
@@ -61,19 +61,23 @@ export default class HelpList extends Component {
 
   handlePress() {
     switch (this.state.iconName) {
-      case "sort-up":
-        this.setState({ iconName: "sort-down" });
-        Animated.spring(this.animatedValue, {
-          toValue: 500,
-        }).start();
-        break;
 
-      case "sort-down":
-        this.setState({ iconName: "sort-up" });
-        Animated.spring(this.animatedValue, {
-          toValue: 0,
+      case 'caret-up':
+        this.setState({iconName: "caret-down"});
+        Animated.timing(this.animatedValue, {
+          toValue: 400,
+          duration: 500
         }).start();
         break;
+        
+        case 'caret-down':
+          this.setState({iconName: "caret-up"});
+          Animated.timing(this.animatedValue, {
+            toValue: 0,
+            duration: 500,
+          }).start();
+        break;
+    
     }
   }
 
@@ -92,7 +96,7 @@ export default class HelpList extends Component {
         <TouchableWithoutFeedback onPress={this.handlePress}>
           <View style={styles.buttonStyle}>
             <Icon
-              size={30}
+              size={25}
               name={this.state.iconName}
               type="font-awesome"
               color={colors.light}
