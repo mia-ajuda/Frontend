@@ -235,6 +235,14 @@ const mapStyleNight = [
 mapStyleDay = []; //default
 
 export default {
-  night: { map: mapStyleNight, radiusColor: "rgba(255,255,255,0.1)" },
-  day: { map: mapStyleDay, radiusColor: "rgba(0,0,0,0.1)" },
+  night: {
+    map: mapStyleNight,
+    radiusColor: "rgba(255,255,255,0.1)",
+    cat: require("../images/whiteCat.png"),
+  },
+  day: {
+    map: mapStyleDay,
+    radiusColor: "rgba(0,0,0,0.1)",
+    cat: require("../images/blueCat.png"),
+  },
 };

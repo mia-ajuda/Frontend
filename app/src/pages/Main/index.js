@@ -17,7 +17,7 @@ export default function Main() {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [helpList, setHelpList] = useState(null);
   const [region, setRegion] = useState(null);
-  const [currentTime, setCurrentTime] = useState(
+  const [currentHour, setCurrentHour] = useState(
     moment.tz("America/Sao_Paulo").format("HH")
   );
 
@@ -32,8 +32,8 @@ export default function Main() {
         setCurrentRegion({
           latitude,
           longitude,
-          latitudeDelta: 0.04,
-          longitudeDelta: 0.04,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
         });
       }
     }
@@ -55,6 +55,7 @@ export default function Main() {
   }, [currentRegion]);
 
   useEffect(() => {
+    //use effect to watch for regionChange and clear it
     setRegion(null);
   }, [region]);
 
@@ -79,7 +80,7 @@ export default function Main() {
         style={styles.map}
         region={region}
         customMapStyle={
-          currentTime > 18 || currentTime < 6
+          currentHour > 18 || currentHour < 6
             ? mapStyle.night.map
             : mapStyle.day.map
         }
@@ -92,17 +93,13 @@ export default function Main() {
                 latitude: currentRegion.latitude,
                 longitude: currentRegion.longitude,
               }}
-              draggable
-              onDragEnd={(newCoordinates) => {
-                const {
-                  latitude,
-                  longitude,
-                } = newCoordinates.nativeEvent.coordinate;
-                setCurrentRegion({ ...currentRegion, latitude, longitude });
-              }}
             >
               <Image
-                source={require("../../../assets/images/blueCat.png")}
+                source={
+                  currentHour > 18 || currentHour < 6
+                    ? mapStyle.night.cat
+                    : mapStyle.day.cat
+                }
                 style={styles.catAvatar}
               />
             </Marker>
@@ -112,8 +109,13 @@ export default function Main() {
                 longitude: currentRegion.longitude,
               }}
               radius={2000}
+              strokeColor={
+                currentHour > 18 || currentHour < 6
+                  ? mapStyle.night.radiusColor
+                  : mapStyle.day.radiusColor
+              }
               fillColor={
-                currentTime > 18 || currentTime < 6
+                currentHour > 18 || currentHour < 6
                   ? mapStyle.night.radiusColor
                   : mapStyle.day.radiusColor
               }
