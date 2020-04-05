@@ -23,7 +23,7 @@ export default function RegistrationData({ navigation }) {
   const registrationData = { Email: email, Senha: password };
 
   const continueHandler = () => {
-    if (email.length > 0 && password.length > 0 && password == confirm) {
+    if (email.length > 0 && password.length > 0 && password === confirm) {
       navigation.navigate("personalData", { registrationData });
     }
   };
@@ -42,7 +42,12 @@ export default function RegistrationData({ navigation }) {
             label="Email"
             placeholder="email@exemplo.com"
           />
-          <Input type="password" change={passwordHandler} label="Senha" placeholder="Senha" />
+          <Input
+            type="password"
+            change={passwordHandler}
+            label="Senha"
+            placeholder="Senha"
+          />
           <Input
             change={confirmHandler}
             label="Confirmar senha"
@@ -50,10 +55,10 @@ export default function RegistrationData({ navigation }) {
             type="password"
           />
         </View>
-        <View style={styles.form} >
+        <View style={styles.form}>
           <Button title="Continuar" large press={continueHandler} />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
