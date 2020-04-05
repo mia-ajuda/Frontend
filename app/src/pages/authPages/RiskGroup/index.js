@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import { View, KeyboardAvoidingView, Text } from "react-native";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 
@@ -17,31 +12,31 @@ export default function RiskGroup({ route, navigation }) {
   const [doencasCardiovasculares, setDoencasCardiovasculares] = useState(false);
 
   const hivPress = () => {
-    if (hiv == true) {
+    if (hiv === true) {
       setHiv(false);
     } else setHiv(true);
   };
 
   const doencasRespiratoriasPress = () => {
-    if (doencasRespiratorias == true) {
+    if (doencasRespiratorias === true) {
       setDoencasRespiratorias(false);
     } else setDoencasRespiratorias(true);
   };
 
   const diabetesPress = () => {
-    if (diabetes == true) {
+    if (diabetes === true) {
       setDiabetes(false);
     } else setDiabetes(true);
   };
 
   const hipertnsaoPress = () => {
-    if (hipertensao == true) {
+    if (hipertensao === true) {
       setHipertensao(false);
     } else setHipertensao(true);
   };
 
   const doencasCardiovascularesPress = () => {
-    if (doencasCardiovasculares == true) {
+    if (doencasCardiovasculares === true) {
       setDoencasCardiovasculares(false);
     } else setDoencasCardiovasculares(true);
   };
@@ -51,7 +46,7 @@ export default function RiskGroup({ route, navigation }) {
     aids: hiv,
     diabete: diabetes,
     hipertensao: hipertensao,
-    dcardio: doencasCardiovasculares
+    dcardio: doencasCardiovasculares,
   };
 
   const data = { ...userData, ...riskGroup };

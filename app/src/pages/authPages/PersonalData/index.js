@@ -13,22 +13,21 @@ export default function PersonalData({ route, navigation }) {
 
   const [cpf, setCPF] = useState("");
 
-  const nameHandler = enteredName => {
+  const nameHandler = (enteredName) => {
     setName(enteredName);
   };
 
-  const birthdayHandler = enteredBirthday => {
+  const birthdayHandler = (enteredBirthday) => {
     setBirthday(enteredBirthday);
   };
 
-  const cpfHandler = enteredCPF => {
+  const cpfHandler = (enteredCPF) => {
     setCPF(enteredCPF);
   };
 
   const personalData = { Nome: name, Nascimento: birthday, CPF: cpf };
 
   const userData = { ...registrationData, ...personalData };
-
 
   const continueHandler = () => {
     navigation.navigate("riskGroup", { userData });

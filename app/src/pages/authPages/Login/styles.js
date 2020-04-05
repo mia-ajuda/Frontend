@@ -1,61 +1,59 @@
 import { StyleSheet } from "react-native";
 
-
 const styles = StyleSheet.create({
-  background:{
+  background: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4b8ab9'
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#4b8ab9",
   },
   logo: {
-    flex:2,
-    justifyContent:'center',
+    flex: 2,
+    justifyContent: "center",
   },
   container: {
     flex: 2,
-    justifyContent: 'center',
-    width: '80%',
-    marginVertical: 20
-    
+    justifyContent: "center",
+    width: "90%",
+    marginVertical: 20,
   },
   input: {
     borderBottomWidth: 2,
-    borderBottomColor: '#f7f7f7',
+    borderBottomColor: "#f7f7f7",
     marginBottom: 30,
     fontFamily: "montserrat-semibold",
   },
   login: {
-    alignItems: 'center',
-    backgroundColor: '#f7f7f7',
+    alignItems: "center",
+    backgroundColor: "#f7f7f7",
     borderRadius: 5,
   },
   text: {
-    color: '#4b8ab9',
+    color: "#4b8ab9",
     fontSize: 16,
     padding: 10,
     fontFamily: "montserrat-semibold",
   },
-  signUP:{
-    alignItems: 'center',
-    padding: 20
+  signUP: {
+    alignItems: "center",
+    padding: 20,
   },
-  signupText:{
-    color: '#f7f7f7',
+  signupText: {
+    color: "#f7f7f7",
     fontSize: 16,
     fontFamily: "montserrat-semibold",
   },
   forgotPassword: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end'
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
   },
-  forgotPasswordtext:{
-    color: '#f7f7f7'
+  forgotPasswordtext: {
+    color: "#f7f7f7",
   },
-  viewLogin:{
-    flex:1,
-    width: '80%',
-  }
+  viewLogin: {
+    flex: 1,
+    width: "80%",
+  },
 });
 
 export default styles;

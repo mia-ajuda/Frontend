@@ -20,6 +20,8 @@
     "expo-location": "~8.0.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
+    "expo-image-picker": "~8.0.1",
+    "native-base": "^2.13.12",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
@@ -27,6 +29,7 @@
     "react-native-form-validator": "^0.3.2",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-maps": "0.26.1",
+    "react-native-image-crop-picker": "^0.28.0",
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
@@ -37,7 +40,8 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
-    "react-native-dotenv": "^0.2.0"
+    "react-native-dotenv": "^0.2.0",
+    "prettier": "^2.0.2"
   },
   "private": true
 }
