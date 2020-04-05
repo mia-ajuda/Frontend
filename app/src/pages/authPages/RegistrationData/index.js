@@ -42,12 +42,12 @@ export default function RegistrationData({ navigation }) {
             label="Email"
             placeholder="email@exemplo.com"
           />
-          <Input tp="password" change={passwordHandler} label="Senha" placeholder="Senha" />
+          <Input type="password" change={passwordHandler} label="Senha" placeholder="Senha" />
           <Input
             change={confirmHandler}
             label="Confirmar senha"
             placeholder="Confirme sua senha"
-            tp="password"
+            type="password"
           />
         </View>
         <View style={styles.form} >
