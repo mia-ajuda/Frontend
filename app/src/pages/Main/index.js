@@ -5,6 +5,8 @@ import MapView, { Marker, Circle } from "react-native-maps";
 import HelpService from "../../services/Help";
 import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
+import moment from "moment-timezone";
+import mapStyle from "../../../assets/styles/mapstyle";
 
 import {
   requestPermissionsAsync,
@@ -15,6 +17,9 @@ export default function Main() {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [helpList, setHelpList] = useState(null);
   const [region, setRegion] = useState(null);
+  const [currentTime, setCurrentTime] = useState(
+    moment.tz("America/Sao_Paulo").format("HH")
+  );
 
   useEffect(() => {
     async function getLocation() {
@@ -67,9 +72,18 @@ export default function Main() {
           setRegion(currentRegion);
         }}
       >
-        <Icon name="target-two" type="foundation" color="#000" size={35} />
+        <Icon name="target-two" type="foundation" color="#fff" size={35} />
       </TouchableOpacity>
-      <MapView initialRegion={currentRegion} style={styles.map} region={region}>
+      <MapView
+        initialRegion={currentRegion}
+        style={styles.map}
+        region={region}
+        customMapStyle={
+          currentTime > 18 || currentTime < 6
+            ? mapStyle.night.map
+            : mapStyle.day.map
+        }
+      >
         {currentRegion && (
           <>
             <Marker
@@ -98,8 +112,11 @@ export default function Main() {
                 longitude: currentRegion.longitude,
               }}
               radius={2000}
-              strokeColor="rgba(0,0,0,0.2)"
-              fillColor="rgba(0,0,0,0.1)"
+              fillColor={
+                currentTime > 18 || currentTime < 6
+                  ? mapStyle.night.radiusColor
+                  : mapStyle.day.radiusColor
+              }
             />
           </>
         )}
