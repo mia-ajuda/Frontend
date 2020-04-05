@@ -5,8 +5,8 @@ import MapView, { Marker, Circle } from "react-native-maps";
 import HelpService from "../../services/Help";
 import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
-import moment from "moment-timezone";
 import mapStyle from "../../../assets/styles/mapstyle";
+import getHelpDistance from "../../utils/helpDistance";
 
 import {
   requestPermissionsAsync,
@@ -17,9 +17,6 @@ export default function Main() {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [helpList, setHelpList] = useState(null);
   const [region, setRegion] = useState(null);
-  const [currentHour, setCurrentHour] = useState(
-    moment.tz("America/Sao_Paulo").format("HH")
-  );
 
   useEffect(() => {
     async function getLocation() {
@@ -44,7 +41,21 @@ export default function Main() {
     async function getHelpList() {
       if (currentRegion) {
         try {
-          const helpList = await HelpService.getNearHelp(currentRegion);
+          let helpList = await HelpService.getNearHelp(currentRegion);
+
+          helpList = helpList.map((help) => {
+            //insert help distance to the list
+            const helpCoords = {
+              latitude: help.user[0].location.coordinates[1],
+              longitude: help.user[0].location.coordinates[0],
+            };
+            help.distance = getHelpDistance(currentRegion, helpCoords);
+
+            return help;
+          });
+
+          console.log(helpList);
+
           setHelpList(helpList);
         } catch (error) {
           console.log(error);
@@ -79,11 +90,7 @@ export default function Main() {
         initialRegion={currentRegion}
         style={styles.map}
         region={region}
-        customMapStyle={
-          currentHour > 18 || currentHour < 6
-            ? mapStyle.night.map
-            : mapStyle.day.map
-        }
+        customMapStyle={mapStyle.day.map}
       >
         {currentRegion && (
           <>
@@ -94,14 +101,7 @@ export default function Main() {
                 longitude: currentRegion.longitude,
               }}
             >
-              <Image
-                source={
-                  currentHour > 18 || currentHour < 6
-                    ? mapStyle.night.cat
-                    : mapStyle.day.cat
-                }
-                style={styles.catAvatar}
-              />
+              <Image source={mapStyle.day.cat} style={styles.catAvatar} />
             </Marker>
             <Circle
               center={{
@@ -109,22 +109,15 @@ export default function Main() {
                 longitude: currentRegion.longitude,
               }}
               radius={2000}
-              strokeColor={
-                currentHour > 18 || currentHour < 6
-                  ? mapStyle.night.radiusColor
-                  : mapStyle.day.radiusColor
-              }
-              fillColor={
-                currentHour > 18 || currentHour < 6
-                  ? mapStyle.night.radiusColor
-                  : mapStyle.day.radiusColor
-              }
+              strokeColor={mapStyle.day.radiusColor}
+              fillColor={mapStyle.day.radiusColor}
             />
           </>
         )}
         {helpList &&
           helpList.map((help, index) => (
             <Marker
+              title={help.distance}
               key={help._id}
               coordinate={{
                 latitude: help.user[0].location.coordinates[1],
