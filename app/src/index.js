@@ -4,18 +4,14 @@ import colors from "../assets/styles/colorVariables";
 import { ThemeProvider } from "react-native-elements";
 import Routes from "./routes";
 import { UserContextProvider } from "./store/contexts/userContext";
+import HelpContextProvider from "./store/contexts/helpContext";
 
 export default function Root() {
-  const theme = {
-    colors: {
-      primary: colors.primary,
-      error: colors.danger,
-      warning: colors.secondary,
-    },
-  };
   return (
-    <UserContextProvider>
-      <Routes />
-    </UserContextProvider>
+    <HelpContextProvider>
+      <UserContextProvider>
+        <Routes />
+      </UserContextProvider>
+    </HelpContextProvider>
   );
 }

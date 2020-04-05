@@ -1,8 +1,8 @@
-import { actionGetUserData } from "../actions";
+import actions from "../actions";
 
 export const userReducer = (state, action) => {
   switch (action.type) {
-    case actionGetUserData:
+    case actions.user.getUserData:
       return action.data;
 
     default:

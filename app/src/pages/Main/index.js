@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import MapView, { Marker, Circle } from "react-native-maps";
@@ -7,15 +7,17 @@ import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
 import mapStyle from "../../../assets/styles/mapstyle";
 import getHelpDistance from "../../utils/helpDistance";
+import actions from "../../store/actions";
 
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
 } from "expo-location";
+import { HelpContext } from "../../store/contexts/helpContext";
 
 export default function Main() {
   const [currentRegion, setCurrentRegion] = useState(null);
-  const [helpList, setHelpList] = useState(null);
+  const { helpList, dispatch } = useContext(HelpContext);
   const [region, setRegion] = useState(null);
 
   useEffect(() => {
@@ -41,9 +43,9 @@ export default function Main() {
     async function getHelpList() {
       if (currentRegion) {
         try {
-          let helpList = await HelpService.getNearHelp(currentRegion);
+          let helpListArray = await HelpService.getNearHelp(currentRegion);
 
-          helpList = helpList.map((help) => {
+          helpListArray = helpListArray.map((help) => {
             //insert help distance to the list
             const helpCoords = {
               latitude: help.user[0].location.coordinates[1],
@@ -54,9 +56,7 @@ export default function Main() {
             return help;
           });
 
-          console.log(helpList);
-
-          setHelpList(helpList);
+          dispatch({ type: actions.help.addHelp, help: helpListArray });
         } catch (error) {
           console.log(error);
         }
@@ -115,7 +115,7 @@ export default function Main() {
           </>
         )}
         {helpList &&
-          helpList.map((help, index) => (
+          helpList.map((help) => (
             <Marker
               title={help.distance}
               key={help._id}
