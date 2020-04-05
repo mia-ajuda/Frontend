@@ -8,6 +8,7 @@ import { Icon } from "react-native-elements";
 import mapStyle from "../../../assets/styles/mapstyle";
 import getHelpDistance from "../../utils/helpDistance";
 import actions from "../../store/actions";
+import Button from "../../components/UI/button";
 
 import {
   requestPermissionsAsync,
@@ -73,19 +74,14 @@ export default function Main() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={{
-          position: "absolute",
-          top: 40,
-          right: 40,
-          zIndex: 5,
-          flexDirection: "row",
-        }}
+        style={styles.recenter}
         onPress={() => {
           setRegion(currentRegion);
         }}
       >
         <Icon name="target-two" type="foundation" color="#fff" size={35} />
       </TouchableOpacity>
+
       <MapView
         initialRegion={currentRegion}
         style={styles.map}
@@ -128,6 +124,20 @@ export default function Main() {
             </Marker>
           ))}
       </MapView>
+      <TouchableOpacity style={styles.filter} onPress={() => {}}>
+        <Icon name="filter" type="font-awesome" color="#000" size={20} />
+      </TouchableOpacity>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          zIndex: 5,
+          elevation: 5,
+        }}
+      >
+        <Button title="Pedir ajuda" press={() => {}} type="danger" large />
+      </View>
     </View>
   );
 }

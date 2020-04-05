@@ -22,6 +22,26 @@ const styles = StyleSheet.create({
     width: 54,
     resizeMode: "contain",
   },
+  recenter: {
+    position: "absolute",
+    top: 30,
+    right: 20,
+    zIndex: 5,
+    elevation: 10,
+    backgroundColor: "rgba(0,0,0,0.2)",
+    borderRadius: 50,
+  },
+  filter: {
+    position: "absolute",
+    width: 50,
+    bottom: 30,
+    left: 20,
+    zIndex: 5,
+    backgroundColor: "#F7EF6E",
+    padding: 15,
+    borderRadius: 100,
+    elevation: 5,
+  },
 });
 
 export default styles;
