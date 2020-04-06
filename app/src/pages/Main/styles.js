@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
   recenter: {
     position: "absolute",
-    top: 30,
-    right: 20,
+    top: 50,
+    right: 30,
     zIndex: 5,
     elevation: 10,
     backgroundColor: "rgba(0,0,0,0.2)",

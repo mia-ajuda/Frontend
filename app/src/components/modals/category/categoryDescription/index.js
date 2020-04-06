@@ -11,7 +11,12 @@ export default function CategoryDescriptionModal({
   categories,
 }) {
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={() => setVisible(false)}
+    >
       <View style={styles.modalContainer}>
         <Container>
           <TouchableOpacity
@@ -31,10 +36,10 @@ export default function CategoryDescriptionModal({
           <View style={styles.modalContent}>
             <ScrollView indicatorStyle="white">
               {categories.map((category) => (
-                <>
+                <View key={category.title}>
                   <Text style={styles.title}>{category.title}</Text>
                   <Text style={styles.description}>{category.description}</Text>
-                </>
+                </View>
               ))}
             </ScrollView>
           </View>

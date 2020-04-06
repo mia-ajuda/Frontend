@@ -8,11 +8,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.3)",
   },
   modalContent: {
-    paddingTop: 60,
+    paddingTop: 50,
     backgroundColor: "#fff",
     padding: 20,
     marginBottom: 50,
     borderRadius: 20,
+    top: "2.5%",
   },
   title: {
     ...fonts.title,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   icon: {
-    top: 20,
+    top: "5.5%",
     right: 20,
     position: "absolute",
     zIndex: 5,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import styles from "./styles";
 import MapView, { Marker, Circle } from "react-native-maps";
 import HelpService from "../../services/Help";
@@ -74,7 +74,7 @@ export default function Main() {
   }, [region]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <CategoryListModal
         visible={filterModalVisible}
         setVisible={setFilterModalVisible}
@@ -141,6 +141,6 @@ export default function Main() {
       <View style={styles.helpButton}>
         <Button title="Pedir ajuda" press={() => {}} type="danger" large />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

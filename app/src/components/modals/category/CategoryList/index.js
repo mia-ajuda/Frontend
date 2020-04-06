@@ -63,7 +63,12 @@ export default function CategoryList({ visible, setVisible }) {
     },
   ];
   return (
-    <Modal visible={visible} animationType="fade" transparent>
+    <Modal
+      visible={visible}
+      animationType="fade"
+      transparent
+      onRequestClose={() => setVisible(false)}
+    >
       <TouchableOpacity
         style={styles.modalContainer}
         activeOpacity={1}
@@ -99,8 +104,8 @@ export default function CategoryList({ visible, setVisible }) {
                 {categories.map((category) => (
                   <SelectBox key={category.title} title={category.title} />
                 ))}
-                <Buttom title="Filtrar" type="warning" press={() => {}} large />
               </ScrollView>
+              <Buttom title="Filtrar" type="warning" press={() => {}} large />
             </Container>
           </View>
         </TouchableWithoutFeedback>

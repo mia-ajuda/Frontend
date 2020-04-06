@@ -3,11 +3,13 @@ import fonts from "../../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
   modalContent: {
-    width: "70%",
+    width: "80%",
+    height: "80%",
     backgroundColor: "#fff",
     alignSelf: "center",
     elevation: 5,
     borderRadius: 15,
+    top: "6.5%",
   },
   modalContainer: {
     width: "100%",
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
   },
   modalBody: {
     marginTop: 15,
+    height: "80%",
   },
 });
 
