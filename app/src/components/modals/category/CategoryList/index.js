@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Modal,
@@ -12,7 +12,9 @@ import SelectBox from "../../../UI/selectBox";
 import styles from "./styles";
 import { Icon } from "react-native-elements";
 import Container from "../../../Container";
+import CategoryDescriptionModal from "../categoryDescription";
 export default function CategoryList({ visible, setVisible }) {
+  const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
   const categories = [
     {
       title: "category 1",
@@ -73,17 +75,26 @@ export default function CategoryList({ visible, setVisible }) {
           <View style={styles.modalContent}>
             <View style={styles.contentHeader}>
               <Text style={styles.title}>Categorias</Text>
-              <View style={styles.icon}>
+              <TouchableOpacity
+                style={styles.icon}
+                onPress={() => {
+                  setDescriptionModalVisible(!descriptionModalVisible);
+                }}
+              >
                 <Icon
                   name="question-circle"
                   type="font-awesome"
                   color="#C4C4C4"
                   size={40}
-                  onPress={() => {}}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <Container>
+              <CategoryDescriptionModal
+                visible={descriptionModalVisible}
+                setVisible={setDescriptionModalVisible}
+                categories={categories}
+              />
               <ScrollView style={styles.modalBody}>
                 {categories.map((category) => (
                   <SelectBox key={category.title} title={category.title} />
