@@ -9,6 +9,7 @@ import mapStyle from "../../../assets/styles/mapstyle";
 import getHelpDistance from "../../utils/helpDistance";
 import actions from "../../store/actions";
 import Button from "../../components/UI/button";
+import CategoryListModal from "../../components/modals/category/CategoryList";
 
 import {
   requestPermissionsAsync,
@@ -18,8 +19,9 @@ import { HelpContext } from "../../store/contexts/helpContext";
 
 export default function Main() {
   const [currentRegion, setCurrentRegion] = useState(null);
-  const { helpList, dispatch } = useContext(HelpContext);
   const [region, setRegion] = useState(null);
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const { helpList, dispatch } = useContext(HelpContext);
 
   useEffect(() => {
     async function getLocation() {
@@ -73,6 +75,10 @@ export default function Main() {
 
   return (
     <View style={styles.container}>
+      <CategoryListModal
+        visible={filterModalVisible}
+        setVisible={setFilterModalVisible}
+      />
       <TouchableOpacity
         style={styles.recenter}
         onPress={() => {
@@ -124,18 +130,15 @@ export default function Main() {
             </Marker>
           ))}
       </MapView>
-      <TouchableOpacity style={styles.filter} onPress={() => {}}>
-        <Icon name="filter" type="font-awesome" color="#000" size={20} />
-      </TouchableOpacity>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          zIndex: 5,
-          elevation: 5,
+      <TouchableOpacity
+        style={styles.filter}
+        onPress={() => {
+          setFilterModalVisible(!filterModalVisible);
         }}
       >
+        <Icon name="filter" type="font-awesome" color="#000" size={20} />
+      </TouchableOpacity>
+      <View style={styles.helpButton}>
         <Button title="Pedir ajuda" press={() => {}} type="danger" large />
       </View>
     </View>

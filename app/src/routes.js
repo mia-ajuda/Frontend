@@ -22,7 +22,7 @@ const MainRoutes = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
       style: {
-        height: 60
+        height: 60,
       },
       keyboardHidesTabBar: true,
       activeTintColor: colors.light,
@@ -30,9 +30,9 @@ const MainRoutes = () => (
       inactiveBackgroundColor: colors.primary,
       activeBackgroundColor: colors.primary,
       tabStyle: {
-        justifyContent: "center"
+        justifyContent: "center",
       },
-      showLabel: false
+      showLabel: false,
     }}
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
@@ -43,11 +43,11 @@ const MainRoutes = () => (
             selectConfig = focused
               ? {
                   src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 }
+                  size: { height: 40, width: 40 },
                 }
               : {
                   src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" }
+                  size: { height: 25, width: 25, resizeMode: "contain" },
                 };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
@@ -74,12 +74,12 @@ const MainRoutes = () => (
               ? {
                   color: colors.primary,
                   raised: true,
-                  name: "user-circle"
+                  name: "user-circle",
                 }
               : {
                   color: colors.light,
                   raised: false,
-                  name: "user-circle"
+                  name: "user-circle",
                 };
             break;
         }
@@ -93,7 +93,7 @@ const MainRoutes = () => (
             color={selectConfig.color}
           />
         );
-      }
+      },
     })}
     initialRouteName="main"
   >
@@ -110,12 +110,15 @@ const AuthRoutes = () => (
     <StackNavigation.Navigator
       initialRouteName="login"
       screenOptions={{
-        headerShown: false
+        headerShown: false,
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
-      <StackNavigation.Screen name="registrationData" component={RegistrationData} />
+      <StackNavigation.Screen
+        name="registrationData"
+        component={RegistrationData}
+      />
       <StackNavigation.Screen name="personalData" component={PersonalData} />
       <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
       <StackNavigation.Screen name="photo" component={Photo} />

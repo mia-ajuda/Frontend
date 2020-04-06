@@ -42,6 +42,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     elevation: 5,
   },
+  helpButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    zIndex: 5,
+    elevation: 5,
+  },
 });
 
 export default styles;
