@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Modal,
@@ -13,55 +13,12 @@ import styles from "./styles";
 import { Icon } from "react-native-elements";
 import Container from "../../../Container";
 import CategoryDescriptionModal from "../categoryDescription";
+import { CategoryContext } from "../../../../store/contexts/categoryContext";
+
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
-  const categories = [
-    {
-      title: "category 1",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 2",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 3",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 4",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 5",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 6",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 7",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 8",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-    {
-      title: "category 9",
-      description:
-        "Lorem ipsum vivamus lectus rutrum ac lorem sodales quam, suspendisse iaculis mi nisi aenean vestibulum adipiscing mauris phasellus, inceptos fusce placerat quisque consequat leo class. sagittis cur",
-    },
-  ];
+  const { categories } = useContext(CategoryContext);
+
   return (
     <Modal
       visible={visible}
@@ -98,11 +55,10 @@ export default function CategoryList({ visible, setVisible }) {
               <CategoryDescriptionModal
                 visible={descriptionModalVisible}
                 setVisible={setDescriptionModalVisible}
-                categories={categories}
               />
               <ScrollView style={styles.modalBody}>
                 {categories.map((category) => (
-                  <SelectBox key={category.title} title={category.title} />
+                  <SelectBox key={category._id} title={category.name} />
                 ))}
               </ScrollView>
               <Buttom title="Filtrar" type="warning" press={() => {}} large />

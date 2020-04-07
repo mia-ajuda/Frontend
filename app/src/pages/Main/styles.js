@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
     zIndex: 5,
     elevation: 5,
   },
+  callout: {
+    width: 150,
+  },
 });
 
 export default styles;

@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Image, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Text,
+} from "react-native";
 import styles from "./styles";
-import MapView, { Marker, Circle } from "react-native-maps";
+import MapView, { Marker, Circle, Callout } from "react-native-maps";
 import HelpService from "../../services/Help";
 import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
@@ -22,6 +28,7 @@ export default function Main() {
   const [region, setRegion] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList, dispatch } = useContext(HelpContext);
+  console.log(helpList);
 
   useEffect(() => {
     async function getLocation() {
@@ -127,6 +134,11 @@ export default function Main() {
               }}
             >
               <Avatar />
+              <Callout style={styles.callout}>
+                <Text>{help.distance}</Text>
+                <Text>{help.title}</Text>
+                <Text>{help.category[0].name}</Text>
+              </Callout>
             </Marker>
           ))}
       </MapView>
