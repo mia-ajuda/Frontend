@@ -106,7 +106,7 @@ const MainRoutes = () => (
 const AuthRoutes = () => (
   <>
     <StackNavigation.Navigator
-      initialRouteName="login"
+      initialRouteName="location"
       screenOptions={{
         headerShown: false
       }}
