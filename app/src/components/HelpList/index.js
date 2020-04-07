@@ -11,49 +11,21 @@ import ListCard from "../ListCard";
 import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
 
-const list = [
-  {
-    title: "Preciso de comida",
-    description: "lorrane vekadrane",
-    category: {
-      title: "Compras",
-      description: "Quero mercadin",
-    },
-  },
-  {
-    title: "Preciso de pão",
-    description:
-      "lorrane vekadrane stefany boeni smity de haha de raio lazer bala skits tem 60 anos e está precisando de ajuda para comprar comida no mercadim",
-    category: {
-      title: "Psicológico",
-      description: "Quero café",
-    },
-  },
-  {
-    title: "Preciso de ajuda",
-    description: "lorrane vekadrane stefany boeni smity de haha de raio lazer",
-    category: {
-      title: "Atenção",
-      description: "Quero arte",
-    },
-  },
-  {
-    title: "Preciso de status",
-    description:
-      "lorrane vekadrane stefany boeni smity de haha de raio lazer bala skits tem 60 anos e está precisando de ajuda para comprar comida no mercadim",
-    category: {
-      title: "Psicológico",
-      description: "Quero café",
-    },
-  },
-];
+import helpService from "../../services/Help";
 
 export default class HelpList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       iconName: "caret-up",
+      helpList: [],
     };
+
+    helpService
+      .getAllHelps("5e8b75d0472afe002600abda", "waiting")
+        .then((data) => {
+          this.setState({ helpList: data });
+        });
 
     this.handlePress = this.handlePress.bind(this);
     this.animatedValue = new Animated.Value(0);
@@ -61,28 +33,31 @@ export default class HelpList extends Component {
 
   handlePress() {
     switch (this.state.iconName) {
-
-      case 'caret-up':
-        this.setState({iconName: "caret-down"});
+      case "caret-up":
+        this.setState({ iconName: "caret-down" });
         Animated.timing(this.animatedValue, {
           toValue: 400,
-          duration: 500
+          duration: 400,
         }).start();
         break;
-        
-        case 'caret-down':
-          this.setState({iconName: "caret-up"});
-          Animated.timing(this.animatedValue, {
-            toValue: 0,
-            duration: 500,
-          }).start();
+
+      case "caret-down":
+        this.setState({ iconName: "caret-up" });
+        Animated.timing(this.animatedValue, {
+          toValue: 0,
+          duration: 400,
+        }).start();
         break;
-    
     }
   }
 
+  getFormattedTitle = (title) => {
+    let res = title.length > 20 ? title.substring(0, 16) + "..." : title;
+    return res;
+  };
+
   getFormattedDescription = (text) => {
-    let res = text.length > 107 ? text.substring(0, 106) + "..." : text;
+    let res = text.length > 110 ? text.substring(0, 106) + "..." : text;
     return res;
   };
 
@@ -105,12 +80,12 @@ export default class HelpList extends Component {
         </TouchableWithoutFeedback>
         <Animated.View style={animatedStyle}>
           <ScrollView style={[styles.listContent]}>
-            {list.map((item, i) => (
+            {this.state.helpList.map((item, i) => (
               <ListCard
                 key={i}
-                helpTitle={item.title}
+                helpTitle={this.getFormattedTitle(item.title)}
                 helpDescription={this.getFormattedDescription(item.description)}
-                helpCategory={item.category.title}
+                helpCategory="bafafa"
               />
             ))}
           </ScrollView>
