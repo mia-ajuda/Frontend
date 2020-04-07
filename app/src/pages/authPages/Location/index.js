@@ -58,9 +58,9 @@ export default function Location({ route, navigation }) {
       <TouchableOpacity onPress={handleLocation}>
         <Text style={styles.button}>REGISTER</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.button}>Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

@@ -15,6 +15,21 @@ const styles = StyleSheet.create({
   button: {
     ...fonts.title,
     color: colors.dark
+  },
+  map: {
+    width: "100%",
+    height: "100%"
+  },
+  locationButton: {
+    backgroundColor: '#e74c3c',
+    marginTop: -100,
+    width: 100,
+    height: 50,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    elevation: 8,
   }
 });
 

@@ -140,6 +140,22 @@ const AuthRoutes = () => (
       <AuthStack.Screen name="main" component={BottomTab} />
       <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
     </AuthStack.Navigator>
+    <StackNavigation.Navigator
+      initialRouteName="location"
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <StackNavigation.Screen name="login" component={Login} />
+      <StackNavigation.Screen name="location" component={Location} />
+      <StackNavigation.Screen name="signUp" component={SignUp} />
+      <StackNavigation.Screen name="photo" component={Photo} />
+      <StackNavigation.Screen name="main" component={MainRoutes} />
+      <StackNavigation.Screen
+        name="forgotPassword"
+        component={ForgotPassword}
+      />
+    </StackNavigation.Navigator>
   </>
 );
 
