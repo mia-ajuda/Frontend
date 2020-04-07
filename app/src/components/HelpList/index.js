@@ -51,8 +51,13 @@ export default class HelpList extends Component {
     }
   }
 
+  getFormattedTitle = (title) => {
+    let res = title.length > 20 ? text.substring(0, 16) + "..." : title;
+    return res;
+  };
+
   getFormattedDescription = (text) => {
-    let res = text.length > 107 ? text.substring(0, 106) + "..." : text;
+    let res = text.length > 110 ? text.substring(0, 106) + "..." : text;
     return res;
   };
 
@@ -78,7 +83,7 @@ export default class HelpList extends Component {
             {this.state.helpList.map((item, i) => (
               <ListCard
                 key={i}
-                helpTitle={item.title}
+                helpTitle={this.getFormattedTitle(item.title)}
                 helpDescription={this.getFormattedDescription(item.description)}
                 helpCategory="bafafa"
               />
