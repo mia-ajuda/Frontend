@@ -133,7 +133,7 @@ const AuthRoutes = () => (
 
 const Routes = () => (
   <NavigationContainer>
-    <AuthRoutes />
+    <MainRoutes />
   </NavigationContainer>
 );
 
