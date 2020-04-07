@@ -9,8 +9,9 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
+import Container from "../../../components/Container";
 
-export default function App() {
+export default function App(navigation) {
   let [selectedImage, setSelectedImage] = React.useState(null);
 
   let openImagePickerAsync = async () => {
@@ -29,33 +30,56 @@ export default function App() {
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
-  if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.thumbnail}
-        />
-      </View>
-    );
-  }
+  const cancelHandler = () => {
+    setSelectedImage(null);
+  };
 
   return (
-    <ImageBackground
-      source={require("../../../images/catPhoto.png")}
-      style={styles.logo}
-    >
-      <View style={styles.textView}>
-        <Text style={styles.text}>
-          Também precisamos de uma foto sua, é só clicar na camêra aqui em
-          baixo!
-        </Text>
-      </View>
-      <View style={styles.btnView}>
-        <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
-          <Icon name={"camera-alt"} color="gray" />
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+    <View style={styles.container}>
+      {selectedImage === null ? (
+        <ImageBackground
+          source={require("../../../images/catPhoto.png")}
+          style={styles.logo}
+        >
+          <Container>
+            <View style={styles.textView}>
+              <Text style={styles.text}>
+                Também precisamos de uma foto sua, é só clicar na camêra aqui em
+                baixo!
+              </Text>
+            </View>
+            <View style={styles.btnView}>
+              <TouchableOpacity
+                onPress={openImagePickerAsync}
+                style={styles.button}
+              >
+                <Icon name={"camera-alt"} color="gray" />
+              </TouchableOpacity>
+            </View>
+          </Container>
+        </ImageBackground>
+      ) : (
+        <View style={styles.container}>
+          <Image
+            source={{ uri: selectedImage.localUri }}
+            style={styles.thumbnail}
+          />
+          <View style={styles.selectText}>
+            <Text style={styles.text}>
+              Gostou da foto ? Agora vamos continuar seu cadastro!!
+            </Text>
+          </View>
+          <View style={styles.buttonPreview}>
+            <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
+              <Text style={styles.btnText}>Voltar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.btn1}>
+              <Text style={styles.btnText1}>Continuar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </View>
   );
 }
