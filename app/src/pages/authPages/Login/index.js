@@ -14,10 +14,6 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const clearState = () => {
-    setEmail("");
-    setPassword("");
-  };
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
@@ -29,7 +25,6 @@ export default function Login({ navigation }) {
 
   const loginHandler = () => {
     const data = [email, password];
-    clearState();
   };
 
   return (

@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginVertical: 40
   },
   logo: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 24,
   },
   button: {
     backgroundColor: "#c4c4c4",
@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thumbnail: {
-    width: 300,
-    height: 300,
-    borderRadius: 300 / 2,
+    width: 250,
+    height: 250,
+    borderRadius: 250 / 2,
   },
   text: {
     ...fonts.subtitle,
@@ -35,9 +35,50 @@ const styles = StyleSheet.create({
   },
   btnView: {
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "center",
     marginVertical: 40,
   },
+  buttonPreview: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems:'flex-end'
+  },
+  btn:{
+    marginHorizontal: 10,
+    borderWidth: 2,
+    borderColor: '#4b8ab9',
+    borderRadius: 4,
+    width: 150,
+    alignItems: 'center'
+  },
+  btnText: {
+    fontSize: 20,
+    color:'#4b8ab9',
+    padding: 10,
+    fontFamily: "montserrat-medium"
+  },
+  btn1:{
+    marginHorizontal: 10,
+    borderWidth: 2,
+    borderColor: '#4b8ab9',
+    backgroundColor: '#4b8ab9',
+    borderRadius: 4,
+    width: 150,
+    alignItems: 'center'
+  },
+  btnText1: {
+    fontSize: 20,
+    color:'#f7f7f7',
+    padding: 10,
+    fontFamily: "montserrat-medium"
+  },
+  selectText:{
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 20,
+    marginVertical: 40
+  }
 });
 
 export default styles;

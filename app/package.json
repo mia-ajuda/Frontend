@@ -41,7 +41,7 @@
     "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
     "react-native-dotenv": "^0.2.0",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.4"
   },
   "private": true
 }
