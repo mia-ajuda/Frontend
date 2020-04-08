@@ -20,13 +20,20 @@ class UserService {
         .getIdToken(); 
               
       await AsyncStorage.setItem('tokenId', idTokenUser);
-    } catch(err) {
-      console.log(err);
+    } catch {
+      throw { error: 'Não foi possível Deslogar!' };
     } 
     // return await this.requestUserData();
   }
 
-  logOut() {}
+  async logOut() {
+    try {
+      await firebase.auth().signOut();
+      await AsyncStorage.clear();
+    } catch {
+      throw { error: 'Não foi possível Deslogar!' };
+    }
+  }
   signUp() {}
 
   isSignIn() {

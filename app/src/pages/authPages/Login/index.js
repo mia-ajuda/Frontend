@@ -24,10 +24,14 @@ function Login({ navigation }) {
     setPassword(enteredPassword);
   };
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     const data = { email, password };
-    console.log(data);
-    UserService.logIn(data);
+
+    try{
+      await UserService.logIn(data);
+    } catch(err) {
+      console.log(err["error"]);
+    }
   };
 
   return (
