@@ -5,12 +5,22 @@ import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import colors from "../../../../assets/styles/colorVariables";
+import CategoryService from "../../../services/Category";
 
 export default function CreateHelp() {
   let [title, setTitle] = useState("");
-  let [category, setCategory] = useState("");
+  let [category, setCategory] = useState({});
   let [description, setDescription] = useState("");
   let [buttonDisabled, setButtonDisabled] = useState(true);
+  let [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategory() {
+      const categories = await CategoryService.getAllCategories();
+      setCategories(categories);
+    }
+    fetchCategory()
+  }, []);
 
   useEffect(() => {
     if (title && category && description) {
@@ -18,21 +28,7 @@ export default function CreateHelp() {
     } else {
       setButtonDisabled(true);
     }
-  }, [title, category, description]);
-
-  const categories = [
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-  ];
+  }, [title, description, category]);
 
   return (
     <Container>
@@ -51,13 +47,13 @@ export default function CreateHelp() {
                 selectedValue={category}
                 onValueChange={(itemValue) => setCategory(itemValue)}
               >
-                <Picker.Item label="" value="" />
-
-                {categories.map((category) => (
+                <Picker.Item label="" value={{}} />
+                {categories.map((cat) => (
                   <Picker.Item
+                    key={cat._id}
                     color={colors.dark}
-                    label={category.title}
-                    value={category.id}
+                    label={cat.name}
+                    value={cat}
                   />
                 ))}
               </Picker>

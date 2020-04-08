@@ -10,7 +10,7 @@ import {
 
 import styles from "./styles";
 
-export default function Login({ navigation }) {
+function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,7 +62,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            navigation.navigate("forgotPassword");
+            navigation.navigate("main");
           }}
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
