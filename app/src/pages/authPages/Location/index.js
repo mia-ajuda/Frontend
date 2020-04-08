@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import styles from "./styles";
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync
 } from "expo-location";
-import Button from "../../../components/UI/button"
+import Button from "../../../components/UI/button";
+import LocationModal from "./LocationModal";
 
 
 export default function Location({ navigation }) {
-  const [currentRegion, setCurrentRegion] = useState(null);
+  const [ currentRegion, setCurrentRegion ] = useState(null);
+  const [ modalIsVisible, setModalIsVisible ] = useState(false);
+
   console.log("========POSITION=======");
   console.log(currentRegion);
   console.log("=======================")
@@ -35,6 +38,7 @@ export default function Location({ navigation }) {
   }, []);
   
   function saveLocation(currentRegion){
+    setModalIsVisible(true)
     const location = {
       latitude: currentRegion.latitude,
       longitude: currentRegion.longitude,
@@ -80,6 +84,10 @@ export default function Location({ navigation }) {
           <Button title="Confirmar" type="default" press={() => saveLocation(currentRegion)} large />
         </View>
       </View>
+      <LocationModal 
+        modalIsVisible={modalIsVisible}
+        onBackdropPress={()=>setModalIsVisible(false)}
+      />
     </View>
   );
 }
