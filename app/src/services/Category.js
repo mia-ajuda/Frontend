@@ -12,4 +12,7 @@ class CategoryService {
   }
 }
 
+const categoryService = new CategoryService();
+Object.freeze(categoryService);
+
 export default categoryService;

@@ -23,7 +23,7 @@ import {
 } from "expo-location";
 import { HelpContext } from "../../store/contexts/helpContext";
 
-export default function Main() {
+export default function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [region, setRegion] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -151,7 +151,14 @@ export default function Main() {
         <Icon name="filter" type="font-awesome" color="#000" size={20} />
       </TouchableOpacity>
       <View style={styles.helpButton}>
-        <Button title="Pedir ajuda" press={() => {}} type="danger" large />
+        <Button
+          title="Pedir ajuda"
+          press={() => {
+            navigation.navigate("createHelp");
+          }}
+          type="danger"
+          large
+        />
       </View>
     </SafeAreaView>
   );

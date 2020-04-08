@@ -19,6 +19,7 @@ import fonts from "../assets/styles/fontVariable";
 
 const BottomNavigation = createBottomTabNavigator();
 const StackNavigation = createStackNavigator();
+const backImage = require("../assets/images/back.png");
 
 const MainRoutes = () => (
   <BottomNavigation.Navigator
@@ -107,8 +108,6 @@ const MainRoutes = () => (
   </BottomNavigation.Navigator>
 );
 
-const backImage = require("../assets/images/back.png");
-
 const AuthRoutes = () => (
   <>
     <StackNavigation.Navigator
@@ -149,11 +148,7 @@ const AuthRoutes = () => (
       <StackNavigation.Screen name="personalData" component={PersonalData} />
       <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
       <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen
-        name="createHelp"
-        component={CreateHelp}
-        options={{ headerShown: true, title: "Pedir Ajuda" }}
-      />
+
       <StackNavigation.Screen name="main" component={MainRoutes} />
       <StackNavigation.Screen
         name="forgotPassword"
