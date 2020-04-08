@@ -24,13 +24,17 @@ const MainStack = createStackNavigator();
 
 const MainNavigation = () => (
   <>
-    <MainStack.Navigator initialRouteName="main">
+    <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
       <MainStack.Screen
         name="main"
         component={Main}
         options={{ headerShown: false }}
       />
-      <MainStack.Screen name="createHelp" component={CreateHelp} />
+      <MainStack.Screen
+        name="createHelp"
+        options={{ headerShown: true }}
+        component={CreateHelp}
+      />
     </MainStack.Navigator>
   </>
 );
@@ -124,35 +128,7 @@ const BottomTab = () => (
 
 const AuthRoutes = () => (
   <>
-    <AuthStack.Navigator
-      initialRouteName="login"
-      screenOptions={{
-        headerBackImage: () => (
-          <Image
-            source={backImage}
-            style={{
-              flex: 1,
-              resizeMode: "contain",
-              width: 10,
-              marginLeft: 5,
-            }}
-          />
-        ),
-        headerShown: false,
-        headerStyle: {
-          height: 100,
-          backgroundColor: colors.primary,
-        },
-        headerTitleStyle: {
-          ...fonts.title,
-          color: colors.light,
-          fontFamily: "montserrat-medium",
-        },
-
-        headerTintColor: colors.light,
-        headerTitleAlign: "center",
-      }}
-    >
+    <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
       <AuthStack.Screen name="login" component={Login} />
       <AuthStack.Screen name="location" component={Location} />
       <AuthStack.Screen name="registrationData" component={RegistrationData} />
@@ -164,6 +140,33 @@ const AuthRoutes = () => (
     </AuthStack.Navigator>
   </>
 );
+
+const headerStyle = {
+  headerBackImage: () => (
+    <Image
+      source={backImage}
+      style={{
+        flex: 1,
+        resizeMode: "contain",
+        width: 10,
+        marginLeft: 5,
+      }}
+    />
+  ),
+  headerShown: false,
+  headerStyle: {
+    height: 90,
+    backgroundColor: colors.primary,
+  },
+  headerTitleStyle: {
+    ...fonts.title,
+    color: colors.light,
+    fontFamily: "montserrat-medium",
+  },
+
+  headerTintColor: colors.light,
+  headerTitleAlign: "center",
+};
 
 const Routes = () => (
   <NavigationContainer>
