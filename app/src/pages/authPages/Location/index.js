@@ -1,13 +1,20 @@
+<<<<<<< HEAD
 import React from "react";
 
 import { View, Text, TouchableOpacity, ToastAndroid, Alert } from "react-native";
+=======
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+>>>>>>> dd3f558... Creating a LocationModal
 import styles from "./styles";
 import userService from '../../../services/User';
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync
 } from "expo-location";
-import Button from "../../../components/UI/button"
+import Button from "../../../components/UI/button";
+import LocationModal from "./LocationModal";
 
 
 export default function Location({ route, navigation }) {
@@ -90,6 +97,10 @@ export default function Location({ route, navigation }) {
           <Button title="Confirmar" type="default" press={() => saveLocation(currentRegion)} large />
         </View>
       </View>
+      <LocationModal 
+        modalIsVisible={modalIsVisible}
+        onBackdropPress={()=>setModalIsVisible(false)}
+      />
     </View>
   );
 }
