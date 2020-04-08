@@ -5,7 +5,13 @@ import styles from "./styles";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
-  const [disease, setDisease] = useState({});
+  const [disease, setDisease] = useState({
+    dc: false,
+    hiv: false,
+    diab: false,
+    hiperT: false,
+    doenCardio: false,
+  });
 
   const riskGroups = {
     dc: 'Doença respiratória',
@@ -15,18 +21,28 @@ export default function RiskGroup({ route, navigation }) {
     doenCardio: 'Doenças cardiovasculares',
   };
 
-  console.log(route.params);
-
   const handleButtonPress = (id) => {
     if (disease[id] === true) {
       setDisease({ ...disease, [id]: false });
     } else setDisease({ ...disease, [id]: true });
   };
 
-  const data = { ...userData, ...disease };
-
+  
   const continueHandler = () => {
-    navigation.navigate("photo", { data });
+    let newDisease = []
+    
+    for(let prop in disease) {
+      if(disease[prop]){
+        newDisease.push(riskGroups[prop]);
+      }
+    }
+
+    const data = { 
+      ...userData, 
+      disease: newDisease
+    };
+
+    navigation.navigate("photo", { userData: data });
   };
   
   return (
@@ -40,7 +56,6 @@ export default function RiskGroup({ route, navigation }) {
       <View style={styles.input}>
         {
           Object.entries(riskGroups).map(([key, value]) => {
-            console.log(disease);
             return(
               <View key={key} style={styles.inputItem}>
                 <Button

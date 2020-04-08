@@ -21,7 +21,7 @@ class UserService {
               
       await AsyncStorage.setItem('tokenId', idTokenUser);
     } catch {
-      throw { error: 'Não foi possível Deslogar!' };
+      throw { error: 'Não foi possível fazer o login!' };
     } 
     // return await this.requestUserData();
   }

@@ -25,7 +25,7 @@ export default function PersonalData({ route, navigation }) {
     setCPF(enteredCPF);
   };
 
-  const personalData = { Nome: name, Nascimento: birthday, CPF: cpf };
+  const personalData = { name, birthday, cpf };
 
   const userData = { ...registrationData, ...personalData };
 

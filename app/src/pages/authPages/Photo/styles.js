@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   text: {
     ...fonts.subtitle,
     fontFamily: "montserrat-semibold",
-    textAlign: "center"
+    textAlign: "center",
   },
   textView: {
     flex: 6,
@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
-    marginVertical: 40
+    marginVertical: 40,
+    width: "75%"
   }
 });
 
