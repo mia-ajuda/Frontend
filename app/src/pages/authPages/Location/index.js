@@ -56,24 +56,32 @@ export default function Location({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <MapView initialRegion={currentRegion} style={styles.map}>
-        {currentRegion && (
-          <Marker
-          coordinate={{
-            latitude: currentRegion.latitude,
-            longitude: currentRegion.longitude
-          }}
-          draggable
-          onDragEnd={newCoordinates => {
-            const {
-              latitude,
-              longitude
-            } = newCoordinates.nativeEvent.coordinate;
-            setCurrentRegion({ ...currentRegion, latitude, longitude });
-          }}
-          />
-          )}
-      </MapView>
+      <View style={styles.textMapContainer}>
+        <View style={styles.titleBox}>
+          <Text style={styles.title}>Pressione e arraste para ajustar a sua posição.</Text>
+        </View>
+        <MapView initialRegion={currentRegion} style={styles.map}>
+          {currentRegion && (
+            <Marker
+            coordinate={{
+              latitude: currentRegion.latitude,
+              longitude: currentRegion.longitude
+            }}
+            draggable
+            onDragEnd={newCoordinates => {
+              const {
+                latitude,
+                longitude
+              } = newCoordinates.nativeEvent.coordinate;
+              setCurrentRegion({ ...currentRegion, latitude, longitude });
+            }}
+            />
+            )}
+        </MapView>
+        <View style={styles.instructionBox}>
+          <Text style={styles.instruction}>Precisamos, também, obter a sua localização. Isso será util quando você for pedir ajuda!</Text>
+        </View>
+      </View>
       <View style={styles.buttonsBox}>
         <View style={styles.locationButton}>
           <Button title="Voltar" type="warning" press={() => navigation.goBack()} large />
