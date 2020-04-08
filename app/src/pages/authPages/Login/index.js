@@ -78,7 +78,7 @@ function Login({ navigation }) {
         <TouchableOpacity
           style={styles.signUP}
           onPress={() => {
-            navigation.navigate("photo");
+            navigation.navigate("registrationData");
           }}
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>

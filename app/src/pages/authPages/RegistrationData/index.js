@@ -20,7 +20,7 @@ export default function RegistrationData({ navigation }) {
     setConfirm(enteredConfirm);
   };
 
-  const registrationData = { Email: email, Senha: password };
+  const registrationData = { email, password };
 
   const continueHandler = () => {
     if (email.length > 0 && password.length > 0 && password === confirm) {

@@ -11,8 +11,10 @@ import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
 
-export default function App(navigation) {
+export default function App({ route, navigation }) {
   let [selectedImage, setSelectedImage] = React.useState(null);
+  let [photo, setPhoto] = React.useState('');
+  const { userData } = route.params;
 
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -22,17 +24,33 @@ export default function App(navigation) {
       return;
     }
 
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      base64: true
+    });
     if (pickerResult.cancelled === true) {
       return;
     }
 
-    setSelectedImage({ localUri: pickerResult.uri });
-  };
+    setSelectedImage({ 
+      localUri: pickerResult.uri
+    });
 
+    setPhoto({
+      photo: pickerResult.base64
+    });
+    
+  };
+  
   const cancelHandler = () => {
     setSelectedImage(null);
+    setPhoto('');
   };
+  
+  const continueHandle = () => {
+    const data = {...userData, ...photo };
+    console.log(data);
+    navigation.navigate('location', { userData: data });
+  }
 
   return (
     <View style={styles.container}>
@@ -74,7 +92,7 @@ export default function App(navigation) {
               <Text style={styles.btnText}>Voltar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.btn1}>
+            <TouchableOpacity style={styles.btn1} onPress={continueHandle}>
               <Text style={styles.btnText1}>Continuar</Text>
             </TouchableOpacity>
           </View>
