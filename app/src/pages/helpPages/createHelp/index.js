@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Picker, Text } from "react-native";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import colors from "../../../../assets/styles/colorVariables";
+import { CategoryContext } from "../../../store/contexts/categoryContext";
 
-export default function CreateHelp() {
-  let [title, setTitle] = useState("");
-  let [category, setCategory] = useState("");
-  let [description, setDescription] = useState("");
-  let [buttonDisabled, setButtonDisabled] = useState(true);
+export default function CreateHelp({ navigation }) {
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState({});
+  const [description, setDescription] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const { categories } = useContext(CategoryContext);
+  console.log(categories);
 
   useEffect(() => {
     if (title && category && description) {
@@ -18,30 +21,13 @@ export default function CreateHelp() {
     } else {
       setButtonDisabled(true);
     }
-  }, [title, category, description]);
-
-  const categories = [
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-    { id: "1", title: "Categoria" },
-  ];
+  }, [title, description, category]);
 
   return (
     <Container>
       <View style={styles.view}>
         <View>
-          <Input
-            label="Título"
-            change={(text) => setTitle(text.nativeEvent.text)}
-          />
+          <Input label="Título" change={(text) => setTitle(text)} />
           <View style={styles.margiView} />
           <View>
             <Text style={styles.label}>Categoria</Text>
@@ -51,13 +37,13 @@ export default function CreateHelp() {
                 selectedValue={category}
                 onValueChange={(itemValue) => setCategory(itemValue)}
               >
-                <Picker.Item label="" value="" />
-
-                {categories.map((category) => (
+                <Picker.Item label="" value={{}} />
+                {categories.map((cat) => (
                   <Picker.Item
+                    key={cat._id}
                     color={colors.dark}
-                    label={category.title}
-                    value={category.id}
+                    label={cat.name}
+                    value={cat}
                   />
                 ))}
               </Picker>
@@ -67,7 +53,7 @@ export default function CreateHelp() {
           <Input
             label="Descrição"
             textarea
-            change={(text) => setDescription(text.nativeEvent.text)}
+            change={(text) => setDescription(text)}
           />
         </View>
 

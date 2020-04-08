@@ -5,15 +5,12 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 
 import styles from "./styles";
-import { UserContext } from "../../../store/contexts/userContext";
-import { actionGetUserData } from "../../../store/actions";
-import userService from "../../../services/User";
 
-export default function Login({ navigation }) {
+function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,11 +19,11 @@ export default function Login({ navigation }) {
     setPassword("");
   };
 
-  const emailHandler = enteredEmail => {
+  const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = enteredPassword => {
+  const passwordHandler = (enteredPassword) => {
     setPassword(enteredPassword);
   };
 
@@ -65,7 +62,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            navigation.navigate("forgotPassword");
+            navigation.navigate("main");
           }}
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
@@ -87,6 +84,4 @@ export default function Login({ navigation }) {
       </View>
     </KeyboardAvoidingView>
   );
-};
-
-export default Login;
+}

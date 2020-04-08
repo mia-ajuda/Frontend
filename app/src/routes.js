@@ -16,11 +16,26 @@ import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
+const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
-const StackNavigation = createStackNavigator();
+const AuthStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
-const MainRoutes = () => (
+const MainNavigation = () => (
+  <>
+    <MainStack.Navigator initialRouteName="main">
+      <MainStack.Screen
+        name="main"
+        component={Main}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen name="createHelp" component={CreateHelp} />
+    </MainStack.Navigator>
+  </>
+);
+
+const BottomTab = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
       style: {
@@ -39,7 +54,6 @@ const MainRoutes = () => (
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let selectConfig;
-        let icon;
 
         switch (route.name) {
           case "main":
@@ -102,17 +116,15 @@ const MainRoutes = () => (
   >
     <BottomNavigation.Screen name="notification" component={Main} />
     <BottomNavigation.Screen name="helpList" component={Main} />
-    <BottomNavigation.Screen name="main" component={Main} />
+    <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="needingList" component={Main} />
     <BottomNavigation.Screen name="settings" component={Main} />
   </BottomNavigation.Navigator>
 );
 
-const backImage = require("../assets/images/back.png");
-
 const AuthRoutes = () => (
   <>
-    <StackNavigation.Navigator
+    <AuthStack.Navigator
       initialRouteName="login"
       screenOptions={{
         headerBackImage: () => (
@@ -141,29 +153,21 @@ const AuthRoutes = () => (
         headerTitleAlign: "center",
       }}
     >
-      <StackNavigation.Screen name="login" component={Login} />
-      <StackNavigation.Screen name="location" component={Location} />
-      <StackNavigation.Screen name="registrationData" component={RegistrationData} />
-      <StackNavigation.Screen name="personalData" component={PersonalData} />
-      <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
-      <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen
-        name="createHelp"
-        component={CreateHelp}
-        options={{ headerShown: true, title: "Pedir Ajuda" }}
-      />
-      <StackNavigation.Screen name="main" component={MainRoutes} />
-      <StackNavigation.Screen
-        name="forgotPassword"
-        component={ForgotPassword}
-      />
-    </StackNavigation.Navigator>
+      <AuthStack.Screen name="login" component={Login} />
+      <AuthStack.Screen name="location" component={Location} />
+      <AuthStack.Screen name="registrationData" component={RegistrationData} />
+      <AuthStack.Screen name="personalData" component={PersonalData} />
+      <AuthStack.Screen name="riskGroup" component={RiskGroup} />
+      <AuthStack.Screen name="photo" component={Photo} />
+      <AuthStack.Screen name="main" component={BottomTab} />
+      <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
+    </AuthStack.Navigator>
   </>
 );
 
 const Routes = () => (
   <NavigationContainer>
-    <AuthRoutes />
+    <BottomTab />
   </NavigationContainer>
 );
 
