@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Picker, Text } from "react-native";
 import styles from "./styles";
 import Container from "../../../components/Container";
@@ -6,21 +6,14 @@ import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import colors from "../../../../assets/styles/colorVariables";
 import CategoryService from "../../../services/Category";
+import { CategoryContext } from "../../../store/contexts/categoryContext";
 
 export default function CreateHelp() {
-  let [title, setTitle] = useState("");
-  let [category, setCategory] = useState({});
-  let [description, setDescription] = useState("");
-  let [buttonDisabled, setButtonDisabled] = useState(true);
-  let [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    async function fetchCategory() {
-      const categories = await CategoryService.getAllCategories();
-      setCategories(categories);
-    }
-    fetchCategory()
-  }, []);
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState({});
+  const [description, setDescription] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const { categories } = useContext(CategoryContext);
 
   useEffect(() => {
     if (title && category && description) {
