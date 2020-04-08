@@ -6,6 +6,8 @@ import {
   requestPermissionsAsync,
   getCurrentPositionAsync
 } from "expo-location";
+import Button from "../../../components/UI/button"
+
 
 export default function Location({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
@@ -47,27 +49,29 @@ export default function Location({ navigation }) {
       <MapView initialRegion={currentRegion} style={styles.map}>
         {currentRegion && (
           <Marker
-            coordinate={{
-              latitude: currentRegion.latitude,
-              longitude: currentRegion.longitude
-            }}
-            draggable
-            onDragEnd={newCoordinates => {
-              const {
-                latitude,
-                longitude
-              } = newCoordinates.nativeEvent.coordinate;
-              setCurrentRegion({ ...currentRegion, latitude, longitude });
-            }}
+          coordinate={{
+            latitude: currentRegion.latitude,
+            longitude: currentRegion.longitude
+          }}
+          draggable
+          onDragEnd={newCoordinates => {
+            const {
+              latitude,
+              longitude
+            } = newCoordinates.nativeEvent.coordinate;
+            setCurrentRegion({ ...currentRegion, latitude, longitude });
+          }}
           />
-        )}
+          )}
       </MapView>
-      <TouchableOpacity style={styles.locationButton} onPress={() => saveLocation(currentRegion)}>
-        <Text style={styles.button}>Salvar</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.button}>Back</Text>
-      </TouchableOpacity> */}
+      <View style={styles.buttonsBox}>
+        <View style={styles.locationButton}>
+          <Button title="Voltar" type="warning" press={() => navigation.goBack()} large />
+        </View>
+        <View style={styles.locationButton}>
+          <Button title="Confirmar" type="default" press={() => saveLocation(currentRegion)} large />
+        </View>
+      </View>
     </View>
   );
 }
