@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   text: {
     ...fonts.subtitle,
     fontFamily: "montserrat-semibold",
+    textAlign: "center"
   },
   textView: {
     flex: 6,

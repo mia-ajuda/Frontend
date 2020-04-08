@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
+import UserService from '../../../services/User';
 
 import styles from "./styles";
 
@@ -24,7 +25,9 @@ export default function Login({ navigation }) {
   };
 
   const loginHandler = () => {
-    const data = [email, password];
+    const data = { email, password };
+    console.log(data);
+    UserService.logIn(data);
   };
 
   return (
