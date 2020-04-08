@@ -5,8 +5,16 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+  },
+  titleBox: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    opacity: 0.75,
+    marginTop: -170,
+    marginHorizontal: 40,
+    padding: 25,
+    shadowColor: '#000',
+    elevation: 5,
   },
   title: {
     ...fonts.body,
@@ -21,16 +29,16 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   locationButton: {
-    backgroundColor: '#e74c3c',
-    marginTop: -100,
-    width: 100,
+    marginTop: -200,
+    width: "40%",
     height: 50,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    elevation: 8,
-  }
+  },
+  buttonsBox: {
+    flexDirection: 'row',
+    alignContent: 'flex-start',
+    justifyContent: 'space-around',
+    marginTop: 120
+  },
 });
 
 export default styles;
