@@ -169,7 +169,7 @@ const headerStyle = {
 
 const Routes = () => (
   <NavigationContainer>
-    <BottomTab />
+    <AuthRoutes />
   </NavigationContainer>
 );
 
