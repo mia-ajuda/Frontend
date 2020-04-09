@@ -52,10 +52,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
   }
   return (
     <View>
-      <Text style={[
-        styles.label,
-        valid ? styles.validLabel : styles.invalidLabel        
-      ]}>{label}</Text>
+      <Text style={styles.label}>{label}</Text>
       {input}
     </View>
   );

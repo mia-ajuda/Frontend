@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../../assets/styles/fontVariable"
+import color from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,10 +32,15 @@ const styles = StyleSheet.create({
   inputMask: {
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: "#4b8ab9",
     padding: 10,
     fontSize: 16,
     fontFamily: "montserrat-regular"   
+  },
+  valid: {
+    borderColor: color.primary,
+  },
+  invalid: {
+    borderColor: color.danger,
   },
   label: {
     fontFamily: "montserrat-semibold",
