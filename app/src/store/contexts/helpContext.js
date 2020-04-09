@@ -17,17 +17,6 @@ export default function HelpContextProvider(props) {
         try {
           let helpListArray = await HelpService.getNearHelp(currentRegion);
 
-          helpListArray = helpListArray.map((help) => {
-            //insert help distance to the list
-            const helpCoords = {
-              latitude: help.user[0].location.coordinates[1],
-              longitude: help.user[0].location.coordinates[0],
-            };
-            help.distance = getHelpDistance(currentRegion, helpCoords);
-
-            return help;
-          });
-
           dispatch({ type: actions.help.addHelp, helps: helpListArray });
         } catch (error) {
           console.log(error);
