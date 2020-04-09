@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 
-export default function Input({ label, placeholder, change, value, textarea, type }) {
+export default function Input({ label, placeholder, change, value, textarea, type, valid=true }) {
   let input;
   if (textarea) {
     input = (
       <TextInput
-        style={styles.input}
+        style={[styles.input, styles.validInput]}
         placeholder="..."
         placeholderTextColor={"#BDBDBD"}
         onChangeText={change}
@@ -23,7 +23,10 @@ export default function Input({ label, placeholder, change, value, textarea, typ
     input = (
       <TextInput
       secureTextEntry
-      style={styles.input}
+      style={[
+        styles.input, 
+        valid ? styles.validInput : styles.invalidInput
+      ]}
       placeholder={placeholder}
       placeholderTextColor={"#BDBDBD"}
       onChangeText={change}
@@ -36,7 +39,10 @@ export default function Input({ label, placeholder, change, value, textarea, typ
   else {
     input = (
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input, 
+          valid ? styles.validInput : styles.invalidInput
+        ]}
         placeholder={placeholder}
         placeholderTextColor={"#BDBDBD"}
         onChangeText={change}
@@ -46,7 +52,10 @@ export default function Input({ label, placeholder, change, value, textarea, typ
   }
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[
+        styles.label,
+        valid ? styles.validLabel : styles.invalidLabel        
+      ]}>{label}</Text>
       {input}
     </View>
   );

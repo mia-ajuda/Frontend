@@ -5,30 +5,39 @@ import { TextInputMask } from 'react-native-masked-text'
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
+import emailValidator from '../../../utils/emailValidation'
 
 export default function RegistrationData({ navigation }) {
   const [email, setEmail] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(true);
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [confirmPass, setConfirmPass] = useState(true);
   const [cellPhone, setCellPhone] = useState("")
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
+    setEmailIsValid( 
+      emailValidator(email)
+    );
   };
 
   const passwordHandler = (enteredPassword) => {
     setPassword(enteredPassword);
   };
+
   const confirmHandler = (enteredConfirm) => {
+    password.length > 0 && password === enteredConfirm ? 
+      setConfirmPass(true) : 
+      setConfirmPass(false);
+
     setConfirm(enteredConfirm);
   };
 
   const registrationData = { email, password };
 
   const continueHandler = () => {
-    if (email.length > 0 && password.length > 0 && password === confirm) {
       navigation.navigate("personalData", { registrationData });
-    }
   };
 
   return (
@@ -49,22 +58,33 @@ export default function RegistrationData({ navigation }) {
               change={emailHandler}
               label="Email"
               placeholder="email@exemplo.com"
-            />
+              valid={emailIsValid}
+              />
             <Input
               type="password"
               change={passwordHandler}
               label="Senha"
               placeholder="Senha"
-            />
+              />
             <Input
               change={confirmHandler}
               label="Confirmar senha"
               placeholder="Confirme sua senha"
               type="password"
+              valid={confirmPass}
             />
           </View>
           <View style={styles.btnView}>
-            <Button title="Continuar" large press={continueHandler} />
+            <Button 
+              disabled={
+                !(email.length > 0 && 
+                password.length > 0 && 
+                password === confirm)
+              } 
+              title="Continuar" 
+              large 
+              press={continueHandler} 
+            />
           </View>
       </ScrollView>
     </SafeAreaView>
