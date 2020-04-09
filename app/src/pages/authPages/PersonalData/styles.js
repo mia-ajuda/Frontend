@@ -28,7 +28,18 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     marginBottom: 45
   },
-
+  inputMask: {
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "#4b8ab9",
+    padding: 10,
+    fontSize: 16,
+    fontFamily: "montserrat-regular"   
+  },
+  label: {
+    fontFamily: "montserrat-semibold",
+    color: "#4b8ab9"
+  }
 });
 
 export default styles;

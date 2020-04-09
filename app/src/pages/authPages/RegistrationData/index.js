@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Text, SafeAreaView, ScrollView, View } from "react-native";
+import { TextInputMask } from 'react-native-masked-text'
+
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
@@ -8,6 +10,7 @@ export default function RegistrationData({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [cellPhone, setCellPhone] = useState("")
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);

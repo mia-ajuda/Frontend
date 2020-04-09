@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { View, KeyboardAvoidingView, Text } from "react-native";
+import { TextInputMask } from 'react-native-masked-text'
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 
 export default function PersonalData({ route, navigation }) {
   const { registrationData } = route.params;
-
   const [name, setName] = useState("");
-
   const [birthday, setBirthday] = useState("");
-
   const [cpf, setCPF] = useState("");
+  const [cpfIsValid, setCpfValid] = useState(false);
 
   const nameHandler = (enteredName) => {
     setName(enteredName);
@@ -30,6 +29,7 @@ export default function PersonalData({ route, navigation }) {
   const userData = { ...registrationData, ...personalData };
 
   const continueHandler = () => {
+    // console.log(cpfIsValid.isValid());
     navigation.navigate("riskGroup", { userData });
   };
 
@@ -47,12 +47,35 @@ export default function PersonalData({ route, navigation }) {
           label="Nome Completo"
           placeholder="Nome Completo"
         />
-        <Input
-          change={birthdayHandler}
-          label="Data de Nascimento"
-          placeholder="Data de"
-        />
-        <Input change={cpfHandler} label="CPF" placeholder="CPF" />
+        <View>
+          <Text style={styles.label}>Data de Nascimento</Text>  
+          <TextInputMask
+            style={styles.inputMask}
+            type={'datetime'}
+            options={{
+              format: 'DD/MM/YYYY'
+            }}
+            value={birthday}
+            onChangeText={text => {
+              setBirthday(text)
+            }}
+            placeholder='Data de Nascimento'
+          />
+        </View>
+        <View>
+          <Text style={styles.label}>CPF</Text>
+          <TextInputMask
+            style={styles.inputMask}
+            type={'cpf'}
+            value={cpf}
+            onChangeText={text => {
+              setCPF(text);
+            }}
+            placeholder='Digite seu CPF'
+            ref={(ref) => setCpfValid(ref)}
+          />
+        </View>
+        {/* <Input change={cpfHandler} label="CPF" placeholder="CPF" /> */}
       </View>
       <View style={styles.btnView}>
         <Button title="Continuar" large press={continueHandler} />
