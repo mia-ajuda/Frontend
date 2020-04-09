@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f7f7f7",
     marginBottom: 30,
     fontFamily: "montserrat-semibold",
+    color: "#FFF",
+    fontSize: 14
   },
   login: {
     alignItems: "center",

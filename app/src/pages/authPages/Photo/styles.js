@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 40
+    marginVertical: 30
   },
   logo: {
     flex: 1,
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   buttonPreview: {
     flex: 1,
     flexDirection: 'row',
-    alignItems:'flex-end'
+    alignItems:'flex-end',
+
   },
   btn:{
     marginHorizontal: 10,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-medium"
   },
   selectText:{
-    flex:1,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,

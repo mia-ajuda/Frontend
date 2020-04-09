@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7f7f7"
   },
   viewText: {
-    flex: 7,
-    marginVertical: 40,
+    flex: 5,
+    marginVertical: 0,
     width: "80%",
     justifyContent: "center"
   },
@@ -23,16 +23,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-
   inputItem:{
     flexGrow: 0,
-    padding: 2
+    padding: 2,
   },
 
   btnView: {
     flex: 3,
     width: "80%",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 30    
   }
 });
 

@@ -48,13 +48,15 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="Email"
           autoCorrect={false}
+          placeholderTextColor="#FFF"
           onChangeText={emailHandler}
           value={email}
-        />
+          />
 
         <TextInput
           style={styles.input}
           secureTextEntry
+          placeholderTextColor="#FFF"
           placeholder="Senha"
           autoCorrect={false}
           onChangeText={passwordHandler}
