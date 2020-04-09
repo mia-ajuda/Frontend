@@ -30,34 +30,39 @@ export default function RegistrationData({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <Text style={styles.text1}>
-            Pra começar a fazer seu cadastro, preencha seu email e senha!!
-          </Text>
-        </View>
-        <View style={styles.form}>
-          <Input
-            change={emailHandler}
-            label="Email"
-            placeholder="email@exemplo.com"
-          />
-          <Input
-            type="password"
-            change={passwordHandler}
-            label="Senha"
-            placeholder="Senha"
-          />
-          <Input
-            change={confirmHandler}
-            label="Confirmar senha"
-            placeholder="Confirme sua senha"
-            type="password"
-          />
-        </View>
-        <View style={styles.form}>
-          <Button title="Continuar" large press={continueHandler} />
-        </View>
+      <ScrollView 
+        contentContainerStyle={{ 
+          flex: 1,
+          justifyContent: 'space-between'
+        }} 
+        showsVerticalScrollIndicator={false}>
+          <View>
+            <Text style={styles.text1}>
+              Pra começar a fazer seu cadastro, preencha seu email e senha!!
+            </Text>
+          </View>
+          <View style={styles.form}>
+            <Input
+              change={emailHandler}
+              label="Email"
+              placeholder="email@exemplo.com"
+            />
+            <Input
+              type="password"
+              change={passwordHandler}
+              label="Senha"
+              placeholder="Senha"
+            />
+            <Input
+              change={confirmHandler}
+              label="Confirmar senha"
+              placeholder="Confirme sua senha"
+              type="password"
+            />
+          </View>
+          <View style={styles.btnView}>
+            <Button title="Continuar" large press={continueHandler} />
+          </View>
       </ScrollView>
     </SafeAreaView>
   );

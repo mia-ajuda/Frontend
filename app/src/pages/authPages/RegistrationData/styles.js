@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   form: {
     flex: 2,
-    marginVertical: 20,
+    marginVertical: 10,
   },
 });
 
