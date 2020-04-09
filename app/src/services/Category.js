@@ -4,12 +4,11 @@ class CategoryService {
   constructor() {}
 
   async getAllCategories() {
-    try {
-      const categories = await api.get("/category");
-      return categories.data;
-    } catch (error) {
-      console.log(error.data);
-    }
+    const categories = await api.get("/category");
+    return categories.data;
+  }
+
+  catch(error) {
   }
 }
 

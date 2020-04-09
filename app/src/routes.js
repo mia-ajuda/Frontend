@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Tile } from "react-native-elements";
 
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
@@ -14,11 +14,32 @@ import Photo from "./pages/authPages/Photo";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
+import CreateHelp from "./pages/helpPages/createHelp";
+import fonts from "../assets/styles/fontVariable";
+const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
-const StackNavigation = createStackNavigator();
+const AuthStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
-const MainRoutes = () => (
+const MainNavigation = () => (
+  <>
+    <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
+      <MainStack.Screen
+        name="main"
+        component={Main}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name="createHelp"
+        options={{ headerShown: true }}
+        component={CreateHelp}
+      />
+    </MainStack.Navigator>
+  </>
+);
+
+const BottomTab = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
       style: {
@@ -99,7 +120,7 @@ const MainRoutes = () => (
   >
     <BottomNavigation.Screen name="notification" component={Main} />
     <BottomNavigation.Screen name="helpList" component={Main} />
-    <BottomNavigation.Screen name="main" component={Main} />
+    <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="needingList" component={Main} />
     <BottomNavigation.Screen name="settings" component={Main} />
   </BottomNavigation.Navigator>
@@ -107,33 +128,49 @@ const MainRoutes = () => (
 
 const AuthRoutes = () => (
   <>
-    <StackNavigation.Navigator
-      initialRouteName="login"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <StackNavigation.Screen name="login" component={Login} />
-      <StackNavigation.Screen name="location" component={Location} />
-      <StackNavigation.Screen
-        name="registrationData"
-        component={RegistrationData}
-      />
-      <StackNavigation.Screen name="personalData" component={PersonalData} />
-      <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
-      <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen name="main" component={MainRoutes} />
-      <StackNavigation.Screen
-        name="forgotPassword"
-        component={ForgotPassword}
-      />
-    </StackNavigation.Navigator>
+    <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
+      <AuthStack.Screen name="login" component={Login} />
+      <AuthStack.Screen name="location" component={Location} />
+      <AuthStack.Screen name="registrationData" component={RegistrationData} />
+      <AuthStack.Screen name="personalData" component={PersonalData} />
+      <AuthStack.Screen name="riskGroup" component={RiskGroup} />
+      <AuthStack.Screen name="photo" component={Photo} />
+      <AuthStack.Screen name="main" component={BottomTab} />
+      <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
+    </AuthStack.Navigator>
   </>
 );
 
+const headerStyle = {
+  headerBackImage: () => (
+    <Image
+      source={backImage}
+      style={{
+        flex: 1,
+        resizeMode: "contain",
+        width: 10,
+        marginLeft: 5,
+      }}
+    />
+  ),
+  headerShown: false,
+  headerStyle: {
+    height: 90,
+    backgroundColor: colors.primary,
+  },
+  headerTitleStyle: {
+    ...fonts.title,
+    color: colors.light,
+    fontFamily: "montserrat-medium",
+  },
+
+  headerTintColor: colors.light,
+  headerTitleAlign: "center",
+};
+
 const Routes = () => (
   <NavigationContainer>
-    <MainRoutes />
+    <BottomTab />
   </NavigationContainer>
 );
 

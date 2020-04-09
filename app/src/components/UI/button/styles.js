@@ -10,7 +10,7 @@ const text = {
 
 const btn = {
   paddingHorizontal: 10,
-  paddingVertical: 8,
+  paddingVertical: 12,
   elevation: 1,
   borderRadius: 4,
   marginVertical: 8

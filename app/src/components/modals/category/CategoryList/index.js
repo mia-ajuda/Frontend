@@ -71,31 +71,29 @@ export default function CategoryList({ visible, setVisible }) {
                 />
               </TouchableOpacity>
             </View>
-            <Container>
-              <CategoryDescriptionModal
-                visible={descriptionModalVisible}
-                setVisible={setDescriptionModalVisible}
-              />
-              <ScrollView style={styles.modalBody}>
-                {categories.map((category) => (
-                  <SelectBox
-                    key={category._id}
-                    title={category.name}
-                    filterCategoryArray={filterCategoryArray}
-                    setFilterCategoryArray={setFilterCategoryArray}
-                    category={category}
-                  />
-                ))}
-              </ScrollView>
-              <Buttom
-                title="Filtrar"
-                type="warning"
-                press={() => {
-                  filterHelplist();
-                }}
-                large
-              />
-            </Container>
+            <CategoryDescriptionModal
+              visible={descriptionModalVisible}
+              setVisible={setDescriptionModalVisible}
+            />
+            <ScrollView style={styles.modalBody}>
+              {categories.map((category) => (
+                <SelectBox
+                  key={category._id}
+                  title={category.name}
+                  filterCategoryArray={filterCategoryArray}
+                  setFilterCategoryArray={setFilterCategoryArray}
+                  category={category}
+                />
+              ))}
+            </ScrollView>
+            <Buttom
+              title="Filtrar"
+              type="warning"
+              press={() => {
+                filterHelplist();
+              }}
+              large
+            />
           </View>
         </TouchableWithoutFeedback>
       </TouchableOpacity>

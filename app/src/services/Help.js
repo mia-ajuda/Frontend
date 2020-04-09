@@ -29,7 +29,15 @@ class HelpService {
   getAllHelpForUser() {}
   getAllHelpForHelper() {}
 
-  createHelp() {}
+  async createHelp(title, categoryId, description) {
+    const createdHelpResponse = await api.post("/help", {
+      title,
+      categoryId,
+      description,
+      ownerId: "5e8e4e19c2ebbc0026761416",
+    });
+    return createdHelpResponse;
+  }
 
   deleteHelp() {}
 }

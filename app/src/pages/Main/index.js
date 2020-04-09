@@ -11,13 +11,14 @@ import MapView, { Marker, Circle, Callout } from "react-native-maps";
 import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
 import mapStyle from "../../../assets/styles/mapstyle";
+import colors from "../../../assets/styles/colorVariables";
 
 import Button from "../../components/UI/button";
 import CategoryListModal from "../../components/modals/category/CategoryList";
 import { HelpContext } from "../../store/contexts/helpContext";
 import { UserContext } from "../../store/contexts/userContext";
 
-export default function Main() {
+export default function Main({ navigation }) {
   const [region, setRegion] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
@@ -40,7 +41,12 @@ export default function Main() {
           setRegion(currentRegion);
         }}
       >
-        <Icon name="target-two" type="foundation" color="#fff" size={35} />
+        <Icon
+          name="target-two"
+          type="foundation"
+          color={colors.light}
+          size={35}
+        />
       </TouchableOpacity>
 
       <MapView
@@ -96,10 +102,17 @@ export default function Main() {
           setFilterModalVisible(!filterModalVisible);
         }}
       >
-        <Icon name="filter" type="font-awesome" color="#000" size={20} />
+        <Icon name="filter" type="font-awesome" color={colors.dark} size={20} />
       </TouchableOpacity>
       <View style={styles.helpButton}>
-        <Button title="Pedir ajuda" press={() => {}} type="danger" large />
+        <Button
+          title="Pedir ajuda"
+          press={() => {
+            navigation.navigate("createHelp");
+          }}
+          type="danger"
+          large
+        />
       </View>
     </SafeAreaView>
   );
