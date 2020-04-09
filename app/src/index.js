@@ -7,11 +7,11 @@ import CategoryContextProvider from "./store/contexts/categoryContext";
 export default function Root() {
   return (
     <CategoryContextProvider>
-      <HelpContextProvider>
-        <UserContextProvider>
+      <UserContextProvider>
+        <HelpContextProvider>
           <Routes />
-        </UserContextProvider>
-      </HelpContextProvider>
+        </HelpContextProvider>
+      </UserContextProvider>
     </CategoryContextProvider>
   );
 }
