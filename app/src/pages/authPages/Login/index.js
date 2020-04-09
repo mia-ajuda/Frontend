@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -7,15 +7,23 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import UserService from '../../../services/User';
-import Button from '../../../components/UI/button'
+import UserService from "../../../services/User";
+import Button from "../../../components/UI/button";
 
 import styles from "./styles";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState("");
 
+  useEffect(() => {
+    if (email && password) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [email, password]);
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
@@ -52,7 +60,7 @@ export default function Login({ navigation }) {
           placeholderTextColor="#FFF"
           onChangeText={emailHandler}
           value={email}
-          />
+        />
 
         <TextInput
           style={styles.input}
@@ -74,7 +82,14 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.viewLogin}>
-        <Button style={styles.login} large type="white" title="ENTRAR" press={loginHandler}/>
+        <Button
+          style={styles.login}
+          large
+          type="white"
+          title="ENTRAR"
+          press={loginHandler}
+          disabled={buttonDisabled}
+        />
 
         <TouchableOpacity
           style={styles.signUP}
