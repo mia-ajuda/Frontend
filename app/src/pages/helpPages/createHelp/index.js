@@ -122,9 +122,6 @@ export default function CreateHelp({ navigation }) {
             style={styles.modal}
             animationType="slide"
             visible={loading}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-            }}
           >
             <View style={[styles.backdrop, styles.centeredView]}>
               <View style={styles.loading}>
@@ -146,9 +143,6 @@ export default function CreateHelp({ navigation }) {
             style={styles.modal}
             animationType="slide"
             visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-            }}
           >
             <View style={[styles.backdrop, styles.centeredView]}>
               <View style={styles.modalView}>
