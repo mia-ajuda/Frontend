@@ -28,7 +28,7 @@ export default function HelpContextProvider(props) {
             return help;
           });
 
-          dispatch({ type: actions.help.addHelp, help: helpListArray });
+          dispatch({ type: actions.help.addHelp, helps: helpListArray });
         } catch (error) {
           console.log(error);
         }

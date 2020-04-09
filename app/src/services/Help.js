@@ -13,7 +13,16 @@ class HelpService {
     return helps.data;
   }
 
-  getAllHelpForCategory() {}
+  async getAllHelpForCategory(coords, categoryId) {
+    const { longitude, latitude } = coords;
+    const url = categoryId
+      ? `/Help?near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`
+      : `/Help?near=true&coords=${longitude},${latitude}`;
+
+    console.log(url);
+    const helps = await api.get(url);
+    return helps.data;
+  }
   getAllHelpForUser() {}
   getAllHelpForHelper() {}
 

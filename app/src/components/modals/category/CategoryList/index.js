@@ -14,10 +14,30 @@ import { Icon } from "react-native-elements";
 import Container from "../../../Container";
 import CategoryDescriptionModal from "../categoryDescription";
 import { CategoryContext } from "../../../../store/contexts/categoryContext";
+import { HelpContext } from "../../../../store/contexts/helpContext";
+import { UserContext } from "../../../../store/contexts/userContext";
+import HelpService from "../../../../services/Help";
+import actions from "../../../../store/actions";
 
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
+  const [filterCategoryArray, setFilterCategoryArray] = useState([]);
   const { categories } = useContext(CategoryContext);
+  const { dispatch } = useContext(HelpContext);
+  const { currentRegion } = useContext(UserContext);
+
+  async function filterHelplist() {
+    try {
+      const helpListFilterd = await HelpService.getAllHelpForCategory(
+        currentRegion,
+        filterCategoryArray
+      );
+      dispatch({ type: actions.help.addHelp, helps: helpListFilterd });
+      setVisible(!visible);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Modal
@@ -58,10 +78,23 @@ export default function CategoryList({ visible, setVisible }) {
               />
               <ScrollView style={styles.modalBody}>
                 {categories.map((category) => (
-                  <SelectBox key={category._id} title={category.name} />
+                  <SelectBox
+                    key={category._id}
+                    title={category.name}
+                    filterCategoryArray={filterCategoryArray}
+                    setFilterCategoryArray={setFilterCategoryArray}
+                    category={category}
+                  />
                 ))}
               </ScrollView>
-              <Buttom title="Filtrar" type="warning" press={() => {}} large />
+              <Buttom
+                title="Filtrar"
+                type="warning"
+                press={() => {
+                  filterHelplist();
+                }}
+                large
+              />
             </Container>
           </View>
         </TouchableWithoutFeedback>
