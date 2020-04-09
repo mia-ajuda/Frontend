@@ -18,12 +18,7 @@ const styles = StyleSheet.create({
   label: {
     ...fonts.body,
     fontFamily: "montserrat-semibold",
-  },
-  validLabel: {
     color: colors.primary,
-  },
-  invalidLabel: {
-    color: colors.danger,
   },
 });
 
