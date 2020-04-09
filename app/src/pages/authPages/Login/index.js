@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import UserService from '../../../services/User';
+import Button from '../../../components/UI/button'
 
 import styles from "./styles";
 
@@ -27,11 +28,11 @@ export default function Login({ navigation }) {
   const loginHandler = async () => {
     const data = { email, password };
 
-    try{
-      await UserService.logIn(data);
-    } catch(err) {
-      console.log(err["error"]);
-    }
+    // try{
+    //   await UserService.logIn(data);
+    // } catch(err) {
+    //   console.log(err["error"]);
+    // }
   };
 
   return (
@@ -73,9 +74,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.viewLogin}>
-        <TouchableOpacity style={styles.login} onPress={loginHandler}>
-          <Text style={styles.text}>ENTRAR</Text>
-        </TouchableOpacity>
+        <Button style={styles.login} large type="white" title="ENTRAR" press={loginHandler}/>
 
         <TouchableOpacity
           style={styles.signUP}
