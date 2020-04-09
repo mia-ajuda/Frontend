@@ -67,13 +67,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'flex-start',
     justifyContent: 'space-around',
-  },
-  modal: {
-    backgroundColor: 'white',
-    maxHeight:Dimensions.get('window').height / 2,
-    justifyContent:'center',
-    textAlign:'center',
-    borderRadius: 20,
   }
 });
 
