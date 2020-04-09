@@ -4,7 +4,6 @@ class UserService {
   constructor() {}
 
   async logIn() {
-    console.log("login");
     return await this.requestUserData();
   }
 

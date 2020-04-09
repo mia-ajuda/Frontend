@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   btnContainer: {
-    height: "22%",
+    height: "25%",
   },
   input: {
     ...fonts.body,
@@ -36,6 +36,48 @@ const styles = StyleSheet.create({
     ...fonts.body,
     fontFamily: "montserrat-semibold",
     color: colors.primary,
+  },
+  modal: {
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  modalView: {
+    backgroundColor: colors.light,
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: "40%",
+    width: "80%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalText: {
+    ...fonts.subtitle,
+    fontSize: 20,
+    textAlign: "center",
+  },
+  loading: {
+    flex: 1,
+    height: "100%",
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backdrop: {
+    backgroundColor: "#35353590",
   },
 });
 

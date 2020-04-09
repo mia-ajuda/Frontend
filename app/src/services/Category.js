@@ -7,8 +7,8 @@ class CategoryService {
     const categories = await api.get("/category");
     return categories.data;
   }
+
   catch(error) {
-    console.log(error.data);
   }
 }
 

@@ -16,6 +16,7 @@ import getHelpDistance from "../../utils/helpDistance";
 import actions from "../../store/actions";
 import Button from "../../components/UI/button";
 import CategoryListModal from "../../components/modals/category/CategoryList";
+import colors from "../../../assets/styles/colorVariables";
 
 import {
   requestPermissionsAsync,
@@ -28,7 +29,6 @@ export default function Main({ navigation }) {
   const [region, setRegion] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList, dispatch } = useContext(HelpContext);
-  console.log(helpList);
 
   useEffect(() => {
     async function getLocation() {
@@ -67,9 +67,7 @@ export default function Main({ navigation }) {
           });
 
           dispatch({ type: actions.help.addHelp, help: helpListArray });
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     }
     getHelpList();
@@ -92,7 +90,12 @@ export default function Main({ navigation }) {
           setRegion(currentRegion);
         }}
       >
-        <Icon name="target-two" type="foundation" color="#fff" size={35} />
+        <Icon
+          name="target-two"
+          type="foundation"
+          color={colors.light}
+          size={35}
+        />
       </TouchableOpacity>
 
       <MapView
@@ -148,7 +151,7 @@ export default function Main({ navigation }) {
           setFilterModalVisible(!filterModalVisible);
         }}
       >
-        <Icon name="filter" type="font-awesome" color="#000" size={20} />
+        <Icon name="filter" type="font-awesome" color={colors.dark} size={20} />
       </TouchableOpacity>
       <View style={styles.helpButton}>
         <Button
