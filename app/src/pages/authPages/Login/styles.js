@@ -1,48 +1,44 @@
 import { StyleSheet } from "react-native";
+import colors from "../../../../assets/styles/colorVariables";
+import fonts from "../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#4b8ab9",
+    backgroundColor: colors.primary,
   },
   logo: {
-    flex: 2,
+    marginTop: 40,
+    flex: 1.5,
     justifyContent: "center",
   },
   container: {
-    flex: 2,
+    flex: 1.5,
     justifyContent: "center",
     width: "90%",
     marginVertical: 20,
   },
   input: {
+    ...fonts.body,
     borderBottomWidth: 2,
-    borderBottomColor: "#f7f7f7",
+    borderBottomColor: colors.light,
     marginBottom: 30,
-    fontFamily: "montserrat-semibold",
-    color: "#FFF",
-    fontSize: 14
-  },
-  login: {
-    alignItems: "center",
-    backgroundColor: "#f7f7f7",
-    borderRadius: 5,
+    color: colors.light,
   },
   text: {
-    color: "#4b8ab9",
-    fontSize: 16,
+    color: colors.primary,
     padding: 10,
-    fontFamily: "montserrat-semibold",
+    ...fonts.body,
   },
   signUP: {
     alignItems: "center",
     padding: 20,
   },
   signupText: {
-    color: "#f7f7f7",
-    fontSize: 16,
+    ...fonts.body,
+    color: colors.light,
     fontFamily: "montserrat-semibold",
   },
   forgotPassword: {
@@ -50,11 +46,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   forgotPasswordtext: {
-    color: "#f7f7f7",
+    color: colors.light,
   },
   viewLogin: {
     flex: 1,
-    width: "80%",
+    width: "90%",
   },
 });
 

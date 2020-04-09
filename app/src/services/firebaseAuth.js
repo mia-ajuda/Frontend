@@ -1,8 +1,8 @@
-import firebase from 'firebase';
-import authConfig from '../config/authmiaajuda-firebase';
+// import firebase from 'firebase';
+// import authConfig from '../config/authmiaajuda-firebase';
 
-const config= authConfig;
+// const config= authConfig;
 
-const Firebase = firebase.initializeApp(config);
+// const Firebase = firebase.initializeApp(config);
 
-export default Firebase;
+// export default Firebase;
