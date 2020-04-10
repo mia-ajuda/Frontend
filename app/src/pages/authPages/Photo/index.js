@@ -13,7 +13,7 @@ import Container from "../../../components/Container";
 
 export default function App({ route, navigation }) {
   let [selectedImage, setSelectedImage] = React.useState(null);
-  let [photo, setPhoto] = React.useState('');
+  let [photo, setPhoto] = React.useState("");
   const { userData } = route.params;
 
   let openImagePickerAsync = async () => {
@@ -25,32 +25,31 @@ export default function App({ route, navigation }) {
     }
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      base64: true
+      base64: true,
     });
     if (pickerResult.cancelled === true) {
       return;
     }
 
-    setSelectedImage({ 
-      localUri: pickerResult.uri
+    setSelectedImage({
+      localUri: pickerResult.uri,
     });
 
     setPhoto({
-      photo: pickerResult.base64
+      photo: pickerResult.base64,
     });
-    
   };
-  
+
   const cancelHandler = () => {
     setSelectedImage(null);
-    setPhoto('');
+    setPhoto("");
   };
-  
+
   const continueHandle = () => {
-    const data = {...userData, ...photo };
+    const data = { ...userData, ...photo };
     console.log(data);
-    navigation.navigate('location', { userData: data });
-  }
+    navigation.navigate("location", { userData: data });
+  };
 
   return (
     <View style={styles.container}>
