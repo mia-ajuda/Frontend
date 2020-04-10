@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, KeyboardAvoidingView, ScrollView, View } from "react-native";
-import { TextInputMask } from 'react-native-masked-text'
 
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -13,22 +12,6 @@ export default function RegistrationData({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [confirmPass, setConfirmPass] = useState(true);
-  const [cellPhone, setCellPhone] = useState("");
-  const [validPhone, setValidPhone] = useState(true);
-
-  const handlePhone = () => {
-    let phoneFilter = "+55" + cellPhone
-    .replace("(", "")
-    .replace(")", "")
-    .replace("-", "")
-    .replace(" ", "")
-    
-    if(phoneFilter.length === 14){
-      phoneFilter = phoneFilter.replace("9", "");
-    }
-    
-    return phoneFilter
-  }
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
@@ -46,11 +29,9 @@ export default function RegistrationData({ navigation }) {
 
     setConfirm(enteredConfirm);
   };
-
   
   const continueHandler = () => {
-    const phone = handlePhone();
-    const registrationData = { email, password, phone };
+    const registrationData = { email, password };
     console.log(registrationData);
     navigation.navigate("personalData", { registrationData });
   };
@@ -78,29 +59,6 @@ export default function RegistrationData({ navigation }) {
               valid={emailIsValid}
               />
             <View style={styles.viewMargin} />
-            <View>
-              <Text style={styles.label}>Telefone</Text>
-              <TextInputMask
-                style={[styles.inputMask, validPhone ? styles.valid : styles.invalid]}
-                type={'cel-phone'}
-                options={{
-                  maskType: 'BRL',
-                  withDDD: true,
-                  dddMask: '(99) '
-                }}
-                value={cellPhone} 
-                onChangeText={text => {
-                  setCellPhone(text);
-                  if(text.length >= 14) {
-                    setValidPhone(true);
-                  } else {
-                    setValidPhone(false);
-                  }
-                }}
-                placeholder="Digite seu telefone"
-              />
-            </View>
-            <View style={styles.viewMargin} />
             
             <Input
               type="password"
@@ -125,8 +83,7 @@ export default function RegistrationData({ navigation }) {
               !(
                 email.length > 0 &&
                 password.length > 0 &&
-                password === confirm &&
-                validPhone
+                password === confirm
               )
             }
             title="Continuar"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, KeyboardAvoidingView, Text } from "react-native";
+import { View, KeyboardAvoidingView, Text, ScrollView } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -12,9 +12,36 @@ export default function PersonalData({ route, navigation }) {
   const [cpf, setCPF] = useState("");
   const [cpfIsValid, setCpfValid] = useState(true);
   const [birthIsValid, setBirthValid] = useState(true);
+  const [cellPhone, setCellPhone] = useState("");
+  const [validPhone, setValidPhone] = useState(true);
 
   let refCpf;
   let refDate;
+
+  const handlePhone = () => {
+    let phoneFilter = "+55" + cellPhone
+    .replace("(", "")
+    .replace(")", "")
+    .replace("-", "")
+    .replace(" ", "")
+
+    let ddd = phoneFilter.substring(0,5);
+    let numero = phoneFilter.substring(5,14);
+    console.log(ddd);
+    console.log(numero);
+    if(numero.length === 9 ){
+      numero = numero.replace("9", "");
+      console.log(ddd);
+      console.log(numero);
+      phoneFilter = ddd + numero;
+    }
+    
+    if(phoneFilter.length === 14){
+      phoneFilter = phoneFilter.replace("9", "");
+    }
+    
+    return phoneFilter
+  }
 
   useEffect(() => {
     if (cpf !== "") {
@@ -29,69 +56,101 @@ export default function PersonalData({ route, navigation }) {
   const nameHandler = (enteredName) => {
     setName(enteredName);
   };
-
-  const personalData = { name, birthday, cpf };
-
-  const userData = { ...registrationData, ...personalData };
-
+  
   const continueHandler = () => {
-    navigation.navigate("riskGroup", { userData });
+    const phone = handlePhone();
+    const personalData = { name, birthday, cpf, phone };
+    const userData = { ...registrationData, ...personalData };
+    console.log(userData);
+    // navigation.navigate("riskGroup", { userData });
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.viewText}>
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+    >
+      <View >
         <Text style={styles.text1}>
           Precisamos de algumas informações para poder realizar seu cadastro!!
           Pode me dizer seu nome, data de nascimento e CPF?
         </Text>
       </View>
-      <View style={styles.inputView}>
-        <Input
-          change={nameHandler}
-          label="Nome Completo"
-          placeholder="Nome Completo"
-        />
-        <View style={styles.viewMargin}></View>
-        <View>
-          <Text style={styles.label}>Data de Nascimento</Text>
-          <TextInputMask
-            type={"datetime"}
-            options={{
-              format: "DD/MM/YYYY",
-            }}
-            value={birthday}
-            onChangeText={(text) => {
-              setBirthday(text);
-            }}
-            style={[styles.inputMask, styles.valid]}
-            placeholder="Data de Nascimento"
-            ref={(ref) => (refDate = ref)}
+      <ScrollView 
+        style={{ width: '100%' }}
+        contentContainerStyle={styles.scroll}
+      >
+        <View style={styles.inputView}>
+          <Input
+            change={nameHandler}
+            label="Nome Completo"
+            placeholder="Nome Completo"
           />
+          <View style={styles.viewMargin}></View>
+          <View>
+            <Text style={styles.label}>Data de Nascimento</Text>
+            <TextInputMask
+              type={"datetime"}
+              options={{
+                format: "DD/MM/YYYY",
+              }}
+              value={birthday}
+              onChangeText={(text) => {
+                setBirthday(text);
+              }}
+              style={[styles.inputMask, styles.valid]}
+              placeholder="Data de Nascimento"
+              ref={(ref) => (refDate = ref)}
+            />
+          </View>
+          <View style={styles.viewMargin}></View>
+          <View>
+            <Text style={styles.label}>CPF</Text>
+            <TextInputMask
+              type={"cpf"}
+              value={cpf}
+              onChangeText={(text) => {
+                setCPF(text);
+              }}
+              style={[
+                styles.inputMask,
+                cpfIsValid ? styles.valid : styles.invalid,
+              ]}
+              placeholder="Digite seu CPF"
+              ref={(ref) => (refCpf = ref)}
+            />
+          </View>
+          <View style={styles.viewMargin} />
+          <View>
+            <Text style={styles.label}>Telefone</Text>
+            <TextInputMask
+              style={[styles.inputMask, validPhone ? styles.valid : styles.invalid]}
+              type={'cel-phone'}
+              options={{
+                maskType: 'BRL',
+                withDDD: true,
+                dddMask: '(99) '
+              }}
+              value={cellPhone} 
+              onChangeText={text => {
+                setCellPhone(text);
+                if(text.length >= 14) {
+                  setValidPhone(true);
+                } else {
+                  setValidPhone(false);
+                }
+              }}
+              placeholder="Digite seu telefone"
+            />
+          </View>
         </View>
-        <View style={styles.viewMargin}></View>
-        <View>
-          <Text style={styles.label}>CPF</Text>
-          <TextInputMask
-            type={"cpf"}
-            value={cpf}
-            onChangeText={(text) => {
-              setCPF(text);
-            }}
-            style={[
-              styles.inputMask,
-              cpfIsValid ? styles.valid : styles.invalid,
-            ]}
-            placeholder="Digite seu CPF"
-            ref={(ref) => (refCpf = ref)}
-          />
-        </View>
-      </View>
+      </ScrollView>
       <View style={styles.btnView}>
         <Button
           title="Continuar"
           disabled={
-            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
+            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid && validPhone)
           }
           large
           press={continueHandler}
