@@ -44,7 +44,10 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.background} behavior="padding">
+    <KeyboardAvoidingView style={styles.background} 
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+    >
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
