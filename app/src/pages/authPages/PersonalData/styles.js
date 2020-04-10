@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 50,
+    marginVertical: 20,
     marginHorizontal: 30
   },
   scroll: {
@@ -16,15 +16,14 @@ const styles = StyleSheet.create({
     justifyContent : 'center', 
   },
   viewText: {
-    // flex: 1,
     width: "90%",
     justifyContent: "center",
-    marginTop: 40,
     marginBottom: 20,
   },
   text1: {
     ...fonts.subtitle,
     fontFamily: "montserrat-semibold",
+    marginTop: 15
   },
   inputView: {
     width: "100%",
