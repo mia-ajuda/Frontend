@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, KeyboardAvoidingView, Text } from "react-native";
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
@@ -17,14 +17,14 @@ export default function PersonalData({ route, navigation }) {
   let refDate;
 
   useEffect(() => {
-    if(cpf !== '') {
+    if (cpf !== "") {
       setCpfValid(refCpf.isValid());
     }
 
-    if(birthday !== ''){
+    if (birthday !== "") {
       setBirthValid(refDate.isValid());
     }
-  }, [cpf, birthday])
+  }, [cpf, birthday]);
 
   const nameHandler = (enteredName) => {
     setName(enteredName);
@@ -38,7 +38,6 @@ export default function PersonalData({ route, navigation }) {
     // console.log(cpfIsValid.isValid());
     navigation.navigate("riskGroup", { userData });
   };
-
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -54,47 +53,49 @@ export default function PersonalData({ route, navigation }) {
           label="Nome Completo"
           placeholder="Nome Completo"
         />
+        <View style={styles.viewMargin}></View>
         <View>
-          <Text style={styles.label}>Data de Nascimento</Text>  
+          <Text style={styles.label}>Data de Nascimento</Text>
           <TextInputMask
-            type={'datetime'}
+            type={"datetime"}
             options={{
-              format: 'DD/MM/YYYY'
+              format: "DD/MM/YYYY",
             }}
             value={birthday}
-            onChangeText={text => {
-              setBirthday(text)
+            onChangeText={(text) => {
+              setBirthday(text);
             }}
-            style={[styles.inputMask,  styles.valid]}
-            placeholder='Data de Nascimento'
-            ref={(ref) => refDate = ref}
+            style={[styles.inputMask, styles.valid]}
+            placeholder="Data de Nascimento"
+            ref={(ref) => (refDate = ref)}
           />
         </View>
+        <View style={styles.viewMargin}></View>
         <View>
           <Text style={styles.label}>CPF</Text>
           <TextInputMask
-            type={'cpf'}
+            type={"cpf"}
             value={cpf}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setCPF(text);
             }}
-            style={[styles.inputMask, cpfIsValid ? styles.valid : styles.invalid]}
-            placeholder='Digite seu CPF'
-            ref={(ref) => refCpf = ref}
+            style={[
+              styles.inputMask,
+              cpfIsValid ? styles.valid : styles.invalid,
+            ]}
+            placeholder="Digite seu CPF"
+            ref={(ref) => (refCpf = ref)}
           />
         </View>
       </View>
       <View style={styles.btnView}>
-        <Button 
+        <Button
           title="Continuar"
           disabled={
-            !(cpf !== '' &&
-            cpfIsValid &&
-            birthday !== '' &&
-            birthIsValid)
-           } 
-          large 
-          press={continueHandler} 
+            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
+          }
+          large
+          press={continueHandler}
         />
       </View>
     </KeyboardAvoidingView>
