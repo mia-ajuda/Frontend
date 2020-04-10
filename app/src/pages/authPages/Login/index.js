@@ -44,7 +44,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.background}>
+    <KeyboardAvoidingView style={styles.background} behavior="padding">
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
