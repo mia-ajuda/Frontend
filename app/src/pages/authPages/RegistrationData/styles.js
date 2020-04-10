@@ -4,7 +4,7 @@ import color from '../../../../assets/styles/colorVariables';
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
-    marginVertical: 50,
+    marginVertical: 20,
     marginHorizontal: 30,
     justifyContent: "space-between",
     alignItems: "center",
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-semibold",
     flexDirection: 'column',
     justifyContent: "space-between",
-    alignItems: "center",  
+    alignItems: "center",
+    marginTop: 10  
   },
   btnView: {
     width: '100%',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, KeyboardAvoidingView, Text, ScrollView } from "react-native";
+import { View, KeyboardAvoidingView, Text, ScrollView, Keyboard } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -14,6 +14,26 @@ export default function PersonalData({ route, navigation }) {
   const [birthIsValid, setBirthValid] = useState(true);
   const [cellPhone, setCellPhone] = useState("");
   const [validPhone, setValidPhone] = useState(true);
+  const [keyboardShow, setKeyboardShow] = useState(false);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    setKeyboardShow(true)
+  };
+  
+  const _keyboardDidHide = () => {
+    setKeyboardShow(false)
+  };
 
   let refCpf;
   let refDate;
@@ -71,12 +91,16 @@ export default function PersonalData({ route, navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      <View >
-        <Text style={styles.text1}>
-          Precisamos de algumas informações para poder realizar seu cadastro!!
-          Pode me dizer seu nome, data de nascimento e CPF?
-        </Text>
-      </View>
+      { !keyboardShow ?
+        (
+          <View >
+            <Text style={styles.text1}>
+              Precisamos de algumas informações para poder realizar seu cadastro!!
+              Pode me dizer seu nome, data de nascimento e CPF?
+            </Text>
+          </View>
+        ) : (<></>)
+      }
       <ScrollView 
         style={{ width: '100%' }}
         contentContainerStyle={styles.scroll}
