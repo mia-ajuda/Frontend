@@ -26,8 +26,9 @@
     "ios": {
       "supportsTablet": true
     },
-    "android":{
-      "package": "com.unb.miaajuda"
+    "android": {
+      "package": "com.unb.miaajuda",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
