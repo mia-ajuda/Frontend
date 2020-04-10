@@ -14,11 +14,11 @@ export default function RiskGroup({ route, navigation }) {
   });
 
   const riskGroups = {
-    dc: 'Doença respiratória',
-    hiv: 'HIV',
-    diab: 'Diabetes',
-    hiperT: 'Hipertensão',
-    doenCardio: 'Doenças cardiovasculares',
+    dc: "Doença respiratória",
+    hiv: "HIV",
+    diab: "Diabetes",
+    hiperT: "Hipertensão",
+    doenCardio: "Doenças cardiovasculares",
   };
 
   const handleButtonPress = (id) => {
@@ -27,24 +27,23 @@ export default function RiskGroup({ route, navigation }) {
     } else setDisease({ ...disease, [id]: true });
   };
 
-  
   const continueHandler = () => {
-    let newDisease = []
-    
-    for(let prop in disease) {
-      if(disease[prop]){
+    let newDisease = [];
+
+    for (let prop in disease) {
+      if (disease[prop]) {
         newDisease.push(riskGroups[prop]);
       }
     }
 
-    const data = { 
-      ...userData, 
-      disease: newDisease
+    const data = {
+      ...userData,
+      disease: newDisease,
     };
 
     navigation.navigate("photo", { userData: data });
   };
-  
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.viewText}>
@@ -54,20 +53,18 @@ export default function RiskGroup({ route, navigation }) {
         </Text>
       </View>
       <View style={styles.input}>
-        {
-          Object.entries(riskGroups).map(([key, value]) => {
-            return(
-              <View key={key} style={styles.inputItem}>
-                <Button
-                  type={disease[key]  ? "white" : null}
-                  press={() => handleButtonPress(key)}
-                  large
-                  title={ value }
-                />
-              </View>
-            )
-          })
-        }
+        {Object.entries(riskGroups).map(([key, value]) => {
+          return (
+            <View key={key} style={styles.inputItem}>
+              <Button
+                type={!disease[key] ? "white" : null}
+                press={() => handleButtonPress(key)}
+                large
+                title={value}
+              />
+            </View>
+          );
+        })}
       </View>
       <View style={styles.btnView}>
         <Button title="Continuar" large press={continueHandler} />
