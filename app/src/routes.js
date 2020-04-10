@@ -32,7 +32,7 @@ const MainNavigation = () => (
       />
       <MainStack.Screen
         name="createHelp"
-        options={{ headerShown: true }}
+        options={{ title: "Pedir ajuda" }}
         component={CreateHelp}
       />
     </MainStack.Navigator>
@@ -153,7 +153,6 @@ const headerStyle = {
       }}
     />
   ),
-  headerShown: false,
   headerStyle: {
     height: 90,
     backgroundColor: colors.primary,

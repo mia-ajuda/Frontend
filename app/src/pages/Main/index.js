@@ -24,11 +24,6 @@ export default function Main({ navigation }) {
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
 
-  useEffect(() => {
-    //use effect to watch for regionChange and clear it
-    setRegion(null);
-  }, [region]);
-
   return (
     <SafeAreaView style={styles.container}>
       <CategoryListModal
@@ -54,6 +49,7 @@ export default function Main({ navigation }) {
         style={styles.map}
         region={region}
         customMapStyle={mapStyle.day.map}
+        onRegionChangeComplete={(Region) => setRegion(Region)}
       >
         {currentRegion && (
           <>
@@ -87,11 +83,9 @@ export default function Main({ navigation }) {
                 longitude: help.user[0].location.coordinates[0],
               }}
             >
-              <Avatar />
-              <Callout style={styles.callout}>
+              <Avatar help={help} />
+              <Callout>
                 <Text>{help.distance}</Text>
-                <Text>{help.title}</Text>
-                <Text>{help.category[0].name}</Text>
               </Callout>
             </Marker>
           ))}

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   modalBody: {
-    marginTop: 15,
+    marginTop: 25,
     height: "80%",
   },
 });
