@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../../assets/styles/fontVariable";
+import colors from "../../../../assets/styles/colorVariables";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 30
+    marginVertical: 20,
   },
   logo: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
   button: {
@@ -20,9 +20,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thumbnail: {
-    width: 250,
-    height: 250,
-    borderRadius: 250 / 2,
+    width: 200,
+    height: 200,
+    borderRadius: 125,
+    marginTop: 20
   },
   text: {
     ...fonts.subtitle,
@@ -41,47 +42,46 @@ const styles = StyleSheet.create({
   },
   buttonPreview: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems:'flex-end',
-
+    flexDirection: "row",
+    alignItems: "flex-end",
   },
-  btn:{
+  btn: {
     marginHorizontal: 10,
     borderWidth: 2,
-    borderColor: '#4b8ab9',
+    borderColor: colors.primary,
     borderRadius: 4,
     width: 150,
-    alignItems: 'center'
+    alignItems: "center",
   },
   btnText: {
     fontSize: 20,
-    color:'#4b8ab9',
+    color: colors.primary,
     padding: 10,
-    fontFamily: "montserrat-medium"
+    fontFamily: "montserrat-medium",
   },
-  btn1:{
+  btn1: {
     marginHorizontal: 10,
     borderWidth: 2,
-    borderColor: '#4b8ab9',
-    backgroundColor: '#4b8ab9',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: 4,
     width: 150,
-    alignItems: 'center'
+    alignItems: "center",
   },
   btnText1: {
     fontSize: 20,
-    color:'#f7f7f7',
+    color: colors.light,
     padding: 10,
-    fontFamily: "montserrat-medium"
+    fontFamily: "montserrat-medium",
   },
-  selectText:{
+  selectText: {
     flex: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginHorizontal: 20,
     marginVertical: 40,
-    width: "75%"
-  }
+    width: "75%",
+  },
 });
 
 export default styles;
