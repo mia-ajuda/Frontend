@@ -91,9 +91,9 @@ export default function PersonalData({ route, navigation }) {
       <View style={styles.btnView}>
         <Button
           title="Continuar"
-          disabled={
-            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
-          }
+          // disabled={
+          //   !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
+          // }
           large
           press={continueHandler}
         />
