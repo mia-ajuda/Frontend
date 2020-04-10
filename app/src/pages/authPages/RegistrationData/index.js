@@ -80,13 +80,13 @@ export default function RegistrationData({ navigation }) {
           </View>
           <View style={styles.btnView}>
             <Button
-              // disabled={
-              //   !(
-              //     email.length > 0 &&
-              //     password.length > 0 &&
-              //     password === confirm
-              //   )
-              // }
+              disabled={
+                !(
+                  email.length > 0 &&
+                  password.length > 0 &&
+                  password === confirm
+                )
+              }
               title="Continuar"
               large
               press={continueHandler}

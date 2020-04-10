@@ -35,7 +35,6 @@ export default function PersonalData({ route, navigation }) {
   const userData = { ...registrationData, ...personalData };
 
   const continueHandler = () => {
-    // console.log(cpfIsValid.isValid());
     navigation.navigate("riskGroup", { userData });
   };
 
@@ -91,9 +90,9 @@ export default function PersonalData({ route, navigation }) {
       <View style={styles.btnView}>
         <Button
           title="Continuar"
-          // disabled={
-          //   !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
-          // }
+          disabled={
+            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid)
+          }
           large
           press={continueHandler}
         />

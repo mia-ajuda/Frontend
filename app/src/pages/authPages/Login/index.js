@@ -36,11 +36,11 @@ export default function Login({ navigation }) {
   const loginHandler = async () => {
     const data = { email, password };
 
-    // try{
-    //   await UserService.logIn(data);
-    // } catch(err) {
-    //   console.log(err["error"]);
-    // }
+    try {
+      await UserService.logIn(data);
+    } catch (err) {
+      console.log(err["error"]);
+    }
   };
 
   return (
