@@ -32,7 +32,7 @@ export default function RiskGroup({ route, navigation }) {
 
     for (let prop in disease) {
       if (disease[prop]) {
-        newDisease.push(riskGroups[prop]);
+        newDisease.push(prop);
       }
     }
 

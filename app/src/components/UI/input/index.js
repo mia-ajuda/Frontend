@@ -2,8 +2,7 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 
-export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete }) {
-  console.log(autoComplete);
+export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete="off" }) {
   let input;
   if (textarea) {
     input = (
@@ -49,7 +48,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         placeholderTextColor={"#BDBDBD"}
         onChangeText={change}
         value={value}
-        autoCompleteType={ autoComplete }
+        autoCompleteType={autoComplete}
       />
     );
   }
