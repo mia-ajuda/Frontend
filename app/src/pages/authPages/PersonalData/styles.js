@@ -6,11 +6,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: color.light,
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 50,
+    marginHorizontal: 30
+  },
+  scroll: {
+    flexGrow : 1, 
+    justifyContent : 'center', 
   },
   viewText: {
-    flex: 1,
+    // flex: 1,
     width: "90%",
     justifyContent: "center",
     marginTop: 40,
@@ -21,13 +27,10 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-semibold",
   },
   inputView: {
-    flex: 2,
-    width: "90%",
+    width: "100%",
   },
   btnView: {
-    width: "90%",
-    justifyContent: "center",
-    marginBottom: 30,
+    width: "100%",
   },
   inputMask: {
     borderWidth: 2,
