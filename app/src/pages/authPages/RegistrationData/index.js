@@ -81,6 +81,7 @@ export default function RegistrationData({ navigation }) {
               label="Email"
               placeholder="email@exemplo.com"
               valid={emailIsValid}
+              autoComplete={"off"}
               />
             <View style={styles.viewMargin} />
             
