@@ -87,9 +87,10 @@ export default function RegistrationData({ navigation }) {
             <Input
               type="password"
               change={passwordHandler}
-              label="Senha"
+              label="Senha (mais de 8 caracteres)"
               placeholder="Senha"
-              />
+              valid={ password.length >= 8 || password === '' }
+            />
             <View style={styles.viewMargin} />
 
             <Input
@@ -107,7 +108,8 @@ export default function RegistrationData({ navigation }) {
               !(
                 email.length > 0 &&
                 password.length > 0 &&
-                password === confirm
+                password === confirm &&
+                password.length >= 8
               )
             }
             title="Continuar"

@@ -81,8 +81,7 @@ export default function PersonalData({ route, navigation }) {
     const phone = handlePhone();
     const personalData = { name, birthday, cpf, phone };
     const userData = { ...registrationData, ...personalData };
-    console.log(userData);
-    // navigation.navigate("riskGroup", { userData });
+    navigation.navigate("riskGroup", { userData });
   };
 
   return (
@@ -174,7 +173,12 @@ export default function PersonalData({ route, navigation }) {
         <Button
           title="Continuar"
           disabled={
-            !(cpf !== "" && cpfIsValid && birthday !== "" && birthIsValid && validPhone)
+            !(  cpf !== "" && 
+                cpfIsValid &&
+                birthday !== "" && 
+                birthIsValid && 
+                validPhone
+            )
           }
           large
           press={continueHandler}
