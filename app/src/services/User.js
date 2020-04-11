@@ -26,6 +26,16 @@ class UserService {
     // return await this.requestUserData();
   }
 
+  async signUp (data){
+
+    try {
+      const response =  await api.post('/user', data);
+      return response;
+    } catch(err) {
+      throw 'Não foi possível fazer o cadastro. Tente novamente!';
+    }
+  }
+
   async logOut() {
     try {
       await firebase.auth().signOut();
@@ -34,7 +44,6 @@ class UserService {
       throw { error: 'Não foi possível Deslogar!' };
     }
   }
-  signUp() {}
 
   isSignIn() {
     return this._token !== undefined;
