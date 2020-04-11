@@ -57,7 +57,7 @@ export default function RiskGroup({ route, navigation }) {
           return (
             <View key={key} style={styles.inputItem}>
               <Button
-                type={!disease[key] ? "white" : null}
+                type={!disease[key] ? "notSelected" : null}
                 press={() => handleButtonPress(key)}
                 large
                 title={value}

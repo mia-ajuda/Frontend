@@ -28,6 +28,13 @@ export default function Button({ title, press, type, large, disabled=false }) {
         </TouchableOpacity>
       );
       break;
+    case "notSelected":
+      btn = (
+        <TouchableOpacity disabled={disabled} style={[isLarge, styles.btnNotSelected]} onPress={press}>
+          <Text style={styles.textNotSelected}>{title}</Text>
+        </TouchableOpacity>
+      );
+      break;
     default:
     case "default":
       btn = (
