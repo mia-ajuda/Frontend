@@ -91,7 +91,7 @@ export default function PersonalData({ route, navigation }) {
     const phone = handlePhone();
     const personalData = { name, birthday, cpf, phone, ismentalHealthProfessional };
     const userData = { ...registrationData, ...personalData };
-    navigation.navigate("riskGroup", { userData });
+    navigation.navigate("address", { userData });
   };
 
   return (
