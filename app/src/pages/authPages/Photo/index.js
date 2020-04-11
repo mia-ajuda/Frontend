@@ -59,6 +59,13 @@ export default function App({ route, navigation }) {
           style={styles.logo}
         >
           <Container>
+          <View style={styles.backIcon}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name={"arrow-back"} color={"black"} />
+            </TouchableOpacity>
+          </View>
             <View style={styles.textView}>
               <Text style={styles.text}>
                 Também precisamos de uma foto sua, é só clicar na camêra aqui em

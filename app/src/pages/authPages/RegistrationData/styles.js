@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
   scroll: {
     width: '100%',
   },
+  scroll2: {
+    width: '100%',
+    marginTop: 50
+  },
   inputMask: {
     borderWidth: 2,
     borderRadius: 5,
@@ -47,6 +51,10 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: "montserrat-semibold",
     color: colors.primary,
+  },
+  backIcon: {
+    alignItems: 'flex-start',
+    marginTop: 15
   },
 });
 

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  KeyboardAvoidingView, 
-  Text, 
-  ScrollView, 
-  Keyboard
- } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Text,
+  ScrollView,
+  Keyboard,
+  TouchableOpacity,
+} from "react-native";
+import { Icon } from "react-native-elements";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
-import CheckBox from '../../../components/UI/selectBox';
+import CheckBox from "../../../components/UI/selectBox";
 import styles from "./styles";
 
 export default function PersonalData({ route, navigation }) {
@@ -24,7 +26,9 @@ export default function PersonalData({ route, navigation }) {
   const [validPhone, setValidPhone] = useState(true);
   const [phoneFirstTime, setPhoneFirstTime] = useState(true);
   const [keyboardShow, setKeyboardShow] = useState(false);
-  const [ismentalHealthProfessional, setIsMentalHealthProfessional] = useState(false);
+  const [ismentalHealthProfessional, setIsMentalHealthProfessional] = useState(
+    false
+  );
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -38,47 +42,49 @@ export default function PersonalData({ route, navigation }) {
   }, []);
 
   const _keyboardDidShow = () => {
-    setKeyboardShow(true)
+    setKeyboardShow(true);
   };
-  
+
   const _keyboardDidHide = () => {
-    setKeyboardShow(false)
+    setKeyboardShow(false);
   };
 
   let refCpf;
   let refDate;
 
   const handlePhone = () => {
-    let phoneFilter = "+55" + cellPhone
-    .replace("(", "")
-    .replace(")", "")
-    .replace("-", "")
-    .replace(" ", "")
+    let phoneFilter =
+      "+55" +
+      cellPhone
+        .replace("(", "")
+        .replace(")", "")
+        .replace("-", "")
+        .replace(" ", "");
 
-    let ddd = phoneFilter.substring(0,5);
-    let numero = phoneFilter.substring(5,14);
+    let ddd = phoneFilter.substring(0, 5);
+    let numero = phoneFilter.substring(5, 14);
     console.log(ddd);
     console.log(numero);
-    if(numero.length === 9 ){
+    if (numero.length === 9) {
       numero = numero.replace("9", "");
       console.log(ddd);
       console.log(numero);
       phoneFilter = ddd + numero;
     }
-    
-    if(phoneFilter.length === 14){
+
+    if (phoneFilter.length === 14) {
       phoneFilter = phoneFilter.replace("9", "");
     }
-    
-    return phoneFilter
-  }
+
+    return phoneFilter;
+  };
 
   const handleDate = () => {
     const auxDate = birthday.split("/");
-    const newDate = auxDate[2] +  "-" + auxDate[1] +  "-" + auxDate[0];
-    
+    const newDate = auxDate[2] + "-" + auxDate[1] + "-" + auxDate[0];
+
     return newDate;
-  }
+  };
 
   useEffect(() => {
     if (cpf !== "") {
@@ -93,34 +99,53 @@ export default function PersonalData({ route, navigation }) {
   const nameHandler = (enteredName) => {
     setName(enteredName);
   };
-  
+
   const continueHandler = () => {
     const phone = handlePhone();
     const birthdayFormated = handleDate();
-    const personalData = { name, birthday: birthdayFormated, cpf, phone, ismentalHealthProfessional };
+    const personalData = {
+      name,
+      birthday: birthdayFormated,
+      cpf,
+      phone,
+      ismentalHealthProfessional,
+    };
     const userData = { ...registrationData, ...personalData };
     navigation.navigate("address", { userData });
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      { !keyboardShow ?
-        (
-          <View >
+      {!keyboardShow ? (
+        <View>
+          <View style={styles.backIcon}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.button}
+            >
+              <Icon
+                name={"arrow-back"}
+                color={!keyboardShow ? "black" : "#f7f7f7"}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.title}>
             <Text style={styles.text1}>
-              Precisamos de algumas informações para poder realizar seu cadastro!!
-              Pode me dizer seu nome, data de nascimento e CPF?
+              Precisamos de algumas informações para poder realizar seu
+              cadastro!! Pode me dizer seu nome, data de nascimento e CPF?
             </Text>
           </View>
-        ) : (<></>)
-      }
-      <ScrollView 
-        style={{ width: '100%' }}
-        contentContainerStyle={styles.scroll}
+        </View>
+      ) : (
+        <></>
+      )}
+      <ScrollView
+        style={{ width: "100%" }}
+        contentContainerStyle={[!keyboardShow ? styles.scroll : styles.scroll2]}
       >
         <View style={styles.inputView}>
           <Input
@@ -142,9 +167,10 @@ export default function PersonalData({ route, navigation }) {
                 setFirstTimeBirthday(false);
               }}
               style={[
-                styles.inputMask, 
-                birthIsValid && birthday.length === 10 || 
-                firstTimeBirthday ? styles.valid : styles.invalid
+                styles.inputMask,
+                (birthIsValid && birthday.length === 10) || firstTimeBirthday
+                  ? styles.valid
+                  : styles.invalid,
               ]}
               placeholder="Data de Nascimento"
               ref={(ref) => (refDate = ref)}
@@ -173,24 +199,27 @@ export default function PersonalData({ route, navigation }) {
             <TextInputMask
               style={[
                 styles.inputMask,
-                (cellPhone === '' && phoneFirstTime) || 
-                (validPhone && !phoneFirstTime) ? styles.valid : styles.invalid]}
-              type={'cel-phone'}
+                (cellPhone === "" && phoneFirstTime) ||
+                (validPhone && !phoneFirstTime)
+                  ? styles.valid
+                  : styles.invalid,
+              ]}
+              type={"cel-phone"}
               options={{
-                maskType: 'BRL',
+                maskType: "BRL",
                 withDDD: true,
-                dddMask: '(99) '
+                dddMask: "(99) ",
               }}
-              value={cellPhone} 
-              onChangeText={text => {
+              value={cellPhone}
+              onChangeText={(text) => {
                 setCellPhone(text);
-                
-                if(text.length >= 14) {
+
+                if (text.length >= 14) {
                   setValidPhone(true);
                 } else {
                   setValidPhone(false);
                 }
-                
+
                 setPhoneFirstTime(false);
               }}
               placeholder="Digite seu telefone"
@@ -198,10 +227,12 @@ export default function PersonalData({ route, navigation }) {
           </View>
           <View style={styles.viewMargin} />
           <View style={styles.toggleView}>
-            <CheckBox 
-              title ="Sou profissional de saúde mental"
+            <CheckBox
+              title="Sou profissional de saúde mental"
               select={ismentalHealthProfessional}
-              onChange={() => setIsMentalHealthProfessional(!ismentalHealthProfessional)}
+              onChange={() =>
+                setIsMentalHealthProfessional(!ismentalHealthProfessional)
+              }
             />
           </View>
         </View>
@@ -210,11 +241,12 @@ export default function PersonalData({ route, navigation }) {
         <Button
           title="Continuar"
           disabled={
-            !(  cpf !== "" && 
-                cpfIsValid &&
-                birthday !== "" && 
-                birthIsValid && 
-                validPhone
+            !(
+              cpf !== "" &&
+              cpfIsValid &&
+              birthday !== "" &&
+              birthIsValid &&
+              validPhone
             )
           }
           large

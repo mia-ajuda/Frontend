@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Text } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
+import { Icon } from "react-native-elements";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
@@ -46,11 +52,21 @@ export default function RiskGroup({ route, navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.viewText}>
-        <Text style={styles.text1}>
-          É importante sabermos se você se encontra em um dos grupos de risco.
-          Selecione caso possua alguma das condições a seguir:
-        </Text>
+      <View>
+        <View style={styles.backIcon}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.button}
+          >
+            <Icon name={"arrow-back"} color={"black"} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.viewText}>
+          <Text style={styles.text1}>
+            É importante sabermos se você se encontra em um dos grupos de risco.
+            Selecione caso possua alguma das condições a seguir:
+          </Text>
+        </View>
       </View>
       <View style={styles.input}>
         {Object.entries(riskGroups).map(([key, value]) => {
