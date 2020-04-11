@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
     height: "80%",
   },
+  filterButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
 });
 
 export default styles;

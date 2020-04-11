@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Image,
@@ -23,6 +23,10 @@ export default function Main({ navigation }) {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
+
+  useEffect(() => {
+    setRegion(null);
+  }, [region]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +53,6 @@ export default function Main({ navigation }) {
         style={styles.map}
         region={region}
         customMapStyle={mapStyle.day.map}
-        onRegionChangeComplete={(Region) => setRegion(Region)}
       >
         {currentRegion && (
           <>

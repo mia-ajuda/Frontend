@@ -11,7 +11,6 @@ import Buttom from "../../../UI/button";
 import SelectBox from "../../../UI/selectBox";
 import styles from "./styles";
 import { Icon } from "react-native-elements";
-import Container from "../../../Container";
 import CategoryDescriptionModal from "../categoryDescription";
 import { CategoryContext } from "../../../../store/contexts/categoryContext";
 import { HelpContext } from "../../../../store/contexts/helpContext";
@@ -22,6 +21,7 @@ import actions from "../../../../store/actions";
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
   const [filterCategoryArray, setFilterCategoryArray] = useState([]);
+  const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
   const { categories } = useContext(CategoryContext);
   const { dispatch } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
@@ -30,13 +30,21 @@ export default function CategoryList({ visible, setVisible }) {
     try {
       const helpListFilterd = await HelpService.getAllHelpForCategory(
         currentRegion,
-        filterCategoryArray
+        selectedCategoryArray
       );
       dispatch({ type: actions.help.addHelp, helps: helpListFilterd });
       setVisible(!visible);
+      setFilterCategoryArray(selectedCategoryArray);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function clearFilterHelplist() {
+    setVisible(!visible);
+    setFilterCategoryArray([]);
+    const helpList = await HelpService.getAllHelpForCategory(currentRegion);
+    dispatch({ type: actions.help.addHelp, helps: helpList });
   }
 
   return (
@@ -81,19 +89,39 @@ export default function CategoryList({ visible, setVisible }) {
                   key={category._id}
                   title={category.name}
                   filterCategoryArray={filterCategoryArray}
-                  setFilterCategoryArray={setFilterCategoryArray}
+                  setSelectedCategoryArray={setSelectedCategoryArray}
+                  selectedCategoryArray={selectedCategoryArray}
                   category={category}
                 />
               ))}
             </ScrollView>
-            <Buttom
-              title="Filtrar"
-              type="warning"
-              press={() => {
-                filterHelplist();
-              }}
-              large
-            />
+            {filterCategoryArray.length ? (
+              <View style={styles.filterButtons}>
+                <Buttom
+                  title="Filtrar"
+                  type="warning"
+                  press={() => {
+                    filterHelplist();
+                  }}
+                />
+                <Buttom
+                  title="Limpar"
+                  type="primary"
+                  press={() => {
+                    clearFilterHelplist();
+                  }}
+                />
+              </View>
+            ) : (
+              <Buttom
+                title="Filtrar"
+                type="warning"
+                large
+                press={() => {
+                  filterHelplist();
+                }}
+              />
+            )}
           </View>
         </TouchableWithoutFeedback>
       </TouchableOpacity>
