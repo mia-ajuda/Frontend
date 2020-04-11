@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
     flexGrow : 1, 
     justifyContent : 'center', 
   },
+  scroll2: {
+    marginTop: 40,
+    flexGrow : 1, 
+    justifyContent : 'center', 
+  },
   viewText: {
     width: "90%",
     justifyContent: "center",
@@ -57,7 +62,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
    
-  }
+  },
+  backIcon: {
+    alignItems: 'flex-start',
+    marginTop: 15,
+  },
 });
 
 export default styles;

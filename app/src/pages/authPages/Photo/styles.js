@@ -83,6 +83,10 @@ const styles = StyleSheet.create({
     marginVertical: 40,
     width: "75%",
   },
+  backIcon:{
+    alignItems: 'flex-start',
+    marginTop:5
+  }
 });
 
 export default styles;

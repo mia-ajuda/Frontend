@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Text, KeyboardAvoidingView, ScrollView, View, Keyboard } from "react-native";
+import {
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  View,
+  Keyboard,
+  TouchableOpacity,
+} from "react-native";
 
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 import emailValidator from "../../../utils/emailValidation";
+import { Icon } from "react-native-elements";
 
 export default function RegistrationData({ navigation }) {
   const [email, setEmail] = useState("");
@@ -26,11 +34,11 @@ export default function RegistrationData({ navigation }) {
   }, []);
 
   const _keyboardDidShow = () => {
-    setKeyboardShow(true)
+    setKeyboardShow(true);
   };
-  
+
   const _keyboardDidHide = () => {
-    setKeyboardShow(false)
+    setKeyboardShow(false);
   };
 
   const emailHandler = (enteredEmail) => {
@@ -49,7 +57,7 @@ export default function RegistrationData({ navigation }) {
 
     setConfirm(enteredConfirm);
   };
-  
+
   const continueHandler = () => {
     const registrationData = { email, password };
     console.log(registrationData);
@@ -60,64 +68,78 @@ export default function RegistrationData({ navigation }) {
     <KeyboardAvoidingView
       style={styles.safeAreaView}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}>
-        { !keyboardShow ? 
-          (
-            <View>
-              <Text style={styles.text1}>
-                Pra começar a fazer seu cadastro, preencha seu email e senha!!
-              </Text>
-            </View> 
-          ) : (<></>)
-        }
-        <ScrollView 
-          style={styles.scroll}
-          contentContainerStyle={{flexGrow : 1, justifyContent : 'center'}}
-        >
-          <View style={styles.form}>
-            <Input
-              style={styles.firstInput}
-              change={emailHandler}
-              label="Email"
-              placeholder="email@exemplo.com"
-              valid={emailIsValid}
-              autoComplete={"off"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+    >
+      {!keyboardShow ? (
+        <View>
+          <View style={styles.backIcon}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.button}
+            >
+              <Icon
+                name={"arrow-back"}
+                color={!keyboardShow ? "black" : "#f7f7f7"}
               />
-            <View style={styles.viewMargin} />
-            
-            <Input
-              type="password"
-              change={passwordHandler}
-              label="Senha (mais de 8 caracteres)"
-              placeholder="Senha"
-              valid={ password.length >= 8 || password === '' }
-            />
-            <View style={styles.viewMargin} />
-
-            <Input
-              change={confirmHandler}
-              label="Confirmar senha"
-              placeholder="Confirme sua senha"
-              type="password"
-              valid={confirmPass}
-            />
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-        <View style={styles.btnView}>
-          <Button
-            disabled={
-              !(
-                email.length > 0 &&
-                password.length > 0 &&
-                password === confirm &&
-                password.length >= 8
-              )
-            }
-            title="Continuar"
-            large
-            press={continueHandler}
+          <View style={styles.title}>
+            <Text style={styles.text1}>
+              Pra começar a fazer seu cadastro, preencha seu email e senha!!
+            </Text>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
+      <ScrollView
+        style={[!keyboardShow ? styles.scroll : styles.scroll2]}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      >
+        <View style={styles.form}>
+          <Input
+            style={styles.firstInput}
+            change={emailHandler}
+            label="Email"
+            placeholder="email@exemplo.com"
+            valid={emailIsValid}
+            autoComplete={"off"}
+          />
+          <View style={styles.viewMargin} />
+
+          <Input
+            type="password"
+            change={passwordHandler}
+            label="Senha (mais de 8 caracteres)"
+            placeholder="Senha"
+            valid={password.length >= 8 || password === ""}
+          />
+          <View style={styles.viewMargin} />
+
+          <Input
+            change={confirmHandler}
+            label="Confirmar senha"
+            placeholder="Confirme sua senha"
+            type="password"
+            valid={confirmPass}
           />
         </View>
+      </ScrollView>
+      <View style={styles.btnView}>
+        <Button
+          disabled={
+            !(
+              email.length > 0 &&
+              password.length > 0 &&
+              password === confirm &&
+              password.length >= 8
+            )
+          }
+          title="Continuar"
+          large
+          press={continueHandler}
+        />
+      </View>
     </KeyboardAvoidingView>
-  )
+  );
 }

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   text1: {
     ...fonts.title,
     fontFamily: "montserrat-semibold",
-    marginVertical: 50,
+    marginVertical: 10,
   },
   input: {
     width: "90%",
@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     
   },
+  backIcon: {
+    alignItems: 'flex-start',
+    marginTop: 40
+  }
 });
 
 export default styles;

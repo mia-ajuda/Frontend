@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  KeyboardAvoidingView, 
-  Text, 
-  ScrollView, 
+import {
+  View,
+  KeyboardAvoidingView,
+  Text,
+  ScrollView,
   Keyboard,
- } from "react-native";
+  TouchableOpacity,
+} from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
+import { Icon } from "react-native-elements";
 
 export default function Address({ route, navigation }) {
   const dataUser = route.params.userData;
@@ -31,11 +33,11 @@ export default function Address({ route, navigation }) {
   }, []);
 
   const _keyboardDidShow = () => {
-    setKeyboardShow(true)
+    setKeyboardShow(true);
   };
-  
+
   const _keyboardDidHide = () => {
-    setKeyboardShow(false)
+    setKeyboardShow(false);
   };
 
   const cepHandle = (enteredName) => {
@@ -47,8 +49,8 @@ export default function Address({ route, navigation }) {
   };
 
   const stateHandle = (enteredName) => {
-    if(enteredName.length > 2) {
-      const subUf = enteredName.substring(0,2);
+    if (enteredName.length > 2) {
+      const subUf = enteredName.substring(0, 2);
       console.log(subUf);
       setState(subUf);
     } else {
@@ -63,7 +65,7 @@ export default function Address({ route, navigation }) {
   const numberHandle = (enteredName) => {
     setNUmberPlace(enteredName);
   };
-  
+
   const continueHandler = () => {
     const address = { cep, city, state, complement };
     const userData = { ...dataUser, address };
@@ -71,23 +73,33 @@ export default function Address({ route, navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      { !keyboardShow ?
-        (
-          <View >
+      {!keyboardShow ? (
+        <View>
+          <View style={styles.backIcon}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.button}
+            >
+              <Icon name={"arrow-back"} color={"black"} />
+            </TouchableOpacity>
+          </View>
+          <View>
             <Text style={styles.text1}>
-              Precisamos de algumas informações sobre onde você mora!!
-              Por favor preencha as informações abaixo?
+              Precisamos de algumas informações sobre onde você mora!! Por favor
+              preencha as informações abaixo?
             </Text>
           </View>
-        ) : (<></>)
-      }
-      <ScrollView 
-        style={{ width: '100%' }}
+        </View>
+      ) : (
+        <></>
+      )}
+      <ScrollView
+        style={{ width: "100%" }}
         contentContainerStyle={styles.scroll}
       >
         <View style={styles.inputView}>
@@ -130,10 +142,7 @@ export default function Address({ route, navigation }) {
         <Button
           title="Continuar"
           disabled={
-            cep === "" ||
-            city === "" ||
-            state === "" ||
-            numberPlace === ""
+            cep === "" || city === "" || state === "" || numberPlace === ""
           }
           large
           press={continueHandler}

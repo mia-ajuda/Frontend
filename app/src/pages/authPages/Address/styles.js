@@ -55,7 +55,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
-  }
+  },
+  backIcon: {
+    marginTop: 15,
+    alignItems: 'flex-start'
+  },
 });
 
 export default styles;
