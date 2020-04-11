@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Alert,
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
@@ -15,7 +16,7 @@ import styles from "./styles";
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [buttonDisabled, setButtonDisabled] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     if (email && password) {
@@ -38,8 +39,16 @@ export default function Login({ navigation }) {
 
     try {
       await UserService.logIn(data);
+      navigation.navigate("main");
     } catch (err) {
-      console.log(err["error"]);
+      Alert.alert(
+        "Erro",
+        err,
+        [
+          {text: 'OK', onPress: () => {}},
+        ],
+        { cancelable: false }
+      )
     }
   };
 

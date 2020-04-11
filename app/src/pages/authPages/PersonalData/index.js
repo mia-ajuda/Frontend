@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, KeyboardAvoidingView, Text, ScrollView, Keyboard } from "react-native";
+import { 
+  View, 
+  KeyboardAvoidingView, 
+  Text, 
+  ScrollView, 
+  Keyboard,
+  Switch
+ } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
+import colors from '../../../../assets/styles/colorVariables';
 import styles from "./styles";
 
 export default function PersonalData({ route, navigation }) {
@@ -14,7 +22,9 @@ export default function PersonalData({ route, navigation }) {
   const [birthIsValid, setBirthValid] = useState(true);
   const [cellPhone, setCellPhone] = useState("");
   const [validPhone, setValidPhone] = useState(true);
+  const [phoneFirstTime, setPhoneFirstTime] = useState(true);
   const [keyboardShow, setKeyboardShow] = useState(false);
+  const [ismentalHealthProfessional, setIsMentalHealthProfessional] = useState(false);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -79,7 +89,7 @@ export default function PersonalData({ route, navigation }) {
   
   const continueHandler = () => {
     const phone = handlePhone();
-    const personalData = { name, birthday, cpf, phone };
+    const personalData = { name, birthday, cpf, phone, ismentalHealthProfessional };
     const userData = { ...registrationData, ...personalData };
     navigation.navigate("riskGroup", { userData });
   };
@@ -148,7 +158,10 @@ export default function PersonalData({ route, navigation }) {
           <View>
             <Text style={styles.label}>Telefone</Text>
             <TextInputMask
-              style={[styles.inputMask, validPhone ? styles.valid : styles.invalid]}
+              style={[
+                styles.inputMask,
+                (cellPhone === '' && phoneFirstTime) || 
+                (validPhone && !phoneFirstTime) ? styles.valid : styles.invalid]}
               type={'cel-phone'}
               options={{
                 maskType: 'BRL',
@@ -158,13 +171,27 @@ export default function PersonalData({ route, navigation }) {
               value={cellPhone} 
               onChangeText={text => {
                 setCellPhone(text);
+                
                 if(text.length >= 14) {
                   setValidPhone(true);
                 } else {
                   setValidPhone(false);
                 }
+                
+                setPhoneFirstTime(false);
               }}
               placeholder="Digite seu telefone"
+            />
+          </View>
+          <View style={styles.viewMargin} />
+          <View style={styles.toggleView}>
+            <Text style={styles.label}>Sou profissional de saúde mental</Text>
+            <Switch
+              trackColor={{ false: colors.dark, true: colors.primary }}
+              thumbColor={"#DDD"}
+              ios_backgroundColor={colors.dark}
+              onValueChange={() => setIsMentalHealthProfessional(!ismentalHealthProfessional)}
+              value={ismentalHealthProfessional}
             />
           </View>
         </View>

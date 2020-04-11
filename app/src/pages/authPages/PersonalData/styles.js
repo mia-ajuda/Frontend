@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
   viewMargin: {
     marginVertical: 6,
   },
+  toggleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  }
 });
 
 export default styles;
