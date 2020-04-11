@@ -11,6 +11,7 @@ import RegistrationData from "./pages/authPages/RegistrationData";
 import PersonalData from "./pages/authPages/PersonalData";
 import RiskGroup from "./pages/authPages/RiskGroup";
 import Photo from "./pages/authPages/Photo";
+import Address from './pages/authPages/Address';
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
@@ -131,6 +132,7 @@ const AuthRoutes = () => (
     <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
       <AuthStack.Screen name="login" component={Login} />
       <AuthStack.Screen name="location" component={Location} />
+      <AuthStack.Screen name="address" component={Address} />
       <AuthStack.Screen name="registrationData" component={RegistrationData} />
       <AuthStack.Screen name="personalData" component={PersonalData} />
       <AuthStack.Screen name="riskGroup" component={RiskGroup} />
