@@ -95,6 +95,7 @@ export default function Address({ route, navigation }) {
             change={cepHandle}
             label="CEP"
             placeholder="Digite seu CEP"
+            keyboard="numeric"
           />
           <View style={styles.viewMargin}></View>
           <Input
@@ -114,7 +115,7 @@ export default function Address({ route, navigation }) {
             change={numberHandle}
             label="Número"
             placeholder="Digite o número de sua residência"
-            Keyboard="number-pad"
+            keyboard="numeric"
           />
           <View style={styles.viewMargin}></View>
           <Input

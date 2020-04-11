@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 
-export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete="off", keyboard="default" }) {
+export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete, keyboard="default" }) {
   let input;
   if (textarea) {
     input = (
@@ -15,7 +15,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         numberOfLines={6}
         textAlignVertical="top"
         multiline={true}
-        keyboardType={keyboard}
+        keyboardType={keyboard ? keyboard : 'default'}
       />
     );
   } 
@@ -23,17 +23,17 @@ export default function Input({ label, placeholder, change, value, textarea, typ
     
     input = (
       <TextInput
-      secureTextEntry
-      style={[
-        styles.input, 
-        valid ? styles.validInput : styles.invalidInput
-      ]}
-      placeholder={placeholder}
-      placeholderTextColor={"#BDBDBD"}
-      onChangeText={change}
-      value={value}
-      autoCompleteType={ autoComplete }
-      keyboardType={keyboard}
+        secureTextEntry
+        style={[
+          styles.input, 
+          valid ? styles.validInput : styles.invalidInput
+        ]}
+        placeholder={placeholder}
+        placeholderTextColor={"#BDBDBD"}
+        onChangeText={change}
+        value={value}
+        autoCompleteType={ autoComplete ? autoComplete : "off" }
+        keyboardType={keyboard ? keyboard : "default"}
       />
     );
 
@@ -50,8 +50,8 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         placeholderTextColor={"#BDBDBD"}
         onChangeText={change}
         value={value}
-        autoCompleteType={autoComplete}
-        keyboardType={keyboard}
+        autoCompleteType={ autoComplete ? autoComplete : "off" }
+        keyboardType={keyboard ? keyboard : "default"}
       />
     );
   }
