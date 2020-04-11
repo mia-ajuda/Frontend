@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, TouchableOpacity, ToastAndroid } from "react-native";
+import { View, Text, TouchableOpacity, ToastAndroid, Alert } from "react-native";
 import styles from "./styles";
 import userService from '../../../services/User';
 
@@ -24,18 +24,26 @@ export default function Location({ route, navigation }) {
 
     try {
       await userService.signUp(newUserData);
-      ToastAndroid.showWithGravity(
+
+      Alert.alert(
+        "Sucesso",
         "Usuário cadastrado com sucesso!",
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER
-      );
+        [
+          {text: 'OK', onPress: () => {}},
+        ],
+        { cancelable: false }
+      )
       navigation.navigate('login');
     } catch(err) {  
-      ToastAndroid.showWithGravity(
-        "Usuário cadastrado com sucesso!",
-        ToastAndroid.LONG,
-        ToastAndroid.CENTER
+      Alert.alert(
+        "Erro",
+        "Erro ao cadastrar usuário. Tente novamente!",
+        [
+          {text: 'OK', onPress: () => {}},
+        ],
+        { cancelable: false }
       );
+      
       navigation.navigate('login');
     }
   }

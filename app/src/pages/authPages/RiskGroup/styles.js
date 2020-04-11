@@ -4,8 +4,9 @@ import colors from "../../../../assets/styles/colorVariables";
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,  
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     backgroundColor: colors.light,
   },
   viewText: {
@@ -28,8 +29,9 @@ const styles = StyleSheet.create({
   },
   btnView: {
     width: "90%",
-    justifyContent: "center",
-    marginTop: 80
+    marginBottom: 20,
+    justifyContent: "flex-end",
+    
   },
 });
 
