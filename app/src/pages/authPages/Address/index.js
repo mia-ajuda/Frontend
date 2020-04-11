@@ -129,10 +129,10 @@ export default function Address({ route, navigation }) {
         <Button
           title="Continuar"
           disabled={
-            cep !== '' &&
-            city !== '' &&
-            state !== '' &&
-            numberPlace !== ''
+            cep === "" ||
+            city === "" ||
+            state === "" ||
+            numberPlace === ""
           }
           large
           press={continueHandler}

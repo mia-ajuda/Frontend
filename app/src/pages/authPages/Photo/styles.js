@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 20,
+    paddingVertical: 20,
+    backgroundColor: colors.light
   },
   logo: {
     flex: 1,

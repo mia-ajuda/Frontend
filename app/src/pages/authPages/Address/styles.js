@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   btnView: {
-    width: "90%",
+    width: "100%",
   },
   inputMask: {
     borderWidth: 2,
