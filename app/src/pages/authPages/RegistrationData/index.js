@@ -60,7 +60,6 @@ export default function RegistrationData({ navigation }) {
 
   const continueHandler = () => {
     const registrationData = { email, password };
-    console.log(registrationData);
     navigation.navigate("personalData", { registrationData });
   };
 

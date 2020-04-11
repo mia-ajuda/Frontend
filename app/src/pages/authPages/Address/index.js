@@ -51,7 +51,6 @@ export default function Address({ route, navigation }) {
   const stateHandle = (enteredName) => {
     if (enteredName.length > 2) {
       const subUf = enteredName.substring(0, 2);
-      console.log(subUf);
       setState(subUf);
     } else {
       setState(enteredName);

@@ -63,12 +63,8 @@ export default function PersonalData({ route, navigation }) {
 
     let ddd = phoneFilter.substring(0, 5);
     let numero = phoneFilter.substring(5, 14);
-    console.log(ddd);
-    console.log(numero);
     if (numero.length === 9) {
       numero = numero.replace("9", "");
-      console.log(ddd);
-      console.log(numero);
       phoneFilter = ddd + numero;
     }
 
@@ -246,6 +242,7 @@ export default function PersonalData({ route, navigation }) {
               cpfIsValid &&
               birthday !== "" &&
               birthIsValid &&
+              cellPhone !== "" &&
               validPhone
             )
           }
