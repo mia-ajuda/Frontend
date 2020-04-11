@@ -8,8 +8,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 20,
-    marginHorizontal: 30
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    backgroundColor: color.light
   },
   scroll: {
     flexGrow : 1, 
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   btnView: {
-    width: "90%",
+    width: "100%",
   },
   inputMask: {
     borderWidth: 2,
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
   toggleView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-start',
+   
   }
 });
 

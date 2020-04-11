@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { CheckBox } from "react-native-elements";
 import styles from "./styles";
-export default function SelectBox({ title }) {
-  const [selected, setSelect] = useState(false);
+import colors from "../../../../assets/styles/colorVariables"
+
+export default function SelectBox({ title, onChange, select=false }) {
+  // const [selected, setSelect] = useState(false);
 
   return (
     <>
@@ -10,8 +12,11 @@ export default function SelectBox({ title }) {
         title={title}
         textStyle={styles.checkBoxText}
         checkedIcon="check-square"
-        checked={selected}
-        onPress={() => setSelect(!selected)}
+        checked={select}
+        onPress={onChange}
+        containerStyle={styles.container}
+        checkedColor={colors.primary}
+        uncheckedColor={colors.primary}
       />
     </>
   );

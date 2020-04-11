@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../../assets/styles/fontVariable";
-import color from '../../../../assets/styles/colorVariables';
+import colors from '../../../../assets/styles/colorVariables';
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
-    marginVertical: 20,
-    marginHorizontal: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: colors.light
   },
   form: {
     width: '100%',
@@ -38,14 +39,14 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-regular",
   },
   valid: {
-    borderColor: color.primary,
+    borderColor: colors.primary,
   },
   invalid: {
-    borderColor: color.danger,
+    borderColor: colors.danger,
   },
   label: {
     fontFamily: "montserrat-semibold",
-    color: color.primary,
+    color: colors.primary,
   },
 });
 

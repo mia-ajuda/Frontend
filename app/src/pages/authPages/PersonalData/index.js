@@ -4,13 +4,13 @@ import {
   KeyboardAvoidingView, 
   Text, 
   ScrollView, 
-  Keyboard,
-  Switch
+  Keyboard
  } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import colors from '../../../../assets/styles/colorVariables';
+import CheckBox from '../../../components/UI/selectBox';
 import styles from "./styles";
 
 export default function PersonalData({ route, navigation }) {
@@ -185,13 +185,10 @@ export default function PersonalData({ route, navigation }) {
           </View>
           <View style={styles.viewMargin} />
           <View style={styles.toggleView}>
-            <Text style={styles.label}>Sou profissional de saúde mental</Text>
-            <Switch
-              trackColor={{ false: colors.dark, true: colors.primary }}
-              thumbColor={"#DDD"}
-              ios_backgroundColor={colors.dark}
-              onValueChange={() => setIsMentalHealthProfessional(!ismentalHealthProfessional)}
-              value={ismentalHealthProfessional}
+            <CheckBox 
+              title ="Sou profissional de saúde mental"
+              select={ismentalHealthProfessional}
+              onChange={() => setIsMentalHealthProfessional(!ismentalHealthProfessional)}
             />
           </View>
         </View>
