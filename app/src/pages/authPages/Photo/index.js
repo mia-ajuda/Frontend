@@ -46,7 +46,7 @@ export default function App({ route, navigation }) {
   };
 
   const continueHandle = () => {
-    const data = { ...userData, ...photo };
+    const data = { ...userData, photo: 'https://s3.amazonaws.com/uifaces/faces/twitter/jonathansimmons/128.jpg' };
     console.log(data);
     navigation.navigate("location", { userData: data });
   };
