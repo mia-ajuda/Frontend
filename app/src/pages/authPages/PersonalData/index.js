@@ -9,7 +9,6 @@ import {
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
-import colors from '../../../../assets/styles/colorVariables';
 import CheckBox from '../../../components/UI/selectBox';
 import styles from "./styles";
 
@@ -17,9 +16,10 @@ export default function PersonalData({ route, navigation }) {
   const { registrationData } = route.params;
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);
+  const [birthIsValid, setBirthValid] = useState(true);
   const [cpf, setCPF] = useState("");
   const [cpfIsValid, setCpfValid] = useState(true);
-  const [birthIsValid, setBirthValid] = useState(true);
   const [cellPhone, setCellPhone] = useState("");
   const [validPhone, setValidPhone] = useState(true);
   const [phoneFirstTime, setPhoneFirstTime] = useState(true);
@@ -73,6 +73,13 @@ export default function PersonalData({ route, navigation }) {
     return phoneFilter
   }
 
+  const handleDate = () => {
+    const auxDate = birthday.split("/");
+    const newDate = auxDate[2] +  "-" + auxDate[1] +  "-" + auxDate[0];
+    
+    return newDate;
+  }
+
   useEffect(() => {
     if (cpf !== "") {
       setCpfValid(refCpf.isValid());
@@ -89,7 +96,8 @@ export default function PersonalData({ route, navigation }) {
   
   const continueHandler = () => {
     const phone = handlePhone();
-    const personalData = { name, birthday, cpf, phone, ismentalHealthProfessional };
+    const birthdayFormated = handleDate();
+    const personalData = { name, birthday: birthdayFormated, cpf, phone, ismentalHealthProfessional };
     const userData = { ...registrationData, ...personalData };
     navigation.navigate("address", { userData });
   };
@@ -131,8 +139,13 @@ export default function PersonalData({ route, navigation }) {
               value={birthday}
               onChangeText={(text) => {
                 setBirthday(text);
+                setFirstTimeBirthday(false);
               }}
-              style={[styles.inputMask, styles.valid]}
+              style={[
+                styles.inputMask, 
+                birthIsValid && birthday.length === 10 || 
+                firstTimeBirthday ? styles.valid : styles.invalid
+              ]}
               placeholder="Data de Nascimento"
               ref={(ref) => (refDate = ref)}
             />

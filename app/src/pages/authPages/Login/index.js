@@ -43,7 +43,7 @@ export default function Login({ navigation }) {
     } catch (err) {
       Alert.alert(
         "Erro",
-        err,
+        err.error,
         [
           {text: 'OK', onPress: () => {}},
         ],
