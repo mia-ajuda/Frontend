@@ -1,93 +1,135 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Animated, TouchableOpacity, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import styles from "./styles";
 import {
   requestPermissionsAsync,
-  getCurrentPositionAsync
+  getCurrentPositionAsync,
 } from "expo-location";
 import Button from "../../../components/UI/button";
 import LocationModal from "./LocationModal";
-
+import { Icon } from "react-native-elements";
 
 export default function Location({ navigation }) {
-  const [ currentRegion, setCurrentRegion ] = useState(null);
-  const [ modalIsVisible, setModalIsVisible ] = useState(false);
-
-  console.log("========POSITION=======");
-  console.log(currentRegion);
-  console.log("=======================")
+  const [currentRegion, setCurrentRegion] = useState(null);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [animatedHeigth] = useState(new Animated.Value(70));
+  const [descriptionShown, setDescriptionShow] = useState(false);
+  const [iconName, setIconName] = useState("sort-up");
 
   useEffect(() => {
     async function getLocation() {
       const { granted } = await requestPermissionsAsync();
       if (granted) {
         const { coords } = await getCurrentPositionAsync({
-          enableHighAccuracy: true
+          enableHighAccuracy: true,
         });
         const { latitude, longitude } = coords;
         setCurrentRegion({
           latitude,
           longitude,
-          latitudeDelta: 0.025,
-          longitudeDelta: 0.025
+          latitudeDelta: 0.0025,
+          longitudeDelta: 0.0025,
         });
       }
     }
     getLocation();
   }, []);
-  
-  function saveLocation(currentRegion){
-    setModalIsVisible(true)
+
+  useEffect(() => {
+    if (descriptionShown) {
+      showDescription();
+      setIconName("sort-down");
+    } else {
+      hideDescription();
+      setIconName("sort-up");
+    }
+  }, [descriptionShown]);
+
+  function saveLocation(currentRegion) {
+    setModalIsVisible(true);
     const location = {
       latitude: currentRegion.latitude,
       longitude: currentRegion.longitude,
-    }
-    console.log("=====SAVE=====")
-    console.log(location)
-    console.log("==============")
+    };
+  }
+
+  function showDescription() {
+    Animated.spring(animatedHeigth, {
+      toValue: 200,
+      tension: 50,
+    }).start();
+  }
+  function hideDescription() {
+    Animated.spring(animatedHeigth, {
+      toValue: 70,
+      tension: 50,
+    }).start();
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.textMapContainer}>
-        <View style={styles.titleBox}>
-          <Text style={styles.title}>Pressione e arraste para ajustar a sua posição.</Text>
-        </View>
-        <MapView initialRegion={currentRegion} style={styles.map}>
-          {currentRegion && (
-            <Marker
-            coordinate={{
-              latitude: currentRegion.latitude,
-              longitude: currentRegion.longitude
-            }}
-            draggable
-            onDragEnd={newCoordinates => {
-              const {
-                latitude,
-                longitude
-              } = newCoordinates.nativeEvent.coordinate;
-              setCurrentRegion({ ...currentRegion, latitude, longitude });
-            }}
-            />
-            )}
-        </MapView>
-        <View style={styles.instructionBox}>
-          <Text style={styles.instruction}>Precisamos, também, obter a sua localização. Isso será util quando você for pedir ajuda!</Text>
-        </View>
+    <>
+      <View style={styles.adjustPositionBox}>
+        <Text style={styles.adjustPositionText}>
+          Arraste para ajustar sua posição
+        </Text>
       </View>
-      <View style={styles.buttonsBox}>
-        <View style={styles.locationButton}>
-          <Button title="Voltar" type="warning" press={() => navigation.goBack()} large />
-        </View>
-        <View style={styles.locationButton}>
-          <Button title="Confirmar" type="default" press={() => saveLocation(currentRegion)} large />
-        </View>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 5,
+          top: "43%",
+          left: "43%",
+        }}
+      >
+        <Image
+          source={require("../../../../assets/images/blueCat.png")}
+          style={{ height: 50, width: 50, resizeMode: "contain" }}
+        />
       </View>
-      <LocationModal 
-        modalIsVisible={modalIsVisible}
-        onBackdropPress={()=>setModalIsVisible(false)}
+      <MapView
+        initialRegion={currentRegion}
+        style={styles.map}
+        onRegionChangeComplete={(region) => setCurrentRegion(region)}
       />
-    </View>
+
+      <Animated.ScrollView
+        style={[{ height: animatedHeigth }, styles.description]}
+        scrollEnabled={false}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setDescriptionShow(!descriptionShown);
+          }}
+        >
+          <Icon name={iconName} type="font-awesome" />
+          <Text style={styles.descriptionTextTitle}>
+            Por que precisamos de sua posição?
+          </Text>
+          {descriptionShown && (
+            <Text style={styles.descriptionText}>
+              Ela será onde sua ajuda será informada no mapa! Por isso, se você
+              não estiver na posição que deseja cadastrar, deixe esse passo para
+              depois.
+            </Text>
+          )}
+        </TouchableOpacity>
+      </Animated.ScrollView>
+
+      <View style={styles.buttons}>
+        <Button title="Pular" type="warning" press={() => {}} />
+        <Button
+          title="Confirmar"
+          type="primary"
+          press={() => console.log(currentRegion)}
+        />
+      </View>
+
+      <LocationModal
+        visible={modalIsVisible}
+        onBackdropPress={() => setModalIsVisible(false)}
+        setVisible={setModalIsVisible}
+      />
+    </>
   );
 }
