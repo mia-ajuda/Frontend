@@ -3,71 +3,58 @@ import colors from "../../../../assets/styles/colorVariables";
 import fonts from "../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'space-around',
-  },
-  textMapContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignContent: 'flex-end',
-    justifyContent: 'space-around',
-  },
-  titleBox: {
-    position: 'absolute',
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 10,
-    shadowColor: '#000',
-    elevation: 8,
-    alignContent: 'center',
-    alignSelf: 'center',
-    width: "90%",
-    marginTop: "20%",
-  },
-  title: {
-    ...fonts.body,
-    color: colors.black,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  instructionBox: {
-    position: 'absolute',
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 10,
-    shadowColor: '#000',
-    elevation: 8,
-    alignSelf: 'center',
-    alignContent: 'center',
-    flexDirection: 'column',
-    width: "90%",
-    height: "7%",
-    marginTop: "135%"
-  },
-  instruction: {
-    ...fonts.body,
-    color: colors.primary,
-    textAlign: 'justify',
-    fontSize: 18, 
-  },
   map: {
     width: "100%",
-    height: "100%"
+    height: "100%",
   },
-  locationButton: {
-    width: "40%",
-    height: 50,
-    marginTop: -100,
+  adjustPositionBox: {
+    position: "absolute",
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    top: 50,
+    width: "90%",
+    zIndex: 5,
+    padding: 20,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 5,
   },
-  buttonsBox: {
-    flexDirection: 'row',
-    alignContent: 'flex-start',
-    justifyContent: 'space-around',
-  }
+  adjustPositionText: {
+    ...fonts.subtitle,
+    alignSelf: "center",
+  },
+  buttons: {
+    position: "absolute",
+    zIndex: 5,
+    bottom: 10,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-around",
+  },
+  description: {
+    width: "90%",
+    padding: 30,
+    paddingBottom: 80,
+    paddingTop: 10,
+    backgroundColor: "#fff",
+    position: "absolute",
+    zIndex: 5,
+    bottom: 80,
+    alignSelf: "center",
+    elevation: 5,
+    borderRadius: 10,
+  },
+  descriptionTextTitle: {
+    ...fonts.body,
+  },
+  descriptionText: {
+    ...fonts.body,
+    color: "#828c85",
+    top: 10,
+    paddingBottom: 10,
+  },
 });
 
 export default styles;
