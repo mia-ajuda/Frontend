@@ -2,8 +2,10 @@ import React from "react";
 import { Icon } from "react-native-elements";
 import { View } from "react-native";
 import styles from "./styles";
+import colors from "../../../assets/styles/colorVariables";
 
-export default function Avatar() {
+export default function Avatar({ help }) {
+  const isRiskGroup = !!help.user[0].riskGroup.length;
   return (
     <View style={styles.container}>
       <Icon name="user-circle" type="font-awesome" color="#000" size={35} />
@@ -11,7 +13,7 @@ export default function Avatar() {
         <Icon
           name="exclamation"
           type="font-awesome"
-          color="#4B8AB9"
+          color={isRiskGroup ? colors.danger : colors.primary}
           size={35}
         />
       </View>

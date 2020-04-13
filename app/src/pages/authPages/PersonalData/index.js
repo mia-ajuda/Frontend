@@ -11,7 +11,7 @@ import { Icon } from "react-native-elements";
 import { TextInputMask } from "react-native-masked-text";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
-import CheckBox from "../../../components/UI/selectBox";
+import { CheckBox } from "react-native-elements";
 import styles from "./styles";
 
 export default function PersonalData({ route, navigation }) {
@@ -225,10 +225,10 @@ export default function PersonalData({ route, navigation }) {
           <View style={styles.toggleView}>
             <CheckBox
               title="Sou profissional de saúde mental"
-              select={ismentalHealthProfessional}
-              onChange={() =>
-                setIsMentalHealthProfessional(!ismentalHealthProfessional)
-              }
+              checked={ismentalHealthProfessional}
+              onPress={() => {
+                setIsMentalHealthProfessional(!ismentalHealthProfessional);
+              }}
             />
           </View>
         </View>

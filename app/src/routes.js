@@ -11,7 +11,7 @@ import RegistrationData from "./pages/authPages/RegistrationData";
 import PersonalData from "./pages/authPages/PersonalData";
 import RiskGroup from "./pages/authPages/RiskGroup";
 import Photo from "./pages/authPages/Photo";
-import Address from './pages/authPages/Address';
+import Address from "./pages/authPages/Address";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
@@ -33,7 +33,7 @@ const MainNavigation = () => (
       />
       <MainStack.Screen
         name="createHelp"
-        options={{ headerShown: true }}
+        options={{ title: "Pedir ajuda" }}
         component={CreateHelp}
       />
     </MainStack.Navigator>
@@ -155,7 +155,6 @@ const headerStyle = {
       }}
     />
   ),
-  headerShown: false,
   headerStyle: {
     height: 90,
     backgroundColor: colors.primary,
@@ -168,6 +167,7 @@ const headerStyle = {
 
   headerTintColor: colors.light,
   headerTitleAlign: "center",
+  headerShown: false,
 };
 
 const Routes = () => (
