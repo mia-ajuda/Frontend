@@ -8,6 +8,7 @@ export default function LocationModal({
   visible,
   onBackdropPress,
   setVisible,
+  confirmSignUp
 }) {
   return (
     <Modal
