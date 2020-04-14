@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Image,
@@ -8,73 +8,23 @@ import {
 } from "react-native";
 import styles from "./styles";
 import MapView, { Marker, Circle, Callout } from "react-native-maps";
-import HelpService from "../../services/Help";
 import Avatar from "../../components/helpAvatar";
 import { Icon } from "react-native-elements";
 import mapStyle from "../../../assets/styles/mapstyle";
-import getHelpDistance from "../../utils/helpDistance";
-import actions from "../../store/actions";
-import Button from "../../components/UI/button";
-import CategoryListModal from "../../components/modals/category/CategoryList";
 import colors from "../../../assets/styles/colorVariables";
 
-import {
-  requestPermissionsAsync,
-  getCurrentPositionAsync,
-} from "expo-location";
+import Button from "../../components/UI/button";
+import CategoryListModal from "../../components/modals/category/CategoryList";
 import { HelpContext } from "../../store/contexts/helpContext";
+import { UserContext } from "../../store/contexts/userContext";
 
 export default function Main({ navigation }) {
-  const [currentRegion, setCurrentRegion] = useState(null);
   const [region, setRegion] = useState(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const { helpList, dispatch } = useContext(HelpContext);
+  const { helpList } = useContext(HelpContext);
+  const { currentRegion } = useContext(UserContext);
 
   useEffect(() => {
-    async function getLocation() {
-      const { granted } = await requestPermissionsAsync();
-      if (granted) {
-        const { coords } = await getCurrentPositionAsync({
-          enableHighAccuracy: true,
-        });
-        const { latitude, longitude } = coords;
-        setCurrentRegion({
-          latitude,
-          longitude,
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        });
-      }
-    }
-    getLocation();
-  }, []);
-
-  useEffect(() => {
-    async function getHelpList() {
-      if (currentRegion) {
-        try {
-          let helpListArray = await HelpService.getNearHelp(currentRegion);
-
-          helpListArray = helpListArray.map((help) => {
-            //insert help distance to the list
-            const helpCoords = {
-              latitude: help.user[0].location.coordinates[1],
-              longitude: help.user[0].location.coordinates[0],
-            };
-            help.distance = getHelpDistance(currentRegion, helpCoords);
-
-            return help;
-          });
-
-          dispatch({ type: actions.help.addHelp, help: helpListArray });
-        } catch (error) {}
-      }
-    }
-    getHelpList();
-  }, [currentRegion]);
-
-  useEffect(() => {
-    //use effect to watch for regionChange and clear it
     setRegion(null);
   }, [region]);
 
@@ -136,11 +86,9 @@ export default function Main({ navigation }) {
                 longitude: help.user[0].location.coordinates[0],
               }}
             >
-              <Avatar />
-              <Callout style={styles.callout}>
+              <Avatar help={help} />
+              <Callout>
                 <Text>{help.distance}</Text>
-                <Text>{help.title}</Text>
-                <Text>{help.category[0].name}</Text>
               </Callout>
             </Marker>
           ))}

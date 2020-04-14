@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 15,
     top: "6.5%",
+    padding: 16,
   },
   modalContainer: {
     width: "100%",
@@ -33,8 +34,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   modalBody: {
-    marginTop: 15,
+    marginTop: 25,
     height: "80%",
+  },
+  filterButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
 

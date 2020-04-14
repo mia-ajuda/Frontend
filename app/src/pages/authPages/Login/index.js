@@ -10,7 +10,7 @@ import {
 
 import styles from "./styles";
 
-function Login({ navigation }) {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
