@@ -23,6 +23,8 @@ import {
   getCurrentPositionAsync,
 } from "expo-location";
 import { HelpContext } from "../../store/contexts/helpContext";
+import HelpList from "../../components/HelpList";
+import ListCard from "../../components/ListCard";
 
 export default function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
@@ -162,6 +164,10 @@ export default function Main({ navigation }) {
           type="danger"
           large
         />
+      </View>
+
+      <View style={styles.helpList}>
+        <HelpList></HelpList>
       </View>
     </SafeAreaView>
   );

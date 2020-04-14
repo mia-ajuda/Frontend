@@ -3,15 +3,14 @@ import api from "./Api";
 class HelpService {
   constructor() {}
 
-  getAllHelps = async (userId = null, status = null) => {
+  getAllHelps = async (status = null, userId = null) => {
     let url = "/help";
+    let id = userId;
 
-    if (userId && status) {
-      url += `?id.except=${userId}&status=${status}`;
-    }
-
-    if (userId && status === null) {
-      url += `?id.except=${userId}`;
+    if (status) {
+      url += `?id.except=${id}&status=${status}`;
+    } else {
+      url += `?id.except=${id}`;
     }
 
     const allHelps = await api.get(url);

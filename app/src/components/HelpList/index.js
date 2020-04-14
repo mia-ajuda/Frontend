@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import ListCard from "../ListCard";
-import { UserContext } from "../../store/contexts/userContext";
+//import { UserContext } from "../../store/contexts/userContext";
 
 import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
@@ -22,9 +22,9 @@ export default class HelpList extends Component {
       helpList: [],
     };
 
-    const { user } = useContext(UserContext);
+    //const { user } = useContext(UserContext);
     helpService
-      .getAllHelps("5e961351b50ae40026fb6b77", "waiting")
+      .getAllHelps("waiting", "5e961351b50ae40026fb6b77")
       .then((data) => {
         this.setState({ helpList: data });
       });
