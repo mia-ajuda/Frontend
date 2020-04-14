@@ -21,11 +21,9 @@ export default class HelpList extends Component {
       helpList: [],
     };
 
-    helpService
-      .getAllHelps("5e8b75d0472afe002600abda", "waiting")
-        .then((data) => {
-          this.setState({ helpList: data });
-        });
+    helpService.getAllHelps().then((data) => {
+      this.setState({ helpList: data });
+    });
 
     this.handlePress = this.handlePress.bind(this);
     this.animatedValue = new Animated.Value(0);
