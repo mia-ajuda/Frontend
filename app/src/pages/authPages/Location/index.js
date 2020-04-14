@@ -47,13 +47,42 @@ export default function Location({ navigation }) {
     }
   }, [descriptionShown]);
 
-  function saveLocation(currentRegion) {
-    setModalIsVisible(true);
-    const location = {
-      latitude: currentRegion.latitude,
-      longitude: currentRegion.longitude,
+  const confirmSignUp = async () => {
+    const { userData } = route.params;
+    const { latitude, longitude } = currentRegion;
+    const newUserData = {
+      ...userData,
+      location: {
+        type: "Point",
+        coordinates:[ 
+          longitude, 
+          latitude
+        ]
+      },
     };
-  }
+
+    console.log(newUserData);
+
+    try {
+      await userService.signUp(newUserData);
+
+      Alert.alert(
+        "Sucesso",
+        "Usuário cadastrado com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } catch (err) {
+      Alert.alert(
+        "Erro",
+        "Erro ao cadastrar usuário. Tente novamente!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } finally {
+      navigation.navigate("login");
+    }
+  };
 
   function showDescription() {
     Animated.spring(animatedHeigth, {
