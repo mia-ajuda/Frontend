@@ -15,6 +15,7 @@ export default function SelectBox({
   const [selected, setSelect] = useState(
     filterCategoryArray.some((categoryId) => categoryId === category._id)
   );
+  const showTitle = category.name || title;
 
   useEffect(() => {
     if (selected) {
@@ -30,7 +31,7 @@ export default function SelectBox({
   return (
     <>
       <CheckBox
-        title={category.name || title}
+        title={showTitle}
         textStyle={styles.checkBoxText}
         checkedIcon="check-square"
         checked={select}

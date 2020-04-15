@@ -20,7 +20,7 @@ import fonts from "../assets/styles/fontVariable";
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
-const AuthStack = createStackNavigator();
+const StackNavigation = createStackNavigator();
 const MainStack = createStackNavigator();
 
 const MainNavigation = () => (
@@ -129,7 +129,7 @@ const BottomTab = () => (
 
 const AuthRoutes = () => (
   <>
-    <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
+    {/* <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
       <AuthStack.Screen name="login" component={Login} />
       <AuthStack.Screen name="location" component={Location} />
       <AuthStack.Screen name="address" component={Address} />
@@ -139,22 +139,32 @@ const AuthRoutes = () => (
       <AuthStack.Screen name="photo" component={Photo} />
       <AuthStack.Screen name="main" component={BottomTab} />
       <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
-    </AuthStack.Navigator>
+    </AuthStack.Navigator> */}
     <StackNavigation.Navigator
-      initialRouteName="location"
+      initialRouteName="login"
       screenOptions={{
         headerShown: false
       }}
     >
       <StackNavigation.Screen name="login" component={Login} />
       <StackNavigation.Screen name="location" component={Location} />
+      <StackNavigation.Screen name="address" component={Address} />
+      <StackNavigation.Screen name="registrationData" component={RegistrationData} />
+      <StackNavigation.Screen name="personalData" component={PersonalData} />
+      <StackNavigation.Screen name="riskGroup" component={RiskGroup} />
+      <StackNavigation.Screen name="photo" component={Photo} />
+      <StackNavigation.Screen name="main" component={BottomTab} />
+      <StackNavigation.Screen name="forgotPassword" component={ForgotPassword} />
+      
+      {/* <StackNavigation.Screen name="login" component={Login} />
+      <StackNavigation.Screen name="location" component={Location} />
       <StackNavigation.Screen name="signUp" component={SignUp} />
       <StackNavigation.Screen name="photo" component={Photo} />
-      <StackNavigation.Screen name="main" component={MainRoutes} />
-      <StackNavigation.Screen
+      <StackNavigation.Screen name="main" component={MainRoutes} /> */}
+      {/* <StackNavigation.Screen
         name="forgotPassword"
         component={ForgotPassword}
-      />
+      /> */}
     </StackNavigation.Navigator>
   </>
 );

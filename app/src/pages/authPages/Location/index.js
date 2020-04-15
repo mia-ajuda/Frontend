@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Animated, TouchableOpacity, Image, Alert } from "react-native";
 import MapView from "react-native-maps";
 import styles from "./styles";
-import userService from '../../../services/User';
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
@@ -10,8 +9,9 @@ import {
 import Button from "../../../components/UI/button";
 import LocationModal from "./LocationModal";
 import { Icon } from "react-native-elements";
+import userService from "../../../services/User";
 
-export default function Location({ navigation }) {
+export default function Location({ route, navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [animatedHeigth] = useState(new Animated.Value(70));
@@ -140,18 +140,24 @@ export default function Location({ navigation }) {
             <Text style={styles.descriptionText}>
               Ela será onde sua ajuda será informada no mapa! Por isso, se você
               não estiver na posição que deseja cadastrar, deixe esse passo para
-              depois.
+              depois.handleLocation
             </Text>
           )}
         </TouchableOpacity>
       </Animated.ScrollView>
 
       <View style={styles.buttons}>
-        <Button title="Pular" type="warning" press={() => {}} />
+        <Button
+          title="Voltar"
+          type="warning"
+          press={() => {
+            navigation.goBack();
+          }}
+        />
         <Button
           title="Confirmar"
           type="primary"
-          press={() => console.log(currentRegion)}
+          press={() => setModalIsVisible(!modalIsVisible)}
         />
       </View>
 
@@ -159,6 +165,7 @@ export default function Location({ navigation }) {
         visible={modalIsVisible}
         onBackdropPress={() => setModalIsVisible(false)}
         setVisible={setModalIsVisible}
+        confirmSignUp={confirmSignUp}
       />
     </>
   );

@@ -229,6 +229,9 @@ export default function PersonalData({ route, navigation }) {
               onChange={() =>
                 setIsMentalHealthProfessional(!ismentalHealthProfessional)
               }
+              filterCategoryArray={[]}
+              category={{}}
+              setSelectedCategoryArray={() => {}}
             />
           </View>
         </View>

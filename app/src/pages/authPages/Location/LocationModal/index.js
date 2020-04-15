@@ -30,7 +30,7 @@ export default function LocationModal({
               setVisible(!visible);
             }}
           />
-          <Button title="Sim" type="default" press={() => {}} />
+          <Button title="Sim" type="default" press={() => confirmSignUp()} />
         </View>
       </View>
     </Modal>
