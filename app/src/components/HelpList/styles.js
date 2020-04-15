@@ -6,15 +6,12 @@ export default StyleSheet.create({
   helpListContainer: {
     backgroundColor: colors.primary,
     width: "100%",
-
-    alignSelf: "flex-end",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   listContent: {
     width: "90%",
-
     alignSelf: "center",
   },
 

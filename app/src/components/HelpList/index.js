@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -11,86 +11,62 @@ import ListCard from "../ListCard";
 import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
 
-import helpService from "../../services/Help";
+export default function HelpList({ helps, visible, setVisible }) {
+  const [iconName, setIconName] = useState("caret-up");
+  const [animatedValue] = useState(new Animated.Value(40));
 
-export default class HelpList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      iconName: "caret-up",
-      helpList: [],
-    };
-
-    helpService
-      .getAllHelps("5e8b75d0472afe002600abda", "waiting")
-        .then((data) => {
-          this.setState({ helpList: data });
-        });
-
-    this.handlePress = this.handlePress.bind(this);
-    this.animatedValue = new Animated.Value(0);
-  }
-
-  handlePress() {
-    switch (this.state.iconName) {
-      case "caret-up":
-        this.setState({ iconName: "caret-down" });
-        Animated.timing(this.animatedValue, {
+  useEffect(() => {
+    switch (visible) {
+      case true:
+        setIconName("caret-down");
+        Animated.spring(animatedValue, {
           toValue: 400,
-          duration: 400,
+          tension: 10,
         }).start();
         break;
 
-      case "caret-down":
-        this.setState({ iconName: "caret-up" });
-        Animated.timing(this.animatedValue, {
-          toValue: 0,
-          duration: 400,
+      case false:
+        setIconName("caret-up");
+        Animated.spring(animatedValue, {
+          toValue: 40,
         }).start();
         break;
     }
-  }
+  }, [visible]);
 
-  getFormattedTitle = (title) => {
-    let res = title.length > 20 ? title.substring(0, 16) + "..." : title;
-    return res;
-  };
+  return (
+    <Animated.View
+      style={[styles.helpListContainer, { height: animatedValue }]}
+    >
+      <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
+        <View style={styles.buttonStyle}>
+          <Icon
+            size={25}
+            name={iconName}
+            type="font-awesome"
+            color={colors.light}
+          />
+        </View>
+      </TouchableWithoutFeedback>
 
-  getFormattedDescription = (text) => {
-    let res = text.length > 110 ? text.substring(0, 106) + "..." : text;
-    return res;
-  };
-
-  render() {
-    const animatedStyle = {
-      height: this.animatedValue,
-    };
-
-    return (
-      <View style={styles.helpListContainer}>
-        <TouchableWithoutFeedback onPress={this.handlePress}>
-          <View style={styles.buttonStyle}>
-            <Icon
-              size={25}
-              name={this.state.iconName}
-              type="font-awesome"
-              color={colors.light}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-        <Animated.View style={animatedStyle}>
-          <ScrollView style={[styles.listContent]}>
-            {this.state.helpList.map((item, i) => (
-              <ListCard
-                key={i}
-                helpTitle={this.getFormattedTitle(item.title)}
-                helpDescription={this.getFormattedDescription(item.description)}
-                helpCategory="bafafa"
-              />
-            ))}
-          </ScrollView>
-        </Animated.View>
-      </View>
-    );
-  }
+      {visible && (
+        <ScrollView
+          style={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 15 }}
+        >
+          {helps
+            ? helps.map((item, i) => (
+                <ListCard
+                  key={i}
+                  helpTitle={item.title}
+                  helpDescription={item.description}
+                  categoryName={item.category[0].name}
+                />
+              ))
+            : null}
+        </ScrollView>
+      )}
+    </Animated.View>
+  );
 }

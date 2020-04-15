@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   filter: {
     position: "absolute",
     width: 50,
-    bottom: 30,
+    bottom: 55,
     left: 20,
     zIndex: 5,
     backgroundColor: "#F7EF6E",
@@ -44,10 +44,20 @@ const styles = StyleSheet.create({
   },
   helpButton: {
     position: "absolute",
-    bottom: 20,
+    bottom: 45,
     right: 20,
     zIndex: 5,
     elevation: 5,
+  },
+  helpList: {
+    position: "absolute",
+    bottom: 0,
+    elevation: 6,
+    width: "100%",
+  },
+
+  callout: {
+    width: 150,
   },
 });
 

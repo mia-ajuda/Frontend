@@ -17,9 +17,11 @@ import Button from "../../components/UI/button";
 import CategoryListModal from "../../components/modals/category/CategoryList";
 import { HelpContext } from "../../store/contexts/helpContext";
 import { UserContext } from "../../store/contexts/userContext";
+import HelpList from "../../components/HelpList";
 
 export default function Main({ navigation }) {
   const [region, setRegion] = useState(null);
+  const [helpListVisible, setHelpListVisible] = useState(false);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
@@ -52,6 +54,10 @@ export default function Main({ navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         region={region}
+        onRegionChange={() => setHelpListVisible(false)}
+        onPress={() => {
+          setHelpListVisible(false);
+        }}
         customMapStyle={mapStyle.day.map}
       >
         {currentRegion && (
@@ -110,6 +116,14 @@ export default function Main({ navigation }) {
           type="danger"
           large
         />
+      </View>
+
+      <View style={styles.helpList}>
+        <HelpList
+          helps={helpList}
+          visible={helpListVisible}
+          setVisible={setHelpListVisible}
+        ></HelpList>
       </View>
     </SafeAreaView>
   );

@@ -5,13 +5,12 @@ class HelpService {
 
   getAllHelps = async (userId = null, status = null) => {
     let url = "/help";
+    let id = userId;
 
-    if (userId && status) {
-      url += `?id.except=${userId}&status=${status}`;
-    }
-
-    if (userId && status === null) {
-      url += `?id.except=${userId}`;
+    if (status) {
+      url += `?id.except=${id}&status=${status}`;
+    } else {
+      url += `?id.except=${id}`;
     }
 
     const allHelps = await api.get(url);

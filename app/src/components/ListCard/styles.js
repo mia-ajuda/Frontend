@@ -69,7 +69,6 @@ export default StyleSheet.create({
     backgroundColor: colors.secondary,
     borderRadius: 8,
 
-    maxWidth: 200,
     maxHeight: 30,
 
     paddingHorizontal: 15,
