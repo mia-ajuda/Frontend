@@ -1,10 +1,21 @@
 import api from "./Api";
-import getHelpDistance from "../utils/helpDistance";
 
 class HelpService {
   constructor() {}
 
-  getAllHelp() {}
+  getAllHelps = async (userId = null, status = null) => {
+    let url = "/help";
+    let id = userId;
+
+    if (status) {
+      url += `?id.except=${id}&status=${status}`;
+    } else {
+      url += `?id.except=${id}`;
+    }
+
+    const allHelps = await api.get(url);
+    return allHelps.data;
+  };
 
   async getNearHelp(coords) {
     const { longitude, latitude } = coords;
@@ -44,5 +55,4 @@ class HelpService {
 
 const helpService = new HelpService();
 Object.freeze(helpService);
-
 export default helpService;
