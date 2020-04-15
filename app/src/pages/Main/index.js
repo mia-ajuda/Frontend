@@ -99,31 +99,40 @@ export default function Main({ navigation }) {
             </Marker>
           ))}
       </MapView>
-      <TouchableOpacity
-        style={styles.filter}
-        onPress={() => {
-          setFilterModalVisible(!filterModalVisible);
-        }}
-      >
-        <Icon name="filter" type="font-awesome" color={colors.dark} size={20} />
-      </TouchableOpacity>
-      <View style={styles.helpButton}>
-        <Button
-          title="Pedir ajuda"
-          press={() => {
-            navigation.navigate("createHelp");
-          }}
-          type="danger"
-          large
-        />
-      </View>
+      {!helpListVisible && (
+        <>
+          <TouchableOpacity
+            style={styles.filter}
+            onPress={() => {
+              setFilterModalVisible(!filterModalVisible);
+            }}
+          >
+            <Icon
+              name="filter"
+              type="font-awesome"
+              color={colors.dark}
+              size={20}
+            />
+          </TouchableOpacity>
+          <View style={styles.helpButton}>
+            <Button
+              title="Pedir ajuda"
+              press={() => {
+                navigation.navigate("createHelp");
+              }}
+              type="danger"
+              large
+            />
+          </View>
+        </>
+      )}
 
       <View style={styles.helpList}>
         <HelpList
           helps={helpList}
           visible={helpListVisible}
           setVisible={setHelpListVisible}
-        ></HelpList>
+        />
       </View>
     </SafeAreaView>
   );
