@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import colors from "../../../assets/styles/colorVariables";
+import fonts from "../../../assets/styles/fontVariable";
 
 export default StyleSheet.create({
   helpListContainer: {
@@ -17,5 +18,24 @@ export default StyleSheet.create({
 
   buttonStyle: {
     padding: 2,
+  },
+  scrollStyle: {
+    paddingBottom: 15,
+  },
+  emptyListText: {
+    ...fonts.title,
+    color: colors.light,
+    marginTop: 10,
+  },
+  emptyListImage: {
+    resizeMode: "contain",
+    width: 100,
+    height: 100,
+  },
+  emptyList: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    marginTop: 60,
   },
 });

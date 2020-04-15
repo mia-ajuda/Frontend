@@ -4,6 +4,8 @@ import {
   ScrollView,
   Animated,
   TouchableWithoutFeedback,
+  Image,
+  Text,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import ListCard from "../ListCard";
@@ -20,7 +22,7 @@ export default function HelpList({ helps, visible, setVisible }) {
       case true:
         setIconName("caret-down");
         Animated.spring(animatedValue, {
-          toValue: 400,
+          toValue: helps.length > 0 ? 400 : 300,
           tension: 10,
         }).start();
         break;
@@ -48,24 +50,33 @@ export default function HelpList({ helps, visible, setVisible }) {
           />
         </View>
       </TouchableWithoutFeedback>
-
       {visible && (
-        <ScrollView
-          style={styles.listContent}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 15 }}
-        >
-          {helps
-            ? helps.map((item, i) => (
+        <>
+          {helps.length > 0 ? (
+            <ScrollView
+              style={styles.listContent}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollStyle}
+            >
+              {helps.map((item, i) => (
                 <ListCard
                   key={i}
                   helpTitle={item.title}
                   helpDescription={item.description}
                   categoryName={item.category[0].name}
                 />
-              ))
-            : null}
-        </ScrollView>
+              ))}
+            </ScrollView>
+          ) : (
+            <View style={styles.emptyList}>
+              <Image
+                source={require("../../../assets/images/whiteCat.png")}
+                style={styles.emptyListImage}
+              />
+              <Text style={styles.emptyListText}>Não há ajudas próximas </Text>
+            </View>
+          )}
+        </>
       )}
     </Animated.View>
   );
