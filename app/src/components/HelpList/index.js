@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import ListCard from "../ListCard";
-//import { UserContext } from "../../store/contexts/userContext";
 
 import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
@@ -19,10 +18,8 @@ export default class HelpList extends Component {
     super(props);
     this.state = {
       iconName: "caret-up",
-      helpList: [],
     };
 
-    //const { user } = useContext(UserContext);
     helpService
       .getAllHelps("waiting", "5e961351b50ae40026fb6b77")
       .then((data) => {
@@ -82,7 +79,7 @@ export default class HelpList extends Component {
         </TouchableWithoutFeedback>
         <Animated.View style={animatedStyle}>
           <ScrollView style={[styles.listContent]}>
-            {this.state.helpList.map((item, i) => (
+            {this.props.helps.map((item, i) => (
               <ListCard
                 key={i}
                 helpTitle={this.getFormattedTitle(item.title)}

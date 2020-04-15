@@ -24,7 +24,6 @@ import {
 } from "expo-location";
 import { HelpContext } from "../../store/contexts/helpContext";
 import HelpList from "../../components/HelpList";
-import ListCard from "../../components/ListCard";
 
 export default function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
@@ -167,7 +166,7 @@ export default function Main({ navigation }) {
       </View>
 
       <View style={styles.helpList}>
-        <HelpList></HelpList>
+        <HelpList helps={helpList}></HelpList>
       </View>
     </SafeAreaView>
   );
