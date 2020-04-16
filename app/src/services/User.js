@@ -14,12 +14,14 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       const userInfo = await this.requestUserData(idTokenUser);
 
-      const user = JSON.stringify({
+      const user = {
         data: userInfo,
         accessToken: idTokenUser,
-      });
+      };
 
-      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+
+      return user;
     } catch (error) {
       console.log(error);
       throw { error: "Não foi possível fazer o login!" };

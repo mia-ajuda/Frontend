@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -12,8 +12,12 @@ import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 
 import styles from "./styles";
+import { UserContext } from "../../../store/contexts/userContext";
+import actions from "../../../store/actions";
 
 export default function Login({ navigation }) {
+  const { dispatch } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -38,7 +42,10 @@ export default function Login({ navigation }) {
     const data = { email, password };
 
     try {
-      await UserService.logIn(data);
+      const user = await UserService.logIn(data);
+      if (user) {
+        dispatch({ type: actions.user.auth, data: user });
+      }
     } catch (err) {
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false,

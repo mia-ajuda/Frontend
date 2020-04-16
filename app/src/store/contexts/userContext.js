@@ -17,6 +17,18 @@ export const UserContextProvider = (props) => {
 
   const [currentRegion, setCurrentRegion] = useState(null);
 
+  useEffect(() => {
+    async function getUserFromAsyncStorage() {
+      const user = await AsyncStorage.getItem("user");
+      const userJSON = JSON.parse(user);
+      if (userJSON) {
+        await getLocation();
+        dispatch({ type: actions.user.auth, data: userJSON });
+      }
+    }
+    getUserFromAsyncStorage();
+  }, []);
+
   async function getLocation() {
     const { granted } = await requestPermissionsAsync();
     if (granted) {
@@ -33,17 +45,6 @@ export const UserContextProvider = (props) => {
     }
   }
 
-  useEffect(() => {
-    async function getUserFromAsyncStorage() {
-      const user = await AsyncStorage.getItem("user");
-      const userJSON = JSON.parse(user);
-      if (userJSON) {
-        await getLocation();
-        dispatch({ type: actions.user.auth, data: userJSON });
-      }
-    }
-    getUserFromAsyncStorage();
-  }, []);
   return (
     <UserContext.Provider value={{ user, dispatch, currentRegion }}>
       {props.children}

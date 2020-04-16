@@ -7,6 +7,11 @@ export const userReducer = (state, action) => {
         isLoading: false,
         data: action.data,
       };
+    case actions.user.logout:
+      return {
+        isLoading: false,
+        data: null,
+      };
 
     default:
       return state;
