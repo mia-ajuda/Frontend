@@ -1,21 +1,59 @@
 import api from "../services/Api";
+import firebaseAuth from "./firebaseAuth";
+import { AsyncStorage } from "react-native";
 
 class UserService {
   constructor() {}
 
-  async logIn() {
-    return await this.requestUserData();
+  async logIn(data) {
+    try {
+      await firebaseAuth
+        .auth()
+        .signInWithEmailAndPassword(data.email, data.password);
+
+      const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
+      const userInfo = await this.requestUserData(idTokenUser);
+
+      const user = JSON.stringify({
+        data: userInfo,
+        accessToken: idTokenUser,
+      });
+
+      await AsyncStorage.setItem("user", user);
+    } catch (error) {
+      console.log(error);
+      throw { error: "Não foi possível fazer o login!" };
+    }
   }
 
-  logOut() {}
-  signUp() {}
+  async signUp(data) {
+    try {
+      const response = await api.post("/user", data);
+      return response;
+    } catch (err) {
+      throw "Não foi possível fazer o cadastro. Tente novamente!";
+    }
+  }
+
+  async logOut() {
+    try {
+      await firebase.auth().signOut();
+      await AsyncStorage.clear();
+    } catch {
+      throw { error: "Não foi possível Deslogar!" };
+    }
+  }
 
   isSignIn() {
     return this._token !== undefined;
   }
 
-  async requestUserData() {
-    const user = await api.get(`/user/${this._id}`);
+  async requestUserData(token) {
+    const user = await api.get(`/user`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
     return user.data;
   }
 

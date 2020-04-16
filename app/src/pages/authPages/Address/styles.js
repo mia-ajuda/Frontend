@@ -8,16 +8,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 20,
-    paddingHorizontal: 30,
-    backgroundColor: color.light
+    marginVertical: 20,
+    marginHorizontal: 30
   },
   scroll: {
-    flexGrow : 1, 
-    justifyContent : 'center', 
-  },
-  scroll2: {
-    marginTop: 40,
     flexGrow : 1, 
     justifyContent : 'center', 
   },
@@ -60,12 +54,11 @@ const styles = StyleSheet.create({
   toggleView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-   
+    justifyContent: 'space-between'
   },
   backIcon: {
-    alignItems: 'flex-start',
     marginTop: 15,
+    alignItems: 'flex-start'
   },
 });
 

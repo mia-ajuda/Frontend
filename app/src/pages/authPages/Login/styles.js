@@ -1,61 +1,57 @@
 import { StyleSheet } from "react-native";
-
+import colors from "../../../../assets/styles/colorVariables";
+import fonts from "../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
-  background:{
+  background: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4b8ab9'
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.primary,
   },
   logo: {
-    flex:2,
-    justifyContent:'center',
+    marginTop: 40,
+    flex: 1.5,
+    justifyContent: "center",
   },
   container: {
-    flex: 2,
-    justifyContent: 'center',
-    width: '80%',
-    marginVertical: 20
-    
+    flex: 1.5,
+    justifyContent: "center",
+    width: "90%",
+    marginVertical: 20,
   },
   input: {
+    ...fonts.body,
     borderBottomWidth: 2,
-    borderBottomColor: '#f7f7f7',
+    borderBottomColor: colors.light,
     marginBottom: 30,
-    fontFamily: "montserrat-semibold",
-  },
-  login: {
-    alignItems: 'center',
-    backgroundColor: '#f7f7f7',
-    borderRadius: 5,
+    color: colors.light,
   },
   text: {
-    color: '#4b8ab9',
-    fontSize: 16,
+    color: colors.primary,
     padding: 10,
-    fontFamily: "montserrat-semibold",
+    ...fonts.body,
   },
-  signUP:{
-    alignItems: 'center',
-    padding: 20
+  signUP: {
+    alignItems: "center",
+    padding: 20,
   },
-  signupText:{
-    color: '#f7f7f7',
-    fontSize: 16,
+  signupText: {
+    ...fonts.body,
+    color: colors.light,
     fontFamily: "montserrat-semibold",
   },
   forgotPassword: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end'
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
   },
-  forgotPasswordtext:{
-    color: '#f7f7f7'
+  forgotPasswordtext: {
+    color: colors.light,
   },
-  viewLogin:{
-    flex:1,
-    width: '80%',
-  }
+  viewLogin: {
+    flex: 1,
+    width: "90%",
+  },
 });
 
 export default styles;

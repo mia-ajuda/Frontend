@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -6,18 +6,25 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Alert,
 } from "react-native";
+import UserService from "../../../services/User";
+import Button from "../../../components/UI/button";
 
 import styles from "./styles";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const clearState = () => {
-    setEmail("");
-    setPassword("");
-  };
+  useEffect(() => {
+    if (email && password) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [email, password]);
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
@@ -27,13 +34,25 @@ export default function Login({ navigation }) {
     setPassword(enteredPassword);
   };
 
-  const loginHandler = () => {
-    const data = [email, password];
-    clearState();
+  const loginHandler = async () => {
+    const data = { email, password };
+
+    try {
+      await UserService.logIn(data);
+      navigation.navigate("main");
+    } catch (err) {
+      Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
+        cancelable: false,
+      });
+    }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.background}>
+    <KeyboardAvoidingView
+      style={styles.background}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+    >
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
@@ -46,6 +65,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="Email"
           autoCorrect={false}
+          placeholderTextColor="#FFF"
           onChangeText={emailHandler}
           value={email}
         />
@@ -53,6 +73,7 @@ export default function Login({ navigation }) {
         <TextInput
           style={styles.input}
           secureTextEntry
+          placeholderTextColor="#FFF"
           placeholder="Senha"
           autoCorrect={false}
           onChangeText={passwordHandler}
@@ -62,16 +83,21 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            navigation.navigate("main");
+            navigation.navigate("forgotPassword");
           }}
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.viewLogin}>
-        <TouchableOpacity style={styles.login} onPress={loginHandler}>
-          <Text style={styles.text}>ENTRAR</Text>
-        </TouchableOpacity>
+        <Button
+          style={styles.login}
+          large
+          type="white"
+          title="ENTRAR"
+          press={loginHandler}
+          disabled={buttonDisabled}
+        />
 
         <TouchableOpacity
           style={styles.signUP}

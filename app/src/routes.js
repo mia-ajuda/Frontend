@@ -11,6 +11,7 @@ import RegistrationData from "./pages/authPages/RegistrationData";
 import PersonalData from "./pages/authPages/PersonalData";
 import RiskGroup from "./pages/authPages/RiskGroup";
 import Photo from "./pages/authPages/Photo";
+import Address from "./pages/authPages/Address";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
@@ -19,8 +20,8 @@ import fonts from "../assets/styles/fontVariable";
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
-const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
 const MainNavigation = () => (
   <>
@@ -128,9 +129,15 @@ const BottomTab = () => (
 
 const AuthRoutes = () => (
   <>
-    <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
+    <AuthStack.Navigator
+      initialRouteName="login"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <AuthStack.Screen name="login" component={Login} />
       <AuthStack.Screen name="location" component={Location} />
+      <AuthStack.Screen name="address" component={Address} />
       <AuthStack.Screen name="registrationData" component={RegistrationData} />
       <AuthStack.Screen name="personalData" component={PersonalData} />
       <AuthStack.Screen name="riskGroup" component={RiskGroup} />
@@ -165,11 +172,12 @@ const headerStyle = {
 
   headerTintColor: colors.light,
   headerTitleAlign: "center",
+  headerShown: false,
 };
 
 const Routes = () => (
   <NavigationContainer>
-    <BottomTab />
+    <AuthRoutes />
   </NavigationContainer>
 );
 
