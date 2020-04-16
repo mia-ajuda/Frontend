@@ -8,7 +8,7 @@ export default function LocationModal({
   visible,
   onBackdropPress,
   setVisible,
-  confirmSignUp
+  confirmSignUp,
 }) {
   return (
     <Modal
@@ -30,13 +30,7 @@ export default function LocationModal({
               setVisible(!visible);
             }}
           />
-          <Button
-            title="Sim"
-            type="default"
-            press={() => {
-              confirmSignUp();
-            }}
-          />
+          <Button title="Sim" type="default" press={() => confirmSignUp()} />
         </View>
       </View>
     </Modal>

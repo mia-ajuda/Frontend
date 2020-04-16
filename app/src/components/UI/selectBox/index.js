@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { CheckBox } from "react-native-elements";
 import styles from "./styles";
+import colors from "../../../../assets/styles/colorVariables"
+
 export default function SelectBox({
   setSelectedCategoryArray,
   filterCategoryArray,
   category,
   selectedCategoryArray,
+  title,
+  onChange,
+  select=false
 }) {
   const [selected, setSelect] = useState(
     filterCategoryArray.some((categoryId) => categoryId === category._id)
   );
+  const showTitle = category.name || title;
 
   useEffect(() => {
     if (selected) {
@@ -25,11 +31,14 @@ export default function SelectBox({
   return (
     <>
       <CheckBox
-        title={category.name}
+        title={showTitle}
         textStyle={styles.checkBoxText}
         checkedIcon="check-square"
-        checked={selected}
-        onPress={() => setSelect(!selected)}
+        checked={select}
+        onPress={onChange}
+        containerStyle={styles.container}
+        checkedColor={colors.primary}
+        uncheckedColor={colors.primary}
       />
     </>
   );

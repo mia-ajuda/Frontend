@@ -1,38 +1,34 @@
 import api from "../services/Api";
-import firebaseAuth from './firebaseAuth';
-import { AsyncStorage } from 'react-native';
+import firebaseAuth from "./firebaseAuth";
+import { AsyncStorage } from "react-native";
 
 class UserService {
   constructor() {}
 
-  async logIn(data) {    
+  async logIn(data) {
     try {
-      await firebaseAuth
+      const auth = await firebaseAuth
         .auth()
-        .signInWithEmailAndPassword(
-          data.email,
-          data.password
-        );
+        .signInWithEmailAndPassword(data.email, data.password);
 
-      const idTokenUser = await firebaseAuth
-        .auth()
-        .currentUser
-        .getIdToken(); 
-              
-      await AsyncStorage.setItem('tokenId', idTokenUser);
-    } catch {
-      throw { error: 'Não foi possível fazer o login!' };
-    } 
+      console.log("AUTH", auth);
+      const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
+      console.log("idTokenUser", idTokenUser);
+
+      await AsyncStorage.setItem("tokenId", idTokenUser);
+    } catch (error) {
+      console.log(error);
+      throw { error: "Não foi possível fazer o login!" };
+    }
     // return await this.requestUserData();
   }
 
-  async signUp (data){
-
+  async signUp(data) {
     try {
-      const response =  await api.post('/user', data);
+      const response = await api.post("/user", data);
       return response;
-    } catch(err) {
-      throw 'Não foi possível fazer o cadastro. Tente novamente!';
+    } catch (err) {
+      throw "Não foi possível fazer o cadastro. Tente novamente!";
     }
   }
 
@@ -41,7 +37,7 @@ class UserService {
       await firebase.auth().signOut();
       await AsyncStorage.clear();
     } catch {
-      throw { error: 'Não foi possível Deslogar!' };
+      throw { error: "Não foi possível Deslogar!" };
     }
   }
 

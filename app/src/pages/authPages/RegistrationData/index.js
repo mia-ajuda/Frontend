@@ -109,7 +109,7 @@ export default function RegistrationData({ navigation }) {
           <Input
             type="password"
             change={passwordHandler}
-            label="Senha (mais de 8 caracteres)"
+            label="Senha (pelo menos 8 caracteres)"
             placeholder="Senha"
             valid={password.length >= 8 || password === ""}
           />

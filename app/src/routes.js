@@ -20,8 +20,8 @@ import fonts from "../assets/styles/fontVariable";
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
-const AuthStack = createStackNavigator();
 const MainStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
 const MainNavigation = () => (
   <>
@@ -129,7 +129,12 @@ const BottomTab = () => (
 
 const AuthRoutes = () => (
   <>
-    <AuthStack.Navigator initialRouteName="login" screenOptions={headerStyle}>
+    <AuthStack.Navigator
+      initialRouteName="login"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <AuthStack.Screen name="login" component={Login} />
       <AuthStack.Screen name="location" component={Location} />
       <AuthStack.Screen name="address" component={Address} />

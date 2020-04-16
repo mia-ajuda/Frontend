@@ -66,7 +66,7 @@ export default function Address({ route, navigation }) {
   };
 
   const continueHandler = () => {
-    const address = { cep, city, state, complement };
+    const address = { cep, city, state, number: numberPlace, complement };
     const userData = { ...dataUser, address };
     navigation.navigate("riskGroup", { userData });
   };

@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Animated, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Animated,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import MapView from "react-native-maps";
 import styles from "./styles";
 import {
