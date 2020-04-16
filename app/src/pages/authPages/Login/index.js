@@ -41,19 +41,15 @@ export default function Login({ navigation }) {
       await UserService.logIn(data);
       navigation.navigate("main");
     } catch (err) {
-      Alert.alert(
-        "Erro",
-        err.error,
-        [
-          {text: 'OK', onPress: () => {}},
-        ],
-        { cancelable: false }
-      )
+      Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
+        cancelable: false,
+      });
     }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.background} 
+    <KeyboardAvoidingView
+      style={styles.background}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
@@ -87,7 +83,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            navigation.navigate("main");
+            navigation.navigate("forgotPassword");
           }}
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
