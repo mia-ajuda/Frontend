@@ -7,13 +7,11 @@ class UserService {
 
   async logIn(data) {
     try {
-      const auth = await firebaseAuth
+      await firebaseAuth
         .auth()
         .signInWithEmailAndPassword(data.email, data.password);
 
-      console.log("AUTH", auth);
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
-      console.log("idTokenUser", idTokenUser);
 
       await AsyncStorage.setItem("tokenId", idTokenUser);
     } catch (error) {
