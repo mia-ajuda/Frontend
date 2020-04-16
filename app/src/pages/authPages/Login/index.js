@@ -39,7 +39,6 @@ export default function Login({ navigation }) {
 
     try {
       await UserService.logIn(data);
-      navigation.navigate("main");
     } catch (err) {
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false,

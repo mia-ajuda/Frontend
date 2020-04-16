@@ -1,6 +1,6 @@
 const actions = {
   user: {
-    getUserData: "GET_USER_DATA",
+    auth: "AUTH_USER",
   },
   help: {
     addHelp: "ADD_HELP",
