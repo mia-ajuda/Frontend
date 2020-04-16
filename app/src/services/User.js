@@ -12,13 +12,18 @@ class UserService {
         .signInWithEmailAndPassword(data.email, data.password);
 
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
+      const userInfo = await this.requestUserData(idTokenUser);
 
-      await AsyncStorage.setItem("tokenId", idTokenUser);
+      const user = JSON.stringify({
+        data: userInfo,
+        accessToken: idTokenUser,
+      });
+
+      await AsyncStorage.setItem("user", user);
     } catch (error) {
       console.log(error);
       throw { error: "Não foi possível fazer o login!" };
     }
-    // return await this.requestUserData();
   }
 
   async signUp(data) {
@@ -43,8 +48,12 @@ class UserService {
     return this._token !== undefined;
   }
 
-  async requestUserData() {
-    const user = await api.get(`/user/${this._id}`);
+  async requestUserData(token) {
+    const user = await api.get(`/user`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
     return user.data;
   }
 
