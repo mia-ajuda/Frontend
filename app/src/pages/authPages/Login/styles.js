@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
   },
   viewGoogle: {
     backgroundColor: "#d93025",
-    width: "50%",
+    width: "25%",
+    borderRadius: 25,
+    marginHorizontal: 5
   },
   btnGoogle: {
     flexDirection: "row",
@@ -68,7 +70,9 @@ const styles = StyleSheet.create({
   },
   viewFacebook: {
     backgroundColor: "#3B5998",
-    width: "50%",
+    width: "25%",
+    borderRadius: 25,
+    marginHorizontal: 5
   },
   btnFacebook: {
     flexDirection: "row",

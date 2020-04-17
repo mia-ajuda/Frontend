@@ -14,6 +14,10 @@ import {
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
+import * as Facebook from 'expo-facebook';
+import Firebase from '../../../services/firebaseAuth';
+import firebase  from 'firebase';
+
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -70,6 +74,46 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
+
+  async function logIn() {
+    try {
+      await Facebook.initializeAsync('279998959666055');
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile'],
+      });
+
+      if (type === 'success') {
+        // // Get the user's name using Facebook's Graph API
+        // // const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+
+        // await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
+        // const credential = firebase.auth.FacebookAuthProvider.credential(token);
+        // // const facebookProfileData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);  // Sign in with Facebook credential
+
+        // console.log(credential);
+        // // console.log(facebookProfileData);
+        // // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = await firebase.auth.FacebookAuthProvider.credential(token);
+        const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
+
+        console.log(facebookProfileData);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+
+
+  }
 
   return (
     <KeyboardAvoidingView
@@ -146,7 +190,7 @@ export default function Login({ navigation }) {
         <View style={styles.quickLogin}>
           <View style={styles.viewGoogle}>
             <TouchableOpacity style={styles.btnGoogle}>
-              <Icon type="material-community" name={"google"} color={"white"} />
+              <Icon type="antdesign" name={"google"} color={"white"} />
             </TouchableOpacity>
           </View>
           <View style={styles.viewFacebook}>
