@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Keyboard,
   Text,
   Alert,
   ActivityIndicator,
@@ -24,7 +25,11 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
+<<<<<<< HEAD
   const [isLoading, setLoading] = useState(false);
+=======
+  const [keyboardShow, setKeyboardShow] = useState(false);
+>>>>>>> 852ac45... Refactored login page style, gmail and facebook buttons
 
   useEffect(() => {
     if (email && password) {
@@ -68,7 +73,7 @@ export default function Login({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      style={styles.background}
+      style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
@@ -78,9 +83,9 @@ export default function Login({ navigation }) {
           source={require("../../../images/logo.png")}
         />
       </View>
-      <View style={{ alignItems: "center", width: "100%" }}>
+      <View style={styles.input}>
         <TextInput
-          style={styles.input}
+          style={styles.textInput}
           placeholder="Email"
           autoCorrect={false}
           placeholderTextColor="#FFF"
@@ -89,7 +94,7 @@ export default function Login({ navigation }) {
         />
 
         <TextInput
-          style={styles.input}
+          style={styles.textInput}
           secureTextEntry
           placeholderTextColor="#FFF"
           placeholder="Senha"
@@ -97,6 +102,15 @@ export default function Login({ navigation }) {
           onChangeText={passwordHandler}
           value={password}
         />
+        <View style={styles.forgotPassword}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("forgotPassword");
+            }}
+          >
+            <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={{ alignItems: "flex-end", width: "90%" }}>
         <TouchableOpacity
@@ -129,25 +143,19 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
         </TouchableOpacity>
-        
-          <View style={styles.btnGooglee}>
+        <View style={styles.quickLogin}>
+          <View style={styles.viewGoogle}>
             <TouchableOpacity style={styles.btnGoogle}>
-              <Icon
-                type="material-community"
-                name={"gmail"}
-                color={"white"}
-              />
-              <Text style={styles.lgnGoogle}>ENTRAR COM GOOGLE</Text>
+              <Icon type="material-community" name={"google"} color={"white"} />
             </TouchableOpacity>
-            <View style={styles.viewLgnFacebook}>
-              <TouchableOpacity style={styles.btnFacebook}>
-                <Icon type="font-awesome" name={"facebook"} color={"white"} />
-                <Text style={styles.lgnFacebook}>ENTRAR COM FACEBOOK</Text>
-              </TouchableOpacity>
-              </View>
-            </View>
+          </View>
+          <View style={styles.viewFacebook}>
+            <TouchableOpacity style={styles.btnFacebook}>
+              <Icon type="font-awesome" name={"facebook"} color={"white"} />
+            </TouchableOpacity>
           </View>
         </View>
+      </View>
     </KeyboardAvoidingView>
   );
 }

@@ -3,105 +3,90 @@ import colors from "../../../../assets/styles/colorVariables";
 import fonts from "../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
-  background: {
+  container: {
     flex: 1,
     backgroundColor: colors.primary,
   },
   logo: {
-    marginTop: 10,
-    flex: 1.5,
+    flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50
+    marginTop: 10,
+    justifyContent: "center",
+    marginBottom: 50,
   },
   input: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  textInput: {
     ...fonts.body,
     borderBottomWidth: 2,
     borderBottomColor: colors.light,
-    marginBottom: 20,
     color: colors.light,
-    width: '90%'
+    marginVertical: 20,
+    width: "90%",
   },
-  text: {
-    color: colors.primary,
-    padding: 10,
-    ...fonts.body,
+  forgotPassword: {
+    width: "90%",
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
   },
-  signUP: {
+  forgotPasswordtext: {
+    color: colors.light,
+  },
+  viewBtn: {
     alignItems: "center",
-    marginBottom: 5,  
+    justifyContent: "flex-start",
+    marginTop: 10,
+  },
+  login: {
+    width: "90%",
   },
   signupText: {
     ...fonts.body,
     color: colors.light,
     fontFamily: "montserrat-semibold",
-    marginBottom: 30
+    marginBottom: 30,
   },
-  viewForgotPassword:{
-    alignItems: 'flex-end'
+  viewGoogle: {
+    backgroundColor: "#d93025",
+    width: "50%",
   },
-  forgotPasswordtext: {
-    color: colors.light,
-  },
-  login: {
-    width: '90%'
-    
-  },
-  viewLgnFacebook:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    
-  },
-
-  btnFacebook:{
-    borderRadius: 8,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    marginVertical: 5,
+  btnGoogle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 15,
-    width: '100%',
-    backgroundColor:"#3B5998",
-
   },
-
-  lgnFacebook:{
-    color: 'white',
+  lgnGoogle: {
+    color: "white",
     fontFamily: "montserrat-semibold",
     fontSize: 18,
-    
-    marginLeft: 20
   },
-  viewLgnGoogle:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    
+  viewFacebook: {
+    backgroundColor: "#3B5998",
+    width: "50%",
   },
-
-  btnGoogle:{
-    borderRadius: 8,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    marginVertical: 5,
+  btnFacebook: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 15,
-    width: '100%',
-    backgroundColor:"#d93025",
-
   },
-
-  lgnGoogle:{
-    color: 'white',
+  lgnFacebook: {
+    color: "white",
     fontFamily: "montserrat-semibold",
     fontSize: 18,
-    
-    marginLeft: 20
   },
-  viewLgn:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 2,
-    width: "100%",
-  }
+  quickLogin: {
+    justifyContent: "center",
+    flexDirection: "row",
+    marginBottom: 30,
+    width: "90%",
+  },
 });
 
 export default styles;
