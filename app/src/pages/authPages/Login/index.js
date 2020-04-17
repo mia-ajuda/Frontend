@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
@@ -21,6 +22,7 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (email && password) {
@@ -40,16 +42,19 @@ export default function Login({ navigation }) {
 
   const loginHandler = async () => {
     const data = { email, password };
+    setLoading(true);
 
     try {
       const user = await UserService.logIn(data);
       if (user) {
+        setLoading(false);
         dispatch({ type: actions.user.auth, data: user });
       }
     } catch (err) {
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false,
       });
+      setLoading(false);
     }
   };
 
@@ -96,14 +101,18 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.viewLogin}>
-        <Button
-          style={styles.login}
-          large
-          type="white"
-          title="ENTRAR"
-          press={loginHandler}
-          disabled={buttonDisabled}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <Button
+            style={styles.login}
+            large
+            type="white"
+            title="ENTRAR"
+            press={loginHandler}
+            disabled={buttonDisabled}
+          />
+        )}
 
         <TouchableOpacity
           style={styles.signUP}

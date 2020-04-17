@@ -22,28 +22,32 @@ export const UserContextProvider = (props) => {
       const user = await AsyncStorage.getItem("user");
       const userJSON = JSON.parse(user);
       if (userJSON) {
-        await getLocation();
         dispatch({ type: actions.user.auth, data: userJSON });
+      } else {
+        dispatch({ type: actions.user.auth, data: null });
       }
     }
     getUserFromAsyncStorage();
   }, []);
 
-  async function getLocation() {
-    const { granted } = await requestPermissionsAsync();
-    if (granted) {
-      const { coords } = await getCurrentPositionAsync({
-        enableHighAccuracy: true,
-      });
-      const { latitude, longitude } = coords;
-      setCurrentRegion({
-        latitude,
-        longitude,
-        latitudeDelta: 0.025,
-        longitudeDelta: 0.025,
-      });
+  useEffect(() => {
+    async function getLocation() {
+      const { granted } = await requestPermissionsAsync();
+      if (granted) {
+        const { coords } = await getCurrentPositionAsync({
+          enableHighAccuracy: true,
+        });
+        const { latitude, longitude } = coords;
+        setCurrentRegion({
+          latitude,
+          longitude,
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
+        });
+      }
     }
-  }
+    getLocation();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, dispatch, currentRegion }}>

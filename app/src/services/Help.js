@@ -17,11 +17,12 @@ class HelpService {
     return allHelps.data;
   };
 
-  async getNearHelp(coords) {
+  async getNearHelp(coords, id) {
+    console.log("coords", coords);
     const { longitude, latitude } = coords;
 
     const helps = await api.get(
-      `/Help?near=true&coords=${longitude},${latitude}`
+      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
     );
 
     return helps.data;

@@ -15,7 +15,7 @@ class UserService {
       const userInfo = await this.requestUserData(idTokenUser);
 
       const user = {
-        data: userInfo,
+        info: userInfo,
         accessToken: idTokenUser,
       };
 
