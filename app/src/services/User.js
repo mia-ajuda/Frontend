@@ -23,8 +23,8 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log(error);
-      throw { error: "Não foi possível fazer o login!" };
+      console.log(error.response.data);
+      throw { error: error.response.data.error };
     }
   }
 

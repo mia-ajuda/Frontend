@@ -51,7 +51,7 @@ export default function Login({ navigation }) {
         dispatch({ type: actions.user.auth, data: user });
       }
     } catch (err) {
-      Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
+      Alert.alert("Ooops..", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false,
       });
       setLoading(false);
