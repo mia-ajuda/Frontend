@@ -13,6 +13,7 @@ import RiskGroup from "./pages/authPages/RiskGroup";
 import Photo from "./pages/authPages/Photo";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
+import MyRequests from "./pages/helpPages/MyRequests"
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
@@ -119,7 +120,7 @@ const BottomTab = () => (
     initialRouteName="main"
   >
     <BottomNavigation.Screen name="notification" component={Main} />
-    <BottomNavigation.Screen name="helpList" component={Main} />
+    <BottomNavigation.Screen name="helpList" component={MyRequests} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="needingList" component={Main} />
     <BottomNavigation.Screen name="settings" component={Main} />
