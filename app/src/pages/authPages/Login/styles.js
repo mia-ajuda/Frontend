@@ -5,27 +5,21 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: colors.primary,
   },
   logo: {
-    marginTop: 40,
+    marginTop: 10,
     flex: 1.5,
     justifyContent: "center",
-  },
-  container: {
-    flex: 1.5,
-    justifyContent: "center",
-    width: "90%",
-    marginVertical: 20,
+    marginBottom: 50
   },
   input: {
     ...fonts.body,
     borderBottomWidth: 2,
     borderBottomColor: colors.light,
-    marginBottom: 30,
+    marginBottom: 20,
     color: colors.light,
+    width: '90%'
   },
   text: {
     color: colors.primary,
@@ -34,24 +28,80 @@ const styles = StyleSheet.create({
   },
   signUP: {
     alignItems: "center",
-    padding: 20,
+    marginBottom: 5,  
   },
   signupText: {
     ...fonts.body,
     color: colors.light,
     fontFamily: "montserrat-semibold",
+    marginBottom: 30
   },
-  forgotPassword: {
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
+  viewForgotPassword:{
+    alignItems: 'flex-end'
   },
   forgotPasswordtext: {
     color: colors.light,
   },
-  viewLogin: {
-    flex: 1,
-    width: "90%",
+  login: {
+    width: '90%'
+    
   },
+  viewLgnFacebook:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    
+  },
+
+  btnFacebook:{
+    borderRadius: 8,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    marginVertical: 5,
+    padding: 15,
+    width: '100%',
+    backgroundColor:"#3B5998",
+
+  },
+
+  lgnFacebook:{
+    color: 'white',
+    fontFamily: "montserrat-semibold",
+    fontSize: 18,
+    
+    marginLeft: 20
+  },
+  viewLgnGoogle:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    
+  },
+
+  btnGoogle:{
+    borderRadius: 8,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    marginVertical: 5,
+    padding: 15,
+    width: '100%',
+    backgroundColor:"#d93025",
+
+  },
+
+  lgnGoogle:{
+    color: 'white',
+    fontFamily: "montserrat-semibold",
+    fontSize: 18,
+    
+    marginLeft: 20
+  },
+  viewLgn:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 2,
+    width: "100%",
+  }
 });
 
 export default styles;

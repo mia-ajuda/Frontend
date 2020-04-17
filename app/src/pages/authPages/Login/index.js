@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
+import { Icon } from "react-native-elements";
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -77,8 +78,7 @@ export default function Login({ navigation }) {
           source={require("../../../images/logo.png")}
         />
       </View>
-
-      <View style={styles.container}>
+      <View style={{ alignItems: "center", width: "100%" }}>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -97,9 +97,9 @@ export default function Login({ navigation }) {
           onChangeText={passwordHandler}
           value={password}
         />
-
+      </View>
+      <View style={{ alignItems: "flex-end", width: "90%" }}>
         <TouchableOpacity
-          style={styles.forgotPassword}
           onPress={() => {
             navigation.navigate("forgotPassword");
           }}
@@ -129,7 +129,25 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
         </TouchableOpacity>
-      </View>
+        
+          <View style={styles.btnGooglee}>
+            <TouchableOpacity style={styles.btnGoogle}>
+              <Icon
+                type="material-community"
+                name={"gmail"}
+                color={"white"}
+              />
+              <Text style={styles.lgnGoogle}>ENTRAR COM GOOGLE</Text>
+            </TouchableOpacity>
+            <View style={styles.viewLgnFacebook}>
+              <TouchableOpacity style={styles.btnFacebook}>
+                <Icon type="font-awesome" name={"facebook"} color={"white"} />
+                <Text style={styles.lgnFacebook}>ENTRAR COM FACEBOOK</Text>
+              </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
     </KeyboardAvoidingView>
   );
 }
