@@ -123,27 +123,6 @@ export default function CreateHelp({ navigation }) {
           </View>
         </View>
       </Container>
-      {/* 
-      <View style={styles.fullScreen}>
-        <View style={styles.centeredView}>
-          <Modal
-            transparent={true}
-            style={styles.modal}
-            animationType="slide"
-            visible={loading}
-          >
-            <View style={[styles.backdrop, styles.centeredView]}>
-              <View style={styles.loading}>
-                <ActivityIndicator
-                  size="large"
-                  color={colors.primary}
-                  animating={loading}
-                />
-              </View>
-            </View>
-          </Modal>
-        </View>
-      </View> */}
 
       <View style={styles.fullScreen}>
         <View style={styles.centeredView}>

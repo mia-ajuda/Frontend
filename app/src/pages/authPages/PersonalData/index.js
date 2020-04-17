@@ -6,6 +6,7 @@ import {
   ScrollView,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { TextInputMask } from "react-native-masked-text";
@@ -13,6 +14,9 @@ import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import { CheckBox } from "react-native-elements";
 import styles from "./styles";
+import UserService from "../../../services/User";
+import colors from "../../../../assets/styles/colorVariables";
+import onlyNumbers from "../../../utils/onlyNumbers";
 
 export default function PersonalData({ route, navigation }) {
   const { registrationData } = route.params;
@@ -29,6 +33,9 @@ export default function PersonalData({ route, navigation }) {
   const [ismentalHealthProfessional, setIsMentalHealthProfessional] = useState(
     false
   );
+  const [isVerificationLoading, setVerificationLoading] = useState(false);
+  const [error, setError] = useState(false);
+  console.log(isVerificationLoading);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -107,7 +114,22 @@ export default function PersonalData({ route, navigation }) {
       ismentalHealthProfessional,
     };
     const userData = { ...registrationData, ...personalData };
+    setVerificationLoading(false);
     navigation.navigate("address", { userData });
+  };
+
+  const verifyCpf = async () => {
+    try {
+      const plainCpf = onlyNumbers(cpf);
+      setVerificationLoading(true);
+      console.log(plainCpf);
+      Keyboard.dismiss();
+      await UserService.verifyUserInfo({ cpf: plainCpf });
+      continueHandler();
+    } catch (err) {
+      setError(err.error);
+      setVerificationLoading(false);
+    }
   };
 
   return (
@@ -131,8 +153,7 @@ export default function PersonalData({ route, navigation }) {
           </View>
           <View style={styles.title}>
             <Text style={styles.text1}>
-              Precisamos de algumas informações para poder realizar seu
-              cadastro!! Pode me dizer seu nome, data de nascimento e CPF?
+              Informe alguns dados para continuarmos seu com o seu cadastro.
             </Text>
           </View>
         </View>
@@ -144,6 +165,8 @@ export default function PersonalData({ route, navigation }) {
         contentContainerStyle={[!keyboardShow ? styles.scroll : styles.scroll2]}
       >
         <View style={styles.inputView}>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+
           <Input
             change={nameHandler}
             label="Nome Completo"
@@ -234,21 +257,25 @@ export default function PersonalData({ route, navigation }) {
         </View>
       </ScrollView>
       <View style={styles.btnView}>
-        <Button
-          title="Continuar"
-          disabled={
-            !(
-              cpf !== "" &&
-              cpfIsValid &&
-              birthday !== "" &&
-              birthIsValid &&
-              cellPhone !== "" &&
-              validPhone
-            )
-          }
-          large
-          press={continueHandler}
-        />
+        {isVerificationLoading ? (
+          <ActivityIndicator color={colors.primary} size="large" />
+        ) : (
+          <Button
+            title="Continuar"
+            disabled={
+              !(
+                cpf !== "" &&
+                cpfIsValid &&
+                birthday !== "" &&
+                birthIsValid &&
+                cellPhone !== "" &&
+                validPhone
+              )
+            }
+            large
+            press={verifyCpf}
+          />
+        )}
       </View>
     </KeyboardAvoidingView>
   );

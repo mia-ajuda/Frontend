@@ -23,7 +23,6 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log(error.response.data);
       throw { error: error.response.data.error };
     }
   }
@@ -32,8 +31,12 @@ class UserService {
     try {
       const response = await api.post("/user", data);
       return response;
-    } catch (err) {
-      throw "Não foi possível fazer o cadastro. Tente novamente!";
+    } catch (error) {
+      console.log(error.response.data);
+      throw {
+        error:
+          "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
+      };
     }
   }
 
@@ -57,6 +60,15 @@ class UserService {
       },
     });
     return user.data;
+  }
+
+  async verifyUserInfo({ email = null, cpf = null }) {
+    try {
+      const query = email ? `email=${email}` : `cpf=${cpf}`;
+      await api.get(`/user/verify?${query}`);
+    } catch (error) {
+      throw error.response.data;
+    }
   }
 
   helpAnUser() {}

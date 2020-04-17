@@ -51,9 +51,14 @@ export default function Login({ navigation }) {
         dispatch({ type: actions.user.auth, data: user });
       }
     } catch (err) {
-      Alert.alert("Ooops..", err.error, [{ text: "OK", onPress: () => {} }], {
-        cancelable: false,
-      });
+      Alert.alert(
+        "Ooops..",
+        err.error || "Algo deu errado, tente novamente mais tarde",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false,
+        }
+      );
       setLoading(false);
     }
   };

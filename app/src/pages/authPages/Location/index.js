@@ -140,7 +140,7 @@ export default function Location({ route, navigation }) {
             <Text style={styles.descriptionText}>
               Ela será onde sua ajuda será informada no mapa! Por isso, se você
               não estiver na posição que deseja cadastrar, deixe esse passo para
-              depois.handleLocation
+              depois.
             </Text>
           )}
         </TouchableOpacity>

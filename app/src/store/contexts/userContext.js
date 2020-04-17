@@ -12,7 +12,7 @@ export const UserContext = createContext();
 export const UserContextProvider = (props) => {
   const [user, dispatch] = useReducer(userReducer, {
     isLoading: true,
-    user: null,
+    data: null,
   });
 
   const [currentRegion, setCurrentRegion] = useState(null);
