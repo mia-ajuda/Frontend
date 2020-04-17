@@ -15,7 +15,6 @@ import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
 import * as Facebook from 'expo-facebook';
-import Firebase from '../../../services/firebaseAuth';
 import firebase  from 'firebase';
 
 
@@ -75,36 +74,28 @@ export default function Login({ navigation }) {
     }
   };
 
-  async function logIn() {
+  async function logInWithFacebook() {
     try {
       await Facebook.initializeAsync('279998959666055');
       const {
         type,
         token,
-        expires,
-        permissions,
-        declinedPermissions,
       } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile'],
+        permissions: [
+          'public_profile',
+          'email',
+        ],
       });
 
       if (type === 'success') {
-        // // Get the user's name using Facebook's Graph API
-        // // const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-
-        // await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
-        // const credential = firebase.auth.FacebookAuthProvider.credential(token);
-        // // const facebookProfileData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);  // Sign in with Facebook credential
-
-        // console.log(credential);
-        // // console.log(facebookProfileData);
-        // // Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
 
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const credential = await firebase.auth.FacebookAuthProvider.credential(token);
         const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
 
-        console.log(facebookProfileData);
+        const teste = facebookProfileData.additionalUserInfo;
+        console.log(teste);
+
       } else {
         // type === 'cancel'
       }
@@ -194,7 +185,7 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.viewFacebook}>
-            <TouchableOpacity style={styles.btnFacebook}>
+            <TouchableOpacity style={styles.btnFacebook} onPress={logInWithFacebook}>
               <Icon type="font-awesome" name={"facebook"} color={"white"} />
             </TouchableOpacity>
           </View>
