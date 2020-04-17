@@ -11,24 +11,25 @@ export default function HelpContextProvider(props) {
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
-    async function getHelpList() {
-      if (currentRegion) {
-        console.log("currentRegion", currentRegion);
-        try {
-          const userId = user.data.info._id;
-          let helpListArray = await HelpService.getNearHelp(
-            currentRegion,
-            userId
-          );
+    if (user) getHelpList();
+  }, [currentRegion, user]);
 
-          dispatch({ type: actions.help.addHelp, helps: helpListArray });
-        } catch (error) {
-          console.log(error);
-        }
+  async function getHelpList() {
+    if (currentRegion) {
+      console.log("currentRegion", currentRegion);
+      try {
+        const userId = user.data.info._id;
+        let helpListArray = await HelpService.getNearHelp(
+          currentRegion,
+          userId
+        );
+
+        dispatch({ type: actions.help.addHelp, helps: helpListArray });
+      } catch (error) {
+        console.log(error);
       }
     }
-    getHelpList();
-  }, [currentRegion, user]);
+  }
 
   return (
     <HelpContext.Provider value={{ helpList, dispatch }}>

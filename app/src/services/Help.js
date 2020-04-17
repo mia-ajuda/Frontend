@@ -41,14 +41,19 @@ class HelpService {
   getAllHelpForUser() {}
   getAllHelpForHelper() {}
 
-  async createHelp(title, categoryId, description) {
-    const createdHelpResponse = await api.post("/help", {
+  async createHelp(title, categoryId, description, accessToken, ownerId) {
+    const data = {
       title,
       categoryId,
       description,
-      ownerId: "5e8e4e19c2ebbc0026761416",
-    });
-    return createdHelpResponse;
+      ownerId,
+    };
+    const headers = {
+      Authorization: accessToken,
+    };
+    const createdHelpResponse = await api.post("/help", data, { headers });
+
+    return createdHelpResponse.data;
   }
 
   deleteHelp() {}
