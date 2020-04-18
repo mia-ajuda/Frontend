@@ -11,6 +11,7 @@ import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 import { Icon } from "react-native-elements";
+import axios from 'axios';
 
 export default function Address({ route, navigation }) {
   const dataUser = route.params.userData;
@@ -20,6 +21,7 @@ export default function Address({ route, navigation }) {
   const [complement, setComplement] = useState("");
   const [numberPlace, setNUmberPlace] = useState("");
   const [keyboardShow, setKeyboardShow] = useState(false);
+  const [isCepValid, setIsCepValid] = useState(false);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -40,8 +42,33 @@ export default function Address({ route, navigation }) {
     setKeyboardShow(false);
   };
 
-  const cepHandle = (enteredName) => {
-    setCep(enteredName);
+  const cepHandle = async (cep) => {
+    if(cep.length === 8) {
+      try{
+        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+        
+        if(!response.data.error) {
+          const {
+            bairro,
+            uf,
+            logradouro
+          } = response.data;
+
+          setIsCepValid(true);
+          setState(uf);
+          setCity(bairro);
+          setComplement(logradouro);
+        } else {
+          setIsCepValid(false);
+        }
+
+      } catch {
+        setIsCepValid(true);
+      }
+    }
+
+    console.log(state, city, complement);
+    setCep(cep);
   };
 
   const cityHandle = (enteredName) => {
@@ -106,11 +133,13 @@ export default function Address({ route, navigation }) {
             change={cepHandle}
             label="CEP"
             placeholder="Digite seu CEP"
+            value={cep}
             keyboard="numeric"
           />
           <View style={styles.viewMargin}></View>
           <Input
             change={cityHandle}
+            value={city}
             label="Cidade"
             placeholder="Digite sua cidade"
           />
@@ -126,12 +155,14 @@ export default function Address({ route, navigation }) {
             change={numberHandle}
             label="Número"
             placeholder="Digite o número de sua residência"
+            value={numberPlace}
             keyboard="numeric"
           />
           <View style={styles.viewMargin}></View>
           <Input
             change={complementHandle}
             label="Complemento"
+            value={complement}
             placeholder="Opcional"
           />
           <View style={styles.viewMargin}></View>
