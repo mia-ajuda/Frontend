@@ -62,13 +62,10 @@ class UserService {
     return user.data;
   }
 
-  async verifyUserInfo({ email = null, cpf = null }) {
-    try {
-      const query = email ? `email=${email}` : `cpf=${cpf}`;
-      await api.get(`/user/verify?${query}`);
-    } catch (error) {
-      throw error.response.data;
-    }
+  async verifyUserInfo(value) {
+    console.log(value);
+    const response = await api.get(`/checkUserExistence/${value}`);
+    return !!response.data;
   }
 
   helpAnUser() {}

@@ -8,6 +8,7 @@ import {
   Text,
   Alert,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
@@ -42,6 +43,7 @@ export default function Login({ navigation }) {
 
   const loginHandler = async () => {
     const data = { email, password };
+    Keyboard.dismiss();
     setLoading(true);
 
     try {

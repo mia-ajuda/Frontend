@@ -18,7 +18,6 @@ class HelpService {
   };
 
   async getNearHelp(coords, id) {
-    console.log("coords", coords);
     const { longitude, latitude } = coords;
 
     const helps = await api.get(

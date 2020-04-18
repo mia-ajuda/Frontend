@@ -35,7 +35,6 @@ export default function PersonalData({ route, navigation }) {
   );
   const [isVerificationLoading, setVerificationLoading] = useState(false);
   const [error, setError] = useState(false);
-  console.log(isVerificationLoading);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -122,12 +121,13 @@ export default function PersonalData({ route, navigation }) {
     try {
       const plainCpf = onlyNumbers(cpf);
       setVerificationLoading(true);
-      console.log(plainCpf);
       Keyboard.dismiss();
-      await UserService.verifyUserInfo({ cpf: plainCpf });
+      const doesCpfExist = await UserService.verifyUserInfo(plainCpf);
+      if (doesCpfExist)
+        throw "Esse Cpf já está sendo utilizado por outro usuário";
       continueHandler();
     } catch (err) {
-      setError(err.error);
+      setError(err);
       setVerificationLoading(false);
     }
   };

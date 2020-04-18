@@ -73,10 +73,13 @@ export default function RegistrationData({ navigation }) {
     try {
       setLoading(true);
       Keyboard.dismiss();
-      await UserService.verifyUserInfo({ email });
+      const doesEmailExist = await UserService.verifyUserInfo(email);
+      console.log(doesEmailExist);
+      if (doesEmailExist)
+        throw "Esse email já está sendo usado por outro usuário";
       continueHandler();
     } catch (err) {
-      setError(err.error);
+      setError(err);
       setLoading(false);
     }
   };
