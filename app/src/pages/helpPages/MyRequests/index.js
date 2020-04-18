@@ -1,23 +1,65 @@
 import React, { useState, useEffect } from "react";
-import { View /*Text*/ } from "react-native";
+import { View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-// import helpService from "../../../services/Help";
 
 import styles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import ListCard from "../../../components/ListCard";
+import helpService from "../../../services/Help";
 
 export default function MyRequests({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
 
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
-  const [doneHelpList, setDoneHelpList] = useState([]);
-  // const [listView, setListView] = useState(true);
+  const [finishedHelpList, setFinishedHelpList] = useState([]);
 
-  useEffect(() => {
-    // setOnGoingHelpList(helpService.algumaFuncao("5e960f084595ab0026961e0b", "onf_going"));
-    // setDoneHelpList(helpSerVice.algumaFuncao("5e960f084595ab0026961e0b", "finished"));
-  }, [onGoingHelpList, doneHelpList]);
+  async function loadOnGoingHelps() {
+    // let resOnGoing = await helpService.getAllHelpForUser("userID", "on_going");
+    // setOnGoingHelpList(resOnGoing);
+
+    await setOnGoingHelpList([
+      {
+        title: "mia ajuda pufavor",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "mia ajuda pufavor",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "mia ajuda pufavor",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "mia ajuda pufavor",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+    ]);
+  }
+
+  async function loadFinishedHelps() {
+    // let resFinished = await helpService.getAllHelpForUser("userId", "finished");
+    // setFinishedHelpList(resFinished);
+
+    await setFinishedHelpList([
+      {
+        title: "ja foi ajudado",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "ja foi ajudado",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "ja foi ajudado",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+      {
+        title: "ja foi ajudado",
+        description: "esse eh um exemplo da ajuda hehehe",
+      },
+    ]);
+  }
 
   function onGoingHelps() {
     return (
@@ -27,7 +69,7 @@ export default function MyRequests({ navigation }) {
             key={i}
             helpTitle={item.title}
             helpDescription={item.description}
-            categoryName={"Higiene Pessoal"}
+            categoryName={"Apoio psicológico"}
           />
         ))}
       </ScrollView>
@@ -37,17 +79,22 @@ export default function MyRequests({ navigation }) {
   function doneHelps() {
     return (
       <ScrollView>
-        {doneHelpList.map((item, i) => (
+        {finishedHelpList.map((item, i) => (
           <ListCard
             key={i}
             helpTitle={item.title}
             helpDescription={item.description}
-            categoryName={"Higiene Pessoal"}
+            categoryName={"Apoio psicológico"}
           />
         ))}
       </ScrollView>
     );
   }
+
+  useEffect(() => {
+    loadOnGoingHelps();
+    loadFinishedHelps();
+  }, [onGoingHelpList, finishedHelpList]);
 
   return (
     <View style={styles.container}>
