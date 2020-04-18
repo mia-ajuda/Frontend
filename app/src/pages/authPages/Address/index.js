@@ -46,26 +46,25 @@ export default function Address({ route, navigation }) {
   };
 
   const cepHandle = async (currentCep) => {
-    if(currentCep.length <= 8) {
-      setCep(cep);
-    }
+    setCep(currentCep.substring(0,8));
 
-    if(cep.length === 8) {
+    if(currentCep.length === 8) {
       try{
         setLoading(true);
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+        const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
 
         if(!response.data.error) {
           const {
-            bairro,
+            localidade,
             uf,
-            logradouro
+            logradouro,
+            bairro,
           } = response.data;
 
           setIsCepValid(true);
           setState(uf);
-          setCity(bairro);
-          setComplement(logradouro);
+          setCity(localidade);
+          setComplement( logradouro + " / " + bairro );
         } else {
           setIsCepValid(false);
         }
@@ -73,9 +72,8 @@ export default function Address({ route, navigation }) {
       } catch {
         setIsCepValid(true);
       }
-    } else {
-      setIsCepValid(false);
     }
+
     setLoading(false);
   };
 
