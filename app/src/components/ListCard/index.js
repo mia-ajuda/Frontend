@@ -30,7 +30,7 @@ export default function ListCard({ helpTitle, helpDescription, categoryName, del
           {deleteVisible ? (
             <Icon
               size={25}
-              name='trash-alt'
+              name="trash"
               type="font-awesome"
               color={colors.danger}
               onPress={deleteHelp}
