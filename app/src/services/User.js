@@ -1,11 +1,29 @@
 import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
 import { AsyncStorage } from "react-native";
+import { Notifications } from 'expo';
 
 class UserService {
   constructor() {}
 
   async logIn(data) {
+
+    const setUserDeviceId = async (userId, firebaseToken) => {
+      try{
+        Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
+          await api.put(`/user`, {deviceId: pushToken}, {
+            headers: {
+              authorization: `Bearer ${firebaseToken}`,
+            }
+          });
+        });
+      }catch {
+        throw {error: "Não foi possível recuperar Puhsh Token!"}
+      }
+
+
+    }
+
     try {
       await firebaseAuth
         .auth()
@@ -19,7 +37,9 @@ class UserService {
         accessToken: idTokenUser,
       });
 
-      await AsyncStorage.setItem("user", user);
+      setUserDeviceId(userInfo._id, idTokenUser);
+
+      await AsyncStorage.setItem("user", user);     
     } catch (error) {
       console.log(error);
       throw { error: "Não foi possível fazer o login!" };
