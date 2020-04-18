@@ -82,4 +82,8 @@ export default StyleSheet.create({
     lineHeight: 30,
     textAlign: "center",
   },
+
+  bottomItens: {
+    
+  }
 });

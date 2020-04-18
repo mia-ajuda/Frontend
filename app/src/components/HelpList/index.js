@@ -64,6 +64,7 @@ export default function HelpList({ helps, visible, setVisible }) {
                   helpTitle={item.title}
                   helpDescription={item.description}
                   categoryName={item.category[0].name}
+                  deleteVisible={false}
                 />
               ))}
             </ScrollView>

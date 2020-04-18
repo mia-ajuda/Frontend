@@ -70,6 +70,8 @@ export default function MyRequests({ navigation }) {
             helpTitle={item.title}
             helpDescription={item.description}
             categoryName={"Apoio psicológico"}
+            deleteVisible={true}
+            helpId={item.id}
           />
         ))}
       </ScrollView>
@@ -85,6 +87,8 @@ export default function MyRequests({ navigation }) {
             helpTitle={item.title}
             helpDescription={item.description}
             categoryName={"Apoio psicológico"}
+            deleteVisible={true}
+            helpId={item.id}
           />
         ))}
       </ScrollView>
@@ -94,7 +98,7 @@ export default function MyRequests({ navigation }) {
   useEffect(() => {
     loadOnGoingHelps();
     loadFinishedHelps();
-  }, [onGoingHelpList, finishedHelpList]);
+  }, []);
 
   return (
     <View style={styles.container}>
