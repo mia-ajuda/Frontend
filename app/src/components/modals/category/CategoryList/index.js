@@ -35,7 +35,7 @@ export default function CategoryList({ visible, setVisible }) {
         selectedCategoryArray,
         userId
       );
-      dispatch({ type: actions.help.addHelp, helps: helpListFilterd });
+      dispatch({ type: actions.help.storeList, helps: helpListFilterd });
       setVisible(!visible);
       setFilterCategoryArray(selectedCategoryArray);
     } catch (error) {
@@ -47,7 +47,7 @@ export default function CategoryList({ visible, setVisible }) {
     setVisible(!visible);
     setFilterCategoryArray([]);
     const helpList = await HelpService.getNearHelp(currentRegion, userId);
-    dispatch({ type: actions.help.addHelp, helps: helpList });
+    dispatch({ type: actions.help.storeList, helps: helpList });
   }
 
   return (

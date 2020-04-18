@@ -9,7 +9,7 @@ export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
   async function logout() {
     await AsyncStorage.removeItem("user");
-    dispatch({ type: actions.user.logout });
+    dispatch({ type: actions.user.removeUserInfo });
   }
   return (
     <View style={styles.container}>

@@ -22,9 +22,9 @@ export const UserContextProvider = (props) => {
       const user = await AsyncStorage.getItem("user");
       const userJSON = JSON.parse(user);
       if (userJSON) {
-        dispatch({ type: actions.user.auth, data: userJSON });
+        dispatch({ type: actions.user.storeUserInfo, data: userJSON });
       } else {
-        dispatch({ type: actions.user.auth, data: null });
+        dispatch({ type: actions.user.storeUserInfo, data: null });
       }
     }
     getUserFromAsyncStorage();

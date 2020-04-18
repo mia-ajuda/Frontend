@@ -1,10 +1,10 @@
 const actions = {
   user: {
-    auth: "AUTH_USER",
-    logout: "LOGOUT_USER",
+    storeUserInfo: "STORE_USER",
+    removeUserInfo: "REMOVE_USER",
   },
   help: {
-    addHelp: "ADD_HELP",
+    storeList: "ADD_HELP",
   },
   category: {
     getCategories: "GET_CATEGORIES",

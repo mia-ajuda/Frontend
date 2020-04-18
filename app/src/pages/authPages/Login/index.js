@@ -50,7 +50,7 @@ export default function Login({ navigation }) {
       const user = await UserService.logIn(data);
       if (user) {
         setLoading(false);
-        dispatch({ type: actions.user.auth, data: user });
+        dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
       Alert.alert(

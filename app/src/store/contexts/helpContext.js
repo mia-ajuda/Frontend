@@ -23,7 +23,7 @@ export default function HelpContextProvider(props) {
           userId
         );
 
-        dispatch({ type: actions.help.addHelp, helps: helpListArray });
+        dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
         console.log(error);
       }
