@@ -6,12 +6,14 @@ import {
   ScrollView,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 import { Icon } from "react-native-elements";
 import axios from 'axios';
+import colors from '../../../../assets/styles/colorVariables';
 
 export default function Address({ route, navigation }) {
   const dataUser = route.params.userData;
@@ -21,7 +23,8 @@ export default function Address({ route, navigation }) {
   const [complement, setComplement] = useState("");
   const [numberPlace, setNUmberPlace] = useState("");
   const [keyboardShow, setKeyboardShow] = useState(false);
-  const [isCepValid, setIsCepValid] = useState(false);
+  const [isCepValid, setIsCepValid] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -42,11 +45,16 @@ export default function Address({ route, navigation }) {
     setKeyboardShow(false);
   };
 
-  const cepHandle = async (cep) => {
+  const cepHandle = async (currentCep) => {
+    if(currentCep.length <= 8) {
+      setCep(cep);
+    }
+
     if(cep.length === 8) {
       try{
+        setLoading(true);
         const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-        
+
         if(!response.data.error) {
           const {
             bairro,
@@ -65,10 +73,10 @@ export default function Address({ route, navigation }) {
       } catch {
         setIsCepValid(true);
       }
+    } else {
+      setIsCepValid(false);
     }
-
-    console.log(state, city, complement);
-    setCep(cep);
+    setLoading(false);
   };
 
   const cityHandle = (enteredName) => {
@@ -104,7 +112,7 @@ export default function Address({ route, navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      {!keyboardShow ? (
+      {!keyboardShow && !loading ? (
         <View>
           <View style={styles.backIcon}>
             <TouchableOpacity
@@ -124,60 +132,81 @@ export default function Address({ route, navigation }) {
       ) : (
         <></>
       )}
-      <ScrollView
-        style={{ width: "100%" }}
-        contentContainerStyle={styles.scroll}
-      >
-        <View style={styles.inputView}>
-          <Input
-            change={cepHandle}
-            label="CEP"
-            placeholder="Digite seu CEP"
-            value={cep}
-            keyboard="numeric"
-          />
-          <View style={styles.viewMargin}></View>
-          <Input
-            change={cityHandle}
-            value={city}
-            label="Cidade"
-            placeholder="Digite sua cidade"
-          />
-          <View style={styles.viewMargin}></View>
-          <Input
-            change={stateHandle}
-            value={state}
-            label="UF"
-            placeholder="UF"
-          />
-          <View style={styles.viewMargin}></View>
-          <Input
-            change={numberHandle}
-            label="Número"
-            placeholder="Digite o número de sua residência"
-            value={numberPlace}
-            keyboard="numeric"
-          />
-          <View style={styles.viewMargin}></View>
-          <Input
-            change={complementHandle}
-            label="Complemento"
-            value={complement}
-            placeholder="Opcional"
-          />
-          <View style={styles.viewMargin}></View>
-        </View>
-      </ScrollView>
-      <View style={styles.btnView}>
-        <Button
-          title="Continuar"
-          disabled={
-            cep === "" || city === "" || state === "" || numberPlace === ""
-          }
-          large
-          press={continueHandler}
-        />
-      </View>
+      
+      {!loading ? (
+        <>
+          <ScrollView
+            style={{ width: "100%" }}
+            contentContainerStyle={styles.scroll}
+          >
+            <View style={styles.inputView}>
+              <Input
+                change={cepHandle}
+                valid={isCepValid}
+                label="CEP"
+                placeholder="Digite seu CEP"
+                value={cep}
+                keyboard="numeric"
+              />
+              <View style={styles.viewMargin}></View>
+              <Input
+                change={cityHandle}
+                value={city}
+                label="Cidade"
+                placeholder="Digite sua cidade"
+              />
+              <View style={styles.viewMargin}></View>
+              <Input
+                change={stateHandle}
+                value={state}
+                label="UF"
+                placeholder="UF"
+              />
+              <View style={styles.viewMargin}></View>
+              <Input
+                change={numberHandle}
+                label="Número"
+                placeholder="Digite o número de sua residência"
+                value={numberPlace}
+                keyboard="numeric"
+              />
+              <View style={styles.viewMargin}></View>
+              <Input
+                change={complementHandle}
+                label="Complemento"
+                value={complement}
+                placeholder="Opcional"
+              />
+              <View style={styles.viewMargin}></View>
+            </View>
+          </ScrollView>
+          <View style={styles.btnView}>
+            <Button
+              title="Continuar"
+              disabled={
+                cep === ""  ||
+                city === "" || 
+                state === "" || 
+                numberPlace === "" ||
+                !isCepValid
+              }
+              large
+              press={continueHandler}
+            />
+          </View>
+        </>
+        ) : (
+          <>
+            <View style={{ 
+              flex: 1, 
+              justifyContent: 'center', 
+              alignItems: 'center' 
+            }}> 
+              <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+          </>
+        )}
+    
     </KeyboardAvoidingView>
   );
 }
