@@ -16,6 +16,7 @@ import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
 import * as Facebook from 'expo-facebook';
 import firebase  from 'firebase';
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 
 import styles from "./styles";
@@ -106,6 +107,19 @@ export default function Login({ navigation }) {
 
   }
 
+  const signInGoogle = async () => {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      console.log(user);
+      if (type === 'success') {
+        this._syncUserWithStateAsync();
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -180,7 +194,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <View style={styles.quickLogin}>
           <View style={styles.viewGoogle}>
-            <TouchableOpacity style={styles.btnGoogle}>
+            <TouchableOpacity style={styles.btnGoogle} onPress={signInGoogle}>
               <Icon type="antdesign" name={"google"} color={"white"} />
             </TouchableOpacity>
           </View>
