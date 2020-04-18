@@ -74,7 +74,6 @@ export default function RegistrationData({ navigation }) {
       setLoading(true);
       Keyboard.dismiss();
       const doesEmailExist = await UserService.verifyUserInfo(email);
-      console.log(doesEmailExist);
       if (doesEmailExist)
         throw "Esse email já está sendo usado por outro usuário";
       continueHandler();

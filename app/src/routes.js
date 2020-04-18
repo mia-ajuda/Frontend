@@ -136,7 +136,7 @@ const BottomTab = () => (
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
-  if (user.isLoading) {
+  if (user.showSplash) {
     return <Splash />;
   }
 
@@ -193,10 +193,9 @@ const headerStyle = {
 
 const Routes = () => {
   const { user } = useContext(UserContext);
-
   return (
     <NavigationContainer>
-      {user.data ? <BottomTab /> : <AuthRoutes />}
+      {user.info ? <BottomTab /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };

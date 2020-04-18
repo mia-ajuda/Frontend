@@ -11,10 +11,8 @@ export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
   const [user, dispatch] = useReducer(userReducer, {
-    isLoading: true,
-    data: null,
+    showSplash: true,
   });
-
   const [currentRegion, setCurrentRegion] = useState(null);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export const UserContextProvider = (props) => {
       if (userJSON) {
         dispatch({ type: actions.user.storeUserInfo, data: userJSON });
       } else {
-        dispatch({ type: actions.user.storeUserInfo, data: null });
+        dispatch({ type: actions.user.requestSignIn });
       }
     }
     getUserFromAsyncStorage();

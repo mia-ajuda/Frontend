@@ -63,7 +63,6 @@ class UserService {
   }
 
   async verifyUserInfo(value) {
-    console.log(value);
     const response = await api.get(`/checkUserExistence/${value}`);
     return !!response.data;
   }

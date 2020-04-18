@@ -4,14 +4,15 @@ export const userReducer = (state, action) => {
   switch (action.type) {
     case actions.user.storeUserInfo:
       return {
-        isLoading: false,
-        data: action.data,
+        showSplash: false,
+        ...action.data,
+      };
+    case actions.user.requestSignIn:
+      return {
+        showSplash: false,
       };
     case actions.user.removeUserInfo:
-      return {
-        isLoading: false,
-        data: null,
-      };
+      return {};
 
     default:
       return state;

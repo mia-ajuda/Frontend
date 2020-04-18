@@ -26,8 +26,6 @@ export default function CategoryList({ visible, setVisible }) {
   const { dispatch } = useContext(HelpContext);
   const { user, currentRegion } = useContext(UserContext);
 
-  const userId = user.data.info._id;
-
   async function filterHelplist() {
     try {
       const helpListFilterd = await HelpService.getAllHelpForCategory(
