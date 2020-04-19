@@ -70,7 +70,6 @@ export default function Login({ navigation }) {
   const loginHandlerFacebook = async () => {
     try {
       await UserService.logInWithFacebook(navigation);
-      // navigation.navigate("main");
     } catch (err) {
       Alert.alert(
         "Erro",
@@ -90,13 +89,11 @@ export default function Login({ navigation }) {
 
   const loginHandlerGoogle = async () => {
     try {
-      const result = await UserService.loginInWithGoogle();
-      await api.get(`/api/checkUserExistence/${result.data.email}`);
-      // navigation.navigate("main");
+      await UserService.loginInWithGoogle(navigation);
     } catch (err) {
       Alert.alert(
         "Erro",
-        "Erro ao logar com o facebook. Tente Novamente!",
+        err.error,
         [{ text: "OK", onPress: () => {} }],
         {
           cancelable: false
