@@ -4,6 +4,7 @@ import { AsyncStorage } from "react-native";
 import { Notifications } from 'expo';
 import * as Facebook from 'expo-facebook';
 import firebase  from 'firebase';
+import * as Google from 'expo-google-app-auth';
 
 class UserService {
   constructor() {}
@@ -78,13 +79,38 @@ class UserService {
         });
   
         await AsyncStorage.setItem("user", user);
+        return { success: "Login feito sucesso!" };
       } else {
-        // type === 'cancel'
       }
     } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+      return { error: 'Erro ao logar com o facebook. Tente Novamente!' }
     }
 
+  }
+
+  async signInWithGoogle() {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: '835532070673-cmops44pghnnsgbnl0t3a39rpfuqh9j5.apps.googleusercontent.com',
+        iosClientId: '835532070673-g2r9pf8tske7q9a4oa2vktk18jav8aqr.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      });
+
+
+      if (result.type === 'success') {
+        const user = JSON.stringify({
+          data: result.user,
+          accessToken: result.accessToken,
+        });
+
+        await AsyncStorage.setItem("user", user);
+        return { success: "Login feito com sucesso!" };
+      } else {
+        throw { error: "Não foi possível fazer login com o gGogle. Tente novamente!" } 
+      }
+    } catch (e) {
+      return { error: "Não foi possível fazer login com o Google. Tente novamente!" };
+    }
   }
 
   async signUp(data) {
