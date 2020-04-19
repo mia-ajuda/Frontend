@@ -35,11 +35,11 @@ export default function Login({ navigation }) {
     }
   }, [email, password]);
 
-  const emailHandler = (enteredEmail) => {
+  const emailHandler = enteredEmail => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = (enteredPassword) => {
+  const passwordHandler = enteredPassword => {
     setPassword(enteredPassword);
   };
 
@@ -66,38 +66,44 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
-  
+
   const loginHandlerFacebook = async () => {
     try {
-      await UserService.logInWithFacebook();
+      await UserService.logInWithFacebook(navigation);
       // navigation.navigate("main");
     } catch (err) {
-      Alert.alert("Erro", 
-      err.error,
-      [{ 
-        text: "OK", 
-        onPress: () => {} 
-      }], 
-      {
-        cancelable: false,
-      });
+      Alert.alert(
+        "Erro",
+        err.error,
+        [
+          {
+            text: "OK",
+            onPress: () => {}
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
     }
   };
 
   const loginHandlerGoogle = async () => {
     try {
-      await UserService.loginInWithGoogle();
+      const result = await UserService.loginInWithGoogle();
+      await api.get(`/api/checkUserExistence/${result.data.email}`);
       // navigation.navigate("main");
     } catch (err) {
-      Alert.alert("Erro", 
-      'Erro ao logar com o facebook. Tente Novamente!',
-       [{ text: "OK", onPress: () => {} }], 
-      {
-        cancelable: false,
-      });
+      Alert.alert(
+        "Erro",
+        "Erro ao logar com o facebook. Tente Novamente!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
     }
   };
-
 
   return (
     <KeyboardAvoidingView
@@ -173,12 +179,18 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <View style={styles.quickLogin}>
           <View style={styles.viewGoogle}>
-            <TouchableOpacity style={styles.btnGoogle} onPress={loginHandlerGoogle}>
+            <TouchableOpacity
+              style={styles.btnGoogle}
+              onPress={loginHandlerGoogle}
+            >
               <Icon type="antdesign" name={"google"} color={"white"} />
             </TouchableOpacity>
           </View>
           <View style={styles.viewFacebook}>
-            <TouchableOpacity style={styles.btnFacebook} onPress={loginHandlerFacebook}>
+            <TouchableOpacity
+              style={styles.btnFacebook}
+              onPress={loginHandlerFacebook}
+            >
               <Icon type="font-awesome" name={"facebook"} color={"white"} />
             </TouchableOpacity>
           </View>
