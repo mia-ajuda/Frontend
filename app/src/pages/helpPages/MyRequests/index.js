@@ -16,64 +16,35 @@ export default function MyRequests({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
 
   async function loadOnGoingHelps() {
-    // let resOnGoing = await helpService.getAllHelpForUser("userID", "on_going");
-    // setOnGoingHelpList(resOnGoing);
-
-    await setOnGoingHelpList([
-      {
-        title: "mia ajuda pufavor",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "mia ajuda pufavor",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "mia ajuda pufavor",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "mia ajuda pufavor",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-    ]);
+    let tempOnGoing = await helpService.getAllHelpForUser(
+      "5e960f074595ab0026961def",
+      "on_going"
+    );
+    let resOnGoing = tempOnGoing.filter((help) => help.active === true);
+    setOnGoingHelpList(resOnGoing);
   }
 
   async function loadFinishedHelps() {
-    // let resFinished = await helpService.getAllHelpForUser("userId", "finished");
-    // setFinishedHelpList(resFinished);
-
-    await setFinishedHelpList([
-      {
-        title: "ja foi ajudado",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "ja foi ajudado",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "ja foi ajudado",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-      {
-        title: "ja foi ajudado",
-        description: "esse eh um exemplo da ajuda hehehe",
-      },
-    ]);
+    let tempFinished = await helpService.getAllHelpForUser(
+      "5e960f074595ab0026961def",
+      "finished"
+    );
+    let resFinished = tempFinished.filter((help) => help.active === true);
+    setFinishedHelpList(resFinished);
   }
 
   function onGoingHelps() {
     return (
-      <ScrollView >
+      <ScrollView>
         <View style={styles.helpList}>
           {onGoingHelpList.map((item, i) => (
             <ListCard
               key={i}
               helpTitle={item.title}
               helpDescription={item.description}
-              categoryName={"Apoio psicológico"}
+              categoryName={"Higiene Pessoal"}
               deleteVisible={true}
+              helpId={item._id}
             />
           ))}
         </View>
@@ -83,7 +54,7 @@ export default function MyRequests({ navigation }) {
 
   function doneHelps() {
     return (
-      <ScrollView >
+      <ScrollView>
         <View style={styles.helpList}>
           {finishedHelpList.map((item, i) => (
             <ListCard
@@ -92,6 +63,7 @@ export default function MyRequests({ navigation }) {
               helpDescription={item.description}
               categoryName={"Apoio psicológico"}
               deleteVisible={true}
+              helpId={item._id}
             />
           ))}
         </View>
@@ -102,11 +74,17 @@ export default function MyRequests({ navigation }) {
   useEffect(() => {
     loadOnGoingHelps();
     loadFinishedHelps();
-  }, []);
+  }, [onGoingHelpList, finishedHelpList]);
 
   return (
     <View style={styles.container}>
-      <Tab.Navigator  tabBarOptions={{ style:  styles.tabContainer , labelStyle: styles.tabLabel, indicatorStyle: styles.tabIndicator}}>
+      <Tab.Navigator
+        tabBarOptions={{
+          style: styles.tabContainer,
+          labelStyle: styles.tabLabel,
+          indicatorStyle: styles.tabIndicator,
+        }}
+      >
         <Tab.Screen name="Em andamento" component={onGoingHelps} />
         <Tab.Screen name="Finalizados" component={doneHelps} />
       </Tab.Navigator>
