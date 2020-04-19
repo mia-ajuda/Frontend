@@ -1,7 +1,8 @@
 import api from "./Api";
+import firebaseAuth from "./firebaseAuth";
 
 class HelpService {
-  constructor() {}
+  constructor() { }
 
   getAllHelps = async (userId = null, status = null) => {
     let url = "/help";
@@ -37,20 +38,33 @@ class HelpService {
 
     return helps.data;
   }
-  getAllHelpForUser() {}
-  getAllHelpForHelper() {}
+  getAllHelpForUser() { }
+  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description) {
+
+    requestUserData = async (token) => {
+      const user = await api.get(`/user`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      return user.data;
+    }
+
+    const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
+    const userInfo = await requestUserData(idTokenUser);
+    
     const createdHelpResponse = await api.post("/help", {
       title,
       categoryId,
       description,
-      ownerId: "5e8e4e19c2ebbc0026761416",
+      ownerId: userInfo._id,
     });
     return createdHelpResponse;
   }
 
-  deleteHelp() {}
+  deleteHelp() { }
 }
 
 const helpService = new HelpService();
