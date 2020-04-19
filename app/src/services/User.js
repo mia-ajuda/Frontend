@@ -120,16 +120,16 @@ class UserService {
         }
 
       } else {
-        throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
+        throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
       }
 
     } catch ({ message }) {
-      throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
+      throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
     }
 
   }
 
-  async loginInWithGoogle() {
+  async loginInWithGoogle(navigation) {
     try {
       const result = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,
@@ -139,20 +139,56 @@ class UserService {
 
 
       if (result.type === 'success') {
-        const user = JSON.stringify({
-          data: result.user,
-          accessToken: result.accessToken,
-        });
 
-        await AsyncStorage.setItem("user", user);
-        return {
-          data: result.user, 
-          success: "Login feito com sucesso!" 
-        };
+        const isExists = await api.get(
+          `/checkUserExistence/${result.user.email}`
+        );
+  
+        if (!isExists.data) {
+          Alert.alert(
+            "Cadatrar",
+            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate("personalData", {
+                  registrationData: {
+                    email: result.user.email,
+                    name: result.user.name,
+                    photo: result.user.photoUrl,
+                  }
+                })
+              },
+              {
+                text: "Cancelar",
+                onPress: () => {}
+              }
+            ],
+            {
+              cancelable: false
+            }
+          );
+
+          return {};
+        } else {
+          const user = JSON.stringify({
+            data: result.user,
+            accessToken: result.accessToken,
+          });
+  
+          await AsyncStorage.setItem("user", user);
+
+          return {
+            data: result.user, 
+            success: "Login feito com sucesso!" 
+          };
+        }
+
       } else {
-        throw { error: "Não foi possível fazer login com o gGogle. Tente novamente!" } 
+        throw { error: "Não foi possível fazer login com o Google. Tente novamente!" } 
       }
     } catch (e) {
+      console.log(e.message);
       return { error: "Não foi possível fazer login com o Google. Tente novamente!" };
     }
   }
