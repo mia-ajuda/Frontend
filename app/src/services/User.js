@@ -5,6 +5,7 @@ import { Notifications } from 'expo';
 import * as Facebook from 'expo-facebook';
 import firebase  from 'firebase';
 import * as Google from 'expo-google-app-auth';
+import authConfig from '../config/authmiaajuda-firebase';
 
 class UserService {
   constructor() {}
@@ -52,7 +53,7 @@ class UserService {
 
   async logInWithFacebook() {
     try {
-      await Facebook.initializeAsync('279998959666055');
+      await Facebook.initializeAsync(authConfig.facebookId);
       const {
         type,
         token,
@@ -88,11 +89,11 @@ class UserService {
 
   }
 
-  async signInWithGoogle() {
+  async loginInWithGoogle() {
     try {
       const result = await Google.logInAsync({
-        androidClientId: '835532070673-cmops44pghnnsgbnl0t3a39rpfuqh9j5.apps.googleusercontent.com',
-        iosClientId: '835532070673-g2r9pf8tske7q9a4oa2vktk18jav8aqr.apps.googleusercontent.com',
+        androidClientId: authConfig.googleAndroidClientId,
+        iosClientId: authConfig.googleIosClientId,
         scopes: ['profile', 'email'],
       });
 

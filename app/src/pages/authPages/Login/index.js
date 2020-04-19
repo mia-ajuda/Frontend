@@ -86,7 +86,7 @@ export default function Login({ navigation }) {
 
   const loginHandlerGoogle = async () => {
     try {
-      await UserService.logInWithFacebook();
+      await UserService.loginInWithGoogle();
       // navigation.navigate("main");
     } catch (err) {
       Alert.alert("Erro", 
