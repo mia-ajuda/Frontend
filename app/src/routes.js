@@ -21,8 +21,9 @@ import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
-import HelpList from "./pages/helplist";
+import MyHelpList from "./pages/helpPages/myHelpList";
 import Splash from "./pages/splash";
+import HelpDescription from "./pages/helpPages/helpDescription";
 
 const backImage = require("../assets/images/back.png");
 
@@ -42,6 +43,11 @@ const MainNavigation = () => (
         name="createHelp"
         options={{ title: "Pedir ajuda" }}
         component={CreateHelp}
+      />
+      <MainStack.Screen
+        name="helpDescription"
+        options={({ route }) => ({ title: route.params.helpTitle })}
+        component={HelpDescription}
       />
     </MainStack.Navigator>
   </>
@@ -127,7 +133,7 @@ const BottomTab = () => (
     initialRouteName="main"
   >
     <BottomNavigation.Screen name="notification" component={Notification} />
-    <BottomNavigation.Screen name="helpList" component={HelpList} />
+    <BottomNavigation.Screen name="helpList" component={MyHelpList} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="askedHelp" component={AskedHelps} />
     <BottomNavigation.Screen name="profile" component={Profile} />

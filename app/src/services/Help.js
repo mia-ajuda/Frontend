@@ -23,7 +23,6 @@ class HelpService {
     const helps = await api.get(
       `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
     );
-
     return helps.data;
   }
 
