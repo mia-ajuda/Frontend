@@ -1,6 +1,6 @@
 import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import * as Facebook from 'expo-facebook';
 import firebase  from 'firebase';
 import * as Google from 'expo-google-app-auth';
@@ -31,7 +31,7 @@ class UserService {
     }
   }
 
-  async logInWithFacebook() {
+  async logInWithFacebook(navigation) {
     try {
       await Facebook.initializeAsync(authConfig.facebookId);
       const {
@@ -54,17 +54,57 @@ class UserService {
 
         const idTokenUser = await firebase.auth().currentUser.getIdToken();
 
-        const user = JSON.stringify({
-          data: userData.profile,
-          accessToken: idTokenUser,
-        });
+        const isExists = await api.get(
+          `/checkUserExistence/${userData.profile.email}`
+          );
+          console.log(isExists);
   
-        await AsyncStorage.setItem("user", user);
-        return { success: "Login feito sucesso!" };
+        if (!isExists.data) {
+          Alert.alert(
+            "Cadatrar",
+            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate("personalData", {
+                  registrationData: {
+                    email: userData.profile.email
+                  }
+                })
+              },
+              {
+                text: "Cancelar",
+                onPress: () => {}
+              }
+            ],
+            {
+              cancelable: false
+            }
+          );
+
+          return {};
+        } else {
+          const user = JSON.stringify({
+            data: userData.profile,
+            accessToken: idTokenUser,
+          });
+    
+          await AsyncStorage.setItem("user", user);
+          
+          return {
+            data: userData.profile, 
+            success: "Login feito sucesso!" 
+          };
+        }
+
       } else {
+        console.log('foi');
+        throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
       }
+
     } catch ({ message }) {
-      return { error: 'Erro ao logar com o facebook. Tente Novamente!' }
+      console.log(message);
+      throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
     }
 
   }
@@ -85,7 +125,10 @@ class UserService {
         });
 
         await AsyncStorage.setItem("user", user);
-        return { success: "Login feito com sucesso!" };
+        return {
+          data: result.user, 
+          success: "Login feito com sucesso!" 
+        };
       } else {
         throw { error: "Não foi possível fazer login com o gGogle. Tente novamente!" } 
       }
