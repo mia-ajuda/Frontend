@@ -29,11 +29,8 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
-<<<<<<< HEAD
   const [isLoading, setLoading] = useState(false);
-=======
   const [keyboardShow, setKeyboardShow] = useState(false);
->>>>>>> 852ac45... Refactored login page style, gmail and facebook buttons
 
   useEffect(() => {
     if (email && password) {
@@ -94,9 +91,16 @@ export default function Login({ navigation }) {
         const credential = await firebase.auth.FacebookAuthProvider.credential(token);
         const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
 
-        const teste = facebookProfileData.additionalUserInfo;
-        console.log(teste);
+        const userData = facebookProfileData.additionalUserInfo;
 
+        const idTokenUser = await firebase.auth().currentUser.getIdToken();
+
+        const user = JSON.stringify({
+          data: userData.profile,
+          accessToken: idTokenUser,
+        });
+  
+        await AsyncStorage.setItem("user", user);
       } else {
         // type === 'cancel'
       }
