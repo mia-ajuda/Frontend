@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Keyboard,
   Text,
   Alert,
   ActivityIndicator,
@@ -14,8 +13,6 @@ import {
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
-import * as Facebook from 'expo-facebook';
-import firebase  from 'firebase';
 import * as GoogleSignIn from 'expo-google-sign-in';
 
 
@@ -71,45 +68,6 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
-
-  async function logInWithFacebook() {
-    try {
-      await Facebook.initializeAsync('279998959666055');
-      const {
-        type,
-        token,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: [
-          'public_profile',
-          'email',
-        ],
-      });
-
-      if (type === 'success') {
-
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const credential = await firebase.auth.FacebookAuthProvider.credential(token);
-        const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
-
-        const userData = facebookProfileData.additionalUserInfo;
-
-        const idTokenUser = await firebase.auth().currentUser.getIdToken();
-
-        const user = JSON.stringify({
-          data: userData.profile,
-          accessToken: idTokenUser,
-        });
-  
-        await AsyncStorage.setItem("user", user);
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
-    }
-
-
-  }
 
   const signInGoogle = async () => {
     try {
@@ -203,7 +161,7 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.viewFacebook}>
-            <TouchableOpacity style={styles.btnFacebook} onPress={logInWithFacebook}>
+            <TouchableOpacity style={styles.btnFacebook} onPress={UserService.logInWithFacebook}>
               <Icon type="font-awesome" name={"facebook"} color={"white"} />
             </TouchableOpacity>
           </View>
