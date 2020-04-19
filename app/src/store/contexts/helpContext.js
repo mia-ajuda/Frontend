@@ -1,10 +1,9 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import helpReducer from "../reducers/helpReducer";
 import { UserContext } from "./userContext";
-import getHelpDistance from "../../utils/helpDistance";
 import actions from "../actions";
-import HelpService from "../../services/Help";
-
+import HelpService from "../../services/Help"
+import { connect, disconnect, subscribeToNewHelps } from '../../services/socket'
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
@@ -12,19 +11,34 @@ export default function HelpContextProvider(props) {
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
-    async function getHelpList() {
-      if (currentRegion) {
-        try {
-          let helpListArray = await HelpService.getNearHelp(currentRegion);
+    getHelpList();
+    if(currentRegion) {
+      setupWebSocket();
+    }
+  }, [currentRegion]);
 
-          dispatch({ type: actions.help.addHelp, helps: helpListArray });
-        } catch (error) {
-          console.log(error);
-        }
+  useEffect(() => {
+    subscribeToNewHelps(help => {
+      const helpListArray = [...helpList, help]
+      dispatch({ type: actions.help.addHelp, helps: helpListArray })
+    })
+  }, [helpList])
+
+  async function getHelpList() {
+    if (currentRegion) {
+      try {
+        let helpListArray = await HelpService.getNearHelp(currentRegion);
+        dispatch({ type: actions.help.addHelp, helps: helpListArray });
+      } catch (error) {
+        console.log(error);
       }
     }
-    getHelpList();
-  }, [currentRegion]);
+  }
+
+  function setupWebSocket() {
+    disconnect()
+    connect(currentRegion.latitude, currentRegion.longitude)
+  }
 
   return (
     <HelpContext.Provider value={{ helpList, dispatch }}>

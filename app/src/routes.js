@@ -64,13 +64,13 @@ const BottomTab = () => (
           case "main":
             selectConfig = focused
               ? {
-                  src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 },
-                }
+                src: require("../assets/images/whileLogo.png"),
+                size: { height: 40, width: 40 },
+              }
               : {
-                  src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" },
-                };
+                src: require("../assets/images/whiteCat.png"),
+                size: { height: 25, width: 25, resizeMode: "contain" },
+              };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
             );
@@ -94,15 +94,15 @@ const BottomTab = () => (
           case "settings":
             selectConfig = focused
               ? {
-                  color: colors.primary,
-                  raised: true,
-                  name: "user-circle",
-                }
+                color: colors.primary,
+                raised: true,
+                name: "user-circle",
+              }
               : {
-                  color: colors.light,
-                  raised: false,
-                  name: "user-circle",
-                };
+                color: colors.light,
+                raised: false,
+                name: "user-circle",
+              };
             break;
         }
 
@@ -172,7 +172,6 @@ const headerStyle = {
 
   headerTintColor: colors.light,
   headerTitleAlign: "center",
-  headerShown: false,
 };
 
 const Routes = () => (

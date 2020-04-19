@@ -1,7 +1,7 @@
 import api from "./Api";
 
 class HelpService {
-  constructor() {}
+  constructor() { }
 
   getAllHelps = async (userId = null, status = null) => {
     let url = "/help";
@@ -19,9 +19,8 @@ class HelpService {
 
   async getNearHelp(coords) {
     const { longitude, latitude } = coords;
-
     const helps = await api.get(
-      `/Help?near=true&coords=${longitude},${latitude}`
+      `/Help?id.except=5e98d2e740dbc900261d02c5&near=true&coords=${longitude},${latitude}`
     );
 
     return helps.data;
@@ -37,8 +36,8 @@ class HelpService {
 
     return helps.data;
   }
-  getAllHelpForUser() {}
-  getAllHelpForHelper() {}
+  getAllHelpForUser() { }
+  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description) {
     const createdHelpResponse = await api.post("/help", {
@@ -50,7 +49,7 @@ class HelpService {
     return createdHelpResponse;
   }
 
-  deleteHelp() {}
+  deleteHelp() { }
 }
 
 const helpService = new HelpService();
