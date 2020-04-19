@@ -2,6 +2,8 @@ import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
 import { AsyncStorage } from "react-native";
 import { Notifications } from 'expo';
+import * as Facebook from 'expo-facebook';
+import firebase  from 'firebase';
 
 class UserService {
   constructor() {}
@@ -45,6 +47,44 @@ class UserService {
     } catch (error) {
       throw { error: error.response.data.error };
     }
+  }
+
+  async logInWithFacebook() {
+    try {
+      await Facebook.initializeAsync('279998959666055');
+      const {
+        type,
+        token,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: [
+          'public_profile',
+          'email',
+        ],
+      });
+
+      if (type === 'success') {
+
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = await firebase.auth.FacebookAuthProvider.credential(token);
+        const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
+
+        const userData = facebookProfileData.additionalUserInfo;
+
+        const idTokenUser = await firebase.auth().currentUser.getIdToken();
+
+        const user = JSON.stringify({
+          data: userData.profile,
+          accessToken: idTokenUser,
+        });
+  
+        await AsyncStorage.setItem("user", user);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+
   }
 
   async signUp(data) {
