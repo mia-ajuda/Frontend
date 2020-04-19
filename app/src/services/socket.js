@@ -9,6 +9,10 @@ function subscribeToNewHelps(subscribeFunction) {
     socket.on('new-help', subscribeFunction)
 }
 
+function subscribeToDeleteHelp(subscribeFunction) {
+    socket.on('delete-help', subscribeFunction)
+}
+
 function connect(latitude, longitude) {
     socket.io.opts.query = {
         latitude,
@@ -27,5 +31,6 @@ function disconnect() {
 export {
     connect,
     disconnect,
-    subscribeToNewHelps
+    subscribeToNewHelps,
+    subscribeToDeleteHelp
 }

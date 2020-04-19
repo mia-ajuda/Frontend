@@ -3,7 +3,7 @@ import helpReducer from "../reducers/helpReducer";
 import { UserContext } from "./userContext";
 import actions from "../actions";
 import HelpService from "../../services/Help"
-import { connect, disconnect, subscribeToNewHelps } from '../../services/socket'
+import { connect, disconnect, subscribeToNewHelps, subscribeToDeleteHelp } from '../../services/socket'
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
@@ -20,6 +20,12 @@ export default function HelpContextProvider(props) {
   useEffect(() => {
     subscribeToNewHelps(help => {
       const helpListArray = [...helpList, help]
+      dispatch({ type: actions.help.addHelp, helps: helpListArray })
+    })
+    subscribeToDeleteHelp(helpId => {
+      let helpListArray = helpList.filter(help => {
+        return help._id != helpId
+      })
       dispatch({ type: actions.help.addHelp, helps: helpListArray })
     })
   }, [helpList])
