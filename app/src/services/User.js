@@ -56,8 +56,7 @@ class UserService {
 
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
-          );
-          console.log(isExists);
+        );
   
         if (!isExists.data) {
           Alert.alert(
@@ -68,7 +67,10 @@ class UserService {
                 text: "OK",
                 onPress: () => navigation.navigate("personalData", {
                   registrationData: {
-                    email: userData.profile.email
+                    email: userData.profile.email,
+                    name: userData.profile.name,
+                    photo: userData.profile.picture.data.url,
+                    birthday: userData.profile.birthday
                   }
                 })
               },
@@ -98,12 +100,10 @@ class UserService {
         }
 
       } else {
-        console.log('foi');
         throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
       }
 
     } catch ({ message }) {
-      console.log(message);
       throw { error: 'Erro ao logar com o facebook. Tente Novamente!' }
     }
 
