@@ -13,8 +13,6 @@ import {
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
-import * as GoogleSignIn from 'expo-google-sign-in';
-
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -68,19 +66,38 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
-
-  const signInGoogle = async () => {
+  
+  const loginHandlerFacebook = async () => {
     try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const { type, user } = await GoogleSignIn.signInAsync();
-      console.log(user);
-      if (type === 'success') {
-        this._syncUserWithStateAsync();
-      }
-    } catch ({ message }) {
-      alert('login: Error:' + message);
+      await UserService.logInWithFacebook();
+      // navigation.navigate("main");
+    } catch (err) {
+      Alert.alert("Erro", 
+      err.error,
+      [{ 
+        text: "OK", 
+        onPress: () => {} 
+      }], 
+      {
+        cancelable: false,
+      });
     }
   };
+
+  const loginHandlerGoogle = async () => {
+    try {
+      await UserService.logInWithFacebook();
+      // navigation.navigate("main");
+    } catch (err) {
+      Alert.alert("Erro", 
+      'Erro ao logar com o facebook. Tente Novamente!',
+       [{ text: "OK", onPress: () => {} }], 
+      {
+        cancelable: false,
+      });
+    }
+  };
+
 
   return (
     <KeyboardAvoidingView
@@ -156,12 +173,12 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <View style={styles.quickLogin}>
           <View style={styles.viewGoogle}>
-            <TouchableOpacity style={styles.btnGoogle} onPress={signInGoogle}>
+            <TouchableOpacity style={styles.btnGoogle} onPress={loginHandlerGoogle}>
               <Icon type="antdesign" name={"google"} color={"white"} />
             </TouchableOpacity>
           </View>
           <View style={styles.viewFacebook}>
-            <TouchableOpacity style={styles.btnFacebook} onPress={UserService.logInWithFacebook}>
+            <TouchableOpacity style={styles.btnFacebook} onPress={loginHandlerFacebook}>
               <Icon type="font-awesome" name={"facebook"} color={"white"} />
             </TouchableOpacity>
           </View>
