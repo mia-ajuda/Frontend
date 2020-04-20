@@ -19,7 +19,6 @@ import { HelpContext } from "../../store/contexts/helpContext";
 import { UserContext } from "../../store/contexts/userContext";
 import { LocationContext } from "../../store/contexts/locationContext";
 import HelpList from "../../components/HelpList";
-import { calculateDistance } from '../../utils/helpDistance';
 
 export default function Main({ navigation }) {
   const [region, setRegion] = useState(null);
@@ -27,24 +26,14 @@ export default function Main({ navigation }) {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
-  const { location, setLocation } = useContext(LocationContext);
-  let usedLocations = [currentRegion]
+  const { setLocation } = useContext(LocationContext);
 
   useEffect(() => {
     setRegion(null);
-    console.log(helpList)
   }, [region]);
 
   function onRegionChange(position) {
-    usedLocations.every((loc) => {
-      const dist = calculateDistance(position, loc)
-      if(dist > 2) {
-        usedLocations.push(position)
-        setLocation(position)
-        return false
-      }
-      return true
-    })
+    setLocation(position)
     return setHelpListVisible(false)
   }
 
@@ -57,7 +46,7 @@ export default function Main({ navigation }) {
       <TouchableOpacity
         style={styles.recenter}
         onPress={() => {
-          setRegion(location);
+          setRegion(currentRegion);
         }}
       >
         <Icon
@@ -78,6 +67,10 @@ export default function Main({ navigation }) {
         }}
         customMapStyle={mapStyle.day.map}
       >
+        {
+          currentRegion &&
+          console.log('aaaaaaa')
+        }
         {currentRegion && (
           <>
             <Marker
@@ -105,6 +98,7 @@ export default function Main({ navigation }) {
             <Marker
               title={help.distance}
               key={help._id}
+              tracksViewChanges={false}
               coordinate={{
                 latitude: help.user[0].location.coordinates[1],
                 longitude: help.user[0].location.coordinates[0],

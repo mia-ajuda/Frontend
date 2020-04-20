@@ -47,7 +47,6 @@ class HelpService {
       Authorization: accessToken,
     };
     const createdHelpResponse = await api.post("/help", data, { headers });
-    console.log(createdHelpResponse.data);
     return createdHelpResponse.data;
   }
 

@@ -11,7 +11,6 @@ export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { user } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-  const [activeLocations, setActiveLocations] = useState([])
 
   useEffect(() => {
     if(user.info && location) {
@@ -35,6 +34,7 @@ export default function HelpContextProvider(props) {
 
   async function getHelpList() {
     if (location) {
+      console.log('1')
       try {
         const { _id: userId } = user.info;
         let helpListArray = await HelpService.getNearHelp(location, userId);
@@ -61,10 +61,6 @@ export default function HelpContextProvider(props) {
 
   function setupWebSocket() {
     disconnect()
-    // let active = activeLocations
-    // active.push({ latitude: location.latitude, longitude: location.longitude})
-    // setActiveLocations(active)
-    // console.log(activeLocations)
     connect(location.latitude, location.longitude)
   }
 
