@@ -4,7 +4,6 @@ import { Icon } from "react-native-elements";
 import colors from "../../../assets/styles/colorVariables";
 
 import styles from "./styles";
-import helpService from "../../services/Help";
 
 export default function ListCard({
   helpTitle,
@@ -12,12 +11,9 @@ export default function ListCard({
   categoryName,
   deleteVisible,
   helpId,
+  deleteHelp,
   navigation,
 }) {
-  function deleteHelp() {
-    helpService.deleteHelp(helpId);
-  }
-
   return (
     <TouchableOpacity
       style={styles.cardContainer}
@@ -44,7 +40,7 @@ export default function ListCard({
               name="trash"
               type="font-awesome"
               color={colors.danger}
-              onPress={deleteHelp}
+              onPress={() => deleteHelp(helpId)}
             />
           ) : (
             <></>

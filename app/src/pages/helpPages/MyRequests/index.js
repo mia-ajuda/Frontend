@@ -6,7 +6,7 @@ import styles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import ListCard from "../../../components/ListCard";
 import helpService from "../../../services/Help";
-// import { UserContext } from "../../../store/contexts/userContext";
+import { UserContext } from "../../../store/contexts/userContext";
 
 export default function MyRequests({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
@@ -14,25 +14,33 @@ export default function MyRequests({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
   const [finishedHelpList, setFinishedHelpList] = useState([]);
 
-  // const { user } = useContext(UserContext);
-  // const { _id: userId } = user.info;
+  const { user } = useContext(UserContext);
+  const { _id: userId } = user.info;
+  console.log(userId);
 
   async function loadOnGoingHelps() {
-    let tempOnGoing = await helpService.getAllHelpForUser(
-      "5e960f074595ab0026961def",
-      "on_going"
-    );
+    let tempOnGoing = await helpService.getAllHelpForUser(userId, "waiting");
     let resOnGoing = tempOnGoing.filter((help) => help.active === true);
     setOnGoingHelpList(resOnGoing);
   }
 
   async function loadFinishedHelps() {
-    let tempFinished = await helpService.getAllHelpForUser(
-      "5e960f074595ab0026961def",
-      "finished"
-    );
+    let tempFinished = await helpService.getAllHelpForUser(userId, "finished");
     let resFinished = tempFinished.filter((help) => help.active === true);
     setFinishedHelpList(resFinished);
+  }
+
+  async function excludeHelp(helpId) {
+    try {
+      await helpService.deleteHelp(helpId);
+      const updatedArray = onGoingHelpList.filter((help) => {
+        return help._id !== helpId;
+      });
+      setOnGoingHelpList(updatedArray);
+      console.log(updatedArray);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -54,6 +62,7 @@ export default function MyRequests({ navigation }) {
                   categoryName={"Higiene Pessoal"}
                   deleteVisible={true}
                   helpId={item._id}
+                  deleteHelp={excludeHelp}
                 />
               ))}
             </View>
@@ -95,6 +104,7 @@ export default function MyRequests({ navigation }) {
                   categoryName={"Apoio psicológico"}
                   deleteVisible={true}
                   helpId={item._id}
+                  deleteHelp={excludeHelp}
                 />
               ))}
             </View>
