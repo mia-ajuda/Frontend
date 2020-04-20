@@ -9,6 +9,11 @@ export default function ListCard({
   categoryName,
   navigation,
   helpId,
+  userName,
+  birthday,
+  city,
+  helperId,
+  possibleHelpers,
 }) {
   return (
     <TouchableOpacity
@@ -19,6 +24,11 @@ export default function ListCard({
           helpDescription,
           categoryName,
           helpId,
+          userName,
+          birthday,
+          city,
+          helperId,
+          possibleHelpers,
         });
       }}
     >

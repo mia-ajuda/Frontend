@@ -16,7 +16,6 @@ import styles from "./styles";
 export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
   const [animatedValue] = useState(new Animated.Value(40));
-
   useEffect(() => {
     switch (visible) {
       case true:
@@ -62,9 +61,15 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                 <ListCard
                   key={i}
                   helpId = {help._id}
+                  helperId={help.helperId}
+                  possibleHelpers={help.possibleHelpers}
                   helpTitle={help.title}
                   helpDescription={help.description}
                   categoryName={help.category[0].name}
+                  userName={help.user[0].name}
+                  birthday={help.user[0].birthday}
+                  city={help.user[0].address.city}
+                  
                   navigation={navigation}
                 />
               ))}

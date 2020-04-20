@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
   infoTextView:{
     alignSelf:"center",
     marginLeft:40,
+    paddingRight: 70
   },
   infoText:{
-    ...fonts.body,
-    
+    ...fonts.body, 
   },
   
   helpInfo:{

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { View, Text,Image } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button"
@@ -15,21 +15,31 @@ export default function HelpDescription({route}) {
     helpDescription,
     categoryName,
     helpId,
+    userName,
+    birthday,
+    city,
+    helperId,
+    possibleHelpers,
   } = route.params;
 
-  console.log(helpDescription,categoryName,user);
+  //console.log(helpDescription,categoryName,user);
   
   const currentYear = moment().format("YYYY")
-  const birthYear = moment(user.info.birthday).format("YYYY")
+  const birthYear = moment(birthday).format("YYYY")
 
   const age = currentYear - birthYear;
 
-  console.log(helpId)
+  const userPosition = possibleHelpers.indexOf(user.info._id);
 
-  async function chooseHelp() {
+  let buttonDisable = false;
+
+  async function chooseHelp() {   
     await HelpService.chooseHelp(helpId,user.info._id,user.accessToken)
   }
 
+  if(helperId || userPosition>=0){
+    buttonDisable=true;
+  }
   
   return (
     <View style={styles.container}>
@@ -39,21 +49,22 @@ export default function HelpDescription({route}) {
             style = {styles.profileImage}
           />
         <View style = {styles.infoTextView}>
-          <Text style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}>{user.info.name}</Text>
+          <Text style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}>{userName}</Text>
           <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>{age}</Text>
-          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold"}}>Cidade: </Text>{user.info.address.city}</Text>
+          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold"}}>Cidade: </Text>{city}</Text>
         </View>
       </View>
       <View style = {styles.helpInfo}>
         <View style = {styles.helpInfoText}>
-          <Text style={styles.InfoText}><Text style={{ fontFamily: "montserrat-semibold" }}>Categoria: </Text>{categoryName}</Text> 
-          <Text style={[styles.InfoText, { fontFamily: "montserrat-semibold",marginTop:20,marginBottom:10}]}>Descrição:</Text>
-          <Text style = {styles.InfoText}>{helpDescription}</Text>
+          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold" }}>Categoria: </Text>{categoryName}</Text> 
+          <Text style={[styles.infoText, { fontFamily: "montserrat-semibold",marginTop:20,marginBottom:10}]}>Descrição:</Text>
+          <Text style = {styles.infoText}>{helpDescription}</Text>
         </View>
         <View style = {styles.helpButtons}>
           <Button
             title = "Oferecer Ajuda"
             large
+            disabled={buttonDisable}
             press = {chooseHelp}
           />
         </View>
