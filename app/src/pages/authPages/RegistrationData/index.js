@@ -6,7 +6,10 @@ import {
   View,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
+import UserService from "../../../services/User";
+import colors from "../../../../assets/styles/colorVariables";
 
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -21,6 +24,8 @@ export default function RegistrationData({ navigation }) {
   const [confirm, setConfirm] = useState("");
   const [confirmPass, setConfirmPass] = useState(true);
   const [keyboardShow, setKeyboardShow] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -59,8 +64,23 @@ export default function RegistrationData({ navigation }) {
   };
 
   const continueHandler = () => {
+    setLoading(false);
     const registrationData = { email, password };
     navigation.navigate("personalData", { registrationData });
+  };
+
+  const verifyEmailAdress = async () => {
+    try {
+      setLoading(true);
+      Keyboard.dismiss();
+      const doesEmailExist = await UserService.verifyUserInfo(email);
+      if (doesEmailExist)
+        throw "Esse email já está sendo usado por outro usuário";
+      continueHandler();
+    } catch (err) {
+      setError(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,7 +104,7 @@ export default function RegistrationData({ navigation }) {
           </View>
           <View style={styles.title}>
             <Text style={styles.text1}>
-              Pra começar a fazer seu cadastro, preencha seu email e senha!!
+              Vamos começar seu cadastro, preencha seu email e senha.
             </Text>
           </View>
         </View>
@@ -96,6 +116,8 @@ export default function RegistrationData({ navigation }) {
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
         <View style={styles.form}>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+
           <Input
             style={styles.firstInput}
             change={emailHandler}
@@ -125,19 +147,23 @@ export default function RegistrationData({ navigation }) {
         </View>
       </ScrollView>
       <View style={styles.btnView}>
-        <Button
-          disabled={
-            !(
-              email.length > 0 &&
-              password.length > 0 &&
-              password === confirm &&
-              password.length >= 8
-            )
-          }
-          title="Continuar"
-          large
-          press={continueHandler}
-        />
+        {isLoading ? (
+          <ActivityIndicator color={colors.primary} size="large" />
+        ) : (
+          <Button
+            disabled={
+              !(
+                email.length > 0 &&
+                password.length > 0 &&
+                password === confirm &&
+                password.length >= 8
+              )
+            }
+            title="Continuar"
+            large
+            press={verifyEmailAdress}
+          />
+        )}
       </View>
     </KeyboardAvoidingView>
   );

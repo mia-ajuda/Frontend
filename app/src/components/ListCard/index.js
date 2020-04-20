@@ -1,11 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 import styles from "./styles";
 
-export default function ListCard({ helpTitle, helpDescription, categoryName }) {
+export default function ListCard({
+  helpTitle,
+  helpDescription,
+  categoryName,
+  navigation,
+}) {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => {
+        navigation.navigate("helpDescription", { helpTitle });
+      }}
+    >
       <View style={styles.cardTitle}>
         <Text numberOfLines={1} style={styles.titleContent}>
           {helpTitle}
@@ -19,6 +29,6 @@ export default function ListCard({ helpTitle, helpDescription, categoryName }) {
           <Text style={styles.categoryName}> {categoryName} </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

@@ -14,15 +14,16 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       const userInfo = await this.requestUserData(idTokenUser);
 
-      const user = JSON.stringify({
-        data: userInfo,
+      const user = {
+        info: userInfo,
         accessToken: idTokenUser,
-      });
+      };
 
-      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+
+      return user;
     } catch (error) {
-      console.log(error);
-      throw { error: "Não foi possível fazer o login!" };
+      throw { error: error.response.data.error };
     }
   }
 
@@ -30,8 +31,12 @@ class UserService {
     try {
       const response = await api.post("/user", data);
       return response;
-    } catch (err) {
-      throw "Não foi possível fazer o cadastro. Tente novamente!";
+    } catch (error) {
+      console.log(error.response.data);
+      throw {
+        error:
+          "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
+      };
     }
   }
 
@@ -55,6 +60,11 @@ class UserService {
       },
     });
     return user.data;
+  }
+
+  async verifyUserInfo(value) {
+    const response = await api.get(`/checkUserExistence/${value}`);
+    return !!response.data;
   }
 
   helpAnUser() {}
