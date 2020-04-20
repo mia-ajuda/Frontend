@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -6,18 +6,32 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Alert,
+  ActivityIndicator,
+  Keyboard,
 } from "react-native";
+import UserService from "../../../services/User";
+import Button from "../../../components/UI/button";
 
 import styles from "./styles";
+import { UserContext } from "../../../store/contexts/userContext";
+import actions from "../../../store/actions";
 
 export default function Login({ navigation }) {
+  const { dispatch } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
-  const clearState = () => {
-    setEmail("");
-    setPassword("");
-  };
+  useEffect(() => {
+    if (email && password) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [email, password]);
 
   const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
@@ -27,13 +41,36 @@ export default function Login({ navigation }) {
     setPassword(enteredPassword);
   };
 
-  const loginHandler = () => {
-    const data = [email, password];
-    clearState();
+  const loginHandler = async () => {
+    const data = { email, password };
+    Keyboard.dismiss();
+    setLoading(true);
+
+    try {
+      const user = await UserService.logIn(data);
+      if (user) {
+        setLoading(false);
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
+    } catch (err) {
+      Alert.alert(
+        "Ooops..",
+        err.error || "Algo deu errado, tente novamente mais tarde",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false,
+        }
+      );
+      setLoading(false);
+    }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.background}>
+    <KeyboardAvoidingView
+      style={styles.background}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+    >
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
@@ -46,6 +83,7 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="Email"
           autoCorrect={false}
+          placeholderTextColor="#FFF"
           onChangeText={emailHandler}
           value={email}
         />
@@ -53,6 +91,7 @@ export default function Login({ navigation }) {
         <TextInput
           style={styles.input}
           secureTextEntry
+          placeholderTextColor="#FFF"
           placeholder="Senha"
           autoCorrect={false}
           onChangeText={passwordHandler}
@@ -62,16 +101,25 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            navigation.navigate("main");
+            navigation.navigate("forgotPassword");
           }}
         >
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.viewLogin}>
-        <TouchableOpacity style={styles.login} onPress={loginHandler}>
-          <Text style={styles.text}>ENTRAR</Text>
-        </TouchableOpacity>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#fff" />
+        ) : (
+          <Button
+            style={styles.login}
+            large
+            type="white"
+            title="ENTRAR"
+            press={loginHandler}
+            disabled={buttonDisabled}
+          />
+        )}
 
         <TouchableOpacity
           style={styles.signUP}

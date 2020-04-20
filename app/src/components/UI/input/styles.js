@@ -7,14 +7,19 @@ const styles = StyleSheet.create({
     ...fonts.body,
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: colors.primary,
     padding: 10
+  },
+  validInput: {
+    borderColor: colors.primary,
+  },
+  invalidInput: {
+    borderColor: colors.danger,
   },
   label: {
     ...fonts.body,
     fontFamily: "montserrat-semibold",
-    color: colors.primary
-  }
+    color: colors.primary,
+  },
 });
 
 export default styles;

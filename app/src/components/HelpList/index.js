@@ -13,7 +13,7 @@ import ListCard from "../ListCard";
 import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
 
-export default function HelpList({ helps, visible, setVisible }) {
+export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
   const [animatedValue] = useState(new Animated.Value(40));
 
@@ -65,6 +65,7 @@ export default function HelpList({ helps, visible, setVisible }) {
                   helpDescription={item.description}
                   categoryName={item.category[0].name}
                   deleteVisible={false}
+                  navigation={navigation}
                 />
               ))}
             </ScrollView>

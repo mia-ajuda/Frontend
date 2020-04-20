@@ -17,21 +17,18 @@ class HelpService {
     return allHelps.data;
   };
 
-  async getNearHelp(coords) {
+  async getNearHelp(coords, id) {
     const { longitude, latitude } = coords;
 
     const helps = await api.get(
-      `/Help?near=true&coords=${longitude},${latitude}`
+      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
     );
-
     return helps.data;
   }
 
-  async getAllHelpForCategory(coords, categoryId) {
+  async getAllHelpForCategory(coords, categoryId, id) {
     const { longitude, latitude } = coords;
-    const url = categoryId
-      ? `/Help?near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`
-      : `/Help?near=true&coords=${longitude},${latitude}`;
+    const url = `/help?id.except=${id}&near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`;
 
     const helps = await api.get(url);
 
@@ -49,14 +46,19 @@ class HelpService {
   }
   getAllHelpForHelper() {}
 
-  async createHelp(title, categoryId, description) {
-    const createdHelpResponse = await api.post("/help", {
+  async createHelp(title, categoryId, description, accessToken, ownerId) {
+    const data = {
       title,
       categoryId,
       description,
-      ownerId: "5e8e4e19c2ebbc0026761416",
-    });
-    return createdHelpResponse;
+      ownerId,
+    };
+    const headers = {
+      Authorization: accessToken,
+    };
+    const createdHelpResponse = await api.post("/help", data, { headers });
+    console.log(createdHelpResponse.data);
+    return createdHelpResponse.data;
   }
 
   async deleteHelp(helpId) {

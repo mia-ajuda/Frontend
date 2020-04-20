@@ -13,3 +13,6 @@ web-report/
 # macOS
 .DS_Store
 .env
+
+#webstorm
+.idea

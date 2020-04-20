@@ -1,9 +1,11 @@
 const actions = {
   user: {
-    getUserData: "GET_USER_DATA",
+    storeUserInfo: "STORE_USER",
+    removeUserInfo: "REMOVE_USER",
+    requestSignIn: "SIGNIN",
   },
   help: {
-    addHelp: "ADD_HELP",
+    storeList: "ADD_HELP",
   },
   category: {
     getCategories: "GET_CATEGORIES",

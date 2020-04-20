@@ -1,5 +1,7 @@
 import React, { useReducer, createContext, useState, useEffect } from "react";
+import { AsyncStorage } from "react-native";
 import { userReducer } from "../reducers/userReducer";
+import actions from "../actions";
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
@@ -8,8 +10,23 @@ import {
 export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
-  const [user, dispatch] = useReducer(userReducer);
+  const [user, dispatch] = useReducer(userReducer, {
+    showSplash: true,
+  });
   const [currentRegion, setCurrentRegion] = useState(null);
+
+  useEffect(() => {
+    async function getUserFromAsyncStorage() {
+      const user = await AsyncStorage.getItem("user");
+      const userJSON = JSON.parse(user);
+      if (userJSON) {
+        dispatch({ type: actions.user.storeUserInfo, data: userJSON });
+      } else {
+        dispatch({ type: actions.user.requestSignIn });
+      }
+    }
+    getUserFromAsyncStorage();
+  }, []);
 
   useEffect(() => {
     async function getLocation() {

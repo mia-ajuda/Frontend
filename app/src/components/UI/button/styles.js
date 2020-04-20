@@ -26,7 +26,17 @@ const styles = StyleSheet.create({
   textDefault: { ...text, color: colors.light },
   btnDefault: { ...btn, backgroundColor: colors.primary },
   textDisabled: { ...text, color: "#666" },
-  btnDisabled: { ...btn, backgroundColor: "#ccc", elevation: 0 }
+  btnDisabled: { ...btn, backgroundColor: "#ccc", elevation: 0 },
+  textNotSelected: {...text, color: colors.primary},
+  btnNotSelected: { 
+    ...btn,
+    backgroundColor: colors.light, 
+    elevation: 0,
+    borderBottomColor: colors.primary,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: colors.primary
+  }
 });
 
 export default styles;

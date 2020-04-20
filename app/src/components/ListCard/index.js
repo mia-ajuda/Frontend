@@ -1,19 +1,30 @@
 import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import { View, Text } from "react-native";
 import colors from "../../../assets/styles/colorVariables";
 
 import styles from "./styles";
 import helpService from "../../services/Help";
 
-export default function ListCard({ helpTitle, helpDescription, categoryName, deleteVisible, helpId }) {
-  
-  function deleteHelp () {
-    helpService.deleteHelp(helpId)
+export default function ListCard({
+  helpTitle,
+  helpDescription,
+  categoryName,
+  deleteVisible,
+  helpId,
+  navigation,
+}) {
+  function deleteHelp() {
+    helpService.deleteHelp(helpId);
   }
-  
+
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => {
+        navigation.navigate("helpDescription", { helpTitle });
+      }}
+    >
       <View style={styles.cardTitle}>
         <Text numberOfLines={1} style={styles.titleContent}>
           {helpTitle}
@@ -35,10 +46,11 @@ export default function ListCard({ helpTitle, helpDescription, categoryName, del
               color={colors.danger}
               onPress={deleteHelp}
             />
-          ) : <></>}
-
+          ) : (
+            <></>
+          )}
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
