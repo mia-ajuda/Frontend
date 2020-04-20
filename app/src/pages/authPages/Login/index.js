@@ -13,6 +13,8 @@ import {
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
+import { UserContext } from "../../../store/contexts/userContext";
+import actions from "../../../store/actions";
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -69,7 +71,17 @@ export default function Login({ navigation }) {
 
   const loginHandlerFacebook = async () => {
     try {
-      await UserService.logInWithFacebook(navigation);
+      const result = await UserService.logInWithFacebook(navigation);
+
+      dispatch({
+        type: actions.user.addUserInfo,
+        user: {
+          profile: result.data,
+          tokenId: result.idTokenUser
+        }
+      });
+
+      navigation.navigate("main");
     } catch (err) {
       Alert.alert(
         "Erro",
@@ -83,22 +95,27 @@ export default function Login({ navigation }) {
         {
           cancelable: false
         }
-      );
-    }
-  };
+        );
+      }
+    };
+    
+    const loginHandlerGoogle = async () => {
+      try {
+        const result = await UserService.loginInWithGoogle(navigation);
 
-  const loginHandlerGoogle = async () => {
-    try {
-      await UserService.loginInWithGoogle(navigation);
-    } catch (err) {
-      Alert.alert(
-        "Erro",
-        err.error,
-        [{ text: "OK", onPress: () => {} }],
-        {
+        dispatch({
+          type: actions.user.addUserInfo,
+          user: {
+            profile: result.data,
+            tokenId: result.idTokenUser
+          }
+        });
+
+        navigation.navigate("main");
+      } catch (err) {
+        Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
           cancelable: false
-        }
-      );
+        });
     }
   };
 

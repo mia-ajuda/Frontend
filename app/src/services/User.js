@@ -1,10 +1,10 @@
 import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
 import { AsyncStorage, Alert } from "react-native";
-import * as Facebook from 'expo-facebook';
-import firebase  from 'firebase';
-import * as Google from 'expo-google-app-auth';
-import authConfig from '../config/authmiaajuda-firebase';
+import * as Facebook from "expo-facebook";
+import firebase from "firebase";
+import * as Google from "expo-google-app-auth";
+import authConfig from "../config/authmiaajuda-firebase";
 
 class UserService {
   constructor() {}
@@ -18,14 +18,18 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       const userInfo = await this.requestUserData(idTokenUser);
 
-      const user = {
-        info: userInfo,
-        accessToken: idTokenUser,
+      const user = JSON.stringify({
+        data: userInfo,
+        accessToken: idTokenUser
+      });
+
+      await AsyncStorage.setItem("user", user);
+
+      return {
+        data: userInfo,
+        idTokenUser,
+        success: "Login feito sucesso!"
       };
-
-      await AsyncStorage.setItem("user", JSON.stringify(user));
-
-      return user;
     } catch (error) {
       throw { error: error.response.data.error };
     }
@@ -34,21 +38,20 @@ class UserService {
   async logInWithFacebook(navigation) {
     try {
       await Facebook.initializeAsync(authConfig.facebookId);
-      const {
-        type,
-        token,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: [
-          'public_profile',
-          'email',
-        ],
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile", "email"]
       });
 
-      if (type === 'success') {
-
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const credential = await firebase.auth.FacebookAuthProvider.credential(token);
-        const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
+      if (type === "success") {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = await firebase.auth.FacebookAuthProvider.credential(
+          token
+        );
+        const facebookProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential); // Sign in with Facebook credential
 
         const userData = facebookProfileData.additionalUserInfo;
 
@@ -57,7 +60,7 @@ class UserService {
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
         );
-  
+
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
@@ -65,14 +68,15 @@ class UserService {
             [
               {
                 text: "OK",
-                onPress: () => navigation.navigate("personalData", {
-                  registrationData: {
-                    email: userData.profile.email,
-                    name: userData.profile.name,
-                    photo: userData.profile.picture.data.url,
-                    birthday: userData.profile.birthday
-                  }
-                })
+                onPress: () =>
+                  navigation.navigate("personalData", {
+                    registrationData: {
+                      email: userData.profile.email,
+                      name: userData.profile.name,
+                      photo: userData.profile.picture.data.url,
+                      birthday: userData.profile.birthday
+                    }
+                  })
               },
               {
                 text: "Cancelar",
@@ -88,25 +92,23 @@ class UserService {
         } else {
           const user = JSON.stringify({
             data: userData.profile,
-            accessToken: idTokenUser,
+            accessToken: idTokenUser
           });
-    
+
           await AsyncStorage.setItem("user", user);
-          
+
           return {
-            data: userData.profile, 
-            success: "Login feito sucesso!" 
+            data: userData.profile,
+            idTokenUser,
+            success: "Login feito sucesso!"
           };
         }
-
       } else {
-        throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
+        throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
-
     } catch ({ message }) {
-      throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
+      throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
-
   }
 
   async loginInWithGoogle(navigation) {
@@ -114,16 +116,14 @@ class UserService {
       const result = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,
         iosClientId: authConfig.googleIosClientId,
-        scopes: ['profile', 'email'],
+        scopes: ["profile", "email"]
       });
 
-
-      if (result.type === 'success') {
-
+      if (result.type === "success") {
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
         );
-  
+
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
@@ -131,13 +131,14 @@ class UserService {
             [
               {
                 text: "OK",
-                onPress: () => navigation.navigate("personalData", {
-                  registrationData: {
-                    email: result.user.email,
-                    name: result.user.name,
-                    photo: result.user.photoUrl,
-                  }
-                })
+                onPress: () =>
+                  navigation.navigate("personalData", {
+                    registrationData: {
+                      email: result.user.email,
+                      name: result.user.name,
+                      photo: result.user.photoUrl
+                    }
+                  })
               },
               {
                 text: "Cancelar",
@@ -153,23 +154,27 @@ class UserService {
         } else {
           const user = JSON.stringify({
             data: result.user,
-            accessToken: result.accessToken,
+            accessToken: result.accessToken
           });
-  
+
           await AsyncStorage.setItem("user", user);
 
           return {
-            data: result.user, 
-            success: "Login feito com sucesso!" 
+            data: result.user,
+            idTokenUser: result.accessToken,
+            success: "Login feito com sucesso!"
           };
         }
-
       } else {
-        throw { error: "Não foi possível fazer login com o Google. Tente novamente!" } 
+        throw {
+          error: "Não foi possível fazer login com o Google. Tente novamente!"
+        };
       }
     } catch (e) {
       console.log(e.message);
-      return { error: "Não foi possível fazer login com o Google. Tente novamente!" };
+      return {
+        error: "Não foi possível fazer login com o Google. Tente novamente!"
+      };
     }
   }
 
@@ -202,8 +207,8 @@ class UserService {
   async requestUserData(token) {
     const user = await api.get(`/user`, {
       headers: {
-        authorization: `Bearer ${token}`,
-      },
+        authorization: `Bearer ${token}`
+      }
     });
     return user.data;
   }
