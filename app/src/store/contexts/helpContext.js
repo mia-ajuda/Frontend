@@ -5,19 +5,28 @@ import { UserContext } from "./userContext";
 import actions from "../actions";
 import HelpService from "../../services/Help"
 import { connect, disconnect, subscribeToNewHelps, subscribeToDeleteHelp } from '../../services/socket'
+import { calculateDistance } from '../../utils/helpDistance';
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
-  const { user } = useContext(UserContext);
+  const { user, currentRegion } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
+  const [activeLocations, setActiveLocations] = useState([])
 
   useEffect(() => {
-    if(user.info && location) {
-      getHelpList();
-      setupWebSocket();
+    if(location && user.info && currentRegion) {
+      if(shouldRequest(location)) {
+          let obj = activeLocations
+          obj.push(location)
+          setActiveLocations(obj)
+
+          setupWebSocket();
+          getHelpList();
+      }
     }
   }, [location, user]);
+
 
   useEffect(() => {
     subscribeToNewHelps(help => {
@@ -34,7 +43,6 @@ export default function HelpContextProvider(props) {
 
   async function getHelpList() {
     if (location) {
-      console.log('1')
       try {
         const { _id: userId } = user.info;
         let helpListArray = await HelpService.getNearHelp(location, userId);
@@ -61,8 +69,23 @@ export default function HelpContextProvider(props) {
 
   function setupWebSocket() {
     disconnect()
-    connect(location.latitude, location.longitude)
+    connect(JSON.stringify(activeLocations), JSON.stringify(currentRegion))
   }
+
+  function shouldRequest({latitude, longitude}) {
+    let should = true;
+    if(activeLocations) {
+        activeLocations.every(element => {
+            const distance = calculateDistance({latitude, longitude}, element)
+            if(distance < 2) {
+                should = false
+                return false 
+            }
+            return true
+        })
+    }
+    return should;
+}
 
   return (
     <HelpContext.Provider value={{ helpList, dispatch }}>

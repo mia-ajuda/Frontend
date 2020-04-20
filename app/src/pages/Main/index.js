@@ -67,10 +67,6 @@ export default function Main({ navigation }) {
         }}
         customMapStyle={mapStyle.day.map}
       >
-        {
-          currentRegion &&
-          console.log('aaaaaaa')
-        }
         {currentRegion && (
           <>
             <Marker

@@ -13,13 +13,15 @@ function subscribeToDeleteHelp(subscribeFunction) {
     socket.on('delete-help', subscribeFunction)
 }
 
-function connect(latitude, longitude) {
+function connect(locations, currentRegion) {
+    // console.log(locations)
+    // console.log('-----------------')
+    // console.log(currentRegion)
     socket.io.opts.query = {
-        latitude,
-        longitude
+        locations,
+        currentRegion
     }
     socket.connect()
-
 }
 
 function disconnect() {
