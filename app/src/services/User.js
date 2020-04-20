@@ -1,32 +1,33 @@
 import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
-import { Notifications } from 'expo';
+import { Notifications } from "expo";
 import { AsyncStorage, Alert } from "react-native";
-import * as Facebook from 'expo-facebook';
-import firebase  from 'firebase';
-import * as Google from 'expo-google-app-auth';
-import authConfig from '../config/authmiaajuda-firebase';
+import * as Facebook from "expo-facebook";
+import firebase from "firebase";
+import * as Google from "expo-google-app-auth";
+import authConfig from "../config/authmiaajuda-firebase";
 
 class UserService {
   constructor() {}
 
   async logIn(data) {
-
     const setUserDeviceId = async (userId, firebaseToken) => {
-      try{
+      try {
         Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
-          await api.put(`/user`, {deviceId: pushToken}, {
-            headers: {
-              authorization: `Bearer ${firebaseToken}`,
+          await api.put(
+            `/user`,
+            { deviceId: pushToken },
+            {
+              headers: {
+                authorization: `Bearer ${firebaseToken}`,
+              },
             }
-          });
+          );
         });
-      }catch {
-        throw {error: "Não foi possível recuperar Puhsh Token!"}
+      } catch {
+        throw { error: "Não foi possível recuperar Puhsh Token!" };
       }
-
-
-    }
+    };
 
     try {
       await firebaseAuth
@@ -36,16 +37,20 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       const userInfo = await this.requestUserData(idTokenUser);
 
-      const user = {
-        info: userInfo,
+      const user = JSON.stringify({
+        data: userInfo,
         accessToken: idTokenUser,
-      };
+      });
 
       setUserDeviceId(userInfo._id, idTokenUser);
- 
+
       await AsyncStorage.setItem("user", JSON.stringify(user));
 
-      return user;
+      return {
+        data: userInfo,
+        idTokenUser,
+        success: "Login feito sucesso!",
+      };
     } catch (error) {
       throw { error: error.response.data.error };
     }
@@ -54,21 +59,20 @@ class UserService {
   async logInWithFacebook(navigation) {
     try {
       await Facebook.initializeAsync(authConfig.facebookId);
-      const {
-        type,
-        token,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: [
-          'public_profile',
-          'email',
-        ],
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile", "email"],
       });
 
-      if (type === 'success') {
-
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const credential = await firebase.auth.FacebookAuthProvider.credential(token);
-        const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
+      if (type === "success") {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = await firebase.auth.FacebookAuthProvider.credential(
+          token
+        );
+        const facebookProfileData = await firebase
+          .auth()
+          .signInWithCredential(credential); // Sign in with Facebook credential
 
         const userData = facebookProfileData.additionalUserInfo;
 
@@ -77,7 +81,7 @@ class UserService {
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
         );
-  
+
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
@@ -85,22 +89,23 @@ class UserService {
             [
               {
                 text: "OK",
-                onPress: () => navigation.navigate("personalData", {
-                  registrationData: {
-                    email: userData.profile.email,
-                    name: userData.profile.name,
-                    photo: userData.profile.picture.data.url,
-                    birthday: userData.profile.birthday
-                  }
-                })
+                onPress: () =>
+                  navigation.navigate("personalData", {
+                    registrationData: {
+                      email: userData.profile.email,
+                      name: userData.profile.name,
+                      photo: userData.profile.picture.data.url,
+                      birthday: userData.profile.birthday,
+                    },
+                  }),
               },
               {
                 text: "Cancelar",
-                onPress: () => {}
-              }
+                onPress: () => {},
+              },
             ],
             {
-              cancelable: false
+              cancelable: false,
             }
           );
 
@@ -110,23 +115,21 @@ class UserService {
             data: userData.profile,
             accessToken: idTokenUser,
           });
-    
+
           await AsyncStorage.setItem("user", user);
-          
+
           return {
-            data: userData.profile, 
-            success: "Login feito sucesso!" 
+            data: userData.profile,
+            idTokenUser,
+            success: "Login feito sucesso!",
           };
         }
-
       } else {
-        throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
+        throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
-
     } catch ({ message }) {
-      throw { error: 'Erro ao logar com o Facebook. Tente Novamente!' }
+      throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
-
   }
 
   async loginInWithGoogle(navigation) {
@@ -134,16 +137,14 @@ class UserService {
       const result = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,
         iosClientId: authConfig.googleIosClientId,
-        scopes: ['profile', 'email'],
+        scopes: ["profile", "email"],
       });
 
-
-      if (result.type === 'success') {
-
+      if (result.type === "success") {
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
         );
-  
+
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
@@ -151,21 +152,22 @@ class UserService {
             [
               {
                 text: "OK",
-                onPress: () => navigation.navigate("personalData", {
-                  registrationData: {
-                    email: result.user.email,
-                    name: result.user.name,
-                    photo: result.user.photoUrl,
-                  }
-                })
+                onPress: () =>
+                  navigation.navigate("personalData", {
+                    registrationData: {
+                      email: result.user.email,
+                      name: result.user.name,
+                      photo: result.user.photoUrl,
+                    },
+                  }),
               },
               {
                 text: "Cancelar",
-                onPress: () => {}
-              }
+                onPress: () => {},
+              },
             ],
             {
-              cancelable: false
+              cancelable: false,
             }
           );
 
@@ -175,21 +177,25 @@ class UserService {
             data: result.user,
             accessToken: result.accessToken,
           });
-  
+
           await AsyncStorage.setItem("user", user);
 
           return {
-            data: result.user, 
-            success: "Login feito com sucesso!" 
+            data: result.user,
+            idTokenUser: result.accessToken,
+            success: "Login feito com sucesso!",
           };
         }
-
       } else {
-        throw { error: "Não foi possível fazer login com o Google. Tente novamente!" } 
+        throw {
+          error: "Não foi possível fazer login com o Google. Tente novamente!",
+        };
       }
     } catch (e) {
       console.log(e.message);
-      return { error: "Não foi possível fazer login com o Google. Tente novamente!" };
+      return {
+        error: "Não foi possível fazer login com o Google. Tente novamente!",
+      };
     }
   }
 
