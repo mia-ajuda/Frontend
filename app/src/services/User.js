@@ -96,6 +96,7 @@ class UserService {
                       name: userData.profile.name,
                       photo: userData.profile.picture.data.url,
                       birthday: userData.profile.birthday,
+                      hasUser: true,
                     },
                   }),
               },
@@ -117,6 +118,8 @@ class UserService {
           });
 
           await AsyncStorage.setItem("user", user);
+
+          navigation.navigate("main");
 
           return {
             data: userData.profile,
@@ -158,6 +161,7 @@ class UserService {
                       email: result.user.email,
                       name: result.user.name,
                       photo: result.user.photoUrl,
+                      hasUser: true,
                     },
                   }),
               },
@@ -170,8 +174,6 @@ class UserService {
               cancelable: false,
             }
           );
-
-          return {};
         } else {
           const user = JSON.stringify({
             data: result.user,
@@ -179,6 +181,8 @@ class UserService {
           });
 
           await AsyncStorage.setItem("user", user);
+
+          navigation.navigate("main");
 
           return {
             data: result.user,
@@ -192,7 +196,6 @@ class UserService {
         };
       }
     } catch (e) {
-      console.log(e.message);
       return {
         error: "Não foi possível fazer login com o Google. Tente novamente!",
       };
@@ -200,8 +203,14 @@ class UserService {
   }
 
   async signUp(data) {
+    const { hasUser } = data;
+
+    if (hasUser) {
+      data.password = "12345678";
+    }
+
     try {
-      const response = await api.post("/user", data);
+      const response = await api.post(`/user?hasUser=${hasUser}`, data);
       return response;
     } catch (error) {
       console.log(error.response.data);

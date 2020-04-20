@@ -68,20 +68,10 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
-
+  
   const loginHandlerFacebook = async () => {
     try {
-      const result = await UserService.logInWithFacebook(navigation);
-
-      dispatch({
-        type: actions.user.addUserInfo,
-        user: {
-          profile: result.data,
-          tokenId: result.idTokenUser
-        }
-      });
-
-      navigation.navigate("main");
+      await UserService.logInWithFacebook(navigation);
     } catch (err) {
       Alert.alert(
         "Erro",
@@ -101,17 +91,7 @@ export default function Login({ navigation }) {
     
     const loginHandlerGoogle = async () => {
       try {
-        const result = await UserService.loginInWithGoogle(navigation);
-
-        dispatch({
-          type: actions.user.addUserInfo,
-          user: {
-            profile: result.data,
-            tokenId: result.idTokenUser
-          }
-        });
-
-        navigation.navigate("main");
+        await UserService.loginInWithGoogle(navigation);
       } catch (err) {
         Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
           cancelable: false
@@ -185,7 +165,8 @@ export default function Login({ navigation }) {
 
         <TouchableOpacity
           style={styles.signUP}
-          onPress={() => {
+          onPress={ async() => {
+            await AsyncStorage.setItem('hasUser', false);
             navigation.navigate("registrationData");
           }}
         >
