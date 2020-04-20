@@ -1,10 +1,7 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, { createContext, useReducer, useContext, useEffect, useState } from "react";
 import helpReducer from "../reducers/helpReducer";
-<<<<<<< HEAD
 import { LocationContext } from "./locationContext";
-=======
 import { UserContext } from "./userContext";
->>>>>>> 90f7ae4e3a23ebbfdc2cce45f68bb512def9463e
 import actions from "../actions";
 import HelpService from "../../services/Help"
 import { connect, disconnect, subscribeToNewHelps, subscribeToDeleteHelp } from '../../services/socket'
@@ -14,6 +11,7 @@ export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { user } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
+  const [activeLocations, setActiveLocations] = useState([])
 
   useEffect(() => {
     if(user.info && location) {
@@ -25,13 +23,13 @@ export default function HelpContextProvider(props) {
   useEffect(() => {
     subscribeToNewHelps(help => {
       const helpListArray = [...helpList, help]
-      dispatch({ type: actions.help.addHelp, helps: helpListArray })
+      dispatch({ type: actions.help.storeList, helps: helpListArray })
     })
     subscribeToDeleteHelp(helpId => {
       let helpListArray = helpList.filter(help => {
         return help._id != helpId
       })
-      dispatch({ type: actions.help.addHelp, helps: helpListArray })
+      dispatch({ type: actions.help.storeList, helps: helpListArray })
     })
   }, [helpList])
 
@@ -44,7 +42,7 @@ export default function HelpContextProvider(props) {
           helpListArray = [...helpList, ...helpListArray]
           helpListArray = getUnique(helpListArray, '_id')
         } 
-        dispatch({ type: actions.help.addHelp, helps: helpListArray });
+        dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
         console.log(error);
       }
@@ -63,6 +61,10 @@ export default function HelpContextProvider(props) {
 
   function setupWebSocket() {
     disconnect()
+    // let active = activeLocations
+    // active.push({ latitude: location.latitude, longitude: location.longitude})
+    // setActiveLocations(active)
+    // console.log(activeLocations)
     connect(location.latitude, location.longitude)
   }
 

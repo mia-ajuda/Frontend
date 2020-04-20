@@ -32,6 +32,7 @@ export default function Main({ navigation }) {
 
   useEffect(() => {
     setRegion(null);
+    console.log(helpList)
   }, [region]);
 
   function onRegionChange(position) {
