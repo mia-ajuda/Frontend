@@ -58,12 +58,13 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollStyle}
             >
-              {helps.map((item, i) => (
+              {helps.map((help, i) => (
                 <ListCard
                   key={i}
-                  helpTitle={item.title}
-                  helpDescription={item.description}
-                  categoryName={item.category[0].name}
+                  helpId = {help._id}
+                  helpTitle={help.title}
+                  helpDescription={help.description}
+                  categoryName={help.category[0].name}
                   navigation={navigation}
                 />
               ))}

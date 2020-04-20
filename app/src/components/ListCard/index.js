@@ -8,12 +8,18 @@ export default function ListCard({
   helpDescription,
   categoryName,
   navigation,
+  helpId,
 }) {
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() => {
-        navigation.navigate("helpDescription", { helpTitle });
+        navigation.navigate("helpDescription", {
+          helpTitle,
+          helpDescription,
+          categoryName,
+          helpId,
+        });
       }}
     >
       <View style={styles.cardTitle}>
