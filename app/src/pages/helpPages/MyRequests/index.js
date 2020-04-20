@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, Image } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import styles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
@@ -9,10 +8,7 @@ import helpService from "../../../services/Help";
 import { UserContext } from "../../../store/contexts/userContext";
 
 export default function MyRequests({ navigation }) {
-  const Tab = createMaterialTopTabNavigator();
-
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
-  const [finishedHelpList, setFinishedHelpList] = useState([]);
 
   const { user } = useContext(UserContext);
   const { _id: userId } = user.info;
@@ -22,12 +18,6 @@ export default function MyRequests({ navigation }) {
     let tempOnGoing = await helpService.getAllHelpForUser(userId, "waiting");
     let resOnGoing = tempOnGoing.filter((help) => help.active === true);
     setOnGoingHelpList(resOnGoing);
-  }
-
-  async function loadFinishedHelps() {
-    let tempFinished = await helpService.getAllHelpForUser(userId, "finished");
-    let resFinished = tempFinished.filter((help) => help.active === true);
-    setFinishedHelpList(resFinished);
   }
 
   async function excludeHelp(helpId) {
@@ -131,19 +121,4 @@ export default function MyRequests({ navigation }) {
       </View>
     );
   }
-
-  return (
-    <View style={styles.container}>
-      <Tab.Navigator
-        tabBarOptions={{
-          style: styles.tabContainer,
-          labelStyle: styles.tabLabel,
-          indicatorStyle: styles.tabIndicator,
-        }}
-      >
-        <Tab.Screen name="Em andamento" component={onGoingHelps} />
-        <Tab.Screen name="Finalizados" component={doneHelps} />
-      </Tab.Navigator>
-    </View>
-  );
 }
