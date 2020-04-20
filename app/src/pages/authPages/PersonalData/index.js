@@ -40,9 +40,11 @@ export default function PersonalData({ route, navigation }) {
     if(registrationData.name) {
       setName(registrationData.name)
     }
-
+    
     if(registrationData.birthday) {
-      setBirthday(registrationData.birthday);
+      const dateSplit = registrationData.birthday.split('/');
+      const date = dateSplit[1] + '/' + dateSplit[0] + '/' + dateSplit[2];
+      setBirthday(date);
     }
 
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
