@@ -10,8 +10,7 @@ export default function ListCard({
   helpDescription,
   categoryName,
   deleteVisible,
-  helpId,
-  deleteHelp,
+  setConfirmationModalVisible,
   navigation,
 }) {
   return (
@@ -40,7 +39,7 @@ export default function ListCard({
               name="trash"
               type="font-awesome"
               color={colors.danger}
-              onPress={() => deleteHelp(helpId)}
+              onPress={() => setConfirmationModalVisible(true)}
             />
           ) : (
             <></>
