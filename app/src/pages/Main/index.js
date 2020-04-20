@@ -17,7 +17,9 @@ import Button from "../../components/UI/button";
 import CategoryListModal from "../../components/modals/category/CategoryList";
 import { HelpContext } from "../../store/contexts/helpContext";
 import { UserContext } from "../../store/contexts/userContext";
+import { LocationContext } from "../../store/contexts/locationContext";
 import HelpList from "../../components/HelpList";
+import { calculateDistance } from '../../utils/helpDistance';
 
 export default function Main({ navigation }) {
   const [region, setRegion] = useState(null);
@@ -25,10 +27,25 @@ export default function Main({ navigation }) {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
+  const { location, setLocation } = useContext(LocationContext);
+  let usedLocations = [currentRegion]
 
   useEffect(() => {
     setRegion(null);
   }, [region]);
+
+  function onRegionChange(position) {
+    usedLocations.every((loc) => {
+      const dist = calculateDistance(position, loc)
+      if(dist > 2) {
+        usedLocations.push(position)
+        setLocation(position)
+        return false
+      }
+      return true
+    })
+    return setHelpListVisible(false)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,7 +56,7 @@ export default function Main({ navigation }) {
       <TouchableOpacity
         style={styles.recenter}
         onPress={() => {
-          setRegion(currentRegion);
+          setRegion(location);
         }}
       >
         <Icon
@@ -54,7 +71,7 @@ export default function Main({ navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         region={region}
-        onRegionChange={() => setHelpListVisible(false)}
+        onRegionChangeComplete={(position) => onRegionChange(position)}
         onPress={() => {
           setHelpListVisible(false);
         }}

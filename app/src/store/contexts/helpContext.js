@@ -1,21 +1,22 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import helpReducer from "../reducers/helpReducer";
-import { UserContext } from "./userContext";
+import { LocationContext } from "./locationContext";
 import actions from "../actions";
 import HelpService from "../../services/Help"
 import { connect, disconnect, subscribeToNewHelps, subscribeToDeleteHelp } from '../../services/socket'
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
-  const { currentRegion } = useContext(UserContext);
+  const { location } = useContext(LocationContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
     getHelpList();
-    if(currentRegion) {
+    if(location) {
+      
       setupWebSocket();
     }
-  }, [currentRegion]);
+  }, [location]);
 
   useEffect(() => {
     subscribeToNewHelps(help => {
@@ -31,9 +32,13 @@ export default function HelpContextProvider(props) {
   }, [helpList])
 
   async function getHelpList() {
-    if (currentRegion) {
+    if (location) {
       try {
-        let helpListArray = await HelpService.getNearHelp(currentRegion);
+        let helpListArray = await HelpService.getNearHelp(location);
+        if(helpList.length > 0) {
+          helpListArray = [...helpList, ...helpListArray]
+          helpListArray = getUnique(helpListArray, '_id')
+        } 
         dispatch({ type: actions.help.addHelp, helps: helpListArray });
       } catch (error) {
         console.log(error);
@@ -41,9 +46,19 @@ export default function HelpContextProvider(props) {
     }
   }
 
+  function getUnique(arr, comp) {
+
+    const unique = arr
+      .map(e => e[comp])
+      .map((e, i, final) => final.indexOf(e) === i && i)
+      .filter(e => arr[e]).map(e => arr[e]);
+  
+     return unique;
+  }
+
   function setupWebSocket() {
     disconnect()
-    connect(currentRegion.latitude, currentRegion.longitude)
+    connect(location.latitude, location.longitude)
   }
 
   return (
