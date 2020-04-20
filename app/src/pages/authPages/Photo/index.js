@@ -46,7 +46,11 @@ export default function App({ route, navigation }) {
   };
 
   const continueHandle = () => {
-    const data = { ...userData, photo: 'https://s3.amazonaws.com/uifaces/faces/twitter/jonathansimmons/128.jpg' };
+    const data = {
+      ...userData,
+      photo:
+        "https://s3.amazonaws.com/uifaces/faces/twitter/jonathansimmons/128.jpg",
+    };
     navigation.navigate("location", { userData: data });
   };
 
@@ -58,13 +62,11 @@ export default function App({ route, navigation }) {
           style={styles.logo}
         >
           <Container>
-          <View style={styles.backIcon}>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-            >
-              <Icon name={"arrow-back"} color={"black"} />
-            </TouchableOpacity>
-          </View>
+            <View style={styles.backIcon}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Icon name={"arrow-back"} color={"black"} />
+              </TouchableOpacity>
+            </View>
             <View style={styles.textView}>
               <Text style={styles.text}>
                 Também precisamos de uma foto sua, é só clicar na camêra aqui em
@@ -89,7 +91,8 @@ export default function App({ route, navigation }) {
           />
           <View style={styles.selectText}>
             <Text style={styles.text}>
-              Gostou da foto ? Agora vamos continuar seu cadastro!!
+              Clique em continuar para prosseguir com o cadastro, ou voltar para
+              escolher outra foto.
             </Text>
           </View>
           <View style={styles.buttonPreview}>

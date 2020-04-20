@@ -149,6 +149,7 @@ export default function Main({ navigation }) {
           helps={helpList}
           visible={helpListVisible}
           setVisible={setHelpListVisible}
+          navigation={navigation}
         />
       </View>
     </SafeAreaView>

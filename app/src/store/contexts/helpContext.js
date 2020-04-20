@@ -1,6 +1,10 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import helpReducer from "../reducers/helpReducer";
+<<<<<<< HEAD
 import { LocationContext } from "./locationContext";
+=======
+import { UserContext } from "./userContext";
+>>>>>>> 90f7ae4e3a23ebbfdc2cce45f68bb512def9463e
 import actions from "../actions";
 import HelpService from "../../services/Help"
 import { connect, disconnect, subscribeToNewHelps, subscribeToDeleteHelp } from '../../services/socket'
@@ -8,15 +12,15 @@ export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
+  const { user } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
-    getHelpList();
-    if(location) {
-      
+    if(user.info && location) {
+      getHelpList();
       setupWebSocket();
     }
-  }, [location]);
+  }, [location, user]);
 
   useEffect(() => {
     subscribeToNewHelps(help => {
@@ -34,7 +38,8 @@ export default function HelpContextProvider(props) {
   async function getHelpList() {
     if (location) {
       try {
-        let helpListArray = await HelpService.getNearHelp(location);
+        const { _id: userId } = user.info;
+        let helpListArray = await HelpService.getNearHelp(location, userId);
         if(helpList.length > 0) {
           helpListArray = [...helpList, ...helpListArray]
           helpListArray = getUnique(helpListArray, '_id')

@@ -7,19 +7,20 @@ import Button from "../../../components/UI/button";
 import colors from "../../../../assets/styles/colorVariables";
 import { CategoryContext } from "../../../store/contexts/categoryContext";
 import helpService from "../../../services/Help";
+import { UserContext } from "../../../store/contexts/userContext";
 
 export default function CreateHelp({ navigation }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState({});
   const [description, setDescription] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const { categories } = useContext(CategoryContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVerification, setModalVerification] = useState(true);
   const [loading, setloading] = useState(false);
   const [requestState, setRequestState] = useState("");
 
-  let modalContent = null;
+  const { categories } = useContext(CategoryContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     switch (requestState) {
@@ -59,6 +60,20 @@ export default function CreateHelp({ navigation }) {
     }
   }, [title, description, category]);
 
+  function createHelp() {
+    const { accessToken } = user;
+    const { _id: userId } = user.info;
+
+    setRequestState("waiting");
+    helpService
+      .createHelp(title, category["_id"], description, accessToken, userId)
+      .then((res) => {
+        setRequestState("success");
+      })
+      .catch((err) => {
+        setRequestState("fail");
+      });
+  }
   return (
     <View>
       <Container>
@@ -95,22 +110,16 @@ export default function CreateHelp({ navigation }) {
           </View>
 
           <View style={styles.btnContainer}>
-            <Button
-              title="Preciso de ajuda"
-              large
-              disabled={buttonDisabled}
-              press={() => {
-                setRequestState("waiting");
-                helpService
-                  .createHelp(title, category["_id"], description)
-                  .then((res) => {
-                    setRequestState("success");
-                  })
-                  .catch((err) => {
-                    setRequestState("fail");
-                  });
-              }}
-            />
+            {loading ? (
+              <ActivityIndicator size="large" color={colors.primary} />
+            ) : (
+              <Button
+                title="Preciso de ajuda"
+                large
+                disabled={buttonDisabled}
+                press={createHelp}
+              />
+            )}
           </View>
         </View>
       </Container>
@@ -120,28 +129,7 @@ export default function CreateHelp({ navigation }) {
           <Modal
             transparent={true}
             style={styles.modal}
-            animationType="slide"
-            visible={loading}
-          >
-            <View style={[styles.backdrop, styles.centeredView]}>
-              <View style={styles.loading}>
-                <ActivityIndicator
-                  size="large"
-                  color={colors.primary}
-                  animating={loading}
-                />
-              </View>
-            </View>
-          </Modal>
-        </View>
-      </View>
-
-      <View style={styles.fullScreen}>
-        <View style={styles.centeredView}>
-          <Modal
-            transparent={true}
-            style={styles.modal}
-            animationType="slide"
+            animationType="fade"
             visible={modalVisible}
           >
             <View style={[styles.backdrop, styles.centeredView]}>

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
 import { Icon, Tile } from "react-native-elements";
+import { UserContext } from "./store/contexts/userContext";
 
+import Profile from "./pages/profile";
+import Notification from "./pages/notification";
+import AskedHelps from "./pages/askedHelps";
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
 import RegistrationData from "./pages/authPages/RegistrationData";
@@ -17,6 +21,10 @@ import Main from "./pages/Main";
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
+import MyHelpList from "./pages/helpPages/myHelpList";
+import Splash from "./pages/splash";
+import HelpDescription from "./pages/helpPages/helpDescription";
+
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
@@ -35,6 +43,11 @@ const MainNavigation = () => (
         name="createHelp"
         options={{ title: "Pedir ajuda" }}
         component={CreateHelp}
+      />
+      <MainStack.Screen
+        name="helpDescription"
+        options={({ route }) => ({ title: route.params.helpTitle })}
+        component={HelpDescription}
       />
     </MainStack.Navigator>
   </>
@@ -81,7 +94,7 @@ const BottomTab = () => (
               : { color: colors.light, raised: false, name: "outdent" };
             break;
 
-          case "needingList":
+          case "askedHelp":
             selectConfig = focused
               ? { color: colors.primary, raised: true, name: "outdent" }
               : { color: colors.light, raised: false, name: "outdent" };
@@ -91,7 +104,7 @@ const BottomTab = () => (
               ? { color: colors.primary, raised: true, name: "bell" }
               : { color: colors.light, raised: false, name: "bell" };
             break;
-          case "settings":
+          case "profile":
             selectConfig = focused
               ? {
                 color: colors.primary,
@@ -119,34 +132,44 @@ const BottomTab = () => (
     })}
     initialRouteName="main"
   >
-    <BottomNavigation.Screen name="notification" component={Main} />
-    <BottomNavigation.Screen name="helpList" component={Main} />
+    <BottomNavigation.Screen name="notification" component={Notification} />
+    <BottomNavigation.Screen name="helpList" component={MyHelpList} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
-    <BottomNavigation.Screen name="needingList" component={Main} />
-    <BottomNavigation.Screen name="settings" component={Main} />
+    <BottomNavigation.Screen name="askedHelp" component={AskedHelps} />
+    <BottomNavigation.Screen name="profile" component={Profile} />
   </BottomNavigation.Navigator>
 );
 
-const AuthRoutes = () => (
-  <>
-    <AuthStack.Navigator
-      initialRouteName="login"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <AuthStack.Screen name="login" component={Login} />
-      <AuthStack.Screen name="location" component={Location} />
-      <AuthStack.Screen name="address" component={Address} />
-      <AuthStack.Screen name="registrationData" component={RegistrationData} />
-      <AuthStack.Screen name="personalData" component={PersonalData} />
-      <AuthStack.Screen name="riskGroup" component={RiskGroup} />
-      <AuthStack.Screen name="photo" component={Photo} />
-      <AuthStack.Screen name="main" component={BottomTab} />
-      <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
-    </AuthStack.Navigator>
-  </>
-);
+const AuthRoutes = () => {
+  const { user } = useContext(UserContext);
+  if (user.showSplash) {
+    return <Splash />;
+  }
+
+  return (
+    <>
+      <AuthStack.Navigator
+        initialRouteName="login"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <AuthStack.Screen name="login" component={Login} />
+        <AuthStack.Screen name="location" component={Location} />
+        <AuthStack.Screen name="address" component={Address} />
+        <AuthStack.Screen
+          name="registrationData"
+          component={RegistrationData}
+        />
+        <AuthStack.Screen name="personalData" component={PersonalData} />
+        <AuthStack.Screen name="riskGroup" component={RiskGroup} />
+        <AuthStack.Screen name="photo" component={Photo} />
+        <AuthStack.Screen name="main" component={BottomTab} />
+        <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
+      </AuthStack.Navigator>
+    </>
+  );
+};
 
 const headerStyle = {
   headerBackImage: () => (
@@ -174,10 +197,13 @@ const headerStyle = {
   headerTitleAlign: "center",
 };
 
-const Routes = () => (
-  <NavigationContainer>
-    <AuthRoutes />
-  </NavigationContainer>
-);
+const Routes = () => {
+  const { user } = useContext(UserContext);
+  return (
+    <NavigationContainer>
+      {user.info ? <BottomTab /> : <AuthRoutes />}
+    </NavigationContainer>
+  );
+};
 
 export default Routes;

@@ -24,15 +24,18 @@ export default function CategoryList({ visible, setVisible }) {
   const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
   const { categories } = useContext(CategoryContext);
   const { dispatch } = useContext(HelpContext);
-  const { currentRegion } = useContext(UserContext);
+  const { user, currentRegion } = useContext(UserContext);
+
+  const { _id: userId } = user.info;
 
   async function filterHelplist() {
     try {
       const helpListFilterd = await HelpService.getAllHelpForCategory(
         currentRegion,
-        selectedCategoryArray
+        selectedCategoryArray,
+        userId
       );
-      dispatch({ type: actions.help.addHelp, helps: helpListFilterd });
+      dispatch({ type: actions.help.storeList, helps: helpListFilterd });
       setVisible(!visible);
       setFilterCategoryArray(selectedCategoryArray);
     } catch (error) {
@@ -43,8 +46,8 @@ export default function CategoryList({ visible, setVisible }) {
   async function clearFilterHelplist() {
     setVisible(!visible);
     setFilterCategoryArray([]);
-    const helpList = await HelpService.getAllHelpForCategory(currentRegion);
-    dispatch({ type: actions.help.addHelp, helps: helpList });
+    const helpList = await HelpService.getNearHelp(currentRegion, userId);
+    dispatch({ type: actions.help.storeList, helps: helpList });
   }
 
   return (

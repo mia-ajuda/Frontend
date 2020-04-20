@@ -65,7 +65,7 @@ export default function Location({ route, navigation }) {
 
     try {
       await userService.signUp(newUserData);
-
+      setModalIsVisible(!modalIsVisible);
       Alert.alert(
         "Sucesso",
         "Usuário cadastrado com sucesso!",
@@ -73,9 +73,10 @@ export default function Location({ route, navigation }) {
         { cancelable: false }
       );
     } catch (err) {
+      console.log(err);
       Alert.alert(
         "Erro",
-        "Erro ao cadastrar usuário. Tente novamente!",
+        err.error || "Erro ao cadastrar usuário. Tente novamente mais tarde!",
         [{ text: "OK", onPress: () => {} }],
         { cancelable: false }
       );
@@ -121,6 +122,7 @@ export default function Location({ route, navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
+        onRegionChange={() => setDescriptionShow(false)}
       />
 
       <Animated.ScrollView
@@ -140,7 +142,7 @@ export default function Location({ route, navigation }) {
             <Text style={styles.descriptionText}>
               Ela será onde sua ajuda será informada no mapa! Por isso, se você
               não estiver na posição que deseja cadastrar, deixe esse passo para
-              depois.handleLocation
+              depois.
             </Text>
           )}
         </TouchableOpacity>

@@ -10,16 +10,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 30,
-    backgroundColor: color.light
+    backgroundColor: color.light,
   },
   scroll: {
-    flexGrow : 1, 
-    justifyContent : 'center', 
+    flexGrow: 1,
+    justifyContent: "center",
   },
   scroll2: {
     marginTop: 40,
-    flexGrow : 1, 
-    justifyContent : 'center', 
+    flexGrow: 1,
+    justifyContent: "center",
   },
   viewText: {
     width: "90%",
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   text1: {
     ...fonts.subtitle,
     fontFamily: "montserrat-semibold",
-    marginTop: 15
+    marginTop: 15,
   },
   inputView: {
     width: "100%",
@@ -58,14 +58,19 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   toggleView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-   
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   backIcon: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     marginTop: 15,
+  },
+  errorMessage: {
+    ...fonts.body,
+    alignSelf: "center",
+    marginBottom: 10,
+    color: "red",
   },
 });
 
