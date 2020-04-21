@@ -4,10 +4,11 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    width: 62,
-    height: 62,
+    width: 55,
+    height: 55,
     borderRadius: 50,
     elevation: 10,
+    backgroundColor:"#fff"
   },
   iconPosition: {
     position: "absolute",

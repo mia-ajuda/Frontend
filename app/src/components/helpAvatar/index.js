@@ -10,24 +10,24 @@ export default function Avatar({ help }) {
   const riskColor = isRiskGroup ? colors.danger : colors.primary;
 
   return (
-    <View style={[styles.container, { backgroundColor: riskColor }]}>
+    <View style={styles.container}>
       <Image
         source={{ uri: profilePhoto }}
         style={{
           resizeMode: "stretch",
-          width: 54,
-          height: 54,
+          width: 45,
+          height: 45,
           borderRadius: 30,
         }}
       />
-      {/* <View style={styles.iconPosition}>
+      <View style={styles.iconPosition}>
         <Icon
           name="exclamation"
           type="font-awesome"
           color={riskColor}
-          size={35}
+          size={40}
         />
-      </View> */}
+      </View>
     </View>
   );
 }
