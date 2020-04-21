@@ -2,13 +2,15 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image } from "react-native";
+import { Image,StatusBar } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 import Profile from "./pages/profile";
 import Notification from "./pages/notification";
-import AskedHelps from "./pages/askedHelps";
+import AskedHelps from "./pages/helpPages/askedHelps";
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
 import RegistrationData from "./pages/authPages/RegistrationData";
@@ -24,12 +26,14 @@ import fonts from "../assets/styles/fontVariable";
 import MyHelpList from "./pages/helpPages/myHelpList";
 import Splash from "./pages/splash";
 import HelpDescription from "./pages/helpPages/helpDescription";
+import styles from "./components/ListCard/styles";
 
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+const HelpTopBarNavigation = createMaterialTopTabNavigator();
 
 const MainNavigation = () => (
   <>
@@ -54,6 +58,25 @@ const MainNavigation = () => (
     </MainStack.Navigator>
   </>
 );
+
+const HelpTopBar = () => (
+  <HelpTopBarNavigation.Navigator
+    initialRouteName="em andamento"
+    tabBarOptions = {{style:{marginTop:StatusBar.currentHeight,backgroundColor:colors.primary},activeTintColor:"white",indicatorStyle:{backgroundColor:"white"}}}
+  >
+    <HelpTopBarNavigation.Screen
+      name="em andamento"
+      component={AskedHelps}
+    />
+
+    <HelpTopBarNavigation.Screen
+      name="finalizadas"
+      component={AskedHelps}
+    />
+
+  </HelpTopBarNavigation.Navigator>
+)
+
 
 const BottomTab = () => (
   <BottomNavigation.Navigator
@@ -137,7 +160,7 @@ const BottomTab = () => (
     <BottomNavigation.Screen name="notification" component={Notification} />
     <BottomNavigation.Screen name="helpList" component={MyHelpList} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
-    <BottomNavigation.Screen name="askedHelp" component={AskedHelps} />
+    <BottomNavigation.Screen name="askedHelp" component={HelpTopBar} />
     <BottomNavigation.Screen name="profile" component={Profile} />
   </BottomNavigation.Navigator>
 );
@@ -172,6 +195,8 @@ const AuthRoutes = () => {
     </>
   );
 };
+
+
 
 const headerStyle = {
   headerBackImage: () => (
