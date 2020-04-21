@@ -46,7 +46,9 @@ const MainNavigation = () => (
       />
       <MainStack.Screen
         name="helpDescription"
-        options={({ route }) => ({ title: route.params.helpTitle })}
+        options={({ route }) => ({
+          title: route.params.helpTitle,
+        })}
         component={HelpDescription}
       />
     </MainStack.Navigator>
@@ -191,6 +193,7 @@ const headerStyle = {
     ...fonts.title,
     color: colors.light,
     fontFamily: "montserrat-medium",
+    marginHorizontal: 30,
   },
 
   headerTintColor: colors.light,
