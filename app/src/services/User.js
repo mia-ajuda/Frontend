@@ -19,17 +19,13 @@ class UserService {
       const userInfo = await this.requestUserData(idTokenUser);
 
       const user = JSON.stringify({
-        data: userInfo,
+        info: userInfo,
         accessToken: idTokenUser
       });
 
       await AsyncStorage.setItem("user", user);
 
-      return {
-        data: userInfo,
-        idTokenUser,
-        success: "Login feito sucesso!"
-      };
+      return user;
     } catch (error) {
       throw { error: error.response.data.error };
     }
@@ -92,19 +88,13 @@ class UserService {
           return {};
         } else {
           const user = JSON.stringify({
-            data: userData.profile,
+            info: userData.profile,
             accessToken: idTokenUser
           });
 
           await AsyncStorage.setItem("user", user);
 
-          navigation.navigate("main");
-
-          return {
-            data: userData.profile,
-            idTokenUser,
-            success: "Login feito sucesso!"
-          };
+          return user;
         }
       } else {
         throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
@@ -157,19 +147,13 @@ class UserService {
 
         } else {
           const user = JSON.stringify({
-            data: result.user,
+            info: result.user,
             accessToken: result.accessToken
           });
 
           await AsyncStorage.setItem("user", user);
 
-          navigation.navigate("main");
-
-          return {
-            data: result.user,
-            idTokenUser: result.accessToken,
-            success: "Login feito com sucesso!"
-          };
+          return user;
         }
       } else {
         throw {
@@ -177,6 +161,7 @@ class UserService {
         };
       }
     } catch (e) {
+      console.log(e.response);
       return {
         error: "Não foi possível fazer login com o Google. Tente novamente!"
       };

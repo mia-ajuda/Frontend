@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -25,8 +25,7 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     if (email && password) {
@@ -50,9 +49,11 @@ export default function Login({ navigation }) {
     setLoading(true);
 
     try {
-      await UserService.logIn(data);
-
-      navigation.navigate("main");
+      const user = await UserService.logIn(data);
+      if (user) {
+        setLoading(false);
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
     } catch (err) {
       Alert.alert(
         "Ooops..",
@@ -69,7 +70,12 @@ export default function Login({ navigation }) {
   const loginHandlerFacebook = async () => {
     try {
       setLoading(true);
-      await UserService.logInWithFacebook(navigation);
+      const user = await UserService.logInWithFacebook(navigation);
+
+      if (user) {
+        setLoading(false);
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
     } catch (err) {
       Alert.alert(
         "Erro",
@@ -92,7 +98,13 @@ export default function Login({ navigation }) {
   const loginHandlerGoogle = async () => {
     try {
       setLoading(true);
-      await UserService.loginInWithGoogle(navigation);
+      const user = await UserService.loginInWithGoogle(navigation);
+      console.log(user);
+
+      if (user) {
+        setLoading(false);
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
     } catch (err) {
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false
