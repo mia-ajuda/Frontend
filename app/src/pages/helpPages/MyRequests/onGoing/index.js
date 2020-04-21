@@ -6,7 +6,7 @@ import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
 
-export default function OnGoingHelps() {
+export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
@@ -44,14 +44,14 @@ export default function OnGoingHelps() {
         <ScrollView>
           <View style={styles.helpList}>
             {onGoingHelpList.map((item) => (
-              <>
+              <View key={item._id}>
                 <ListCard
-                  key={item._id}
                   helpTitle={item.title}
                   helpDescription={item.description}
                   categoryName={"CategoryName"}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
+                  navigation={navigation}
                 />
 
                 <ConfirmationModal
@@ -59,7 +59,7 @@ export default function OnGoingHelps() {
                   setVisible={setConfirmationModalVisible}
                   behavior={() => excludeHelp(item._id)}
                 />
-              </>
+              </View>
             ))}
           </View>
         </ScrollView>
