@@ -81,7 +81,7 @@ class UserService {
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
-            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            "Não existe uma conta criada com esse email. Deseja cadastrar?",
             [
               {
                 text: "OK",
