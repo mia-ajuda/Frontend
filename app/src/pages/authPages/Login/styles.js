@@ -55,7 +55,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#d93025",
     width: "25%",
     borderRadius: 25,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   btnGoogle: {
     flexDirection: "row",
@@ -72,7 +74,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B5998",
     width: "25%",
     borderRadius: 25,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   btnFacebook: {
     flexDirection: "row",
