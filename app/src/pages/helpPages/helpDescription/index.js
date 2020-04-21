@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image,Alert } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -11,6 +11,7 @@ export default function HelpDescription({ route, navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
+  
   const {
     helpDescription,
     categoryName,
@@ -20,8 +21,6 @@ export default function HelpDescription({ route, navigation }) {
     city,
     profilePhoto,
   } = route.params;
-
-  console.log(profilePhoto);
 
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
@@ -33,6 +32,7 @@ export default function HelpDescription({ route, navigation }) {
       await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
       setConfirmationModalVisible(false);
       navigation.goBack();
+      Alert.alert('Sucesso','Oferta enviada com sucesso e estará no aguardo para ser aceita',[{title:'OK'}])
     } catch (error) {
       console.log(error);
     }
