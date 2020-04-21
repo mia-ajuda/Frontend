@@ -80,7 +80,7 @@ export default function Login({ navigation }) {
       setLoadingFace(true);
       const user = await UserService.logInWithFacebook(navigation);
       
-      await getDelay(500);
+      await getDelay(1500);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
