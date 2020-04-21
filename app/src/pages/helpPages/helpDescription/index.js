@@ -1,71 +1,100 @@
-import React, {useContext, useEffect} from "react";
-import { View, Text,Image } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, Text, Image } from "react-native";
 import styles from "./styles";
-import Button from "../../../components/UI/button"
-import moment from "moment"
-import {UserContext} from "../../../store/contexts/userContext"
-import HelpService from "../../../services/Help"
-export default function HelpDescription({route}) {
-  
+import Button from "../../../components/UI/button";
+import moment from "moment";
+import { UserContext } from "../../../store/contexts/userContext";
+import HelpService from "../../../services/Help";
+import ConfirmationModal from "./confirmationModal";
+export default function HelpDescription({ route, navigation }) {
+  const { user } = useContext(UserContext);
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(
+    false
+  );
   const {
-    user
-  } = useContext(UserContext)
-
-  const { 
     helpDescription,
     categoryName,
     helpId,
     userName,
     birthday,
     city,
-    helperId,
-    possibleHelpers,
+    profilePhoto,
   } = route.params;
 
-  //console.log(helpDescription,categoryName,user);
-  
-  const currentYear = moment().format("YYYY")
-  const birthYear = moment(birthday).format("YYYY")
+  console.log(profilePhoto);
+
+  const currentYear = moment().format("YYYY");
+  const birthYear = moment(birthday).format("YYYY");
 
   const age = currentYear - birthYear;
 
-  const userPosition = possibleHelpers.indexOf(user.info._id);
-
-  let buttonDisable = false;
-
-  async function chooseHelp() {   
-    await HelpService.chooseHelp(helpId,user.info._id,user.accessToken)
+  async function chooseHelp() {
+    try {
+      await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
+      setConfirmationModalVisible(false);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  if(helperId || userPosition>=0){
-    buttonDisable=true;
-  }
-  
   return (
     <View style={styles.container}>
-      <View style = { styles.userInfo}>
-          <Image
-            source = {require("../../../../assets/images/pessoa.jpg")}
-            style = {styles.profileImage}
-          />
-        <View style = {styles.infoTextView}>
-          <Text style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}>{userName}</Text>
-          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>{age}</Text>
-          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold"}}>Cidade: </Text>{city}</Text>
+      <ConfirmationModal
+        visible={confirmationModalVisible}
+        setVisible={setConfirmationModalVisible}
+        chooseHelp={chooseHelp}
+      />
+      <View style={styles.userInfo}>
+        <Image
+          source={{
+            uri: profilePhoto,
+          }}
+          style={styles.profileImage}
+        />
+        <View style={styles.infoTextView}>
+          <Text
+            style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
+          >
+            {userName}
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>
+            {age}
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
+            {city}
+          </Text>
         </View>
       </View>
-      <View style = {styles.helpInfo}>
-        <View style = {styles.helpInfoText}>
-          <Text style={styles.infoText}><Text style={{ fontFamily: "montserrat-semibold" }}>Categoria: </Text>{categoryName}</Text> 
-          <Text style={[styles.infoText, { fontFamily: "montserrat-semibold",marginTop:20,marginBottom:10}]}>Descrição:</Text>
-          <Text style = {styles.infoText}>{helpDescription}</Text>
+      <View style={styles.helpInfo}>
+        <View style={styles.helpInfoText}>
+          <Text style={styles.infoText}>
+            <Text style={{ fontFamily: "montserrat-semibold" }}>
+              Categoria:{" "}
+            </Text>
+            {categoryName}
+          </Text>
+          <Text
+            style={[
+              styles.infoText,
+              {
+                fontFamily: "montserrat-semibold",
+                marginTop: 20,
+                marginBottom: 10,
+              },
+            ]}
+          >
+            Descrição:
+          </Text>
+          <Text style={styles.infoText}>{helpDescription}</Text>
         </View>
-        <View style = {styles.helpButtons}>
+        <View style={styles.helpButtons}>
           <Button
-            title = "Oferecer Ajuda"
+            title="Oferecer Ajuda"
             large
-            disabled={buttonDisable}
-            press = {chooseHelp}
+            press={() => setConfirmationModalVisible(true)}
           />
         </View>
       </View>

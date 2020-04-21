@@ -48,31 +48,25 @@ class HelpService {
       Authorization: accessToken,
     };
     const createdHelpResponse = await api.post("/help", data, { headers });
-    
+
     return createdHelpResponse.data;
   }
 
-  async chooseHelp(idHelp,idHelper,accessToken){
-      try{
-        const headers = {
-          Authorization: accessToken,
-        };
-       
-        const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
-        await api.put(url,{headers});
-      }catch(error){
-        console.log(error.response);
-      }
+  async chooseHelp(idHelp, idHelper, accessToken) {
+    try {
+      const headers = {
+        Authorization: accessToken,
+      };
 
+      const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
+      await api.put(url, { headers });
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
   deleteHelp() {}
-
-
-
 }
-
-
 
 const helpService = new HelpService();
 Object.freeze(helpService);

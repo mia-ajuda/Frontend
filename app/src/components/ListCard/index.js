@@ -12,8 +12,8 @@ export default function ListCard({
   userName,
   birthday,
   city,
-  helperId,
-  possibleHelpers,
+  setVisible,
+  profilePhoto,
 }) {
   return (
     <TouchableOpacity
@@ -27,9 +27,9 @@ export default function ListCard({
           userName,
           birthday,
           city,
-          helperId,
-          possibleHelpers,
+          profilePhoto,
         });
+        setVisible(false);
       }}
     >
       <View style={styles.cardTitle}>

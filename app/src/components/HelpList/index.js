@@ -60,17 +60,16 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
               {helps.map((help, i) => (
                 <ListCard
                   key={i}
-                  helpId = {help._id}
-                  helperId={help.helperId}
-                  possibleHelpers={help.possibleHelpers}
+                  profilePhoto={help.user[0].photo}
+                  helpId={help._id}
                   helpTitle={help.title}
                   helpDescription={help.description}
                   categoryName={help.category[0].name}
                   userName={help.user[0].name}
                   birthday={help.user[0].birthday}
                   city={help.user[0].address.city}
-                  
                   navigation={navigation}
+                  setVisible={setVisible}
                 />
               ))}
             </ScrollView>
