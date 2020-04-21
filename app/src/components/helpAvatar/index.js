@@ -17,7 +17,7 @@ export default function Avatar({ help }) {
           resizeMode: "stretch",
           width: 45,
           height: 45,
-          borderRadius: 30,
+          borderRadius: 100,
         }}
       />
       <View style={styles.iconPosition}>
