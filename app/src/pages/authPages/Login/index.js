@@ -26,6 +26,8 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingFace, setLoadingFace] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
 
   useEffect(() => {
     if (email && password) {
@@ -63,14 +65,22 @@ export default function Login({ navigation }) {
         }
       );
     }
-    
+
     setLoading(false);
   };
 
+  function getDelay(delay) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, delay);
+    });
+}
+
   const loginHandlerFacebook = async () => {
     try {
-      setLoading(true);
+      setLoadingFace(true);
       const user = await UserService.logInWithFacebook(navigation);
+      
+      await getDelay(500);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -88,15 +98,15 @@ export default function Login({ navigation }) {
         {
           cancelable: false
         }
-        );
-      }
+      );
+    }
 
-      setLoading(false);
-    };
+    setLoadingFace(false);
+  };
 
   const loginHandlerGoogle = async () => {
     try {
-      setLoading(true);
+      setLoadingGoogle(true);
       const user = await UserService.loginInWithGoogle(navigation);
 
       if (user) {
@@ -108,7 +118,7 @@ export default function Login({ navigation }) {
       });
     }
 
-    setLoading(false);
+    setLoadingGoogle(false);
   };
 
   return (
@@ -117,91 +127,91 @@ export default function Login({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      {!loading ? (
-        <>
-          <View style={styles.logo}>
-            <Image
-              style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
-              source={require("../../../images/logo.png")}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Email"
-              autoCorrect={false}
-              placeholderTextColor="#FFF"
-              onChangeText={emailHandler}
-              value={email}
-            />
+      <View style={styles.logo}>
+        <Image
+          style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
+          source={require("../../../images/logo.png")}
+        />
+      </View>
+      <View style={styles.input}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Email"
+          autoCorrect={false}
+          placeholderTextColor="#FFF"
+          onChangeText={emailHandler}
+          value={email}
+        />
 
-            <TextInput
-              style={styles.textInput}
-              secureTextEntry
-              placeholderTextColor="#FFF"
-              placeholder="Senha"
-              autoCorrect={false}
-              onChangeText={passwordHandler}
-              value={password}
-            />
-            <View style={styles.forgotPassword}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("forgotPassword");
-                }}
-              >
-                <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.viewBtn}>
-            <View style={styles.login}>
-              <Button
-                large
-                type="white"
-                title="ENTRAR"
-                press={loginHandler}
-                disabled={buttonDisabled}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.signUP}
-              onPress={async () => {
-                navigation.navigate("registrationData");
-              }}
-            >
-              <Text style={styles.signupText}>Não tem uma conta?</Text>
-            </TouchableOpacity>
-            <View style={styles.quickLogin}>
-              <View style={styles.viewGoogle}>
-                <TouchableOpacity
-                  style={styles.btnGoogle}
-                  onPress={loginHandlerGoogle}
-                >
-                  <Icon type="antdesign" name={"google"} color={"white"} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.viewFacebook}>
-                <TouchableOpacity
-                  style={styles.btnFacebook}
-                  onPress={loginHandlerFacebook}
-                >
-                  <Icon type="font-awesome" name={"facebook"} color={"white"} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </>
-      ) : (
-        <>
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        <TextInput
+          style={styles.textInput}
+          secureTextEntry
+          placeholderTextColor="#FFF"
+          placeholder="Senha"
+          autoCorrect={false}
+          onChangeText={passwordHandler}
+          value={password}
+        />
+        <View style={styles.forgotPassword}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("forgotPassword");
+            }}
           >
+            <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.viewBtn}>
+        <View style={styles.login}>
+          {!loading ? (
+            <Button
+              large
+              type="white"
+              title="ENTRAR"
+              press={loginHandler}
+              disabled={buttonDisabled}
+            />
+          ) : (
             <ActivityIndicator size="large" color={colors.light} />
+          )}
+        </View>
+        <TouchableOpacity
+          style={styles.signUP}
+          onPress={async () => {
+            navigation.navigate("registrationData");
+          }}
+        >
+          <Text style={styles.signupText}>Não tem uma conta?</Text>
+        </TouchableOpacity>
+        <View style={styles.quickLogin}>
+          <View style={styles.viewGoogle}>
+            {!loadingGoogle ? (
+              <TouchableOpacity
+                style={styles.btnGoogle}
+                onPress={loginHandlerGoogle}
+              >
+                <Icon type="antdesign" name={"google"} color={"white"} />
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator size="large" color={colors.light} />
+            )}
           </View>
-        </>
-      )}
+          <View style={styles.viewFacebook}>
+            {!loadingFace ? (
+              <TouchableOpacity
+                style={styles.btnFacebook}
+                onPress={loginHandlerFacebook}
+              >
+                <Icon type="font-awesome" name={"facebook"} color={"white"} />
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator size="large" color={colors.light} />
+            )}
+          </View>
+        </View>
+      </View>
     </KeyboardAvoidingView>
   );
 }
