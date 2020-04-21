@@ -8,12 +8,12 @@ import {
   Text,
   Alert,
   ActivityIndicator,
-  Keyboard,
+  Keyboard
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
-import colors from '../../../../assets/styles/colorVariables';
+import colors from "../../../../assets/styles/colorVariables";
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -21,11 +21,11 @@ import actions from "../../../store/actions";
 
 export default function Login({ navigation }) {
   const { dispatch } = useContext(UserContext);
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (email && password) {
@@ -51,7 +51,6 @@ export default function Login({ navigation }) {
     try {
       const user = await UserService.logIn(data);
       if (user) {
-        setLoading(false);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
@@ -60,11 +59,12 @@ export default function Login({ navigation }) {
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false,
+          cancelable: false
         }
       );
-      setLoading(false);
     }
+    
+    setLoading(false);
   };
 
   const loginHandlerFacebook = async () => {
@@ -73,7 +73,6 @@ export default function Login({ navigation }) {
       const user = await UserService.logInWithFacebook(navigation);
 
       if (user) {
-        setLoading(false);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
@@ -89,20 +88,18 @@ export default function Login({ navigation }) {
         {
           cancelable: false
         }
-      );
-    }
+        );
+      }
 
-    setLoading(false);
-  };
+      setLoading(false);
+    };
 
   const loginHandlerGoogle = async () => {
     try {
       setLoading(true);
       const user = await UserService.loginInWithGoogle(navigation);
-      console.log(user);
 
       if (user) {
-        setLoading(false);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
@@ -120,93 +117,91 @@ export default function Login({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      {
-        !loading ? 
-        (
-          <>
-            <View style={styles.logo}>
-              <Image
-                style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
-                source={require("../../../images/logo.png")}
+      {!loading ? (
+        <>
+          <View style={styles.logo}>
+            <Image
+              style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
+              source={require("../../../images/logo.png")}
+            />
+          </View>
+          <View style={styles.input}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Email"
+              autoCorrect={false}
+              placeholderTextColor="#FFF"
+              onChangeText={emailHandler}
+              value={email}
+            />
+
+            <TextInput
+              style={styles.textInput}
+              secureTextEntry
+              placeholderTextColor="#FFF"
+              placeholder="Senha"
+              autoCorrect={false}
+              onChangeText={passwordHandler}
+              value={password}
+            />
+            <View style={styles.forgotPassword}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("forgotPassword");
+                }}
+              >
+                <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.viewBtn}>
+            <View style={styles.login}>
+              <Button
+                large
+                type="white"
+                title="ENTRAR"
+                press={loginHandler}
+                disabled={buttonDisabled}
               />
             </View>
-            <View style={styles.input}>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Email"
-                autoCorrect={false}
-                placeholderTextColor="#FFF"
-                onChangeText={emailHandler}
-                value={email}
-              />
-      
-              <TextInput
-                style={styles.textInput}
-                secureTextEntry
-                placeholderTextColor="#FFF"
-                placeholder="Senha"
-                autoCorrect={false}
-                onChangeText={passwordHandler}
-                value={password}
-              />
-              <View style={styles.forgotPassword}>
+            <TouchableOpacity
+              style={styles.signUP}
+              onPress={async () => {
+                navigation.navigate("registrationData");
+              }}
+            >
+              <Text style={styles.signupText}>Não tem uma conta?</Text>
+            </TouchableOpacity>
+            <View style={styles.quickLogin}>
+              <View style={styles.viewGoogle}>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("forgotPassword");
-                  }}
+                  style={styles.btnGoogle}
+                  onPress={loginHandlerGoogle}
                 >
-                  <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
+                  <Icon type="antdesign" name={"google"} color={"white"} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.viewFacebook}>
+                <TouchableOpacity
+                  style={styles.btnFacebook}
+                  onPress={loginHandlerFacebook}
+                >
+                  <Icon type="font-awesome" name={"facebook"} color={"white"} />
                 </TouchableOpacity>
               </View>
             </View>
-      
-            <View style={styles.viewBtn}>
-              <View style={styles.login}>
-                <Button
-                  large
-                  type="white"
-                  title="ENTRAR"
-                  press={loginHandler}
-                  disabled={buttonDisabled}
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.signUP}
-                onPress={async () => {
-                  navigation.navigate("registrationData");
-                }}
-              >
-                <Text style={styles.signupText}>Não tem uma conta?</Text>
-              </TouchableOpacity>
-              <View style={styles.quickLogin}>
-                <View style={styles.viewGoogle}>
-                  <TouchableOpacity
-                    style={styles.btnGoogle}
-                    onPress={loginHandlerGoogle}
-                  >
-                    <Icon type="antdesign" name={"google"} color={"white"} />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.viewFacebook}>
-                  <TouchableOpacity
-                    style={styles.btnFacebook}
-                    onPress={loginHandlerFacebook}
-                  >
-                    <Icon type="font-awesome" name={"facebook"} color={"white"} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </>
-        ) : (
-          <>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator size="large" color={colors.light} />
-            </View>
-          </>
-        )
-      }
-     
+          </View>
+        </>
+      ) : (
+        <>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size="large" color={colors.light} />
+          </View>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 }

@@ -18,12 +18,12 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       const userInfo = await this.requestUserData(idTokenUser);
 
-      const user = JSON.stringify({
+      const user = {
         info: userInfo,
         accessToken: idTokenUser
-      });
+      };
 
-      await AsyncStorage.setItem("user", user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
 
       return user;
     } catch (error) {
@@ -87,19 +87,20 @@ class UserService {
 
           return {};
         } else {
-          const user = JSON.stringify({
+          const user = {
             info: userData.profile,
             accessToken: idTokenUser
-          });
+          };
 
-          await AsyncStorage.setItem("user", user);
+          await AsyncStorage.setItem("user", JSON.stringify(user));
 
           return user;
         }
       } else {
         throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
-    } catch ({ message }) {
+    } catch (err) {
+      console.log('teste', err.response)
       throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
   }
@@ -146,12 +147,12 @@ class UserService {
           );
 
         } else {
-          const user = JSON.stringify({
+          const user = {
             info: result.user,
             accessToken: result.accessToken
-          });
+          };
 
-          await AsyncStorage.setItem("user", user);
+          await AsyncStorage.setItem("user", JSON.stringify(user));
 
           return user;
         }
@@ -161,7 +162,6 @@ class UserService {
         };
       }
     } catch (e) {
-      console.log(e.response);
       return {
         error: "Não foi possível fazer login com o Google. Tente novamente!"
       };
@@ -179,7 +179,6 @@ class UserService {
       const response = await api.post(`/user?hasUser=${hasUser}`, data);
       return response;
     } catch (error) {
-      console.log(error.response.data);
       throw {
         error:
           "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
