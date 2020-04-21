@@ -59,7 +59,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
             >
               {helps.map((help, i) => (
                 <ListCard
-                  key={i}
+                  key={help._id}
                   profilePhoto={help.user[0].photo}
                   helpId={help._id}
                   helpTitle={help.title}
