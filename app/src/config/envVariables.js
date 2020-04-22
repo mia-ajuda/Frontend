@@ -3,6 +3,7 @@ import Constants from "expo-constants";
 
 const prodUrl = "";
 const devUrl = `http://${IP_ADDRESS}:8000/api`;
+console.log(devUrl);
 
 const ENV = {
   dev: {
