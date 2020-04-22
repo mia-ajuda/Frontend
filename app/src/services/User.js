@@ -1,5 +1,6 @@
 import api from "../services/Api";
 import firebaseAuth from "./firebaseAuth";
+import { Notifications } from "expo";
 import { AsyncStorage, Alert } from "react-native";
 import * as Facebook from "expo-facebook";
 import firebase from "firebase";
@@ -10,6 +11,24 @@ class UserService {
   constructor() {}
 
   async logIn(data) {
+    const setUserDeviceId = async (userId, firebaseToken) => {
+      try {
+        Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
+          await api.put(
+            `/user`,
+            { deviceId: pushToken },
+            {
+              headers: {
+                authorization: `Bearer ${firebaseToken}`,
+              },
+            }
+          );
+        });
+      } catch {
+        throw { error: "Não foi possível recuperar Puhsh Token!" };
+      }
+    };
+
     try {
       await firebaseAuth
         .auth()
@@ -22,6 +41,8 @@ class UserService {
         info: userInfo,
         accessToken: idTokenUser
       };
+
+      setUserDeviceId(userInfo._id, idTokenUser);
 
       await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -106,7 +127,6 @@ class UserService {
   }
 
   async loginInWithGoogle(navigation) {
-
     try {
       const result = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,

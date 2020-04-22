@@ -1,7 +1,8 @@
 import api from "./Api";
+import firebaseAuth from "./firebaseAuth";
 
 class HelpService {
-  constructor() {}
+  constructor() { }
 
   getAllHelps = async (userId = null, status = null) => {
     let url = "/help";
@@ -34,8 +35,8 @@ class HelpService {
 
     return helps.data;
   }
-  getAllHelpForUser() {}
-  getAllHelpForHelper() {}
+  getAllHelpForUser() { }
+  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description, accessToken, ownerId) {
     const data = {
@@ -51,10 +52,10 @@ class HelpService {
     console.log(createdHelpResponse.data);
     return createdHelpResponse.data;
   }
-
-  deleteHelp() {}
+  
+  deleteHelp() { }
 }
 
-const helpService = new HelpService();
-Object.freeze(helpService);
-export default helpService;
+  const helpService = new HelpService();
+  Object.freeze(helpService);
+  export default helpService;
