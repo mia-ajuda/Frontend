@@ -109,6 +109,8 @@ export default function Login({ navigation }) {
       setLoadingGoogle(true);
       const user = await UserService.loginInWithGoogle(navigation);
 
+      await getDelay(1500);
+
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
