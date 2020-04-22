@@ -38,28 +38,6 @@ class HelpService {
   getAllHelpForUser() { }
   getAllHelpForHelper() { }
 
-  // async createHelp(title, categoryId, description) {
-
-  //   requestUserData = async (token) => {
-  //     const user = await api.get(`/user`, {
-  //       headers: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     return user.data;
-  //   }
-
-  //   const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
-  //   const userInfo = await requestUserData(idTokenUser);
-
-  //   const createdHelpResponse = await api.post("/help", {
-  //     title,
-  //     categoryId,
-  //     description,
-  //     ownerId: userInfo._id,
-  //   });
-  //   return createdHelpResponse;
-  // }
   async createHelp(title, categoryId, description, accessToken, ownerId) {
     const data = {
       title,
