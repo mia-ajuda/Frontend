@@ -70,22 +70,22 @@ export default function Login({ navigation }) {
   };
 
   function getDelay(delay) {
-    return new Promise(function(resolve) {
-        setTimeout(resolve, delay);
+    return new Promise(function (resolve) {
+      setTimeout(resolve, delay);
     });
-}
+  }
 
   const loginHandlerFacebook = async () => {
     try {
       setLoadingFace(true);
       const user = await UserService.logInWithFacebook(navigation);
-      
-      await getDelay(1500);
+      setLoadingFace(false);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setLoadingFace(false);
       Alert.alert(
         "Erro",
         err.error,
@@ -100,27 +100,23 @@ export default function Login({ navigation }) {
         }
       );
     }
-
-    setLoadingFace(false);
   };
 
   const loginHandlerGoogle = async () => {
     try {
       setLoadingGoogle(true);
       const user = await UserService.loginInWithGoogle(navigation);
-
-      await getDelay(1500);
+      setLoadingGoogle(false);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setLoadingGoogle(false);
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false
       });
     }
-
-    setLoadingGoogle(false);
   };
 
   return (
