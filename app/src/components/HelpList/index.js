@@ -69,7 +69,6 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                   birthday={help.user[0].birthday}
                   city={help.user[0].address.city}
                   navigation={navigation}
-                  setVisible={setVisible}
                 />
               ))}
             </ScrollView>

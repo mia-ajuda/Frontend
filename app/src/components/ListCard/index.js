@@ -12,7 +12,6 @@ export default function ListCard({
   userName,
   birthday,
   city,
-  setVisible,
   profilePhoto,
 }) {
   return (
@@ -29,7 +28,6 @@ export default function ListCard({
           city,
           profilePhoto,
         });
-        setVisible(false);
       }}
     >
       <View style={styles.cardTitle}>
