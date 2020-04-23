@@ -1,4 +1,5 @@
 import api from "./Api";
+import firebaseAuth from "./firebaseAuth";
 
 class HelpService {
   constructor() {}
@@ -62,8 +63,8 @@ class HelpService {
   }
 
   async deleteHelp(helpId) {
-    const deleteHelp = await api.delete(`/help/${helpId}`)
-    return deleteHelp
+    const deleteHelp = await api.delete(`/help/${helpId}`);
+    return deleteHelp;
   }
 }
 
