@@ -200,7 +200,7 @@ export default function Login({ navigation }) {
               <TouchableOpacity
                 disabled={loading || loadingFace}
                 style={[styles.btnGoogle]}
-                onPress={!loading && loginHandlerGoogle}
+                onPress={ loginHandlerGoogle}
               >
                 <Icon type="antdesign" name={"google"} color={"white"} />
               </TouchableOpacity>
