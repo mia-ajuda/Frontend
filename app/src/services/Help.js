@@ -1,4 +1,5 @@
 import api from "./Api";
+import firebaseAuth from "./firebaseAuth";
 
 class HelpService {
   constructor() {}

@@ -24,8 +24,8 @@ export default function Avatar({ help }) {
         <Icon
           name="exclamation"
           type="font-awesome"
-          color={riskColor}
           size={40}
+          color={riskColor}
         />
       </View>
     </View>
