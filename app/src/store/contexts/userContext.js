@@ -29,12 +29,15 @@ export const UserContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log('2')
     async function getLocation() {
       const { granted } = await requestPermissionsAsync();
       if (granted) {
         const { coords } = await getCurrentPositionAsync({
           enableHighAccuracy: true,
         });
+        console.log('coord')
+        console.log(coords)
         const { latitude, longitude } = coords;
         setCurrentRegion({
           latitude,

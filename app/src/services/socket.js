@@ -13,13 +13,19 @@ function subscribeToDeleteHelp(subscribeFunction) {
     socket.on('delete-help', subscribeFunction)
 }
 
-function connect(locations, currentRegion, categories) {
+function connect(currentRegion) {
     socket.io.opts.query = {
-        locations,
         currentRegion,
-        categories
     }
     socket.connect()
+}
+
+function changeLocations(locations) {
+    socket.emit('change-locations', locations)
+}
+
+function changeCategories(categories) {
+    socket.emit('change-categories', categories)
 }
 
 function disconnect() {
@@ -32,5 +38,7 @@ export {
     connect,
     disconnect,
     subscribeToNewHelps,
-    subscribeToDeleteHelp
+    subscribeToDeleteHelp,
+    changeLocations,
+    changeCategories
 }
