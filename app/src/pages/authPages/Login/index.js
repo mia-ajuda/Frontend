@@ -58,13 +58,15 @@ export default function Login({ navigation }) {
       const user = await UserService.logIn(data);
       setLoading(false);
       setGoogleColor("#d93025");
-
-
+      setFacebookColor("#3B5998");
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setGoogleColor("#d93025");
+      setFacebookColor("#3B5998");
+      setLoading(false);
       Alert.alert(
         "Ooops..",
         err.error || "Algo deu errado, tente novamente mais tarde",
@@ -81,14 +83,15 @@ export default function Login({ navigation }) {
       setLoadingFace(true);
       setGoogleColor("#616161");
       const user = await UserService.logInWithFacebook(navigation);
-      setLoadingFace(false);
       setGoogleColor("#d93025");
-      setFacebookColor("#3B5998");
+      setLoadingFace(false);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setGoogleColor("#d93025");
+      setLoadingFace(false);
       Alert.alert(
         "Erro",
         err.error,
@@ -117,6 +120,8 @@ export default function Login({ navigation }) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setFacebookColor("#3B5998");
+      setLoadingGoogle(false);
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
         cancelable: false
       });
@@ -173,7 +178,9 @@ export default function Login({ navigation }) {
               type="white"
               title="ENTRAR"
               press={loginHandler}
-              disabled={buttonDisabled || loading || loadingFace || loadingGoogle}
+              disabled={
+                buttonDisabled || loading || loadingFace || loadingGoogle
+              }
             />
           ) : (
             <ActivityIndicator size="large" color={colors.light} />
@@ -188,28 +195,22 @@ export default function Login({ navigation }) {
           <Text style={styles.signupText}>Não tem uma conta?</Text>
         </TouchableOpacity>
         <View style={styles.quickLogin}>
-          <View style={[
-            {backgroundColor: googleColor}, 
-            styles.viewGoogle
-          ]}>
+          <View style={[{ backgroundColor: googleColor }, styles.viewGoogle]}>
             {!loadingGoogle ? (
               <TouchableOpacity
-              disabled={loading || loadingFace}
-              style={[ 
-                  styles.btnGoogle
-                ]}
+                disabled={loading || loadingFace}
+                style={[styles.btnGoogle]}
                 onPress={!loading && loginHandlerGoogle}
-                >
+              >
                 <Icon type="antdesign" name={"google"} color={"white"} />
               </TouchableOpacity>
             ) : (
               <ActivityIndicator size="large" color={colors.light} />
-              )}
+            )}
           </View>
-          <View style={[
-            {backgroundColor: facebookColor}, 
-            styles.viewFacebook
-          ]}>
+          <View
+            style={[{ backgroundColor: facebookColor }, styles.viewFacebook]}
+          >
             {!loadingFace ? (
               <TouchableOpacity
                 disabled={loading || loadingGoogle}
