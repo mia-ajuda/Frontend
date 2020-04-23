@@ -25,7 +25,7 @@ class UserService {
           );
         });
       } catch {
-        throw { error: "Não foi possível recuperar Puhsh Token!" };
+        throw { error: "Não foi possível recuperar Push Token!" };
       }
     };
 
@@ -48,6 +48,7 @@ class UserService {
 
       return user;
     } catch (error) {
+      console.log(error);
       throw { error: error.response.data.error };
     }
   }

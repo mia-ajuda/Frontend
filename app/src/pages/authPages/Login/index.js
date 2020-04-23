@@ -48,10 +48,12 @@ export default function Login({ navigation }) {
   const loginHandler = async () => {
     const data = { email, password };
     Keyboard.dismiss();
-    setLoading(true);
-
+    
     try {
+      setLoading(true);
       const user = await UserService.logIn(data);
+      setLoading(false);
+
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
@@ -66,21 +68,13 @@ export default function Login({ navigation }) {
       );
     }
 
-    setLoading(false);
   };
-
-  function getDelay(delay) {
-    return new Promise(function(resolve) {
-        setTimeout(resolve, delay);
-    });
-}
 
   const loginHandlerFacebook = async () => {
     try {
       setLoadingFace(true);
       const user = await UserService.logInWithFacebook(navigation);
-      
-      await getDelay(1500);
+      setLoadingFace(false);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -101,13 +95,13 @@ export default function Login({ navigation }) {
       );
     }
 
-    setLoadingFace(false);
   };
 
   const loginHandlerGoogle = async () => {
     try {
       setLoadingGoogle(true);
       const user = await UserService.loginInWithGoogle(navigation);
+      setLoadingGoogle(false);
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -117,8 +111,6 @@ export default function Login({ navigation }) {
         cancelable: false
       });
     }
-
-    setLoadingGoogle(false);
   };
 
   return (
