@@ -67,9 +67,13 @@ const MyRequestsNavigation = () => (
       style: {
         backgroundColor: colors.primary,
         paddingTop: Constants.statusBarHeight,
+        height: 80,
+        paddingTop: 25,
       },
       labelStyle: {
+        ...fonts.title,
         color: colors.light,
+        fontSize: 16,
       },
       indicatorStyle: {
         backgroundColor: colors.light,
