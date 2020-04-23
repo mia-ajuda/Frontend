@@ -13,14 +13,14 @@ class UserService {
   async logIn(data) {
     const setUserDeviceId = async (userId, firebaseToken) => {
       try {
-        Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
+        Notifications.getExpoPushTokenAsync().then(async pushToken => {
           await api.put(
             `/user`,
             { deviceId: pushToken },
             {
               headers: {
-                authorization: `Bearer ${firebaseToken}`,
-              },
+                authorization: `Bearer ${firebaseToken}`
+              }
             }
           );
         });
@@ -108,8 +108,10 @@ class UserService {
 
           return {};
         } else {
+          const userInfo = await this.requestUserData(idTokenUser);
+
           const user = {
-            info: userData.profile,
+            info: userInfo,
             accessToken: idTokenUser
           };
 
@@ -121,7 +123,6 @@ class UserService {
         throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
     } catch (err) {
-      console.log('teste', err.response)
       throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
   }
@@ -135,6 +136,18 @@ class UserService {
       });
 
       if (result.type === "success") {
+        const { idToken, accessToken } = result;
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          idToken,
+          accessToken
+        );
+        
+        await firebase
+          .auth()
+          .signInWithCredential(credential);
+
+        const idTokenUser = await firebase.auth().currentUser.getIdToken();
+
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
         );
@@ -167,9 +180,11 @@ class UserService {
           );
 
         } else {
+          const userInfo = await this.requestUserData(idTokenUser);
+
           const user = {
-            info: result.user,
-            accessToken: result.accessToken
+            info: userInfo,
+            accessToken: idTokenUser
           };
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -200,8 +215,7 @@ class UserService {
       return response;
     } catch (error) {
       throw {
-        error:
-          "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
+        error: "Aconteceu algo errado ao cadastrar, tente novamente mais tarde."
       };
     }
   }
