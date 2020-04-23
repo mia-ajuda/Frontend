@@ -48,7 +48,7 @@ export default function OnGoingHelps({ navigation }) {
                 <ListCard
                   helpTitle={item.title}
                   helpDescription={item.description}
-                  categoryName={"CategoryName"}
+                  categoryName={item.category[0].name}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
