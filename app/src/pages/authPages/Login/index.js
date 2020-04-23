@@ -28,6 +28,8 @@ export default function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [loadingFace, setLoadingFace] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [facebookColor, setFacebookColor] = useState("#3B5998");
+  const [googleColor, setGoogleColor] = useState("#d93025");
 
   useEffect(() => {
     if (email && password) {
@@ -48,11 +50,16 @@ export default function Login({ navigation }) {
   const loginHandler = async () => {
     const data = { email, password };
     Keyboard.dismiss();
-    
+
     try {
       setLoading(true);
+      setFacebookColor("#575757");
+      setFacebookColor("#616161");
       const user = await UserService.logIn(data);
       setLoading(false);
+      setGoogleColor("#d93025");
+
+
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -67,14 +74,16 @@ export default function Login({ navigation }) {
         }
       );
     }
-
   };
 
   const loginHandlerFacebook = async () => {
     try {
       setLoadingFace(true);
+      setGoogleColor("#616161");
       const user = await UserService.logInWithFacebook(navigation);
       setLoadingFace(false);
+      setGoogleColor("#d93025");
+      setFacebookColor("#3B5998");
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -94,14 +103,15 @@ export default function Login({ navigation }) {
         }
       );
     }
-
   };
 
   const loginHandlerGoogle = async () => {
     try {
       setLoadingGoogle(true);
+      setFacebookColor("#575757");
       const user = await UserService.loginInWithGoogle(navigation);
       setLoadingGoogle(false);
+      setFacebookColor("#3B5998");
 
       if (user) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
@@ -163,7 +173,7 @@ export default function Login({ navigation }) {
               type="white"
               title="ENTRAR"
               press={loginHandler}
-              disabled={buttonDisabled}
+              disabled={buttonDisabled || loading || loadingFace || loadingGoogle}
             />
           ) : (
             <ActivityIndicator size="large" color={colors.light} />
@@ -178,21 +188,31 @@ export default function Login({ navigation }) {
           <Text style={styles.signupText}>Não tem uma conta?</Text>
         </TouchableOpacity>
         <View style={styles.quickLogin}>
-          <View style={styles.viewGoogle}>
+          <View style={[
+            {backgroundColor: googleColor}, 
+            styles.viewGoogle
+          ]}>
             {!loadingGoogle ? (
               <TouchableOpacity
-                style={styles.btnGoogle}
-                onPress={loginHandlerGoogle}
-              >
+              disabled={loading || loadingFace}
+              style={[ 
+                  styles.btnGoogle
+                ]}
+                onPress={!loading && loginHandlerGoogle}
+                >
                 <Icon type="antdesign" name={"google"} color={"white"} />
               </TouchableOpacity>
             ) : (
               <ActivityIndicator size="large" color={colors.light} />
-            )}
+              )}
           </View>
-          <View style={styles.viewFacebook}>
+          <View style={[
+            {backgroundColor: facebookColor}, 
+            styles.viewFacebook
+          ]}>
             {!loadingFace ? (
               <TouchableOpacity
+                disabled={loading || loadingGoogle}
                 style={styles.btnFacebook}
                 onPress={loginHandlerFacebook}
               >

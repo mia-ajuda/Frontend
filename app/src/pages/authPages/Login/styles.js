@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   viewGoogle: {
-    backgroundColor: "#d93025",
     width: "25%",
     borderRadius: 25,
     marginHorizontal: 5,
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   viewFacebook: {
-    backgroundColor: "#3B5998",
     width: "25%",
     borderRadius: 25,
     marginHorizontal: 5,
@@ -95,6 +93,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     width: "90%",
   },
+  teste1: {
+    backgroundColor: 'orange',
+  },
+  teste2: {
+    backgroundColor: 'green',
+  }
 });
 
 export default styles;
