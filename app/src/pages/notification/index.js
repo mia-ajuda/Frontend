@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
+
+import NotificationCard from "../../components/NotificationCard";
+
 import styles from "./styles";
-import { ScrollView } from "react-native-gesture-handler";
 
 export default function Notification() {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([1, 2, 3, 4]);
 
   return (
     <View style={styles.container}>
@@ -13,7 +15,19 @@ export default function Notification() {
       </View>
 
       {notifications.length > 0 ? (
-        <ScrollView style={styles.notificationList}></ScrollView>
+        <View contentContainerStyle={styles.notificationList}>
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+        </View>
       ) : (
         <View style={styles.noNotifications}>
           <Image

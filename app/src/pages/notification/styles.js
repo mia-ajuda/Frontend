@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
 
   notificationList: {
     height: "100%",
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    alignItems: "center",
   },
 
   noNotifications: {
