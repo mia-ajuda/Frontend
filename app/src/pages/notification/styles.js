@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 
   notificationList: {
     height: "100%",
-    paddingHorizontal: 20,
-    backgroundColor: "#EBEBEB",
+    paddingHorizontal: 15,
+    paddingBottom: 15,
   },
 
   noNotifications: {

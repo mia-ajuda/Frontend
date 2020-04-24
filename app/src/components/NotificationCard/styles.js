@@ -8,7 +8,7 @@ export default StyleSheet.create({
     maxWidth: 740,
     maxHeight: 240,
 
-    marginTop: 20,
+    marginTop: 15,
 
     shadowColor: "#000",
     shadowOffset: {
@@ -25,21 +25,22 @@ export default StyleSheet.create({
 
     flexDirection: "row",
 
-    paddingVertical: 20,
+    paddingVertical: 15,
 
     width: "100%",
   },
 
-  notificationImage: {
-    resizeMode: "contain",
-    height: 60,
-    width: 60,
-    marginLeft: 20,
+  iconContent: {
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    marginLeft: 15,
+    borderRadius: 50,
+    backgroundColor: colors.primary
   },
 
   info: {
-    marginLeft: 15,
-    width: "65%",
+    marginLeft: 10,
   },
 
   title: {

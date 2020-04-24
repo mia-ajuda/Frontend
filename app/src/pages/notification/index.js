@@ -8,6 +8,39 @@ import styles from "./styles";
 export default function Notification() {
   const [notifications, setNotifications] = useState([1, 2, 3, 4]);
 
+  const list = [
+    {
+      title: 'Título da notificação',
+      body: 'Corpo da notificação',
+      registerDate: 'hoje',
+      notificationType: 'ajudaRecebida'
+    },
+    {
+      title: 'Título da notificação',
+      body: 'Corpo da notificação',
+      registerDate: 'hoje',
+      notificationType: 'ajudaAceita'
+    },
+    {
+      title: 'Título da notificação',
+      body: 'Corpo da notificação',
+      registerDate: 'hoje',
+      notificationType: 'ajudaFinalizada'
+    },
+    {
+      title: 'Título da notificação',
+      body: 'Corpo da notificação',
+      registerDate: 'hoje',
+      notificationType: 'ajudaExpirada'
+    },
+    {
+      title: 'Título da notificação',
+      body: 'Corpo da notificação',
+      registerDate: 'hoje',
+      notificationType: 'ajudaExpirada'
+    }
+  ]
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -15,14 +48,17 @@ export default function Notification() {
       </View>
 
       {notifications.length > 0 ? (
-        <ScrollView style={styles.notificationList}>
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <View style={{ height: 25 }}></View>
+        <ScrollView>
+          <View style={styles.notificationList}>
+            {list.map((item) => (
+              <NotificationCard 
+              notificationType={item.notificationType}
+              notificationTitle={item.title}
+              notificationBody={item.body}
+              notificationDate={item.registerDate}
+              />
+              ))}
+          </View>
         </ScrollView>
       ) : (
         <View style={styles.noNotifications}>
