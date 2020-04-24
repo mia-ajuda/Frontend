@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 
 import NotificationCard from "../../components/NotificationCard";
 
@@ -15,19 +15,15 @@ export default function Notification() {
       </View>
 
       {notifications.length > 0 ? (
-        <View contentContainerStyle={styles.notificationList}>
+        <ScrollView style={styles.notificationList}>
           <NotificationCard />
           <NotificationCard />
           <NotificationCard />
           <NotificationCard />
           <NotificationCard />
           <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-          <NotificationCard />
-        </View>
+          <View style={{ height: 25 }}></View>
+        </ScrollView>
       ) : (
         <View style={styles.noNotifications}>
           <Image

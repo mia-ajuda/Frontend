@@ -39,14 +39,13 @@ export default StyleSheet.create({
 
   info: {
     marginLeft: 15,
+    width: "65%",
   },
 
   title: {
     fontWeight: "bold",
     fontSize: 16,
   },
-
-  description: {},
 
   time: {
     color: "rgba(0, 0, 0, 0.6)",
