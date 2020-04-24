@@ -8,10 +8,12 @@ import {
   Text,
   Alert,
   ActivityIndicator,
-  Keyboard,
+  Keyboard
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
+import { Icon } from "react-native-elements";
+import colors from "../../../../assets/styles/colorVariables";
 
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -23,7 +25,11 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingFace, setLoadingFace] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [facebookColor, setFacebookColor] = useState("#3B5998");
+  const [googleColor, setGoogleColor] = useState("#d93025");
 
   useEffect(() => {
     if (email && password) {
@@ -33,41 +39,98 @@ export default function Login({ navigation }) {
     }
   }, [email, password]);
 
-  const emailHandler = (enteredEmail) => {
+  const emailHandler = enteredEmail => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = (enteredPassword) => {
+  const passwordHandler = enteredPassword => {
     setPassword(enteredPassword);
   };
 
   const loginHandler = async () => {
     const data = { email, password };
     Keyboard.dismiss();
-    setLoading(true);
 
     try {
+      setLoading(true);
+      setFacebookColor("#575757");
+      setFacebookColor("#616161");
       const user = await UserService.logIn(data);
+      setLoading(false);
+      setGoogleColor("#d93025");
+      setFacebookColor("#3B5998");
+
       if (user) {
-        setLoading(false);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      setGoogleColor("#d93025");
+      setFacebookColor("#3B5998");
+      setLoading(false);
       Alert.alert(
         "Ooops..",
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false,
+          cancelable: false
         }
       );
-      setLoading(false);
+    }
+  };
+
+  const loginHandlerFacebook = async () => {
+    try {
+      setLoadingFace(true);
+      setGoogleColor("#616161");
+      const user = await UserService.logInWithFacebook(navigation);
+      setGoogleColor("#d93025");
+      setLoadingFace(false);
+
+      if (user) {
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
+    } catch (err) {
+      setGoogleColor("#d93025");
+      setLoadingFace(false);
+      Alert.alert(
+        "Erro",
+        err.error,
+        [
+          {
+            text: "OK",
+            onPress: () => {}
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+    }
+  };
+
+  const loginHandlerGoogle = async () => {
+    try {
+      setLoadingGoogle(true);
+      setFacebookColor("#575757");
+      const user = await UserService.loginInWithGoogle(navigation);
+      setLoadingGoogle(false);
+      setFacebookColor("#3B5998");
+
+      if (user) {
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      }
+    } catch (err) {
+      setFacebookColor("#3B5998");
+      setLoadingGoogle(false);
+      Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
+        cancelable: false
+      });
     }
   };
 
   return (
     <KeyboardAvoidingView
-      style={styles.background}
+      style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
@@ -77,10 +140,9 @@ export default function Login({ navigation }) {
           source={require("../../../images/logo.png")}
         />
       </View>
-
-      <View style={styles.container}>
+      <View style={styles.input}>
         <TextInput
-          style={styles.input}
+          style={styles.textInput}
           placeholder="Email"
           autoCorrect={false}
           placeholderTextColor="#FFF"
@@ -89,7 +151,7 @@ export default function Login({ navigation }) {
         />
 
         <TextInput
-          style={styles.input}
+          style={styles.textInput}
           secureTextEntry
           placeholderTextColor="#FFF"
           placeholder="Senha"
@@ -97,38 +159,71 @@ export default function Login({ navigation }) {
           onChangeText={passwordHandler}
           value={password}
         />
-
-        <TouchableOpacity
-          style={styles.forgotPassword}
-          onPress={() => {
-            navigation.navigate("forgotPassword");
-          }}
-        >
-          <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
-        </TouchableOpacity>
+        <View style={styles.forgotPassword}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("forgotPassword");
+            }}
+          >
+            <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.viewLogin}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#fff" />
-        ) : (
-          <Button
-            style={styles.login}
-            large
-            type="white"
-            title="ENTRAR"
-            press={loginHandler}
-            disabled={buttonDisabled}
-          />
-        )}
 
+      <View style={styles.viewBtn}>
+        <View style={styles.login}>
+          {!loading ? (
+            <Button
+              large
+              type="white"
+              title="ENTRAR"
+              press={loginHandler}
+              disabled={
+                buttonDisabled || loading || loadingFace || loadingGoogle
+              }
+            />
+          ) : (
+            <ActivityIndicator size="large" color={colors.light} />
+          )}
+        </View>
         <TouchableOpacity
           style={styles.signUP}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate("registrationData");
           }}
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
         </TouchableOpacity>
+        <View style={styles.quickLogin}>
+          <View style={[{ backgroundColor: googleColor }, styles.viewGoogle]}>
+            {!loadingGoogle ? (
+              <TouchableOpacity
+                disabled={loading || loadingFace}
+                style={[styles.btnGoogle]}
+                onPress={ loginHandlerGoogle}
+              >
+                <Icon type="antdesign" name={"google"} color={"white"} />
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator size="large" color={colors.light} />
+            )}
+          </View>
+          <View
+            style={[{ backgroundColor: facebookColor }, styles.viewFacebook]}
+          >
+            {!loadingFace ? (
+              <TouchableOpacity
+                disabled={loading || loadingGoogle}
+                style={styles.btnFacebook}
+                onPress={loginHandlerFacebook}
+              >
+                <Icon type="font-awesome" name={"facebook"} color={"white"} />
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator size="large" color={colors.light} />
+            )}
+          </View>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

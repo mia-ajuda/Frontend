@@ -3,55 +3,102 @@ import colors from "../../../../assets/styles/colorVariables";
 import fonts from "../../../../assets/styles/fontVariable";
 
 const styles = StyleSheet.create({
-  background: {
+  container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: colors.primary,
   },
   logo: {
-    marginTop: 40,
-    flex: 1.5,
+    flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-  },
-  container: {
-    flex: 1.5,
+    marginTop: 10,
     justifyContent: "center",
-    width: "90%",
-    marginVertical: 20,
+    marginBottom: 50,
   },
   input: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  textInput: {
     ...fonts.body,
     borderBottomWidth: 2,
     borderBottomColor: colors.light,
-    marginBottom: 30,
+    color: colors.light,
+    marginVertical: 20,
+    width: "90%",
+  },
+  forgotPassword: {
+    width: "90%",
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+  },
+  forgotPasswordtext: {
     color: colors.light,
   },
-  text: {
-    color: colors.primary,
-    padding: 10,
-    ...fonts.body,
-  },
-  signUP: {
+  viewBtn: {
     alignItems: "center",
-    padding: 20,
+    justifyContent: "flex-start",
+    marginTop: 10,
+  },
+  login: {
+    width: "90%",
   },
   signupText: {
     ...fonts.body,
     color: colors.light,
     fontFamily: "montserrat-semibold",
+    marginBottom: 30,
   },
-  forgotPassword: {
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
+  viewGoogle: {
+    width: "25%",
+    borderRadius: 25,
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  forgotPasswordtext: {
-    color: colors.light,
+  btnGoogle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
   },
-  viewLogin: {
-    flex: 1,
+  lgnGoogle: {
+    color: "white",
+    fontFamily: "montserrat-semibold",
+    fontSize: 18,
+  },
+  viewFacebook: {
+    width: "25%",
+    borderRadius: 25,
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  btnFacebook: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
+  },
+  lgnFacebook: {
+    color: "white",
+    fontFamily: "montserrat-semibold",
+    fontSize: 18,
+  },
+  quickLogin: {
+    justifyContent: "center",
+    flexDirection: "row",
+    marginBottom: 30,
     width: "90%",
   },
+  teste1: {
+    backgroundColor: 'orange',
+  },
+  teste2: {
+    backgroundColor: 'green',
+  }
 });
 
 export default styles;
