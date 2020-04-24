@@ -40,7 +40,8 @@ export default StyleSheet.create({
   },
 
   info: {
-    marginLeft: 10,
+    marginLeft: 15,
+    width: "75%"
   },
 
   title: {

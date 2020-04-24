@@ -67,7 +67,7 @@ export default function NotificationCard({
         <Text numberOfLines={2}>
           {notificationBody}
         </Text>
-        <Text style={styles.time}> {time} segundos atrás </Text>
+        <Text style={styles.time}>{time} segundos atrás</Text>
       </View>
     </View>
   );

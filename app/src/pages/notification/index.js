@@ -10,32 +10,32 @@ export default function Notification() {
 
   const list = [
     {
-      title: 'Título da notificação',
-      body: 'Corpo da notificação',
+      title: 'Carlos ofereceu ajuda',
+      body: 'Confira o perfil de Carlos para ele começar a te ajudar',
       registerDate: 'hoje',
       notificationType: 'ajudaRecebida'
     },
     {
-      title: 'Título da notificação',
-      body: 'Corpo da notificação',
+      title: 'Carlos aceitou ajuda',
+      body: 'Confira o perfil de Carlos para poder ajuda-lo',
       registerDate: 'hoje',
       notificationType: 'ajudaAceita'
     },
     {
-      title: 'Título da notificação',
-      body: 'Corpo da notificação',
+      title: 'Sua ajuda foi finalizada',
+      body: 'Sua ajuda foi concluída :)',
       registerDate: 'hoje',
       notificationType: 'ajudaFinalizada'
     },
     {
-      title: 'Título da notificação',
-      body: 'Corpo da notificação',
+      title: 'Sua ajuda expirou',
+      body: 'Confira a política de ajuda',
       registerDate: 'hoje',
       notificationType: 'ajudaExpirada'
     },
     {
-      title: 'Título da notificação',
-      body: 'Corpo da notificação',
+      title: 'Sua ajuda expirou',
+      body: 'Confira a política de ajuda',
       registerDate: 'hoje',
       notificationType: 'ajudaExpirada'
     }
