@@ -55,6 +55,18 @@ const MainNavigation = () => (
   </>
 );
 
+const MyHelpListNavigation = () => (
+  <>
+    <MainStack.Navigator initialRouteName="myHelpList" screenOptions={headerStyle}>
+      <MainStack.Screen
+        name="myHelpList"
+        component={MyHelpList}
+        options={{ title: "Meus Pedidos", headerShown: true }}
+      />
+    </MainStack.Navigator>
+  </>
+);
+
 const BottomTab = () => (
   <BottomNavigation.Navigator
     tabBarOptions={{
@@ -135,7 +147,7 @@ const BottomTab = () => (
     initialRouteName="main"
   >
     <BottomNavigation.Screen name="notification" component={Notification} />
-    <BottomNavigation.Screen name="helpList" component={MyHelpList} />
+    <BottomNavigation.Screen name="helpList" component={MyHelpListNavigation} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="askedHelp" component={AskedHelps} />
     <BottomNavigation.Screen name="profile" component={Profile} />
