@@ -31,6 +31,23 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-semibold",
     textAlign: "center",
   },
+  smallText: {
+    ...fonts.subtitle,
+    fontSize: 12,
+    fontFamily: "montserrat-semibold",
+    textAlign: "left",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  hyperLink: {
+    ...fonts.subtitle,
+    fontSize: 12,
+    fontFamily: "montserrat-semibold",
+    textAlign: "left",
+    marginTop: 5,
+    marginBottom: 5,
+    color: colors.primary,
+  },
   textView: {
     flex: 6,
     margin: 16,
