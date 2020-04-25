@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Image } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
@@ -28,6 +29,7 @@ import HelpDescription from "./pages/helpPages/helpDescription";
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
+const TopNavigation = createMaterialTopTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 
@@ -55,12 +57,30 @@ const MainNavigation = () => (
   </>
 );
 
+const MyFinishedHelpList = () => (
+  <>
+    <TopNavigation.Navigator initialRouteName="myHelpList" screenOptions={headerStyle}>
+      <TopNavigation.Screen
+        name="myHelpList"
+        component={MyHelpList}
+        options={{ title: "Em andamento",}}
+      />
+      <TopNavigation.Screen
+        name="myHelpList2"
+        component={MyHelpList}
+        options={{ title: "Finalizados"}}
+      />
+    </TopNavigation.Navigator>
+  </>
+);
+
+
 const MyHelpListNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="myHelpList" screenOptions={headerStyle}>
       <MainStack.Screen
         name="myHelpList"
-        component={MyHelpList}
+        component={MyFinishedHelpList}
         options={{ title: "Meus Pedidos", headerShown: true }}
       />
     </MainStack.Navigator>
@@ -91,13 +111,13 @@ const BottomTab = () => (
           case "main":
             selectConfig = focused
               ? {
-                  src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 },
-                }
+                src: require("../assets/images/whileLogo.png"),
+                size: { height: 40, width: 40 },
+              }
               : {
-                  src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" },
-                };
+                src: require("../assets/images/whiteCat.png"),
+                size: { height: 25, width: 25, resizeMode: "contain" },
+              };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
             );
@@ -121,15 +141,15 @@ const BottomTab = () => (
           case "profile":
             selectConfig = focused
               ? {
-                  color: colors.primary,
-                  raised: true,
-                  name: "user-circle",
-                }
+                color: colors.primary,
+                raised: true,
+                name: "user-circle",
+              }
               : {
-                  color: colors.light,
-                  raised: false,
-                  name: "user-circle",
-                };
+                color: colors.light,
+                raised: false,
+                name: "user-circle",
+              };
             break;
         }
 
