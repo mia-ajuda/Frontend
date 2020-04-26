@@ -27,13 +27,15 @@ export default function CategoryList({ visible, setVisible }) {
   const { user, currentRegion } = useContext(UserContext);
 
   const { _id: userId } = user.info;
+  const { accessToken } = user;
 
   async function filterHelplist() {
     try {
       const helpListFilterd = await HelpService.getAllHelpForCategory(
         currentRegion,
         selectedCategoryArray,
-        userId
+        userId,
+        accessToken
       );
       dispatch({ type: actions.help.storeList, helps: helpListFilterd });
       setVisible(!visible);
@@ -46,7 +48,11 @@ export default function CategoryList({ visible, setVisible }) {
   async function clearFilterHelplist() {
     setVisible(!visible);
     setFilterCategoryArray([]);
-    const helpList = await HelpService.getNearHelp(currentRegion, userId);
+    const helpList = await HelpService.getNearHelp(
+      currentRegion,
+      userId,
+      accessToken
+    );
     dispatch({ type: actions.help.storeList, helps: helpList });
   }
 
