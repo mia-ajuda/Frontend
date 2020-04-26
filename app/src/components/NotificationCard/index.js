@@ -12,17 +12,34 @@ export default function NotificationCard({
   notificationDate
 }) {
 
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(``);
   const [iconName, setIconName] = useState("bell");
   const [iconBackground, setIconBackground] = useState(colors.primary);
-
+  
   useEffect(() => {
-    let interval = null;
-    interval = setInterval(() => {
-      setTime((time) => time + 1);
-    }, 1000);
+    let date = new Date(notificationDate)
+    let dateNow = new Date()
+    let interval = dateNow.getTime() - date.getTime()
 
-    return () => clearInterval(interval);
+    if(interval > 31536000000){
+      let year = dateNow.getFullYear() - date.getFullYear()
+      setTime(`${year} anos atrás`)
+    } else if (interval > 2678400000) {
+      let month = dateNow.getMonth() - date.getMonth()
+      setTime(`${month} meses atrás`)
+    } else if (interval > 86400000) {
+      let date = dateNow.getDate() - date.getDate()
+      setTime(`${date} dias atrás`)
+    } else if(interval > 3600000) {
+      let hours = dateNow.getHours() - date.getHours()
+      setTime(`${hours} horas atrás`)
+    } else if(interval > 60000) {
+      let minutes = dateNow.getMinutes() - date.getMinutes()
+      setTime(`${minutes} minutos atrás`)
+    } else {
+      setTime(`agora`)
+    }
+
   }, [time]);
 
   useEffect(() => {
@@ -67,7 +84,7 @@ export default function NotificationCard({
         <Text numberOfLines={2}>
           {notificationBody}
         </Text>
-        <Text style={styles.time}>{time} segundos atrás</Text>
+        <Text style={styles.time}>{time}</Text>
       </View>
     </View>
   );
