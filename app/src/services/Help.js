@@ -1,6 +1,6 @@
 import api from "./Api";
 
-class HelpService {
+class HelpService extends Component {
   constructor() {}
 
   getAllHelps = async (userId = null, status = null) => {
@@ -13,7 +13,7 @@ class HelpService {
       url += `?id.except=${id}`;
     }
 
-    const allHelps = await api.get(url);
+    const allHelps = await api.get(url, { headers });
     return allHelps.data;
   };
 

@@ -37,6 +37,16 @@ export default function PersonalData({ route, navigation }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if(registrationData.name) {
+      setName(registrationData.name)
+    }
+    
+    if(registrationData.birthday) {
+      const dateSplit = registrationData.birthday.split('/');
+      const date = dateSplit[1] + '/' + dateSplit[0] + '/' + dateSplit[2];
+      setBirthday(date);
+    }
+
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
@@ -168,6 +178,7 @@ export default function PersonalData({ route, navigation }) {
           {error && <Text style={styles.errorMessage}>{error}</Text>}
 
           <Input
+            value={name}
             change={nameHandler}
             label="Nome Completo"
             placeholder="Nome Completo"

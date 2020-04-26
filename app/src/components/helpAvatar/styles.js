@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     height: 55,
     borderRadius: 50,
     elevation: 10,
-    backgroundColor:"#fff"
+    backgroundColor: "#fff",
   },
   iconPosition: {
     position: "absolute",
