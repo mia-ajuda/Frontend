@@ -15,8 +15,8 @@ export default function ListCard({
   helpId,
   userName,
   birthday,
-  city,
   setVisible,
+  city,
   profilePhoto,
 }) {
   return (
@@ -33,7 +33,7 @@ export default function ListCard({
           city,
           profilePhoto,
         });
-        setVisible(false);
+        setVisible && setVisible(false)
       }}
     >
       <View style={styles.cardTitle}>
