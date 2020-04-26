@@ -13,16 +13,11 @@ import styles from "./styles";
 import { Icon } from "react-native-elements";
 import CategoryDescriptionModal from "../categoryDescription";
 import { CategoryContext } from "../../../../store/contexts/categoryContext";
-import { HelpContext } from "../../../../store/contexts/helpContext";
-import { UserContext } from "../../../../store/contexts/userContext";
-import HelpService from "../../../../services/Help";
-import actions from "../../../../store/actions";
 
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
   const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
   const { categories, setSelectedCategories, selectedCategories } = useContext(CategoryContext);
-  const { user } = useContext(UserContext);
 
   async function filterHelplist() {
     setSelectedCategories(selectedCategoryArray)

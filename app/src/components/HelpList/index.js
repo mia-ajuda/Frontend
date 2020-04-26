@@ -16,7 +16,6 @@ import styles from "./styles";
 export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
   const [animatedValue] = useState(new Animated.Value(40));
-
   useEffect(() => {
     switch (visible) {
       case true:
@@ -58,13 +57,20 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollStyle}
             >
-              {helps.map((item, i) => (
+              {helps.map((help, i) => (
                 <ListCard
-                  key={i}
-                  helpTitle={item.title}
-                  helpDescription={item.description}
-                  categoryName={item.category[0].name}
+                  key={help._id}
+                  profilePhoto={help.user[0].photo}
+                  helpId={help._id}
+                  deleteVisible={false}
+                  helpTitle={help.title}
+                  helpDescription={help.description}
+                  categoryName={help.category[0].name}
+                  userName={help.user[0].name}
+                  birthday={help.user[0].birthday}
+                  city={help.user[0].address.city}
                   navigation={navigation}
+                  setVisible={setVisible}
                 />
               ))}
             </ScrollView>

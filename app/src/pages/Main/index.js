@@ -101,8 +101,26 @@ export default function Main({ navigation }) {
               }}
             >
               <Avatar help={help} />
-              <Callout>
-                <Text>{help.distance}</Text>
+              <Callout
+                onPress={() => navigation.navigate("helpDescription",{
+                helpTitle : help.title,
+                helpDescription : help.description,
+                categoryName : help.category[0].name,
+                helpId :help._id,
+                userName : help.user[0].name,
+                birthday : help.user[0].birthday,
+                city : help.user[0].address.city,
+                profilePhoto :help.user[0].photo,
+              })}
+                style = {styles.callout}
+              >
+                <Text 
+                  style = {styles.calloutPersonName}
+                  numberOfLines ={1}
+                >{help.user[0].name}
+                </Text>
+                <Text style = {styles.calloutPersonDistance}>{help.distance}</Text>
+                <Text style = {styles.calloutPress}>Toque para ver</Text>
               </Callout>
             </Marker>
           ))}

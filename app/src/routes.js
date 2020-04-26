@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Image } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
+import Constants from "expo-constants";
 
 import Profile from "./pages/profile";
 import Notification from "./pages/notification";
@@ -18,18 +19,23 @@ import Photo from "./pages/authPages/Photo";
 import Address from "./pages/authPages/Address";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
+
+import OnGoingHelps from "./pages/helpPages/MyRequests/onGoing";
+import DoneHelps from "./pages/helpPages/MyRequests/doneHelps";
+
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
-import MyHelpList from "./pages/helpPages/myHelpList";
 import Splash from "./pages/splash";
 import HelpDescription from "./pages/helpPages/helpDescription";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const backImage = require("../assets/images/back.png");
 
 const BottomNavigation = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+const MyRequestsTab = createMaterialTopTabNavigator();
 
 const MainNavigation = () => (
   <>
@@ -46,11 +52,38 @@ const MainNavigation = () => (
       />
       <MainStack.Screen
         name="helpDescription"
-        options={({ route }) => ({ title: route.params.helpTitle })}
+        options={({ route }) => ({
+          title: route.params.helpTitle,
+        })}
         component={HelpDescription}
       />
     </MainStack.Navigator>
   </>
+);
+
+const MyRequestsNavigation = () => (
+  <MyRequestsTab.Navigator
+    tabBarOptions={{
+      style: {
+        backgroundColor: colors.primary,
+        paddingTop: Constants.statusBarHeight,
+        height: 80,
+        paddingTop: 25,
+      },
+      labelStyle: {
+        ...fonts.title,
+        color: colors.light,
+        fontSize: 16,
+      },
+      indicatorStyle: {
+        backgroundColor: colors.light,
+        padding: 2,
+      },
+    }}
+  >
+    <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
+    <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
+  </MyRequestsTab.Navigator>
 );
 
 const BottomTab = () => (
@@ -133,7 +166,7 @@ const BottomTab = () => (
     initialRouteName="main"
   >
     <BottomNavigation.Screen name="notification" component={Notification} />
-    <BottomNavigation.Screen name="helpList" component={MyHelpList} />
+    <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="askedHelp" component={AskedHelps} />
     <BottomNavigation.Screen name="profile" component={Profile} />
@@ -191,6 +224,7 @@ const headerStyle = {
     ...fonts.title,
     color: colors.light,
     fontFamily: "montserrat-medium",
+    marginHorizontal: 30,
   },
 
   headerTintColor: colors.light,

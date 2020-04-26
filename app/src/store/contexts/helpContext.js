@@ -67,7 +67,8 @@ export default function HelpContextProvider(props) {
     if (loc) {
       try {
         const { _id: userId } = user.info;
-        let helpListArray = await HelpService.getNearHelp(loc, userId);
+        const { accessToken } = user;
+        let helpListArray = await HelpService.getNearHelp(loc, userId, accessToken);
         if(activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray]
           helpListArray = getUnique(helpListArray, '_id')
@@ -111,7 +112,8 @@ export default function HelpContextProvider(props) {
 
   function setupWebSocket() {
     disconnect()
-    connect(JSON.stringify(currentRegion))
+    const { _id: userId } = user.info;
+    connect(JSON.stringify(currentRegion), userId)
   }
 
   function shouldRequest({latitude, longitude}) {
@@ -119,7 +121,7 @@ export default function HelpContextProvider(props) {
     if(activeLocations) {
         activeLocations.every(element => {
             const distance = calculateDistance({latitude, longitude}, element)
-            if(distance < 2) {
+            if(distance < 1) {
                 should = false
                 return false 
             }

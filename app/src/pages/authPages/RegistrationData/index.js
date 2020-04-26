@@ -65,7 +65,7 @@ export default function RegistrationData({ navigation }) {
 
   const continueHandler = () => {
     setLoading(false);
-    const registrationData = { email, password };
+    const registrationData = { email, password, hasUser: false };
     navigation.navigate("personalData", { registrationData });
   };
 
