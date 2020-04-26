@@ -18,9 +18,11 @@ export default function HelpContextProvider(props) {
     if (currentRegion) {
       try {
         const { _id: userId } = user.info;
+        const { accessToken } = user;
         let helpListArray = await HelpService.getNearHelp(
           currentRegion,
-          userId
+          userId,
+          accessToken
         );
 
         dispatch({ type: actions.help.storeList, helps: helpListArray });

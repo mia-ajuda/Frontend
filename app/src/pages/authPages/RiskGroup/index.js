@@ -47,7 +47,7 @@ export default function RiskGroup({ route, navigation }) {
       disease: newDisease,
     };
 
-    navigation.navigate("photo", { userData: data });
+    navigation.navigate( userData.photo ? "location" : "photo", { userData: data });
   };
 
   return (

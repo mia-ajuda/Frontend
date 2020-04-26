@@ -12,12 +12,28 @@ export default function ListCard({
   deleteVisible,
   setConfirmationModalVisible,
   navigation,
+  helpId,
+  userName,
+  birthday,
+  setVisible,
+  city,
+  profilePhoto,
 }) {
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() => {
-        navigation.navigate("helpDescription", { helpTitle });
+        navigation.navigate("helpDescription", {
+          helpTitle,
+          helpDescription,
+          categoryName,
+          helpId,
+          userName,
+          birthday,
+          city,
+          profilePhoto,
+        });
+        setVisible && setVisible(false)
       }}
     >
       <View style={styles.cardTitle}>
