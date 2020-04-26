@@ -11,7 +11,6 @@ YellowBox.ignoreWarnings([
 export default function App() {
   const [fontsLoaded, setFonts] = useState(false);
   useEffect(() => {
-    console.log('abriu')
     async function loadFontsAsync() {
       await loadFonts();
       setFonts(true);

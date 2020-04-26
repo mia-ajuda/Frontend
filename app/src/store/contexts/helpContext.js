@@ -17,10 +17,19 @@ export default function HelpContextProvider(props) {
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
+    if(currentRegion && user.info) {
+      activeLocations.push(currentRegion)
+      getHelpList(currentRegion)
+      setupWebSocket()
+    }
+  }, [currentRegion])
+
+  useEffect(() => {
     subscribeToNewHelps(help => {
       const helpListArray = [...helpList, help]
       dispatch({ type: actions.help.storeList, helps: helpListArray })
     })
+
     subscribeToDeleteHelp(helpId => {
       let helpListArray = helpList.filter(help => {
         return help._id != helpId
@@ -28,15 +37,6 @@ export default function HelpContextProvider(props) {
       dispatch({ type: actions.help.storeList, helps: helpListArray })
     })
   }, [helpList])
-
-  useEffect(() => {
-    console.log(currentRegion)
-    if(currentRegion) {
-      activeLocations.push(currentRegion)
-      getHelpList(currentRegion)
-      setupWebSocket()
-    }
-  }, [currentRegion])
 
   useEffect(() => {
     if (location) {
@@ -52,7 +52,7 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories])
 
   useEffect(() => {
-    if (location && shouldRequest(location && location != currentRegion)) {
+    if (location && shouldRequest(location) && location != currentRegion) {
       activeLocations.push(location)
       if(selectedCategories.length) {
         getHelpListWithCategories(location)

@@ -6,10 +6,12 @@ const socket = socketio(ENV.socketUrl, {
 })
 
 function subscribeToNewHelps(subscribeFunction) {
+    socket.off('new-help')
     socket.on('new-help', subscribeFunction)
 }
 
 function subscribeToDeleteHelp(subscribeFunction) {
+    socket.off('delete-help')
     socket.on('delete-help', subscribeFunction)
 }
 
