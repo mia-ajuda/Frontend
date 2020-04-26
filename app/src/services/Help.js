@@ -3,7 +3,11 @@ import api from "./Api";
 class HelpService extends Component {
   constructor() {}
 
-  getAllHelps = async (userId = null, status = null) => {
+  getAllHelps = async (userId = null, status = null, accessToken) => {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
     let url = "/help";
     let id = userId;
 
@@ -17,24 +21,48 @@ class HelpService extends Component {
     return allHelps.data;
   };
 
-  async getNearHelp(coords, id) {
+  async getNearHelp(coords, id, accessToken) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
     const { longitude, latitude } = coords;
 
     const helps = await api.get(
-      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
+      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
+      { headers }
     );
+
     return helps.data;
   }
 
-  async getAllHelpForCategory(coords, categoryId, id) {
+  async getAllHelpForCategory(coords, categoryId, id, accessToken) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
     const { longitude, latitude } = coords;
     const url = `/help?id.except=${id}&near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`;
 
-    const helps = await api.get(url);
+    const helps = await api.get(url, { headers });
 
     return helps.data;
   }
-  getAllHelpForUser() {}
+
+  async getAllHelpForUser(userId, status, accessToken) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const url = status
+      ? `/Help?id=${userId}&status=${status}`
+      : `/Help?id=${userId};`;
+
+    const helps = await api.get(url, { headers });
+
+    return helps.data;
+  }
+
   getAllHelpForHelper() {}
 
   async createHelp(title, categoryId, description, accessToken, ownerId) {
@@ -45,17 +73,26 @@ class HelpService extends Component {
       ownerId,
     };
     const headers = {
-      Authorization: accessToken,
+      Authorization: `Bearer ${accessToken}`,
     };
     const createdHelpResponse = await api.post("/help", data, { headers });
-
+    console.log(createdHelpResponse);
     return createdHelpResponse.data;
+  }
+
+  async deleteHelp(helpId, accessToken) {
+    console.log(helpId, accessToken);
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    const deleteHelp = await api.delete(`/help/${helpId}`, { headers });
+    return deleteHelp;
   }
 
   async chooseHelp(idHelp, idHelper, accessToken) {
     try {
       const headers = {
-        Authorization: accessToken,
+        Authorization: `Bearer ${accessToken}`,
       };
 
       const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
@@ -64,8 +101,6 @@ class HelpService extends Component {
       console.log(error.response);
     }
   }
-
-  deleteHelp() {}
 }
 
 const helpService = new HelpService();

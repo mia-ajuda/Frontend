@@ -2,11 +2,10 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image,StatusBar } from "react-native";
+import { Image, StatusBar } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
+import Constants from "expo-constants";
 
 import Profile from "./pages/profile";
 import Notification from "./pages/notification";
@@ -20,13 +19,16 @@ import Photo from "./pages/authPages/Photo";
 import Address from "./pages/authPages/Address";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Main from "./pages/Main";
+
+import OnGoingHelps from "./pages/helpPages/MyRequests/onGoing";
+import DoneHelps from "./pages/helpPages/MyRequests/doneHelps";
+
 import colors from "../assets/styles/colorVariables";
 import CreateHelp from "./pages/helpPages/createHelp";
 import fonts from "../assets/styles/fontVariable";
-import MyHelpList from "./pages/helpPages/myHelpList";
 import Splash from "./pages/splash";
 import HelpDescription from "./pages/helpPages/helpDescription";
-import styles from "./components/ListCard/styles";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const backImage = require("../assets/images/back.png");
 
@@ -34,6 +36,7 @@ const BottomNavigation = createBottomTabNavigator();
 const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
+const MyRequestsTab = createMaterialTopTabNavigator();
 
 const MainNavigation = () => (
   <>
@@ -62,21 +65,45 @@ const MainNavigation = () => (
 const HelpTopBar = () => (
   <HelpTopBarNavigation.Navigator
     initialRouteName="em andamento"
-    tabBarOptions = {{style:{marginTop:StatusBar.currentHeight,backgroundColor:colors.primary},activeTintColor:"white",indicatorStyle:{backgroundColor:"white"}}}
+    tabBarOptions={{
+      style: {
+        marginTop: StatusBar.currentHeight,
+        backgroundColor: colors.primary,
+      },
+      activeTintColor: "white",
+      indicatorStyle: { backgroundColor: "white" },
+    }}
   >
-    <HelpTopBarNavigation.Screen
-      name="em andamento"
-      component={AskedHelps}
-    />
+    <HelpTopBarNavigation.Screen name="em andamento" component={AskedHelps} />
 
-    <HelpTopBarNavigation.Screen
-      name="finalizadas"
-      component={AskedHelps}
-    />
-
+    <HelpTopBarNavigation.Screen name="finalizadas" component={AskedHelps} />
   </HelpTopBarNavigation.Navigator>
-)
+);
 
+const MyRequestsNavigation = () => (
+  <MyRequestsTab.Navigator
+    tabBarOptions={{
+      style: {
+        backgroundColor: colors.primary,
+        paddingTop: Constants.statusBarHeight,
+        height: 80,
+        paddingTop: 25,
+      },
+      labelStyle: {
+        ...fonts.title,
+        color: colors.light,
+        fontSize: 16,
+      },
+      indicatorStyle: {
+        backgroundColor: colors.light,
+        padding: 2,
+      },
+    }}
+  >
+    <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
+    <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
+  </MyRequestsTab.Navigator>
+);
 
 const BottomTab = () => (
   <BottomNavigation.Navigator
@@ -158,7 +185,7 @@ const BottomTab = () => (
     initialRouteName="main"
   >
     <BottomNavigation.Screen name="notification" component={Notification} />
-    <BottomNavigation.Screen name="helpList" component={MyHelpList} />
+    <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="askedHelp" component={HelpTopBar} />
     <BottomNavigation.Screen name="profile" component={Profile} />
@@ -195,8 +222,6 @@ const AuthRoutes = () => {
     </>
   );
 };
-
-
 
 const headerStyle = {
   headerBackImage: () => (
