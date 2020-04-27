@@ -42,7 +42,7 @@ export default function NotificationCard({
         ? setTime(`${minutes} minutos atrás`)
         : setTime(`${minutes} minuto atrás`);
     } else {
-      setTime("Agora");
+      setTime(`Agora`);
     }
   }, [time]);
 
