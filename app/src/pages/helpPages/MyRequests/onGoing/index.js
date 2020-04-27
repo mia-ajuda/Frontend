@@ -5,6 +5,7 @@ import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
+import NoHelps from "../../../../components/NoHelps";
 
 export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
@@ -21,7 +22,11 @@ export default function OnGoingHelps({ navigation }) {
   }, []);
 
   async function loadOnGoingHelps() {
-    let tempOnGoing = await helpService.getAllHelpForUser(userId, "waiting", accessToken);
+    let tempOnGoing = await helpService.getAllHelpForUser(
+      userId,
+      "waiting",
+      accessToken
+    );
     let resOnGoing = tempOnGoing.filter((help) => help.active === true);
     setOnGoingHelpList(resOnGoing);
   }
@@ -65,23 +70,7 @@ export default function OnGoingHelps({ navigation }) {
           </View>
         </ScrollView>
       ) : (
-        <View
-          style={{
-            height: "100%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20,
-          }}
-        >
-          <Image
-            source={require("../../../../../assets/images/blueCat.png")}
-            style={styles.emptyListImage}
-          />
-          <Text style={styles.emptyListText}>
-            Você não possui ajudas em andamento
-          </Text>
-        </View>
+        <NoHelps title={"Você não possui ajudas em andamento"} />
       )}
     </View>
   );

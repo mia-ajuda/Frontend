@@ -1,6 +1,6 @@
 import api from "./Api";
 
-class HelpService extends Component {
+class HelpService {
   constructor() {}
 
   getAllHelps = async (userId = null, status = null, accessToken) => {
@@ -32,7 +32,6 @@ class HelpService extends Component {
       `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
       { headers }
     );
-
     return helps.data;
   }
 
@@ -76,12 +75,10 @@ class HelpService extends Component {
       Authorization: `Bearer ${accessToken}`,
     };
     const createdHelpResponse = await api.post("/help", data, { headers });
-    console.log(createdHelpResponse);
     return createdHelpResponse.data;
   }
 
   async deleteHelp(helpId, accessToken) {
-    console.log(helpId, accessToken);
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
@@ -96,9 +93,10 @@ class HelpService extends Component {
       };
 
       const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
-      await api.put(url, { headers });
+      await api.put(url, {}, { headers });
     } catch (error) {
       console.log(error.response);
+      throw error;
     }
   }
 }

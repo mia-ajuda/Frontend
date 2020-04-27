@@ -1,20 +1,26 @@
-import React, { useContext, useEffect } from "react";
-import { View, Text } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, FlatList, ScrollView } from "react-native";
 import styles from "./styles";
 import { HelpContext } from "../../../store/contexts/helpContext";
 import ListCard from "../../../components/ListCard";
 import { UserContext } from "../../../store/contexts/userContext";
+import NoHelps from "../../../components/NoHelps";
 export default function AskedHelps() {
   const { helpList } = useContext(HelpContext);
   const { user } = useContext(UserContext);
+  const [myHelps, setMyHelps] = useState(
+    helpList.filter((help) => help.helperId == user.info._id)
+  );
+
+  useEffect(() => {
+    setMyHelps(helpList.filter((help) => help.helperId == user.info._id));
+  }, [helpList]);
   console.log(user.info._id);
   return (
     <View style={styles.container}>
-      {helpList.map((help) => {
-        //console.log(help)
-        if (help.helperId == user.info._id) {
-          console.log(help);
-          return (
+      {myHelps.length ? (
+        <ScrollView>
+          {myHelps.map((help) => (
             <ListCard
               key={help._id}
               profilePhoto={help.user[0].photo}
@@ -26,9 +32,11 @@ export default function AskedHelps() {
               birthday={help.user[0].birthday}
               city={help.user[0].address.city}
             />
-          );
-        }
-      })}
+          ))}
+        </ScrollView>
+      ) : (
+        <NoHelps title="Você não está ajudando ninguém até o momento" />
+      )}
     </View>
   );
 }

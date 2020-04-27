@@ -9,7 +9,6 @@ export const HelpContext = createContext();
 export default function HelpContextProvider(props) {
   const { currentRegion, user } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-
   useEffect(() => {
     if (user.info) getHelpList();
   }, [currentRegion, user]);
@@ -24,7 +23,6 @@ export default function HelpContextProvider(props) {
           userId,
           accessToken
         );
-
         dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
         console.log(error);

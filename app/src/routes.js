@@ -9,7 +9,7 @@ import Constants from "expo-constants";
 
 import Profile from "./pages/profile";
 import Notification from "./pages/notification";
-import AskedHelps from "./pages/helpPages/askedHelps";
+import GivenHelp from "./pages/helpPages/givenHelps";
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
 import RegistrationData from "./pages/authPages/RegistrationData";
@@ -65,41 +65,16 @@ const MainNavigation = () => (
 const HelpTopBar = () => (
   <HelpTopBarNavigation.Navigator
     initialRouteName="em andamento"
-    tabBarOptions={{
-      style: {
-        marginTop: StatusBar.currentHeight,
-        backgroundColor: colors.primary,
-      },
-      activeTintColor: "white",
-      indicatorStyle: { backgroundColor: "white" },
-    }}
+    tabBarOptions={tabTopBarOptions}
   >
-    <HelpTopBarNavigation.Screen name="em andamento" component={AskedHelps} />
+    <HelpTopBarNavigation.Screen name="em andamento" component={GivenHelp} />
 
-    <HelpTopBarNavigation.Screen name="finalizadas" component={AskedHelps} />
+    <HelpTopBarNavigation.Screen name="finalizados" component={GivenHelp} />
   </HelpTopBarNavigation.Navigator>
 );
 
 const MyRequestsNavigation = () => (
-  <MyRequestsTab.Navigator
-    tabBarOptions={{
-      style: {
-        backgroundColor: colors.primary,
-        paddingTop: Constants.statusBarHeight,
-        height: 80,
-        paddingTop: 25,
-      },
-      labelStyle: {
-        ...fonts.title,
-        color: colors.light,
-        fontSize: 16,
-      },
-      indicatorStyle: {
-        backgroundColor: colors.light,
-        padding: 2,
-      },
-    }}
-  >
+  <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>
     <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
     <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
   </MyRequestsTab.Navigator>
@@ -146,7 +121,7 @@ const BottomTab = () => (
               : { color: colors.light, raised: false, name: "outdent" };
             break;
 
-          case "askedHelp":
+          case "givenHelp":
             selectConfig = focused
               ? { color: colors.primary, raised: true, name: "outdent" }
               : { color: colors.light, raised: false, name: "outdent" };
@@ -187,7 +162,7 @@ const BottomTab = () => (
     <BottomNavigation.Screen name="notification" component={Notification} />
     <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
-    <BottomNavigation.Screen name="askedHelp" component={HelpTopBar} />
+    <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
     <BottomNavigation.Screen name="profile" component={Profile} />
   </BottomNavigation.Navigator>
 );
@@ -248,6 +223,22 @@ const headerStyle = {
 
   headerTintColor: colors.light,
   headerTitleAlign: "center",
+};
+
+const tabTopBarOptions = {
+  style: {
+    backgroundColor: colors.primary,
+    paddingTop: Constants.statusBarHeight,
+  },
+  labelStyle: {
+    ...fonts.body,
+    color: colors.light,
+    fontSize: 14,
+  },
+  indicatorStyle: {
+    backgroundColor: colors.light,
+    padding: 2,
+  },
 };
 
 const Routes = () => {
