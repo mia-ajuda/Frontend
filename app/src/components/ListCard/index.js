@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Icon } from "react-native-elements";
+import colors from "../../../assets/styles/colorVariables";
 
 import styles from "./styles";
 
@@ -7,12 +9,14 @@ export default function ListCard({
   helpTitle,
   helpDescription,
   categoryName,
+  deleteVisible,
+  setConfirmationModalVisible,
   navigation,
   helpId,
   userName,
   birthday,
-  city,
   setVisible,
+  city,
   profilePhoto,
 }) {
   return (
@@ -29,7 +33,7 @@ export default function ListCard({
           city,
           profilePhoto,
         });
-        setVisible(false);
+        setVisible && setVisible(false)
       }}
     >
       <View style={styles.cardTitle}>
@@ -41,8 +45,21 @@ export default function ListCard({
         <Text numberOfLines={3} style={styles.descriptionContent}>
           {helpDescription}
         </Text>
-        <View style={styles.categoryWarning}>
-          <Text style={styles.categoryName}> {categoryName} </Text>
+        <View style={styles.bottomItens}>
+          <View style={styles.categoryWarning}>
+            <Text style={styles.categoryName}> {categoryName} </Text>
+          </View>
+          {deleteVisible ? (
+            <Icon
+              size={25}
+              name="trash"
+              type="font-awesome"
+              color={colors.danger}
+              onPress={() => setConfirmationModalVisible(true)}
+            />
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </TouchableOpacity>
