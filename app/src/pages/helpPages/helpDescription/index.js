@@ -20,12 +20,17 @@ export default function HelpDescription({ route, navigation }) {
     birthday,
     city,
     profilePhoto,
+    helperId,
+    userPhone,
+    userLocation,
   } = route.params;
 
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
 
   const age = currentYear - birthYear;
+
+  console.log(userLocation+' ok')
 
   async function chooseHelp() {
     try {
@@ -78,6 +83,10 @@ export default function HelpDescription({ route, navigation }) {
             <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
             {city}
           </Text>
+          {user.info._id == helperId && (<Text style={styles.infoText}>
+            <Text style={{ fontFamily: "montserrat-semibold" }}>Telefone: </Text>
+            {userPhone}
+          </Text>)}
         </View>
       </View>
       <View style={styles.helpInfo}>
@@ -103,11 +112,12 @@ export default function HelpDescription({ route, navigation }) {
           <Text style={styles.infoText}>{helpDescription}</Text>
         </View>
         <View style={styles.helpButtons}>
-          <Button
+          {user.info._id!=helperId &&(
+            <Button
             title="Oferecer Ajuda"
             large
             press={() => setConfirmationModalVisible(true)}
-          />
+          />)}
         </View>
       </View>
     </View>

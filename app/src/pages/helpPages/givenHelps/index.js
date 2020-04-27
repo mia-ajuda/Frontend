@@ -32,6 +32,9 @@ export default function AskedHelps({ navigation }) {
               birthday={help.user[0].birthday}
               city={help.user[0].address.city}
               navigation={navigation}
+              helperId={help.helperId}
+              userPhone={help.user[0].phone}
+              userLocation={help.user[0].location.coordinates}
             />
           ))}
         </ScrollView>
