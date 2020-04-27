@@ -5,7 +5,7 @@ import { HelpContext } from "../../../store/contexts/helpContext";
 import ListCard from "../../../components/ListCard";
 import { UserContext } from "../../../store/contexts/userContext";
 import NoHelps from "../../../components/NoHelps";
-export default function AskedHelps() {
+export default function AskedHelps({ navigation }) {
   const { helpList } = useContext(HelpContext);
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState(
@@ -31,6 +31,7 @@ export default function AskedHelps() {
               userName={help.user[0].name}
               birthday={help.user[0].birthday}
               city={help.user[0].address.city}
+              navigation={navigation}
             />
           ))}
         </ScrollView>
