@@ -95,29 +95,27 @@ export default function App({ route, navigation }) {
                 escolher outra foto.
             </Text>
             </View>
-            <View style={{ flex: 2, margin: 16 }}>
+            <View style={{ flex: 1, margin: 16 }}>
               <View
                 style={{
-                  borderTopColor: 'red',
-                  borderBottomColor: 'black',
+                  borderBottomColor: '#686868',
                   borderBottomWidth: 1,
                 }}
               />
               <Text style={styles.smallText}>
                 Ao clicar em continuar você concorda com os
-                <Text style={styles.hyperLink}>
-              {" "}Termos de Uso{" "}
+                <Text style={styles.hyperLink} onPress={() => navigation.navigate("useTerm")}>
+                  {" "}Termos de Uso{" "}
                 </Text>
-                e a 
-                <Text style={styles.hyperLink}>
-              {" "}Política de Pivacidade
+                e a
+                <Text style={styles.hyperLink} onPress={() => alert("ohMan")}>
+                  {" "}Política de Pivacidade
                 </Text>
                 .
                 </Text>
               <View
                 style={{
-                  borderTopColor: 'red',
-                  borderBottomColor: 'black',
+                  borderBottomColor: '#686868',
                   borderBottomWidth: 1,
                 }}
               />
