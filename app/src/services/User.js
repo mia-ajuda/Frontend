@@ -235,7 +235,7 @@ class UserService {
   }
 
   async requestUserData(token) {
-    const user = await api.get(`/user`, {
+    const user = await api.get(`/user/getUser/`, {
       headers: {
         authorization: `Bearer ${token}`
       }
