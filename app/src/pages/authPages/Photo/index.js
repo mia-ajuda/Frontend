@@ -95,7 +95,7 @@ export default function App({ route, navigation }) {
                 escolher outra foto.
             </Text>
             </View>
-            <View style={{ flex: 1, margin: 16 }}>
+            <TouchableOpacity style={{ flex: 1, margin: 16 }} onPress={() => navigation.navigate("useTerm")}>
               <View
                 style={{
                   borderBottomColor: '#686868',
@@ -104,11 +104,11 @@ export default function App({ route, navigation }) {
               />
               <Text style={styles.smallText}>
                 Ao clicar em continuar você concorda com os
-                <Text style={styles.hyperLink} onPress={() => navigation.navigate("useTerm")}>
+                <Text style={styles.hyperLink}>
                   {" "}Termos de Uso{" "}
                 </Text>
                 e a
-                <Text style={styles.hyperLink} onPress={() => alert("ohMan")}>
+                <Text style={styles.hyperLink}>
                   {" "}Política de Pivacidade
                 </Text>
                 .
@@ -119,7 +119,7 @@ export default function App({ route, navigation }) {
                   borderBottomWidth: 1,
                 }}
               />
-            </View>
+            </TouchableOpacity>
             <View style={styles.buttonPreview}>
               <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
                 <Text style={styles.btnText}>Voltar</Text>
