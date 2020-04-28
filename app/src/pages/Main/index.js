@@ -17,6 +17,7 @@ import Button from "../../components/UI/button";
 import CategoryListModal from "../../components/modals/category/CategoryList";
 import { HelpContext } from "../../store/contexts/helpContext";
 import { UserContext } from "../../store/contexts/userContext";
+import { LocationContext } from "../../store/contexts/locationContext";
 import HelpList from "../../components/HelpList";
 
 export default function Main({ navigation }) {
@@ -25,10 +26,16 @@ export default function Main({ navigation }) {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const { helpList } = useContext(HelpContext);
   const { currentRegion } = useContext(UserContext);
+  const { setLocation } = useContext(LocationContext);
 
   useEffect(() => {
     setRegion(null);
   }, [region]);
+
+  function onRegionChange(position) {
+    setLocation(position)
+    return setHelpListVisible(false)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +61,7 @@ export default function Main({ navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         region={region}
-        onRegionChange={() => setHelpListVisible(false)}
+        onRegionChangeComplete={(position) => onRegionChange(position)}
         onPress={() => {
           setHelpListVisible(false);
         }}
@@ -87,6 +94,7 @@ export default function Main({ navigation }) {
             <Marker
               title={help.distance}
               key={help._id}
+              tracksViewChanges={false}
               coordinate={{
                 latitude: help.user[0].location.coordinates[1],
                 longitude: help.user[0].location.coordinates[0],
