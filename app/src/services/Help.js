@@ -2,7 +2,7 @@ import api from "./Api";
 import firebaseAuth from "./firebaseAuth";
 
 class HelpService {
-  constructor() {}
+  constructor() { }
 
   getAllHelps = async (userId = null, status = null, accessToken) => {
     const headers = {
@@ -28,7 +28,6 @@ class HelpService {
     };
 
     const { longitude, latitude } = coords;
-
     const helps = await api.get(
       `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
       { headers }
@@ -63,8 +62,8 @@ class HelpService {
 
     return helps.data;
   }
-
-  getAllHelpForHelper() {}
+  getAllHelpForUser() { }
+  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description, accessToken, ownerId) {
     const data = {
@@ -77,12 +76,10 @@ class HelpService {
       Authorization: `Bearer ${accessToken}`,
     };
     const createdHelpResponse = await api.post("/help", data, { headers });
-    console.log(createdHelpResponse);
     return createdHelpResponse.data;
   }
 
   async deleteHelp(helpId, accessToken) {
-    console.log(helpId, accessToken);
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };

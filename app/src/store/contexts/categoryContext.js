@@ -5,6 +5,7 @@ export const CategoryContext = createContext();
 
 export default function CategoryContextProvider(props) {
   const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -15,7 +16,7 @@ export default function CategoryContextProvider(props) {
   }, []);
 
   return (
-    <CategoryContext.Provider value={{ categories }}>
+    <CategoryContext.Provider value={{ categories, selectedCategories, setSelectedCategories }}>
       {props.children}
     </CategoryContext.Provider>
   );
