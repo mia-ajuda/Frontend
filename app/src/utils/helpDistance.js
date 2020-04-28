@@ -2,7 +2,7 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-function getDistanceInKm(centerCoordinates, pointCoordinates) {
+export function calculateDistance(centerCoordinates, pointCoordinates) {
   const radius = 6371;
 
   const { latitude: lat1, longitude: lon1 } = centerCoordinates;
@@ -19,8 +19,11 @@ function getDistanceInKm(centerCoordinates, pointCoordinates) {
       Math.sin(dLon / 2);
 
   const center = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  let distance = radius * center;
+  return radius * center;
+}
 
+function getDistanceInKm(centerCoordinates, pointCoordinates) {
+  let distance = calculateDistance(centerCoordinates, pointCoordinates)
   distance =
     distance > 1
       ? `${distance.toFixed(2)} km`

@@ -13,41 +13,20 @@ import styles from "./styles";
 import { Icon } from "react-native-elements";
 import CategoryDescriptionModal from "../categoryDescription";
 import { CategoryContext } from "../../../../store/contexts/categoryContext";
-import { HelpContext } from "../../../../store/contexts/helpContext";
-import { UserContext } from "../../../../store/contexts/userContext";
-import HelpService from "../../../../services/Help";
-import actions from "../../../../store/actions";
 
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
-  const [filterCategoryArray, setFilterCategoryArray] = useState([]);
   const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
-  const { categories } = useContext(CategoryContext);
-  const { dispatch } = useContext(HelpContext);
-  const { user, currentRegion } = useContext(UserContext);
-
-  const { _id: userId } = user.info;
+  const { categories, setSelectedCategories, selectedCategories } = useContext(CategoryContext);
 
   async function filterHelplist() {
-    try {
-      const helpListFilterd = await HelpService.getAllHelpForCategory(
-        currentRegion,
-        selectedCategoryArray,
-        userId
-      );
-      dispatch({ type: actions.help.storeList, helps: helpListFilterd });
-      setVisible(!visible);
-      setFilterCategoryArray(selectedCategoryArray);
-    } catch (error) {
-      console.log(error);
-    }
+    setSelectedCategories(selectedCategoryArray)
+    setVisible(!visible);
   }
 
   async function clearFilterHelplist() {
+    setSelectedCategories([])
     setVisible(!visible);
-    setFilterCategoryArray([]);
-    const helpList = await HelpService.getNearHelp(currentRegion, userId);
-    dispatch({ type: actions.help.storeList, helps: helpList });
   }
 
   return (
@@ -91,14 +70,14 @@ export default function CategoryList({ visible, setVisible }) {
                 <SelectBox
                   key={category._id}
                   title={category.name}
-                  filterCategoryArray={filterCategoryArray}
+                  filterCategoryArray={selectedCategories}
                   setSelectedCategoryArray={setSelectedCategoryArray}
                   selectedCategoryArray={selectedCategoryArray}
                   category={category}
                 />
               ))}
             </ScrollView>
-            {filterCategoryArray.length ? (
+            {selectedCategories.length ? (
               <View style={styles.filterButtons}>
                 <Buttom
                   title="Filtrar"

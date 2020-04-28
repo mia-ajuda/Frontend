@@ -62,6 +62,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                   key={help._id}
                   profilePhoto={help.user[0].photo}
                   helpId={help._id}
+                  deleteVisible={false}
                   helpTitle={help.title}
                   helpDescription={help.description}
                   categoryName={help.category[0].name}

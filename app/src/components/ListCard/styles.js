@@ -65,14 +65,13 @@ export default StyleSheet.create({
   },
 
   categoryWarning: {
-    marginTop: 10,
     backgroundColor: colors.secondary,
     borderRadius: 8,
 
     maxHeight: 30,
 
     paddingHorizontal: 15,
-
+  
     alignSelf: "flex-start",
   },
 
@@ -82,4 +81,12 @@ export default StyleSheet.create({
     lineHeight: 30,
     textAlign: "center",
   },
+
+  bottomItens: {
+    width:"100%",
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }
 });
