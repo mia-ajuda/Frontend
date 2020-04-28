@@ -7,12 +7,14 @@ import {
   Linking,
   TouchableOpacity,
 } from "react-native";
+import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
+import colors from "../../../../assets/styles/colorVariables";
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
@@ -31,13 +33,13 @@ export default function HelpDescription({ route, navigation }) {
     userPhone,
     userLocation,
   } = route.params;
-  console.log(userLocation);
+
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
 
   const age = currentYear - birthYear;
 
-  //console.log(userLocation+' ok')
+  console.log(userLocation);
 
   async function chooseHelp() {
     try {
@@ -61,13 +63,25 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  // const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-  // const latLng = `${userLocation[1]},${userLocation[0]}`;
-  // const label = 'Pedido de Ajuda de '+userName;
-  // const url = Platform.select({
-  //   ios: `${scheme}${label}@${latLng}`,
-  //   android: `${scheme}${latLng}(${label})`
-  // });
+  function openMaps() {
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q=",
+    });
+    const latLng = `${userLocation[1]},${userLocation[0]}`;
+    const label = "Pedido de Ajuda de " + userName;
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+    Linking.openURL(url);
+  }
+
+  function openWhatsapp() {
+    Linking.openURL(
+      `whatsapp://send?phone=${"5561996997082"}&text=${"Olá, precisa de ajuda? estou"}`
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -100,7 +114,7 @@ export default function HelpDescription({ route, navigation }) {
           {user.info._id == helperId && (
             <Text style={styles.infoText}>
               <Text style={{ fontFamily: "montserrat-semibold" }}>
-                Telefone:{" "}
+                Telefone:
               </Text>
               {userPhone}
             </Text>
@@ -127,15 +141,40 @@ export default function HelpDescription({ route, navigation }) {
           >
             Descrição:
           </Text>
-          <Text style={styles.infoText}>{helpDescription}</Text>
+          <Text style={[styles.infoText, { marginBottom: 50 }]}>
+            {helpDescription}
+          </Text>
         </View>
         {user.info._id == helperId && (
           <View style={styles.ViewLink}>
-            <Button
-              title="Link para o Google Maps"
-              large
-              press={() => Linking.openURL(url)}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                width: "100%",
+                marginBottom: 20,
+              }}
+            >
+              <TouchableOpacity onPress={openWhatsapp}>
+                <Icon
+                  name="whatsapp"
+                  type="font-awesome"
+                  size={50}
+                  color="#25d366"
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={openMaps}>
+                <Icon
+                  name="map-marker"
+                  type="font-awesome"
+                  size={50}
+                  color={colors.dark}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <Button title="Finalizar ajuda" large press={() => {}} />
           </View>
         )}
         <View style={styles.helpButtons}>
