@@ -1,7 +1,7 @@
 import api from "./Api";
 
 class HelpService {
-  constructor() {}
+  constructor() { }
 
   getAllHelps = async (userId = null, status = null, accessToken) => {
     const headers = {
@@ -27,7 +27,6 @@ class HelpService {
     };
 
     const { longitude, latitude } = coords;
-
     const helps = await api.get(
       `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
       { headers }
@@ -61,8 +60,8 @@ class HelpService {
 
     return helps.data;
   }
-
-  getAllHelpForHelper() {}
+  getAllHelpForUser() { }
+  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description, accessToken, ownerId) {
     const data = {

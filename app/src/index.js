@@ -3,15 +3,18 @@ import Routes from "./routes";
 import { UserContextProvider } from "./store/contexts/userContext";
 import HelpContextProvider from "./store/contexts/helpContext";
 import CategoryContextProvider from "./store/contexts/categoryContext";
+import LocationContextProvider from './store/contexts/locationContext';
 
 export default function Root() {
   return (
-    <UserContextProvider>
-      <CategoryContextProvider>
-        <HelpContextProvider>
-          <Routes />
-        </HelpContextProvider>
-      </CategoryContextProvider>
-    </UserContextProvider>
+    <CategoryContextProvider>
+      <UserContextProvider>
+        <LocationContextProvider>
+          <HelpContextProvider>
+            <Routes />
+          </HelpContextProvider>
+        </LocationContextProvider>
+      </UserContextProvider>
+    </CategoryContextProvider>
   );
 }

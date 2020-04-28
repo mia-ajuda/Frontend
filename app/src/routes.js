@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -104,13 +104,13 @@ const BottomTab = () => (
           case "main":
             selectConfig = focused
               ? {
-                  src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 },
-                }
+                src: require("../assets/images/whileLogo.png"),
+                size: { height: 40, width: 40 },
+              }
               : {
-                  src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" },
-                };
+                src: require("../assets/images/whiteCat.png"),
+                size: { height: 25, width: 25, resizeMode: "contain" },
+              };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
             );
@@ -134,15 +134,15 @@ const BottomTab = () => (
           case "profile":
             selectConfig = focused
               ? {
-                  color: colors.primary,
-                  raised: true,
-                  name: "user-circle",
-                }
+                color: colors.primary,
+                raised: true,
+                name: "user-circle",
+              }
               : {
-                  color: colors.light,
-                  raised: false,
-                  name: "user-circle",
-                };
+                color: colors.light,
+                raised: false,
+                name: "user-circle",
+              };
             break;
         }
 

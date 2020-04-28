@@ -7,6 +7,7 @@ export const CategoryContext = createContext();
 export default function CategoryContextProvider(props) {
   const [categories, setCategories] = useState([]);
   const { user } = useContext(UserContext);
+  const [selectedCategories, setSelectedCategories] = useState([])
 
   useEffect(() => {
     if (user.info) fetchCategories();
@@ -18,7 +19,7 @@ export default function CategoryContextProvider(props) {
   }
 
   return (
-    <CategoryContext.Provider value={{ categories }}>
+    <CategoryContext.Provider value={{ categories, selectedCategories, setSelectedCategories }}>
       {props.children}
     </CategoryContext.Provider>
   );

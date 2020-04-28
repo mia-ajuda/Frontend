@@ -54,7 +54,7 @@ export default function HelpDescription({ route, navigation }) {
       );
     }
   }
-  //console.log('https://www.google.com.br/maps/@' + userLocation[1] + ',' + userLocation[0])
+
   const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
   const latLng = `${userLocation[1]},${userLocation[0]}`;
   const label = 'Pedido de Ajuda de '+userName;
