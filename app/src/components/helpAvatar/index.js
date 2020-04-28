@@ -5,8 +5,8 @@ import styles from "./styles";
 import colors from "../../../assets/styles/colorVariables";
 
 export default function Avatar({ help }) {
-  const isRiskGroup = !!help.user[0].riskGroup.length;
-  const profilePhoto = help.user[0].photo;
+  const isRiskGroup = !!help.user.riskGroup.length;
+  const profilePhoto = help.user.photo;
   const riskColor = isRiskGroup ? colors.danger : colors.primary;
 
   return (

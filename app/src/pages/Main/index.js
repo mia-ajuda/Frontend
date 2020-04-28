@@ -96,8 +96,8 @@ export default function Main({ navigation }) {
               key={help._id}
               tracksViewChanges={false}
               coordinate={{
-                latitude: help.user[0].location.coordinates[1],
-                longitude: help.user[0].location.coordinates[0],
+                latitude: help.user.location.coordinates[1],
+                longitude: help.user.location.coordinates[0],
               }}
             >
               <Avatar help={help} />
@@ -107,17 +107,17 @@ export default function Main({ navigation }) {
                 helpDescription : help.description,
                 categoryName : help.category[0].name,
                 helpId :help._id,
-                userName : help.user[0].name,
-                birthday : help.user[0].birthday,
-                city : help.user[0].address.city,
-                profilePhoto :help.user[0].photo,
+                userName : help.user.name,
+                birthday : help.user.birthday,
+                city : help.user.address.city,
+                profilePhoto :help.user.photo,
               })}
                 style = {styles.callout}
               >
                 <Text 
                   style = {styles.calloutPersonName}
                   numberOfLines ={1}
-                >{help.user[0].name}
+                >{help.user.name}
                 </Text>
                 <Text style = {styles.calloutPersonDistance}>{help.distance}</Text>
                 <Text style = {styles.calloutPress}>Toque para ver</Text>
