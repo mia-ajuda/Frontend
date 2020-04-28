@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   },
   userInfo:{
     flexDirection:"row",
-    
   },
   profileImage:{
     width: 100,
@@ -34,9 +33,11 @@ const styles = StyleSheet.create({
   categoryText: {
     marginBottom: 20,
   },
-  descriptionText: {
-    
-  },
+
+  ViewLink:{
+    justifyContent:"center",
+    alignItems: "center",
+  }
   
   
 });

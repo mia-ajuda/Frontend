@@ -15,7 +15,6 @@ export default function AskedHelps({ navigation }) {
   useEffect(() => {
     setMyHelps(helpList.filter((help) => help.helperId == user.info._id));
   }, [helpList]);
-  console.log(user.info._id);
   return (
     <View style={styles.container}>
       {myHelps.length ? (

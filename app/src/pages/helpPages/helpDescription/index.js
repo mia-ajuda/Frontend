@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, Image, Alert } from "react-native";
+import { View, Text, Image, Alert,Linking, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -30,12 +30,12 @@ export default function HelpDescription({ route, navigation }) {
 
   const age = currentYear - birthYear;
 
-  console.log(userLocation+' ok')
+  //console.log(userLocation+' ok')
 
   async function chooseHelp() {
     try {
-      console.log("helpId", helpId);
-      console.log("userID", user.info._id);
+      //console.log("helpId", helpId);
+      //console.log("userID", user.info._id);
       await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
       setConfirmationModalVisible(false);
       navigation.goBack();
@@ -54,6 +54,15 @@ export default function HelpDescription({ route, navigation }) {
       );
     }
   }
+  //console.log('https://www.google.com.br/maps/@' + userLocation[1] + ',' + userLocation[0])
+  const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+  const latLng = `${userLocation[1]},${userLocation[0]}`;
+  const label = 'Pedido de Ajuda de '+userName;
+  const url = Platform.select({
+    ios: `${scheme}${label}@${latLng}`,
+    android: `${scheme}${latLng}(${label})`
+  });
+
 
   return (
     <View style={styles.container}>
@@ -111,6 +120,13 @@ export default function HelpDescription({ route, navigation }) {
           </Text>
           <Text style={styles.infoText}>{helpDescription}</Text>
         </View>
+        {user.info._id == helperId && (<View style = {styles.ViewLink}>
+          <Button
+            title="Link para o Google Maps"
+            large
+            press={() => Linking.openURL(url)}
+          />
+        </View>)}
         <View style={styles.helpButtons}>
           {user.info._id!=helperId &&(
             <Button
