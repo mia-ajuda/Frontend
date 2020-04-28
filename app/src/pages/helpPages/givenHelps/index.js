@@ -22,18 +22,18 @@ export default function AskedHelps({ navigation }) {
           {myHelps.map((help) => (
             <ListCard
               key={help._id}
-              profilePhoto={help.user[0].photo}
+              profilePhoto={help.user.photo}
               helpId={help._id}
               helpTitle={help.title}
               helpDescription={help.description}
               categoryName={help.category[0].name}
-              userName={help.user[0].name}
-              birthday={help.user[0].birthday}
-              city={help.user[0].address.city}
+              userName={help.user.name}
+              birthday={help.user.birthday}
+              city={help.user.address.city}
               navigation={navigation}
               helperId={help.helperId}
-              userPhone={help.user[0].phone}
-              userLocation={help.user[0].location.coordinates}
+              userPhone={help.user.phone}
+              userLocation={help.user.location.coordinates}
             />
           ))}
         </ScrollView>

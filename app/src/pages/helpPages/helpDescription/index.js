@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
-import { View, Text, Image, Alert,Linking, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -24,7 +31,7 @@ export default function HelpDescription({ route, navigation }) {
     userPhone,
     userLocation,
   } = route.params;
-
+  console.log(userLocation);
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
 
@@ -34,8 +41,7 @@ export default function HelpDescription({ route, navigation }) {
 
   async function chooseHelp() {
     try {
-      //console.log("helpId", helpId);
-      //console.log("userID", user.info._id);
+      console.log("helpId", helpId);
       await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
       setConfirmationModalVisible(false);
       navigation.goBack();
@@ -55,14 +61,13 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-  const latLng = `${userLocation[1]},${userLocation[0]}`;
-  const label = 'Pedido de Ajuda de '+userName;
-  const url = Platform.select({
-    ios: `${scheme}${label}@${latLng}`,
-    android: `${scheme}${latLng}(${label})`
-  });
-
+  // const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+  // const latLng = `${userLocation[1]},${userLocation[0]}`;
+  // const label = 'Pedido de Ajuda de '+userName;
+  // const url = Platform.select({
+  //   ios: `${scheme}${label}@${latLng}`,
+  //   android: `${scheme}${latLng}(${label})`
+  // });
 
   return (
     <View style={styles.container}>
@@ -92,10 +97,14 @@ export default function HelpDescription({ route, navigation }) {
             <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
             {city}
           </Text>
-          {user.info._id == helperId && (<Text style={styles.infoText}>
-            <Text style={{ fontFamily: "montserrat-semibold" }}>Telefone: </Text>
-            {userPhone}
-          </Text>)}
+          {user.info._id == helperId && (
+            <Text style={styles.infoText}>
+              <Text style={{ fontFamily: "montserrat-semibold" }}>
+                Telefone:{" "}
+              </Text>
+              {userPhone}
+            </Text>
+          )}
         </View>
       </View>
       <View style={styles.helpInfo}>
@@ -120,20 +129,23 @@ export default function HelpDescription({ route, navigation }) {
           </Text>
           <Text style={styles.infoText}>{helpDescription}</Text>
         </View>
-        {user.info._id == helperId && (<View style = {styles.ViewLink}>
-          <Button
-            title="Link para o Google Maps"
-            large
-            press={() => Linking.openURL(url)}
-          />
-        </View>)}
-        <View style={styles.helpButtons}>
-          {user.info._id!=helperId &&(
+        {user.info._id == helperId && (
+          <View style={styles.ViewLink}>
             <Button
-            title="Oferecer Ajuda"
-            large
-            press={() => setConfirmationModalVisible(true)}
-          />)}
+              title="Link para o Google Maps"
+              large
+              press={() => Linking.openURL(url)}
+            />
+          </View>
+        )}
+        <View style={styles.helpButtons}>
+          {user.info._id != helperId && (
+            <Button
+              title="Oferecer Ajuda"
+              large
+              press={() => setConfirmationModalVisible(true)}
+            />
+          )}
         </View>
       </View>
     </View>

@@ -13,14 +13,14 @@ class UserService {
   async logIn(data) {
     const setUserDeviceId = async (userId, firebaseToken) => {
       try {
-        Notifications.getExpoPushTokenAsync().then(async pushToken => {
+        Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
           await api.put(
             `/user`,
             { deviceId: pushToken },
             {
               headers: {
-                authorization: `Bearer ${firebaseToken}`
-              }
+                authorization: `Bearer ${firebaseToken}`,
+              },
             }
           );
         });
@@ -39,7 +39,7 @@ class UserService {
 
       const user = {
         info: userInfo,
-        accessToken: idTokenUser
+        accessToken: idTokenUser,
       };
 
       setUserDeviceId(userInfo._id, idTokenUser);
@@ -48,7 +48,8 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log(error);
+      console.log("error");
+      console.log(error.response.data);
       throw { error: error.response.data.error };
     }
   }
@@ -57,7 +58,7 @@ class UserService {
     try {
       await Facebook.initializeAsync(authConfig.facebookId);
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", "email"]
+        permissions: ["public_profile", "email"],
       });
 
       if (type === "success") {
@@ -93,17 +94,17 @@ class UserService {
                       name: userData.profile.name,
                       photo: userData.profile.picture.data.url,
                       birthday: userData.profile.birthday,
-                      hasUser: true
-                    }
-                  })
+                      hasUser: true,
+                    },
+                  }),
               },
               {
                 text: "Cancelar",
-                onPress: () => {}
-              }
+                onPress: () => {},
+              },
             ],
             {
-              cancelable: false
+              cancelable: false,
             }
           );
 
@@ -113,7 +114,7 @@ class UserService {
 
           const user = {
             info: userInfo,
-            accessToken: idTokenUser
+            accessToken: idTokenUser,
           };
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -133,7 +134,7 @@ class UserService {
       const result = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,
         iosClientId: authConfig.googleIosClientId,
-        scopes: ["profile", "email"]
+        scopes: ["profile", "email"],
       });
 
       if (result.type === "success") {
@@ -142,10 +143,8 @@ class UserService {
           idToken,
           accessToken
         );
-        
-        await firebase
-          .auth()
-          .signInWithCredential(credential);
+
+        await firebase.auth().signInWithCredential(credential);
 
         const idTokenUser = await firebase.auth().currentUser.getIdToken();
 
@@ -166,26 +165,25 @@ class UserService {
                       email: result.user.email,
                       name: result.user.name,
                       photo: result.user.photoUrl,
-                      hasUser: true
-                    }
-                  })
+                      hasUser: true,
+                    },
+                  }),
               },
               {
                 text: "Cancelar",
-                onPress: () => {}
-              }
+                onPress: () => {},
+              },
             ],
             {
-              cancelable: false
+              cancelable: false,
             }
           );
-
         } else {
           const userInfo = await this.requestUserData(idTokenUser);
 
           const user = {
             info: userInfo,
-            accessToken: idTokenUser
+            accessToken: idTokenUser,
           };
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -194,12 +192,12 @@ class UserService {
         }
       } else {
         throw {
-          error: "Não foi possível fazer login com o Google. Tente novamente!"
+          error: "Não foi possível fazer login com o Google. Tente novamente!",
         };
       }
     } catch (e) {
       return {
-        error: "Não foi possível fazer login com o Google. Tente novamente!"
+        error: "Não foi possível fazer login com o Google. Tente novamente!",
       };
     }
   }
@@ -207,8 +205,8 @@ class UserService {
   async signUp(data) {
     const { hasUser } = data;
 
-    if(hasUser){
-      data.password = "12345678"
+    if (hasUser) {
+      data.password = "12345678";
     }
 
     try {
@@ -216,7 +214,8 @@ class UserService {
       return response;
     } catch (error) {
       throw {
-        error: "Aconteceu algo errado ao cadastrar, tente novamente mais tarde."
+        error:
+          "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
       };
     }
   }
@@ -235,10 +234,10 @@ class UserService {
   }
 
   async requestUserData(token) {
-    const user = await api.get(`/user`, {
+    const user = await api.get(`/user/getUser`, {
       headers: {
-        authorization: `Bearer ${token}`
-      }
+        authorization: `Bearer ${token}`,
+      },
     });
     return user.data;
   }

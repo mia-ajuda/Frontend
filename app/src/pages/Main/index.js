@@ -33,8 +33,8 @@ export default function Main({ navigation }) {
   }, [region]);
 
   function onRegionChange(position) {
-    setLocation(position)
-    return setHelpListVisible(false)
+    setLocation(position);
+    return setHelpListVisible(false);
   }
 
   return (
@@ -90,42 +90,46 @@ export default function Main({ navigation }) {
           </>
         )}
         {helpList &&
-          helpList.map((help) => (
-            <Marker
-              title={help.distance}
-              key={help._id}
-              tracksViewChanges={false}
-              coordinate={{
-                latitude: help.user[0].location.coordinates[1],
-                longitude: help.user[0].location.coordinates[0],
-              }}
-            >
-              <Avatar help={help} />
-              <Callout
-                onPress={() =>
-                  navigation.navigate("helpDescription", {
-                    helpTitle: help.title,
-                    helpDescription: help.description,
-                    categoryName: help.category[0].name,
-                    helpId: help._id,
-                    userName: help.user[0].name,
-                    birthday: help.user[0].birthday,
-                    city: help.user[0].address.city,
-                    profilePhoto: help.user[0].photo,
-                  })
-                }
-                style={styles.callout}
-              >
-                <Text style={styles.calloutPersonName} numberOfLines={1}>
-                  {help.user[0].name}
-                </Text>
-                <Text style={styles.calloutPersonDistance}>
-                  {help.distance}
-                </Text>
-                <Text style={styles.calloutPress}>Toque para ver</Text>
-              </Callout>
-            </Marker>
-          ))}
+          helpList.map((help) => {
+            if (help.status == "waiting") {
+              return (
+                <Marker
+                  title={help.distance}
+                  key={help._id}
+                  tracksViewChanges={false}
+                  coordinate={{
+                    latitude: help.user.location.coordinates[1],
+                    longitude: help.user.location.coordinates[0],
+                  }}
+                >
+                  <Avatar help={help} />
+                  <Callout
+                    onPress={() =>
+                      navigation.navigate("helpDescription", {
+                        helpTitle: help.title,
+                        helpDescription: help.description,
+                        categoryName: help.category[0].name,
+                        helpId: help._id,
+                        userName: help.user.name,
+                        birthday: help.user.birthday,
+                        city: help.user.address.city,
+                        profilePhoto: help.user.photo,
+                      })
+                    }
+                    style={styles.callout}
+                  >
+                    <Text style={styles.calloutPersonName} numberOfLines={1}>
+                      {help.user.name}
+                    </Text>
+                    <Text style={styles.calloutPersonDistance}>
+                      {help.distance}
+                    </Text>
+                    <Text style={styles.calloutPress}>Toque para ver</Text>
+                  </Callout>
+                </Marker>
+              );
+            }
+          })}
       </MapView>
       {!helpListVisible && (
         <>
