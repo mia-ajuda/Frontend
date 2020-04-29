@@ -6,6 +6,8 @@ import moment from "moment";
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
+import ListHelpers from "./ListHelpers/index";
+
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
@@ -94,21 +96,24 @@ export default function HelpDescription({ route, navigation }) {
           >
             Descrição:
           </Text>
-          <Text style={styles.infoText}>{helpDescription}</Text>
+          <Text style={styles.infoText}>
+          {/* fsjdklfjdskljfskjdfkjsdkjfsdljfklsdjfkjs sfdjfdls dskfl sdl sdl ds kf sd fksd flk sdlkf ksld fdsklfsdkfsd fsd lkfsdk fksd lfkd s fdsdf ksd fkds fk sd fksd fk ds fkd s fsdkf sdk fsdkfkslfasfjksaf as fkasd fklsa fksla dfk askf dsfkla  dfsalk dfslaf ksa fdksa kfdl lakfdsk flkdsa fddslkfslk sdfdk sfksdf */}
+            {helpDescription}
+          </Text>
         </View>
-        <View style={styles.helpButtons}>
-          {
-            user.info._id !== ownerId ? (
-              <Button
-                title="Oferecer Ajuda"
-                large
-                press={() => setConfirmationModalVisible(true)}
-              />
-            ) : (
-              <></>
-            )
-          }
-        </View>
+      </View>
+      <View style={styles.helpButtons}>
+        {
+          user.info._id !== ownerId ? (
+            <Button
+              title="Oferecer Ajuda"
+              large
+              press={() => setConfirmationModalVisible(true)}
+            />
+          ) : (
+            <ListHelpers />
+          )
+        }
       </View>
     </View>
   );

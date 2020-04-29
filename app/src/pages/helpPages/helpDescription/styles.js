@@ -4,11 +4,13 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin:20,
+    backgroundColor: '#FA0',
+    padding: 20
   },
   userInfo:{
+    flex: 1,
     flexDirection:"row",
-    
+    backgroundColor: "#F0F"
   },
   profileImage:{
     width: 100,
@@ -19,26 +21,22 @@ const styles = StyleSheet.create({
   },
   infoTextView:{
     alignSelf:"center",
-    marginLeft:40,
-    paddingRight:100
   },
   infoText:{
     ...fonts.body, 
+    textAlign: 'justify'
   },
-  
   helpInfo:{
-    flex:1,
-    marginTop:50,
-    justifyContent:"space-between"
+    flex: 3,
+    justifyContent:"space-between",
+    padding: 20,
+    backgroundColor: '#FF0',
   },
-  categoryText: {
-    marginBottom: 20,
-  },
-  descriptionText: {
-    
-  },
-  
-  
+  helpButtons: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: '#0FF'
+  }
 });
 
 export default styles;
