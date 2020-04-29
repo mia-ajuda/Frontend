@@ -29,7 +29,6 @@ export default function HelpContextProvider(props) {
   const { user, currentRegion } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
-  console.log(helpList);
   useEffect(() => {
     if (currentRegion && user.info) {
       activeLocations.push(currentRegion);
