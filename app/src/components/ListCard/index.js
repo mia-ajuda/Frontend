@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import colors from "../../../assets/styles/colorVariables";
@@ -18,6 +18,8 @@ export default function ListCard({
   setVisible,
   city,
   profilePhoto,
+  possibleHelpers,
+  ownerId
 }) {
   return (
     <TouchableOpacity
@@ -32,6 +34,8 @@ export default function ListCard({
           birthday,
           city,
           profilePhoto,
+          possibleHelpers,
+          ownerId
         });
         setVisible && setVisible(false)
       }}

@@ -53,6 +53,7 @@ export default function OnGoingHelps({ navigation }) {
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
                   possibleHelpers={item.possibleHelpers}
+                  ownerId={item.ownerId}
                 />
 
                 <ConfirmationModal

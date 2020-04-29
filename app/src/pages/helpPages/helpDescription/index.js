@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useContext } from "react";
 import { View, Text, Image, Alert } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -20,6 +20,8 @@ export default function HelpDescription({ route, navigation }) {
     birthday,
     city,
     profilePhoto,
+    possibleHelpers,
+    ownerId
   } = route.params;
 
   const currentYear = moment().format("YYYY");
@@ -44,11 +46,17 @@ export default function HelpDescription({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <ConfirmationModal
-        visible={confirmationModalVisible}
-        setVisible={setConfirmationModalVisible}
-        chooseHelp={chooseHelp}
-      />
+      {
+        user._id === ownerId ? (
+          <ConfirmationModal
+            visible={confirmationModalVisible}
+            setVisible={setConfirmationModalVisible}
+            chooseHelp={chooseHelp}
+          />
+        ) : (
+          <></>
+        )
+      }
       <View style={styles.userInfo}>
         <Image
           source={{
