@@ -46,17 +46,11 @@ export default function HelpDescription({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {
-        user._id === ownerId ? (
-          <ConfirmationModal
-            visible={confirmationModalVisible}
-            setVisible={setConfirmationModalVisible}
-            chooseHelp={chooseHelp}
-          />
-        ) : (
-          <></>
-        )
-      }
+      <ConfirmationModal
+        visible={confirmationModalVisible}
+        setVisible={setConfirmationModalVisible}
+        chooseHelp={chooseHelp}
+      />
       <View style={styles.userInfo}>
         <Image
           source={{
@@ -103,11 +97,17 @@ export default function HelpDescription({ route, navigation }) {
           <Text style={styles.infoText}>{helpDescription}</Text>
         </View>
         <View style={styles.helpButtons}>
-          <Button
-            title="Oferecer Ajuda"
-            large
-            press={() => setConfirmationModalVisible(true)}
-          />
+          {
+            user.info._id !== ownerId ? (
+              <Button
+                title="Oferecer Ajuda"
+                large
+                press={() => setConfirmationModalVisible(true)}
+              />
+            ) : (
+              <></>
+            )
+          }
         </View>
       </View>
     </View>
