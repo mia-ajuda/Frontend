@@ -1,7 +1,7 @@
 import api from "./Api";
 
 class HelpService {
-  constructor() { }
+  constructor() {}
 
   getAllHelps = async (userId = null, status = null, accessToken) => {
     const headers = {
@@ -60,8 +60,6 @@ class HelpService {
 
     return helps.data;
   }
-  getAllHelpForUser() { }
-  getAllHelpForHelper() { }
 
   async createHelp(title, categoryId, description, accessToken, ownerId) {
     const data = {
@@ -92,6 +90,20 @@ class HelpService {
       };
 
       const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
+      await api.put(url, {}, { headers });
+    } catch (error) {
+      console.log(error.response);
+      throw error;
+    }
+  }
+
+  async finishHelpByHelper(idHelp, idHelper, accessToken) {
+    try {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+
+      const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
       await api.put(url, {}, { headers });
     } catch (error) {
       console.log(error.response);

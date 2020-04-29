@@ -20,6 +20,9 @@ export default function HelpDescription({ route, navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
+  const [modalAction, setModalAction] = useState(() => {});
+  const [modalMessage, setModalMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     helpDescription,
@@ -39,28 +42,66 @@ export default function HelpDescription({ route, navigation }) {
 
   const age = currentYear - birthYear;
 
-  console.log(userLocation);
-
   async function chooseHelp() {
     try {
-      console.log("helpId", helpId);
       await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
       setConfirmationModalVisible(false);
       navigation.goBack();
-      Alert.alert(
-        "Sucesso",
+      helpAlert(
         "Oferta enviada com sucesso e estará no aguardo para ser aceita",
-        [{ title: "OK" }]
+        "Sucesso"
       );
     } catch (error) {
       console.log(error);
       navigation.goBack();
-      Alert.alert(
-        "Erro",
-        "Houve um erro ao tentar processar sua oferta de ajuda, tente novamente mais tarde",
-        [{ title: "OK" }]
-      );
+      helpAlert("Erro ao processar sua oferta de ajuda", "Erro");
     }
+  }
+
+  async function finishHelp() {
+    try {
+      await HelpService.finishHelpByHelper(
+        helpId,
+        user.info._id,
+        user.accessToken
+      );
+      setConfirmationModalVisible(false);
+      navigation.goBack();
+      helpAlert(
+        "Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la",
+        "Sucesso"
+      );
+    } catch (error) {
+      console.log(error);
+      navigation.goBack();
+      helpAlert("Erro ao finalizar sua ajuda", "Erro");
+    }
+  }
+
+  function helpAlert(message, type) {
+    Alert.alert(type, message, [{ title: "OK" }]);
+  }
+
+  function openModal(action) {
+    switch (action) {
+      case "finish":
+        setModalAction(() => () => {
+          finishHelp();
+          setIsLoading(true);
+        });
+        setModalMessage("Você tem certeza que deseja finalizar essa ajuda?");
+        break;
+      case "offer":
+        setModalAction(() => () => {
+          chooseHelp();
+          setIsLoading(true);
+        });
+        setModalMessage("Você deseja confirmar a sua ajuda?");
+        break;
+      default:
+        return;
+    }
+    setConfirmationModalVisible(true);
   }
 
   function openMaps() {
@@ -88,7 +129,9 @@ export default function HelpDescription({ route, navigation }) {
       <ConfirmationModal
         visible={confirmationModalVisible}
         setVisible={setConfirmationModalVisible}
-        chooseHelp={chooseHelp}
+        action={modalAction}
+        message={modalMessage}
+        isLoading={isLoading}
       />
       <View style={styles.userInfo}>
         <Image
@@ -166,15 +209,19 @@ export default function HelpDescription({ route, navigation }) {
 
               <TouchableOpacity onPress={openMaps}>
                 <Icon
-                  name="map-marker"
-                  type="font-awesome"
+                  name="directions"
+                  type="font-awesome-5"
                   size={50}
-                  color={colors.dark}
+                  color="#4285F4"
                 />
               </TouchableOpacity>
             </View>
 
-            <Button title="Finalizar ajuda" large press={() => {}} />
+            <Button
+              title="Finalizar ajuda"
+              large
+              press={() => openModal("finish")}
+            />
           </View>
         )}
         <View style={styles.helpButtons}>
@@ -182,7 +229,7 @@ export default function HelpDescription({ route, navigation }) {
             <Button
               title="Oferecer Ajuda"
               large
-              press={() => setConfirmationModalVisible(true)}
+              press={() => openModal("offer")}
             />
           )}
         </View>
