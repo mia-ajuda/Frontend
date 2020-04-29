@@ -4,7 +4,6 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FA0',
     padding: 20
   },
   userInfo:{
@@ -17,7 +16,6 @@ const styles = StyleSheet.create({
     height:100,
     resizeMode:"cover",
     borderRadius:50,
-    
   },
   infoTextView:{
     alignSelf:"center",

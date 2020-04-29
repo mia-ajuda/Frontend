@@ -13,7 +13,8 @@ export default function HelpDescription({ route, navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
-
+  const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
+  
   const {
     helpDescription,
     categoryName,
@@ -53,55 +54,62 @@ export default function HelpDescription({ route, navigation }) {
         setVisible={setConfirmationModalVisible}
         chooseHelp={chooseHelp}
       />
-      <View style={styles.userInfo}>
-        <Image
-          source={{
-            uri: profilePhoto,
-          }}
-          style={styles.profileImage}
-        />
-        <View style={styles.infoTextView}>
-          <Text
-            style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
-          >
-            {userName}
-          </Text>
-          <Text style={styles.infoText}>
-            <Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>
-            {age}
-          </Text>
-          <Text style={styles.infoText}>
-            <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
-            {city}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.helpInfo}>
-        <View style={styles.helpInfoText}>
-          <Text style={styles.infoText}>
-            <Text style={{ fontFamily: "montserrat-semibold" }}>
-              Categoria:{" "}
-            </Text>
-            {categoryName}
-          </Text>
-          <Text
-            style={[
-              styles.infoText,
-              {
-                fontFamily: "montserrat-semibold",
-                marginTop: 20,
-                marginBottom: 10,
-              },
-            ]}
-          >
-            Descrição:
-          </Text>
-          <Text style={styles.infoText}>
-          {/* fsjdklfjdskljfskjdfkjsdkjfsdljfklsdjfkjs sfdjfdls dskfl sdl sdl ds kf sd fksd flk sdlkf ksld fdsklfsdkfsd fsd lkfsdk fksd lfkd s fdsdf ksd fkds fk sd fksd fk ds fkd s fsdkf sdk fsdkfkslfasfjksaf as fkasd fklsa fksla dfk askf dsfkla  dfsalk dfslaf ksa fdksa kfdl lakfdsk flkdsa fddslkfslk sdfdk sfksdf */}
-            {helpDescription}
-          </Text>
-        </View>
-      </View>
+      {
+        clickPossibleHelpers ? (
+          <>
+            <View style={styles.userInfo}>
+              <Image
+                source={{
+                  uri: profilePhoto,
+                }}
+                style={styles.profileImage}
+              />
+              <View style={styles.infoTextView}>
+                <Text
+                  style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
+                >
+                  {userName}
+                </Text>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>
+                  {age}
+                </Text>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
+                  {city}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.helpInfo}>
+              <View style={styles.helpInfoText}>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>
+                    Categoria:{" "}
+                  </Text>
+                  {categoryName}
+                </Text>
+                <Text
+                  style={[
+                    styles.infoText,
+                    {
+                      fontFamily: "montserrat-semibold",
+                      marginTop: 20,
+                      marginBottom: 10,
+                    },
+                  ]}
+                >
+                  Descrição:
+                </Text>
+                <Text style={styles.infoText}>
+                  {helpDescription}
+                </Text>
+              </View>
+            </View>
+          </>
+        ) : (
+          <></>
+        )
+      }
       <View style={styles.helpButtons}>
         {
           user.info._id !== ownerId ? (
@@ -111,7 +119,10 @@ export default function HelpDescription({ route, navigation }) {
               press={() => setConfirmationModalVisible(true)}
             />
           ) : (
-            <ListHelpers />
+            <ListHelpers
+              stateAction={clickPossibleHelpers}
+              clickAction={setClickPossibleHelpers}
+            />
           )
         }
       </View>

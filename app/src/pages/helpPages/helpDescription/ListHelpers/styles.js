@@ -5,7 +5,7 @@ export default StyleSheet.create({
   buttonHelpers: {
     width: '100%',
     backgroundColor: colors.primary,
-    padding: 15,
+    padding: 12,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4
