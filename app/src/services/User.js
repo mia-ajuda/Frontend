@@ -6,29 +6,47 @@ import * as Facebook from "expo-facebook";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import authConfig from "../config/authmiaajuda-firebase";
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
+
+const setUserDeviceId = async (userId, firebaseToken) => {
+  try {
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      let finalStatus = existingStatus;
+
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        throw('Failed to get push token for push notification!');
+      }
+    }
+
+    Notifications.getExpoPushTokenAsync().then(async pushToken => {
+      await api.put(
+        `/user`,
+        { deviceId: pushToken },
+        {
+          headers: {
+            authorization: `Bearer ${firebaseToken}`
+          }
+        }
+      );
+    }).catch((error) => {
+      console.log(error);
+      console.log('Tente rodar "expo login"');
+    });
+  } catch {
+    throw { error: "Não foi possível recuperar Push Token!" };
+  }
+};
 
 class UserService {
   constructor() {}
 
   async logIn(data) {
-    const setUserDeviceId = async (userId, firebaseToken) => {
-      try {
-        Notifications.getExpoPushTokenAsync().then(async pushToken => {
-          await api.put(
-            `/user`,
-            { deviceId: pushToken },
-            {
-              headers: {
-                authorization: `Bearer ${firebaseToken}`
-              }
-            }
-          );
-        });
-      } catch {
-        throw { error: "Não foi possível recuperar Push Token!" };
-      }
-    };
-
     try {
       await firebaseAuth
         .auth()
@@ -54,6 +72,7 @@ class UserService {
   }
 
   async logInWithFacebook(navigation) {
+    
     try {
       await Facebook.initializeAsync(authConfig.facebookId);
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
@@ -115,6 +134,8 @@ class UserService {
             info: userInfo,
             accessToken: idTokenUser
           };
+
+          setUserDeviceId(userInfo._id, idTokenUser);
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -187,6 +208,8 @@ class UserService {
             info: userInfo,
             accessToken: idTokenUser
           };
+
+          setUserDeviceId(userInfo._id, idTokenUser);
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
 
