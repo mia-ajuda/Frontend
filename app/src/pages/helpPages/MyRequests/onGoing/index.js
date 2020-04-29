@@ -52,6 +52,7 @@ export default function OnGoingHelps({ navigation }) {
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
+                  possibleHelpers={item.possibleHelpers}
                 />
 
                 <ConfirmationModal
