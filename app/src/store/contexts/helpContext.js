@@ -80,12 +80,7 @@ export default function HelpContextProvider(props) {
     if (loc) {
       try {
         const { _id: userId } = user.info;
-        const { accessToken } = user;
-        let helpListArray = await HelpService.getNearHelp(
-          loc,
-          userId,
-          accessToken
-        );
+        let helpListArray = await HelpService.getNearHelp(loc, userId);
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];
           helpListArray = getUnique(helpListArray, "_id");
@@ -101,12 +96,10 @@ export default function HelpContextProvider(props) {
     if (loc && selectedCategories.length) {
       try {
         const { _id: userId } = user.info;
-        const { accessToken } = user;
         let helpListFiltered = await HelpService.getAllHelpForCategory(
           loc,
           selectedCategories,
-          userId,
-          accessToken,
+          userId
         );
         if (activeLocations.length > 1) {
           helpListFiltered = [...helpList, ...helpListFiltered];

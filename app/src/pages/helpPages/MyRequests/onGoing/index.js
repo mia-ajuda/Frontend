@@ -15,25 +15,20 @@ export default function OnGoingHelps({ navigation }) {
 
   const { user } = useContext(UserContext);
   const { _id: userId } = user.info;
-  const { accessToken } = user;
 
   useEffect(() => {
     loadOnGoingHelps();
   }, []);
 
   async function loadOnGoingHelps() {
-    let tempOnGoing = await helpService.getAllHelpForUser(
-      userId,
-      "waiting",
-      accessToken
-    );
+    let tempOnGoing = await helpService.getAllHelpForUser(userId, "waiting");
     let resOnGoing = tempOnGoing.filter((help) => help.active === true);
     setOnGoingHelpList(resOnGoing);
   }
 
   async function excludeHelp(helpId) {
     try {
-      await helpService.deleteHelp(helpId, accessToken);
+      await helpService.deleteHelp(helpId);
       const updatedArray = onGoingHelpList.filter((help) => {
         return help._id !== helpId;
       });

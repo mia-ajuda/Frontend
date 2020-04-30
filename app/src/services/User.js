@@ -9,7 +9,7 @@ import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 
-const setUserDeviceId = async (userId, firebaseToken) => {
+const setUserDeviceId = async () => {
   try {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
@@ -30,15 +30,7 @@ const setUserDeviceId = async (userId, firebaseToken) => {
 
     Notifications.getExpoPushTokenAsync()
       .then(async (pushToken) => {
-        await api.put(
-          `/user`,
-          { deviceId: pushToken },
-          {
-            headers: {
-              authorization: `Bearer ${firebaseToken}`,
-            },
-          }
-        );
+        await api.put(`/user`, { deviceId: pushToken });
       })
       .catch((error) => {
         console.log(error);
@@ -59,14 +51,15 @@ class UserService {
         .signInWithEmailAndPassword(data.email, data.password);
 
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
-      const userInfo = await this.requestUserData(idTokenUser);
+      await AsyncStorage.setItem("accessToken", idTokenUser);
+
+      const userInfo = await this.requestUserData();
 
       const user = {
         info: userInfo,
-        accessToken: idTokenUser,
       };
 
-      setUserDeviceId(userInfo._id, idTokenUser);
+      setUserDeviceId();
 
       await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -99,6 +92,7 @@ class UserService {
         const userData = facebookProfileData.additionalUserInfo;
 
         const idTokenUser = await firebase.auth().currentUser.getIdToken();
+        await AsyncStorage.setItem("accessToken", idTokenUser);
 
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
@@ -134,14 +128,13 @@ class UserService {
 
           return {};
         } else {
-          const userInfo = await this.requestUserData(idTokenUser);
+          const userInfo = await this.requestUserData();
 
           const user = {
             info: userInfo,
-            accessToken: idTokenUser,
           };
 
-          setUserDeviceId(userInfo._id, idTokenUser);
+          setUserDeviceId();
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -173,6 +166,7 @@ class UserService {
         await firebase.auth().signInWithCredential(credential);
 
         const idTokenUser = await firebase.auth().currentUser.getIdToken();
+        await AsyncStorage.setItem("accessToken", idTokenUser);
 
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
@@ -205,14 +199,13 @@ class UserService {
             }
           );
         } else {
-          const userInfo = await this.requestUserData(idTokenUser);
+          const userInfo = await this.requestUserData();
 
           const user = {
             info: userInfo,
-            accessToken: idTokenUser,
           };
 
-          setUserDeviceId(userInfo._id, idTokenUser);
+          setUserDeviceId();
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -261,13 +254,15 @@ class UserService {
     return this._token !== undefined;
   }
 
-  async requestUserData(token) {
-    const user = await api.get(`/user/getUser/`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
-    return user.data;
+  async requestUserData() {
+    try {
+      const user = await api.get(`/user/getUser`);
+      console.log(user.data);
+      return user.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 
   async verifyUserInfo(value) {

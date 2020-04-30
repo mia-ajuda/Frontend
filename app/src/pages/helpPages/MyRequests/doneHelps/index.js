@@ -15,25 +15,20 @@ export default function DoneHelps({ navigation }) {
 
   const { user } = useContext(UserContext);
   const { _id: userId } = user.info;
-  const { accessToken } = user;
 
   useEffect(() => {
     loadFinishedHelps();
   }, []);
 
   async function loadFinishedHelps() {
-    let tempFinished = await helpService.getAllHelpForUser(
-      userId,
-      "finished",
-      accessToken
-    );
+    let tempFinished = await helpService.getAllHelpForUser(userId, "finished");
     let resFinished = tempFinished.filter((help) => help.active === true);
     setFinishedHelpList(resFinished);
   }
 
   async function excludeHelp(helpId) {
     try {
-      await helpService.deleteHelp(helpId, accessToken);
+      await helpService.deleteHelp(helpId);
       const updatedArray = onGoingHelpList.filter((help) => {
         return help._id !== helpId;
       });
