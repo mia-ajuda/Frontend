@@ -48,9 +48,9 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  useEffect(() => {
-    console.log(clickPossibleHelpers)
-  }, [])
+  // useEffect(() => {
+  //   console.log(clickPossibleHelpers)
+  // }, [])
 
   return (
     <View style={styles.container}>

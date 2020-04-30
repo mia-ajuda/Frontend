@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import { Badge } from 'react-native-elements';
+import moment from 'moment';
 
 import styles from "./styles";
 
+
 export default function ListHelpers({ clickAction, stateAction, possibleHelpers }) {
+
   return (
     <View
       style={[
@@ -34,49 +37,52 @@ export default function ListHelpers({ clickAction, stateAction, possibleHelpers 
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>
           <ScrollView>
-            <TouchableOpacity>
-              <View style={styles.helper}>
-                <Image
-                  style={styles.imageProfile}
-                  source={{
-                    uri:
-                      "https://s3.amazonaws.com/uifaces/faces/twitter/jonathansimmons/128.jpg"
-                  }}
-                />
-                <View>
-                  <Text
-                    style={[
-                      styles.infoText,
-                      { fontFamily: "montserrat-semibold" }
-                    ]}
-                  >
-                    Jobs
-                  </Text>
-                  <Text>
-                    <Text
-                      style={[
-                        styles.infoText,
-                        { fontFamily: "montserrat-semibold" }
-                      ]}
-                    >
-                      Idade:{" "}
-                    </Text>
-                    151
-                  </Text>
-                  <Text>
-                    <Text
-                      style={[
-                        styles.infoText,
-                        { fontFamily: "montserrat-semibold" }
-                      ]}
-                    >
-                      Cidade:{" "}
-                    </Text>
-                    dadsadsa
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+            {
+              possibleHelpers.map(helper => (
+                <TouchableOpacity key={helper._id} >
+                  <View style={styles.helper}>
+                    <Image
+                      style={styles.imageProfile}
+                      source={{
+                        uri: helper.photo
+                      }}
+                    />
+                    <View>
+                      <Text
+                        style={[
+                          styles.infoText,
+                          { fontFamily: "montserrat-semibold" }
+                        ]}
+                      >
+                        {helper.name}
+                      </Text>
+                      <Text>
+                        <Text
+                          style={[
+                            styles.infoText,
+                            { fontFamily: "montserrat-semibold" }
+                          ]}
+                        >
+                          Idade:{" "}
+                        </Text>
+                        { moment().diff(helper.birthday, 'year') }
+                      </Text>
+                      <Text>
+                        <Text
+                          style={[
+                            styles.infoText,
+                            { fontFamily: "montserrat-semibold" }
+                          ]}
+                        >
+                          Cidade:{" "}
+                        </Text>
+                        {helper.address.city}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))
+            }
           </ScrollView>
         </View>
       ) : (
