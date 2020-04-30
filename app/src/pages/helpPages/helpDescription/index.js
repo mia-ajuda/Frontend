@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, Image,Alert } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -11,7 +11,7 @@ export default function HelpDescription({ route, navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
-  
+
   const {
     helpDescription,
     categoryName,
@@ -29,10 +29,14 @@ export default function HelpDescription({ route, navigation }) {
 
   async function chooseHelp() {
     try {
-      await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
+      await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
       navigation.goBack();
-      Alert.alert('Sucesso','Oferta enviada com sucesso e estará no aguardo para ser aceita',[{title:'OK'}])
+      Alert.alert(
+        "Sucesso",
+        "Oferta enviada com sucesso e estará no aguardo para ser aceita",
+        [{ title: "OK" }]
+      );
     } catch (error) {
       console.log(error);
     }

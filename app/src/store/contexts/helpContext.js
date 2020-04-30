@@ -30,7 +30,7 @@ export default function HelpContextProvider(props) {
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
-    if (currentRegion && user.info) {
+    if (currentRegion && user) {
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
       setupWebSocket();
@@ -79,7 +79,7 @@ export default function HelpContextProvider(props) {
   async function getHelpList(loc) {
     if (loc) {
       try {
-        const { _id: userId } = user.info;
+        const { _id: userId } = user;
         let helpListArray = await HelpService.getNearHelp(loc, userId);
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];
@@ -95,7 +95,7 @@ export default function HelpContextProvider(props) {
   async function getHelpListWithCategories(loc) {
     if (loc && selectedCategories.length) {
       try {
-        const { _id: userId } = user.info;
+        const { _id: userId } = user;
         let helpListFiltered = await HelpService.getAllHelpForCategory(
           loc,
           selectedCategories,
@@ -124,7 +124,7 @@ export default function HelpContextProvider(props) {
 
   function setupWebSocket() {
     disconnect();
-    const { _id: userId } = user.info;
+    const { _id: userId } = user;
     connect(JSON.stringify(currentRegion), userId);
   }
 

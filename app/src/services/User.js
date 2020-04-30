@@ -53,11 +53,7 @@ class UserService {
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       await AsyncStorage.setItem("accessToken", idTokenUser);
 
-      const userInfo = await this.requestUserData();
-
-      const user = {
-        info: userInfo,
-      };
+      const user = await this.requestUserData();
 
       setUserDeviceId();
 
@@ -127,11 +123,7 @@ class UserService {
 
           return {};
         } else {
-          const userInfo = await this.requestUserData();
-
-          const user = {
-            info: userInfo,
-          };
+          const user = await this.requestUserData();
 
           setUserDeviceId();
 
@@ -198,11 +190,7 @@ class UserService {
             }
           );
         } else {
-          const userInfo = await this.requestUserData();
-
-          const user = {
-            info: userInfo,
-          };
+          const user = await this.requestUserData();
 
           setUserDeviceId();
 
@@ -256,10 +244,8 @@ class UserService {
   async requestUserData() {
     try {
       const user = await api.get(`/user/getUser`);
-      console.log(user.data);
       return user.data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

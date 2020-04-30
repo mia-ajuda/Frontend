@@ -57,7 +57,7 @@ export default function Main({ navigation }) {
         />
       </TouchableOpacity>
 
-      <MapView
+      {/* <MapView
         initialRegion={currentRegion}
         style={styles.map}
         region={region}
@@ -126,7 +126,7 @@ export default function Main({ navigation }) {
               </Callout>
             </Marker>
           ))}
-      </MapView>
+      </MapView> */}
       {!helpListVisible && (
         <>
           <TouchableOpacity
