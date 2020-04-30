@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import { Badge } from 'react-native-elements';
 
 import styles from "./styles";
 
@@ -18,6 +19,11 @@ export default function ListHelpers({ clickAction, stateAction }) {
         onPress={() => clickAction(!stateAction)}
       >
         <Text style={styles.textBtn}>Possíveis ajudantes</Text>
+        <Badge
+          value="99+" 
+          badgeStyle={styles.badgeStyle}
+          containerStyle={styles.containerBadge}
+        />
       </TouchableOpacity>
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>

@@ -11,7 +11,7 @@ export default StyleSheet.create({
     padding: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 4
+    borderRadius: 6
   },
   textBtn: {
     color: '#FFF',
@@ -45,5 +45,16 @@ export default StyleSheet.create({
   },
   infoText: {
     fontSize: 15
+  },
+  badgeStyle: {
+    backgroundColor: colors.danger,
+    height: 30, 
+    width: 30, 
+    borderRadius: 50
+  },
+  containerBadge: {
+    position: 'absolute', 
+    top: -7, 
+    right: -6 
   }
 });
