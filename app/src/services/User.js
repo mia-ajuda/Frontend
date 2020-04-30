@@ -59,7 +59,7 @@ class UserService {
         info: userInfo,
       };
 
-      setUserDeviceId(userInfo._id, idTokenUser);
+      setUserDeviceId();
 
       await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -133,7 +133,7 @@ class UserService {
             info: userInfo,
           };
 
-          setUserDeviceId(userInfo._id, idTokenUser);
+          setUserDeviceId();
 
           await AsyncStorage.setItem("user", JSON.stringify(user));
 
