@@ -21,6 +21,29 @@ export default StyleSheet.create({
   listPossibleHelpers: {
     flex: 1,
     width: '100%',
-    padding: 20
+    paddingVertical: 20,
+  },
+  helper : {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+    borderRadius: 4,
+    marginBottom: 10,
+  },
+  imageProfile: {
+    width: 80,
+    height: 80,
+    borderRadius: 50,
+    marginRight: 15,
+    borderColor: colors.primary,
+    borderWidth: 3
+  },
+  infoText: {
+    fontSize: 15
   }
 });
