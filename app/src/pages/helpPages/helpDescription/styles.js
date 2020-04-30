@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   userInfo:{
     flex: 1,
     flexDirection:"row",
-    backgroundColor: "#F0F"
   },
   profileImage:{
     width: 100,
@@ -28,13 +27,10 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent:"space-between",
     padding: 20,
-    backgroundColor: '#FF0',
   },
   helpButtons: {
     flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: '#0FF'
-  }
+  },
 });
 
 export default styles;

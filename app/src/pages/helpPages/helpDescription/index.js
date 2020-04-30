@@ -14,7 +14,8 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
-  
+  const [position, setPosition] = useState('flex-end');
+
   const {
     helpDescription,
     categoryName,
@@ -47,6 +48,10 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
+  useEffect(() => {
+    console.log(clickPossibleHelpers)
+  }, [])
+
   return (
     <View style={styles.container}>
       <ConfirmationModal
@@ -55,7 +60,7 @@ export default function HelpDescription({ route, navigation }) {
         chooseHelp={chooseHelp}
       />
       {
-        clickPossibleHelpers ? (
+        !clickPossibleHelpers ? (
           <>
             <View style={styles.userInfo}>
               <Image
