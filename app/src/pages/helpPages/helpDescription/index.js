@@ -127,6 +127,7 @@ export default function HelpDescription({ route, navigation }) {
             <ListHelpers
               stateAction={clickPossibleHelpers}
               clickAction={setClickPossibleHelpers}
+              possibleHelpers={possibleHelpers}
             />
           )
         }

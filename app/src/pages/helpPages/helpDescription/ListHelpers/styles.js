@@ -56,5 +56,9 @@ export default StyleSheet.create({
     position: 'absolute', 
     top: -7, 
     right: -6 
+  },
+  labelBadge: {
+    color: '#FFF',
+    fontWeight: 'bold'
   }
 });

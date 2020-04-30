@@ -4,7 +4,7 @@ import { Badge } from 'react-native-elements';
 
 import styles from "./styles";
 
-export default function ListHelpers({ clickAction, stateAction }) {
+export default function ListHelpers({ clickAction, stateAction, possibleHelpers }) {
   return (
     <View
       style={[
@@ -19,11 +19,17 @@ export default function ListHelpers({ clickAction, stateAction }) {
         onPress={() => clickAction(!stateAction)}
       >
         <Text style={styles.textBtn}>Possíveis ajudantes</Text>
-        <Badge
-          value="99+" 
-          badgeStyle={styles.badgeStyle}
-          containerStyle={styles.containerBadge}
-        />
+        {
+          possibleHelpers.length !== 0 ? (
+            <Badge
+              value={(<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>)} 
+              badgeStyle={styles.badgeStyle}
+              containerStyle={styles.containerBadge}
+            />
+          ) : (
+            <></>
+          )
+        }
       </TouchableOpacity>
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>
