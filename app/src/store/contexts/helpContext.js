@@ -101,10 +101,12 @@ export default function HelpContextProvider(props) {
     if (loc && selectedCategories.length) {
       try {
         const { _id: userId } = user.info;
+        const { accessToken } = user;
         let helpListFiltered = await HelpService.getAllHelpForCategory(
           loc,
           selectedCategories,
-          userId
+          userId,
+          accessToken,
         );
         if (activeLocations.length > 1) {
           helpListFiltered = [...helpList, ...helpListFiltered];
