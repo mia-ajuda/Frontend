@@ -33,8 +33,8 @@ export default function Main({ navigation }) {
   }, [region]);
 
   function onRegionChange(position) {
-    setLocation(position)
-    return setHelpListVisible(false)
+    setLocation(position);
+    return setHelpListVisible(false);
   }
 
   return (
@@ -102,25 +102,27 @@ export default function Main({ navigation }) {
             >
               <Avatar help={help} />
               <Callout
-                onPress={() => navigation.navigate("helpDescription",{
-                helpTitle : help.title,
-                helpDescription : help.description,
-                categoryName : help.category[0].name,
-                helpId :help._id,
-                userName : help.user.name,
-                birthday : help.user.birthday,
-                city : help.user.address.city,
-                profilePhoto :help.user.photo,
-              })}
-                style = {styles.callout}
+                onPress={() =>
+                  navigation.navigate("helpDescription", {
+                    helpTitle: help.title,
+                    helpDescription: help.description,
+                    categoryName: help.category[0].name,
+                    helpId: help._id,
+                    userName: help.user.name,
+                    birthday: help.user.birthday,
+                    city: help.user.address.city,
+                    profilePhoto: help.user.photo,
+                  })
+                }
+                style={styles.callout}
               >
-                <Text 
-                  style = {styles.calloutPersonName}
-                  numberOfLines ={1}
-                >{help.user.name}
+                <Text style={styles.calloutPersonName} numberOfLines={1}>
+                  {help.user.name}
                 </Text>
-                <Text style = {styles.calloutPersonDistance}>{help.distance}</Text>
-                <Text style = {styles.calloutPress}>Toque para ver</Text>
+                <Text style={styles.calloutPersonDistance}>
+                  {help.distance}
+                </Text>
+                <Text style={styles.calloutPress}>Toque para ver</Text>
               </Callout>
             </Marker>
           ))}
