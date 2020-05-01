@@ -5,12 +5,29 @@ import { HelpContext } from "../../../store/contexts/helpContext";
 import ListCard from "../../../components/ListCard";
 import { UserContext } from "../../../store/contexts/userContext";
 import NoHelps from "../../../components/NoHelps";
-export default function AskedHelps({ navigation }) {
+import helpService from "../../../services/Help"
+export default function AskedHelps({ 
+  navigation, 
+}) {
   const { helpList } = useContext(HelpContext);
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState(
     helpList.filter((help) => help.helperId == user.info._id)
   );
+  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus",()=>{
+      console.log("1");
+      getHelps();  
+    })
+    return unsubscribe;
+  },[navigation])
+
+  
+  async function getHelps(){
+    const helps = await helpService.getAllHelpForHelper(user.info._id,"on_going");
+    console.log(JSON.stringify(helps)+'ieie')
+  }
 
   useEffect(() => {
     setMyHelps(helpList.filter((help) => help.helperId == user.info._id));

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -62,16 +62,18 @@ const MainNavigation = () => (
   </>
 );
 
-const HelpTopBar = () => (
+const HelpTopBar = ({navigation}) => {
+  return (
   <HelpTopBarNavigation.Navigator
     initialRouteName="em andamento"
     tabBarOptions={tabTopBarOptions}
   >
-    <HelpTopBarNavigation.Screen name="em andamento" component={GivenHelp} />
-
-    <HelpTopBarNavigation.Screen name="finalizados" component={GivenHelp} />
+    <HelpTopBarNavigation.Screen 
+      name="em andamento" 
+      component={GivenHelp}
+    />
   </HelpTopBarNavigation.Navigator>
-);
+)};
 
 const MyRequestsNavigation = () => (
   <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>

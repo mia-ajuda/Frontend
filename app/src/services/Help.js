@@ -36,8 +36,18 @@ class HelpService {
 
   async getAllHelpForUser(userId, status) {
     const url = status
-      ? `/Help?id=${userId}&status=${status}`
-      : `/Help?id=${userId};`;
+      ? `/help?id=${userId}&status=${status}`
+      : `/help?id=${userId};`;
+
+    const helps = await api.get(url);
+
+    return helps.data;
+  }
+
+  async getAllHelpForHelper(userId, status) {
+    const url = status
+      ? `/help?id.helper=${userId}&status=${status}`
+      : `/help?id.helper=${userId};`;
 
     const helps = await api.get(url);
 
