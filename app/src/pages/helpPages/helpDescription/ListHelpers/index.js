@@ -1,12 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
-import { Badge } from 'react-native-elements';
-import moment from 'moment';
+import { Badge } from "react-native-elements";
+import ListHelperModal from "./ListHelperModal/index";
+import moment from "moment";
 
 import styles from "./styles";
 
+export default function ListHelpers({
+  clickAction,
+  stateAction,
+  possibleHelpers
+}) {
+  const [visible, setVisible] = useState(false);
+  const [currentHelper, setCurrentHelper] = useState(null);
 
-export default function ListHelpers({ clickAction, stateAction, possibleHelpers }) {
+  const chooseHelper = () => {
+
+  };
 
   return (
     <View
@@ -22,72 +32,81 @@ export default function ListHelpers({ clickAction, stateAction, possibleHelpers 
         onPress={() => clickAction(!stateAction)}
       >
         <Text style={styles.textBtn}>Possíveis ajudantes</Text>
-        {
-          possibleHelpers.length !== 0 ? (
-            <Badge
-              value={(<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>)} 
-              badgeStyle={styles.badgeStyle}
-              containerStyle={styles.containerBadge}
-            />
-          ) : (
-            <></>
-          )
-        }
+        {possibleHelpers.length !== 0 ? (
+          <Badge
+            value={
+              <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>
+            }
+            badgeStyle={styles.badgeStyle}
+            containerStyle={styles.containerBadge}
+          />
+        ) : (
+          <></>
+        )}
       </TouchableOpacity>
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>
           <ScrollView>
-            {
-              possibleHelpers.map(helper => (
-                <TouchableOpacity key={helper._id} >
-                  <View style={styles.helper}>
-                    <Image
-                      style={styles.imageProfile}
-                      source={{
-                        uri: helper.photo
-                      }}
-                    />
-                    <View>
+            {possibleHelpers.map(helper => (
+              <TouchableOpacity
+                key={helper._id}
+                onPress={() => {
+                  setVisible(true);
+                  setCurrentHelper(helper._id);
+                }}
+              >
+                <View style={styles.helper}>
+                  <Image
+                    style={styles.imageProfile}
+                    source={{
+                      uri: helper.photo
+                    }}
+                  />
+                  <View>
+                    <Text
+                      style={[
+                        styles.infoText,
+                        { fontFamily: "montserrat-semibold" }
+                      ]}
+                    >
+                      {helper.name}
+                    </Text>
+                    <Text>
                       <Text
                         style={[
                           styles.infoText,
                           { fontFamily: "montserrat-semibold" }
                         ]}
                       >
-                        {helper.name}
+                        Idade:{" "}
                       </Text>
-                      <Text>
-                        <Text
-                          style={[
-                            styles.infoText,
-                            { fontFamily: "montserrat-semibold" }
-                          ]}
-                        >
-                          Idade:{" "}
-                        </Text>
-                        { moment().diff(helper.birthday, 'year') }
+                      {moment().diff(helper.birthday, "year")}
+                    </Text>
+                    <Text>
+                      <Text
+                        style={[
+                          styles.infoText,
+                          { fontFamily: "montserrat-semibold" }
+                        ]}
+                      >
+                        Cidade:{" "}
                       </Text>
-                      <Text>
-                        <Text
-                          style={[
-                            styles.infoText,
-                            { fontFamily: "montserrat-semibold" }
-                          ]}
-                        >
-                          Cidade:{" "}
-                        </Text>
-                        {helper.address.city}
-                      </Text>
-                    </View>
+                      {helper.address.city}
+                    </Text>
                   </View>
-                </TouchableOpacity>
-              ))
-            }
+                </View>
+              </TouchableOpacity>
+            ))}
           </ScrollView>
         </View>
       ) : (
         <></>
       )}
+      <ListHelperModal
+        visible={visible}
+        setVisible={setVisible}
+        chooseHelper={chooseHelper}
+      />
     </View>
   );
 }
