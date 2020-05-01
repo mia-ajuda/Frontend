@@ -1,33 +1,40 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, FlatList, ScrollView } from "react-native";
+import { View, ScrollView, ActivityIndicator } from "react-native";
 import styles from "../MyRequests/styles";
-import { HelpContext } from "../../../store/contexts/helpContext";
 import ListCard from "../../../components/ListCard";
 import { UserContext } from "../../../store/contexts/userContext";
 import NoHelps from "../../../components/NoHelps";
-import helpService from "../../../services/Help"
-export default function AskedHelps({ 
-  navigation, 
-}) {
+import helpService from "../../../services/Help";
+import { colors } from "react-native-elements";
+export default function AskedHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState([]);
-  
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus",()=>{
-      getHelps();  
-    })
-    return unsubscribe;
-  },[navigation])
+  const [loading, setLoading] = useState(true);
 
-  
-  async function getHelps(){
-    const helps = await helpService.getAllHelpForHelper(user.info._id,"on_going");
-    setMyHelps(helps)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getHelps();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  async function getHelps() {
+    setLoading(true);
+    const helps = await helpService.getAllHelpForHelper(
+      user.info._id,
+      "on_going"
+    );
+    setMyHelps(helps);
+    setLoading(false);
   }
 
   return (
     <View style={styles.helpList}>
-      {myHelps.length ? (
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : myHelps.length ? (
         <ScrollView>
           {myHelps.map((help) => (
             <ListCard

@@ -120,7 +120,7 @@ export default function HelpDescription({ route, navigation }) {
 
   function openWhatsapp() {
     Linking.openURL(
-      `whatsapp://send?phone=${"5561996997082"}&text=${"Olá, precisa de ajuda? estou"}`
+      `whatsapp://send?phone=${userPhone}&text=${"Olá, precisa de ajuda?"}`
     );
   }
 
