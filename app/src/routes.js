@@ -91,6 +91,9 @@ const BottomTab = () => (
     tabBarOptions={{
       style: {
         height: 60,
+        borderTopColor: colors.primary,
+        shadowOpacity: 0,
+        elevation: 0,
       },
       keyboardHidesTabBar: true,
       activeTintColor: colors.light,
