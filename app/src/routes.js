@@ -2,7 +2,7 @@ import React, { useContext, useEffect,useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image, StatusBar } from "react-native";
+import { Image, StatusBar,View,Text } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
 import Constants from "expo-constants";
@@ -37,7 +37,7 @@ const MainStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
 const MyRequestsTab = createMaterialTopTabNavigator();
-
+const stack = createStackNavigator();
 const MainNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
@@ -62,24 +62,48 @@ const MainNavigation = () => (
   </>
 );
 
-const HelpTopBar = ({navigation}) => {
-  return (
-  <HelpTopBarNavigation.Navigator
-    initialRouteName="em andamento"
-    tabBarOptions={tabTopBarOptions}
-  >
-    <HelpTopBarNavigation.Screen 
-      name="em andamento" 
-      component={GivenHelp}
-    />
-  </HelpTopBarNavigation.Navigator>
-)};
+const HelpTopBar = () => (
+  <>
+    <View
+      style={{
+        width: "100%",
+        paddingTop: Constants.statusBarHeight,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.primary,
+      }}
+    >
+      <Text style={{ ...fonts.title, color: "#fff" }}>Suas ofertas de ajuda</Text>
+    </View>
+    <HelpTopBarNavigation.Navigator
+      initialRouteName="em andamento"
+      tabBarOptions={tabTopBarOptions}
+    >
+      <HelpTopBarNavigation.Screen name="em andamento" component={GivenHelp} />
+
+    </HelpTopBarNavigation.Navigator>
+  </>
+);
 
 const MyRequestsNavigation = () => (
-  <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>
-    <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
-    <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
-  </MyRequestsTab.Navigator>
+  
+  <>
+    <View
+      style={{
+        width: "100%",
+        paddingTop: Constants.statusBarHeight,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.primary,
+      }}
+    >
+      <Text style={{ ...fonts.title, color: "#fff" }}>Seus pedidos de ajuda</Text>
+    </View>
+    <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>
+      <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
+      <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
+    </MyRequestsTab.Navigator>
+  </>
 );
 
 const BottomTab = () => (
@@ -230,7 +254,6 @@ const headerStyle = {
 const tabTopBarOptions = {
   style: {
     backgroundColor: colors.primary,
-    paddingTop: Constants.statusBarHeight,
   },
   labelStyle: {
     ...fonts.body,
