@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -92,6 +92,9 @@ const BottomTab = () => (
     tabBarOptions={{
       style: {
         height: 60,
+        borderTopColor: colors.primary,
+        shadowOpacity: 0,
+        elevation: 0,
       },
       keyboardHidesTabBar: true,
       activeTintColor: colors.light,
@@ -104,7 +107,7 @@ const BottomTab = () => (
       showLabel: false,
     }}
     screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+      tabBarIcon: ({ focused }) => {
         let selectConfig;
 
         switch (route.name) {
@@ -176,7 +179,7 @@ const BottomTab = () => (
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
-  if (user.showSplash) {
+  if (user && user.showSplash) {
     return <Splash />;
   }
 
@@ -237,7 +240,7 @@ const Routes = () => {
   const { user } = useContext(UserContext);
   return (
     <NavigationContainer>
-      {user.info ? <BottomTab /> : <AuthRoutes />}
+      {user ? <BottomTab /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };

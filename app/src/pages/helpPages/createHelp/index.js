@@ -61,12 +61,11 @@ export default function CreateHelp({ navigation }) {
   }, [title, description, category]);
 
   function createHelp() {
-    const { accessToken } = user;
-    const { _id: userId } = user.info;
+    const { _id: userId } = user;
 
     setRequestState("waiting");
     helpService
-      .createHelp(title, category["_id"], description, accessToken, userId)
+      .createHelp(title, category["_id"], description, userId)
       .then((res) => {
         setRequestState("success");
       })
