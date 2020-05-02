@@ -21,7 +21,7 @@ export default function AskedHelps({ navigation }) {
   async function getHelps() {
     setLoading(true);
     const helps = await helpService.getAllHelpForHelper(
-      user.info._id,
+      user._id,
       "on_going"
     );
     setMyHelps(helps);

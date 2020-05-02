@@ -14,7 +14,7 @@ export default function OnGoingHelps({ navigation }) {
   );
 
   const { user } = useContext(UserContext);
-  const { _id: userId } = user.info;
+  const { _id: userId } = user;
 
   useEffect(() => {
     loadOnGoingHelps();

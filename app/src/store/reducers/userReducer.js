@@ -12,7 +12,7 @@ export const userReducer = (state, action) => {
         showSplash: false,
       };
     case actions.user.removeUserInfo:
-      return {};
+      return null;
 
     default:
       return state;

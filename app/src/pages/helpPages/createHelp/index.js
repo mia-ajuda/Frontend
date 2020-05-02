@@ -61,7 +61,7 @@ export default function CreateHelp({ navigation }) {
   }, [title, description, category]);
 
   function createHelp() {
-    const { _id: userId } = user.info;
+    const { _id: userId } = user;
 
     setRequestState("waiting");
     helpService

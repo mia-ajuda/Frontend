@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   ScrollView,
   Animated,
   TouchableWithoutFeedback,
+  PanResponder,
   Image,
   Text,
 } from "react-native";
@@ -15,7 +16,38 @@ import styles from "./styles";
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
-  const [animatedValue] = useState(new Animated.Value(40));
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(40));
+
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, gestureState) => {
+        if (gestureState.dy < 0) {
+          if (!visible) {
+            setVisible(true);
+          }
+        } else {
+          if (!visible) {
+            setVisible(false);
+          }
+        }
+      },
+      onPanResponderRelease: (e, gestureState) => {
+        if (gestureState.dy < 0) {
+          if (!visible) {
+            setVisible(true);
+          }
+        } else {
+          if (!visible) {
+            setVisible(false);
+          }
+        }
+      },
+    })
+  ).current;
+
   useEffect(() => {
     switch (visible) {
       case true:
@@ -38,6 +70,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
   return (
     <Animated.View
       style={[styles.helpListContainer, { height: animatedValue }]}
+      {...panResponder.panHandlers}
     >
       <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
         <View style={styles.buttonStyle}>

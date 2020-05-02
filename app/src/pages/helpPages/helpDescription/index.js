@@ -45,7 +45,7 @@ export default function HelpDescription({ route, navigation }) {
 
   async function chooseHelp() {
     try {
-      await HelpService.chooseHelp(helpId, user.info._id, user.accessToken);
+      await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
       navigation.goBack();
       helpAlert(
@@ -63,7 +63,7 @@ export default function HelpDescription({ route, navigation }) {
     try {
       await HelpService.finishHelpByHelper(
         helpId,
-        user.info._id,
+        user._id,
         user.accessToken
       );
       setConfirmationModalVisible(false);
@@ -155,7 +155,7 @@ export default function HelpDescription({ route, navigation }) {
             <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
             {city}
           </Text>
-          {user.info._id == helperId && (
+          {user._id == helperId && (
             <Text style={styles.infoText}>
               <Text style={{ fontFamily: "montserrat-semibold" }}>
                 Telefone:
@@ -189,7 +189,7 @@ export default function HelpDescription({ route, navigation }) {
             {helpDescription}
           </Text>
         </View>
-        {user.info._id == helperId && helpStatus!='finished' &&(
+        {user._id == helperId && helpStatus!='finished' &&(
           <View style={styles.ViewLink}>
             <View
               style={{
@@ -226,7 +226,7 @@ export default function HelpDescription({ route, navigation }) {
           </View>
         )}
         <View style={styles.helpButtons}>
-          {user.info._id != helperId && (
+          {user._id != helperId && (
             <Button
               title="Oferecer Ajuda"
               large

@@ -120,6 +120,9 @@ const BottomTab = () => (
     tabBarOptions={{
       style: {
         height: 60,
+        borderTopColor: colors.primary,
+        shadowOpacity: 0,
+        elevation: 0,
       },
       keyboardHidesTabBar: true,
       activeTintColor: colors.light,
@@ -132,20 +135,20 @@ const BottomTab = () => (
       showLabel: false,
     }}
     screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+      tabBarIcon: ({ focused }) => {
         let selectConfig;
 
         switch (route.name) {
           case "main":
             selectConfig = focused
               ? {
-                src: require("../assets/images/whileLogo.png"),
-                size: { height: 40, width: 40 },
-              }
+                  src: require("../assets/images/whileLogo.png"),
+                  size: { height: 40, width: 40 },
+                }
               : {
-                src: require("../assets/images/whiteCat.png"),
-                size: { height: 25, width: 25, resizeMode: "contain" },
-              };
+                  src: require("../assets/images/whiteCat.png"),
+                  size: { height: 25, width: 25, resizeMode: "contain" },
+                };
             return (
               <Image source={selectConfig.src} style={selectConfig.size} />
             );
@@ -169,15 +172,15 @@ const BottomTab = () => (
           case "profile":
             selectConfig = focused
               ? {
-                color: colors.primary,
-                raised: true,
-                name: "user-circle",
-              }
+                  color: colors.primary,
+                  raised: true,
+                  name: "user-circle",
+                }
               : {
-                color: colors.light,
-                raised: false,
-                name: "user-circle",
-              };
+                  color: colors.light,
+                  raised: false,
+                  name: "user-circle",
+                };
             break;
         }
 
@@ -204,7 +207,7 @@ const BottomTab = () => (
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
-  if (user.showSplash) {
+  if (user && user.showSplash) {
     return <Splash />;
   }
 
@@ -279,7 +282,7 @@ const Routes = () => {
   const { user } = useContext(UserContext);
   return (
     <NavigationContainer>
-      {user.info ? <BottomTab /> : <AuthRoutes />}
+      {user ? <BottomTab /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };
