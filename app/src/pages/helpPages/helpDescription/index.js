@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Image, Alert } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -48,9 +48,9 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(clickPossibleHelpers)
-  // }, [])
+  useEffect(() => {
+    console.log(user);
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -117,7 +117,7 @@ export default function HelpDescription({ route, navigation }) {
       }
       <View style={styles.helpButtons}>
         {
-          user.info._id !== ownerId ? (
+          user._id !== ownerId ? (
             <Button
               title="Oferecer Ajuda"
               large
