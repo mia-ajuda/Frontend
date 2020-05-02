@@ -1,5 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, Image, Alert, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -7,6 +14,7 @@ import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
 import ListHelpers from "./ListHelpers/index";
+import api from '../../../services/Api';
 
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
@@ -14,6 +22,7 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
+  const [ ownerHelp, setOwnerHelp] = useState(undefined);
 
   const {
     helpDescription,
@@ -50,7 +59,7 @@ export default function HelpDescription({ route, navigation }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}} >
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <ConfirmationModal
           visible={confirmationModalVisible}
@@ -62,27 +71,30 @@ export default function HelpDescription({ route, navigation }) {
             <View style={styles.userInfo}>
               <Image
                 source={{
-                  uri: profilePhoto
+                  uri: profilePhoto || user.photo
                 }}
                 style={styles.profileImage}
               />
               <View style={styles.infoTextView}>
                 <Text
-                  style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
+                  style={[
+                    styles.infoText,
+                    { fontFamily: "montserrat-semibold" }
+                  ]}
                 >
-                  {userName}
+                  { userName || user.name }
                 </Text>
                 <Text style={styles.infoText}>
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Idade:{" "}
                   </Text>
-                  {age}
+                  {age || moment().diff(user.birthday, "year")}
                 </Text>
                 <Text style={styles.infoText}>
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Cidade:{" "}
                   </Text>
-                  {city}
+                  {city || user.address.city}
                 </Text>
               </View>
             </View>
@@ -124,7 +136,7 @@ export default function HelpDescription({ route, navigation }) {
             <View>
               <Text style={styles.textVolunteer}>Voluntário:</Text>
               <View style={styles.volunteerContainer}>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <Image
                     style={styles.volunteerImage}
                     source={{
@@ -132,7 +144,7 @@ export default function HelpDescription({ route, navigation }) {
                         "https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg"
                     }}
                   />
-                  <View >
+                  <View>
                     <Text style={[{ fontFamily: "montserrat-semibold" }]}>
                       Jobs
                     </Text>
@@ -150,28 +162,25 @@ export default function HelpDescription({ route, navigation }) {
                     </Text>
                   </View>
                 </View>
-                <Button 
-                  title="Finalizar"
-                  large
-                >
+                <Button title="Finalizar" large>
                   <Text>Finalizar</Text>
                 </Button>
               </View>
             </View>
+          ) : possibleHelpers.length !== 0 ? (
+            <ListHelpers
+              stateAction={clickPossibleHelpers}
+              clickAction={setClickPossibleHelpers}
+              possibleHelpers={possibleHelpers}
+              helpId={helpId}
+            />
           ) : (
-            possibleHelpers.length !== 0 ? (
-              <ListHelpers
-                stateAction={clickPossibleHelpers}
-                clickAction={setClickPossibleHelpers}
-                possibleHelpers={possibleHelpers}
-                helpId={helpId}
-              />
-            ) : (
-              <View style={styles.wrapperNoHelperWarn}>
-                <Text style={styles.textNoHelpers}>Não há ajudantes para este pedido!</Text>
-              </View>
-            )
-        )}
+            <View style={styles.wrapperNoHelperWarn}>
+              <Text style={styles.textNoHelpers}>
+                Não há ajudantes para este pedido!
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </ScrollView>

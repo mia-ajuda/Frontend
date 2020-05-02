@@ -23,14 +23,14 @@ export default function OnGoingHelps({ navigation }) {
     let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
     let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
     let AllHelps = [...tempOnGoing, ...tempOnWaiting];
-    let filteredHelps = AllHelps.filter((help) => help.active === true);
+    let filteredHelps = AllHelps.filter(help => help.active === true);
     setOnGoingHelpList(filteredHelps);
   }
 
   async function excludeHelp(helpId) {
     try {
       await helpService.deleteHelp(helpId);
-      const updatedArray = onGoingHelpList.filter((help) => {
+      const updatedArray = onGoingHelpList.filter(help => {
         return help._id !== helpId;
       });
       setOnGoingHelpList(updatedArray);
@@ -45,11 +45,8 @@ export default function OnGoingHelps({ navigation }) {
       {onGoingHelpList.length > 0 ? (
         <ScrollView>
           <View style={styles.helpList}>
-            {onGoingHelpList.map((item) => (
+            {onGoingHelpList.map(item => (
               <View key={item._id}>
-                <Text>
-                  {item.status}
-                </Text>
                 <ListCard
                   helpTitle={item.title}
                   helpId={item._id}
@@ -80,7 +77,7 @@ export default function OnGoingHelps({ navigation }) {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            padding: 20,
+            padding: 20
           }}
         >
           <Image

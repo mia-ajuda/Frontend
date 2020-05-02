@@ -9,21 +9,21 @@ export default function ListHelperModal({
   visible,
   onBackdropPress,
   setVisible,
-  chooseHelper,
+  chooseHelper
 }) {
   const [isRegistrationLoading, setRegistrationLoading] = useState(false);
 
   const handlerModal = () => {
-    try{
+    try {
       setRegistrationLoading(!isRegistrationLoading);
       chooseHelper();
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
 
     setRegistrationLoading(!isRegistrationLoading);
     setVisible(!visible);
-  }
+  };
 
   return (
     <Modal
@@ -49,11 +49,7 @@ export default function ListHelperModal({
                   setVisible(!visible);
                 }}
               />
-              <Button
-                title="Sim"
-                type="default"
-                press={() => handlerModal()}
-              />
+              <Button title="Sim" type="default" press={() => handlerModal()} />
             </View>
           </View>
         </>
