@@ -53,6 +53,7 @@ export default function DoneHelps({ navigation }) {
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
+                  pageName="helpDescription"
                 />
 
                 <ConfirmationModal

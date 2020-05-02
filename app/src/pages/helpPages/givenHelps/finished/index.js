@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView, ActivityIndicator } from "react-native";
-import styles from "../MyRequests/styles";
-import ListCard from "../../../components/ListCard";
-import { UserContext } from "../../../store/contexts/userContext";
-import NoHelps from "../../../components/NoHelps";
-import helpService from "../../../services/Help";
+import styles from "../../MyRequests/styles";
+import ListCard from "../../../../components/ListCard";
+import { UserContext } from "../../../../store/contexts/userContext";
+import NoHelps from "../../../../components/NoHelps";
+import helpService from "../../../../services/Help";
 import { colors } from "react-native-elements";
 export default function AskedHelps({ navigation }) {
   const { user } = useContext(UserContext);
@@ -22,7 +22,7 @@ export default function AskedHelps({ navigation }) {
     setLoading(true);
     const helps = await helpService.getAllHelpForHelper(
       user.info._id,
-      "on_going"
+      "finished"
     );
     setMyHelps(helps);
     setLoading(false);
@@ -51,6 +51,8 @@ export default function AskedHelps({ navigation }) {
               helperId={help.helperId}
               userPhone={help.user.phone}
               userLocation={help.user.location.coordinates}
+              helpStatus={help.status}
+              pageName="Description"
             />
           ))}
         </ScrollView>

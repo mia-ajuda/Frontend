@@ -21,12 +21,14 @@ export default function ListCard({
   helperId,
   userPhone,
   userLocation,
+  helpStatus,
+  pageName,
 }) {
   return (
     <TouchableOpacity
       style={styles.cardContainer}
       onPress={() => {
-        navigation.navigate("helpDescription", {
+        navigation.navigate(pageName,{
           helpTitle,
           helpDescription,
           categoryName,
@@ -38,6 +40,7 @@ export default function ListCard({
           helperId,
           userPhone,
           userLocation,
+          helpStatus,
         });
         setVisible && setVisible(false);
       }}

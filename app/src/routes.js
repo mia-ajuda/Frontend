@@ -9,7 +9,8 @@ import Constants from "expo-constants";
 
 import Profile from "./pages/profile";
 import Notification from "./pages/notification";
-import GivenHelp from "./pages/helpPages/givenHelps";
+import on_goingGivenHelp from "./pages/helpPages/givenHelps/on_going";
+import finishedGivenHelp from "./pages/helpPages/givenHelps/finished";
 import Login from "./pages/authPages/Login";
 import Location from "./pages/authPages/Location";
 import RegistrationData from "./pages/authPages/RegistrationData";
@@ -62,27 +63,35 @@ const MainNavigation = () => (
   </>
 );
 
-const HelpTopBar = () => (
-  <>
-    <View
-      style={{
-        width: "100%",
-        paddingTop: Constants.statusBarHeight,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.primary,
-      }}
-    >
-      <Text style={{ ...fonts.title, color: "#fff" }}>Suas ofertas de ajuda</Text>
-    </View>
+const navigationGivenHelps = () => {
+
+  return (
     <HelpTopBarNavigation.Navigator
       initialRouteName="em andamento"
       tabBarOptions={tabTopBarOptions}
     >
-      <HelpTopBarNavigation.Screen name="em andamento" component={GivenHelp} />
+      <HelpTopBarNavigation.Screen name="em andamento" component={on_goingGivenHelp} />
+      <HelpTopBarNavigation.Screen name="finalizadas" component={finishedGivenHelp} />
 
     </HelpTopBarNavigation.Navigator>
+  )
+}
+
+const HelpTopBar = () => (
+  <>
+    <stack.Navigator
+      screenOptions={headerStyle}
+    >
+      <stack.Screen name="Minhas Ofertas" component={navigationGivenHelps}/>
+      <stack.Screen name="Description" 
+        component={HelpDescription}
+        options={({ route }) => ({
+        title: route.params.helpTitle,
+      })}/>
+    </stack.Navigator>
   </>
+
+
 );
 
 const MyRequestsNavigation = () => (

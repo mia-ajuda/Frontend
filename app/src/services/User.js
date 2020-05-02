@@ -257,7 +257,6 @@ class UserService {
   async requestUserData() {
     try {
       const user = await api.get(`/user/getUser`);
-      console.log(user.data);
       return user.data;
     } catch (error) {
       console.log(error);

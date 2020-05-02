@@ -53,6 +53,7 @@ export default function OnGoingHelps({ navigation }) {
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
+                  pageName="helpDescription"
                 />
 
                 <ConfirmationModal

@@ -35,6 +35,7 @@ export default function HelpDescription({ route, navigation }) {
     helperId,
     userPhone,
     userLocation,
+    helpStatus,
   } = route.params;
 
   const currentYear = moment().format("YYYY");
@@ -188,7 +189,7 @@ export default function HelpDescription({ route, navigation }) {
             {helpDescription}
           </Text>
         </View>
-        {user.info._id == helperId && (
+        {user.info._id == helperId && helpStatus!='finished' &&(
           <View style={styles.ViewLink}>
             <View
               style={{
