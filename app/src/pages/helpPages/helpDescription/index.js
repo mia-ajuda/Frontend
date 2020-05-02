@@ -14,7 +14,6 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
-  const [position, setPosition] = useState('flex-end');
 
   const {
     helpDescription,
@@ -48,9 +47,9 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  useEffect(() => {
-    console.log(user);
-  }, [])
+  // useEffect(() => {
+  //   console.log(helpId);
+  // }, [])
 
   return (
     <View style={styles.container}>
@@ -128,6 +127,7 @@ export default function HelpDescription({ route, navigation }) {
               stateAction={clickPossibleHelpers}
               clickAction={setClickPossibleHelpers}
               possibleHelpers={possibleHelpers}
+              helpId={helpId}
             />
           )
         }

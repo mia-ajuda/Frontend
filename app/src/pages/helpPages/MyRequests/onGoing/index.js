@@ -47,6 +47,7 @@ export default function OnGoingHelps({ navigation }) {
               <View key={item._id}>
                 <ListCard
                   helpTitle={item.title}
+                  helpId={item._id}
                   helpDescription={item.description}
                   categoryName={item.category[0].name}
                   deleteVisible={true}

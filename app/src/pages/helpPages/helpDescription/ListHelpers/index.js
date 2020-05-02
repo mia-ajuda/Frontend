@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from "react-native";
 import { Badge } from "react-native-elements";
 import ListHelperModal from "./ListHelperModal/index";
+import api from '../../../../services/Api';
 import moment from "moment";
 
 import styles from "./styles";
@@ -9,13 +10,33 @@ import styles from "./styles";
 export default function ListHelpers({
   clickAction,
   stateAction,
-  possibleHelpers
+  possibleHelpers,
+  helpId
 }) {
   const [visible, setVisible] = useState(false);
   const [currentHelper, setCurrentHelper] = useState(null);
 
-  const chooseHelper = () => {
-
+  const chooseHelper = async () => {
+    try {
+      await api.post(`/help/${helpId}/${currentHelper._id}`);
+      Alert.alert(
+        "Sucesso!",
+        "Ajudadente escolhido com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+    } catch(err) {
+      Alert.alert(
+        "Ooops..",
+        err.error || "Algo deu errado, tente novamente mais tarde",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+    }
   };
 
   return (
