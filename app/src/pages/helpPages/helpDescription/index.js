@@ -120,46 +120,32 @@ export default function HelpDescription({ route, navigation }) {
             press={() => setConfirmationModalVisible(true)}
           />
         ) : helpStatus === "on_going" && helperId ? (
-          <View >
-            <Text>
-              Voluntário:
-            </Text>
-            <View>
-              <View >
-                <Image
-                  source={{
-                    uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg'
-                  }}
-                />
-                <View>
-                  <Text
-                    style={[
-                      { fontFamily: "montserrat-semibold" }
-                    ]}
-                  >
-                    Jobs
+          <View>
+            <Text style={styles.textVolunteer}>Voluntário:</Text>
+            <View style={styles.volunteerContainer}>
+              <Image
+                style={styles.volunteerImage}
+                source={{
+                  uri:
+                    "https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg"
+                }}
+              />
+              <View>
+                <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                  Jobs
+                </Text>
+                <Text>
+                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                    Idade:{" "}
                   </Text>
-                  <Text>
-                    <Text
-                      style={[
-                        { fontFamily: "montserrat-semibold" }
-                      ]}
-                    >
-                      Idade:{" "}
-                    </Text>
-                    15
+                  15
+                </Text>
+                <Text>
+                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                    Cidade:{" "}
                   </Text>
-                  <Text>
-                    <Text
-                      style={[
-                        { fontFamily: "montserrat-semibold" }
-                      ]}
-                    >
-                      Cidade:{" "}
-                    </Text>
-                    Hey
-                  </Text>
-                </View>
+                  Hey
+                </Text>
               </View>
             </View>
           </View>
