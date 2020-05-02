@@ -159,13 +159,19 @@ export default function HelpDescription({ route, navigation }) {
               </View>
             </View>
           ) : (
-            <ListHelpers
-              stateAction={clickPossibleHelpers}
-              clickAction={setClickPossibleHelpers}
-              possibleHelpers={possibleHelpers}
-              helpId={helpId}
-            />
-          )}
+            possibleHelpers.length !== 0 ? (
+              <ListHelpers
+                stateAction={clickPossibleHelpers}
+                clickAction={setClickPossibleHelpers}
+                possibleHelpers={possibleHelpers}
+                helpId={helpId}
+              />
+            ) : (
+              <View style={styles.wrapperNoHelperWarn}>
+                <Text style={styles.textNoHelpers}>Não há ajudantes para este pedido!</Text>
+              </View>
+            )
+        )}
         </View>
       </View>
     </ScrollView>
