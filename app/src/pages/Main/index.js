@@ -91,7 +91,6 @@ export default function Main({ navigation }) {
         )}
         {helpList &&
           helpList.map((help) => {
-            if (help.status == "waiting") {
               return (
                 <Marker
                   title={help.distance}
@@ -128,7 +127,7 @@ export default function Main({ navigation }) {
                   </Callout>
                 </Marker>
               );
-            }
+            
           })}
       </MapView>
       {!helpListVisible && (
