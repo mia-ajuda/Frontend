@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
@@ -95,7 +96,15 @@ export default function App({ route, navigation }) {
                 escolher outra foto.
             </Text>
             </View>
-            <TouchableOpacity style={{ flex: 1, margin: 16 }} onPress={() => navigation.navigate("useTerm")}>
+            <TouchableOpacity style={{ flex: 1, margin: 16 }} onPress={async () => {
+              const wikiTermsUrl = "https://google.com";
+              const supported = await Linking.canOpenURL(wikiTermsUrl);
+              if(supported) {
+                Linking.openURL("https://google.com");
+              } else {
+                alert("Não foi possível abrir os Termos de Uso e Política de Privacidade, por favor visite nossa wiki: https://google.com");
+              }
+            }}>
               <View
                 style={{
                   borderBottomColor: '#686868',
