@@ -47,6 +47,9 @@ export default function OnGoingHelps({ navigation }) {
           <View style={styles.helpList}>
             {onGoingHelpList.map((item) => (
               <View key={item._id}>
+                <Text>
+                  {item.status}
+                </Text>
                 <ListCard
                   helpTitle={item.title}
                   helpId={item._id}
@@ -57,6 +60,8 @@ export default function OnGoingHelps({ navigation }) {
                   navigation={navigation}
                   possibleHelpers={item.possibleHelpers}
                   ownerId={item.ownerId}
+                  helpStatus={item.status}
+                  helperId={item.helperId}
                 />
 
                 <ConfirmationModal

@@ -22,6 +22,7 @@ export default function ListHelperModal({
     }
 
     setRegistrationLoading(!isRegistrationLoading);
+    setVisible(!visible);
   }
 
   return (

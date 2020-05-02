@@ -19,7 +19,9 @@ export default function ListCard({
   city,
   profilePhoto,
   possibleHelpers,
-  ownerId
+  ownerId,
+  helpStatus,
+  helperId
 }) {
   return (
     <TouchableOpacity
@@ -35,7 +37,9 @@ export default function ListCard({
           city,
           profilePhoto,
           possibleHelpers,
-          ownerId
+          helpStatus,
+          ownerId,
+          helperId
         });
         setVisible && setVisible(false)
       }}

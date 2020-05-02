@@ -24,7 +24,9 @@ export default function HelpDescription({ route, navigation }) {
     city,
     profilePhoto,
     possibleHelpers,
-    ownerId
+    ownerId,
+    helpStatus,
+    helperId
   } = route.params;
 
   const currentYear = moment().format("YYYY");
@@ -47,10 +49,6 @@ export default function HelpDescription({ route, navigation }) {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(helpId);
-  // }, [])
-
   return (
     <View style={styles.container}>
       <ConfirmationModal
@@ -58,79 +56,121 @@ export default function HelpDescription({ route, navigation }) {
         setVisible={setConfirmationModalVisible}
         chooseHelp={chooseHelp}
       />
-      {
-        !clickPossibleHelpers ? (
-          <>
-            <View style={styles.userInfo}>
-              <Image
-                source={{
-                  uri: profilePhoto,
-                }}
-                style={styles.profileImage}
-              />
-              <View style={styles.infoTextView}>
-                <Text
-                  style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
-                >
-                  {userName}
+      {!clickPossibleHelpers ? (
+        <>
+          <View style={styles.userInfo}>
+            <Image
+              source={{
+                uri: profilePhoto
+              }}
+              style={styles.profileImage}
+            />
+            <View style={styles.infoTextView}>
+              <Text
+                style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
+              >
+                {userName}
+              </Text>
+              <Text style={styles.infoText}>
+                <Text style={{ fontFamily: "montserrat-semibold" }}>
+                  Idade:{" "}
                 </Text>
-                <Text style={styles.infoText}>
-                  <Text style={{ fontFamily: "montserrat-semibold" }}>Idade: </Text>
-                  {age}
+                {age}
+              </Text>
+              <Text style={styles.infoText}>
+                <Text style={{ fontFamily: "montserrat-semibold" }}>
+                  Cidade:{" "}
                 </Text>
-                <Text style={styles.infoText}>
-                  <Text style={{ fontFamily: "montserrat-semibold" }}>Cidade: </Text>
-                  {city}
-                </Text>
-              </View>
+                {city}
+              </Text>
             </View>
-            <View style={styles.helpInfo}>
-              <View style={styles.helpInfoText}>
-                <Text style={styles.infoText}>
-                  <Text style={{ fontFamily: "montserrat-semibold" }}>
-                    Categoria:{" "}
-                  </Text>
-                  {categoryName}
+          </View>
+          <View style={styles.helpInfo}>
+            <View style={styles.helpInfoText}>
+              <Text style={styles.infoText}>
+                <Text style={{ fontFamily: "montserrat-semibold" }}>
+                  Categoria:{" "}
                 </Text>
-                <Text
-                  style={[
-                    styles.infoText,
-                    {
-                      fontFamily: "montserrat-semibold",
-                      marginTop: 20,
-                      marginBottom: 10,
-                    },
-                  ]}
-                >
-                  Descrição:
-                </Text>
-                <Text style={styles.infoText}>
-                  {helpDescription}
-                </Text>
-              </View>
+                {categoryName}
+              </Text>
+              <Text
+                style={[
+                  styles.infoText,
+                  {
+                    fontFamily: "montserrat-semibold",
+                    marginTop: 20,
+                    marginBottom: 10
+                  }
+                ]}
+              >
+                Descrição:
+              </Text>
+              <Text style={styles.infoText}>{helpDescription}</Text>
             </View>
-          </>
-        ) : (
-          <></>
-        )
-      }
+          </View>
+        </>
+      ) : (
+        <></>
+      )}
       <View style={styles.helpButtons}>
-        {
-          user._id !== ownerId ? (
-            <Button
-              title="Oferecer Ajuda"
-              large
-              press={() => setConfirmationModalVisible(true)}
-            />
-          ) : (
-            <ListHelpers
-              stateAction={clickPossibleHelpers}
-              clickAction={setClickPossibleHelpers}
-              possibleHelpers={possibleHelpers}
-              helpId={helpId}
-            />
-          )
-        }
+        {user._id !== ownerId ? (
+          <Button
+            title="Oferecer Ajuda"
+            large
+            press={() => setConfirmationModalVisible(true)}
+          />
+        ) : helpStatus === "on_going" && helperId ? (
+          <View >
+            <Text>
+              Voluntário:
+            </Text>
+            <View>
+              <View >
+                <Image
+                  source={{
+                    uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg'
+                  }}
+                />
+                <View>
+                  <Text
+                    style={[
+                      { fontFamily: "montserrat-semibold" }
+                    ]}
+                  >
+                    Jobs
+                  </Text>
+                  <Text>
+                    <Text
+                      style={[
+                        { fontFamily: "montserrat-semibold" }
+                      ]}
+                    >
+                      Idade:{" "}
+                    </Text>
+                    15
+                  </Text>
+                  <Text>
+                    <Text
+                      style={[
+                        { fontFamily: "montserrat-semibold" }
+                      ]}
+                    >
+                      Cidade:{" "}
+                    </Text>
+                    Hey
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <ListHelpers
+            stateAction={clickPossibleHelpers}
+            clickAction={setClickPossibleHelpers}
+            possibleHelpers={possibleHelpers}
+            helpId={helpId}
+          />
+        )}
       </View>
     </View>
   );

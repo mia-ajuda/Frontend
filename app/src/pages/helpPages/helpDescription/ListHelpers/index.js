@@ -22,7 +22,7 @@ export default function ListHelpers({
       await api.put(`/help/chooseHelper/${helpId}/${currentHelperId}`);
       Alert.alert(
         "Sucesso!",
-        "Ajudadente escolhido com sucesso!",
+        "Ajudante escolhido com sucesso!",
         [{ text: "OK", onPress: () => {} }],
         {
           cancelable: false
