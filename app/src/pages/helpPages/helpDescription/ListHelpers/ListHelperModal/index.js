@@ -13,6 +13,17 @@ export default function ListHelperModal({
 }) {
   const [isRegistrationLoading, setRegistrationLoading] = useState(false);
 
+  const handlerModal = () => {
+    try{
+      setRegistrationLoading(!isRegistrationLoading);
+      chooseHelper();
+    } catch(err) {
+      console.log(err);
+    }
+
+    setRegistrationLoading(!isRegistrationLoading);
+  }
+
   return (
     <Modal
       isVisible={visible}
@@ -40,10 +51,7 @@ export default function ListHelperModal({
               <Button
                 title="Sim"
                 type="default"
-                press={() => {
-                  chooseHelper();
-                  setRegistrationLoading(!isRegistrationLoading);
-                }}
+                press={() => handlerModal()}
               />
             </View>
           </View>

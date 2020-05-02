@@ -11,14 +11,15 @@ export default function ListHelpers({
   clickAction,
   stateAction,
   possibleHelpers,
-  helpId
+  helpId,
+  navigation
 }) {
   const [visible, setVisible] = useState(false);
-  const [currentHelper, setCurrentHelper] = useState(null);
+  const [currentHelperId, setCurrentHelperId] = useState(null);
 
   const chooseHelper = async () => {
     try {
-      await api.post(`/help/${helpId}/${currentHelper._id}`);
+      await api.put(`/help/chooseHelper/${helpId}/${currentHelperId}`);
       Alert.alert(
         "Sucesso!",
         "Ajudadente escolhido com sucesso!",
@@ -73,7 +74,7 @@ export default function ListHelpers({
                 key={helper._id}
                 onPress={() => {
                   setVisible(true);
-                  setCurrentHelper(helper._id);
+                  setCurrentHelperId(helper._id);
                 }}
               >
                 <View style={styles.helper}>
