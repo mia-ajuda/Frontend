@@ -4,7 +4,7 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    padding: 10,
   },
   userInfo:{
     flex: 1,
@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
     height:100,
     resizeMode:"cover",
     borderRadius:50,
+    marginHorizontal: 10,
+    alignSelf: 'center'
   },
   infoTextView:{
     alignSelf:"center",
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   volunteerContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     width: '100%',
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     ...fonts.subtitle,
     marginBottom: 10,
     fontWeight: 'bold'
-  }
+  },
 });
 
 export default styles;

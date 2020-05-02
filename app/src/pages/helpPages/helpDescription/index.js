@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, Image, Alert } from "react-native";
+import { View, Text, Image, Alert, TouchableOpacity, ScrollView } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
@@ -50,114 +50,124 @@ export default function HelpDescription({ route, navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ConfirmationModal
-        visible={confirmationModalVisible}
-        setVisible={setConfirmationModalVisible}
-        chooseHelp={chooseHelp}
-      />
-      {!clickPossibleHelpers ? (
-        <>
-          <View style={styles.userInfo}>
-            <Image
-              source={{
-                uri: profilePhoto
-              }}
-              style={styles.profileImage}
-            />
-            <View style={styles.infoTextView}>
-              <Text
-                style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
-              >
-                {userName}
-              </Text>
-              <Text style={styles.infoText}>
-                <Text style={{ fontFamily: "montserrat-semibold" }}>
-                  Idade:{" "}
-                </Text>
-                {age}
-              </Text>
-              <Text style={styles.infoText}>
-                <Text style={{ fontFamily: "montserrat-semibold" }}>
-                  Cidade:{" "}
-                </Text>
-                {city}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.helpInfo}>
-            <View style={styles.helpInfoText}>
-              <Text style={styles.infoText}>
-                <Text style={{ fontFamily: "montserrat-semibold" }}>
-                  Categoria:{" "}
-                </Text>
-                {categoryName}
-              </Text>
-              <Text
-                style={[
-                  styles.infoText,
-                  {
-                    fontFamily: "montserrat-semibold",
-                    marginTop: 20,
-                    marginBottom: 10
-                  }
-                ]}
-              >
-                Descrição:
-              </Text>
-              <Text style={styles.infoText}>{helpDescription}</Text>
-            </View>
-          </View>
-        </>
-      ) : (
-        <></>
-      )}
-      <View style={styles.helpButtons}>
-        {user._id !== ownerId ? (
-          <Button
-            title="Oferecer Ajuda"
-            large
-            press={() => setConfirmationModalVisible(true)}
-          />
-        ) : helpStatus === "on_going" && helperId ? (
-          <View>
-            <Text style={styles.textVolunteer}>Voluntário:</Text>
-            <View style={styles.volunteerContainer}>
+    <ScrollView contentContainerStyle={{flexGrow: 1}} >
+      <View style={styles.container}>
+        <ConfirmationModal
+          visible={confirmationModalVisible}
+          setVisible={setConfirmationModalVisible}
+          chooseHelp={chooseHelp}
+        />
+        {!clickPossibleHelpers ? (
+          <>
+            <View style={styles.userInfo}>
               <Image
-                style={styles.volunteerImage}
                 source={{
-                  uri:
-                    "https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg"
+                  uri: profilePhoto
                 }}
+                style={styles.profileImage}
               />
-              <View>
-                <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                  Jobs
+              <View style={styles.infoTextView}>
+                <Text
+                  style={[styles.infoText, { fontFamily: "montserrat-semibold" }]}
+                >
+                  {userName}
                 </Text>
-                <Text>
-                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Idade:{" "}
                   </Text>
-                  15
+                  {age}
                 </Text>
-                <Text>
-                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Cidade:{" "}
                   </Text>
-                  Hey
+                  {city}
                 </Text>
               </View>
             </View>
-          </View>
+            <View style={styles.helpInfo}>
+              <View style={styles.helpInfoText}>
+                <Text style={styles.infoText}>
+                  <Text style={{ fontFamily: "montserrat-semibold" }}>
+                    Categoria:{" "}
+                  </Text>
+                  {categoryName}
+                </Text>
+                <Text
+                  style={[
+                    styles.infoText,
+                    {
+                      fontFamily: "montserrat-semibold",
+                      marginTop: 20,
+                      marginBottom: 10
+                    }
+                  ]}
+                >
+                  Descrição:
+                </Text>
+                <Text style={styles.infoText}>{helpDescription}</Text>
+              </View>
+            </View>
+          </>
         ) : (
-          <ListHelpers
-            stateAction={clickPossibleHelpers}
-            clickAction={setClickPossibleHelpers}
-            possibleHelpers={possibleHelpers}
-            helpId={helpId}
-          />
+          <></>
         )}
+        <View style={styles.helpButtons}>
+          {user._id !== ownerId ? (
+            <Button
+              title="Oferecer Ajuda"
+              large
+              press={() => setConfirmationModalVisible(true)}
+            />
+          ) : helpStatus === "on_going" && helperId ? (
+            <View>
+              <Text style={styles.textVolunteer}>Voluntário:</Text>
+              <View style={styles.volunteerContainer}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Image
+                    style={styles.volunteerImage}
+                    source={{
+                      uri:
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg"
+                    }}
+                  />
+                  <View >
+                    <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                      Jobs
+                    </Text>
+                    <Text>
+                      <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                        Idade:{" "}
+                      </Text>
+                      15
+                    </Text>
+                    <Text>
+                      <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                        Cidade:{" "}
+                      </Text>
+                      Hey
+                    </Text>
+                  </View>
+                </View>
+                <Button 
+                  title="Finalizar"
+                  large
+                >
+                  <Text>Finalizar</Text>
+                </Button>
+              </View>
+            </View>
+          ) : (
+            <ListHelpers
+              stateAction={clickPossibleHelpers}
+              clickAction={setClickPossibleHelpers}
+              possibleHelpers={possibleHelpers}
+              helpId={helpId}
+            />
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
