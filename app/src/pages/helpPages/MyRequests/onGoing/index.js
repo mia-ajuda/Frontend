@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { View, ScrollView, Image, Text } from "react-native";
 import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
@@ -15,9 +16,11 @@ export default function OnGoingHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 
-  useEffect(() => {
-    loadOnGoingHelps();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadOnGoingHelps();
+    }, [navigation])
+  );
   
   async function loadOnGoingHelps() {
     let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
