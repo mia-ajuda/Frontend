@@ -14,7 +14,7 @@ import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
 import ListHelpers from "./ListHelpers/index";
-import api from '../../../services/Api';
+import api from "../../../services/Api";
 
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
@@ -22,23 +22,10 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
-  const [ helper, setHelper] = useState({});
+  const [helper, setHelper] = useState({});
   const [cityHelper, setCityHelper] = useState("");
-
-  useEffect(() => {
-
-    loadHelper = async() => {
-      try {
-        const resp = await api.get(`user/getUser/${helperId}`);
-        setCityHelper(resp.data.address.city);
-        setHelper(resp.data);
-      }catch(err) {
-        console.log(err.message);
-      }
-    } 
-
-    loadHelper();
-  }, []) 
+  const [currentHelp, setCurrentHelp] = useState({});
+  const [possibleHelpers, setPossibleHelpers] = useState([]);
 
   const {
     helpDescription,
@@ -48,17 +35,53 @@ export default function HelpDescription({ route, navigation }) {
     birthday,
     city,
     profilePhoto,
-    possibleHelpers,
     ownerId,
     helpStatus,
     helperId
   } = route.params;
 
+  // const loadHelper = async () => {
+  //   if (helperId && helperId.length >= 0) {
+  //     try {
+  //       const resp = await api.get(`user/getUser/${helperId}`);
+  //       setCityHelper(resp.data.address.city);
+  //       setHelper(resp.data);
+  //     } catch (err) {
+  //       console.log(err.response);
+  //     }
+  //   }
+  // };
+
+  const loadHelpInfo = async () => {
+    try {
+      const helps = await api.get(`/help?id=${user._id}`);
+      const help = helps.data.filter(help => help._id === helpId);
+      setCurrentHelp(help[0]);
+      setPossibleHelpers(help[0].possibleHelpers);
+      
+      if(help[0].helperId) {        
+        const resp = await api.get(`user/getUser/${help[0].helperId}`);
+        // setCityHelper(resp.data.address.city);
+        setHelper(resp.data);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  useEffect(() => {
+    setClickPossibleHelpers(false);
+    setPossibleHelpers([]);
+  }, [])
+
+  useEffect(() => {
+    loadHelpInfo();
+  }, [currentHelp]);
+
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
 
   const age = currentYear - birthYear;
-
 
   async function chooseHelp() {
     try {
@@ -71,7 +94,6 @@ export default function HelpDescription({ route, navigation }) {
         [{ title: "OK" }]
       );
       helpStatus("on_going");
-      
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +123,7 @@ export default function HelpDescription({ route, navigation }) {
                     { fontFamily: "montserrat-semibold" }
                   ]}
                 >
-                  { userName || user.name }
+                  {userName || user.name}
                 </Text>
                 <Text style={styles.infoText}>
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
@@ -176,7 +198,7 @@ export default function HelpDescription({ route, navigation }) {
                       <Text style={[{ fontFamily: "montserrat-semibold" }]}>
                         Cidade:{" "}
                       </Text>
-                      {cityHelper}
+                      {''}
                     </Text>
                   </View>
                 </View>
@@ -185,19 +207,13 @@ export default function HelpDescription({ route, navigation }) {
                 </Button>
               </View>
             </View>
-          ) : possibleHelpers.length !== 0 ? (
-            <ListHelpers
-              stateAction={clickPossibleHelpers}
-              clickAction={setClickPossibleHelpers}
-              possibleHelpers={possibleHelpers}
-              helpId={helpId}
-            />
           ) : (
-            <View style={styles.wrapperNoHelperWarn}>
-              <Text style={styles.textNoHelpers}>
-                Não há ajudantes para este pedido!
-              </Text>
-            </View>
+              <ListHelpers
+                stateAction={clickPossibleHelpers}
+                clickAction={setClickPossibleHelpers}
+                possibleHelpers={possibleHelpers}
+                helpId={helpId}
+              />
           )}
         </View>
       </View>

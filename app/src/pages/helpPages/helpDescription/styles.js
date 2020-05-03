@@ -56,17 +56,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold"
   },
-  wrapperNoHelperWarn: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  textNoHelpers: {
-    ...fonts.subtitle,
-    fontSize: 20,
-    marginBottom: 10,
-    fontWeight: "bold"
-  }
 });
 
 export default styles;

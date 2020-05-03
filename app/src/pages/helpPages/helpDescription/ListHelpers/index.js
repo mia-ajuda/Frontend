@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Alert
+} from "react-native";
 import { Badge } from "react-native-elements";
 import ListHelperModal from "./ListHelperModal/index";
-import api from '../../../../services/Api';
+import api from "../../../../services/Api";
 import moment from "moment";
 
 import styles from "./styles";
@@ -28,7 +35,7 @@ export default function ListHelpers({
           cancelable: false
         }
       );
-    } catch(err) {
+    } catch (err) {
       Alert.alert(
         "Ooops..",
         err.error || "Algo deu errado, tente novamente mais tarde",
@@ -49,12 +56,19 @@ export default function ListHelpers({
           : { justifyContent: "flex-end" }
       ]}
     >
-      <TouchableOpacity
-        style={styles.buttonHelpers}
-        onPress={() => clickAction(!stateAction)}
-      >
-        <Text style={styles.textBtn}>Possíveis ajudantes</Text>
-        {possibleHelpers.length !== 0 ? (
+      {possibleHelpers.length === 0 ? (
+        <View style={styles.wrapperNoHelperWarn}>
+          <Text style={styles.textNoHelpers}>
+            Não há ajudantes para este pedido!
+          </Text>
+        </View>
+      ) : (
+        <TouchableOpacity
+          style={styles.buttonHelpers}
+          onPress={() => clickAction(!stateAction)}
+        >
+          <Text style={styles.textBtn}>Possíveis ajudantes</Text>
+
           <Badge
             value={
               <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>
@@ -62,10 +76,9 @@ export default function ListHelpers({
             badgeStyle={styles.badgeStyle}
             containerStyle={styles.containerBadge}
           />
-        ) : (
-          <></>
-        )}
-      </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>
           <ScrollView>

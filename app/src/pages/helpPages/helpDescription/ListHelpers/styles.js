@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../../../../assets/styles/colorVariables';
+import fonts from '../../../../../assets/styles/fontVariable';
+
 
 export default StyleSheet.create({
   container: {
@@ -60,5 +62,16 @@ export default StyleSheet.create({
   labelBadge: {
     color: '#FFF',
     fontWeight: 'bold'
+  },
+  wrapperNoHelperWarn: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textNoHelpers: {
+    ...fonts.subtitle,
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: "bold"
   }
 });
