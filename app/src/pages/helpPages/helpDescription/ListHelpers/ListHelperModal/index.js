@@ -9,19 +9,20 @@ export default function ListHelperModal({
   visible,
   onBackdropPress,
   setVisible,
-  chooseHelper
+  actionModal, 
+  message
 }) {
   const [isRegistrationLoading, setRegistrationLoading] = useState(false);
 
   const handlerModal = () => {
     try {
-      setRegistrationLoading(!isRegistrationLoading);
-      chooseHelper();
+      setRegistrationLoading(true);
+      actionModal();
     } catch (err) {
       console.log(err);
     }
 
-    setRegistrationLoading(!isRegistrationLoading);
+    setRegistrationLoading(false);
     setVisible(!visible);
   };
 
@@ -37,7 +38,7 @@ export default function ListHelperModal({
         <>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Você tem certeza que quer Jobs como ajudante?
+              {message}
             </Text>
           </View>
           <View style={styles.modalButtonBox}>

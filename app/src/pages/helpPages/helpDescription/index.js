@@ -121,6 +121,7 @@ export default function HelpDescription({ route, navigation }) {
               stateAction={clickPossibleHelpers}
               clickAction={setClickPossibleHelpers}
               helpId={helpId}
+              navigation={navigation}
             />
           ) : (
             <Button

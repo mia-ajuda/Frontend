@@ -8,11 +8,11 @@ import {
   Alert
 } from "react-native";
 import { Badge } from "react-native-elements";
-import ListHelperModal from "./ListHelperModal/index";
+import ListHelperModal from "./ListHelperModal";
 import api from "../../../../services/Api";
 import moment from "moment";
 import { UserContext } from "../../../../store/contexts/userContext";
-import Button from '../../../../components/UI/button';
+import Button from "../../../../components/UI/button";
 
 import styles from "./styles";
 
@@ -25,16 +25,18 @@ export default function ListHelpers({
   const { user } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [currentHelperId, setCurrentHelperId] = useState(null);
-  const [helperImage, setHelperImage] = useState("https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_Blank.svg");
+  const [helperImage, setHelperImage] = useState(
+    "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_Blank.svg"
+  );
   const [helperName, setHelperName] = useState("");
   const [helperAge, setHelperAge] = useState("");
   const [helperCity, setHelperCity] = useState("");
   const [help, setHelp] = useState({});
   const [possibleHelpers, setPossibleHelpers] = useState([]);
+  const [finished, setFinished] = useState(false);
 
   const loadHelpInfo = async () => {
     try {
-      // setLoading(true)
       const helps = await api.get(`/help?id=${user._id}`);
       const helpFinal = helps.data.filter(help => help._id === helpId);
       setHelp(helpFinal[0]);
@@ -49,6 +51,30 @@ export default function ListHelpers({
       }
     } catch (err) {
       console.log(err.response);
+    }
+  };
+
+  const ownerFinishedHelp = async () => {
+    try {
+      await api.put(`/help/ownerConfirmation/${helpId}/${user._id}`);
+      Alert.alert(
+        "Sucesso!",
+        "Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+      navigation.navigate("Em andamento");
+    } catch (err) {
+      Alert.alert(
+        "Opsss!",
+        "Erro ao finalizar ajuda, tente mais tard!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
     }
   };
 
@@ -89,7 +115,7 @@ export default function ListHelpers({
           : { justifyContent: "flex-end" }
       ]}
     >
-      {help && help.status === "on_going" ? (
+      {help && help.status !== "waiting" ? (
         <View>
           <Text style={styles.textVolunteer}>Voluntário:</Text>
           <View style={styles.volunteerContainer}>
@@ -118,9 +144,18 @@ export default function ListHelpers({
                 </Text>
               </View>
             </View>
-            <Button title="Finalizar" large>
-              <Text>Finalizar</Text>
-            </Button>
+            {help.status === "on_going" ? (
+              <Button
+                press={() => {
+                  setVisible(true);
+                  setFinished(true);
+                }}
+                title="Finalizar Ajuda"
+                large
+              />
+            ) : (
+              <></>
+            )}
           </View>
         </View>
       ) : possibleHelpers.length === 0 ? (
@@ -207,7 +242,12 @@ export default function ListHelpers({
       <ListHelperModal
         visible={visible}
         setVisible={setVisible}
-        chooseHelper={chooseHelper}
+        message={
+          finished
+            ? "Você tem certeza que deseja finalizar este pedido de ajuda?"
+            : "Você tem certeza que deseja este usuário como seu ajudante?"
+        }
+        actionModal={finished ? ownerFinishedHelp : chooseHelper}
       />
     </View>
   );
