@@ -22,10 +22,13 @@ export default function HelpDescription({ route, navigation }) {
     profilePhoto,
   } = route.params;
 
-  const currentYear = moment().format("YYYY");
-  const birthYear = moment(birthday).format("YYYY");
-
-  const age = currentYear - birthYear;
+  var today = new Date();
+  var birthDate = new Date(birthday);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
 
   async function chooseHelp() {
     try {
