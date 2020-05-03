@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Linking,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
@@ -97,12 +98,12 @@ export default function App({ route, navigation }) {
             </Text>
             </View>
             <TouchableOpacity style={{ flex: 1, margin: 16 }} onPress={async () => {
-              const wikiTermsUrl = "https://google.com";
+              const wikiTermsUrl = "https://mia-ajuda.github.io/Documentation/#/_docs/termos";
               const supported = await Linking.canOpenURL(wikiTermsUrl);
               if(supported) {
-                Linking.openURL("https://google.com");
+                Linking.openURL("https://mia-ajuda.github.io/Documentation/#/_docs/termos");
               } else {
-                alert("Não foi possível abrir os Termos de Uso e Política de Privacidade, por favor visite nossa wiki: https://google.com");
+                Alert.alert("Erro", "Não foi possível abrir os Termos de Uso e Política de Privacidade, por favor visite nossa wiki: https://mia-ajuda.github.io");
               }
             }}>
               <View
