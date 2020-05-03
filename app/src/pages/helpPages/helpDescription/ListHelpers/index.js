@@ -55,7 +55,7 @@ export default function ListHelpers({
   useEffect(() => {
     clickAction(false);
     loadHelpInfo();
-  }, [helpId]);
+  }, [helpId, visible]);
 
   const chooseHelper = async () => {
     try {

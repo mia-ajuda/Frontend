@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
   Image,
   Alert,
-  TouchableOpacity,
   ScrollView,
-  ActivityIndicator
 } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -15,7 +13,6 @@ import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
 import ListHelpers from "./ListHelpers/index";
-import api from "../../../services/Api";
 
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
@@ -44,7 +41,6 @@ export default function HelpDescription({ route, navigation }) {
     try {
       await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
-      navigation.goBack();
       Alert.alert("Sucesso", "Oferta aceita com sucesso!", [{ title: "OK" }]);
     } catch (error) {
       console.log(error);
