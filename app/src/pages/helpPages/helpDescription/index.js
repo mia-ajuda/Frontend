@@ -5,7 +5,8 @@ import {
   Image,
   Alert,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -22,10 +23,6 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
-  const [helper, setHelper] = useState({});
-  const [cityHelper, setCityHelper] = useState("");
-  const [currentHelp, setCurrentHelp] = useState({});
-  const [possibleHelpers, setPossibleHelpers] = useState([]);
 
   const {
     helpDescription,
@@ -35,48 +32,8 @@ export default function HelpDescription({ route, navigation }) {
     birthday,
     city,
     profilePhoto,
-    ownerId,
-    helpStatus,
-    helperId
+    ownerId
   } = route.params;
-
-  // const loadHelper = async () => {
-  //   if (helperId && helperId.length >= 0) {
-  //     try {
-  //       const resp = await api.get(`user/getUser/${helperId}`);
-  //       setCityHelper(resp.data.address.city);
-  //       setHelper(resp.data);
-  //     } catch (err) {
-  //       console.log(err.response);
-  //     }
-  //   }
-  // };
-
-  const loadHelpInfo = async () => {
-    try {
-      const helps = await api.get(`/help?id=${user._id}`);
-      const help = helps.data.filter(help => help._id === helpId);
-      setCurrentHelp(help[0]);
-      setPossibleHelpers(help[0].possibleHelpers);
-      
-      if(help[0].helperId) {        
-        const resp = await api.get(`user/getUser/${help[0].helperId}`);
-        // setCityHelper(resp.data.address.city);
-        setHelper(resp.data);
-      }
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
-  useEffect(() => {
-    setClickPossibleHelpers(false);
-    setPossibleHelpers([]);
-  }, [])
-
-  useEffect(() => {
-    loadHelpInfo();
-  }, [currentHelp]);
 
   const currentYear = moment().format("YYYY");
   const birthYear = moment(birthday).format("YYYY");
@@ -88,12 +45,7 @@ export default function HelpDescription({ route, navigation }) {
       await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
       navigation.goBack();
-      Alert.alert(
-        "Sucesso",
-        "Oferta enviada com sucesso e estará no aguardo para ser aceita",
-        [{ title: "OK" }]
-      );
-      helpStatus("on_going");
+      Alert.alert("Sucesso", "Oferta aceita com sucesso!", [{ title: "OK" }]);
     } catch (error) {
       console.log(error);
     }
@@ -122,6 +74,7 @@ export default function HelpDescription({ route, navigation }) {
                     styles.infoText,
                     { fontFamily: "montserrat-semibold" }
                   ]}
+                  currentHelp
                 >
                   {userName || user.name}
                 </Text>
@@ -167,53 +120,18 @@ export default function HelpDescription({ route, navigation }) {
           <></>
         )}
         <View style={styles.helpButtons}>
-          {user._id !== ownerId ? (
+          {user._id === ownerId ? (
+            <ListHelpers
+              stateAction={clickPossibleHelpers}
+              clickAction={setClickPossibleHelpers}
+              helpId={helpId}
+            />
+          ) : (
             <Button
               title="Oferecer Ajuda"
               large
               press={() => setConfirmationModalVisible(true)}
             />
-          ) : helpStatus === "on_going" && helperId ? (
-            <View>
-              <Text style={styles.textVolunteer}>Voluntário:</Text>
-              <View style={styles.volunteerContainer}>
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    style={styles.volunteerImage}
-                    source={{
-                      uri: helper.photo || null
-                    }}
-                  />
-                  <View>
-                    <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                      {helper.name}
-                    </Text>
-                    <Text>
-                      <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                        Idade:{" "}
-                      </Text>
-                      {moment().diff(helper.birthday, "year")}
-                    </Text>
-                    <Text>
-                      <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                        Cidade:{" "}
-                      </Text>
-                      {''}
-                    </Text>
-                  </View>
-                </View>
-                <Button title="Finalizar" large>
-                  <Text>Finalizar</Text>
-                </Button>
-              </View>
-            </View>
-          ) : (
-              <ListHelpers
-                stateAction={clickPossibleHelpers}
-                clickAction={setClickPossibleHelpers}
-                possibleHelpers={possibleHelpers}
-                helpId={helpId}
-              />
           )}
         </View>
       </View>

@@ -33,29 +33,6 @@ const styles = StyleSheet.create({
   helpButtons: {
     flex: 1
   },
-  volunteerContainer: {
-    flexDirection: "column",
-    width: "100%",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: "#FFF",
-    borderRadius: 10,
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-    borderRadius: 4
-  },
-  volunteerImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    marginRight: 15
-  },
-  textVolunteer: {
-    ...fonts.subtitle,
-    marginBottom: 10,
-    fontWeight: "bold"
-  },
 });
 
 export default styles;
