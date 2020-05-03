@@ -22,7 +22,23 @@ export default function HelpDescription({ route, navigation }) {
     false
   );
   const [clickPossibleHelpers, setClickPossibleHelpers] = useState(false);
-  const [ ownerHelp, setOwnerHelp] = useState(undefined);
+  const [ helper, setHelper] = useState({});
+  const [cityHelper, setCityHelper] = useState("");
+
+  useEffect(() => {
+
+    loadHelper = async() => {
+      try {
+        const resp = await api.get(`user/getUser/${helperId}`);
+        setCityHelper(resp.data.address.city);
+        setHelper(resp.data);
+      }catch(err) {
+        console.log(err.message);
+      }
+    } 
+
+    loadHelper();
+  }, []) 
 
   const {
     helpDescription,
@@ -43,6 +59,7 @@ export default function HelpDescription({ route, navigation }) {
 
   const age = currentYear - birthYear;
 
+
   async function chooseHelp() {
     try {
       await HelpService.chooseHelp(helpId, user._id);
@@ -53,6 +70,8 @@ export default function HelpDescription({ route, navigation }) {
         "Oferta enviada com sucesso e estará no aguardo para ser aceita",
         [{ title: "OK" }]
       );
+      helpStatus("on_going");
+      
     } catch (error) {
       console.log(error);
     }
@@ -140,25 +159,24 @@ export default function HelpDescription({ route, navigation }) {
                   <Image
                     style={styles.volunteerImage}
                     source={{
-                      uri:
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/justinrgraham/128.jpg"
+                      uri: helper.photo || null
                     }}
                   />
                   <View>
                     <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                      Jobs
+                      {helper.name}
                     </Text>
                     <Text>
                       <Text style={[{ fontFamily: "montserrat-semibold" }]}>
                         Idade:{" "}
                       </Text>
-                      15
+                      {moment().diff(helper.birthday, "year")}
                     </Text>
                     <Text>
                       <Text style={[{ fontFamily: "montserrat-semibold" }]}>
                         Cidade:{" "}
                       </Text>
-                      Hey
+                      {cityHelper}
                     </Text>
                   </View>
                 </View>

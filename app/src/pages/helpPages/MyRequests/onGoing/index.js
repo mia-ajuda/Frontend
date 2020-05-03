@@ -18,7 +18,7 @@ export default function OnGoingHelps({ navigation }) {
   useEffect(() => {
     loadOnGoingHelps();
   }, []);
-
+  
   async function loadOnGoingHelps() {
     let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
     let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
