@@ -46,7 +46,7 @@ export default function ListCard({
       }}
     >
       {
-        possibleHelpers.length !== 0 ? (
+        possibleHelpers && possibleHelpers.length !== 0 ? (
 
           <Badge
             value={<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>}
