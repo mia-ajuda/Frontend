@@ -88,5 +88,20 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  }
+  },
+  labelBadge: {
+    color: '#FFF',
+    fontWeight: 'bold'
+  },
+  badgeStyle: {
+    backgroundColor: colors.danger,
+    height: 30, 
+    width: 30, 
+    borderRadius: 50
+  },
+  containerBadge: {
+    position: 'absolute', 
+    top: -7, 
+    right: -6 
+  },
 });
