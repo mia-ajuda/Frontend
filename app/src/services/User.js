@@ -61,7 +61,8 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log(error);
+      console.log("error");
+      console.log(error.response.data);
       throw { error: error.response.data.error };
     }
   }

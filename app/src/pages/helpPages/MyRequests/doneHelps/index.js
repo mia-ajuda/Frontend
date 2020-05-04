@@ -5,6 +5,7 @@ import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
+import NoHelps from "../../../../components/NoHelps";
 
 export default function DoneHelps({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -52,6 +53,7 @@ export default function DoneHelps({ navigation }) {
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
+                  pageName="helpDescription"
                 />
 
                 <ConfirmationModal
@@ -64,23 +66,7 @@ export default function DoneHelps({ navigation }) {
           </View>
         </ScrollView>
       ) : (
-        <View
-          style={{
-            height: "100%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20,
-          }}
-        >
-          <Image
-            source={require("../../../../../assets/images/blueCat.png")}
-            style={styles.emptyListImage}
-          />
-          <Text style={styles.emptyListText}>
-            Você não possui ajudas finalizadas
-          </Text>
-        </View>
+        <NoHelps title={"Você não possui ajudas finalizadas"} />
       )}
     </View>
   );

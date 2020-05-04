@@ -4,7 +4,6 @@ import {
   ScrollView,
   Animated,
   TouchableWithoutFeedback,
-  PanResponder,
   Image,
   Text,
 } from "react-native";
@@ -17,37 +16,7 @@ import styles from "./styles";
 export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(40));
-
-  const pan = useRef(new Animated.ValueXY()).current;
-
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: (e, gestureState) => {
-        if (gestureState.dy < 0) {
-          if (!visible) {
-            setVisible(true);
-          }
-        } else {
-          if (!visible) {
-            setVisible(false);
-          }
-        }
-      },
-      onPanResponderRelease: (e, gestureState) => {
-        if (gestureState.dy < 0) {
-          if (!visible) {
-            setVisible(true);
-          }
-        } else {
-          if (!visible) {
-            setVisible(false);
-          }
-        }
-      },
-    })
-  ).current;
-
+  
   useEffect(() => {
     switch (visible) {
       case true:
@@ -70,9 +39,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
   return (
     <Animated.View
       style={[styles.helpListContainer, { height: animatedValue }]}
-      {...panResponder.panHandlers}
     >
-      <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
+      <TouchableWithoutFeedback 
+        onPress={() => setVisible(!visible)}
+      >
         <View style={styles.buttonStyle}>
           <Icon
             size={25}
@@ -103,7 +73,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                   birthday={help.user.birthday}
                   city={help.user.address.city}
                   navigation={navigation}
-                  setVisible={setVisible}
+                  pageName="helpDescription"
                 />
               ))}
             </ScrollView>

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,13 +9,15 @@ import {
 } from "react-native";
 import Button from "../../../../components/UI/button";
 import styles from "./styles";
-import colors from "../../../../../assets/styles/colorVariables"
+import colors from "../../../../../assets/styles/colorVariables";
 
-
-export default function ConfirmationModal({ visible, setVisible, chooseHelp }) {
-  
-  const [isLoading,setisLoading] = useState(false)
-
+export default function ConfirmationModal({
+  visible,
+  setVisible,
+  action,
+  message,
+  isLoading,
+}) {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <TouchableOpacity
@@ -25,22 +27,21 @@ export default function ConfirmationModal({ visible, setVisible, chooseHelp }) {
       >
         <TouchableWithoutFeedback>
           <View style={styles.content}>
-            {isLoading? <ActivityIndicator
-            size="large"
-            color={colors.primary}
-            />:
-            <>
-            <Text style={styles.title}>Você deseja confirmar a sua ajuda?</Text>
-            <View style={styles.buttons}>
-              <Button
-                type="danger"
-                title="Não"
-                press={() => setVisible(false)}
-              />
-              <Button title="Sim" press={()=>{chooseHelp();setisLoading(true)}} />
-            </View>
-            </>
-            }
+            {isLoading ? (
+              <ActivityIndicator size="large" color={colors.primary} />
+            ) : (
+              <>
+                <Text style={styles.title}>{message}</Text>
+                <View style={styles.buttons}>
+                  <Button
+                    type="danger"
+                    title="Não"
+                    press={() => setVisible(false)}
+                  />
+                  <Button title="Sim" press={action} />
+                </View>
+              </>
+            )}
           </View>
         </TouchableWithoutFeedback>
       </TouchableOpacity>
