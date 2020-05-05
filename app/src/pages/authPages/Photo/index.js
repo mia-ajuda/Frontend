@@ -5,6 +5,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
@@ -84,28 +86,61 @@ export default function App({ route, navigation }) {
           </Container>
         </ImageBackground>
       ) : (
-        <View style={styles.container}>
-          <Image
-            source={{ uri: selectedImage.localUri }}
-            style={styles.thumbnail}
-          />
-          <View style={styles.selectText}>
-            <Text style={styles.text}>
-              Clique em continuar para prosseguir com o cadastro, ou voltar para
-              escolher outra foto.
+          <View style={styles.container}>
+            <Image
+              source={{ uri: selectedImage.localUri }}
+              style={styles.thumbnail}
+            />
+            <View style={styles.selectText}>
+              <Text style={styles.text} >
+                Clique em continuar para prosseguir com o cadastro, ou voltar para
+                escolher outra foto.
             </Text>
-          </View>
-          <View style={styles.buttonPreview}>
-            <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
-              <Text style={styles.btnText}>Voltar</Text>
+            </View>
+            <TouchableOpacity style={{ flex: 1, margin: 16 }} onPress={async () => {
+              const wikiTermsUrl = "https://mia-ajuda.github.io/Documentation/#/_docs/termos";
+              const supported = await Linking.canOpenURL(wikiTermsUrl);
+              if(supported) {
+                Linking.openURL("https://mia-ajuda.github.io/Documentation/#/_docs/termos");
+              } else {
+                Alert.alert("Erro", "Não foi possível abrir os Termos de Uso e Política de Privacidade, por favor visite nossa wiki: https://mia-ajuda.github.io");
+              }
+            }}>
+              <View
+                style={{
+                  borderBottomColor: '#686868',
+                  borderBottomWidth: 1,
+                }}
+              />
+              <Text style={styles.smallText}>
+                Ao clicar em continuar você concorda com os
+                <Text style={styles.hyperLink}>
+                  {" "}Termos de Uso{" "}
+                </Text>
+                e a
+                <Text style={styles.hyperLink}>
+                  {" "}Política de Pivacidade
+                </Text>
+                .
+                </Text>
+              <View
+                style={{
+                  borderBottomColor: '#686868',
+                  borderBottomWidth: 1,
+                }}
+              />
             </TouchableOpacity>
+            <View style={styles.buttonPreview}>
+              <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
+                <Text style={styles.btnText}>Voltar</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.btn1} onPress={continueHandle}>
-              <Text style={styles.btnText1}>Continuar</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.btn1} onPress={continueHandle}>
+                <Text style={styles.btnText1}>Continuar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      )}
+        )}
     </View>
   );
 }
