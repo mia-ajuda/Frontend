@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import fonts from '../../../assets/styles/fontVariable'
+import fonts from "../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -58,24 +58,23 @@ const styles = StyleSheet.create({
 
   callout: {
     width: 150,
-    padding:10,
-    alignItems: 'center',
+    padding: 10,
+    alignItems: "center",
   },
-  calloutPersonName:{
+  calloutPersonName: {
     ...fonts.body,
-    fontSize:12
+    fontSize: 12,
   },
-  calloutPersonDistance:{
+  calloutPersonDistance: {
     ...fonts.body,
-    fontSize:12,
-    color:"#666"
+    fontSize: 12,
+    color: "#666",
   },
-  calloutPress:{
+  calloutPress: {
     ...fonts.body,
     fontFamily: "montserrat-semibold",
-    fontSize:12,
-  }
-  
+    fontSize: 12,
+  },
 });
 
 export default styles;

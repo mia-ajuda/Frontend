@@ -28,17 +28,9 @@ const styles = StyleSheet.create({
     padding: 2,
   },
 
-  emptyListImage: {
-    resizeMode: "contain",
-    width: 200,
-    height: 200,
-  },
-
-  emptyListText: {
-    ...fonts.title,
-    color: colors.primary,
-    marginTop: 10,
-    textAlign: "center",
+  loadingContainer: {
+    height: "100%",
+    justifyContent: "center",
   },
 });
 
