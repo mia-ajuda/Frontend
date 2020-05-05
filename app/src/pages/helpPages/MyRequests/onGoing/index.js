@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, ScrollView, Image, Text } from "react-native";
+import React, { useState, useContext, useCallback } from "react";
+import { View, ScrollView } from "react-native";
 import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
+import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from "../../../../components/NoHelps";
 
 export default function OnGoingHelps({ navigation }) {
@@ -16,20 +17,24 @@ export default function OnGoingHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 
-  useEffect(() => {
-    loadOnGoingHelps();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      loadOnGoingHelps();
+    }, [navigation])
+  );
+  
   async function loadOnGoingHelps() {
-    let tempOnGoing = await helpService.getAllHelpForUser(userId, "waiting");
-    let resOnGoing = tempOnGoing.filter((help) => help.active === true);
-    setOnGoingHelpList(resOnGoing);
+    let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
+    let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
+    let AllHelps = [...tempOnGoing, ...tempOnWaiting];
+    let filteredHelps = AllHelps.filter(help => help.active === true);
+    setOnGoingHelpList(filteredHelps);
   }
 
   async function excludeHelp(helpId) {
     try {
       await helpService.deleteHelp(helpId);
-      const updatedArray = onGoingHelpList.filter((help) => {
+      const updatedArray = onGoingHelpList.filter(help => {
         return help._id !== helpId;
       });
       setOnGoingHelpList(updatedArray);
@@ -44,16 +49,21 @@ export default function OnGoingHelps({ navigation }) {
       {onGoingHelpList.length > 0 ? (
         <ScrollView>
           <View style={styles.helpList}>
-            {onGoingHelpList.map((item) => (
+            {onGoingHelpList.map(item => (
               <View key={item._id}>
                 <ListCard
                   helpTitle={item.title}
+                  helpId={item._id}
                   helpDescription={item.description}
                   categoryName={item.category[0].name}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
-                  pageName="helpDescription"
+                  possibleHelpers={item.possibleHelpers}
+                  ownerId={item.ownerId}
+                  helpStatus={item.status}
+                  helperId={item.helperId}
+                  pageName="Description"
                 />
 
                 <ConfirmationModal

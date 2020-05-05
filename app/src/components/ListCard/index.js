@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import colors from "../../../assets/styles/colorVariables";
+import { Badge } from "react-native-elements";
 
 import styles from "./styles";
 
@@ -18,10 +19,12 @@ export default function ListCard({
   setVisible,
   city,
   profilePhoto,
+  possibleHelpers,
+  ownerId,
+  helpStatus,
   helperId,
   userPhone,
   userLocation,
-  helpStatus,
   pageName,
 }) {
   return (
@@ -37,14 +40,29 @@ export default function ListCard({
           birthday,
           city,
           profilePhoto,
+          possibleHelpers,
+          helpStatus,
+          ownerId,
           helperId,
           userPhone,
           userLocation,
-          helpStatus,
+          helpStatus
         });
         setVisible && setVisible(false);
       }}
     >
+      {
+        possibleHelpers && possibleHelpers.length !== 0 ? (
+
+          <Badge
+            value={<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>}
+            badgeStyle={styles.badgeStyle}
+            containerStyle={styles.containerBadge}
+          />
+        ) : (
+          <></>
+        )
+      }
       <View style={styles.cardTitle}>
         <Text numberOfLines={1} style={styles.titleContent}>
           {helpTitle}
