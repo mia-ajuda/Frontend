@@ -1,8 +1,8 @@
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image, StatusBar,View,Text } from "react-native";
+import { Image, StatusBar, View, Text } from "react-native";
 import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
 import Constants from "expo-constants";
@@ -64,38 +64,39 @@ const MainNavigation = () => (
 );
 
 const navigationGivenHelps = () => {
-
   return (
     <HelpTopBarNavigation.Navigator
       initialRouteName="em andamento"
       tabBarOptions={tabTopBarOptions}
     >
-      <HelpTopBarNavigation.Screen name="em andamento" component={on_goingGivenHelp} />
-      <HelpTopBarNavigation.Screen name="finalizadas" component={finishedGivenHelp} />
-
+      <HelpTopBarNavigation.Screen
+        name="em andamento"
+        component={on_goingGivenHelp}
+      />
+      <HelpTopBarNavigation.Screen
+        name="finalizadas"
+        component={finishedGivenHelp}
+      />
     </HelpTopBarNavigation.Navigator>
-  )
-}
+  );
+};
 
 const HelpTopBar = () => (
   <>
-    <stack.Navigator
-      screenOptions={headerStyle}
-    >
-      <stack.Screen name="Minhas Ofertas" component={navigationGivenHelps}/>
-      <stack.Screen name="Description" 
+    <stack.Navigator screenOptions={headerStyle}>
+      <stack.Screen name="Minhas Ofertas" component={navigationGivenHelps} />
+      <stack.Screen
+        name="Description"
         component={HelpDescription}
         options={({ route }) => ({
-        title: route.params.helpTitle,
-      })}/>
+          title: route.params.helpTitle,
+        })}
+      />
     </stack.Navigator>
   </>
-
-
 );
 
 const MyRequestsNavigation = () => (
-  
   <>
     <View
       style={{
@@ -106,7 +107,9 @@ const MyRequestsNavigation = () => (
         backgroundColor: colors.primary,
       }}
     >
-      <Text style={{ ...fonts.title, color: "#fff" }}>Seus pedidos de ajuda</Text>
+      <Text style={{ ...fonts.title, color: "#fff" }}>
+        Seus pedidos de ajuda
+      </Text>
     </View>
     <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>
       <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
@@ -282,7 +285,7 @@ const Routes = () => {
   const { user } = useContext(UserContext);
   return (
     <NavigationContainer>
-      {user ? <BottomTab /> : <AuthRoutes />}
+      {user._id ? <BottomTab /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };
