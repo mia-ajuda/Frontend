@@ -63,7 +63,7 @@ export default function OnGoingHelps({ navigation }) {
                   ownerId={item.ownerId}
                   helpStatus={item.status}
                   helperId={item.helperId}
-                  pageName="helpDescription"
+                  pageName="Description"
                 />
 
                 <ConfirmationModal

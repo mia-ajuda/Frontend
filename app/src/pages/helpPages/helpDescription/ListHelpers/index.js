@@ -67,11 +67,11 @@ export default function ListHelpers({
           cancelable: false
         }
       );
-      navigation.navigate("Em andamento");
+      navigation.navigate("em andamento");
     } catch (err) {
       Alert.alert(
         "Opsss!",
-        "Erro ao finalizar ajuda, tente mais tard!",
+        "Erro ao finalizar ajuda, tente mais tarde!",
         [{ text: "OK", onPress: () => {} }],
         {
           cancelable: false

@@ -94,25 +94,35 @@ const HelpTopBar = () => (
 
 );
 
-const MyRequestsNavigation = () => (
-  
-  <>
-    <View
-      style={{
-        width: "100%",
-        paddingTop: Constants.statusBarHeight,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.primary,
-      }}
+const navigationAskedHelps = () => {
+
+  return (
+    <MyRequestsTab.Navigator
+      initialRouteName="em andamento"
+      tabBarOptions={tabTopBarOptions}
     >
-      <Text style={{ ...fonts.title, color: "#fff" }}>Seus pedidos de ajuda</Text>
-    </View>
-    <MyRequestsTab.Navigator tabBarOptions={tabTopBarOptions}>
-      <MyRequestsTab.Screen name="Em andamento" component={OnGoingHelps} />
-      <MyRequestsTab.Screen name="Finalizados" component={DoneHelps} />
+      <MyRequestsTab.Screen name="em andamento" component={OnGoingHelps} />
+      <MyRequestsTab.Screen name="finalizadas" component={DoneHelps} />
+
     </MyRequestsTab.Navigator>
+  )
+}
+
+const MyRequestsNavigation = () => (
+  <>
+    <stack.Navigator
+      screenOptions={headerStyle}
+    >
+      <stack.Screen name="Meus pedidos" component={navigationAskedHelps} />
+      <stack.Screen name="Description"
+        component={HelpDescription}
+        options={({ route }) => ({
+          title: route.params.helpTitle,
+        })} />
+    </stack.Navigator>
   </>
+
+
 );
 
 const BottomTab = () => (
