@@ -10,7 +10,6 @@ export default function CategoryContextProvider(props) {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
-    console.log(user)
     if (user) fetchCategories();
   }, [user]);
 
