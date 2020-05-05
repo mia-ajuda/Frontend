@@ -22,7 +22,6 @@ class HelpService {
     const helps = await api.get(
       `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
     );
-
     return helps.data;
   }
 
@@ -37,8 +36,18 @@ class HelpService {
 
   async getAllHelpForUser(userId, status) {
     const url = status
-      ? `/Help?id=${userId}&status=${status}`
-      : `/Help?id=${userId};`;
+      ? `/help?id=${userId}&status=${status}`
+      : `/help?id=${userId};`;
+
+    const helps = await api.get(url);
+
+    return helps.data;
+  }
+
+  async getAllHelpForHelper(userId, status) {
+    const url = status
+      ? `/help?id.helper=${userId}&status=${status}`
+      : `/help?id.helper=${userId};`;
 
     const helps = await api.get(url);
 
@@ -68,6 +77,18 @@ class HelpService {
       await api.put(url);
     } catch (error) {
       console.log(error.response);
+      throw error;
+    }
+  }
+
+  async finishHelpByHelper(idHelp, idHelper) {
+    try {
+
+      const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
+      await api.put(url);
+    } catch (error) {
+      console.log(error.response);
+      throw error;
     }
   }
 }

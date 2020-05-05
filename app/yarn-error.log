@@ -1,30 +1,25 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add @bamtech/react-native-component-map-clustering
+  /usr/bin/node /usr/share/yarn/bin/yarn.js
 
 PATH: 
-  /home/pedrofeo/.zinit/polaris/bin:/home/pedrofeo/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin
+  /home/gabriel/development/flutter/bin:/home/gabriel/anaconda3/bin:/home/gabriel/anaconda3/condabin:/home/gabriel/development/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 
 Yarn version: 
-  1.22.4
+  1.21.1
 
 Node version: 
-  13.13.0
+  13.7.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@bamtech%2freact-native-component-map-clustering: Not found
-      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66987:18)
-      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140748:22)
-      at Request.emit (events.js:315:20)
-      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141720:10)
-      at Request.emit (events.js:315:20)
-      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141642:12)
-      at Object.onceWrapper (events.js:421:28)
-      at IncomingMessage.emit (events.js:327:22)
-      at endReadableNT (_stream_readable.js:1201:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  SyntaxError: /home/gabriel/Mia Ajuda/Frontend/app/package.json: Unexpected token < in JSON at position 1546
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -37,15 +32,18 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@bam.tech/react-native-component-map-clustering": "^1.1.1",
       "@fortawesome/fontawesome-svg-core": "^1.2.28",
       "@fortawesome/react-native-fontawesome": "^0.2.3",
       "@react-native-community/masked-view": "0.1.5",
       "@react-navigation/bottom-tabs": "^5.2.5",
-      "@react-navigation/material-top-tabs": "^5.1.7",
+      "@react-navigation/material-top-tabs": "^5.1.9",
       "@react-navigation/native": "^5.1.4",
       "@react-navigation/stack": "^5.2.9",
       "axios": "^0.19.2",
       "expo": "~36.0.0",
+      "expo-facebook": "~8.0.0",
+      "expo-google-app-auth": "^8.1.0",
       "expo-image-picker": "~8.0.1",
       "expo-location": "~8.0.0",
       "firebase": "^7.13.2",
@@ -66,9 +64,14 @@ npm manifest:
       "react-native-safe-area-context": "0.6.0",
       "react-native-screens": "2.0.0-alpha.12",
       "react-native-svg": "^12.0.3",
+  <<<<<<< HEAD
+      "react-native-tab-view": "^2.14.0",
+      "react-native-web": "~0.11.7"
+  =======
       "react-native-tab-view": "^2.13.0",
       "react-native-web": "~0.11.7",
       "socket.io-client": "2.1.0"
+  >>>>>>> 616490b7df031c565219958c370e853214c8646f
     },
     "devDependencies": {
       "@babel/core": "^7.0.0",
@@ -1001,6 +1004,14 @@ Lockfile:
       lodash "^4.17.13"
       to-fast-properties "^2.0.0"
   
+  "@bam.tech/react-native-component-map-clustering@^1.1.1":
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/@bam.tech/react-native-component-map-clustering/-/react-native-component-map-clustering-1.1.1.tgz#9d4d9469839e1c5f9844c43853edf0166ebacb7d"
+    integrity sha512-FaQ8z922nk8QSsHozhrYzW02yAo7IYIuF873708jGKjG0INUMGuVl9rK2f1SCMQY14MV2TL6jtin6qxcqMEkyw==
+    dependencies:
+      lodash "^4.17.5"
+      supercluster "^4.0.1"
+  
   "@cnakazawa/watch@^1.0.3":
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1548,10 +1559,10 @@ Lockfile:
       react-is "^16.13.0"
       use-subscription "^1.4.0"
   
-  "@react-navigation/material-top-tabs@^5.1.7":
-    version "5.1.8"
-    resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-5.1.8.tgz#139f2511854f558df79aeac97d391b739f937f9d"
-    integrity sha512-g9k6MtV8Kj8AG8HvAiANG+VwWkyRVAEExyg5zpxSX/5q6gm8GT9C/hbEfZraziyeiLhGsOoTmvPsFXVTLfN6IQ==
+  "@react-navigation/material-top-tabs@^5.1.9":
+    version "5.1.9"
+    resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-5.1.9.tgz#518df4e65d5a682f33b664f1cc45f2067a9f9183"
+    integrity sha512-Y2a22GmXeyAOFm77/sX3RvM/o6K9RItlAruipq8btoi7aQhuIECOg8EvP258WwypZ4fqdMhSebMK85t1Bpvxnw==
     dependencies:
       color "^3.1.2"
   
@@ -2971,6 +2982,13 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
   
+  expo-app-auth@~9.0.0:
+    version "9.0.0"
+    resolved "https://registry.yarnpkg.com/expo-app-auth/-/expo-app-auth-9.0.0.tgz#879893b90bb083acd705012495bc907cd5d700e7"
+    integrity sha512-loDPUxVNhCJVxjDdLevoApOBQkcK8QQXSNyWqKIAvzwjuxQQ7EtwSXOVMThsPU/wWCHOW/Zbj7ykBYUmJi6jLA==
+    dependencies:
+      invariant "^2.2.4"
+  
   expo-app-loader-provider@~8.0.0:
     version "8.0.0"
     resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-8.0.0.tgz#c18ef20a24153f5a0dbb297106ef0bcb5de57180"
@@ -2992,10 +3010,20 @@ Lockfile:
     dependencies:
       ua-parser-js "^0.7.19"
   
+  expo-constants@~9.0.0:
+    version "9.0.0"
+    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.0.0.tgz#35c600079ee91d38fe4f56375caae6e90f122fdd"
+    integrity sha512-1kqZMM8Ez5JT3sTEx8I69fP6NYFLOJjeM6Z63dD/m2NiwvzSADiO5+BhghnWNGN1L3bxbgOjXS6EHtS7CdSfxA==
+  
   expo-error-recovery@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-1.0.0.tgz#2ca9d59fcd16c5c881af877993731056f2d46afe"
     integrity sha512-xnxciNEpGmwxx8BAE2A9fd9HxtzWtz8p9mikKU+EfWgOXaYD3FJwgbFoVLD2pm4QUarxwOcic76rcwg+0cNnGg==
+  
+  expo-facebook@~8.0.0:
+    version "8.0.0"
+    resolved "https://registry.yarnpkg.com/expo-facebook/-/expo-facebook-8.0.0.tgz#d337a56459a3833488a879b925349b30c06a0afd"
+    integrity sha512-fF+lwFLWkB/mrr/xu4aIZ3HhpsITUTC1Dut4fD7ZzBPpQ3x2s1KpdNOOrb6FQFlE0thFlLAASRe0HDhFD7EN4w==
   
   expo-file-system@~8.0.0:
     version "8.0.0"
@@ -3010,6 +3038,14 @@ Lockfile:
     integrity sha512-1hrlvxv8MpE1761v2mDjZRwhhM4hkfDr/MQlkWD2+g17N+UjU3WQct4kc+VuZW30pP+YowwrmG3O6JVoIOhWGA==
     dependencies:
       fontfaceobserver "^2.1.0"
+  
+  expo-google-app-auth@^8.1.0:
+    version "8.1.0"
+    resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-8.1.0.tgz#2f173cdd47733311ccdae911a1a6c74963a3593b"
+    integrity sha512-7daHlFd9zNMOpY49EPBVtgY+KUeI1/dFooEGNoQZcXPQGDo1Sw9AYqyYJvYNXni4n0sFHCFFHxEHL11ECXZzaw==
+    dependencies:
+      expo-app-auth "~9.0.0"
+      expo-constants "~9.0.0"
   
   expo-image-picker@~8.0.1:
     version "8.0.2"
@@ -4024,6 +4060,11 @@ Lockfile:
     version "0.0.0"
     resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
     integrity sha1-LHS27kHZPKUbe1qu6PUDYx0lKnM=
+  
+  kdbush@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-2.0.1.tgz#90c6128e3001ac68c550d7c9e2f222c0269666f1"
+    integrity sha512-9KqSdmWCkBIisFIGclT0FRagKhI7IVbMyUjsxCFG0Ly1Dg6whlxJ7b9lrq8ifk3X/fGeJzok1R75LQfZTfA5zQ==
   
   kind-of@^1.1.0:
     version "1.1.0"
@@ -5400,7 +5441,7 @@ Lockfile:
       css-select "^2.1.0"
       css-tree "^1.0.0-alpha.39"
   
-  react-native-tab-view@^2.13.0:
+  react-native-tab-view@^2.14.0:
     version "2.14.0"
     resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.14.0.tgz#dd801f82fdb8e92fce9688b78d13923f3a5a2b3f"
     integrity sha512-Z7XAM3NsMB96c17e9EAveunk7SUgilXWwVUTmWI1u/+p2SeOMUOB87z+//UXrcVlD1e9BPweR73q7dq7krTzTg==
@@ -6136,6 +6177,13 @@ Lockfile:
     version "9.1.1"
     resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.1.1.tgz#73853d729770392caec029e2470db9c221754db0"
     integrity sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA==
+  
+  supercluster@^4.0.1:
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-4.1.1.tgz#cf13c3b28a3fb3db5290bfad7f524e244bd4ce78"
+    integrity sha512-sF0FfUOPFp96DKzwWFLeQOEqqKu2PpcesxAFeFsknA/q7g7igVVn/p3NI2XHEghNSyDAqunKNKqAbqNO8+7NDQ==
+    dependencies:
+      kdbush "^2.0.1"
   
   supports-color@^2.0.0:
     version "2.0.0"

@@ -6,6 +6,7 @@ import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
 import { useFocusEffect } from '@react-navigation/native';
+import NoHelps from "../../../../components/NoHelps";
 
 export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
@@ -62,6 +63,7 @@ export default function OnGoingHelps({ navigation }) {
                   ownerId={item.ownerId}
                   helpStatus={item.status}
                   helperId={item.helperId}
+                  pageName="helpDescription"
                 />
 
                 <ConfirmationModal
@@ -74,23 +76,7 @@ export default function OnGoingHelps({ navigation }) {
           </View>
         </ScrollView>
       ) : (
-        <View
-          style={{
-            height: "100%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20
-          }}
-        >
-          <Image
-            source={require("../../../../../assets/images/blueCat.png")}
-            style={styles.emptyListImage}
-          />
-          <Text style={styles.emptyListText}>
-            Você não possui ajudas em andamento
-          </Text>
-        </View>
+        <NoHelps title={"Você não possui ajudas em andamento"} />
       )}
     </View>
   );
