@@ -11,12 +11,15 @@ import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
+import{HelpContext} from "../../../store/contexts/helpContext"
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
+import actions from "../../../store/actions";
 import colors from "../../../../assets/styles/colorVariables";
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
+  const { helpList,dispatch } = useContext(HelpContext);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
@@ -50,6 +53,10 @@ export default function HelpDescription({ route, navigation }) {
     try {
       await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
+      let helpListArray = helpList.filter((help) => {
+        return help._id!=helpId;
+      });
+      dispatch({ type: actions.help.storeList, helps: helpListArray });
       navigation.goBack();
       helpAlert(
         "Oferta enviada com sucesso e estará no aguardo para ser aceita",
