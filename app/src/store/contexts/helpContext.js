@@ -39,8 +39,10 @@ export default function HelpContextProvider(props) {
 
   useEffect(() => {
     subscribeToNewHelps((help) => {
-      const helpListArray = [...helpList, help];
-      dispatch({ type: actions.help.storeList, helps: helpListArray });
+      if (help.ownerId !== user._id) {
+        const helpListArray = [...helpList, help];
+        dispatch({ type: actions.help.storeList, helps: helpListArray });
+      }
     });
 
     subscribeToDeleteHelp((helpId) => {
