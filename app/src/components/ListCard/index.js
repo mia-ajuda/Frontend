@@ -25,7 +25,6 @@ export default function ListCard({
   helperId,
   userPhone,
   userLocation,
-  helpStatus,
   pageName,
 }) {
   return (
@@ -47,7 +46,7 @@ export default function ListCard({
           helperId,
           userPhone,
           userLocation,
-          helpStatus,
+          helpStatus
         });
         setVisible && setVisible(false);
       }}
