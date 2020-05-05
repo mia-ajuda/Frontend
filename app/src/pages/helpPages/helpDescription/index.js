@@ -249,12 +249,15 @@ export default function HelpDescription({ route, navigation }) {
               helpId={helpId}
               navigation={navigation}
             />
-          ) : user._id != helperId && (
-            <Button
-              title="Oferecer Ajuda"
-              large
-              press={() => openModal("offer")}
-            />
+          ) : user._id !== helperId && helpStatus != "finished" && (
+            <>
+              <Text>{helpStatus}</Text>
+              <Button
+                title="Oferecer Ajuda"
+                large
+                press={() => openModal("offer")}
+              />
+            </>
           )}
         </View>
       </View>

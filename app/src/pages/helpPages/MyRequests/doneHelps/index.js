@@ -52,6 +52,7 @@ export default function DoneHelps({ navigation }) {
                 <ListCard
                   helpTitle={item.title}
                   helpDescription={item.description}
+                  helpStatus={item.status}
                   categoryName={item.category[0].name}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
