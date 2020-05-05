@@ -31,6 +31,7 @@ export default function ListHelpers({
   const [helperName, setHelperName] = useState("");
   const [helperAge, setHelperAge] = useState("");
   const [helperCity, setHelperCity] = useState("");
+  const [helperPhone, setHelperPhone] = useState("");
   const [help, setHelp] = useState({});
   const [possibleHelpers, setPossibleHelpers] = useState([]);
   const [finished, setFinished] = useState(false);
@@ -48,6 +49,7 @@ export default function ListHelpers({
         setHelperAge(moment().diff(resp.data.birthday, "year"));
         setHelperName(resp.data.name);
         setHelperCity(resp.data.address.city);
+        setHelperPhone(resp.data.phone);
       }
     } catch (err) {
       console.log(err.response);
@@ -126,21 +128,21 @@ export default function ListHelpers({
                   uri: helperImage
                 }}
               />
-              <View>
+              <View style={{width: '80%'}}>
                 <Text style={[{ fontFamily: "montserrat-semibold" }]}>
                   {helperName}
                 </Text>
-                <Text>
-                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                    Idade:{" "}
-                  </Text>
-                  {helperAge}
-                </Text>
-                <Text>
-                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                <Text style={{flexWrap: 'wrap' }}>
+                  <Text style={[{ fontFamily: "montserrat-semibold"}]}>
                     Cidade:{" "}
                   </Text>
                   {helperCity}
+                </Text>
+                <Text>
+                  <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                    Telefone:{" "}
+                  </Text>
+                  {helperPhone}
                 </Text>
               </View>
             </View>

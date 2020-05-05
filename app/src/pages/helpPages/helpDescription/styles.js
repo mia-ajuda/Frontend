@@ -25,8 +25,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...fonts.body,
-    marginBottom: 3,
-    textAlign: "justify"
+    marginBottom: 3
   },
 
   helpInfo: {

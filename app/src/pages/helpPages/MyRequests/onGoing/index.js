@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import { View, ScrollView, Image, Text } from "react-native";
+import { View, ScrollView } from "react-native";
 import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";

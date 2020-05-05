@@ -17,7 +17,6 @@ import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
 import ListHelpers from "./ListHelpers/index";
 
-import colors from "../../../../assets/styles/colorVariables";
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
@@ -250,11 +249,11 @@ export default function HelpDescription({ route, navigation }) {
               helpId={helpId}
               navigation={navigation}
             />
-          ) : (
+          ) : user._id != helperId && (
             <Button
               title="Oferecer Ajuda"
               large
-              press={() => setConfirmationModalVisible(true)}
+              press={() => openModal("offer")}
             />
           )}
         </View>
