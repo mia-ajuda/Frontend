@@ -30,12 +30,12 @@ export default function HelpContextProvider(props) {
   const [helpList, dispatch] = useReducer(helpReducer, []);
 
   useEffect(() => {
-    if (currentRegion && user) {
+    if (currentRegion && user._id) {
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
       setupWebSocket();
     }
-  }, [currentRegion]);
+  }, [user._id,currentRegion]);
 
   useEffect(() => {
     subscribeToNewHelps((help) => {
