@@ -5,8 +5,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Linking,
-  Alert,
   ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -22,8 +20,7 @@ export default function App({ route, navigation }) {
   const [photo, setPhoto] = React.useState("");
   const [sendingPhotoToCloud, setSendingImageToCloud] = useState(false);
   const [termsModalVisible, setTermsModalVisible] = useState(false);
-  console.log(termsModalVisible);
-  // const { userData } = route.params;
+  const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
