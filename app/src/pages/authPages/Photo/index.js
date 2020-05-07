@@ -15,13 +15,15 @@ import styles from "./styles";
 import Container from "../../../components/Container";
 import uploadImageCloudinary from "../../../services/cloudinary";
 import colors from "../../../../assets/styles/colorVariables";
+import TermsModal from "../../../components/modals/conditionTermsModal";
 
 export default function App({ route, navigation }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [photo, setPhoto] = React.useState("");
   const [sendingPhotoToCloud, setSendingImageToCloud] = useState(false);
-
-  const { userData } = route.params;
+  const [termsModalVisible, setTermsModalVisible] = useState(false);
+  console.log(termsModalVisible);
+  // const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -108,21 +110,7 @@ export default function App({ route, navigation }) {
           </View>
           <TouchableOpacity
             style={{ flex: 1, margin: 16 }}
-            onPress={async () => {
-              const wikiTermsUrl =
-                "https://mia-ajuda.github.io/Documentation/#/_docs/termos";
-              const supported = await Linking.canOpenURL(wikiTermsUrl);
-              if (supported) {
-                Linking.openURL(
-                  "https://mia-ajuda.github.io/Documentation/#/_docs/termos"
-                );
-              } else {
-                Alert.alert(
-                  "Erro",
-                  "Não foi possível abrir os Termos de Uso e Política de Privacidade, por favor visite nossa wiki: https://mia-ajuda.github.io"
-                );
-              }
-            }}
+            onPress={() => setTermsModalVisible(true)}
           >
             <View
               style={{
@@ -156,6 +144,10 @@ export default function App({ route, navigation }) {
               </>
             )}
           </View>
+          <TermsModal
+            visible={termsModalVisible}
+            setVisible={setTermsModalVisible}
+          />
         </View>
       )}
     </View>
