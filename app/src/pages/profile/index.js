@@ -11,7 +11,6 @@ export default function Profile() {
     ? { uri: user.photo }
     : require("../../../assets/images/blueLogo.png");
 
-  console.log(user);
   async function logout() {
     await AsyncStorage.removeItem("user");
     dispatch({ type: actions.user.removeUserInfo });

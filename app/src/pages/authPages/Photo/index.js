@@ -20,7 +20,7 @@ export default function App({ route, navigation }) {
   const [photo, setPhoto] = React.useState("");
   const [sendingPhotoToCloud, setSendingImageToCloud] = useState(false);
   const [termsModalVisible, setTermsModalVisible] = useState(false);
-  const { userData } = route.params;
+  // const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
