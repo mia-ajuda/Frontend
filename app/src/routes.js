@@ -222,7 +222,7 @@ const AuthRoutes = () => {
   return (
     <>
       <AuthStack.Navigator
-        initialRouteName="login"
+        initialRouteName="photo"
         screenOptions={{
           headerShown: false,
         }}
