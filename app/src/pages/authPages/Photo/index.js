@@ -5,22 +5,18 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
-import uploadImageCloudinary from "../../../services/cloudinary";
-import colors from "../../../../assets/styles/colorVariables";
 import TermsModal from "../../../components/modals/conditionTermsModal";
 
 export default function App({ route, navigation }) {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [photo, setPhoto] = React.useState("");
-  const [sendingPhotoToCloud, setSendingImageToCloud] = useState(false);
+  const [photo, setPhoto] = useState("");
   const [termsModalVisible, setTermsModalVisible] = useState(false);
-  // const { userData } = route.params;
+  const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -33,6 +29,7 @@ export default function App({ route, navigation }) {
     const pickerResult = await ImagePicker.launchCameraAsync({
       base64: true,
       allowsEditing: true,
+      quality: 0.5,
     });
     if (pickerResult.cancelled === true) {
       return;
@@ -42,9 +39,7 @@ export default function App({ route, navigation }) {
       localUri: pickerResult.uri,
     });
 
-    setPhoto({
-      photo: pickerResult.base64,
-    });
+    setPhoto(pickerResult.base64);
   }
 
   async function cancelHandler() {
@@ -53,13 +48,9 @@ export default function App({ route, navigation }) {
   }
 
   async function continueHandler() {
-    setSendingImageToCloud(true);
-    const photoUrl = await uploadImageCloudinary(photo);
-    setSendingImageToCloud(false);
-
     const data = {
       ...userData,
-      photo: photoUrl,
+      photo,
     };
     navigation.navigate("location", { userData: data });
   }
@@ -128,18 +119,12 @@ export default function App({ route, navigation }) {
             />
           </TouchableOpacity>
           <View style={styles.buttonPreview}>
-            {sendingPhotoToCloud ? (
-              <ActivityIndicator size="large" color={colors.primary} />
-            ) : (
-              <>
-                <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
-                  <Text style={styles.btnText}>Voltar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn1} onPress={continueHandler}>
-                  <Text style={styles.btnText1}>Continuar</Text>
-                </TouchableOpacity>
-              </>
-            )}
+            <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
+              <Text style={styles.btnText}>Voltar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btn1} onPress={continueHandler}>
+              <Text style={styles.btnText1}>Continuar</Text>
+            </TouchableOpacity>
           </View>
           <TermsModal
             visible={termsModalVisible}

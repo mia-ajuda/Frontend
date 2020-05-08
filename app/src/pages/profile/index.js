@@ -8,7 +8,7 @@ import actions from "../../store/actions";
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
   const profilePhoto = user.photo
-    ? { uri: user.photo }
+    ? { uri: `data:image/png;base64,${user.photo}` }
     : require("../../../assets/images/blueLogo.png");
 
   async function logout() {
