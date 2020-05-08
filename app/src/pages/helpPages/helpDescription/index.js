@@ -6,13 +6,13 @@ import {
   Alert,
   ScrollView,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import moment from "moment";
-import{HelpContext} from "../../../store/contexts/helpContext"
+import { HelpContext } from "../../../store/contexts/helpContext";
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
@@ -20,7 +20,7 @@ import ListHelpers from "./ListHelpers/index";
 import actions from "../../../store/actions";
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
-  const { helpList,dispatch } = useContext(HelpContext);
+  const { helpList, dispatch } = useContext(HelpContext);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
@@ -41,7 +41,7 @@ export default function HelpDescription({ route, navigation }) {
     helperId,
     userPhone,
     userLocation,
-    helpStatus
+    helpStatus,
   } = route.params;
 
   var today = new Date();
@@ -57,7 +57,7 @@ export default function HelpDescription({ route, navigation }) {
       await HelpService.chooseHelp(helpId, user._id);
       setConfirmationModalVisible(false);
       let helpListArray = helpList.filter((help) => {
-        return help._id!=helpId;
+        return help._id != helpId;
       });
       dispatch({ type: actions.help.storeList, helps: helpListArray });
       navigation.goBack();
@@ -117,13 +117,13 @@ export default function HelpDescription({ route, navigation }) {
   function openMaps() {
     const scheme = Platform.select({
       ios: "maps:0,0?q=",
-      android: "geo:0,0?q="
+      android: "geo:0,0?q=",
     });
     const latLng = `${userLocation[1]},${userLocation[0]}`;
     const label = "Pedido de Ajuda de " + userName;
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`
+      android: `${scheme}${latLng}(${label})`,
     });
     Linking.openURL(url);
   }
@@ -149,7 +149,7 @@ export default function HelpDescription({ route, navigation }) {
             <View style={styles.userInfo}>
               <Image
                 source={{
-                  uri: profilePhoto || user.photo
+                  uri: `data:image/png;base64,${profilePhoto || user.photo}`,
                 }}
                 style={styles.profileImage}
               />
@@ -157,7 +157,7 @@ export default function HelpDescription({ route, navigation }) {
                 <Text
                   style={[
                     styles.infoText,
-                    { fontFamily: "montserrat-semibold" }
+                    { fontFamily: "montserrat-semibold" },
                   ]}
                 >
                   {userName || user.name}
@@ -198,8 +198,8 @@ export default function HelpDescription({ route, navigation }) {
                     {
                       fontFamily: "montserrat-semibold",
                       marginTop: 20,
-                      marginBottom: 10
-                    }
+                      marginBottom: 10,
+                    },
                   ]}
                 >
                   Descrição:
@@ -218,7 +218,7 @@ export default function HelpDescription({ route, navigation }) {
                 flexDirection: "row",
                 justifyContent: "space-around",
                 width: "100%",
-                marginBottom: 20
+                marginBottom: 20,
               }}
             >
               <TouchableOpacity onPress={openWhatsapp}>
@@ -255,15 +255,18 @@ export default function HelpDescription({ route, navigation }) {
               helpId={helpId}
               navigation={navigation}
             />
-          ) : user._id !== helperId && helpStatus != "finished" && (
-            <>
-              <Text>{helpStatus}</Text>
-              <Button
-                title="Oferecer Ajuda"
-                large
-                press={() => openModal("offer")}
-              />
-            </>
+          ) : (
+            user._id !== helperId &&
+            helpStatus != "finished" && (
+              <>
+                <Text>{helpStatus}</Text>
+                <Button
+                  title="Oferecer Ajuda"
+                  large
+                  press={() => openModal("offer")}
+                />
+              </>
+            )
           )}
         </View>
       </View>

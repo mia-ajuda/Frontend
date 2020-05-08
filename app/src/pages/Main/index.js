@@ -91,43 +91,42 @@ export default function Main({ navigation }) {
         )}
         {helpList &&
           helpList.map((help) => {
-              return (
-                <Marker
-                  title={help.distance}
-                  key={help._id}
-                  tracksViewChanges={false}
-                  coordinate={{
-                    latitude: help.user.location.coordinates[1],
-                    longitude: help.user.location.coordinates[0],
-                  }}
+            return (
+              <Marker
+                title={help.distance}
+                key={help._id}
+                tracksViewChanges={false}
+                coordinate={{
+                  latitude: help.user.location.coordinates[1],
+                  longitude: help.user.location.coordinates[0],
+                }}
+              >
+                <Avatar help={help} />
+                <Callout
+                  onPress={() =>
+                    navigation.navigate("helpDescription", {
+                      helpTitle: help.title,
+                      helpDescription: help.description,
+                      categoryName: help.category[0].name,
+                      helpId: help._id,
+                      userName: help.user.name,
+                      birthday: help.user.birthday,
+                      city: help.user.address.city,
+                      profilePhoto: help.user.photo,
+                    })
+                  }
+                  style={styles.callout}
                 >
-                  <Avatar help={help} />
-                  <Callout
-                    onPress={() =>
-                      navigation.navigate("helpDescription", {
-                        helpTitle: help.title,
-                        helpDescription: help.description,
-                        categoryName: help.category[0].name,
-                        helpId: help._id,
-                        userName: help.user.name,
-                        birthday: help.user.birthday,
-                        city: help.user.address.city,
-                        profilePhoto: help.user.photo,
-                      })
-                    }
-                    style={styles.callout}
-                  >
-                    <Text style={styles.calloutPersonName} numberOfLines={1}>
-                      {help.user.name}
-                    </Text>
-                    <Text style={styles.calloutPersonDistance}>
-                      {help.distance}
-                    </Text>
-                    <Text style={styles.calloutPress}>Toque para ver</Text>
-                  </Callout>
-                </Marker>
-              );
-            
+                  <Text style={styles.calloutPersonName} numberOfLines={1}>
+                    {help.user.name}
+                  </Text>
+                  <Text style={styles.calloutPersonDistance}>
+                    {help.distance}
+                  </Text>
+                  <Text style={styles.calloutPress}>Toque para ver</Text>
+                </Callout>
+              </Marker>
+            );
           })}
       </MapView>
       {!helpListVisible && (
