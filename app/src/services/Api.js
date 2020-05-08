@@ -2,7 +2,7 @@ import axios from "axios";
 import { AsyncStorage } from "react-native";
 import firebase from "firebase";
 import ENV from "../config/envVariables";
-
+import UserContext from "../store/contexts/userContext"
 
 const api = axios.create({
   baseURL: ENV.apiUrl,
@@ -24,19 +24,32 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log(error)
     const originalRequest = error.config;
 
+    console.log(JSON.parse(JSON.stringify(originalRequest)));
     console.log('ok')
     if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      console.log("2");
-      await firebase.auth().currentUser.getIdToken().then(async (idTokenUser) => {
-        console.log(idTokenUser + 'ok')
-        await AsyncStorage.setItem("accessToken", idTokenUser);
-        return api.request(originalRequest);
-      })
+        originalRequest._retry = true;
+        console.log(JSON.parse(JSON.stringify(originalRequest)))
+        console.log("   2");
+        firebase.auth().onAuthStateChanged(async function (user) {
+          if (user) {
+              console.log('a');
+              const idTokenUser = await firebase.auth().currentUser.getIdToken();
+              console.log(idTokenUser)
+              console.log('b')
+              await AsyncStorage.setItem("accessToken", idTokenUser);
+              console.log('c');
+              return Axios(originalRequest);
+          } 
+          else {
+              console.log("No user is logged in")
+              throw error;
+          }
+        });  
     }
-    throw error;
+   
   }
 );
 
