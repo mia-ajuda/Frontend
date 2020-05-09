@@ -41,6 +41,21 @@ const setUserDeviceId = async () => {
   }
 };
 
+
+firebase.auth().onAuthStateChanged(async function (user) {
+  console.log('yesssssssssssssssssssssssssssssssssss')
+  if (user) {
+    console.log('a');
+    const idTokenUser = await firebase.auth().currentUser.getIdToken();
+    console.log(idTokenUser)
+    console.log('b')
+    await AsyncStorage.setItem("accessToken", idTokenUser);
+  }
+  else {
+    console.log("No user is logged in")
+  }
+});
+
 class UserService {
   constructor() {}
 
@@ -58,6 +73,7 @@ class UserService {
       setUserDeviceId();
 
       await AsyncStorage.setItem("user", JSON.stringify(user));
+
 
       return user;
     } catch (error) {

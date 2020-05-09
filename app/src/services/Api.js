@@ -10,8 +10,11 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
+    console.log('REQUEST 1')
     const accessToken = await AsyncStorage.getItem("accessToken");
+    console.log(accessToken)
     config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log('request 2')
     return config;
   },
   (error) => {
@@ -24,31 +27,27 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error)
+    console.log(error+'ERROR NA API')
     const originalRequest = error.config;
 
     console.log(JSON.parse(JSON.stringify(originalRequest)));
-    console.log('ok')
+    console.log('1')
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        console.log(JSON.parse(JSON.stringify(originalRequest)))
         console.log("   2");
-        firebase.auth().onAuthStateChanged(async function (user) {
-          if (user) {
-              console.log('a');
-              const idTokenUser = await firebase.auth().currentUser.getIdToken();
-              console.log(idTokenUser)
-              console.log('b')
-              await AsyncStorage.setItem("accessToken", idTokenUser);
-              console.log('c');
-              return Axios(originalRequest);
-          } 
-          else {
-              console.log("No user is logged in")
-              throw error;
-          }
-        });  
+        const idTokenUser = await firebase.auth().currentUser.getIdToken();
+        console.log(idTokenUser)
+        console.log('3')
+        console.log(originalRequest.headers)
+        console.log(4)
+        console.log(originalRequest.headers.Authorization)
+        console.log(5)
+        originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
+        console.log(originalRequest.headers.Authorization)
+        await AsyncStorage.setItem("accessToken", idTokenUser)
+        return axios(originalRequest);
     }
+    throw error;
    
   }
 );
