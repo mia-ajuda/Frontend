@@ -30,14 +30,12 @@ export const UserContextProvider = (props) => {
   }, []);
 
   firebase.auth().onAuthStateChanged(async function (user) {
-    console.log('yesssssssssssssssssssssssssssssssssss')
     if (user) {
       console.log('a');
       setFirebaseUser(true)
-      console.log(firebaseUser);
     }
     else {
-      console.log("No user is logged in")
+      setFirebaseUser(false);
     }
   });
 

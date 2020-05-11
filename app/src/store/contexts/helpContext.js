@@ -30,13 +30,7 @@ export default function HelpContextProvider(props) {
   const { user, currentRegion,firebaseUser} = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
   useEffect(() => {
-    console.log(firebaseUser +' usuário firebase')
-    console.log(currentRegion+'regiao');
-    console.log(user._id+'id');
-    console.log(firebase.auth().currentUser+' usuárioHelp');
     if (currentRegion && user._id && firebase.auth().currentUser) {
-      console.log("entrei na help")
-      console.log(firebase.auth().currentUser + ' usuárioHelp2');  
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
       setupWebSocket();
@@ -44,7 +38,6 @@ export default function HelpContextProvider(props) {
   }, [user._id,currentRegion,firebaseUser]);
 
   useEffect(() => {
-    console.log("entrou na helpList")
     subscribeToNewHelps((help) => {
       if (help.ownerId !== user._id) {
         const helpListArray = [...helpList, help];
@@ -74,9 +67,6 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories]);
 
   useEffect(() => {
-    console.log('entrei nessa merda aqui')
-    //console.log(location)
-    //console.log(currentRegion)
     if(location)
     { 
       var latValidation = (location.latitude*10000)-(currentRegion.latitude*10000);
@@ -85,7 +75,6 @@ export default function HelpContextProvider(props) {
       latValidation = Math.abs(latValidation)
 
       if (location && shouldRequest(location) && (latValidation>1 || longValidation>1)){
-        console.log('entrei nessa merda aqui 2')
         activeLocations.push(location);
         if (selectedCategories.length) {
           getHelpListWithCategories(location);
@@ -102,7 +91,7 @@ export default function HelpContextProvider(props) {
       try {
         const { _id: userId } = user;
         let helpListArray = await HelpService.getNearHelp(loc, userId);
-        console.log(JSON.parse(JSON.stringify(helpListArray)))
+        //console.log(JSON.parse(JSON.stringify(helpListArray)))
         console.log(' funcionooooooooouuuuuuuuuuuuuuuu')
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];

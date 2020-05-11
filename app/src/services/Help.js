@@ -19,16 +19,10 @@ class HelpService {
 
   async getNearHelp(coords, id) {
     const { longitude, latitude } = coords;
-    try{
-      const helps = await api.get(
-      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
-      );
-      console.log(helps);
+    const helps = await api.get(
+    `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
+    );
       return helps.data;
-    }catch(error){
-      console.log('estou na service ');
-      throw (error + 'vim da service');
-    }  
   }
 
   async getAllHelpForCategory(coords, categoryId, id) {
