@@ -8,7 +8,7 @@ import * as Google from "expo-google-app-auth";
 import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-
+import useState from "react";
 const setUserDeviceId = async () => {
   try {
     if (Constants.isDevice) {
@@ -42,23 +42,11 @@ const setUserDeviceId = async () => {
 };
 
 
-firebase.auth().onAuthStateChanged(async function (user) {
-  console.log('yesssssssssssssssssssssssssssssssssss')
-  if (user) {
-    console.log('a');
-    const idTokenUser = await firebase.auth().currentUser.getIdToken();
-    console.log(idTokenUser)
-    console.log('b')
-    await AsyncStorage.setItem("accessToken", idTokenUser);
-  }
-  else {
-    console.log("No user is logged in")
-  }
-});
+
 
 class UserService {
   constructor() {}
-
+  
   async logIn(data) {
     try {
       await firebaseAuth
@@ -77,7 +65,7 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log("error");
+      console.log("error"+error);
       console.log(error.response.data);
       throw { error: error.response.data.error };
     }

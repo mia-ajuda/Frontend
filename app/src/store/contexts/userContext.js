@@ -2,6 +2,7 @@ import React, { useReducer, createContext, useState, useEffect } from "react";
 import { AsyncStorage } from "react-native";
 import { userReducer } from "../reducers/userReducer";
 import actions from "../actions";
+import firebase from "firebase";
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
@@ -14,7 +15,7 @@ export const UserContextProvider = (props) => {
     showSplash: true,
   });
   const [currentRegion, setCurrentRegion] = useState(null);
-
+  const [firebaseUser, setFirebaseUser] = useState(false);
   useEffect(() => {
     async function getUserFromAsyncStorage() {
       const user = await AsyncStorage.getItem("user");
@@ -27,6 +28,18 @@ export const UserContextProvider = (props) => {
     }
     getUserFromAsyncStorage();
   }, []);
+
+  firebase.auth().onAuthStateChanged(async function (user) {
+    console.log('yesssssssssssssssssssssssssssssssssss')
+    if (user) {
+      console.log('a');
+      setFirebaseUser(true)
+      console.log(firebaseUser);
+    }
+    else {
+      console.log("No user is logged in")
+    }
+  });
 
   useEffect(() => {
     async function getLocation() {
@@ -48,8 +61,10 @@ export const UserContextProvider = (props) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch, currentRegion }}>
+    <UserContext.Provider value={{ user, dispatch, currentRegion,firebaseUser}}>
       {props.children}
     </UserContext.Provider>
   );
 };
+
+

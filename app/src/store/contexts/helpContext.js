@@ -20,24 +20,31 @@ import {
   changeLocations,
 } from "../../services/socket";
 import { calculateDistance } from "../../utils/helpDistance";
+import firebase from "firebase";
 export const HelpContext = createContext();
 let activeLocations = [];
 
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { selectedCategories } = useContext(CategoryContext);
-  const { user, currentRegion } = useContext(UserContext);
+  const { user, currentRegion,firebaseUser} = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-
   useEffect(() => {
-    if (currentRegion && user._id) {
+    console.log(firebaseUser +' usuário firebase')
+    console.log(currentRegion+'regiao');
+    console.log(user._id+'id');
+    console.log(firebase.auth().currentUser+' usuárioHelp');
+    if (currentRegion && user._id && firebase.auth().currentUser) {
+      console.log("entrei na help")
+      console.log(firebase.auth().currentUser + ' usuárioHelp2');  
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
       setupWebSocket();
     }
-  }, [user._id,currentRegion]);
+  }, [user._id,currentRegion,firebaseUser]);
 
   useEffect(() => {
+    console.log("entrou na helpList")
     subscribeToNewHelps((help) => {
       if (help.ownerId !== user._id) {
         const helpListArray = [...helpList, help];
@@ -67,14 +74,26 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories]);
 
   useEffect(() => {
-    if (location && shouldRequest(location) && location != currentRegion) {
-      activeLocations.push(location);
-      if (selectedCategories.length) {
-        getHelpListWithCategories(location);
-      } else {
-        getHelpList(location);
+    console.log('entrei nessa merda aqui')
+    //console.log(location)
+    //console.log(currentRegion)
+    if(location)
+    { 
+      var latValidation = (location.latitude*10000)-(currentRegion.latitude*10000);
+      var longValidation = (location.longitude * 10000) - (currentRegion.longitude * 10000);
+      longValidation = Math.abs(longValidation)
+      latValidation = Math.abs(latValidation)
+
+      if (location && shouldRequest(location) && (latValidation>1 || longValidation>1)){
+        console.log('entrei nessa merda aqui 2')
+        activeLocations.push(location);
+        if (selectedCategories.length) {
+          getHelpListWithCategories(location);
+        } else {
+          getHelpList(location);
+        }
+        changeLocations(activeLocations);
       }
-      changeLocations(activeLocations);
     }
   }, [location]);
 
@@ -83,13 +102,15 @@ export default function HelpContextProvider(props) {
       try {
         const { _id: userId } = user;
         let helpListArray = await HelpService.getNearHelp(loc, userId);
+        console.log(JSON.parse(JSON.stringify(helpListArray)))
+        console.log(' funcionooooooooouuuuuuuuuuuuuuuu')
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];
           helpListArray = getUnique(helpListArray, "_id");
         }
         dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
-        console.log(error);
+        console.log(error +' error da getlist');
       }
     }
   }
@@ -109,7 +130,7 @@ export default function HelpContextProvider(props) {
         }
         dispatch({ type: actions.help.storeList, helps: helpListFiltered });
       } catch (error) {
-        console.log(error);
+        console.log(error + "error da LIstacategoria");
       }
     }
   }

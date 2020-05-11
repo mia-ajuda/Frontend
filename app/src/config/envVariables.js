@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 
 const prodUrl = "";
 const devUrl = `http://${IP_ADDRESS}:8000/`;
-console.log(devUrl)
+console.log(devUrl+'apppp')
 
 const ENV = {
   dev: {
