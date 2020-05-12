@@ -52,12 +52,8 @@ class UserService {
 
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       await AsyncStorage.setItem("accessToken", idTokenUser);
-
       const user = await this.requestUserData();
-
       setUserDeviceId();
-
-      await AsyncStorage.setItem("user", JSON.stringify(user));
 
       return user;
     } catch (error) {

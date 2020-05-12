@@ -1,6 +1,7 @@
 import React, { useReducer, createContext, useState, useEffect } from "react";
 import { AsyncStorage } from "react-native";
 import { userReducer } from "../reducers/userReducer";
+import UserService from "../../services/User";
 import actions from "../actions";
 import {
   requestPermissionsAsync,
@@ -16,16 +17,16 @@ export const UserContextProvider = (props) => {
   const [currentRegion, setCurrentRegion] = useState(null);
 
   useEffect(() => {
-    async function getUserFromAsyncStorage() {
-      const user = await AsyncStorage.getItem("user");
-      const userJSON = JSON.parse(user);
-      if (userJSON) {
-        dispatch({ type: actions.user.storeUserInfo, data: userJSON });
+    async function getUserTokenFromAsyncStorage() {
+      const accessToken = await AsyncStorage.getItem("accessToken");
+      if (accessToken) {
+        const user = await UserService.requestUserData();
+        dispatch({ type: actions.user.storeUserInfo, data: user });
       } else {
         dispatch({ type: actions.user.requestSignIn });
       }
     }
-    getUserFromAsyncStorage();
+    getUserTokenFromAsyncStorage();
   }, []);
 
   useEffect(() => {

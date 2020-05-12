@@ -12,7 +12,7 @@ export default function Profile() {
     : require("../../../assets/images/blueLogo.png");
 
   async function logout() {
-    await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("accessToken");
     dispatch({ type: actions.user.removeUserInfo });
   }
   return (
