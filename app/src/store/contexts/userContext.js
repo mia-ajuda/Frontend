@@ -29,15 +29,18 @@ export const UserContextProvider = (props) => {
     getUserFromAsyncStorage();
   }, []);
 
-  firebase.auth().onAuthStateChanged(async function (user) {
-    if (user) {
-      console.log('a');
-      setFirebaseUser(true)
-    }
-    else {
-      setFirebaseUser(false);
-    }
-  });
+  useEffect(()=>{
+    firebase.auth().onAuthStateChanged(async function (user) {
+      console.log('entrei no auth');
+      if (user) {
+        console.log('a');
+        setFirebaseUser(true)
+      }
+      else {
+        setFirebaseUser(false);
+      }
+    });
+  },[])
 
   useEffect(() => {
     async function getLocation() {
