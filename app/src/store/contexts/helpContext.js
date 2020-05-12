@@ -29,7 +29,9 @@ export default function HelpContextProvider(props) {
   const { selectedCategories } = useContext(CategoryContext);
   const { user, currentRegion,firebaseUser} = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
+  const [ loadingHelps, setLoadingHelps ] = useState(false);
   useEffect(() => {
+    setLoadingHelps(true);
     if (currentRegion && user._id && firebase.auth().currentUser) {
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
@@ -91,12 +93,11 @@ export default function HelpContextProvider(props) {
       try {
         const { _id: userId } = user;
         let helpListArray = await HelpService.getNearHelp(loc, userId);
-        //console.log(JSON.parse(JSON.stringify(helpListArray)))
-        console.log(' funcionooooooooouuuuuuuuuuuuuuuu')
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];
           helpListArray = getUnique(helpListArray, "_id");
         }
+        setLoadingHelps(false);
         dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
         console.log(error +' error da getlist');
@@ -156,7 +157,7 @@ export default function HelpContextProvider(props) {
   }
 
   return (
-    <HelpContext.Provider value={{ helpList, dispatch }}>
+    <HelpContext.Provider value={{ helpList, dispatch, loadingHelps }}>
       {props.children}
     </HelpContext.Provider>
   );

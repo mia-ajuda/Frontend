@@ -2,18 +2,10 @@ import axios from "axios";
 import { AsyncStorage } from "react-native";
 import firebase from "firebase";
 import ENV from "../config/envVariables";
-import UserContext from "../store/contexts/userContext"
-
-import * as rax from 'retry-axios';
 
 const api = axios.create({
   baseURL: ENV.apiUrl,
 });
-
-api.defaults.raxConfig = {
-  instance: api
-};
-const interceptorId = rax.attach(api);
 
 api.interceptors.request.use(
   async (config) => {
