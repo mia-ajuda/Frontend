@@ -7,9 +7,9 @@ import actions from "../../store/actions";
 
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
-  const profilePhoto = user.photo
-    ? { uri: `data:image/png;base64,${user.photo}` }
-    : require("../../../assets/images/blueLogo.png");
+  const profilePhoto = user.photo.includes("http")
+    ? { uri: user.photo } // google+ or facebook
+    : { uri: `data:image/png;base64,${user.photo}` }; //base64
 
   async function logout() {
     await AsyncStorage.removeItem("accessToken");

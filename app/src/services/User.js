@@ -57,7 +57,6 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log("error");
       console.log(error.response.data);
       throw { error: error.response.data.error };
     }
@@ -90,7 +89,7 @@ class UserService {
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
-            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            "Para prosseguir precisamos de mais algumas informações. Deseja continuar seu cadastro?",
             [
               {
                 text: "OK",
@@ -114,7 +113,6 @@ class UserService {
               cancelable: false,
             }
           );
-
           return {};
         } else {
           const idTokenUser = await firebase.auth().currentUser.getIdToken();
@@ -124,10 +122,9 @@ class UserService {
           setUserDeviceId();
           return user;
         }
-      } else {
-        throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
     } catch (err) {
+      console.log(err);
       throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
   }
@@ -156,7 +153,7 @@ class UserService {
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
-            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            "Para prosseguir precisamos de mais algumas informações. Deseja continuar seu cadastro?",
             [
               {
                 text: "OK",
