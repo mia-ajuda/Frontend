@@ -18,6 +18,7 @@ import HelpService from "../../../services/Help";
 import ConfirmationModal from "./confirmationModal";
 import ListHelpers from "./ListHelpers/index";
 import actions from "../../../store/actions";
+
 export default function HelpDescription({ route, navigation }) {
   const { user } = useContext(UserContext);
   const { helpList, dispatch } = useContext(HelpContext);
@@ -44,13 +45,18 @@ export default function HelpDescription({ route, navigation }) {
     helpStatus,
   } = route.params;
 
-  var today = new Date();
-  var birthDate = new Date(birthday);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+  const today = new Date();
+  const birthDate = new Date(birthday);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const month = today.getMonth() - birthDate.getMonth();
+  if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
+
+  const photo = profilePhoto || user.photo;
+  const photoFormated = photo.includes("http")
+    ? { uri: photo }
+    : { uri: `data:image/png;base64,${photo}` };
 
   async function chooseHelp() {
     try {
@@ -147,12 +153,7 @@ export default function HelpDescription({ route, navigation }) {
         {!clickPossibleHelpers && (
           <>
             <View style={styles.userInfo}>
-              <Image
-                source={{
-                  uri: `data:image/png;base64,${profilePhoto || user.photo}`,
-                }}
-                style={styles.profileImage}
-              />
+              <Image source={photoFormated} style={styles.profileImage} />
               <View style={styles.infoTextView}>
                 <Text
                   style={[
