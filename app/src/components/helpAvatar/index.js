@@ -13,7 +13,7 @@ export default function Avatar({ help }) {
       <Icon
         name="exclamation"
         type="font-awesome"
-        size={50}
+        size={45}
         color={iconColor}
       />
     </View>
