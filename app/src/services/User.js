@@ -52,16 +52,11 @@ class UserService {
 
       const idTokenUser = await firebaseAuth.auth().currentUser.getIdToken();
       await AsyncStorage.setItem("accessToken", idTokenUser);
-
       const user = await this.requestUserData();
-
       setUserDeviceId();
-
-      await AsyncStorage.setItem("user", JSON.stringify(user));
 
       return user;
     } catch (error) {
-      console.log("error");
       console.log(error.response.data);
       throw { error: error.response.data.error };
     }
@@ -87,9 +82,6 @@ class UserService {
 
         const userData = facebookProfileData.additionalUserInfo;
 
-        const idTokenUser = await firebase.auth().currentUser.getIdToken();
-        await AsyncStorage.setItem("accessToken", idTokenUser);
-
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
         );
@@ -97,7 +89,7 @@ class UserService {
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
-            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            "Para prosseguir precisamos de mais algumas informações. Deseja continuar seu cadastro?",
             [
               {
                 text: "OK",
@@ -121,21 +113,18 @@ class UserService {
               cancelable: false,
             }
           );
-
           return {};
         } else {
+          const idTokenUser = await firebase.auth().currentUser.getIdToken();
+          await AsyncStorage.setItem("accessToken", idTokenUser);
           const user = await this.requestUserData();
 
           setUserDeviceId();
-
-          await AsyncStorage.setItem("user", JSON.stringify(user));
-
           return user;
         }
-      } else {
-        throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
       }
     } catch (err) {
+      console.log(err);
       throw { error: "Erro ao logar com o Facebook. Tente Novamente!" };
     }
   }
@@ -157,9 +146,6 @@ class UserService {
 
         await firebase.auth().signInWithCredential(credential);
 
-        const idTokenUser = await firebase.auth().currentUser.getIdToken();
-        await AsyncStorage.setItem("accessToken", idTokenUser);
-
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
         );
@@ -167,7 +153,7 @@ class UserService {
         if (!isExists.data) {
           Alert.alert(
             "Cadatrar",
-            "Não existe uma conta criada com esse email. Deseja cadastra?",
+            "Para prosseguir precisamos de mais algumas informações. Deseja continuar seu cadastro?",
             [
               {
                 text: "OK",
@@ -191,11 +177,12 @@ class UserService {
             }
           );
         } else {
+          const idTokenUser = await firebase.auth().currentUser.getIdToken();
+          await AsyncStorage.setItem("accessToken", idTokenUser);
+
           const user = await this.requestUserData();
 
           setUserDeviceId();
-
-          await AsyncStorage.setItem("user", JSON.stringify(user));
 
           return user;
         }
@@ -222,6 +209,7 @@ class UserService {
       const response = await api.post(`/user?hasUser=${hasUser}`, data);
       return response;
     } catch (error) {
+      console.log(error);
       throw {
         error:
           "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
@@ -231,8 +219,8 @@ class UserService {
 
   async logOut() {
     try {
-      await firebase.auth().signOut();
       await AsyncStorage.clear();
+      await firebase.auth().signOut();
     } catch {
       throw { error: "Não foi possível Deslogar!" };
     }
