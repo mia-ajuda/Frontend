@@ -100,7 +100,7 @@ export default function HelpContextProvider(props) {
         setLoadingHelps(false);
         dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
-        console.log(error +' error da getlist');
+        console.log(error);
       }
     }
   }
@@ -120,7 +120,7 @@ export default function HelpContextProvider(props) {
         }
         dispatch({ type: actions.help.storeList, helps: helpListFiltered });
       } catch (error) {
-        console.log(error + "error da LIstacategoria");
+        console.log(error);
       }
     }
   }

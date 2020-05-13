@@ -31,9 +31,7 @@ export const UserContextProvider = (props) => {
 
   useEffect(()=>{
     firebase.auth().onAuthStateChanged(async function (user) {
-      console.log('entrei no auth');
       if (user) {
-        console.log('a');
         setFirebaseUser(true)
       }
       else {
