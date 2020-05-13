@@ -83,9 +83,6 @@ class UserService {
 
         const userData = facebookProfileData.additionalUserInfo;
 
-        const idTokenUser = await firebase.auth().currentUser.getIdToken();
-        await AsyncStorage.setItem("accessToken", idTokenUser);
-
         const isExists = await api.get(
           `/checkUserExistence/${userData.profile.email}`
         );
@@ -120,12 +117,11 @@ class UserService {
 
           return {};
         } else {
+          const idTokenUser = await firebase.auth().currentUser.getIdToken();
+          await AsyncStorage.setItem("accessToken", idTokenUser);
           const user = await this.requestUserData();
 
           setUserDeviceId();
-
-          await AsyncStorage.setItem("user", JSON.stringify(user));
-
           return user;
         }
       } else {
@@ -152,9 +148,6 @@ class UserService {
         );
 
         await firebase.auth().signInWithCredential(credential);
-
-        const idTokenUser = await firebase.auth().currentUser.getIdToken();
-        await AsyncStorage.setItem("accessToken", idTokenUser);
 
         const isExists = await api.get(
           `/checkUserExistence/${result.user.email}`
@@ -187,11 +180,12 @@ class UserService {
             }
           );
         } else {
+          const idTokenUser = await firebase.auth().currentUser.getIdToken();
+          await AsyncStorage.setItem("accessToken", idTokenUser);
+
           const user = await this.requestUserData();
 
           setUserDeviceId();
-
-          await AsyncStorage.setItem("user", JSON.stringify(user));
 
           return user;
         }
