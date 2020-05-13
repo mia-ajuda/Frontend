@@ -4,6 +4,7 @@ import styles from "./styles";
 import Button from "../../components/UI/button";
 import { UserContext } from "../../store/contexts/userContext";
 import actions from "../../store/actions";
+import UserService from "../../services/User";
 
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
@@ -12,7 +13,7 @@ export default function Profile() {
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
 
   async function logout() {
-    await AsyncStorage.removeItem("accessToken");
+    await UserService.logOut();
     dispatch({ type: actions.user.removeUserInfo });
   }
   return (

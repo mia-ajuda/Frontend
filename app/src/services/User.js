@@ -219,8 +219,8 @@ class UserService {
 
   async logOut() {
     try {
-      await firebase.auth().signOut();
       await AsyncStorage.clear();
+      await firebase.auth().signOut();
     } catch {
       throw { error: "Não foi possível Deslogar!" };
     }
