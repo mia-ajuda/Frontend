@@ -119,9 +119,6 @@ export default function Main({ navigation }) {
                 <Text style={styles.calloutPersonName} numberOfLines={1}>
                   {help.user.name}
                 </Text>
-                <Text style={styles.calloutPersonDistance}>
-                  {help.distance}
-                </Text>
                 <Text style={styles.calloutPress}>Toque para ver</Text>
               </Callout>
             </Marker>
