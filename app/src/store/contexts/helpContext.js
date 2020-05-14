@@ -27,17 +27,17 @@ let activeLocations = [];
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { selectedCategories } = useContext(CategoryContext);
-  const { user, currentRegion,firebaseUser} = useContext(UserContext);
+  const { user, currentRegion} = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
   const [ loadingHelps, setLoadingHelps ] = useState(false);
   useEffect(() => {
     setLoadingHelps(true);
-    if (currentRegion && user._id && firebase.auth().currentUser) {
+    if (currentRegion && user._id) {
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
       setupWebSocket();
     }
-  }, [user._id,currentRegion,firebaseUser]);
+  }, [user._id,currentRegion]);
 
   useEffect(() => {
     subscribeToNewHelps((help) => {
