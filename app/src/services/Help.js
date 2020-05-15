@@ -20,9 +20,9 @@ class HelpService {
   async getNearHelp(coords, id) {
     const { longitude, latitude } = coords;
     const helps = await api.get(
-      `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
+    `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`
     );
-    return helps.data;
+      return helps.data;
   }
 
   async getAllHelpForCategory(coords, categoryId, id) {

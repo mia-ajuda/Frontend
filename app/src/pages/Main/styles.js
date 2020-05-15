@@ -64,11 +64,7 @@ const styles = StyleSheet.create({
   calloutPersonName: {
     ...fonts.body,
     fontSize: 12,
-  },
-  calloutPersonDistance: {
-    ...fonts.body,
-    fontSize: 12,
-    color: "#666",
+    marginBottom:5,
   },
   calloutPress: {
     ...fonts.body,
