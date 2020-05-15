@@ -27,9 +27,9 @@ export default function OnGoingHelps({ navigation }) {
     let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
     let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
     let tempHelperFinished = await helpService.getAllHelpForUser(userId, "helper_finished");
-    let AllHelps = [...tempOnGoing, ...tempOnWaiting];
-    AllHelps = [...AllHelps,...tempHelperFinished];
-    let filteredHelps = AllHelps.filter(help => help.active === true);
+    let allHelps = [...tempOnGoing, ...tempOnWaiting];
+    allHelps = [...allHelps,...tempHelperFinished];
+    let filteredHelps = allHelps.filter(help => help.active === true);
     setOnGoingHelpList(filteredHelps);
   }
 
