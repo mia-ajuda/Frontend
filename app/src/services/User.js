@@ -8,7 +8,6 @@ import * as Google from "expo-google-app-auth";
 import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-import useState from "react";
 const setUserDeviceId = async () => {
   try {
     if (Constants.isDevice) {

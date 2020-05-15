@@ -18,7 +18,7 @@ export const UserContextProvider = (props) => {
   const [currentRegion, setCurrentRegion] = useState(null);
   
   
-  async function getUserTokenFromAsyncStorage() {
+  async function getUserInfo() {
     const accessToken = await AsyncStorage.getItem("accessToken");
     if (accessToken) {
       const user = await UserService.requestUserData();
@@ -33,11 +33,11 @@ export const UserContextProvider = (props) => {
       if (user) {
         user.getIdToken().then(async (acesstoken)=>{
           await AsyncStorage.setItem("accessToken",acesstoken);
-          getUserTokenFromAsyncStorage();
+          getUserInfo();
         })
       }
       else{
-          getUserTokenFromAsyncStorage();
+          getUserInfo();
       }
     });
   },[])
