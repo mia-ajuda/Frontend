@@ -142,6 +142,7 @@ export default function Login({ navigation }) {
       </View>
       <View style={styles.input}>
         <TextInput
+          keyboardType="email-address"
           style={styles.textInput}
           placeholder="Email"
           autoCorrect={false}
