@@ -20,16 +20,18 @@ import {
   changeLocations,
 } from "../../services/socket";
 import { calculateDistance } from "../../utils/helpDistance";
+import firebase from "firebase";
 export const HelpContext = createContext();
 let activeLocations = [];
 
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { selectedCategories } = useContext(CategoryContext);
-  const { user, currentRegion } = useContext(UserContext);
+  const { user, currentRegion} = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-
+  const [ loadingHelps, setLoadingHelps ] = useState(false);
   useEffect(() => {
+    setLoadingHelps(true);
     if (currentRegion && user._id) {
       activeLocations.push(currentRegion);
       getHelpList(currentRegion);
@@ -67,14 +69,22 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories]);
 
   useEffect(() => {
-    if (location && shouldRequest(location) && location != currentRegion) {
-      activeLocations.push(location);
-      if (selectedCategories.length) {
-        getHelpListWithCategories(location);
-      } else {
-        getHelpList(location);
+    if(location)
+    { 
+      var latValidation = (location.latitude*10000)-(currentRegion.latitude*10000);
+      var longValidation = (location.longitude * 10000) - (currentRegion.longitude * 10000);
+      longValidation = Math.abs(longValidation)
+      latValidation = Math.abs(latValidation)
+
+      if (location && shouldRequest(location) && (latValidation>1 || longValidation>1)){
+        activeLocations.push(location);
+        if (selectedCategories.length) {
+          getHelpListWithCategories(location);
+        } else {
+          getHelpList(location);
+        }
+        changeLocations(activeLocations);
       }
-      changeLocations(activeLocations);
     }
   }, [location]);
 
@@ -87,6 +97,7 @@ export default function HelpContextProvider(props) {
           helpListArray = [...helpList, ...helpListArray];
           helpListArray = getUnique(helpListArray, "_id");
         }
+        setLoadingHelps(false);
         dispatch({ type: actions.help.storeList, helps: helpListArray });
       } catch (error) {
         console.log(error);
@@ -146,7 +157,7 @@ export default function HelpContextProvider(props) {
   }
 
   return (
-    <HelpContext.Provider value={{ helpList, dispatch }}>
+    <HelpContext.Provider value={{ helpList, dispatch, loadingHelps }}>
       {props.children}
     </HelpContext.Provider>
   );

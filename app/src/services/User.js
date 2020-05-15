@@ -8,7 +8,6 @@ import * as Google from "expo-google-app-auth";
 import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-
 const setUserDeviceId = async () => {
   try {
     if (Constants.isDevice) {
@@ -41,9 +40,12 @@ const setUserDeviceId = async () => {
   }
 };
 
+
+
+
 class UserService {
   constructor() {}
-
+  
   async logIn(data) {
     try {
       await firebaseAuth
