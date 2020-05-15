@@ -146,7 +146,7 @@ export default function ListHelpers({
                 </Text>
               </View>
             </View>
-            {help.status === "on_going" ? (
+            {(help.status === "on_going" || help.status === "helper_finished") ? (
               <Button
                 press={() => {
                   setVisible(true);
