@@ -20,11 +20,21 @@ export default function AskedHelps({ navigation }) {
 
   async function getHelps() {
     setLoading(true);
-    const helps = await helpService.getAllHelpForHelper(
+    let helpsOnGoing = await helpService.getAllHelpForHelper(
       user._id,
       "on_going"
     );
-    setMyHelps(helps);
+    
+    let helpsOwnerFinished = await helpService.getAllHelpForHelper(
+      user._id,
+      "owner_finished"
+    );
+    
+    let helps = [...helpsOnGoing,...helpsOwnerFinished];
+    
+    let filteredHelps = helps.filter(help => help.active === true);
+   
+    setMyHelps(filteredHelps);
     setLoading(false);
   }
 

@@ -80,7 +80,7 @@ export default function HelpDescription({ route, navigation }) {
 
   async function finishHelp() {
     try {
-      await HelpService.finishHelpByHelper(helpId, user._id, user.accessToken);
+      await HelpService.finishHelpByHelper(helpId, user._id);
       setConfirmationModalVisible(false);
       navigation.goBack();
       helpAlert(
