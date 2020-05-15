@@ -71,7 +71,7 @@ export default StyleSheet.create({
     maxHeight: 30,
 
     paddingHorizontal: 15,
-  
+
     alignSelf: "flex-start",
   },
 
@@ -83,25 +83,25 @@ export default StyleSheet.create({
   },
 
   bottomItens: {
-    width:"100%",
+    width: "100%",
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   labelBadge: {
-    color: '#FFF',
-    fontWeight: 'bold'
+    color: "#FFF",
+    fontWeight: "bold",
   },
   badgeStyle: {
     backgroundColor: colors.danger,
-    height: 30, 
-    width: 30, 
-    borderRadius: 50
+    height: 30,
+    width: 30,
+    borderRadius: 50,
   },
   containerBadge: {
-    position: 'absolute', 
-    top: -7, 
-    right: -6 
+    position: "absolute",
+    top: -7,
+    right: -6,
   },
 });

@@ -16,7 +16,7 @@ import styles from "./styles";
 export default function HelpList({ helps, visible, setVisible, navigation }) {
   const [iconName, setIconName] = useState("caret-up");
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(40));
-  
+
   useEffect(() => {
     switch (visible) {
       case true:
@@ -40,9 +40,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
     <Animated.View
       style={[styles.helpListContainer, { height: animatedValue }]}
     >
-      <TouchableWithoutFeedback 
-        onPress={() => setVisible(!visible)}
-      >
+      <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
         <View style={styles.buttonStyle}>
           <Icon
             size={25}
@@ -60,22 +58,27 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.scrollStyle}
             >
-              {helps.map((help, i) => (
-                <ListCard
-                  key={help._id}
-                  profilePhoto={help.user.photo}
-                  helpId={help._id}
-                  deleteVisible={false}
-                  helpTitle={help.title}
-                  helpDescription={help.description}
-                  categoryName={help.category[0].name}
-                  userName={help.user.name}
-                  birthday={help.user.birthday}
-                  city={help.user.address.city}
-                  navigation={navigation}
-                  pageName="helpDescription"
-                />
-              ))}
+              {helps.map((help, i) => {
+                const isRiskGroup = !!help.user.riskGroup.length;
+
+                return (
+                  <ListCard
+                    key={help._id}
+                    profilePhoto={help.user.photo}
+                    helpId={help._id}
+                    deleteVisible={false}
+                    helpTitle={help.title}
+                    helpDescription={help.description}
+                    categoryName={help.category[0].name}
+                    userName={help.user.name}
+                    birthday={help.user.birthday}
+                    city={help.user.address.city}
+                    navigation={navigation}
+                    pageName="helpDescription"
+                    isRiskGroup={isRiskGroup}
+                  />
+                );
+              })}
             </ScrollView>
           ) : (
             <View style={styles.emptyList}>
