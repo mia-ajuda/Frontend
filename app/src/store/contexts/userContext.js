@@ -3,6 +3,7 @@ import { AsyncStorage } from "react-native";
 import { userReducer } from "../reducers/userReducer";
 import UserService from "../../services/User";
 import actions from "../actions";
+import firebase from "firebase";
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
@@ -15,19 +16,31 @@ export const UserContextProvider = (props) => {
     showSplash: true,
   });
   const [currentRegion, setCurrentRegion] = useState(null);
-
-  useEffect(() => {
-    async function getUserTokenFromAsyncStorage() {
-      const accessToken = await AsyncStorage.getItem("accessToken");
-      if (accessToken) {
-        const user = await UserService.requestUserData();
-        dispatch({ type: actions.user.storeUserInfo, data: user });
-      } else {
-        dispatch({ type: actions.user.requestSignIn });
-      }
+  
+  
+  async function getUserInfo() {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    if (accessToken) {
+      const user = await UserService.requestUserData();
+      dispatch({ type: actions.user.storeUserInfo, data: user });
+    } else {
+      dispatch({ type: actions.user.requestSignIn });
     }
-    getUserTokenFromAsyncStorage();
-  }, []);
+  }
+  
+  useEffect(()=>{
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        user.getIdToken().then(async (acesstoken)=>{
+          await AsyncStorage.setItem("accessToken",acesstoken);
+          getUserInfo();
+        })
+      }
+      else{
+          getUserInfo();
+      }
+    });
+  },[])
 
   useEffect(() => {
     async function getLocation() {
@@ -49,8 +62,10 @@ export const UserContextProvider = (props) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch, currentRegion }}>
+    <UserContext.Provider value={{ user, dispatch, currentRegion}}>
       {props.children}
     </UserContext.Provider>
   );
 };
+
+

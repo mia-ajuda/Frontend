@@ -30,6 +30,7 @@ import fonts from "../assets/styles/fontVariable";
 import Splash from "./pages/splash";
 import HelpDescription from "./pages/helpPages/helpDescription";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { HelpContext } from "./store/contexts/helpContext";
 
 const backImage = require("../assets/images/back.png");
 
@@ -123,7 +124,11 @@ const MyRequestsNavigation = () => (
   </>
 );
 
-const BottomTab = () => (
+const BottomTab = () => {
+  const {loadingHelps} = useContext(HelpContext);
+
+  if (loadingHelps) return <Splash />;
+  return (
   <BottomNavigation.Navigator
     tabBarOptions={{
       style: {
@@ -211,7 +216,7 @@ const BottomTab = () => (
     <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
     <BottomNavigation.Screen name="profile" component={Profile} />
   </BottomNavigation.Navigator>
-);
+)};
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
