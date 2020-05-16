@@ -6,6 +6,22 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20
   },
+  imageView: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1
+  },
+  imageProper: { 
+    width: 175, 
+    height: 175, 
+    borderRadius: 100 
+  },
+  viewContent: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flex: 1,
+    marginBottom: 10
+  }
 });
 
 export default styles;

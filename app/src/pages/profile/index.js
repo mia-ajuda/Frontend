@@ -19,40 +19,53 @@ export default function Profile() {
   return (
     <ScrollView style={styles.container}>
       <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          flex: 1,
-        }}
+        style={styles.imageView}
       >
         <Image
           source={profilePhoto}
-          style={{ width: 175, height: 175, borderRadius: 100 }}
+          style={styles.imageProper}
         />
       </View>
       <View
-        style={{
-          justifyContent: "flex-end",
-          alignItems: "center",
-          flex: 1,
-          marginBottom: 10,
-        }}
+        style={styles.viewContent}
       >
         <View>
-          <Text>{user.name}</Text>
+          <Text>Nome Completo</Text>
+          <View>
+            <Text>{user.name}</Text>
+          </View>
         </View>
         <View>
-          <Text>{user.birthday}</Text>
+          <Text>Idade</Text>
+          <View>
+            <Text>{user.birthday}</Text>
+          </View>
         </View>
         <View>
-          <Text>{user.email}</Text>
+          <Text>E-mail</Text>
+          <View>
+            <Text>{user.name}</Text>
+          </View>
         </View>
         <View>
-          <Text>{user.cpf}</Text>
+          <Text>CPF</Text>
+          <View>
+            <Text>{user.cpf}</Text>
+          </View>
         </View>
         <View>
-          <Text>{user.phone}</Text>
+          <Text>Telefone</Text>
+          <View>
+            <Text>{user.cpf}</Text>
+          </View>
         </View>
+        <View>
+          <Text>CPF</Text>
+          <View>
+            <Text>{user.cpf}</Text>
+          </View>
+        </View>
+       
         <Button
           press={() => {
             logout();
