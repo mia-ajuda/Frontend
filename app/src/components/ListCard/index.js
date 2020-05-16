@@ -26,12 +26,21 @@ export default function ListCard({
   userPhone,
   userLocation,
   pageName,
+  isRiskGroup,
 }) {
   return (
     <TouchableOpacity
-      style={styles.cardContainer}
+      style={[
+        styles.cardContainer,
+        isRiskGroup
+          ? {
+              borderRightColor: colors.danger,
+              borderRightWidth: 10,
+            }
+          : {},
+      ]}
       onPress={() => {
-        navigation.navigate(pageName,{
+        navigation.navigate(pageName, {
           helpTitle,
           helpDescription,
           categoryName,
@@ -46,23 +55,22 @@ export default function ListCard({
           helperId,
           userPhone,
           userLocation,
-          helpStatus
+          helpStatus,
         });
         setVisible && setVisible(false);
       }}
     >
-      {
-        possibleHelpers && possibleHelpers.length !== 0 ? (
-
-          <Badge
-            value={<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>}
-            badgeStyle={styles.badgeStyle}
-            containerStyle={styles.containerBadge}
-          />
-        ) : (
-          <></>
-        )
-      }
+      {possibleHelpers && possibleHelpers.length !== 0 ? (
+        <Badge
+          value={
+            <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>
+          }
+          badgeStyle={styles.badgeStyle}
+          containerStyle={styles.containerBadge}
+        />
+      ) : (
+        <></>
+      )}
       <View style={styles.cardTitle}>
         <Text numberOfLines={1} style={styles.titleContent}>
           {helpTitle}

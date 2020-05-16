@@ -5,7 +5,7 @@ import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import NoHelps from "../../../../components/NoHelps";
 import helpService from "../../../../services/Help";
-import { colors } from "react-native-elements";
+import colors from "../../../../../assets/styles/colorVariables";
 export default function AskedHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState([]);
@@ -24,20 +24,19 @@ export default function AskedHelps({ navigation }) {
       user._id,
       "on_going"
     );
-    
+
     let helpsOwnerFinished = await helpService.getAllHelpForHelper(
       user._id,
       "owner_finished"
     );
-    
-    let helps = [...helpsOnGoing,...helpsOwnerFinished];
-    
-    let filteredHelps = helps.filter(help => help.active === true);
-   
+
+    let helps = [...helpsOnGoing, ...helpsOwnerFinished];
+
+    let filteredHelps = helps.filter((help) => help.active === true);
+
     setMyHelps(filteredHelps);
     setLoading(false);
   }
-
 
   return (
     <View style={styles.helpList}>
@@ -63,7 +62,7 @@ export default function AskedHelps({ navigation }) {
               userPhone={help.user.phone}
               userLocation={help.user.location.coordinates}
               pageName="Description"
-              />
+            />
           ))}
         </ScrollView>
       ) : (

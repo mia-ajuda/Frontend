@@ -8,7 +8,7 @@ import {
   Text,
   Alert,
   ActivityIndicator,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import UserService from "../../../services/User";
 import Button from "../../../components/UI/button";
@@ -39,16 +39,16 @@ export default function Login({ navigation }) {
     }
   }, [email, password]);
 
-  const emailHandler = enteredEmail => {
+  const emailHandler = (enteredEmail) => {
     setEmail(enteredEmail);
   };
 
-  const passwordHandler = enteredPassword => {
+  const passwordHandler = (enteredPassword) => {
     setPassword(enteredPassword);
   };
 
   const loginHandler = async () => {
-    const data = { email, password };
+    const data = { email: email.trim(), password };
     Keyboard.dismiss();
 
     try {
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     }
@@ -98,11 +98,11 @@ export default function Login({ navigation }) {
         [
           {
             text: "OK",
-            onPress: () => {}
-          }
+            onPress: () => {},
+          },
         ],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     }
@@ -123,7 +123,7 @@ export default function Login({ navigation }) {
       setFacebookColor("#3B5998");
       setLoadingGoogle(false);
       Alert.alert("Erro", err.error, [{ text: "OK", onPress: () => {} }], {
-        cancelable: false
+        cancelable: false,
       });
     }
   };
@@ -142,6 +142,7 @@ export default function Login({ navigation }) {
       </View>
       <View style={styles.input}>
         <TextInput
+          keyboardType="email-address"
           style={styles.textInput}
           placeholder="Email"
           autoCorrect={false}
@@ -200,7 +201,7 @@ export default function Login({ navigation }) {
               <TouchableOpacity
                 disabled={loading || loadingFace}
                 style={[styles.btnGoogle]}
-                onPress={ loginHandlerGoogle}
+                onPress={loginHandlerGoogle}
               >
                 <Icon type="antdesign" name={"google"} color={"white"} />
               </TouchableOpacity>

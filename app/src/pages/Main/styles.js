@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../assets/styles/fontVariable";
+import colors from "../../../assets/styles/colorVariables";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -64,7 +65,11 @@ const styles = StyleSheet.create({
   calloutPersonName: {
     ...fonts.body,
     fontSize: 12,
-    marginBottom:5,
+  },
+  calloutPersonDistance: {
+    ...fonts.body,
+    fontSize: 14,
+    color: colors.danger,
   },
   calloutPress: {
     ...fonts.body,

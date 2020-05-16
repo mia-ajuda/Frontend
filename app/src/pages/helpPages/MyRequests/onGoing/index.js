@@ -1,18 +1,20 @@
 import React, { useState, useContext, useCallback } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, ActivityIndicator } from "react-native";
 import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import helpService from "../../../../services/Help";
 import styles from "../styles";
 import ConfirmationModal from "../../../../components/modals/confirmationModal";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 import NoHelps from "../../../../components/NoHelps";
+import colors from "../../../../../assets/styles/colorVariables";
 
 export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
+  const [loadingHelps, setLoadingHelps] = useState(false);
 
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
@@ -22,21 +24,26 @@ export default function OnGoingHelps({ navigation }) {
       loadOnGoingHelps();
     }, [navigation])
   );
-  
+
   async function loadOnGoingHelps() {
+    setLoadingHelps(true);
     let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
     let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
-    let tempHelperFinished = await helpService.getAllHelpForUser(userId, "helper_finished");
+    let tempHelperFinished = await helpService.getAllHelpForUser(
+      userId,
+      "helper_finished"
+    );
     let allHelps = [...tempOnGoing, ...tempOnWaiting];
-    allHelps = [...allHelps,...tempHelperFinished];
-    let filteredHelps = allHelps.filter(help => help.active === true);
+    allHelps = [...allHelps, ...tempHelperFinished];
+    let filteredHelps = allHelps.filter((help) => help.active === true);
     setOnGoingHelpList(filteredHelps);
+    setLoadingHelps(false);
   }
 
   async function excludeHelp(helpId) {
     try {
       await helpService.deleteHelp(helpId);
-      const updatedArray = onGoingHelpList.filter(help => {
+      const updatedArray = onGoingHelpList.filter((help) => {
         return help._id !== helpId;
       });
       setOnGoingHelpList(updatedArray);
@@ -48,10 +55,14 @@ export default function OnGoingHelps({ navigation }) {
 
   return (
     <View>
-      {onGoingHelpList.length > 0 ? (
+      {loadingHelps ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : onGoingHelpList.length > 0 ? (
         <ScrollView>
           <View style={styles.helpList}>
-            {onGoingHelpList.map(item => (
+            {onGoingHelpList.map((item) => (
               <View key={item._id}>
                 <ListCard
                   helpTitle={item.title}
