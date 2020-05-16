@@ -16,31 +16,33 @@ export const UserContextProvider = (props) => {
     showSplash: true,
   });
   const [currentRegion, setCurrentRegion] = useState(null);
-  
-  
+
   async function getUserInfo() {
     const accessToken = await AsyncStorage.getItem("accessToken");
     if (accessToken) {
-      const user = await UserService.requestUserData();
-      dispatch({ type: actions.user.storeUserInfo, data: user });
+      try {
+        const user = await UserService.requestUserData();
+        dispatch({ type: actions.user.storeUserInfo, data: user });
+      } catch (error) {
+        dispatch({ type: actions.user.requestSignIn });
+      }
     } else {
       dispatch({ type: actions.user.requestSignIn });
     }
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
-        user.getIdToken().then(async (acesstoken)=>{
-          await AsyncStorage.setItem("accessToken",acesstoken);
+        user.getIdToken().then(async (acesstoken) => {
+          await AsyncStorage.setItem("accessToken", acesstoken);
           getUserInfo();
-        })
-      }
-      else{
-          getUserInfo();
+        });
+      } else {
+        getUserInfo();
       }
     });
-  },[])
+  }, []);
 
   useEffect(() => {
     async function getLocation() {
@@ -62,10 +64,8 @@ export const UserContextProvider = (props) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch, currentRegion}}>
+    <UserContext.Provider value={{ user, dispatch, currentRegion }}>
       {props.children}
     </UserContext.Provider>
   );
 };
-
-

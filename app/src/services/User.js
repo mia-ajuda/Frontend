@@ -40,12 +40,9 @@ const setUserDeviceId = async () => {
   }
 };
 
-
-
-
 class UserService {
   constructor() {}
-  
+
   async logIn(data) {
     try {
       await firebaseAuth
@@ -237,6 +234,7 @@ class UserService {
       const user = await api.get(`/user/getUser`);
       return user.data;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
