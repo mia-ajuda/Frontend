@@ -40,6 +40,7 @@ const AuthStack = createStackNavigator();
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
 const MyRequestsTab = createMaterialTopTabNavigator();
 const stack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const MainNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
@@ -124,10 +125,18 @@ const MyRequestsNavigation = () => (
   </>
 );
 
+const ProfileNavigation = () => (
+  <>
+    <ProfileStack.Navigator screenOptions={headerStyle}>
+      <ProfileStack.Screen name="Perfil" component={Profile} />
+    </ProfileStack.Navigator>
+  </>
+)
+
 const BottomTab = () => {
   const {loadingHelps} = useContext(HelpContext);
 
-  if (loadingHelps) return <Splash />;
+  // if (loadingHelps) return <Splash />;
   return (
   <BottomNavigation.Navigator
     tabBarOptions={{
@@ -214,15 +223,15 @@ const BottomTab = () => {
     <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
     <BottomNavigation.Screen name="main" component={MainNavigation} />
     <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
-    <BottomNavigation.Screen name="profile" component={Profile} />
+    <BottomNavigation.Screen name="profile" component={ProfileNavigation} />
   </BottomNavigation.Navigator>
 )};
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
-  if (user && user.showSplash) {
-    return <Splash />;
-  }
+  // if (user && user.showSplash) {
+  //   return <Splash />;
+  // }
 
   return (
     <>

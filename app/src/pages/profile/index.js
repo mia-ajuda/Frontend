@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, AsyncStorage, Image } from "react-native";
+import { View, ScrollView, Image, Text } from "react-native";
 import styles from "./styles";
 import Button from "../../components/UI/button";
 import { UserContext } from "../../store/contexts/userContext";
@@ -17,7 +17,7 @@ export default function Profile() {
     dispatch({ type: actions.user.removeUserInfo });
   }
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View
         style={{
           alignItems: "center",
@@ -38,6 +38,21 @@ export default function Profile() {
           marginBottom: 10,
         }}
       >
+        <View>
+          <Text>{user.name}</Text>
+        </View>
+        <View>
+          <Text>{user.birthday}</Text>
+        </View>
+        <View>
+          <Text>{user.email}</Text>
+        </View>
+        <View>
+          <Text>{user.cpf}</Text>
+        </View>
+        <View>
+          <Text>{user.phone}</Text>
+        </View>
         <Button
           press={() => {
             logout();
@@ -45,6 +60,6 @@ export default function Profile() {
           title="sair"
         />
       </View>
-    </View>
+    </ScrollView>
   );
 }
