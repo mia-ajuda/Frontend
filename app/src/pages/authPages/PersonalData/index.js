@@ -19,7 +19,7 @@ import colors from "../../../../assets/styles/colorVariables";
 import onlyNumbers from "../../../utils/onlyNumbers";
 
 export default function PersonalData({ route, navigation }) {
-  const { registrationData } = route.params;
+  const { userData } = route.params;
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);
@@ -37,13 +37,13 @@ export default function PersonalData({ route, navigation }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if(registrationData.name) {
-      setName(registrationData.name)
+    if (registrationData.name) {
+      setName(registrationData.name);
     }
-    
-    if(registrationData.birthday) {
-      const dateSplit = registrationData.birthday.split('/');
-      const date = dateSplit[1] + '/' + dateSplit[0] + '/' + dateSplit[2];
+
+    if (registrationData.birthday) {
+      const dateSplit = registrationData.birthday.split("/");
+      const date = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
       setBirthday(date);
     }
 
@@ -115,14 +115,15 @@ export default function PersonalData({ route, navigation }) {
   const continueHandler = () => {
     const phone = handlePhone();
     const birthdayFormated = handleDate();
-    const personalData = {
+    const newUserData = {
       name,
       birthday: birthdayFormated,
       cpf,
       phone,
       ismentalHealthProfessional,
+      ...userData,
     };
-    const userData = { ...registrationData, ...personalData };
+    const userData = { userData: newUserData };
     setVerificationLoading(false);
     navigation.navigate("address", { userData });
   };

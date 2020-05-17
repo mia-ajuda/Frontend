@@ -42,12 +42,16 @@ export default function RiskGroup({ route, navigation }) {
       }
     }
 
-    const data = {
+    const newUserData = {
       ...userData,
       disease: newDisease,
     };
 
-    navigation.navigate( userData.photo ? "location" : "photo", { userData: data });
+    userData.photo
+      ? console.log("pode concluir!!!")
+      : navigation.navigate("photo", {
+          userData: newUserData,
+        });
   };
 
   return (

@@ -6,17 +6,17 @@ import {
   ScrollView,
   Keyboard,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
 import { Icon } from "react-native-elements";
-import axios from 'axios';
-import colors from '../../../../assets/styles/colorVariables';
+import axios from "axios";
+import colors from "../../../../assets/styles/colorVariables";
 
 export default function Address({ route, navigation }) {
-  const dataUser = route.params.userData;
+  const { userData } = route.params;
   const [cep, setCep] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -46,29 +46,25 @@ export default function Address({ route, navigation }) {
   };
 
   const cepHandle = async (currentCep) => {
-    setCep(currentCep.substring(0,8));
+    setCep(currentCep.substring(0, 8));
 
-    if(currentCep.length === 8) {
-      try{
+    if (currentCep.length === 8) {
+      try {
         setLoading(true);
-        const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
+        const response = await axios.get(
+          `https://viacep.com.br/ws/${currentCep}/json/`
+        );
 
-        if(!response.data.error) {
-          const {
-            localidade,
-            uf,
-            logradouro,
-            bairro,
-          } = response.data;
+        if (!response.data.error) {
+          const { localidade, uf, logradouro, bairro } = response.data;
 
           setIsCepValid(true);
           setState(uf);
           setCity(localidade);
-          setComplement( logradouro + " / " + bairro );
+          setComplement(logradouro + " / " + bairro);
         } else {
           setIsCepValid(false);
         }
-
       } catch {
         setIsCepValid(true);
       }
@@ -100,8 +96,8 @@ export default function Address({ route, navigation }) {
 
   const continueHandler = () => {
     const address = { cep, city, state, number: numberPlace, complement };
-    const userData = { ...dataUser, address };
-    navigation.navigate("riskGroup", { userData });
+    const newUserData = { address, ...userData };
+    navigation.navigate("riskGroup", { userData: newUserData });
   };
 
   return (
@@ -130,7 +126,7 @@ export default function Address({ route, navigation }) {
       ) : (
         <></>
       )}
-      
+
       {!loading ? (
         <>
           <ScrollView
@@ -182,9 +178,9 @@ export default function Address({ route, navigation }) {
             <Button
               title="Continuar"
               disabled={
-                cep === ""  ||
-                city === "" || 
-                state === "" || 
+                cep === "" ||
+                city === "" ||
+                state === "" ||
                 numberPlace === "" ||
                 !isCepValid
               }
@@ -193,18 +189,19 @@ export default function Address({ route, navigation }) {
             />
           </View>
         </>
-        ) : (
-          <>
-            <View style={{ 
-              flex: 1, 
-              justifyContent: 'center', 
-              alignItems: 'center' 
-            }}> 
-              <ActivityIndicator size="large" color={colors.primary} />
-            </View>
-          </>
-        )}
-    
+      ) : (
+        <>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 }

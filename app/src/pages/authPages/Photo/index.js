@@ -47,13 +47,32 @@ export default function App({ route, navigation }) {
     setPhoto("");
   }
 
-  async function continueHandler() {
-    const data = {
-      ...userData,
+  const confirmSignUp = async () => {
+    const completeRegistragionData = {
       photo,
+      ...userData,
     };
-    navigation.navigate("location", { userData: data });
-  }
+
+    try {
+      await userService.signUp(completeRegistragionData);
+      Alert.alert(
+        "Sucesso",
+        "Usuário cadastrado com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } catch (err) {
+      console.log(err);
+      Alert.alert(
+        "Erro",
+        err.error || "Erro ao cadastrar usuário. Tente novamente mais tarde!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } finally {
+      navigation.navigate("login");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -92,7 +111,7 @@ export default function App({ route, navigation }) {
           />
           <View style={styles.selectText}>
             <Text style={styles.text}>
-              Clique em continuar para prosseguir com o cadastro, ou voltar para
+              Clique em continuar para concluir o cadastro, ou voltar para
               escolher outra foto.
             </Text>
           </View>
@@ -122,8 +141,8 @@ export default function App({ route, navigation }) {
             <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
               <Text style={styles.btnText}>Voltar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn1} onPress={continueHandler}>
-              <Text style={styles.btnText1}>Continuar</Text>
+            <TouchableOpacity style={styles.btn1} onPress={confirmSignUp}>
+              <Text style={styles.btnText1}>Concluir</Text>
             </TouchableOpacity>
           </View>
           <TermsModal
