@@ -18,55 +18,49 @@ export default function Profile() {
   }
   return (
     <ScrollView style={styles.container}>
-      <View
-        style={styles.imageView}
-      >
-        <Image
-          source={profilePhoto}
-          style={styles.imageProper}
-        />
+      <View style={styles.imageView}>
+        <Image source={profilePhoto} style={styles.imageProper} />
       </View>
-      <View
-        style={styles.viewContent}
-      >
-        <View>
-          <Text>Nome Completo</Text>
-          <View>
+      <View style={styles.viewContent}>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>Nome Completo</Text>
+          <View style={styles.inputWrapper}>
             <Text>{user.name}</Text>
           </View>
         </View>
-        <View>
-          <Text>Idade</Text>
-          <View>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>Idade</Text>
+          <View style={styles.inputWrapper}>
             <Text>{user.birthday}</Text>
           </View>
         </View>
-        <View>
-          <Text>E-mail</Text>
-          <View>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>E-mail</Text>
+          <View style={styles.inputWrapper}>
             <Text>{user.name}</Text>
           </View>
         </View>
-        <View>
-          <Text>CPF</Text>
-          <View>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>CPF</Text>
+          <View style={styles.inputWrapper}>
             <Text>{user.cpf}</Text>
           </View>
         </View>
-        <View>
-          <Text>Telefone</Text>
-          <View>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>Telefone</Text>
+          <View style={styles.inputWrapper}>
             <Text>{user.cpf}</Text>
           </View>
         </View>
-        <View>
-          <Text>CPF</Text>
-          <View>
-            <Text>{user.cpf}</Text>
+        <View style={styles.viewInput}>
+          <Text style={styles.labelInput}>CEP</Text>
+          <View style={styles.inputWrapper}>
+            <Text>{user.address.cep}</Text>
           </View>
         </View>
-       
+
         <Button
+          style={styles.buttonExit}
           press={() => {
             logout();
           }}
