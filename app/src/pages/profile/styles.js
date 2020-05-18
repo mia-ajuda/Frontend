@@ -56,6 +56,12 @@ const styles = StyleSheet.create({
   textInput: {
     fontWeight: "700",
     ...font.body
+  }, 
+  buttonWrapper: {
+    marginTop: 30,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

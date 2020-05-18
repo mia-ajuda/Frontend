@@ -14,6 +14,31 @@ export default function Profile() {
     ? { uri: user.photo } // google+ or facebook
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
 
+  function formatCPF(cpf) {
+    if (cpf.length !== 11) {
+      return "";
+    }
+
+    return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(
+      6,
+      9
+    )}-${cpf.slice(9, 11)}`;
+  }
+
+  function formatPhone(phone) {
+    if (phone.length === 13) {
+      return `(${phone.slice(3, 5)}) ${phone.slice(5, 9)}-${phone.slice(
+        9,
+        14
+      )}`;
+    }
+
+    return `(${phone.slice(3, 5)}) ${phone.slice(5, 10)}-${phone.slice(
+      10,
+      14
+    )}`;
+  }
+
   async function logout() {
     await UserService.logOut();
     dispatch({ type: actions.user.removeUserInfo });
@@ -38,13 +63,15 @@ export default function Profile() {
           <Text style={styles.labelInput}>Nome Completo</Text>
           <View style={styles.inputWrapper}>
             <Text style={styles.textInput}>{user.name}</Text>
-            <Icon size={25} name="edit" color="#000"/>
+            <Icon size={25} name="edit" color="#000" />
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{moment(user.birthday).format("DD/MM/YYYY")}</Text>
+            <Text style={styles.textInput}>
+              {moment(user.birthday).format("DD/MM/YYYY")}
+            </Text>
           </View>
         </View>
         <View style={styles.viewInput}>
@@ -56,31 +83,32 @@ export default function Profile() {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CPF</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.cpf}</Text>
+            <Text style={styles.textInput}>{formatCPF(user.cpf)}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Telefone</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.phone}</Text>
-            <Icon size={25} name="edit" color="#000"/>
+            <Text style={styles.textInput}>{formatPhone(user.phone)}</Text>
+            <Icon size={25} name="edit" color="#000" />
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CEP</Text>
           <View style={styles.inputWrapper}>
             <Text style={styles.textInput}>{user.address.cep}</Text>
-            <Icon size={25} name="edit" color="#000"/>
+            <Icon size={25} name="edit" color="#000" />
           </View>
         </View>
-
-        <Button
-          style={styles.buttonExit}
-          press={() => {
-            logout();
-          }}
-          title="sair"
-        />
+        <View style={styles.buttonWrapper}>
+          <Button
+            style={styles.buttonExit}
+            press={() => {
+              logout();
+            }}
+            title="sair"
+          />
+        </View>
       </View>
     </ScrollView>
   );
