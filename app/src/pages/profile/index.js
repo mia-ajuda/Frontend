@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { View, ScrollView, Image, Text } from "react-native";
+import { View, ScrollView, Image, Text, ImageBackground } from "react-native";
 import styles from "./styles";
 import Button from "../../components/UI/button";
 import { UserContext } from "../../store/contexts/userContext";
 import actions from "../../store/actions";
 import UserService from "../../services/User";
-import moment from 'moment';
+import moment from "moment";
+import { Icon } from "react-native-elements";
+import colors from "../../../assets/styles/colorVariables";
 
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
@@ -20,7 +22,17 @@ export default function Profile() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageView}>
-        <Image source={profilePhoto} style={styles.imageProper} />
+        <ImageBackground
+          source={profilePhoto}
+          style={styles.imageProper}
+          imageStyle={{
+            borderRadius: 100,
+            opacity: 0.5,
+            backgroundColor: "#000"
+          }}
+        >
+          <Icon size={45} name={"camera-alt"} color="black" />
+        </ImageBackground>
       </View>
       <View style={styles.viewContent}>
         <View style={styles.viewInput}>
@@ -32,7 +44,7 @@ export default function Profile() {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text>{moment(user.birthday).format('DD/MM/YYYY')}</Text>
+            <Text>{moment(user.birthday).format("DD/MM/YYYY")}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>

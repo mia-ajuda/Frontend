@@ -1,21 +1,29 @@
 import { StyleSheet } from "react-native";
-import colors from '../../../assets/styles/colorVariables';
+import colors from "../../../assets/styles/colorVariables";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   imageView: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1
   },
-  imageProper: { 
-    width: 175, 
-    height: 175, 
-    borderRadius: 100 ,
-    marginTop: 30
+  imageProper: {
+    width: 175,
+    height: 175,
+    marginTop: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  viewSec: {
+    backgroundColor: "#000000",
+    width: "100%",
+    height: "100%",
+    borderRadius: 100,
+    opacity: 0.3
   },
   viewContent: {
     justifyContent: "flex-end",
@@ -25,13 +33,13 @@ const styles = StyleSheet.create({
     paddingVertical: 15
   },
   viewInput: {
-    width: '100%',
+    width: "100%",
     margin: 10,
-    justifyContent: 'flex-start'
+    justifyContent: "flex-start"
   },
   labelInput: {
     color: colors.primary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18
   },
   inputWrapper: {
