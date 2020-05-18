@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../assets/styles/colorVariables";
+import font from '../../../assets/styles/fontVariable';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +48,14 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     marginTop: 10,
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  textInput: {
+    fontWeight: "700",
+    ...font.body
   }
 });
 

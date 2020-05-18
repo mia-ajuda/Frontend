@@ -7,7 +7,6 @@ import actions from "../../store/actions";
 import UserService from "../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
-import colors from "../../../assets/styles/colorVariables";
 
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
@@ -38,37 +37,40 @@ export default function Profile() {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Nome Completo</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.name}</Text>
+            <Text style={styles.textInput}>{user.name}</Text>
+            <Icon size={25} name="edit" color="#000"/>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text>{moment(user.birthday).format("DD/MM/YYYY")}</Text>
+            <Text style={styles.textInput}>{moment(user.birthday).format("DD/MM/YYYY")}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>E-mail</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.name}</Text>
+            <Text style={styles.textInput}>{user.name}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CPF</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.cpf}</Text>
+            <Text style={styles.textInput}>{user.cpf}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Telefone</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.cpf}</Text>
+            <Text style={styles.textInput}>{user.phone}</Text>
+            <Icon size={25} name="edit" color="#000"/>
           </View>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CEP</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.address.cep}</Text>
+            <Text style={styles.textInput}>{user.address.cep}</Text>
+            <Icon size={25} name="edit" color="#000"/>
           </View>
         </View>
 
