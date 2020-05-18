@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   labelInput: {
     color: colors.primary,
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 18
   },
   inputWrapper: {
     borderWidth: 3,

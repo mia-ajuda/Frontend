@@ -5,6 +5,7 @@ import Button from "../../components/UI/button";
 import { UserContext } from "../../store/contexts/userContext";
 import actions from "../../store/actions";
 import UserService from "../../services/User";
+import moment from 'moment';
 
 export default function Profile() {
   const { user, dispatch } = useContext(UserContext);
@@ -29,9 +30,9 @@ export default function Profile() {
           </View>
         </View>
         <View style={styles.viewInput}>
-          <Text style={styles.labelInput}>Idade</Text>
+          <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text>{user.birthday}</Text>
+            <Text>{moment(user.birthday).format('DD/MM/YYYY')}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
