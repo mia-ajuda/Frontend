@@ -15,6 +15,7 @@ import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
+import ConfirmationModal from "../confirmationModal";
 
 export default function Profile({ navigation }) {
   const { user, dispatch } = useContext(UserContext);
@@ -22,6 +23,8 @@ export default function Profile({ navigation }) {
     ? { uri: user.photo } // google+ or facebook
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
   const [selectedImage, setSelectedImage] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState("");
 
   function formatCPF(cpf) {
@@ -83,14 +86,30 @@ export default function Profile({ navigation }) {
     });
 
     setPhoto(pickerResult.base64);
+    setVisible(true);
+  }
 
+  const sendPhoto = async () => {
     try {
+      setLoading(true);
       const resp = await UserService.editUser({
         ...user,
         photo: photo
       });
       dispatch({ type: actions.user.storeUserInfo, data: resp });
+      setLoading(false);
+      setVisible(false);
+      Alert.alert(
+        "Sucesso",
+        "Foto atulalizadac com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
     } catch (err) {
+      setLoading(false);
+      setVisible(false);
       console.log(err.data);
       Alert.alert(
         "Ooops..",
@@ -101,7 +120,7 @@ export default function Profile({ navigation }) {
         }
       );
     }
-  }
+  };
 
   async function cancelHandler() {
     setSelectedImage(null);
@@ -110,6 +129,13 @@ export default function Profile({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
+      <ConfirmationModal
+        visible={visible}
+        setVisible={setVisible}
+        action={sendPhoto}
+        message={"Tem certeza que deseja trocar sua foto?"}
+        isLoading={loading}
+      />
       <View style={styles.imageView}>
         <TouchableOpacity onPress={openImagePickerAsync}>
           <ImageBackground
