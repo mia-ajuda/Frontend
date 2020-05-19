@@ -4,16 +4,18 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Button from "../../../components/UI/button";
 import Input from "../../../components/UI/input";
 import colors from "../../../../assets/styles/colorVariables";
+import UserService from "../../../services/User";
 import axios from "axios";
 import styles from "./styles";
 
-export default function EditProfile({ route }) {
+export default function EditProfile({ route, navigation }) {
   const [value, setValue] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [numberPlace, setNumberPlace] = useState("");
@@ -36,6 +38,25 @@ export default function EditProfile({ route }) {
       setState(address.state || "");
     }
   }, []);
+
+  const handlePhone = () => {
+    let phoneFilter =
+      "+55" +
+      value.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+
+    let ddd = phoneFilter.substring(0, 5);
+    let numero = phoneFilter.substring(5, 14);
+    if (numero.length === 9) {
+      numero = numero.replace("9", "");
+      phoneFilter = ddd + numero;
+    }
+
+    if (phoneFilter.length === 14) {
+      phoneFilter = phoneFilter.replace("9", "");
+    }
+
+    return phoneFilter;
+  };
 
   const cepHandle = async currentCep => {
     setValue(currentCep.substring(0, 8));
@@ -92,12 +113,13 @@ export default function EditProfile({ route }) {
     setValue(value);
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     let data = {};
     if (route.params.attribute === "cep") {
       data = {
         ...route.params.user,
         address: {
+          cep: value,
           number: numberPlace,
           complement,
           city,
@@ -112,10 +134,32 @@ export default function EditProfile({ route }) {
     } else {
       data = {
         ...route.params.user,
-        phone: value
+        phone: handlePhone()
       };
     }
 
+    navigation.goBack();
+    try {
+      await UserService.editUser(data);
+      Alert.alert(
+        "Sucesso",
+        "Alteração feita com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+    } catch (err) {
+      Alert.alert(
+        "Ooops..",
+        err.error || "Algo deu errado, tente novamente mais tarde",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+      console.log(err.message);
+    }
     console.log(data);
   };
 
