@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   ScrollView,
   Text,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -13,12 +14,15 @@ import actions from "../../../store/actions";
 import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Profile({ navigation }) {
   const { user, dispatch } = useContext(UserContext);
   const profilePhoto = user.photo.includes("http")
     ? { uri: user.photo } // google+ or facebook
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [photo, setPhoto] = useState("");
 
   function formatCPF(cpf) {
     if (cpf.length !== 11) {
@@ -57,20 +61,69 @@ export default function Profile({ navigation }) {
     });
   }
 
+  async function openImagePickerAsync() {
+    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("É preciso permissão para acesso a câmera!");
+      return;
+    }
+
+    const pickerResult = await ImagePicker.launchCameraAsync({
+      base64: true,
+      allowsEditing: true,
+      quality: 0.5
+    });
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    setSelectedImage({
+      localUri: pickerResult.uri
+    });
+
+    setPhoto(pickerResult.base64);
+
+    try {
+      const resp = await UserService.editUser({
+        ...user,
+        photo: photo
+      });
+      dispatch({ type: actions.user.storeUserInfo, data: resp });
+    } catch (err) {
+      console.log(err.data);
+      Alert.alert(
+        "Ooops..",
+        err.error || "Algo deu errado, tente novamente mais tarde",
+        [{ text: "OK", onPress: () => {} }],
+        {
+          cancelable: false
+        }
+      );
+    }
+  }
+
+  async function cancelHandler() {
+    setSelectedImage(null);
+    setPhoto("");
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageView}>
-        <ImageBackground
-          source={profilePhoto}
-          style={styles.imageProper}
-          imageStyle={{
-            borderRadius: 100,
-            opacity: 0.5,
-            backgroundColor: "#000"
-          }}
-        >
-          <Icon size={45} name={"camera-alt"} color="black" />
-        </ImageBackground>
+        <TouchableOpacity onPress={openImagePickerAsync}>
+          <ImageBackground
+            source={profilePhoto}
+            style={styles.imageProper}
+            imageStyle={{
+              borderRadius: 100,
+              opacity: 0.5,
+              backgroundColor: "#000"
+            }}
+          >
+            <Icon size={45} name={"camera-alt"} color="black" />
+          </ImageBackground>
+        </TouchableOpacity>
       </View>
       <View style={styles.viewContent}>
         <View style={styles.viewInput}>
@@ -93,7 +146,7 @@ export default function Profile({ navigation }) {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>E-mail</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.name}</Text>
+            <Text style={styles.textInput}>{user.email}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>

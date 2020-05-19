@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Alert
 } from "react-native";
+import { UserContext } from "../../../store/contexts/userContext";
 import { TextInputMask } from "react-native-masked-text";
 import Button from "../../../components/UI/button";
 import Input from "../../../components/UI/input";
@@ -14,6 +15,7 @@ import colors from "../../../../assets/styles/colorVariables";
 import UserService from "../../../services/User";
 import axios from "axios";
 import styles from "./styles";
+import actions from "../../../store/actions";
 
 export default function EditProfile({ route, navigation }) {
   const [value, setValue] = useState("");
@@ -23,6 +25,7 @@ export default function EditProfile({ route, navigation }) {
   const [city, setCity] = useState("");
   const [complement, setComplement] = useState("");
   const [loading, setLoading] = useState("");
+  const { user, dispatch } = useContext(UserContext);
 
   useEffect(() => {
     if (route.params.attribute === "phone") {
@@ -140,7 +143,8 @@ export default function EditProfile({ route, navigation }) {
 
     navigation.goBack();
     try {
-      await UserService.editUser(data);
+      const resp = await UserService.editUser(data);
+      dispatch({ type: actions.user.storeUserInfo, data: resp });
       Alert.alert(
         "Sucesso",
         "Alteração feita com sucesso!",
