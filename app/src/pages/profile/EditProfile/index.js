@@ -3,7 +3,7 @@ import { View, Text, ScrollView, KeyboardAvoidingView } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Button from "../../../components/UI/button";
 import Input from "../../../components/UI/input";
-import axios from 'axios';
+import axios from "axios";
 import styles from "./styles";
 
 export default function EditProfile({ route }) {
@@ -21,7 +21,7 @@ export default function EditProfile({ route }) {
     } else if (route.params.attribute === "name") {
       setValue(route.params.user.name);
     } else {
-      const address =  route.params.user.address;
+      const address = route.params.user.address;
       setValue(address.cep || "");
       setCity(address.city || "");
       setNumberPlace(String(address.number) || "");
@@ -30,39 +30,37 @@ export default function EditProfile({ route }) {
     }
   }, []);
 
-  const cepHandle = async (currentCep) => {
-    setValue(currentCep.substring(0,8));
+  const cepHandle = async currentCep => {
+    setValue(currentCep.substring(0, 8));
 
-    if(currentCep.length === 8) {
-      try{
+    if (currentCep.length === 8) {
+      try {
         setLoading(true);
-        const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
+        const response = await axios.get(
+          `https://viacep.com.br/ws/${currentCep}/json/`
+        );
 
-        if(!response.data.error) {
-          const {
-            localidade,
-            uf,
-            logradouro,
-            bairro,
-          } = response.data;
+        if (!response.data.error) {
+          const { localidade, uf, logradouro, bairro } = response.data;
 
           setIsValid(true);
           setState(uf);
           setCity(localidade);
-          setComplement( logradouro + " / " + bairro );
+          setComplement(logradouro + " / " + bairro);
         } else {
           setIsValid(false);
         }
-
       } catch {
         setIsValid(true);
       }
+    } else {
+      setIsValid(false);
     }
 
     setLoading(false);
   };
 
-  const stateHandle = (enteredName) => {
+  const stateHandle = enteredName => {
     if (enteredName.length > 2) {
       const subUf = enteredName.substring(0, 2);
       setState(subUf);
@@ -113,7 +111,7 @@ export default function EditProfile({ route }) {
             <View style={{ width: "100%" }}>
               <Input
                 change={cepHandle}
-                valid={true}
+                valid={isValid}
                 label={route.params.attribute === "cep" ? "CEP" : "Nome"}
                 placeholder={`Digite seu ${
                   route.params.attribute === "cep" ? "CEP" : "Nome"
