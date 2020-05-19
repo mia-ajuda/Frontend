@@ -117,12 +117,12 @@ export default function PersonalData({ route, navigation }) {
     const phone = handlePhone();
     const birthdayFormated = handleDate();
     const newUserData = {
+      ...userData,
       name,
       birthday: birthdayFormated,
       cpf,
       phone,
       ismentalHealthProfessional,
-      ...userData,
     };
     setVerificationLoading(false);
     navigation.navigate("address", { userData: newUserData });

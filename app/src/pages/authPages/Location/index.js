@@ -11,6 +11,9 @@ import LocationModal from "./LocationModal";
 import { Icon } from "react-native-elements";
 
 export default function Location({ route, navigation }) {
+  const { userData } = route.params;
+  console.log(userData);
+
   const [currentRegion, setCurrentRegion] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [animatedHeigth] = useState(new Animated.Value(200));
@@ -48,12 +51,15 @@ export default function Location({ route, navigation }) {
 
   function continueRegistration() {
     const { latitude, longitude } = currentRegion;
-    const userData = {
+    const newUserData = {
       latitude,
       longitude,
+      ...userData,
     };
     setModalIsVisible(false);
-    navigation.navigate("registrationData", { userData });
+    userData.email
+      ? navigation.navigate("personalData", { userData: newUserData })
+      : navigation.navigate("registrationData", { userData: newUserData });
   }
 
   function showDescription() {

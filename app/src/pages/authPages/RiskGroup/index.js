@@ -17,6 +17,7 @@ import colors from "../../../../assets/styles/colorVariables";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
+  console.log(userData);
   const { dispatch } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [disease, setDisease] = useState({
