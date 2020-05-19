@@ -47,7 +47,7 @@ export default function EditProfile({ route }) {
           `https://viacep.com.br/ws/${currentCep}/json/`
         );
 
-        if (!response.data.error) {
+        if (!response.data.erro) {
           const { localidade, uf, logradouro, bairro } = response.data;
 
           setIsValid(true);
@@ -76,21 +76,48 @@ export default function EditProfile({ route }) {
     }
   };
 
-  const handleCity = (value) => {
+  const handleCity = value => {
     setCity(value);
-  }
+  };
 
-  const handleNumber = (value) => {
+  const handleNumber = value => {
     setNumberPlace(value);
-  }
+  };
 
-  const handleComplement = (value) => {
+  const handleComplement = value => {
     setComplement(value);
-  }
+  };
 
-  const handleValue = (value) => {
+  const handleValue = value => {
     setValue(value);
-  }
+  };
+
+  const handleEdit = () => {
+    let data = {};
+    if (route.params.attribute === "cep") {
+      data = {
+        ...route.params.user,
+        address: {
+          number: numberPlace,
+          complement,
+          city,
+          state
+        }
+      };
+    } else if (route.params.attribute === "name") {
+      data = {
+        ...route.params.user,
+        name: value
+      };
+    } else {
+      data = {
+        ...route.params.user,
+        phone: value
+      };
+    }
+
+    console.log(data);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -145,7 +172,9 @@ export default function EditProfile({ route }) {
               ) : (
                 <View style={{ width: "100%" }}>
                   <Input
-                    change={route.params.attribute === "cep" ? cepHandle : handleValue}
+                    change={
+                      route.params.attribute === "cep" ? cepHandle : handleValue
+                    }
                     valid={isValid}
                     label={route.params.attribute === "cep" ? "CEP" : "Nome"}
                     placeholder={`Digite seu ${
@@ -209,7 +238,7 @@ export default function EditProfile({ route }) {
                     complement === ""))
               }
               large
-              press={() => {}}
+              press={() => handleEdit()}
             />
           </>
         )}
