@@ -20,6 +20,9 @@ import onlyNumbers from "../../../utils/onlyNumbers";
 
 export default function PersonalData({ route, navigation }) {
   const { userData } = route.params;
+
+  console.log("PersonalData", userData);
+
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);
@@ -37,12 +40,12 @@ export default function PersonalData({ route, navigation }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (registrationData.name) {
-      setName(registrationData.name);
+    if (userData.name) {
+      setName(userData.name);
     }
 
-    if (registrationData.birthday) {
-      const dateSplit = registrationData.birthday.split("/");
+    if (userData.birthday) {
+      const dateSplit = userData.birthday.split("/");
       const date = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
       setBirthday(date);
     }
@@ -123,9 +126,8 @@ export default function PersonalData({ route, navigation }) {
       ismentalHealthProfessional,
       ...userData,
     };
-    const userData = { userData: newUserData };
     setVerificationLoading(false);
-    navigation.navigate("address", { userData });
+    navigation.navigate("address", { userData: newUserData });
   };
 
   const verifyCpf = async () => {

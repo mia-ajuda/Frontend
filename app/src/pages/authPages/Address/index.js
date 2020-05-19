@@ -17,6 +17,8 @@ import colors from "../../../../assets/styles/colorVariables";
 
 export default function Address({ route, navigation }) {
   const { userData } = route.params;
+  console.log("Address", userData);
+
   const [cep, setCep] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");

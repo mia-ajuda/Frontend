@@ -11,6 +11,7 @@ import { Icon } from "react-native-elements";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
+  console.log("RiskGroup", userData);
   const [disease, setDisease] = useState({
     dc: false,
     hiv: false,

@@ -5,18 +5,22 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import TermsModal from "../../../components/modals/conditionTermsModal";
+import userService from "../../../services/User";
 
-export default function App({ route, navigation }) {
+export default function Photo({ route, navigation }) {
+  const { userData } = route.params;
+  console.log("Photo", userData);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [photo, setPhoto] = useState("");
   const [termsModalVisible, setTermsModalVisible] = useState(false);
-  const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
