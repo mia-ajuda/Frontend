@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { View, ScrollView, Image, Text, ImageBackground } from "react-native";
 import styles from "./styles";
-import Button from "../../components/UI/button";
-import { UserContext } from "../../store/contexts/userContext";
-import actions from "../../store/actions";
-import UserService from "../../services/User";
+import Button from "../../../components/UI/button";
+import { UserContext } from "../../../store/contexts/userContext";
+import actions from "../../../store/actions";
+import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
 
