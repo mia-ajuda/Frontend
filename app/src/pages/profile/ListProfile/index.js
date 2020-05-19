@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import {
   View,
   ScrollView,
-  Image,
   Text,
   ImageBackground,
   TouchableOpacity
@@ -51,9 +50,10 @@ export default function Profile({ navigation }) {
     dispatch({ type: actions.user.removeUserInfo });
   }
 
-  function handleEdit(attribute) {
+  function handleEdit(attribute, value) {
     navigation.navigate("EditProfile", {
-      attribute
+      attribute,
+      value
     });
   }
 
@@ -75,7 +75,7 @@ export default function Profile({ navigation }) {
       <View style={styles.viewContent}>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Nome Completo</Text>
-          <TouchableOpacity onPress={() => handleEdit("name")}>
+          <TouchableOpacity onPress={() => handleEdit("name", user.name)}>
             <View style={styles.inputWrapper}>
               <Text style={styles.textInput}>{user.name}</Text>
               <Icon size={25} name="edit" color="#000" />
@@ -104,7 +104,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Telefone</Text>
-          <TouchableOpacity onPress={() => handleEdit("phone")}>
+          <TouchableOpacity onPress={() => handleEdit("phone", user.phone)}>
             <View style={styles.inputWrapper}>
               <Text style={styles.textInput}>{formatPhone(user.phone)}</Text>
               <Icon size={25} name="edit" color="#000" />
@@ -113,7 +113,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CEP</Text>
-          <TouchableOpacity onPress={() => handleEdit("cep")}>
+          <TouchableOpacity onPress={() => handleEdit("cep", user.address.cep)}>
             <View style={styles.inputWrapper}>
               <Text style={styles.textInput}>{user.address.cep}</Text>
               <Icon size={25} name="edit" color="#000" />

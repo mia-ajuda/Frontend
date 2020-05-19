@@ -10,7 +10,11 @@ export default function EditProfile({ route }) {
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
-    setValue(route.params.value);
+    if (route.params.attribute === "phone") {
+      setValue(route.params.value.slice(3, 14));
+    } else {
+      setValue(route.params.value);
+    }
   }, []);
 
   return (
@@ -48,19 +52,25 @@ export default function EditProfile({ route }) {
             <Input
               // change={cepHandle}
               valid={true}
-              label={route.params.attribute === "CEP" ? "CEP" : "Nome"}
+              label={route.params.attribute === "cep" ? "CEP" : "Nome"}
               placeholder={`Digite seu ${
-                route.params.attribute === "CEP" ? "CEP" : "Nome"
+                route.params.attribute === "cep" ? "CEP" : "Nome"
               }`}
               value={value}
               keyboard={
-                route.params.attribute === "CEP" ? "numeric" : "default"
+                route.params.attribute === "cep" ? "numeric" : "default"
               }
             />
           </View>
         )}
       </View>
-      <Button style={styles.btnEdit} title="Editar" large press={() => {}} />
+      <Button
+        style={styles.btnEdit}
+        title="Editar"
+        disabled={value === "" || !isValid}
+        large
+        press={() => {}}
+      />
     </View>
   );
 }
