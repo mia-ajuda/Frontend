@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { View, ScrollView, Image, Text, ImageBackground } from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  ImageBackground,
+  TouchableOpacity
+} from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
 import { UserContext } from "../../../store/contexts/userContext";
@@ -8,7 +15,7 @@ import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   const { user, dispatch } = useContext(UserContext);
   const profilePhoto = user.photo.includes("http")
     ? { uri: user.photo } // google+ or facebook
@@ -43,6 +50,11 @@ export default function Profile() {
     await UserService.logOut();
     dispatch({ type: actions.user.removeUserInfo });
   }
+
+  function handleEdit() {
+    navigation.navigate("EditProfile");
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageView}>
@@ -61,10 +73,12 @@ export default function Profile() {
       <View style={styles.viewContent}>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Nome Completo</Text>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.name}</Text>
-            <Icon size={25} name="edit" color="#000" />
-          </View>
+          <TouchableOpacity onPress={() => handleEdit()}>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.textInput}>{user.name}</Text>
+              <Icon size={25} name="edit" color="#000" />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
@@ -88,17 +102,21 @@ export default function Profile() {
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Telefone</Text>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{formatPhone(user.phone)}</Text>
-            <Icon size={25} name="edit" color="#000" />
-          </View>
+          <TouchableOpacity onPress={() => handleEdit()}>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.textInput}>{formatPhone(user.phone)}</Text>
+              <Icon size={25} name="edit" color="#000" />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>CEP</Text>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.address.cep}</Text>
-            <Icon size={25} name="edit" color="#000" />
-          </View>
+          <TouchableOpacity onPress={() => handleEdit()}>
+            <View style={styles.inputWrapper}>
+              <Text style={styles.textInput}>{user.address.cep}</Text>
+              <Icon size={25} name="edit" color="#000" />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonWrapper}>
           <Button

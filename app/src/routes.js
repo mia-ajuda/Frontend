@@ -8,6 +8,7 @@ import { UserContext } from "./store/contexts/userContext";
 import Constants from "expo-constants";
 
 import Profile from "./pages/profile/ListProfile";
+import EditProfile from "./pages/profile/EditProfile";
 import Notification from "./pages/notification";
 import on_goingGivenHelp from "./pages/helpPages/givenHelps/on_going";
 import finishedGivenHelp from "./pages/helpPages/givenHelps/finished";
@@ -129,7 +130,7 @@ const ProfileNavigation = () => (
   <>
     <ProfileStack.Navigator screenOptions={headerStyle}>
       <ProfileStack.Screen name="Perfil" component={Profile} />
-      <ProfileStack.Screen name="EditProfile" component={Profile} />
+      <ProfileStack.Screen name="EditProfile" component={EditProfile} />
     </ProfileStack.Navigator>
   </>
 )
