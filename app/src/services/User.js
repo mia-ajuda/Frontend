@@ -246,7 +246,14 @@ class UserService {
     return !!response.data;
   }
 
-  helpAnUser() {}
+  async editUser(data) {
+    try {
+      const user = await api.put(`/user`, data);
+      return user.data;
+    } catch(err) {
+      throw err;
+    }
+  }
 }
 
 const userService = new UserService();

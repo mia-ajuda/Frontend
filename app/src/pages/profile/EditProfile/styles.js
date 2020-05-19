@@ -5,7 +5,9 @@ import fonts from '../../../../assets/styles/fontVariable';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    alignItems: "center",
+    justifyContent: "space-between",
+    margin: 20
   },
   content: {
     flex: 4,
@@ -37,5 +39,12 @@ export default StyleSheet.create({
   },
   phoneView: {
     width: '100%'
-  }
+  },
+  scroll: {
+    flexGrow : 1, 
+    justifyContent : 'center', 
+  },
+  viewMargin: {
+    marginVertical: 6,
+  },
 });
