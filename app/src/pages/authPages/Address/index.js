@@ -17,7 +17,6 @@ import colors from "../../../../assets/styles/colorVariables";
 
 export default function Address({ route, navigation }) {
   const { userData } = route.params;
-  console.log("Address", userData);
 
   const [cep, setCep] = useState("");
   const [city, setCity] = useState("");
@@ -99,7 +98,9 @@ export default function Address({ route, navigation }) {
   const continueHandler = () => {
     const address = { cep, city, state, number: numberPlace, complement };
     const newUserData = { address, ...userData };
-    navigation.navigate("riskGroup", { userData: newUserData });
+    userData.photo
+      ? navigation.navigate("riskGroup", { userData: newUserData })
+      : navigation.navigate("photo", { userData: newUserData });
   };
 
   return (

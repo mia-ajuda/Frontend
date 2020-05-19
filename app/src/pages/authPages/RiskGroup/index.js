@@ -4,14 +4,15 @@ import {
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
+import userService from "../../../services/User";
 import { Icon } from "react-native-elements";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
-  console.log("RiskGroup", userData);
   const [disease, setDisease] = useState({
     dc: false,
     hiv: false,
@@ -34,7 +35,7 @@ export default function RiskGroup({ route, navigation }) {
     } else setDisease({ ...disease, [id]: true });
   };
 
-  const continueHandler = () => {
+  const confirmSignUp = async () => {
     let newDisease = [];
 
     for (let prop in disease) {
@@ -43,16 +44,30 @@ export default function RiskGroup({ route, navigation }) {
       }
     }
 
-    const newUserData = {
+    const completeRegistragionData = {
       ...userData,
       disease: newDisease,
     };
 
-    userData.photo
-      ? console.log("pode concluir!!!")
-      : navigation.navigate("photo", {
-          userData: newUserData,
-        });
+    try {
+      await userService.signUp(completeRegistragionData);
+      Alert.alert(
+        "Sucesso",
+        "Usuário cadastrado com sucesso!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } catch (err) {
+      console.log(err);
+      Alert.alert(
+        "Erro",
+        err.error || "Erro ao cadastrar usuário. Tente novamente mais tarde!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } finally {
+      navigation.navigate("login");
+    }
   };
 
   return (
@@ -68,8 +83,9 @@ export default function RiskGroup({ route, navigation }) {
         </View>
         <View style={styles.viewText}>
           <Text style={styles.text1}>
-            É importante sabermos se você se encontra em um dos grupos de risco.
-            Selecione caso possua alguma das condições a seguir:
+            Por último, é importante sabermos se você se encontra em um dos
+            grupos de risco. Selecione caso possua alguma das condições a
+            seguir:
           </Text>
         </View>
       </View>
@@ -88,7 +104,7 @@ export default function RiskGroup({ route, navigation }) {
         })}
       </View>
       <View style={styles.btnView}>
-        <Button title="Continuar" large press={continueHandler} />
+        <Button title="Concluir" large press={confirmSignUp} />
       </View>
     </KeyboardAvoidingView>
   );

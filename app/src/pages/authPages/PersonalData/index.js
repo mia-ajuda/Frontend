@@ -21,8 +21,6 @@ import onlyNumbers from "../../../utils/onlyNumbers";
 export default function PersonalData({ route, navigation }) {
   const { userData } = route.params;
 
-  console.log("PersonalData", userData);
-
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);

@@ -19,7 +19,6 @@ import { Icon } from "react-native-elements";
 
 export default function RegistrationData({ route, navigation }) {
   const { userData } = route.params;
-  console.log("RegistrationData", userData);
   const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [password, setPassword] = useState("");

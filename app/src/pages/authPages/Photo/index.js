@@ -5,18 +5,15 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import TermsModal from "../../../components/modals/conditionTermsModal";
-import userService from "../../../services/User";
 
 export default function Photo({ route, navigation }) {
   const { userData } = route.params;
-  console.log("Photo", userData);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [photo, setPhoto] = useState("");
@@ -50,33 +47,13 @@ export default function Photo({ route, navigation }) {
     setSelectedImage(null);
     setPhoto("");
   }
-
-  const confirmSignUp = async () => {
-    const completeRegistragionData = {
+  async function continueHandler() {
+    const newUserData = {
       photo,
       ...userData,
     };
-
-    try {
-      await userService.signUp(completeRegistragionData);
-      Alert.alert(
-        "Sucesso",
-        "Usuário cadastrado com sucesso!",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-    } catch (err) {
-      console.log(err);
-      Alert.alert(
-        "Erro",
-        err.error || "Erro ao cadastrar usuário. Tente novamente mais tarde!",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-    } finally {
-      navigation.navigate("login");
-    }
-  };
+    navigation.navigate("riskGroup", { userData: newUserData });
+  }
 
   return (
     <View style={styles.container}>
@@ -115,7 +92,7 @@ export default function Photo({ route, navigation }) {
           />
           <View style={styles.selectText}>
             <Text style={styles.text}>
-              Clique em continuar para concluir o cadastro, ou voltar para
+              Clique em continuar para prosseguir com o cadastro, ou voltar para
               escolher outra foto.
             </Text>
           </View>
@@ -145,8 +122,8 @@ export default function Photo({ route, navigation }) {
             <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
               <Text style={styles.btnText}>Voltar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btn1} onPress={confirmSignUp}>
-              <Text style={styles.btnText1}>Concluir</Text>
+            <TouchableOpacity style={styles.btn1} onPress={continueHandler}>
+              <Text style={styles.btnText1}>Continuar</Text>
             </TouchableOpacity>
           </View>
           <TermsModal
