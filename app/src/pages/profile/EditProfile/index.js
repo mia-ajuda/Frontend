@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  ActivityIndicator
+} from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Button from "../../../components/UI/button";
 import Input from "../../../components/UI/input";
+import colors from "../../../../assets/styles/colorVariables";
 import axios from "axios";
 import styles from "./styles";
 
@@ -69,6 +76,22 @@ export default function EditProfile({ route }) {
     }
   };
 
+  const handleCity = (value) => {
+    setCity(value);
+  }
+
+  const handleNumber = (value) => {
+    setNumberPlace(value);
+  }
+
+  const handleComplement = (value) => {
+    setComplement(value);
+  }
+
+  const handleValue = (value) => {
+    setValue(value);
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -79,95 +102,117 @@ export default function EditProfile({ route }) {
         style={{ width: "100%" }}
         contentContainerStyle={styles.scroll}
       >
-        <View style={styles.content}>
-          {route.params.attribute === "phone" ? (
-            <View style={styles.phoneView}>
-              <Text style={styles.label}>Telefone</Text>
-              <TextInputMask
-                style={[
-                  styles.inputMask,
-                  value === "" || isValid ? styles.valid : styles.invalid
-                ]}
-                type={"cel-phone"}
-                options={{
-                  maskType: "BRL",
-                  withDDD: true,
-                  dddMask: "(99) "
-                }}
-                value={value}
-                onChangeText={text => {
-                  setValue(text);
+        {loading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        ) : (
+          <>
+            <View style={styles.content}>
+              {route.params.attribute === "phone" ? (
+                <View style={styles.phoneView}>
+                  <Text style={styles.label}>Telefone</Text>
+                  <TextInputMask
+                    style={[
+                      styles.inputMask,
+                      value === "" || isValid ? styles.valid : styles.invalid
+                    ]}
+                    type={"cel-phone"}
+                    options={{
+                      maskType: "BRL",
+                      withDDD: true,
+                      dddMask: "(99) "
+                    }}
+                    value={value}
+                    onChangeText={text => {
+                      setValue(text);
 
-                  if (text.length >= 14) {
-                    setIsValid(true);
-                  } else {
-                    setIsValid(false);
-                  }
-                }}
-                placeholder="Digite seu telefone"
-              />
-            </View>
-          ) : (
-            <View style={{ width: "100%" }}>
-              <Input
-                change={cepHandle}
-                valid={isValid}
-                label={route.params.attribute === "cep" ? "CEP" : "Nome"}
-                placeholder={`Digite seu ${
-                  route.params.attribute === "cep" ? "CEP" : "Nome"
-                }`}
-                value={value}
-                keyboard={
-                  route.params.attribute === "cep" ? "numeric" : "default"
-                }
-              />
-            </View>
-          )}
+                      if (text.length >= 14) {
+                        setIsValid(true);
+                      } else {
+                        setIsValid(false);
+                      }
+                    }}
+                    placeholder="Digite seu telefone"
+                  />
+                </View>
+              ) : (
+                <View style={{ width: "100%" }}>
+                  <Input
+                    change={route.params.attribute === "cep" ? cepHandle : handleValue}
+                    valid={isValid}
+                    label={route.params.attribute === "cep" ? "CEP" : "Nome"}
+                    placeholder={`Digite seu ${
+                      route.params.attribute === "cep" ? "CEP" : "Nome"
+                    }`}
+                    value={value}
+                    keyboard={
+                      route.params.attribute === "cep" ? "numeric" : "default"
+                    }
+                  />
+                </View>
+              )}
 
-          {route.params.attribute === "cep" ? (
-            <View style={{ width: "100%" }}>
-              <View style={styles.viewMargin}></View>
-              <Input
-                change={event => setCity(event.target.value)}
-                value={city}
-                label="Cidade"
-                placeholder="Digite sua cidade"
-              />
-              <View style={styles.viewMargin}></View>
-              <Input
-                change={stateHandle}
-                value={state}
-                label="UF"
-                placeholder="UF"
-              />
-              <View style={styles.viewMargin}></View>
-              <Input
-                change={event => setNumberPlace(event.target.value)}
-                label="Número"
-                value={numberPlace}
-                keyboard="numeric"
-                placeholder="Digite o número de sua residência"
-              />
-              <View style={styles.viewMargin}></View>
-              <Input
-                change={event => setComplement(event.target.value)}
-                label="Complemento"
-                value={complement}
-                placeholder="Opcional"
-              />
-              <View style={styles.viewMargin}></View>
+              {route.params.attribute === "cep" ? (
+                <View style={{ width: "100%" }}>
+                  <View style={styles.viewMargin}></View>
+                  <Input
+                    change={handleCity}
+                    value={city}
+                    label="Cidade"
+                    placeholder="Digite sua cidade"
+                  />
+                  <View style={styles.viewMargin}></View>
+                  <Input
+                    change={stateHandle}
+                    value={state}
+                    label="UF"
+                    placeholder="UF"
+                  />
+                  <View style={styles.viewMargin}></View>
+                  <Input
+                    change={handleNumber}
+                    label="Número"
+                    value={numberPlace}
+                    keyboard="numeric"
+                    placeholder="Digite o número de sua residência"
+                  />
+                  <View style={styles.viewMargin}></View>
+                  <Input
+                    change={handleComplement}
+                    label="Complemento"
+                    value={complement}
+                    placeholder="Opcional"
+                  />
+                  <View style={styles.viewMargin}></View>
+                </View>
+              ) : (
+                <></>
+              )}
             </View>
-          ) : (
-            <></>
-          )}
-        </View>
-        <Button
-          style={styles.btnEdit}
-          title="Editar"
-          disabled={value === "" || !isValid}
-          large
-          press={() => {}}
-        />
+            <Button
+              style={styles.btnEdit}
+              title="Editar"
+              disabled={
+                value === "" ||
+                !isValid ||
+                (route.params.attribute === "cep" &&
+                  (state === "" ||
+                    city === "" ||
+                    numberPlace === "" ||
+                    complement === ""))
+              }
+              large
+              press={() => {}}
+            />
+          </>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
