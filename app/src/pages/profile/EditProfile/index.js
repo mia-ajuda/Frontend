@@ -16,6 +16,7 @@ import UserService from "../../../services/User";
 import axios from "axios";
 import styles from "./styles";
 import actions from "../../../store/actions";
+import ConfirmationModal from "../confirmationModal";
 
 export default function EditProfile({ route, navigation }) {
   const [value, setValue] = useState("");
@@ -25,7 +26,9 @@ export default function EditProfile({ route, navigation }) {
   const [city, setCity] = useState("");
   const [complement, setComplement] = useState("");
   const [loading, setLoading] = useState("");
-  const { user, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
+  const [loadingModal, setLoadingModal] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (route.params.attribute === "phone") {
@@ -143,8 +146,11 @@ export default function EditProfile({ route, navigation }) {
 
     navigation.goBack();
     try {
+      setLoadingModal(true);
       const resp = await UserService.editUser(data);
       dispatch({ type: actions.user.storeUserInfo, data: resp });
+      setLoadingModal(false);
+      setVisible(false);
       Alert.alert(
         "Sucesso",
         "Alteração feita com sucesso!",
@@ -154,6 +160,8 @@ export default function EditProfile({ route, navigation }) {
         }
       );
     } catch (err) {
+      setLoadingModal(false);
+      setVisible(false);
       Alert.alert(
         "Ooops..",
         err.error || "Algo deu errado, tente novamente mais tarde",
@@ -164,7 +172,6 @@ export default function EditProfile({ route, navigation }) {
       );
       console.log(err.message);
     }
-    console.log(data);
   };
 
   return (
@@ -173,6 +180,13 @@ export default function EditProfile({ route, navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
+      <ConfirmationModal
+        visible={visible}
+        setVisible={setVisible}
+        action={handleEdit}
+        message={"Tem certeza que deseja modificar esta informação?"}
+        isLoading={loadingModal}
+      />
       <ScrollView
         style={{ width: "100%" }}
         contentContainerStyle={styles.scroll}
@@ -286,7 +300,7 @@ export default function EditProfile({ route, navigation }) {
                     complement === ""))
               }
               large
-              press={() => handleEdit()}
+              press={() => setVisible(true)}
             />
           </>
         )}
