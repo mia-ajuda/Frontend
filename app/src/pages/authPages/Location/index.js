@@ -93,7 +93,6 @@ export default function Location({ route, navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
-        onRegionChange={() => setDescriptionShow(false)}
       />
 
       <Animated.ScrollView

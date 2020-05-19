@@ -208,7 +208,7 @@ class UserService {
       const response = await api.post(`/user?hasUser=${hasUser}`, data);
       return response;
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       throw {
         error:
           "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
