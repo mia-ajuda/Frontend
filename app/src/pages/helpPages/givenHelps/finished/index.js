@@ -20,9 +20,10 @@ export default function AskedHelps({ navigation }) {
 
   async function getHelps() {
     setLoading(true);
-    const helps = await helpService.getAllHelpForHelper(
+    const helps = await helpService.getHelpMultipleStatus(
       user._id,
-      "finished"
+      "finished",
+      true,
     );
     setMyHelps(helps);
     setLoading(false);

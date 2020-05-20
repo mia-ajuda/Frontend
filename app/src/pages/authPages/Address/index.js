@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableOpacity,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -56,7 +57,7 @@ export default function Address({ route, navigation }) {
           `https://viacep.com.br/ws/${currentCep}/json/`
         );
 
-        if (!response.data.error) {
+        if (!response.data.erro) {
           const { localidade, uf, logradouro, bairro } = response.data;
 
           setIsCepValid(true);
@@ -64,6 +65,14 @@ export default function Address({ route, navigation }) {
           setCity(localidade);
           setComplement(logradouro + " / " + bairro);
         } else {
+          ToastAndroid.showWithGravityAndOffset(
+            "CEP não encontrado!",
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50
+          );
+
           setIsCepValid(false);
         }
       } catch {

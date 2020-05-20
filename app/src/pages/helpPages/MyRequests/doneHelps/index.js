@@ -28,8 +28,7 @@ export default function DoneHelps({ navigation }) {
 
   async function loadFinishedHelps() {
     setLoadingHelps(true);
-    let tempFinished = await helpService.getAllHelpForUser(userId, "finished");
-    let resFinished = tempFinished.filter((help) => help.active === true);
+    let resFinished = await helpService.getHelpMultipleStatus(userId, "finished");
     setFinishedHelpList(resFinished);
     setLoadingHelps(false);
   }

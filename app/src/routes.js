@@ -7,7 +7,8 @@ import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
 import Constants from "expo-constants";
 
-import Profile from "./pages/profile";
+import Profile from "./pages/profile/ListProfile";
+import EditProfile from "./pages/profile/EditProfile";
 import Notification from "./pages/notification";
 import on_goingGivenHelp from "./pages/helpPages/givenHelps/on_going";
 import finishedGivenHelp from "./pages/helpPages/givenHelps/finished";
@@ -40,6 +41,7 @@ const AuthStack = createStackNavigator();
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
 const MyRequestsTab = createMaterialTopTabNavigator();
 const stack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const MainNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
@@ -121,6 +123,21 @@ const MyRequestsNavigation = () => (
         })}
       />
     </stack.Navigator>
+  </>
+);
+
+const ProfileNavigation = () => (
+  <>
+    <ProfileStack.Navigator screenOptions={headerStyle}>
+      <ProfileStack.Screen name="Perfil" component={Profile} />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={({ route }) => ({
+          title: "Editar Perfil",
+        })}
+      />
+    </ProfileStack.Navigator>
   </>
 );
 
@@ -217,7 +234,7 @@ const BottomTab = () => {
       />
       <BottomNavigation.Screen name="main" component={MainNavigation} />
       <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
-      <BottomNavigation.Screen name="profile" component={Profile} />
+      <BottomNavigation.Screen name="profile" component={ProfileNavigation} />
     </BottomNavigation.Navigator>
   );
 };

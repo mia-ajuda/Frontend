@@ -27,17 +27,13 @@ export default function OnGoingHelps({ navigation }) {
 
   async function loadOnGoingHelps() {
     setLoadingHelps(true);
-    let tempOnWaiting = await helpService.getAllHelpForUser(userId, "waiting");
-    let tempOnGoing = await helpService.getAllHelpForUser(userId, "on_going");
-    let tempHelperFinished = await helpService.getAllHelpForUser(
-      userId,
-      "helper_finished"
-    );
-    let allHelps = [...tempOnGoing, ...tempOnWaiting];
-    allHelps = [...allHelps, ...tempHelperFinished];
-    let filteredHelps = allHelps.filter((help) => help.active === true);
-    setOnGoingHelpList(filteredHelps);
-    setLoadingHelps(false);
+    try{
+      let filteredHelps = await helpService.getHelpMultipleStatus(userId,["waiting","on_going","helper_finished"]);
+      setOnGoingHelpList(filteredHelps);
+      setLoadingHelps(false);
+    }catch(err){
+      console.log(err);
+    }
   }
 
   async function excludeHelp(helpId) {
