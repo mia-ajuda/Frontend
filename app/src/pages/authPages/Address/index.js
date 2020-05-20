@@ -67,9 +67,6 @@ export default function Address({ route, navigation }) {
           setCity(localidade);
           setComplement( logradouro + " / " + bairro );
         } else {
-          // alert("CEP não encontrado!");
-          // ToastAndroid.show("CEP não encontrado!", ToastAndroid.BOTTOM)
-
           ToastAndroid.showWithGravityAndOffset(
             "CEP não encontrado!",
             ToastAndroid.LONG,
