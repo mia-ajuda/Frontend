@@ -6,7 +6,8 @@ import {
   ScrollView,
   Keyboard,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  ToastAndroid
 } from "react-native";
 import Input from "../../../components/UI/input";
 import Button from "../../../components/UI/button";
@@ -53,7 +54,7 @@ export default function Address({ route, navigation }) {
         setLoading(true);
         const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
 
-        if(!response.data.error) {
+        if(!response.data.erro) {
           const {
             localidade,
             uf,
@@ -66,6 +67,17 @@ export default function Address({ route, navigation }) {
           setCity(localidade);
           setComplement( logradouro + " / " + bairro );
         } else {
+          // alert("CEP não encontrado!");
+          // ToastAndroid.show("CEP não encontrado!", ToastAndroid.BOTTOM)
+
+          ToastAndroid.showWithGravityAndOffset(
+            "CEP não encontrado!",
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50
+          )
+
           setIsCepValid(false);
         }
 
@@ -74,7 +86,7 @@ export default function Address({ route, navigation }) {
       }
     }
 
-    setLoading(false);
+    setLoading(false);  
   };
 
   const cityHandle = (enteredName) => {
