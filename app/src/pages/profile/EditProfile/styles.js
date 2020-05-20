@@ -47,4 +47,8 @@ export default StyleSheet.create({
   viewMargin: {
     marginVertical: 6,
   },
+  titleEdit: {
+    ...fonts.title,
+    fontWeight: '600'
+  }
 });

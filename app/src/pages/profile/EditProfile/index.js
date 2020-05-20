@@ -123,14 +123,11 @@ export default function EditProfile({ route, navigation }) {
     let data = {};
     if (route.params.attribute === "cep") {
       data = {
-        ...route.params.user,
-        address: {
-          cep: value,
-          number: numberPlace,
-          complement,
-          city,
-          state
-        }
+        cep: value,
+        number: numberPlace,
+        complement,
+        city,
+        state
       };
     } else if (route.params.attribute === "name") {
       data = {
@@ -147,7 +144,10 @@ export default function EditProfile({ route, navigation }) {
     navigation.goBack();
     try {
       setLoadingModal(true);
-      const resp = await UserService.editUser(data);
+      const resp = await UserService.editUser(
+        data,
+        route.params.attribute === "cep" ? "/address" : ""
+      );
       dispatch({ type: actions.user.storeUserInfo, data: resp });
       setLoadingModal(false);
       setVisible(false);
@@ -203,6 +203,13 @@ export default function EditProfile({ route, navigation }) {
           </View>
         ) : (
           <>
+            {
+              route.params.attribute !== "cep" ? (
+                <Text style={styles.titleEdit}>Fique a vontade para modificar suas informações!</Text>
+              ) :(
+                <></>
+              )
+            }
             <View style={styles.content}>
               {route.params.attribute === "phone" ? (
                 <View style={styles.phoneView}>

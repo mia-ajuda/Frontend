@@ -202,6 +202,7 @@ export default function Profile({ navigation }) {
         <View style={styles.buttonWrapper}>
           <Button
             style={styles.buttonExit}
+            large
             press={() => {
               logout();
             }}
