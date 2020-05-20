@@ -11,8 +11,7 @@ import LocationModal from "./LocationModal";
 import { Icon } from "react-native-elements";
 
 export default function Location({ route, navigation }) {
-  const { userData } = route.params;
-  console.log(userData);
+  const userData = route.params ? route.params.userData : {};
 
   const [currentRegion, setCurrentRegion] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
