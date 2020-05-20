@@ -244,7 +244,14 @@ class UserService {
     return !!response.data;
   }
 
-  helpAnUser() {}
+  async editUser(data, complement = "") {
+    try {
+      const user = await api.put(`/user${complement}`, data);
+      return user.data;
+    } catch(err) {
+      throw err;
+    }
+  }
 }
 
 const userService = new UserService();
