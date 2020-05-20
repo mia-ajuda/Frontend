@@ -34,25 +34,12 @@ class HelpService {
     return helps.data;
   }
 
-  async getAllHelpForUser(userId, status) {
-    const url = status
-      ? `/help?id=${userId}&status=${status}`
-      : `/help?id=${userId};`;
-
+  async getHelpMultipleStatus(userId, status,helper) {
+    const url =`/help/listbyStatus/${userId}?statusList=${status}&helper=${helper}`;
     const helps = await api.get(url);
-
     return helps.data;
   }
 
-  async getAllHelpForHelper(userId, status) {
-    const url = status
-      ? `/help?id.helper=${userId}&status=${status}`
-      : `/help?id.helper=${userId};`;
-
-    const helps = await api.get(url);
-
-    return helps.data;
-  }
 
   async createHelp(title, categoryId, description, ownerId) {
     const data = {
