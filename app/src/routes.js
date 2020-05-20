@@ -144,7 +144,7 @@ const ProfileNavigation = () => (
 const BottomTab = () => {
   const { loadingHelps } = useContext(HelpContext);
 
-  // if (loadingHelps) return <Splash />;
+  if (loadingHelps) return <Splash />;
   return (
     <BottomNavigation.Navigator
       tabBarOptions={{
@@ -241,9 +241,9 @@ const BottomTab = () => {
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
-  // if (user && user.showSplash) {
-  //   return <Splash />;
-  // }
+  if (user && user.showSplash) {
+    return <Splash />;
+  }
 
   return (
     <>

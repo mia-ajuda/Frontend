@@ -13,7 +13,7 @@ export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
   const [user, dispatch] = useReducer(userReducer, {
-    showSplash: false,
+    showSplash: true,
   });
   const [currentRegion, setCurrentRegion] = useState(null);
   

@@ -19,8 +19,8 @@ import actions from "../../../store/actions";
 import ConfirmationModal from "../confirmationModal";
 
 export default function EditProfile({ route, navigation }) {
-  const [value, setValue] = useState("");
-  const [isValid, setIsValid] = useState(true);
+  const [mainField, setMainField] = useState("");
+  const [isMainFieldValid, setMainFieldValid] = useState(true);
   const [numberPlace, setNumberPlace] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
@@ -28,16 +28,16 @@ export default function EditProfile({ route, navigation }) {
   const [loading, setLoading] = useState("");
   const { dispatch } = useContext(UserContext);
   const [loadingModal, setLoadingModal] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (route.params.attribute === "phone") {
-      setValue(route.params.user.phone.slice(3, 14));
+      setMainField(route.params.user.phone.slice(3, 14));
     } else if (route.params.attribute === "name") {
-      setValue(route.params.user.name);
+      setMainField(route.params.user.name);
     } else {
       const address = route.params.user.address;
-      setValue(address.cep || "");
+      setMainField(address.cep || "");
       setCity(address.city || "");
       setNumberPlace(String(address.number) || "");
       setComplement(address.complement || "");
@@ -48,7 +48,7 @@ export default function EditProfile({ route, navigation }) {
   const handlePhone = () => {
     let phoneFilter =
       "+55" +
-      value.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+      mainField.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
 
     let ddd = phoneFilter.substring(0, 5);
     let numero = phoneFilter.substring(5, 14);
@@ -65,7 +65,7 @@ export default function EditProfile({ route, navigation }) {
   };
 
   const cepHandle = async currentCep => {
-    setValue(currentCep.substring(0, 8));
+    setMainField(currentCep.substring(0, 8));
 
     if (currentCep.length === 8) {
       try {
@@ -77,18 +77,18 @@ export default function EditProfile({ route, navigation }) {
         if (!response.data.erro) {
           const { localidade, uf, logradouro, bairro } = response.data;
 
-          setIsValid(true);
+          setMainFieldValid(true);
           setState(uf);
           setCity(localidade);
           setComplement(logradouro + " / " + bairro);
         } else {
-          setIsValid(false);
+          setMainFieldValid(false);
         }
       } catch {
-        setIsValid(true);
+        setMainFieldValid(true);
       }
     } else {
-      setIsValid(false);
+      setMainFieldValid(false);
     }
 
     setLoading(false);
@@ -116,14 +116,14 @@ export default function EditProfile({ route, navigation }) {
   };
 
   const handleValue = value => {
-    setValue(value);
+    setMainField(value);
   };
 
   const handleEdit = async () => {
     let data = {};
     if (route.params.attribute === "cep") {
       data = {
-        cep: value,
+        cep: mainField,
         number: numberPlace,
         complement,
         city,
@@ -132,7 +132,7 @@ export default function EditProfile({ route, navigation }) {
     } else if (route.params.attribute === "name") {
       data = {
         ...route.params.user,
-        name: value
+        name: mainField
       };
     } else {
       data = {
@@ -150,7 +150,7 @@ export default function EditProfile({ route, navigation }) {
       );
       dispatch({ type: actions.user.storeUserInfo, data: resp });
       setLoadingModal(false);
-      setVisible(false);
+      setModalVisible(false);
       Alert.alert(
         "Sucesso",
         "Alteração feita com sucesso!",
@@ -161,7 +161,7 @@ export default function EditProfile({ route, navigation }) {
       );
     } catch (err) {
       setLoadingModal(false);
-      setVisible(false);
+      setModalVisible(false);
       Alert.alert(
         "Ooops..",
         err.error || "Algo deu errado, tente novamente mais tarde",
@@ -181,8 +181,8 @@ export default function EditProfile({ route, navigation }) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
       <ConfirmationModal
-        visible={visible}
-        setVisible={setVisible}
+        visible={isModalVisible}
+        setVisible={setModalVisible}
         action={handleEdit}
         message={"Tem certeza que deseja modificar esta informação?"}
         isLoading={loadingModal}
@@ -217,7 +217,7 @@ export default function EditProfile({ route, navigation }) {
                   <TextInputMask
                     style={[
                       styles.inputMask,
-                      value === "" || isValid ? styles.valid : styles.invalid
+                      mainField === "" || isMainFieldValid ? styles.valid : styles.invalid
                     ]}
                     type={"cel-phone"}
                     options={{
@@ -225,14 +225,14 @@ export default function EditProfile({ route, navigation }) {
                       withDDD: true,
                       dddMask: "(99) "
                     }}
-                    value={value}
+                    value={mainField}
                     onChangeText={text => {
-                      setValue(text);
+                      setMainField(text);
 
                       if (text.length >= 14) {
-                        setIsValid(true);
+                        setMainFieldValid(true);
                       } else {
-                        setIsValid(false);
+                        setMainFieldValid(false);
                       }
                     }}
                     placeholder="Digite seu telefone"
@@ -244,12 +244,12 @@ export default function EditProfile({ route, navigation }) {
                     change={
                       route.params.attribute === "cep" ? cepHandle : handleValue
                     }
-                    valid={isValid}
+                    valid={isMainFieldValid}
                     label={route.params.attribute === "cep" ? "CEP" : "Nome"}
                     placeholder={`Digite seu ${
                       route.params.attribute === "cep" ? "CEP" : "Nome"
                     }`}
-                    value={value}
+                    value={mainField}
                     keyboard={
                       route.params.attribute === "cep" ? "numeric" : "default"
                     }
@@ -298,8 +298,8 @@ export default function EditProfile({ route, navigation }) {
               style={styles.btnEdit}
               title="Editar"
               disabled={
-                value === "" ||
-                !isValid ||
+                mainField === "" ||
+                !isMainFieldValid ||
                 (route.params.attribute === "cep" &&
                   (state === "" ||
                     city === "" ||
@@ -307,7 +307,7 @@ export default function EditProfile({ route, navigation }) {
                     complement === ""))
               }
               large
-              press={() => setVisible(true)}
+              press={() => setModalVisible(true)}
             />
           </>
         )}

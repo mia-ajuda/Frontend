@@ -23,8 +23,8 @@ export default function Profile({ navigation }) {
     ? { uri: user.photo } // google+ or facebook
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
   const [selectedImage, setSelectedImage] = useState(null);
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
   const [photo, setPhoto] = useState("");
 
   function formatCPF(cpf) {
@@ -86,19 +86,19 @@ export default function Profile({ navigation }) {
     });
 
     setPhoto(pickerResult.base64);
-    setVisible(true);
+    setModalVisible(true);
   }
 
   const sendPhoto = async () => {
     try {
-      setLoading(true);
+      setLoadingModal(true);
       const resp = await UserService.editUser({
         ...user,
         photo: photo
       });
       dispatch({ type: actions.user.storeUserInfo, data: resp });
-      setLoading(false);
-      setVisible(false);
+      setLoadingModal(false);
+      setModalVisible(false);
       Alert.alert(
         "Sucesso",
         "Foto atulalizadac com sucesso!",
@@ -108,8 +108,8 @@ export default function Profile({ navigation }) {
         }
       );
     } catch (err) {
-      setLoading(false);
-      setVisible(false);
+      setLoadingModal(false);
+      setModalVisible(false);
       console.log(err.data);
       Alert.alert(
         "Ooops..",
@@ -130,11 +130,11 @@ export default function Profile({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <ConfirmationModal
-        visible={visible}
-        setVisible={setVisible}
+        visible={isModalVisible}
+        setVisible={setModalVisible}
         action={sendPhoto}
         message={"Tem certeza que deseja trocar sua foto?"}
-        isLoading={loading}
+        isLoading={loadingModal}
       />
       <View style={styles.imageView}>
         <TouchableOpacity onPress={openImagePickerAsync}>
