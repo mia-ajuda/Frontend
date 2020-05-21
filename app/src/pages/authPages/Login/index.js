@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
