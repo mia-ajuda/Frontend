@@ -15,6 +15,7 @@ before_script:
 publishing:
   stage: publish
   script:
+    - cd app
     - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
     - expo publish --release-channel prod --non-interactive
   only:
