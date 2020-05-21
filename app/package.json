@@ -48,6 +48,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-preset-expo": "~8.0.0",
+    "expo-cli": "^3.20.9",
     "prettier": "^2.0.4",
     "react-native-dotenv": "^0.2.0"
   },

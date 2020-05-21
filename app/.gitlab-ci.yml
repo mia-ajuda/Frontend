@@ -1,0 +1,22 @@
+---
+image: node:alpine
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+stages:
+  - publish
+
+before_script:
+  - yarn install --pure-lockfile --non-interactive
+
+publishing:
+  stage: publish
+  script:
+    - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+    - expo publish --release-channel prod --non-interactive
+  only:
+    - master
+    - ci-publishing

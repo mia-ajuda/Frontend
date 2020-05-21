@@ -1,12 +1,13 @@
 import firebase from "firebase";
-import authConfig from "../config/authmiaajuda-firebase";
 
-const config = authConfig;
+import Constants from "expo-constants";
+
+console.log(Constants.manifest.extra.apiKey);
 
 const Firebase = firebase.initializeApp({
-  apiKey: config.apiKey,
-  authDomain: config.authDomain,
-  projectId: config.projectId
+  apiKey: Constants.manifest.extra.apiKey,
+  authDomain: Constants.manifest.extra.authDomain,
+  projectId: Constants.manifest.extra.projectId,
 });
 
 export default Firebase;

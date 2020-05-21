@@ -27,9 +27,9 @@ let activeLocations = [];
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { selectedCategories } = useContext(CategoryContext);
-  const { user, currentRegion} = useContext(UserContext);
+  const { user, currentRegion } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-  const [ loadingHelps, setLoadingHelps ] = useState(false);
+  const [loadingHelps, setLoadingHelps] = useState(false);
   useEffect(() => {
     setLoadingHelps(true);
     if (currentRegion && user._id) {
@@ -37,7 +37,7 @@ export default function HelpContextProvider(props) {
       getHelpList(currentRegion);
       setupWebSocket();
     }
-  }, [user._id,currentRegion]);
+  }, [user._id, currentRegion]);
 
   useEffect(() => {
     subscribeToNewHelps((help) => {
@@ -69,14 +69,19 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories]);
 
   useEffect(() => {
-    if(location)
-    { 
-      var latValidation = (location.latitude*10000)-(currentRegion.latitude*10000);
-      var longValidation = (location.longitude * 10000) - (currentRegion.longitude * 10000);
-      longValidation = Math.abs(longValidation)
-      latValidation = Math.abs(latValidation)
+    if (location) {
+      var latValidation =
+        location.latitude * 10000 - currentRegion.latitude * 10000;
+      var longValidation =
+        location.longitude * 10000 - currentRegion.longitude * 10000;
+      longValidation = Math.abs(longValidation);
+      latValidation = Math.abs(latValidation);
 
-      if (location && shouldRequest(location) && (latValidation>1 || longValidation>1)){
+      if (
+        location &&
+        shouldRequest(location) &&
+        (latValidation > 1 || longValidation > 1)
+      ) {
         activeLocations.push(location);
         if (selectedCategories.length) {
           getHelpListWithCategories(location);

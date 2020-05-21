@@ -26,24 +26,23 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response.status === 401) {
-        const correctRequest = await firebase.auth().currentUser.getIdToken().then(async (idTokenUser) => {
+      const correctRequest = await firebase
+        .auth()
+        .currentUser.getIdToken()
+        .then(async (idTokenUser) => {
           await AsyncStorage.setItem("accessToken", idTokenUser);
           originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
-          try{
+          try {
             return await axios(originalRequest);
-          }catch(error){
-            throw (error);
+          } catch (error) {
+            throw error;
           }
         });
-        return correctRequest;
-       
+      return correctRequest;
+    } else {
+      throw error;
     }
-    else{
-      throw (error);
-    }
-   
   }
 );
 
 export default api;
-

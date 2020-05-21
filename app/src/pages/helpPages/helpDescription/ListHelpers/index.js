@@ -36,6 +36,8 @@ export default function ListHelpers({
   const [possibleHelpers, setPossibleHelpers] = useState([]);
   const [finished, setFinished] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const loadHelpInfo = async () => {
     try {
       const helps = await api.get(`/help?id=${user._id}`);
@@ -117,7 +119,7 @@ export default function ListHelpers({
           : { justifyContent: "flex-end" }
       ]}
     >
-      {help && help.status !== "waiting" ? (
+      {help && help.status && help.status !== "waiting" ? (
         <View>
           <Text style={styles.textVolunteer}>Voluntário:</Text>
           <View style={styles.volunteerContainer}>

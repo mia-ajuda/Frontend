@@ -5,7 +5,6 @@ import { AsyncStorage, Alert } from "react-native";
 import * as Facebook from "expo-facebook";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
-import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 const setUserDeviceId = async () => {
@@ -63,7 +62,7 @@ class UserService {
 
   async logInWithFacebook(navigation) {
     try {
-      await Facebook.initializeAsync(authConfig.facebookId);
+      await Facebook.initializeAsync(Constants.manifest.extra.facebookId);
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });
@@ -131,8 +130,8 @@ class UserService {
   async loginInWithGoogle(navigation) {
     try {
       const result = await Google.logInAsync({
-        androidClientId: authConfig.googleAndroidClientId,
-        iosClientId: authConfig.googleIosClientId,
+        androidClientId: Constants.manifest.extra.googleAndroidClientId,
+        iosClientId: Constants.manifest.extra.googleIosClientId,
         scopes: ["profile", "email"],
       });
 
@@ -248,7 +247,7 @@ class UserService {
     try {
       const user = await api.put(`/user${complement}`, data);
       return user.data;
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }
