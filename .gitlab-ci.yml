@@ -1,5 +1,5 @@
 ---
-image: node:alpine
+image: patwoz/expo-cli:3
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -15,6 +15,7 @@ before_script:
 publishing:
   stage: publish
   script:
+    - echo ""
     - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
     - expo publish --release-channel prod --non-interactive
   only:
