@@ -52,6 +52,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         value={value}
         autoCompleteType={ autoComplete ? autoComplete : "off" }
         keyboardType={keyboard ? keyboard : "default"}
+        maxLength={30}
       />
     );
   }
