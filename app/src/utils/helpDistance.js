@@ -23,7 +23,7 @@ export function calculateDistance(centerCoordinates, pointCoordinates) {
 }
 
 function getDistanceInKm(centerCoordinates, pointCoordinates) {
-  let distance = calculateDistance(centerCoordinates, pointCoordinates)
+  let distance = calculateDistance(centerCoordinates, pointCoordinates);
   distance =
     distance > 1
       ? `${distance.toFixed(2)} km`
