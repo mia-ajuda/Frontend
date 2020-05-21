@@ -16,8 +16,8 @@ publishing:
   stage: publish
   script:
     - cd app
-    - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
-    - expo publish --release-channel prod --non-interactive
+    - yarn expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+    - yarn expo publish --release-channel prod --non-interactive
   only:
     - master
     - ci-publishing
