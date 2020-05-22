@@ -19,6 +19,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "notification": {
+      "icon": "./images/assets/notificationIcon.png",
+      "color": "#4b8ab9",
+      "androidMode": "default"
     }
   }
 }
