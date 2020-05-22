@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { View, Text, TouchableOpacity } from "react-native";
 import Input from "../../../components/UI/input";
@@ -6,8 +6,15 @@ import colors from "../../../../assets/styles/colorVariables";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
+import validationEmail from "../../../utils/emailValidation";
 
 export default function ForgotPassword({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [firstUse, setFirstUse] = useState(true);
+
+  const handlerSubmit = () => {};
+
   return (
     <View style={styles.container}>
       <View style={styles.backIcon}>
@@ -28,10 +35,24 @@ export default function ForgotPassword({ navigation }) {
             Você pode redefinir-la colocando seu email abaixo!
           </Text>
           <View style={styles.inputWrapper}>
-            <Input placeholder="Digite seu email" />
+            <Input
+              placeholder="Digite seu email"
+              value={email}
+              change={value => {
+                setIsEmailValid(validationEmail(value));
+                setEmail(value);
+                setFirstUse(false);
+              }}
+              valid={isEmailValid || firstUse}
+            />
           </View>
         </View>
-        <Button large title="Enviar" />
+        <Button
+          large
+          press={handlerSubmit}
+          title="Enviar"
+          disabled={email === "" && isEmailValid}
+        />
       </View>
     </View>
   );
