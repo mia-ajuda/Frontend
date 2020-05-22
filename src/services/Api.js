@@ -25,7 +25,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401) {
+    if (error.reponse && error.response.status === 401) {
       const correctRequest = await firebase
         .auth()
         .currentUser.getIdToken()

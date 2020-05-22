@@ -2,6 +2,7 @@ export default ({ config }) => {
   return {
     ...config,
     extra: {
+      IP_ADDRESS: process.env["IP_ADDRESS"],
       apiKey: process.env["apiKey"],
       authDomain: process.env["authDomain"],
       projectId: process.env["projectId"],
