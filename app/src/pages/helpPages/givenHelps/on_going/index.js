@@ -20,24 +20,14 @@ export default function AskedHelps({ navigation }) {
 
   async function getHelps() {
     setLoading(true);
-    let helpsOnGoing = await helpService.getAllHelpForHelper(
+    let filteredHelps = await helpService.getHelpMultipleStatus(
       user._id,
-      "on_going"
+      ["on_going","owner_finished"],
+      true,
     );
-    
-    let helpsOwnerFinished = await helpService.getAllHelpForHelper(
-      user._id,
-      "owner_finished"
-    );
-    
-    let helps = [...helpsOnGoing,...helpsOwnerFinished];
-    
-    let filteredHelps = helps.filter(help => help.active === true);
-   
     setMyHelps(filteredHelps);
     setLoading(false);
   }
-
 
   return (
     <View style={styles.helpList}>
@@ -63,7 +53,7 @@ export default function AskedHelps({ navigation }) {
               userPhone={help.user.phone}
               userLocation={help.user.location.coordinates}
               pageName="Description"
-              />
+            />
           ))}
         </ScrollView>
       ) : (

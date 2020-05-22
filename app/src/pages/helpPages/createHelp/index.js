@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Picker, Text, Modal, ActivityIndicator } from "react-native";
+import { View, Picker, Text, Modal, ActivityIndicator, ScrollView } from "react-native";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import Input from "../../../components/UI/input";
@@ -74,7 +74,7 @@ export default function CreateHelp({ navigation }) {
       });
   }
   return (
-    <View>
+    <ScrollView>
       <Container>
         <View style={styles.view}>
           <View>
@@ -158,6 +158,6 @@ export default function CreateHelp({ navigation }) {
           </Modal>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }

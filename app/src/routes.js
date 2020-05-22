@@ -7,7 +7,8 @@ import { Icon, Tile } from "react-native-elements";
 import { UserContext } from "./store/contexts/userContext";
 import Constants from "expo-constants";
 
-import Profile from "./pages/profile";
+import Profile from "./pages/profile/ListProfile";
+import EditProfile from "./pages/profile/EditProfile";
 import Notification from "./pages/notification";
 import on_goingGivenHelp from "./pages/helpPages/givenHelps/on_going";
 import finishedGivenHelp from "./pages/helpPages/givenHelps/finished";
@@ -40,6 +41,7 @@ const AuthStack = createStackNavigator();
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
 const MyRequestsTab = createMaterialTopTabNavigator();
 const stack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const MainNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
@@ -56,7 +58,7 @@ const MainNavigation = () => (
       <MainStack.Screen
         name="helpDescription"
         options={({ route }) => ({
-          title: route.params.helpTitle,
+          title: route.params.helpTitle
         })}
         component={HelpDescription}
       />
@@ -90,7 +92,7 @@ const HelpTopBar = () => (
         name="Description"
         component={HelpDescription}
         options={({ route }) => ({
-          title: route.params.helpTitle,
+          title: route.params.helpTitle
         })}
       />
     </stack.Navigator>
@@ -117,106 +119,125 @@ const MyRequestsNavigation = () => (
         name="Description"
         component={HelpDescription}
         options={({ route }) => ({
-          title: route.params.helpTitle,
+          title: route.params.helpTitle
         })}
       />
     </stack.Navigator>
   </>
 );
 
+const ProfileNavigation = () => (
+  <>
+    <ProfileStack.Navigator screenOptions={headerStyle}>
+      <ProfileStack.Screen name="Perfil" component={Profile} />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={({ route }) => ({
+          title: "Editar Perfil"
+        })}
+      />
+    </ProfileStack.Navigator>
+  </>
+);
+
 const BottomTab = () => {
-  const {loadingHelps} = useContext(HelpContext);
+  const { loadingHelps } = useContext(HelpContext);
 
   if (loadingHelps) return <Splash />;
   return (
-  <BottomNavigation.Navigator
-    tabBarOptions={{
-      style: {
-        height: 60,
-        borderTopColor: colors.primary,
-        shadowOpacity: 0,
-        elevation: 0,
-      },
-      keyboardHidesTabBar: true,
-      activeTintColor: colors.light,
-      inactiveTintColor: colors.dark,
-      inactiveBackgroundColor: colors.primary,
-      activeBackgroundColor: colors.primary,
-      tabStyle: {
-        justifyContent: "center",
-      },
-      showLabel: false,
-    }}
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused }) => {
-        let selectConfig;
+    <BottomNavigation.Navigator
+      tabBarOptions={{
+        style: {
+          height: 60,
+          borderTopColor: colors.primary,
+          shadowOpacity: 0,
+          elevation: 0
+        },
+        keyboardHidesTabBar: true,
+        activeTintColor: colors.light,
+        inactiveTintColor: colors.dark,
+        inactiveBackgroundColor: colors.primary,
+        activeBackgroundColor: colors.primary,
+        tabStyle: {
+          justifyContent: "center"
+        },
+        showLabel: false
+      }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => {
+          let selectConfig;
 
-        switch (route.name) {
-          case "main":
-            selectConfig = focused
-              ? {
-                  src: require("../assets/images/whileLogo.png"),
-                  size: { height: 40, width: 40 },
-                }
-              : {
-                  src: require("../assets/images/whiteCat.png"),
-                  size: { height: 25, width: 25, resizeMode: "contain" },
-                };
-            return (
-              <Image source={selectConfig.src} style={selectConfig.size} />
-            );
+          switch (route.name) {
+            case "main":
+              selectConfig = focused
+                ? {
+                    src: require("../assets/images/whileLogo.png"),
+                    size: { height: 40, width: 40 }
+                  }
+                : {
+                    src: require("../assets/images/whiteCat.png"),
+                    size: { height: 25, width: 25, resizeMode: "contain" }
+                  };
+              return (
+                <Image source={selectConfig.src} style={selectConfig.size} />
+              );
 
-          case "helpList":
-            selectConfig = focused
-              ? { color: colors.primary, raised: true, name: "outdent" }
-              : { color: colors.light, raised: false, name: "outdent" };
-            break;
+            case "helpList":
+              selectConfig = focused
+                ? { color: colors.primary, raised: true, name: "outdent" }
+                : { color: colors.light, raised: false, name: "outdent" };
+              break;
 
-          case "givenHelp":
-            selectConfig = focused
-              ? { color: colors.primary, raised: true, name: "outdent" }
-              : { color: colors.light, raised: false, name: "outdent" };
-            break;
-          case "notification":
-            selectConfig = focused
-              ? { color: colors.primary, raised: true, name: "bell" }
-              : { color: colors.light, raised: false, name: "bell" };
-            break;
-          case "profile":
-            selectConfig = focused
-              ? {
-                  color: colors.primary,
-                  raised: true,
-                  name: "user-circle",
-                }
-              : {
-                  color: colors.light,
-                  raised: false,
-                  name: "user-circle",
-                };
-            break;
+            case "givenHelp":
+              selectConfig = focused
+                ? { color: colors.primary, raised: true, name: "outdent" }
+                : { color: colors.light, raised: false, name: "outdent" };
+              break;
+            case "notification":
+              selectConfig = focused
+                ? { color: colors.primary, raised: true, name: "bell" }
+                : { color: colors.light, raised: false, name: "bell" };
+              break;
+            case "profile":
+              selectConfig = focused
+                ? {
+                    color: colors.primary,
+                    raised: true,
+                    name: "user-circle"
+                  }
+                : {
+                    color: colors.light,
+                    raised: false,
+                    name: "user-circle"
+                  };
+              break;
+          }
+
+          return (
+            <Icon
+              raised={selectConfig.raised}
+              size={20}
+              name={selectConfig.name}
+              type="font-awesome"
+              color={selectConfig.color}
+            />
+          );
         }
-
-        return (
-          <Icon
-            raised={selectConfig.raised}
-            size={20}
-            name={selectConfig.name}
-            type="font-awesome"
-            color={selectConfig.color}
-          />
-        );
-      },
-    })}
-    initialRouteName="main"
-  >
-    <BottomNavigation.Screen name="notification" component={Notification} />
-    <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
-    <BottomNavigation.Screen name="main" component={MainNavigation} />
-    <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
-    <BottomNavigation.Screen name="profile" component={Profile} />
-  </BottomNavigation.Navigator>
-)};
+      })}
+      initialRouteName="main"
+    >
+      <BottomNavigation.Screen name="notification" component={Notification} />
+      <BottomNavigation.Screen
+        name="helpList"
+        component={MyRequestsNavigation}
+      />
+      <BottomNavigation.Screen name="main" component={MainNavigation} />
+      <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
+      <BottomNavigation.Screen name="profile" component={ProfileNavigation} />
+    </BottomNavigation.Navigator>
+  );
+};
 
 const AuthRoutes = () => {
   const { user } = useContext(UserContext);
@@ -229,7 +250,7 @@ const AuthRoutes = () => {
       <AuthStack.Navigator
         initialRouteName="login"
         screenOptions={{
-          headerShown: false,
+          headerShown: false
         }}
       >
         <AuthStack.Screen name="login" component={Login} />
@@ -257,38 +278,38 @@ const headerStyle = {
         flex: 1,
         resizeMode: "contain",
         width: 10,
-        marginLeft: 5,
+        marginLeft: 5
       }}
     />
   ),
   headerStyle: {
     height: 90,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary
   },
   headerTitleStyle: {
     ...fonts.title,
     color: colors.light,
     fontFamily: "montserrat-medium",
-    marginHorizontal: 30,
+    marginHorizontal: 30
   },
 
   headerTintColor: colors.light,
-  headerTitleAlign: "center",
+  headerTitleAlign: "center"
 };
 
 const tabTopBarOptions = {
   style: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary
   },
   labelStyle: {
     ...fonts.body,
     color: colors.light,
-    fontSize: 14,
+    fontSize: 14
   },
   indicatorStyle: {
     backgroundColor: colors.light,
-    padding: 2,
-  },
+    padding: 2
+  }
 };
 
 const Routes = () => {

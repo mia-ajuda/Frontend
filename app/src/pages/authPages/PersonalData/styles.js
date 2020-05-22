@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   toggleView: {
+    marginBottom: 45,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
