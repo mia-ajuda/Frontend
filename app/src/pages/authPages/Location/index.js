@@ -115,8 +115,9 @@ export default function Location({ route, navigation }) {
           </Text>
           {descriptionShown && (
             <Text style={styles.descriptionText}>
-              Ela será onde sua ajuda será informada no mapa! Por isso, preste
-              bastante atenção ao escolher sua posição, pois ela{" "}
+              A posição escolhida será usada para definir a localização das
+              ajudas criadas por você. Por isso, preste bastante atenção ao
+              escolhê-la, pois ela{" "}
               <Text
                 style={{ fontFamily: "montserrat-semibold", color: "#e47171" }}
               >
