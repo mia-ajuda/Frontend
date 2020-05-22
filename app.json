@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "notification": {
-      "icon": "./images/assets/notificationIcon.png",
+      "icon": "./assets/images/notificationIcon.png",
       "color": "#4b8ab9",
       "androidMode": "default"
     }
