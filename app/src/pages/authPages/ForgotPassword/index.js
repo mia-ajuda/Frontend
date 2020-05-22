@@ -1,19 +1,40 @@
 import React, { useState } from "react";
 
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import Input from "../../../components/UI/input";
 import colors from "../../../../assets/styles/colorVariables";
 import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
 import styles from "./styles";
 import validationEmail from "../../../utils/emailValidation";
+import firebaseAuth from "../../../services/firebaseAuth";
 
 export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [firstUse, setFirstUse] = useState(true);
 
-  const handlerSubmit = () => {};
+  const handlerSubmit = async () => {
+    try {
+      await firebaseAuth.auth().sendPasswordResetEmail(email);
+      navigation.goBack();
+      Alert.alert(
+        "Sucesso",
+        "A redefinição de senha foi enviada com sucesso. Por favor, verifique seu email!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+    } catch (err) {
+      navigation.goBack();
+      Alert.alert(
+        "Ooops",
+        "Não foi possível executar essa ação no momento. Por favor, tente mais tarde!",
+        [{ text: "OK", onPress: () => {} }],
+        { cancelable: false }
+      );
+      console.log(err.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
