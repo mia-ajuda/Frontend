@@ -7,9 +7,9 @@ import {
   Modal,
   ActivityIndicator,
 } from "react-native";
-import Button from "../../../../components/UI/button";
+import Button from "../../UI/button";
 import styles from "./styles";
-import colors from "../../../../../assets/styles/colorVariables";
+import colors from "../../../../assets/styles/colorVariables";
 
 export default function ConfirmationModal({
   visible,

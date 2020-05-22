@@ -15,7 +15,7 @@ import moment from "moment";
 import { HelpContext } from "../../../store/contexts/helpContext";
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal2";
 import ListHelpers from "./ListHelpers/index";
 import actions from "../../../store/actions";
 
