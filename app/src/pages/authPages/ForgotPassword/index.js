@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator
+} from "react-native";
 import Input from "../../../components/UI/input";
 import colors from "../../../../assets/styles/colorVariables";
 import Button from "../../../components/UI/button";
@@ -13,22 +19,25 @@ export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [firstUse, setFirstUse] = useState(true);
+  const [loadRequisition, setLoadingRequisition] = useState(false);
 
   const handlerSubmit = async () => {
     try {
+      setLoadingRequisition(true);
       await firebaseAuth.auth().sendPasswordResetEmail(email);
+      setLoadingRequisition(false);
       navigation.goBack();
       Alert.alert(
         "Sucesso",
-        "A redefinição de senha foi enviada com sucesso. Por favor, verifique seu email!",
+        "Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!",
         [{ text: "OK", onPress: () => {} }],
         { cancelable: false }
       );
     } catch (err) {
-      navigation.goBack();
+      setLoadingRequisition(false);
       Alert.alert(
         "Ooops",
-        "Não foi possível executar essa ação no momento. Por favor, tente mais tarde!",
+        "Email não encontrado. Tente novamente!",
         [{ text: "OK", onPress: () => {} }],
         { cancelable: false }
       );
@@ -43,38 +52,45 @@ export default function ForgotPassword({ navigation }) {
           <Icon name="arrow-back" color="#000000" />
         </TouchableOpacity>
       </View>
-      <View style={styles.content}>
-        <View style={styles.contentText}>
-          <Icon
-            name="lock"
-            size={80}
-            type="foundation"
-            color={colors.primary}
-          />
-          <Text style={styles.textTitle}>Esqueceu sua senha?</Text>
-          <Text style={styles.subtitle}>
-            Você pode redefinir-la colocando seu email abaixo!
-          </Text>
-          <View style={styles.inputWrapper}>
-            <Input
-              placeholder="Digite seu email"
-              value={email}
-              change={value => {
-                setIsEmailValid(validationEmail(value));
-                setEmail(value);
-                setFirstUse(false);
-              }}
-              valid={isEmailValid || firstUse}
-            />
-          </View>
+      {loadRequisition ? (
+        <View style={styles.loading}>
+          <ActivityIndicator color={colors.primary} size="large" />
         </View>
-        <Button
-          large
-          press={handlerSubmit}
-          title="Enviar"
-          disabled={email === "" && isEmailValid}
-        />
-      </View>
+      ) : (
+        <View style={styles.content}>
+          <View style={styles.contentText}>
+            <Icon
+              name="unlock"
+              size={80}
+              type="foundation"
+              color={colors.primary}
+            />
+            <Text style={styles.textTitle}>Esqueceu sua senha?</Text>
+            <Text style={styles.subtitle}>
+              Enviaremos instruções sobre como redefinir sua senha por
+              e-mail.
+            </Text>
+            <View style={styles.inputWrapper}>
+              <Input
+                placeholder="Digite seu email"
+                value={email}
+                change={value => {
+                  setIsEmailValid(validationEmail(value));
+                  setEmail(value);
+                  setFirstUse(false);
+                }}
+                valid={isEmailValid || firstUse}
+              />
+            </View>
+          </View>
+          <Button
+            large
+            press={handlerSubmit}
+            title="Enviar"
+            disabled={email === "" && isEmailValid}
+          />
+        </View>
+      )}
     </View>
   );
 }

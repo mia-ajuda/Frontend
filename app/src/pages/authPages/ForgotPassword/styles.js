@@ -18,7 +18,7 @@ export default StyleSheet.create({
     justifyContent: "space-between"
   },
   contentText: {
-    marginTop: 70,
+    marginTop: 40,
     width: "100%",
     justifyContent: "center",
     alignItems: "center"
@@ -32,8 +32,13 @@ export default StyleSheet.create({
     fontWeight: "bold"
   },
   subtitle: {
-    ...fonts.subtitle,
+    ...fonts.body,
     textAlign: "justify",
     marginTop: 10
+  },
+  loading: {
+    flex: 9,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
