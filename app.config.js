@@ -1,20 +1,31 @@
+import {
+  IP_ADDRESS,
+  apiKey,
+  authDomain,
+  projectId,
+  facebookId,
+  googleIosClientId,
+  googleAndroidClientId,
+  MAPS_API_KEY,
+} from "react-native-dotenv";
+
 export default ({ config }) => {
   return {
     ...config,
     extra: {
-      IP_ADDRESS: process.env["IP_ADDRESS"],
-      apiKey: process.env["apiKey"],
-      authDomain: process.env["authDomain"],
-      projectId: process.env["projectId"],
-      facebookId: process.env["facebookId"],
-      googleIosClientId: process.env["googleIosClientId"],
-      googleAndroidClientId: process.env["googleAndroidClientId"],
+      IP_ADDRESS: IP_ADDRESS,
+      apiKey: apiKey,
+      authDomain: authDomain,
+      projectId: projectId,
+      facebookId: facebookId,
+      googleIosClientId: googleIosClientId,
+      googleAndroidClientId: googleAndroidClientId,
     },
     android: {
       package: "com.unb.miaajuda",
       config: {
         googleMaps: {
-          apiKey: process.env["MAPS_API_KEY"],
+          apiKey: MAPS_API_KEY,
         },
       },
     },

@@ -15,8 +15,7 @@ before_script:
 publishing:
   stage: publish
   script:
-    - echo "IP_ADDRESS=$IP_ADDRESS" >> .env
-    - cat .env
+    - echo "IP_ADDRESS=$IP_ADDRESS\nMAPS_API_KEY=$MAPS_API_KEY\napiKey=$apiKey\nauthDomain=$authDomain\nprojectId=$projectId\nfacebookId=$facebookId\ngoogleIosClientId=$googleIosClientId\ngoogleAndroidClientId=$googleAndroidClientId" >> .env
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
     - expo publish --release-channel prod --non-interactive
