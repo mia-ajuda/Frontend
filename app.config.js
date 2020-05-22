@@ -12,7 +12,7 @@ export default ({ config }) => {
   return {
     ...config,
     extra: {
-      apiKey: process.env.apiKey,
+      apiKey: process.env["apiKey"],
       authDomain: authDomain,
       projectId: projectId,
       facebookId: facebookId,
