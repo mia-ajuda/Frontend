@@ -20,3 +20,4 @@ publishing:
     - expo publish --release-channel prod --non-interactive
   only:
     - master
+    - ci-publishing
