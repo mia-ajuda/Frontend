@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView, ActivityIndicator } from "react-native";
 import NotificationCard from "../../components/NotificationCard";
 import { UserContext } from "../../store/contexts/userContext";
 import NotificationService from "../../services/Notification";
-import { colors } from "react-native-elements";
+import colors from "../../../assets/styles/colorVariables";
 import styles from "./styles";
 
 export default function Notification({navigation}) {

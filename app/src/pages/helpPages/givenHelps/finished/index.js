@@ -5,7 +5,7 @@ import ListCard from "../../../../components/ListCard";
 import { UserContext } from "../../../../store/contexts/userContext";
 import NoHelps from "../../../../components/NoHelps";
 import helpService from "../../../../services/Help";
-import { colors } from "react-native-elements";
+import colors from "../../../../../assets/styles/colorVariables";
 export default function AskedHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState([]);
