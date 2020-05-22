@@ -10,6 +10,7 @@ export default function NotificationCard({
   notificationTitle,
   notificationBody,
   notificationDate,
+  dateNow,
 }) {
   const [time, setTime] = useState(``);
   const [iconName, setIconName] = useState("bell");
@@ -18,33 +19,41 @@ export default function NotificationCard({
   useEffect(() => {
     let date = new Date(notificationDate);
     let dateNow = new Date();
-    let interval = dateNow.getTime() - date.getTime();
-
-    if (interval > 31536000000) {
-      let year = dateNow.getFullYear() - date.getFullYear();
-      year > 1 ? setTime(`${year} anos atrás`) : setTime(`${year} ano atrás`);
-    } else if (interval > 2678400000) {
-      let month = dateNow.getMonth() - date.getMonth();
-      month > 1
-        ? setTime(`${month} mêses atrás`)
-        : setTime(`${month} mês atrás`);
-    } else if (interval > 86400000) {
-      let day = dateNow.getDate() - date.getDate();
-      day > 1 ? setTime(`${day} dias atrás`) : setTime(`${day} dia atrás`);
-    } else if (interval > 3600000) {
-      let hours = dateNow.getHours() - date.getHours();
-      hours > 1
-        ? setTime(`${hours} horas atrás`)
-        : setTime(`${hours} hora atrás`);
-    } else if (interval > 60000) {
-      let minutes = dateNow.getMinutes() - date.getMinutes();
-      minutes > 1
-        ? setTime(`${minutes} minutos atrás`)
-        : setTime(`${minutes} minuto atrás`);
+    let msDifferenceTime = dateNow.getTime() - date.getTime();
+    let interval = new Date(msDifferenceTime);
+    // Qualquer data registrada é contada a partir de 1970, 
+    //então para pegar a quantidade certa de anos que passaram substraísse 1970.
+    let yearsPassed = interval.getUTCFullYear()-1970;
+    let monthsPassed = interval.getUTCMonth();
+    // Dia começa em 1, então para pegar a quantidade certa de dias substraísse 1.
+    let daysPassed = interval.getUTCDate() -1;
+    let hoursPassed = interval.getUTCHours();
+    let minutesPassed = interval.getUTCMinutes();
+    
+    if (yearsPassed > 0) {
+      yearsPassed > 1
+        ? setTime(`${yearsPassed} anos atrás`)
+        : setTime(`${yearsPassed} ano atrás`);
+    } else if (monthsPassed > 0) {
+      monthsPassed > 1
+        ? setTime(`${monthsPassed} meses atrás`)
+        : setTime(`${monthsPassed} mês atrás`);
+    } else if (daysPassed > 0) {
+      daysPassed > 1
+        ? setTime(`${daysPassed} dias atrás`)
+        : setTime(`${daysPassed} dia atrás`);
+    } else if (hoursPassed > 0) {
+      hoursPassed > 1
+        ? setTime(`${hoursPassed} horas atrás`)
+        : setTime(`${hoursPassed} hora atrás`);
+    } else if (minutesPassed > 0) {
+      minutesPassed > 1
+        ? setTime(`${minutesPassed} minutos atrás`)
+        : setTime(`${minutesPassed} minuto atrás`);
     } else {
       setTime(`Agora`);
     }
-  }, [time]);
+  }, [dateNow]);
 
   useEffect(() => {
     switch (notificationType) {
@@ -68,7 +77,7 @@ export default function NotificationCard({
         setIconBackground(colors.danger);
         break;
     }
-  }, [iconName]);
+  }, []);
 
   return (
     <View style={styles.cardContainer}>
