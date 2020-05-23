@@ -15,7 +15,7 @@ before_script:
 publishing:
   stage: publish
   script:
-    - cat $ENV_FILE > .env
+    - cat $ENV_FILE >> .env
     - cat .env
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
