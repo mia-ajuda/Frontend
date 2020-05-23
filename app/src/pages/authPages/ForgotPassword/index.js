@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 import {
   View,
+  ScrollView,
   Text,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView
 } from "react-native";
 import Input from "../../../components/UI/input";
 import colors from "../../../../assets/styles/colorVariables";
@@ -24,7 +26,7 @@ export default function ForgotPassword({ navigation }) {
   const handlerSubmit = async () => {
     try {
       setLoadingRequisition(true);
-      await firebaseAuth.auth().sendPasswordResetEmail(email);
+      await firebaseAuth.auth().sendPasswordResetEmail(email.trim().toLowerCase());
       setLoadingRequisition(false);
       navigation.goBack();
       Alert.alert(
@@ -46,51 +48,54 @@ export default function ForgotPassword({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.backIcon}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" color="#000000" />
-        </TouchableOpacity>
-      </View>
-      {loadRequisition ? (
-        <View style={styles.loading}>
-          <ActivityIndicator color={colors.primary} size="large" />
+    <KeyboardAvoidingView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" color="#000000" />
+          </TouchableOpacity>
         </View>
-      ) : (
-        <View style={styles.content}>
-          <View style={styles.contentText}>
-            <Icon
-              name="unlock"
-              size={80}
-              type="foundation"
-              color={colors.primary}
-            />
-            <Text style={styles.textTitle}>Esqueceu sua senha?</Text>
-            <Text style={styles.subtitle}>
-              Enviaremos instruções sobre como redefinir sua senha por
-              e-mail.
-            </Text>
-            <View style={styles.inputWrapper}>
-              <Input
-                placeholder="Digite seu email"
-                value={email}
-                change={value => {
-                  setIsEmailValid(validationEmail(value));
-                  setEmail(value);
-                  setFirstUse(false);
-                }}
-                valid={isEmailValid || firstUse}
-              />
-            </View>
+        {loadRequisition ? (
+          <View style={styles.loading}>
+            <ActivityIndicator color={colors.primary} size="large" />
           </View>
-          <Button
-            large
-            press={handlerSubmit}
-            title="Enviar"
-            disabled={email === "" && isEmailValid}
-          />
-        </View>
-      )}
-    </View>
+        ) : (
+          <View style={styles.content}>
+            <View style={styles.contentText}>
+              <Icon
+                name="unlock"
+                size={80}
+                type="foundation"
+                color={colors.primary}
+              />
+              <Text style={styles.textTitle}>Esqueceu sua senha?</Text>
+              <Text style={styles.subtitle}>
+                Enviaremos instruções sobre como redefinir sua senha por e-mail.
+              </Text>
+              <View style={styles.inputWrapper}>
+                <Input
+                  placeholder="Digite seu email"
+                  value={email}
+                  change={value => {
+                    setIsEmailValid(validationEmail(value));
+                    setEmail(value);
+                    setFirstUse(false);
+                  }}
+                  valid={isEmailValid || firstUse}
+                />
+              </View>
+            </View>
+            <Button
+              large
+              press={handlerSubmit}
+              title="Enviar"
+              disabled={email === "" && isEmailValid}
+            />
+          </View>
+        )}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
