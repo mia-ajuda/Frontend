@@ -17,9 +17,6 @@ const ENV = {
   },
 };
 
-console.log("bbbbbbbbbbbbbbbbb");
-console.log(JSON.stringify(ENV.dev.apiUrl));
-
 function getEnvVars(env = "") {
   if (env === null || env === undefined || env === "") return ENV.dev;
   if (env.indexOf("dev") !== -1) return ENV.dev;

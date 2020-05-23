@@ -13,7 +13,6 @@ export default ({ config }) => {
   return {
     ...config,
     extra: {
-      IP_ADDRESS: IP_ADDRESS,
       apiKey: apiKey,
       authDomain: authDomain,
       projectId: projectId,
