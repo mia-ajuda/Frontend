@@ -19,11 +19,18 @@ export default function ConfirmationModal({
   isLoading,
   attention,
 }) {
+
+  function whileRequestLoading(){
+    if(!isLoading){
+      setVisible(false);
+    }
+  } 
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <TouchableOpacity
         style={styles.container}
-        onPress={() => setVisible(false)}
+        onPress={() => whileRequestLoading()}
         activeOpacity={1}
       >
         <TouchableWithoutFeedback>

@@ -8,7 +8,6 @@ import {
   Alert
 } from "react-native";
 import { Badge } from "react-native-elements";
-import ListHelperModal from "./ListHelperModal";
 import api from "../../../../services/Api";
 import moment from "moment";
 import { UserContext } from "../../../../store/contexts/userContext";

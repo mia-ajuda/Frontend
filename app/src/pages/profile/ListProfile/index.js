@@ -15,7 +15,7 @@ import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import ConfirmationModal from "../confirmationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 
 export default function Profile({ navigation }) {
   const { user, dispatch } = useContext(UserContext);
@@ -101,7 +101,7 @@ export default function Profile({ navigation }) {
       setModalVisible(false);
       Alert.alert(
         "Sucesso",
-        "Foto atulalizadac com sucesso!",
+        "Foto atualizada com sucesso!",
         [{ text: "OK", onPress: () => {} }],
         {
           cancelable: false
