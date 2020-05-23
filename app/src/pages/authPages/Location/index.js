@@ -14,7 +14,7 @@ import {
   getCurrentPositionAsync,
 } from "expo-location";
 import Button from "../../../components/UI/button";
-import LocationModal from "./LocationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 import { Icon } from "react-native-elements";
 import userService from "../../../services/User";
 
@@ -24,6 +24,7 @@ export default function Location({ route, navigation }) {
   const [animatedHeigth] = useState(new Animated.Value(70));
   const [descriptionShown, setDescriptionShow] = useState(false);
   const [iconName, setIconName] = useState("sort-up");
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getLocation() {
@@ -64,7 +65,9 @@ export default function Location({ route, navigation }) {
     };
 
     try {
+      setIsLoading(true);
       await userService.signUp(newUserData);
+      setIsLoading(false);
       setModalIsVisible(!modalIsVisible);
       Alert.alert(
         "Sucesso",
@@ -163,11 +166,12 @@ export default function Location({ route, navigation }) {
         />
       </View>
 
-      <LocationModal
+      <ConfirmationModal
         visible={modalIsVisible}
-        onBackdropPress={() => setModalIsVisible(false)}
         setVisible={setModalIsVisible}
-        confirmSignUp={confirmSignUp}
+        action={confirmSignUp}
+        isLoading={isLoading}
+        message={"Podemos confirmar sua posição atual?"}
       />
     </>
   );

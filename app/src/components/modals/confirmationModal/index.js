@@ -1,32 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Modal,
+  ActivityIndicator,
 } from "react-native";
 import Button from "../../UI/button";
 import styles from "./styles";
+import colors from "../../../../assets/styles/colorVariables";
 
-export default function ConfirmationModal({ visible, setVisible, behavior }) {
+export default function ConfirmationModal({
+  visible,
+  setVisible,
+  action,
+  message,
+  isLoading,
+  attention,
+}) {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <TouchableOpacity
         style={styles.container}
-        activeOpacity={1}
         onPress={() => setVisible(false)}
+        activeOpacity={1}
       >
         <TouchableWithoutFeedback>
           <View style={styles.content}>
-            <Text style={styles.title}> Atenção! </Text>
-            <Text style={styles.warningText}>
-              Você deseja deletar esse pedido de ajuda?
-            </Text>
-            <View style={styles.buttonContainer}>
-              <Button title="Não" press={() => setVisible(false)} />
-              <Button title="Sim" type="danger" press={behavior} />
-            </View>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={colors.primary} />
+            ) : (
+              <>
+                {attention ?
+                  (<Text style={styles.warning}> Atenção! </Text>)
+                  : null
+                }
+                <Text style={styles.title}>{message}</Text>
+                <View style={styles.buttons}>
+                  <Button
+                    type="danger"
+                    title="Não"
+                    press={() => setVisible(false)}
+                  />
+                  <Button title="Sim" press={action} />
+                </View>
+              </>
+            )}
           </View>
         </TouchableWithoutFeedback>
       </TouchableOpacity>

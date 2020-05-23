@@ -13,7 +13,7 @@ import api from "../../../../services/Api";
 import moment from "moment";
 import { UserContext } from "../../../../store/contexts/userContext";
 import Button from "../../../../components/UI/button";
-import ConfirmationModal from "../../../../components/modals/confirmationModal2"
+import ConfirmationModal from "../../../../components/modals/confirmationModal"
 import styles from "./styles";
 
 export default function ListHelpers({
