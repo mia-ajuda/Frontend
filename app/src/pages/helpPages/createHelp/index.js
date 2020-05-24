@@ -18,7 +18,6 @@ export default function CreateHelp({ navigation }) {
   const [modalVerification, setModalVerification] = useState(true);
   const [loading, setloading] = useState(false);
   const [requestState, setRequestState] = useState("");
-  const [textLength, setTextLength] = useState(0);
 
   const { categories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
