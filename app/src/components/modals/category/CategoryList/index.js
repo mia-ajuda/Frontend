@@ -17,15 +17,17 @@ import { CategoryContext } from "../../../../store/contexts/categoryContext";
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
   const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
-  const { categories, setSelectedCategories, selectedCategories } = useContext(CategoryContext);
+  const { categories, setSelectedCategories, selectedCategories } = useContext(
+    CategoryContext
+  );
 
   async function filterHelplist() {
-    setSelectedCategories(selectedCategoryArray)
+    setSelectedCategories(selectedCategoryArray);
     setVisible(!visible);
   }
 
   async function clearFilterHelplist() {
-    setSelectedCategories([])
+    setSelectedCategories([]);
     setVisible(!visible);
   }
 
@@ -80,17 +82,17 @@ export default function CategoryList({ visible, setVisible }) {
             {selectedCategories.length ? (
               <View style={styles.filterButtons}>
                 <Buttom
-                  title="Filtrar"
-                  type="warning"
-                  press={() => {
-                    filterHelplist();
-                  }}
-                />
-                <Buttom
                   title="Limpar"
                   type="primary"
                   press={() => {
                     clearFilterHelplist();
+                  }}
+                />
+                <Buttom
+                  title="Filtrar"
+                  type="warning"
+                  press={() => {
+                    filterHelplist();
                   }}
                 />
               </View>
