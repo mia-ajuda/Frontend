@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     marginTop: 10,
+    marginBottom: 30,
+    flex: 1,
   },
   login: {
     width: "90%",
