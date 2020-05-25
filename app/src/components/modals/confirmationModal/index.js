@@ -12,6 +12,7 @@ import styles from "./styles";
 export default function ConfirmationModal({ visible, setVisible, behavior }) {
   return (
     <Modal visible={visible} transparent animationType="fade">
+      <Text>{visible}</Text>
       <TouchableOpacity
         style={styles.container}
         activeOpacity={1}

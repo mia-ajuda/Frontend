@@ -27,7 +27,13 @@ export default function ListCard({
   userLocation,
   pageName,
   isRiskGroup,
+  setSelectedHelp,
 }) {
+  function handleDelete() {
+    setConfirmationModalVisible(true);
+    setSelectedHelp(helpId);
+  }
+
   return (
     <TouchableOpacity
       style={[
@@ -92,7 +98,7 @@ export default function ListCard({
               name="trash"
               type="font-awesome"
               color={colors.danger}
-              onPress={() => setConfirmationModalVisible(true)}
+              onPress={() => handleDelete()}
             />
           ) : (
             <></>

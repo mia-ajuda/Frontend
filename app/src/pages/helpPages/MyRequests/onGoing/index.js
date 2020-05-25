@@ -14,6 +14,7 @@ export default function OnGoingHelps({ navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
+  const [selectedHelp, setSelectedHelp] = useState(null);
   const [loadingHelps, setLoadingHelps] = useState(false);
 
   const { user } = useContext(UserContext);
@@ -40,11 +41,11 @@ export default function OnGoingHelps({ navigation }) {
     }
   }
 
-  async function excludeHelp(helpId) {
+  async function excludeHelp() {
     try {
-      await helpService.deleteHelp(helpId);
+      await helpService.deleteHelp(selectedHelp);
       const updatedArray = onGoingHelpList.filter((help) => {
-        return help._id !== helpId;
+        return help._id !== selectedHelp;
       });
       setOnGoingHelpList(updatedArray);
       setConfirmationModalVisible(false);
@@ -55,6 +56,12 @@ export default function OnGoingHelps({ navigation }) {
 
   return (
     <View>
+      <ConfirmationModal
+        visible={confirmationModalVisible}
+        helpId={selectedHelp}
+        setVisible={setConfirmationModalVisible}
+        behavior={() => excludeHelp(confirmationModalVisible)}
+      />
       {loadingHelps ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
@@ -71,18 +78,13 @@ export default function OnGoingHelps({ navigation }) {
                   categoryName={item.category[0].name}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
+                  setSelectedHelp={setSelectedHelp}
                   navigation={navigation}
                   possibleHelpers={item.possibleHelpers}
                   ownerId={item.ownerId}
                   helpStatus={item.status}
                   helperId={item.helperId}
                   pageName="RequestDescription"
-                />
-
-                <ConfirmationModal
-                  visible={confirmationModalVisible}
-                  setVisible={setConfirmationModalVisible}
-                  behavior={() => excludeHelp(item._id)}
                 />
               </View>
             ))}
