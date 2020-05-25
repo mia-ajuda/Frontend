@@ -60,7 +60,9 @@ export default function ListCard({
         setVisible && setVisible(false);
       }}
     >
-      {possibleHelpers && possibleHelpers.length !== 0 ? (
+      {possibleHelpers &&
+      possibleHelpers.length !== 0 &&
+      pageName === "RequestDescription" ? (
         <Badge
           value={
             <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>

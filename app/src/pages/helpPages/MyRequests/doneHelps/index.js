@@ -28,7 +28,10 @@ export default function DoneHelps({ navigation }) {
 
   async function loadFinishedHelps() {
     setLoadingHelps(true);
-    let resFinished = await helpService.getHelpMultipleStatus(userId, "finished");
+    let resFinished = await helpService.getHelpMultipleStatus(
+      userId,
+      "finished"
+    );
     setFinishedHelpList(resFinished);
     setLoadingHelps(false);
   }
@@ -65,7 +68,7 @@ export default function DoneHelps({ navigation }) {
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
-                  pageName="Description"
+                  pageName="RequestDescription"
                 />
 
                 <ConfirmationModal

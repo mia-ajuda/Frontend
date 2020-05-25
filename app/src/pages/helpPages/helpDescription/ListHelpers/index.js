@@ -127,7 +127,7 @@ export default function ListHelpers({
       {loading ? (
         <ActivityIndicator color={colors.primary} size="large" />
       ) : help && help.status && help.status !== "waiting" ? (
-        help && help.status && help.status === "on_going" ? (
+        help.status === "on_going" || help.status === "helper_finished" ? (
           <View>
             <Text style={styles.textVolunteer}>Voluntário:</Text>
             <View style={styles.volunteerContainer}>
@@ -171,14 +171,8 @@ export default function ListHelpers({
               )}
             </View>
           </View>
-        ) : (
-          <View style={styles.wrapperNoHelperWarn}>
-            <Text style={styles.textNoHelpers}>
-              Não há ajudantes para este pedido!
-            </Text>
-          </View>
-        )
-      ) : (
+        ) : null
+      ) : possibleHelpers.length ? (
         <TouchableOpacity
           style={styles.buttonHelpers}
           onPress={() => clickAction(!stateAction)}
@@ -193,6 +187,12 @@ export default function ListHelpers({
             containerStyle={styles.containerBadge}
           />
         </TouchableOpacity>
+      ) : (
+        <View style={styles.wrapperNoHelperWarn}>
+          <Text style={styles.textNoHelpers}>
+            Não há ajudantes para este pedido!
+          </Text>
+        </View>
       )}
 
       {stateAction ? (

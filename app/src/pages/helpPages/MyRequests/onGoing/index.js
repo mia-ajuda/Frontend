@@ -27,11 +27,15 @@ export default function OnGoingHelps({ navigation }) {
 
   async function loadOnGoingHelps() {
     setLoadingHelps(true);
-    try{
-      let filteredHelps = await helpService.getHelpMultipleStatus(userId,["waiting","on_going","helper_finished"]);
+    try {
+      let filteredHelps = await helpService.getHelpMultipleStatus(userId, [
+        "waiting",
+        "on_going",
+        "helper_finished",
+      ]);
       setOnGoingHelpList(filteredHelps);
       setLoadingHelps(false);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
@@ -72,7 +76,7 @@ export default function OnGoingHelps({ navigation }) {
                   ownerId={item.ownerId}
                   helpStatus={item.status}
                   helperId={item.helperId}
-                  pageName="Description"
+                  pageName="RequestDescription"
                 />
 
                 <ConfirmationModal

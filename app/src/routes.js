@@ -89,7 +89,7 @@ const HelpTopBar = () => (
     <stack.Navigator screenOptions={headerStyle}>
       <stack.Screen name="Minhas Ofertas" component={navigationGivenHelps} />
       <stack.Screen
-        name="Description"
+        name="OfferDescription"
         component={HelpDescription}
         options={({ route }) => ({
           title: route.params.helpTitle,
@@ -106,7 +106,7 @@ const navigationAskedHelps = () => {
       tabBarOptions={tabTopBarOptions}
     >
       <MyRequestsTab.Screen name="em andamento" component={OnGoingHelps} />
-      <MyRequestsTab.Screen name="finalizadas" component={DoneHelps} />
+      <MyRequestsTab.Screen name="finalizados" component={DoneHelps} />
     </MyRequestsTab.Navigator>
   );
 };
@@ -116,7 +116,7 @@ const MyRequestsNavigation = () => (
     <stack.Navigator screenOptions={headerStyle}>
       <stack.Screen name="Meus pedidos" component={navigationAskedHelps} />
       <stack.Screen
-        name="Description"
+        name="RequestDescription"
         component={HelpDescription}
         options={({ route }) => ({
           title: route.params.helpTitle,

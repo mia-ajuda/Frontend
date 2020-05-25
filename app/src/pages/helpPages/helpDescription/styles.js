@@ -4,11 +4,19 @@ import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    padding: 20,
+  },
+  waitingToBeAccepted: {
+    ...fonts.subtitle,
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingHorizontal: 20,
   },
   userInfo: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
   },
   profileImage: {
     width: 100,
@@ -16,38 +24,38 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 50,
     marginHorizontal: 10,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   infoTextView: {
     alignSelf: "center",
     marginLeft: 40,
-    paddingRight: 100
+    paddingRight: 100,
   },
   infoText: {
     ...fonts.body,
-    marginBottom: 3
+    marginBottom: 3,
   },
 
   helpInfo: {
     flex: 1,
     marginTop: 50,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   helpInfo: {
     flex: 3,
     justifyContent: "space-between",
-    padding: 20
+    padding: 20,
   },
 
   helpButtons: {
-    flex: 1
+    flex: 1,
   },
 
   ViewLink: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 export default styles;

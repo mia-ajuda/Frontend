@@ -43,6 +43,7 @@ export default function HelpDescription({ route, navigation }) {
     userPhone,
     userLocation,
     helpStatus,
+    possibleHelpers,
   } = route.params;
 
   const today = new Date();
@@ -256,18 +257,21 @@ export default function HelpDescription({ route, navigation }) {
               helpId={helpId}
               navigation={navigation}
             />
-          ) : (
-            user._id !== helperId &&
-            helpStatus != "finished" && (
-              <>
-                <Text>{helpStatus}</Text>
-                <Button
-                  title="Oferecer Ajuda"
-                  large
-                  press={() => openModal("offer")}
-                />
-              </>
-            )
+          ) : user._id !== helperId &&
+            helpStatus != "finished" &&
+            (!possibleHelpers || !possibleHelpers.includes(user._id)) ? (
+            <>
+              <Text>{helpStatus}</Text>
+              <Button
+                title="Oferecer Ajuda"
+                large
+                press={() => openModal("offer")}
+              />
+            </>
+          ) : helpStatus === "finished" ? null : (
+            <Text style={styles.waitingToBeAccepted}>
+              Aguarde o dono da ajuda escolher seu ajudante.
+            </Text>
           )}
         </View>
       </View>
