@@ -12,9 +12,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function DoneHelps({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-    false
-  );
+
   const [loadingHelps, setLoadingHelps] = useState(false);
 
   const { user } = useContext(UserContext);
@@ -36,19 +34,6 @@ export default function DoneHelps({ navigation }) {
     setLoadingHelps(false);
   }
 
-  async function excludeHelp(helpId) {
-    try {
-      await helpService.deleteHelp(helpId);
-      const updatedArray = onGoingHelpList.filter((help) => {
-        return help._id !== helpId;
-      });
-      setFinishedHelpList(updatedArray);
-      setConfirmationModalVisible(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <View>
       {loadingHelps ? (
@@ -65,16 +50,8 @@ export default function DoneHelps({ navigation }) {
                   helpDescription={item.description}
                   helpStatus={item.status}
                   categoryName={item.category[0].name}
-                  deleteVisible={true}
-                  setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
                   pageName="RequestDescription"
-                />
-
-                <ConfirmationModal
-                  visible={confirmationModalVisible}
-                  setVisible={setConfirmationModalVisible}
-                  behavior={() => excludeHelp(item._id)}
                 />
               </View>
             ))}
