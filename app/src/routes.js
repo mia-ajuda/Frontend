@@ -58,7 +58,7 @@ const MainNavigation = () => (
       <MainStack.Screen
         name="helpDescription"
         options={({ route }) => ({
-          title: route.params.helpTitle
+          title: route.params.helpTitle,
         })}
         component={HelpDescription}
       />
@@ -92,7 +92,7 @@ const HelpTopBar = () => (
         name="Description"
         component={HelpDescription}
         options={({ route }) => ({
-          title: route.params.helpTitle
+          title: route.params.helpTitle,
         })}
       />
     </stack.Navigator>
@@ -119,7 +119,7 @@ const MyRequestsNavigation = () => (
         name="Description"
         component={HelpDescription}
         options={({ route }) => ({
-          title: route.params.helpTitle
+          title: route.params.helpTitle,
         })}
       />
     </stack.Navigator>
@@ -134,7 +134,7 @@ const ProfileNavigation = () => (
         name="EditProfile"
         component={EditProfile}
         options={({ route }) => ({
-          title: "Editar Perfil"
+          title: "Editar Perfil",
         })}
       />
     </ProfileStack.Navigator>
@@ -152,7 +152,7 @@ const BottomTab = () => {
           height: 60,
           borderTopColor: colors.primary,
           shadowOpacity: 0,
-          elevation: 0
+          elevation: 0,
         },
         keyboardHidesTabBar: true,
         activeTintColor: colors.light,
@@ -160,9 +160,9 @@ const BottomTab = () => {
         inactiveBackgroundColor: colors.primary,
         activeBackgroundColor: colors.primary,
         tabStyle: {
-          justifyContent: "center"
+          justifyContent: "center",
         },
-        showLabel: false
+        showLabel: false,
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
@@ -173,11 +173,11 @@ const BottomTab = () => {
               selectConfig = focused
                 ? {
                     src: require("../assets/images/whileLogo.png"),
-                    size: { height: 40, width: 40 }
+                    size: { height: 40, width: 40 },
                   }
                 : {
                     src: require("../assets/images/whiteCat.png"),
-                    size: { height: 25, width: 25, resizeMode: "contain" }
+                    size: { height: 25, width: 25, resizeMode: "contain" },
                   };
               return (
                 <Image source={selectConfig.src} style={selectConfig.size} />
@@ -204,12 +204,12 @@ const BottomTab = () => {
                 ? {
                     color: colors.primary,
                     raised: true,
-                    name: "user-circle"
+                    name: "user-circle",
                   }
                 : {
                     color: colors.light,
                     raised: false,
-                    name: "user-circle"
+                    name: "user-circle",
                   };
               break;
           }
@@ -223,7 +223,7 @@ const BottomTab = () => {
               color={selectConfig.color}
             />
           );
-        }
+        },
       })}
       initialRouteName="main"
     >
@@ -250,7 +250,7 @@ const AuthRoutes = () => {
       <AuthStack.Navigator
         initialRouteName="login"
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <AuthStack.Screen name="login" component={Login} />
@@ -278,38 +278,38 @@ const headerStyle = {
         flex: 1,
         resizeMode: "contain",
         width: 10,
-        marginLeft: 5
+        marginLeft: 5,
       }}
     />
   ),
   headerStyle: {
     height: 90,
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
+    elevation: 0,
   },
   headerTitleStyle: {
     ...fonts.title,
     color: colors.light,
     fontFamily: "montserrat-medium",
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
-
   headerTintColor: colors.light,
-  headerTitleAlign: "center"
+  headerTitleAlign: "center",
 };
 
 const tabTopBarOptions = {
   style: {
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   labelStyle: {
     ...fonts.body,
     color: colors.light,
-    fontSize: 14
+    fontSize: 14,
   },
   indicatorStyle: {
     backgroundColor: colors.light,
-    padding: 2
-  }
+    padding: 2,
+  },
 };
 
 const Routes = () => {
