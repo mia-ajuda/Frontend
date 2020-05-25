@@ -49,7 +49,7 @@ export default function ListHelpers({
 
       if (helpFinal[0].helperId) {
         const resp = await api.get(`user/getUser/${helpFinal[0].helperId}`);
-        setHelperImage(helperPhoto(resp.data.photo));
+        setHelperImage(resp.data.photo);
         setHelperAge(moment().diff(resp.data.birthday, "year"));
         setHelperName(resp.data.name);
 
@@ -129,7 +129,7 @@ export default function ListHelpers({
             <View style={{ flexDirection: "row" }}>
               <Image
                 style={styles.volunteerImage}
-                source={helperImage}
+                source={helperPhoto(helperImage)}
               />
               <View style={{width: '80%'}}>
                 <Text style={[{ fontFamily: "montserrat-semibold" }]}>
