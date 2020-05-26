@@ -19,7 +19,8 @@ import colors from "../../../../assets/styles/colorVariables";
 import onlyNumbers from "../../../utils/onlyNumbers";
 
 export default function PersonalData({ route, navigation }) {
-  const { registrationData } = route.params;
+  const { userData } = route.params;
+
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);
@@ -37,13 +38,13 @@ export default function PersonalData({ route, navigation }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if(registrationData.name) {
-      setName(registrationData.name)
+    if (userData.name) {
+      setName(userData.name);
     }
-    
-    if(registrationData.birthday) {
-      const dateSplit = registrationData.birthday.split('/');
-      const date = dateSplit[1] + '/' + dateSplit[0] + '/' + dateSplit[2];
+
+    if (userData.birthday) {
+      const dateSplit = userData.birthday.split("/");
+      const date = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
       setBirthday(date);
     }
 
@@ -115,16 +116,16 @@ export default function PersonalData({ route, navigation }) {
   const continueHandler = () => {
     const phone = handlePhone();
     const birthdayFormated = handleDate();
-    const personalData = {
+    const newUserData = {
+      ...userData,
       name,
       birthday: birthdayFormated,
       cpf,
       phone,
       ismentalHealthProfessional,
     };
-    const userData = { ...registrationData, ...personalData };
     setVerificationLoading(false);
-    navigation.navigate("address", { userData });
+    navigation.navigate("address", { userData: newUserData });
   };
 
   const verifyCpf = async () => {

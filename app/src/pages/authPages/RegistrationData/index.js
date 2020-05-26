@@ -17,7 +17,8 @@ import styles from "./styles";
 import emailValidator from "../../../utils/emailValidation";
 import { Icon } from "react-native-elements";
 
-export default function RegistrationData({ navigation }) {
+export default function RegistrationData({ route, navigation }) {
+  const { userData } = route.params;
   const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [password, setPassword] = useState("");
@@ -65,8 +66,13 @@ export default function RegistrationData({ navigation }) {
 
   const continueHandler = () => {
     setLoading(false);
-    const registrationData = { email, password, hasUser: false };
-    navigation.navigate("personalData", { registrationData });
+    const newUserData = {
+      email,
+      password,
+      hasUser: false,
+      ...userData,
+    };
+    navigation.navigate("personalData", { userData: newUserData });
   };
 
   const verifyEmailAdress = async () => {

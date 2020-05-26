@@ -16,7 +16,7 @@ import UserService from "../../../services/User";
 import axios from "axios";
 import styles from "./styles";
 import actions from "../../../store/actions";
-import ConfirmationModal from "../confirmationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 
 export default function EditProfile({ route, navigation }) {
   const [mainField, setMainField] = useState("");
