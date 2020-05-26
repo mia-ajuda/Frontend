@@ -6,10 +6,9 @@ export default function Splash() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../../assets/images/whiteCat.png")}
+        source={require("../../../assets/images/splash.png")}
         style={styles.image}
       />
-      <Text style={styles.text}>Carregando...</Text>
     </View>
   );
 }
