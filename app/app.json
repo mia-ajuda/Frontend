@@ -9,13 +9,19 @@
       "android",
       "web"
     ],
+    "notification": {
+      "icon": "./assets/images/logo.png",
+      "color": "#4b8ab9",
+      "androidMode": "default"
+    },
+    
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#4b8ab9"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
