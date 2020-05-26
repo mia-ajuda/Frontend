@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   description: {
     width: "90%",
     padding: 30,
-    paddingBottom: 80,
     paddingTop: 10,
     backgroundColor: "#fff",
     position: "absolute",
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     ...fonts.body,
     color: "#828c85",
     top: 10,
-    paddingBottom: 10,
+    marginBottom: 10
   },
 });
 

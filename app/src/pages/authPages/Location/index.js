@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Animated, TouchableOpacity, Image } from "react-native";
+import { View, Text, Animated, TouchableOpacity, Image, Dimensions } from "react-native";
 import MapView from "react-native-maps";
 import styles from "./styles";
 import {
@@ -9,6 +9,9 @@ import {
 import Button from "../../../components/UI/button";
 import ConfirmationModal from "../../../components/modals/confirmationModal";
 import { Icon } from "react-native-elements";
+
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default function Location({ route, navigation }) {
   const userData = route.params ? route.params.userData : {};
@@ -64,7 +67,7 @@ export default function Location({ route, navigation }) {
 
   function showDescription() {
     Animated.spring(animatedHeigth, {
-      toValue: 200,
+      toValue: SCREEN_HEIGHT*0.3,
       tension: 50,
     }).start();
   }
