@@ -40,6 +40,9 @@ export default function ListHelpers({
   const [modalMessage, setModalMessage] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const helperPhoto = (photo) => photo.includes("http")
+    ? { uri: photo }
+    : { uri: `data:image/png;base64,${photo}` };
 
   const loadHelpInfo = async () => {
     setLoading(true);
@@ -54,6 +57,7 @@ export default function ListHelpers({
         setHelperImage(resp.data.photo);
         setHelperAge(moment().diff(resp.data.birthday, "year"));
         setHelperName(resp.data.name);
+
         setHelperCity(resp.data.address.city);
         setHelperPhone(resp.data.phone);
       }
@@ -161,9 +165,7 @@ export default function ListHelpers({
               <View style={{ flexDirection: "row" }}>
                 <Image
                   style={styles.volunteerImage}
-                  source={{
-                    uri: helperImage,
-                  }}
+                    source={helperPhoto(helperImage)}
                 />
                 <View style={{ width: "80%" }}>
                   <Text style={[{ fontFamily: "montserrat-semibold" }]}>
@@ -232,9 +234,7 @@ export default function ListHelpers({
                 <View style={styles.helper}>
                   <Image
                     style={styles.imageProfile}
-                    source={{
-                      uri: helper.photo,
-                    }}
+                    source={helperPhoto(helper.photo)}
                   />
                   <View>
                     <Text
