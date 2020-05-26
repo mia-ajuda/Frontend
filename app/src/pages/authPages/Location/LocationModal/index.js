@@ -1,33 +1,40 @@
-import React, { useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
-import Modal from "react-native-modal";
+import React from "react";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import styles from "./styles";
 import Button from "../../../../components/UI/button";
-import colors from "../../../../../assets/styles/colorVariables";
 
 export default function LocationModal({
   visible,
-  onBackdropPress,
   setVisible,
-  confirmSignUp,
+  continueRegistration,
 }) {
-  const [isRegistrationLoading, setRegistrationLoading] = useState(false);
   return (
     <Modal
-      isVisible={visible}
-      style={styles.modal}
-      onBackdropPress={onBackdropPress}
+      visible={visible}
+      onRequestClose={() => setVisible(false)}
+      transparent={true}
+      animationType="fade"
     >
-      {isRegistrationLoading ? (
-        <ActivityIndicator color={colors.primary} size="large" />
-      ) : (
-        <>
+      <TouchableOpacity
+        style={{
+          height: "100%",
+          width: "100%",
+          backgroundColor: "rgba(0,0,0,0.8)",
+        }}
+        activeOpacity={1}
+        onPress={() => setVisible(false)}
+      >
+        <TouchableWithoutFeedback>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
               Podemos confirmar sua posição atual?
             </Text>
-          </View>
-          <View style={styles.modalButtonBox}>
             <View style={styles.modalButton}>
               <Button
                 title="Não"
@@ -36,18 +43,11 @@ export default function LocationModal({
                   setVisible(!visible);
                 }}
               />
-              <Button
-                title="Sim"
-                type="default"
-                press={() => {
-                  confirmSignUp();
-                  setRegistrationLoading(!isRegistrationLoading);
-                }}
-              />
+              <Button title="Sim" type="default" press={continueRegistration} />
             </View>
           </View>
-        </>
-      )}
+        </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </Modal>
   );
 }

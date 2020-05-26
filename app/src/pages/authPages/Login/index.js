@@ -189,7 +189,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.signUP}
           onPress={async () => {
-            navigation.navigate("registrationData");
+            navigation.navigate("location");
           }}
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
