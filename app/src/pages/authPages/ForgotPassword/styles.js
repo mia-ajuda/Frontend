@@ -1,57 +1,44 @@
 import { StyleSheet } from "react-native";
+import fonts from "../../../../assets/styles/fontVariable";
 
-
-const styles = StyleSheet.create({
-  background:{
+export default StyleSheet.create({
+  container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f7f7f7'
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    marginTop: 20
   },
-  viewText:{
-    flex: 2,
-    width: '80%',
-    justifyContent: 'center',
-  },
-  text:{
-    textAlign: 'justify',
-    fontSize: 20,
-    fontFamily: "montserrat-semibold",
-  },
-  inputView:{
-    flex:2,
-    width: '80%',
-  }
-  ,
-  input:{
-    height:50,
-    borderWidth: 2,
-    borderRadius: 5,
-    borderColor: '#4b8ab9',
-    marginBottom: 10
-  },
-  inputText:{
-    fontSize: 20,
-    fontFamily: "montserrat-semibold",
-    color: "#4b8ab9"
-  },
-  btnView:{
+  backIcon: {
     flex: 1,
-    width: '80%',
-    justifyContent:'center'
-
+    width: "100%",
+    alignItems: "flex-start"
   },
-  login: {
-    alignItems:'center',
+  content: {
+    flex: 8,
+    justifyContent: "space-between"
+  },
+  contentText: {
+    marginTop: 40,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  inputWrapper: { 
+    width: "100%",
+    marginTop: 30
+  },
+  textTitle: {
+    ...fonts.title,
+    fontWeight: "bold"
+  },
+  subtitle: {
+    ...fonts.body,
+    textAlign: "justify",
+    marginTop: 10
+  },
+  loading: {
+    flex: 9,
     justifyContent: 'center',
-    height:50,
-    backgroundColor: '#4b8ab9',
-    borderRadius: 5,
-  },
-  btnText:{
-    color: '#f7f7f7',
-    fontFamily: "montserrat-semibold"
+    alignItems: 'center'
   }
 });
-
-export default styles;

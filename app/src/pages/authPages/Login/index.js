@@ -15,6 +15,7 @@ import Button from "../../../components/UI/button";
 import { Icon } from "react-native-elements";
 import colors from "../../../../assets/styles/colorVariables";
 
+
 import styles from "./styles";
 import { UserContext } from "../../../store/contexts/userContext";
 import actions from "../../../store/actions";
@@ -127,20 +128,19 @@ export default function Login({ navigation }) {
       });
     }
   };
-
+  
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
-    >
+    <View style={styles.container}>
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain", marginTop: 30 }}
           source={require("../../../images/logo.png")}
         />
       </View>
-      <View style={styles.input}>
+      <KeyboardAvoidingView style={styles.input} 
+      behavior={Platform.OS === "ios" ? "padding" : null}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
+      >
         <TextInput
           keyboardType="email-address"
           style={styles.textInput}
@@ -169,8 +169,7 @@ export default function Login({ navigation }) {
             <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
+      </KeyboardAvoidingView>
       <View style={styles.viewBtn}>
         <View style={styles.login}>
           {!loading ? (
@@ -190,7 +189,7 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.signUP}
           onPress={async () => {
-            navigation.navigate("registrationData");
+            navigation.navigate("location");
           }}
         >
           <Text style={styles.signupText}>Não tem uma conta?</Text>
@@ -226,6 +225,6 @@ export default function Login({ navigation }) {
           </View>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }

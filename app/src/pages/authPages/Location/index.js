@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  TouchableOpacity,
-  Image,
-  Alert,
-} from "react-native";
+import { View, Text, Animated, TouchableOpacity, Image } from "react-native";
 import MapView from "react-native-maps";
 import styles from "./styles";
 import {
@@ -16,15 +9,16 @@ import {
 import Button from "../../../components/UI/button";
 import ConfirmationModal from "../../../components/modals/confirmationModal";
 import { Icon } from "react-native-elements";
-import userService from "../../../services/User";
 
 export default function Location({ route, navigation }) {
+  const userData = route.params ? route.params.userData : {};
+
   const [currentRegion, setCurrentRegion] = useState(null);
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [animatedHeigth] = useState(new Animated.Value(70));
-  const [descriptionShown, setDescriptionShow] = useState(false);
+  const [animatedHeigth] = useState(new Animated.Value(200));
+  const [descriptionShown, setDescriptionShow] = useState(true);
   const [iconName, setIconName] = useState("sort-up");
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getLocation() {
@@ -55,38 +49,18 @@ export default function Location({ route, navigation }) {
     }
   }, [descriptionShown]);
 
-  const confirmSignUp = async () => {
-    const { userData } = route.params;
+  function continueRegistration() {
     const { latitude, longitude } = currentRegion;
     const newUserData = {
-      ...userData,
       latitude,
       longitude,
+      ...userData,
     };
-
-    try {
-      setIsLoading(true);
-      await userService.signUp(newUserData);
-      setIsLoading(false);
-      setModalIsVisible(!modalIsVisible);
-      Alert.alert(
-        "Sucesso",
-        "Usuário cadastrado com sucesso!",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-    } catch (err) {
-      console.log(err);
-      Alert.alert(
-        "Erro",
-        err.error || "Erro ao cadastrar usuário. Tente novamente mais tarde!",
-        [{ text: "OK", onPress: () => {} }],
-        { cancelable: false }
-      );
-    } finally {
-      navigation.navigate("login");
-    }
-  };
+    setModalIsVisible(false);
+    userData.email
+      ? navigation.navigate("personalData", { userData: newUserData })
+      : navigation.navigate("registrationData", { userData: newUserData });
+  }
 
   function showDescription() {
     Animated.spring(animatedHeigth, {
@@ -125,7 +99,6 @@ export default function Location({ route, navigation }) {
         initialRegion={currentRegion}
         style={styles.map}
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
-        onRegionChange={() => setDescriptionShow(false)}
       />
 
       <Animated.ScrollView
@@ -143,9 +116,14 @@ export default function Location({ route, navigation }) {
           </Text>
           {descriptionShown && (
             <Text style={styles.descriptionText}>
-              Ela será onde sua ajuda será informada no mapa! Por isso, se você
-              não estiver na posição que deseja cadastrar, deixe esse passo para
-              depois.
+              A posição escolhida será usada para definir a localização das
+              ajudas criadas por você. Por isso, preste bastante atenção ao
+              escolhê-la, pois ela{" "}
+              <Text
+                style={{ fontFamily: "montserrat-semibold", color: "#e47171" }}
+              >
+                não poderá ser alterada.
+              </Text>
             </Text>
           )}
         </TouchableOpacity>
@@ -167,11 +145,10 @@ export default function Location({ route, navigation }) {
       </View>
 
       <ConfirmationModal
+        message="Podemos confirmar sua posição atual?"
         visible={modalIsVisible}
         setVisible={setModalIsVisible}
-        action={confirmSignUp}
-        isLoading={isLoading}
-        message={"Podemos confirmar sua posição atual?"}
+        action={continueRegistration}
       />
     </>
   );

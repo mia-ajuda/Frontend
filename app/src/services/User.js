@@ -79,10 +79,10 @@ class UserService {
           .auth()
           .signInWithCredential(credential); // Sign in with Facebook credential
 
-        const userData = facebookProfileData.additionalUserInfo;
+        const userFacebookInfo = facebookProfileData.additionalUserInfo;
 
         const isExists = await api.get(
-          `/checkUserExistence/${userData.profile.email}`
+          `/checkUserExistence/${userFacebookInfo.profile.email}`
         );
 
         if (!isExists.data) {
@@ -93,12 +93,12 @@ class UserService {
               {
                 text: "OK",
                 onPress: () =>
-                  navigation.navigate("personalData", {
-                    registrationData: {
-                      email: userData.profile.email,
-                      name: userData.profile.name,
-                      photo: userData.profile.picture.data.url,
-                      birthday: userData.profile.birthday,
+                  navigation.navigate("location", {
+                    userData: {
+                      email: userFacebookInfo.profile.email,
+                      name: userFacebookInfo.profile.name,
+                      photo: userFacebookInfo.profile.picture.data.url,
+                      birthday: userFacebookInfo.profile.birthday,
                       hasUser: true,
                     },
                   }),
@@ -130,14 +130,14 @@ class UserService {
 
   async loginInWithGoogle(navigation) {
     try {
-      const result = await Google.logInAsync({
+      const googleResponse = await Google.logInAsync({
         androidClientId: authConfig.googleAndroidClientId,
         iosClientId: authConfig.googleIosClientId,
         scopes: ["profile", "email"],
       });
 
-      if (result.type === "success") {
-        const { idToken, accessToken } = result;
+      if (googleResponse.type === "success") {
+        const { idToken, accessToken } = googleResponse;
         const credential = firebase.auth.GoogleAuthProvider.credential(
           idToken,
           accessToken
@@ -146,7 +146,7 @@ class UserService {
         await firebase.auth().signInWithCredential(credential);
 
         const isExists = await api.get(
-          `/checkUserExistence/${result.user.email}`
+          `/checkUserExistence/${googleResponse.user.email}`
         );
 
         if (!isExists.data) {
@@ -157,11 +157,11 @@ class UserService {
               {
                 text: "OK",
                 onPress: () =>
-                  navigation.navigate("personalData", {
-                    registrationData: {
-                      email: result.user.email,
-                      name: result.user.name,
-                      photo: result.user.photoUrl,
+                  navigation.navigate("location", {
+                    userData: {
+                      email: googleResponse.user.email,
+                      name: googleResponse.user.name,
+                      photo: googleResponse.user.photoUrl,
                       hasUser: true,
                     },
                   }),
@@ -208,7 +208,7 @@ class UserService {
       const response = await api.post(`/user?hasUser=${hasUser}`, data);
       return response;
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       throw {
         error:
           "Aconteceu algo errado ao cadastrar, tente novamente mais tarde.",
@@ -248,7 +248,7 @@ class UserService {
     try {
       const user = await api.put(`/user${complement}`, data);
       return user.data;
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }

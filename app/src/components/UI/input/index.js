@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 
-export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete, keyboard="default" }) {
+export default function Input({ label, placeholder, change, value, textarea, type, valid=true, autoComplete, keyboard="default"}) {
   let input;
   if (textarea) {
     input = (
@@ -16,6 +16,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         textAlignVertical="top"
         multiline={true}
         keyboardType={keyboard ? keyboard : 'default'}
+        maxLength={300}
       />
     );
   } 
@@ -52,6 +53,7 @@ export default function Input({ label, placeholder, change, value, textarea, typ
         value={value}
         autoCompleteType={ autoComplete ? autoComplete : "off" }
         keyboardType={keyboard ? keyboard : "default"}
+        maxLength={50}
       />
     );
   }

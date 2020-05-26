@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import Button from "../../../components/UI/button";
 import styles from "./styles";
+import userService from "../../../services/User";
 import { Icon } from "react-native-elements";
+import colors from "../../../../assets/styles/colorVariables";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
+  const [loading, setLoading] = useState(false);
   const [disease, setDisease] = useState({
     dc: false,
     hiv: false,
@@ -33,7 +38,7 @@ export default function RiskGroup({ route, navigation }) {
     } else setDisease({ ...disease, [id]: true });
   };
 
-  const continueHandler = () => {
+  const confirmSignUp = async () => {
     let newDisease = [];
 
     for (let prop in disease) {
@@ -42,32 +47,61 @@ export default function RiskGroup({ route, navigation }) {
       }
     }
 
-    const data = {
+    const completeRegistragionData = {
       ...userData,
       disease: newDisease,
     };
 
-    navigation.navigate( userData.photo ? "location" : "photo", { userData: data });
+    try {
+      setLoading(true);
+      await userService.signUp(completeRegistragionData);
+      Alert.alert(
+        "Sucesso",
+        "Seu cadastro foi realizado com sucesso!",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ],
+        { cancelable: false }
+      );
+    } catch (err) {
+      console.log(err);
+      Alert.alert(
+        "Erro",
+        err.error ||
+          "Erro ao finalizar seu cadastro. Tente novamente mais tarde!",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ],
+        { cancelable: false }
+      );
+    } finally {
+      setLoading(false);
+      navigation.navigate("login");
+    }
   };
-
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <View>
-        <View style={styles.backIcon}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.button}
-          >
-            <Icon name={"arrow-back"} color={"black"} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.viewText}>
-          <Text style={styles.text1}>
-            É importante sabermos se você se encontra em um dos grupos de risco.
-            Selecione caso possua alguma das condições a seguir:
-          </Text>
-        </View>
+      <View style={styles.backIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.button}
+        >
+          <Icon name={"arrow-back"} color={"black"} />
+        </TouchableOpacity>
       </View>
+      <View style={styles.viewText}>
+        <Text style={styles.text1}>
+          Por último, é importante sabermos se você se encontra em um dos grupos
+          de risco. Selecione caso possua alguma das condições a seguir:
+        </Text>
+      </View>
+
       <View style={styles.input}>
         {Object.entries(riskGroups).map(([key, value]) => {
           return (
@@ -83,7 +117,11 @@ export default function RiskGroup({ route, navigation }) {
         })}
       </View>
       <View style={styles.btnView}>
-        <Button title="Continuar" large press={continueHandler} />
+        {loading ? (
+          <ActivityIndicator size="large" color={colors.primary} />
+        ) : (
+          <Button title="Concluir" large press={confirmSignUp} />
+        )}
       </View>
     </KeyboardAvoidingView>
   );
