@@ -80,7 +80,6 @@ class UserService {
           .signInWithCredential(credential); // Sign in with Facebook credential
 
         const userFacebookInfo = facebookProfileData.additionalUserInfo;
-        console.log("userFacebookInfo", userFacebookInfo);
 
         const isExists = await api.get(
           `/checkUserExistence/${userFacebookInfo.profile.email}`
@@ -249,7 +248,7 @@ class UserService {
     try {
       const user = await api.put(`/user${complement}`, data);
       return user.data;
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }

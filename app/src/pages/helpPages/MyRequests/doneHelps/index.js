@@ -16,7 +16,7 @@ export default function DoneHelps({ navigation }) {
     false
   );
   const [loadingHelps, setLoadingHelps] = useState(false);
-
+  const [isLoadingModal,setLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 
@@ -35,8 +35,10 @@ export default function DoneHelps({ navigation }) {
 
   async function excludeHelp(helpId) {
     try {
+      setLoadingModal(true);
       await helpService.deleteHelp(helpId);
-      const updatedArray = onGoingHelpList.filter((help) => {
+      setLoadingModal(false);
+      const updatedArray = finishedHelpList.filter((help) => {
         return help._id !== helpId;
       });
       setFinishedHelpList(updatedArray);
@@ -69,9 +71,12 @@ export default function DoneHelps({ navigation }) {
                 />
 
                 <ConfirmationModal
+                  attention={true}
                   visible={confirmationModalVisible}
                   setVisible={setConfirmationModalVisible}
-                  behavior={() => excludeHelp(item._id)}
+                  action={() => excludeHelp(item._id)}
+                  message={"Você deseja deletar esse pedido de ajuda?"}
+                  isLoading={isLoadingModal}
                 />
               </View>
             ))}

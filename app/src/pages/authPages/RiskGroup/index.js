@@ -11,14 +11,10 @@ import Button from "../../../components/UI/button";
 import styles from "./styles";
 import userService from "../../../services/User";
 import { Icon } from "react-native-elements";
-import { UserContext } from "../../../store/contexts/userContext";
-import actions from "../../../store/actions";
 import colors from "../../../../assets/styles/colorVariables";
 
 export default function RiskGroup({ route, navigation }) {
   const { userData } = route.params;
-  console.log(userData);
-  const { dispatch } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [disease, setDisease] = useState({
     dc: false,

@@ -5,7 +5,7 @@ import {
   Text,
   ImageBackground,
   TouchableOpacity,
-  Alert
+  Alert,
 } from "react-native";
 import styles from "./styles";
 import Button from "../../../components/UI/button";
@@ -15,14 +15,13 @@ import UserService from "../../../services/User";
 import moment from "moment";
 import { Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import ConfirmationModal from "../confirmationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 
 export default function Profile({ navigation }) {
   const { user, dispatch } = useContext(UserContext);
   const profilePhoto = user.photo.includes("http")
     ? { uri: user.photo } // google+ or facebook
     : { uri: `data:image/png;base64,${user.photo}` }; //base64
-  const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loadingModal, setLoadingModal] = useState(false);
   const [photo, setPhoto] = useState("");
@@ -60,7 +59,7 @@ export default function Profile({ navigation }) {
   function handleEdit(attribute) {
     navigation.navigate("EditProfile", {
       attribute,
-      user
+      user,
     });
   }
 
@@ -75,15 +74,11 @@ export default function Profile({ navigation }) {
     const pickerResult = await ImagePicker.launchCameraAsync({
       base64: true,
       allowsEditing: true,
-      quality: 0.5
+      quality: 0.5,
     });
     if (pickerResult.cancelled === true) {
       return;
     }
-
-    setSelectedImage({
-      localUri: pickerResult.uri
-    });
 
     setPhoto(pickerResult.base64);
     setModalVisible(true);
@@ -94,17 +89,17 @@ export default function Profile({ navigation }) {
       setLoadingModal(true);
       const resp = await UserService.editUser({
         ...user,
-        photo: photo
+        photo: photo,
       });
       dispatch({ type: actions.user.storeUserInfo, data: resp });
       setLoadingModal(false);
       setModalVisible(false);
       Alert.alert(
         "Sucesso",
-        "Foto atulalizadac com sucesso!",
+        "Foto atualizada com sucesso!",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (err) {
@@ -116,16 +111,11 @@ export default function Profile({ navigation }) {
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     }
   };
-
-  async function cancelHandler() {
-    setSelectedImage(null);
-    setPhoto("");
-  }
 
   return (
     <ScrollView style={styles.container}>
@@ -144,7 +134,7 @@ export default function Profile({ navigation }) {
             imageStyle={{
               borderRadius: 100,
               opacity: 0.5,
-              backgroundColor: "#000"
+              backgroundColor: "#000",
             }}
           >
             <Icon size={45} name={"camera-alt"} color="black" />

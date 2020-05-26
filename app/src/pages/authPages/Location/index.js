@@ -7,7 +7,7 @@ import {
   getCurrentPositionAsync,
 } from "expo-location";
 import Button from "../../../components/UI/button";
-import LocationModal from "./LocationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 import { Icon } from "react-native-elements";
 
 export default function Location({ route, navigation }) {
@@ -18,6 +18,7 @@ export default function Location({ route, navigation }) {
   const [animatedHeigth] = useState(new Animated.Value(200));
   const [descriptionShown, setDescriptionShow] = useState(true);
   const [iconName, setIconName] = useState("sort-up");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getLocation() {
@@ -143,10 +144,11 @@ export default function Location({ route, navigation }) {
         />
       </View>
 
-      <LocationModal
+      <ConfirmationModal
+        message="Podemos confirmar sua posição atual?"
         visible={modalIsVisible}
         setVisible={setModalIsVisible}
-        continueRegistration={continueRegistration}
+        action={continueRegistration}
       />
     </>
   );
