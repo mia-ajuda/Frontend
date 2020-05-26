@@ -18,6 +18,7 @@ export default function CreateHelp({ navigation }) {
   const [modalVerification, setModalVerification] = useState(true);
   const [loading, setloading] = useState(false);
   const [requestState, setRequestState] = useState("");
+  const [limitErrorMessage, setLimitErrorMessage] = useState(null);
 
   const { categories } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
@@ -70,6 +71,10 @@ export default function CreateHelp({ navigation }) {
         setRequestState("success");
       })
       .catch((err) => {
+        const errorMessage = err.response.data.error;
+        if(errorMessage && errorMessage.includes("Limite máximo")){
+          setLimitErrorMessage(errorMessage);
+        }
         setRequestState("fail");
       });
   }
@@ -140,7 +145,7 @@ export default function CreateHelp({ navigation }) {
                   </Text>
                 ) : (
                   <Text style={styles.modalText}>
-                    Houve algum problema com sua solicitação. Tente mais tarde.
+                   {limitErrorMessage ? limitErrorMessage :"Houve algum problema com sua solicitação. Tente mais tarde."}
                   </Text>
                 )}
 
