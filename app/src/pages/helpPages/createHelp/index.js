@@ -106,6 +106,7 @@ export default function CreateHelp({ navigation }) {
               textarea
               change={(text) => setDescription(text)}
             />
+            <Text>{description.length}/300</Text>
           </View>
 
           <View style={styles.btnContainer}>

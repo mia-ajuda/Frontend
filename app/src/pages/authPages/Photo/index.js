@@ -12,11 +12,12 @@ import styles from "./styles";
 import Container from "../../../components/Container";
 import TermsModal from "../../../components/modals/conditionTermsModal";
 
-export default function App({ route, navigation }) {
+export default function Photo({ route, navigation }) {
+  const { userData } = route.params;
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [photo, setPhoto] = useState("");
   const [termsModalVisible, setTermsModalVisible] = useState(false);
-  const { userData } = route.params;
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -46,13 +47,12 @@ export default function App({ route, navigation }) {
     setSelectedImage(null);
     setPhoto("");
   }
-
   async function continueHandler() {
-    const data = {
-      ...userData,
+    const newUserData = {
       photo,
+      ...userData,
     };
-    navigation.navigate("location", { userData: data });
+    navigation.navigate("riskGroup", { userData: newUserData });
   }
 
   return (

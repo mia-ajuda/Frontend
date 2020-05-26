@@ -44,6 +44,7 @@ export default function AskedHelps({ navigation }) {
               helpId={help._id}
               helpTitle={help.title}
               helpDescription={help.description}
+              helpStatus={help.status}
               categoryName={help.category[0].name}
               userName={help.user.name}
               birthday={help.user.birthday}

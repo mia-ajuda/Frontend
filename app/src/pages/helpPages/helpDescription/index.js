@@ -15,7 +15,7 @@ import moment from "moment";
 import { HelpContext } from "../../../store/contexts/helpContext";
 import { UserContext } from "../../../store/contexts/userContext";
 import HelpService from "../../../services/Help";
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "../../../components/modals/confirmationModal";
 import ListHelpers from "./ListHelpers/index";
 import actions from "../../../store/actions";
 
@@ -268,11 +268,11 @@ export default function HelpDescription({ route, navigation }) {
                 press={() => openModal("offer")}
               />
             </>
-          ) : helpStatus === "finished" ? null : (
+          ) : helpStatus === "waiting" ?(
             <Text style={styles.waitingToBeAccepted}>
               Aguarde o dono da ajuda escolher seu ajudante.
             </Text>
-          )}
+              ) : null}
         </View>
       </View>
     </ScrollView>

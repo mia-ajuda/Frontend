@@ -4,9 +4,8 @@ import colors from "../../../../assets/styles/colorVariables";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,  
+    flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: colors.light,
   },
   viewText: {
@@ -22,21 +21,21 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     flexWrap: "wrap",
-    marginBottom: 0,
   },
   inputItem: {
-    marginHorizontal: 6
+    marginHorizontal: 6,
   },
   btnView: {
     width: "90%",
-    marginBottom: 20,
+    bottom: 20,
     justifyContent: "flex-end",
-    
+    position: "absolute",
   },
   backIcon: {
-    alignItems: 'flex-start',
-    marginTop: 40
-  }
+    alignSelf: "flex-start",
+    marginTop: 40,
+    marginLeft: 15,
+  },
 });
 
 export default styles;

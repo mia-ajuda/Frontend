@@ -14,7 +14,7 @@ export default function DoneHelps({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
 
   const [loadingHelps, setLoadingHelps] = useState(false);
-
+  const [isLoadingModal,setLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 

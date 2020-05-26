@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Badge } from "react-native-elements";
-import ListHelperModal from "./ListHelperModal";
 import api from "../../../../services/Api";
 import moment from "moment";
 import { UserContext } from "../../../../store/contexts/userContext";
 import Button from "../../../../components/UI/button";
 import colors from "../../../../../assets/styles/colorVariables";
 
+import ConfirmationModal from "../../../../components/modals/confirmationModal"
 import styles from "./styles";
 
 export default function ListHelpers({
@@ -26,7 +26,6 @@ export default function ListHelpers({
 }) {
   const { user } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
-  const [currentHelperId, setCurrentHelperId] = useState(null);
   const [helperImage, setHelperImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_Blank.svg"
   );
@@ -36,7 +35,9 @@ export default function ListHelpers({
   const [helperPhone, setHelperPhone] = useState("");
   const [help, setHelp] = useState({});
   const [possibleHelpers, setPossibleHelpers] = useState([]);
-  const [finished, setFinished] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
+  const [modalAction, setModalAction] = useState(() => {});
+  const [modalMessage, setModalMessage] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -63,9 +64,10 @@ export default function ListHelpers({
     }
   };
 
-  const ownerFinishedHelp = async () => {
+  async function ownerFinishedHelp(){
     try {
       await api.put(`/help/ownerConfirmation/${helpId}/${user._id}`);
+      setVisible(false);
       Alert.alert(
         "Sucesso!",
         "Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!",
@@ -92,9 +94,11 @@ export default function ListHelpers({
     loadHelpInfo();
   }, [helpId, visible]);
 
-  const chooseHelper = async () => {
+  async function chooseHelper(helperId) {
     try {
-      await api.put(`/help/chooseHelper/${helpId}/${currentHelperId}`);
+      await api.put(`/help/chooseHelper/${helpId}/${helperId}`);
+      setVisible(false);
+      setIsLoading(false);
       Alert.alert(
         "Sucesso!",
         "Ajudante escolhido com sucesso!",
@@ -114,6 +118,29 @@ export default function ListHelpers({
       );
     }
   };
+
+  function openModal(action, helperId=null) {
+    switch (action) {
+      case "finish":
+        setModalAction(() => () => {
+          ownerFinishedHelp();
+          setIsLoading(true);
+        }); 
+        setModalMessage("Você tem certeza que deseja finalizar este pedido de ajuda?");
+        break;
+      case "choose":
+        setModalAction(() => () => {
+          chooseHelper(helperId);
+          setIsLoading(true);
+        });
+        setModalMessage("Você tem certeza que deseja este usuário como seu ajudante?");
+        break;
+      default:
+        return;
+    }
+    setVisible(true);
+  }
+
 
   return (
     <View
@@ -156,20 +183,17 @@ export default function ListHelpers({
                   </Text>
                 </View>
               </View>
-              {help.status === "on_going" ||
-              help.status === "helper_finished" ? (
-                <Button
-                  press={() => {
-                    setVisible(true);
-                    setFinished(true);
-                  }}
-                  title="Finalizar Ajuda"
-                  large
-                />
-              ) : (
-                <></>
-              )}
+              {(help.status === "on_going" || help.status === "helper_finished") ? (
+              <Button
+                press={() => openModal("finish")}
+                title="Finalizar Ajuda"
+                large
+              />
+            ) : (
+              <></>
+            )}
             </View>
+            
           </View>
         ) : null
       ) : possibleHelpers.length ? (
@@ -202,8 +226,7 @@ export default function ListHelpers({
               <TouchableOpacity
                 key={helper._id}
                 onPress={() => {
-                  setVisible(true);
-                  setCurrentHelperId(helper._id);
+                  openModal("choose",helper._id);
                 }}
               >
                 <View style={styles.helper}>
@@ -253,15 +276,12 @@ export default function ListHelpers({
       ) : (
         <></>
       )}
-      <ListHelperModal
+      <ConfirmationModal
         visible={visible}
         setVisible={setVisible}
-        message={
-          finished
-            ? "Você tem certeza que deseja finalizar este pedido de ajuda?"
-            : "Você tem certeza que deseja este usuário como seu ajudante?"
-        }
-        actionModal={finished ? ownerFinishedHelp : chooseHelper}
+        action={modalAction}
+        message={modalMessage}
+        isLoading={isLoading}
       />
     </View>
   );

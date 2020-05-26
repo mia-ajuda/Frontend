@@ -263,7 +263,6 @@ const AuthRoutes = () => {
         <AuthStack.Screen name="personalData" component={PersonalData} />
         <AuthStack.Screen name="riskGroup" component={RiskGroup} />
         <AuthStack.Screen name="photo" component={Photo} />
-        <AuthStack.Screen name="main" component={BottomTab} />
         <AuthStack.Screen name="forgotPassword" component={ForgotPassword} />
       </AuthStack.Navigator>
     </>
@@ -285,7 +284,6 @@ const headerStyle = {
   headerStyle: {
     height: 90,
     backgroundColor: colors.primary,
-    elevation: 0,
   },
   headerTitleStyle: {
     ...fonts.title,
