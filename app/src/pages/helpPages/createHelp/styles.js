@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "space-around",
     alignItems: "center",
-    height: "40%",
     width: "80%",
     shadowColor: "#000",
     shadowOffset: {
@@ -62,6 +61,7 @@ const styles = StyleSheet.create({
     ...fonts.subtitle,
     fontSize: 20,
     textAlign: "center",
+    marginVertical: 30
   },
   loading: {
     flex: 1,
