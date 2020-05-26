@@ -22,8 +22,8 @@ export default function AskedHelps({ navigation }) {
     setLoading(true);
     let filteredHelps = await helpService.getHelpMultipleStatus(
       user._id,
-      ["on_going","owner_finished"],
-      true,
+      ["on_going", "owner_finished", "waiting"],
+      true
     );
     setMyHelps(filteredHelps);
     setLoading(false);
@@ -44,15 +44,17 @@ export default function AskedHelps({ navigation }) {
               helpId={help._id}
               helpTitle={help.title}
               helpDescription={help.description}
+              helpStatus={help.status}
               categoryName={help.category[0].name}
               userName={help.user.name}
               birthday={help.user.birthday}
               city={help.user.address.city}
               navigation={navigation}
               helperId={help.helperId}
+              possibleHelpers={help.possibleHelpers.map((helper) => helper._id)}
               userPhone={help.user.phone}
               userLocation={help.user.location.coordinates}
-              pageName="Description"
+              pageName="OfferDescription"
             />
           ))}
         </ScrollView>

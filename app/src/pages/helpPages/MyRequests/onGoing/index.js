@@ -14,6 +14,7 @@ export default function OnGoingHelps({ navigation }) {
   const [confirmationModalVisible, setConfirmationModalVisible] = useState(
     false
   );
+  const [selectedHelp, setSelectedHelp] = useState(null);
   const [loadingHelps, setLoadingHelps] = useState(false);
   const [isLoadingModal,setIsLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
@@ -27,22 +28,26 @@ export default function OnGoingHelps({ navigation }) {
 
   async function loadOnGoingHelps() {
     setLoadingHelps(true);
-    try{
-      let filteredHelps = await helpService.getHelpMultipleStatus(userId,["waiting","on_going","helper_finished"]);
+    try {
+      let filteredHelps = await helpService.getHelpMultipleStatus(userId, [
+        "waiting",
+        "on_going",
+        "helper_finished",
+      ]);
       setOnGoingHelpList(filteredHelps);
       setLoadingHelps(false);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   }
 
-  async function excludeHelp(helpId) {
+  async function excludeHelp() {
     try {
       setIsLoadingModal(true);
-      await helpService.deleteHelp(helpId);
+      await helpService.deleteHelp(selectedHelp);
       setIsLoadingModal(false);
       const updatedArray = onGoingHelpList.filter((help) => {
-        return help._id !== helpId;
+        return help._id !== selectedHelp;
       });
       setOnGoingHelpList(updatedArray);
       setConfirmationModalVisible(false);
@@ -53,6 +58,15 @@ export default function OnGoingHelps({ navigation }) {
 
   return (
     <View>
+      <ConfirmationModal
+        attention={true}
+        visible={confirmationModalVisible}
+        setVisible={setConfirmationModalVisible}
+        action={() => excludeHelp()}
+        message={"Você deseja deletar esse pedido de ajuda?"}
+        isLoading={isLoadingModal}
+
+      />
       {loadingHelps ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
@@ -69,21 +83,13 @@ export default function OnGoingHelps({ navigation }) {
                   categoryName={item.category[0].name}
                   deleteVisible={true}
                   setConfirmationModalVisible={setConfirmationModalVisible}
+                  setSelectedHelp={setSelectedHelp}
                   navigation={navigation}
                   possibleHelpers={item.possibleHelpers}
                   ownerId={item.ownerId}
                   helpStatus={item.status}
                   helperId={item.helperId}
-                  pageName="Description"
-                />
-
-                <ConfirmationModal
-                  attention={true}
-                  visible={confirmationModalVisible}
-                  setVisible={setConfirmationModalVisible}
-                  action={() => excludeHelp(item._id)}
-                  message={"Você deseja deletar esse pedido de ajuda?"}
-                  isLoading={isLoadingModal}
+                  pageName="RequestDescription"
                 />
               </View>
             ))}

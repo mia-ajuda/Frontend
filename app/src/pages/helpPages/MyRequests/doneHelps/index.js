@@ -12,9 +12,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export default function DoneHelps({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-    false
-  );
+
   const [loadingHelps, setLoadingHelps] = useState(false);
   const [isLoadingModal,setLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
@@ -28,24 +26,12 @@ export default function DoneHelps({ navigation }) {
 
   async function loadFinishedHelps() {
     setLoadingHelps(true);
-    let resFinished = await helpService.getHelpMultipleStatus(userId, "finished");
+    let resFinished = await helpService.getHelpMultipleStatus(
+      userId,
+      "finished"
+    );
     setFinishedHelpList(resFinished);
     setLoadingHelps(false);
-  }
-
-  async function excludeHelp(helpId) {
-    try {
-      setLoadingModal(true);
-      await helpService.deleteHelp(helpId);
-      setLoadingModal(false);
-      const updatedArray = finishedHelpList.filter((help) => {
-        return help._id !== helpId;
-      });
-      setFinishedHelpList(updatedArray);
-      setConfirmationModalVisible(false);
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   return (
@@ -64,19 +50,8 @@ export default function DoneHelps({ navigation }) {
                   helpDescription={item.description}
                   helpStatus={item.status}
                   categoryName={item.category[0].name}
-                  deleteVisible={true}
-                  setConfirmationModalVisible={setConfirmationModalVisible}
                   navigation={navigation}
-                  pageName="Description"
-                />
-
-                <ConfirmationModal
-                  attention={true}
-                  visible={confirmationModalVisible}
-                  setVisible={setConfirmationModalVisible}
-                  action={() => excludeHelp(item._id)}
-                  message={"Você deseja deletar esse pedido de ajuda?"}
-                  isLoading={isLoadingModal}
+                  pageName="RequestDescription"
                 />
               </View>
             ))}

@@ -23,7 +23,7 @@ export default function AskedHelps({ navigation }) {
     const helps = await helpService.getHelpMultipleStatus(
       user._id,
       "finished",
-      true,
+      true
     );
     setMyHelps(helps);
     setLoading(false);
@@ -53,7 +53,7 @@ export default function AskedHelps({ navigation }) {
               userPhone={help.user.phone}
               userLocation={help.user.location.coordinates}
               helpStatus={help.status}
-              pageName="Description"
+              pageName="OfferDescription"
             />
           ))}
         </ScrollView>

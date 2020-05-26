@@ -5,13 +5,16 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Badge } from "react-native-elements";
 import api from "../../../../services/Api";
 import moment from "moment";
 import { UserContext } from "../../../../store/contexts/userContext";
 import Button from "../../../../components/UI/button";
+import colors from "../../../../../assets/styles/colorVariables";
+
 import ConfirmationModal from "../../../../components/modals/confirmationModal"
 import styles from "./styles";
 
@@ -19,7 +22,7 @@ export default function ListHelpers({
   clickAction,
   stateAction,
   helpId,
-  navigation
+  navigation,
 }) {
   const { user } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
@@ -36,14 +39,16 @@ export default function ListHelpers({
   const [modalAction, setModalAction] = useState(() => {});
   const [modalMessage, setModalMessage] = useState("");
 
+  const [loading, setLoading] = useState(false);
   const helperPhoto = (photo) => photo.includes("http")
     ? { uri: photo }
     : { uri: `data:image/png;base64,${photo}` };
 
   const loadHelpInfo = async () => {
+    setLoading(true);
     try {
       const helps = await api.get(`/help?id=${user._id}`);
-      const helpFinal = helps.data.filter(help => help._id === helpId);
+      const helpFinal = helps.data.filter((help) => help._id === helpId);
       setHelp(helpFinal[0]);
       setPossibleHelpers(helpFinal[0].possibleHelpers);
 
@@ -56,7 +61,9 @@ export default function ListHelpers({
         setHelperCity(resp.data.address.city);
         setHelperPhone(resp.data.phone);
       }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.log(err.response);
     }
   };
@@ -70,7 +77,7 @@ export default function ListHelpers({
         "Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
       navigation.navigate("em andamento");
@@ -80,7 +87,7 @@ export default function ListHelpers({
         "Erro ao finalizar ajuda, tente mais tarde!",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     }
@@ -101,7 +108,7 @@ export default function ListHelpers({
         "Ajudante escolhido com sucesso!",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (err) {
@@ -110,7 +117,7 @@ export default function ListHelpers({
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     }
@@ -145,37 +152,40 @@ export default function ListHelpers({
         styles.container,
         stateAction
           ? { justifyContent: "flex-start" }
-          : { justifyContent: "flex-end" }
+          : { justifyContent: "flex-end" },
       ]}
     >
-      {help && help.status !== "waiting" ? (
-        <View>
-          <Text style={styles.textVolunteer}>Voluntário:</Text>
-          <View style={styles.volunteerContainer}>
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                style={styles.volunteerImage}
-                source={helperPhoto(helperImage)}
-              />
-              <View style={{width: '80%'}}>
-                <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                  {helperName}
-                </Text>
-                <Text style={{flexWrap: 'wrap' }}>
-                  <Text style={[{ fontFamily: "montserrat-semibold"}]}>
-                    Cidade:{" "}
-                  </Text>
-                  {helperCity}
-                </Text>
-                <Text>
+      {loading ? (
+        <ActivityIndicator color={colors.primary} size="large" />
+      ) : help && help.status && help.status !== "waiting" ? (
+        help.status === "on_going" || help.status === "helper_finished" ? (
+          <View>
+            <Text style={styles.textVolunteer}>Voluntário:</Text>
+            <View style={styles.volunteerContainer}>
+              <View style={{ flexDirection: "row" }}>
+                <Image
+                  style={styles.volunteerImage}
+                    source={helperPhoto(helperImage)}
+                />
+                <View style={{ width: "80%" }}>
                   <Text style={[{ fontFamily: "montserrat-semibold" }]}>
-                    Telefone:{" "}
+                    {helperName}
                   </Text>
-                  {helperPhone}
-                </Text>
+                  <Text style={{ flexWrap: "wrap" }}>
+                    <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                      Cidade:{" "}
+                    </Text>
+                    {helperCity}
+                  </Text>
+                  <Text>
+                    <Text style={[{ fontFamily: "montserrat-semibold" }]}>
+                      Telefone:{" "}
+                    </Text>
+                    {helperPhone}
+                  </Text>
+                </View>
               </View>
-            </View>
-            {(help.status === "on_going" || help.status === "helper_finished") ? (
+              {(help.status === "on_going" || help.status === "helper_finished") ? (
               <Button
                 press={() => openModal("finish")}
                 title="Finalizar Ajuda"
@@ -184,15 +194,11 @@ export default function ListHelpers({
             ) : (
               <></>
             )}
+            </View>
+            
           </View>
-        </View>
-      ) : possibleHelpers.length === 0 ? (
-        <View style={styles.wrapperNoHelperWarn}>
-          <Text style={styles.textNoHelpers}>
-            Não há ajudantes para este pedido!
-          </Text>
-        </View>
-      ) : (
+        ) : null
+      ) : possibleHelpers.length ? (
         <TouchableOpacity
           style={styles.buttonHelpers}
           onPress={() => clickAction(!stateAction)}
@@ -207,12 +213,18 @@ export default function ListHelpers({
             containerStyle={styles.containerBadge}
           />
         </TouchableOpacity>
+      ) : (
+        <View style={styles.wrapperNoHelperWarn}>
+          <Text style={styles.textNoHelpers}>
+            Não há ajudantes para este pedido!
+          </Text>
+        </View>
       )}
 
       {stateAction ? (
         <View style={styles.listPossibleHelpers}>
           <ScrollView>
-            {possibleHelpers.map(helper => (
+            {possibleHelpers.map((helper) => (
               <TouchableOpacity
                 key={helper._id}
                 onPress={() => {
@@ -228,7 +240,7 @@ export default function ListHelpers({
                     <Text
                       style={[
                         styles.infoText,
-                        { fontFamily: "montserrat-semibold" }
+                        { fontFamily: "montserrat-semibold" },
                       ]}
                     >
                       {helper.name}
@@ -237,7 +249,7 @@ export default function ListHelpers({
                       <Text
                         style={[
                           styles.infoText,
-                          { fontFamily: "montserrat-semibold" }
+                          { fontFamily: "montserrat-semibold" },
                         ]}
                       >
                         Idade:{" "}
@@ -248,7 +260,7 @@ export default function ListHelpers({
                       <Text
                         style={[
                           styles.infoText,
-                          { fontFamily: "montserrat-semibold" }
+                          { fontFamily: "montserrat-semibold" },
                         ]}
                       >
                         Cidade:{" "}

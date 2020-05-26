@@ -27,7 +27,13 @@ export default function ListCard({
   userLocation,
   pageName,
   isRiskGroup,
+  setSelectedHelp,
 }) {
+  function handleDelete() {
+    setConfirmationModalVisible(true);
+    setSelectedHelp(helpId);
+  }
+
   return (
     <TouchableOpacity
       style={[
@@ -60,7 +66,9 @@ export default function ListCard({
         setVisible && setVisible(false);
       }}
     >
-      {possibleHelpers && possibleHelpers.length !== 0 ? (
+      {possibleHelpers &&
+      possibleHelpers.length !== 0 &&
+      pageName === "RequestDescription" ? (
         <Badge
           value={
             <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>
@@ -90,7 +98,7 @@ export default function ListCard({
               name="trash"
               type="font-awesome"
               color={colors.danger}
-              onPress={() => setConfirmationModalVisible(true)}
+              onPress={() => handleDelete()}
             />
           ) : (
             <></>
