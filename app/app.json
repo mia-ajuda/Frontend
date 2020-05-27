@@ -1,20 +1,15 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "Mia Ajuda",
+    "slug": "miaajuda",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["android"],
     "notification": {
       "icon": "./assets/images/logo.png",
       "color": "#4b8ab9",
       "androidMode": "default"
     },
-    
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
@@ -26,14 +21,22 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "ca.brentvatne.growlerprowler",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "MANAGE_DOCUMENTS",
+        "READ_EXTERNAL_STORAGE",
+        "READ_PHONE_STATE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.unb.miaajuda",
+      "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyD92IqZMPhIGX8hPDLLXU3_3NyaUh7PdeA"
