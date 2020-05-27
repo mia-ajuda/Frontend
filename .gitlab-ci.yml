@@ -37,4 +37,3 @@ staging:
     - expo publish --release-channel staging --non-interactive
   only:
     - develop
-    - generateApk
