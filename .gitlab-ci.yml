@@ -8,6 +8,7 @@ cache:
 
 stages:
   - publish
+  - staging
 
 before_script:
   - cd app
@@ -25,4 +26,15 @@ publishing:
     - expo publish --release-channel prod --non-interactive
   only:
     - master
+
+staging:
+  stage: staging
+  script:
+    - chmod +x ./setup_env.sh
+    - ./setup_env.sh
+    - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
+    - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+    - expo publish --release-channel staging --non-interactive
+  only:
+    - develop
     - generateApk
