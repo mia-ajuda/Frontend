@@ -11,7 +11,7 @@ Por favor, esteja confortável e leia com paciência tudo que está disposto nos
 
 ## 1. Introdução
 
-O Mia-Ajuda (“Mia-Ajuda”, “projeto”, “aplicativo”, “nós”, “nosso”) é um projeto criado e desenvolvido por professores e estudantes da Faculdade do Gama (“FGA”), da Universidade de Brasília (“UnB”), com o intuito de contribuir com a sociedade em um momento de necessidade que estamos vivendo em relação à CoViD-19. O aplicativo tem o propósito de ser uma ferramenta de incentivo a ações sociais de ajuda e colaboração entre pessoas de comunidades e vizinhanças.</br>
+O Mia-Ajuda (“Mia-Ajuda”, “projeto”, “aplicativo”, “nós”, “nosso”) é um projeto criado e desenvolvido por professores e estudantes da Faculdade do Gama (“FGA”), da Universidade de Brasília (“UnB”), com o intuito de contribuir com a sociedade em um momento de necessidade que estamos vivendo em relação à CoViD-19. O aplicativo tem o propósito de ser uma ferramenta de incentivo a ações sociais de ajuda e colaboração entre pessoas de comunidades e vizinhanças.
 O Mia-Ajuda serve como um meio de ligação entre pessoas necessitadas e voluntários que possam ajudar (“contribuintes”), seja de forma imaterial (entretenimento, companhia, amparo psicológico), como de forma material (comida, objetos, itens de higiene pessoal), (coletivamente, “Conteúdo”, “ajudas”, “contribuições”, “recursos”).
 
 Nosso contrato convosco inclui estes Termos e quaisquer termos adicionais com os quais você concordar (coletivamente, os “Acordos”). Estes Acordos incluem, a alterações futuras dos Acordos, limitações de responsabilidade, privacidade renúncia de ações coletivas e resolução de disputas por arbitragem. Se você deseja rever os termos de Acordos, a versão atual e efetiva dos Acordos pode ser encontrada no site institucional do Mia-Ajuda. Você atesta que leu e compreendeu os Acordos, aceita esses Acordos e concorda em ficar vinculado ao aplicativo por eles. Se você não concordar (ou não puder cumprir) com o Acordos, então você não poderá usar o aplicativo Mia-Ajuda nem pedir, requisitar e/ou oferecer ajudas.
@@ -20,7 +20,7 @@ Para usar o aplicativo Mia-Ajuda e utilizar de seus recursos, você precisa (1) 
 
 ## 2. Alterações nos Acordos
 
-Ocasionalmente, nós podemos fazer alterações aos Acordos por motivações válidas, como aprimorar as funções ou recursos existentes ou acrescentar novas funções ou recursos ao aplicativo, implementar avanços científicos e tecnológicos, e ajustes técnicos razoáveis do Mia-Ajuda, assegurando a operacionalidade ou a segurança do aplicativo, bem como por razões legais ou regulamentares. Quando realizamos mudanças materiais aos Acordos, lhe forneceremos um aviso de acordo com as circunstâncias, por exemplo, enviando um e-mail para você. Em alguns casos, nós podemos te notificar com antecedência, e seu uso continuado do aplicativo, após terem sido feitas as alterações, constituirá sua aceitação das alterações. Portanto, por favor certifique-se de ler cuidadosamente qualquer notificação. Se você não quiser continuar a utilizar o Mia-Ajuda sob a nova versão dos Acordos, você poderá encerrar sua conta entrando em contato conosco, atráves do site institucional.</br>
+Ocasionalmente, nós podemos fazer alterações aos Acordos por motivações válidas, como aprimorar as funções ou recursos existentes ou acrescentar novas funções ou recursos ao aplicativo, implementar avanços científicos e tecnológicos, e ajustes técnicos razoáveis do Mia-Ajuda, assegurando a operacionalidade ou a segurança do aplicativo, bem como por razões legais ou regulamentares. Quando realizamos mudanças materiais aos Acordos, lhe forneceremos um aviso de acordo com as circunstâncias, por exemplo, enviando um e-mail para você. Em alguns casos, nós podemos te notificar com antecedência, e seu uso continuado do aplicativo, após terem sido feitas as alterações, constituirá sua aceitação das alterações. Portanto, por favor certifique-se de ler cuidadosamente qualquer notificação. Se você não quiser continuar a utilizar o Mia-Ajuda sob a nova versão dos Acordos, você poderá encerrar sua conta entrando em contato conosco, atráves do site institucional.
 
 ## 3. Utilizando o Mia-Ajuda
 
@@ -163,7 +163,7 @@ Inobstante a cláusula 17.3.1 acima, você e o Mia-Ajuda concordam que nada nest
 
 #### 17.3.3 Regras de Arbitragem
 
-Tanto você quanto nós podemos dar início ao processo de arbitragem. Qualquer arbitragem entre você e o Mia-Ajuda será dirimida consoante as Regras de Arbitragem da Câmara de Comércio Internacional (a "CCI"), então em vigor (as "Regras da CCI"), por um ou mais árbitros designados, em conformidade com as Regras da CCI, conforme modificado por esses Acordos e será administrado pelo Tribunal Internacional de Arbitragem da CCI.</br>
+Tanto você quanto nós podemos dar início ao processo de arbitragem. Qualquer arbitragem entre você e o Mia-Ajuda será dirimida consoante as Regras de Arbitragem da Câmara de Comércio Internacional (a "CCI"), então em vigor (as "Regras da CCI"), por um ou mais árbitros designados, em conformidade com as Regras da CCI, conforme modificado por esses Acordos e será administrado pelo Tribunal Internacional de Arbitragem da CCI.
 Toda arbitragem será conduzida na língua portuguesa e, a menos que diferentemente exigido por qualquer outra jurisdição obrigatória, a lei que será aplicada em qualquer arbitragem será a lei do [estado ou país relevante listado na cláusula 17.1], sem considerar a escolha ou conflitos de princípios de direito.
 
 #### 17.3.4 Momento de Apresentação
@@ -182,7 +182,6 @@ Caso o Mia-Ajuda faça qualquer mudança futura a esta disposição de arbitrage
 
 Se a renúncia de ação coletiva na Seção 17.2 for determinada inexequível em arbitragem ou se qualquer parte desta Seção 17.3 for determinada nula ou inexequível, então a totalidade desta Seção 17.3 será nula e sem efeito. Nesse caso, as partes acordam que a jurisdição e foro exclusivos descritas na Seção 17.1 regerão qualquer ação decorrente de ou relacionada com os Acordos.
 
-### [Ir para a Política de Privacidade](/_docs/privacidade)
 `;
 
 export default terms;
