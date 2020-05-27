@@ -10,10 +10,11 @@ const ENV = {
     apiUrl: devUrl + "api",
   },
   staging: {
+    socketUrl: prodUrl,
     apiUrl: prodUrl,
   },
   prod: {
-    socketUrl: devUrl,
+    socketUrl: prodUrl,
     apiUrl: prodUrl + "api",
   },
 };
