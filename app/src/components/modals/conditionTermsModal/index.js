@@ -1,9 +1,10 @@
 import React from "react";
-import { Modal, TouchableOpacity, View, Text } from "react-native";
-import { WebView } from "react-native-webview";
+import { Modal, TouchableOpacity, ScrollView, Text, View } from "react-native";
 import { Icon } from "react-native-elements";
 import colors from "../../../../assets/styles/colorVariables";
 import styles from "./style";
+import Markdown from "react-native-markdown-display";
+import terms from "./terms";
 
 export default function TermsModal({ visible, setVisible }) {
   return (
@@ -23,13 +24,17 @@ export default function TermsModal({ visible, setVisible }) {
           size={35}
         />
       </TouchableOpacity>
-
-      <WebView
-        style={styles.webView}
-        source={{
-          uri: "https://mia-ajuda.github.io/Documentation/#/_docs/termos",
-        }}
-      />
+      <ScrollView
+        contentContainerStyle={{ margin: 20 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <TouchableOpacity style={styles.privacyLink}>
+          <Text style={styles.privacyText}>
+            Ir para política de privacidade
+          </Text>
+        </TouchableOpacity>
+        <Markdown>{terms}</Markdown>
+      </ScrollView>
     </Modal>
   );
 }
