@@ -24,24 +24,6 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
-    },
-    "android": {
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
-        "CAMERA",
-        "MANAGE_DOCUMENTS",
-        "READ_EXTERNAL_STORAGE",
-        "READ_PHONE_STATE",
-        "WRITE_EXTERNAL_STORAGE"
-      ],
-      "package": "com.unb.miaajuda",
-      "googleServicesFile": "./google-services.json",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyD92IqZMPhIGX8hPDLLXU3_3NyaUh7PdeA"
-        }
-      }
     }
   }
 }
