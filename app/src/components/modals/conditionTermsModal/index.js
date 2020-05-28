@@ -1,17 +1,22 @@
-import React from "react";
-import { Modal, TouchableOpacity, View, Text } from "react-native";
-import { WebView } from "react-native-webview";
+import React, {useState} from "react";
+import { Modal, TouchableOpacity, ScrollView, Text, View } from "react-native";
 import { Icon } from "react-native-elements";
 import colors from "../../../../assets/styles/colorVariables";
 import styles from "./style";
+import Markdown from "react-native-markdown-display";
+import terms from "./terms";
+import PrivacyPolicyModal from "../privacyPolicyModal"
 
 export default function TermsModal({ visible, setVisible }) {
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+
   return (
     <Modal
-      visible={visible}
-      onRequestClose={() => setVisible(false)}
-      animationType="slide"
+    visible={visible}
+    onRequestClose={() => setVisible(false)}
+    animationType="slide"
     >
+    <PrivacyPolicyModal visible={privacyModalVisible} setVisible={setPrivacyModalVisible}/>
       <TouchableOpacity
         style={styles.closeButton}
         onPress={() => setVisible(false)}
@@ -23,13 +28,17 @@ export default function TermsModal({ visible, setVisible }) {
           size={35}
         />
       </TouchableOpacity>
-
-      <WebView
-        style={styles.webView}
-        source={{
-          uri: "https://mia-ajuda.github.io/Documentation/#/_docs/termos",
-        }}
-      />
+      <ScrollView
+        contentContainerStyle={{ margin: 20 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <TouchableOpacity style={styles.privacyLink} onPress={() => setPrivacyModalVisible(true)}>
+          <Text style={styles.privacyText}>
+            Ir para política de privacidade
+          </Text>
+        </TouchableOpacity>
+        <Markdown>{terms}</Markdown>
+      </ScrollView>
     </Modal>
   );
 }
