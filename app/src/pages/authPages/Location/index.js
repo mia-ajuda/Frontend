@@ -105,7 +105,7 @@ export default function Location({ route, navigation }) {
       />
 
       <Animated.ScrollView
-        style={[{ height: animatedHeigth }, styles.description]}
+        style={styles.description}
         scrollEnabled={false}
       >
         <TouchableOpacity
