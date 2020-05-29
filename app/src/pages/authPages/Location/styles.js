@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 import colors from "../../../../assets/styles/colorVariables";
 import fonts from "../../../../assets/styles/fontVariable";
+import { AnimatedRegion } from "react-native-maps";
 
 const styles = StyleSheet.create({
   map: {
