@@ -1,7 +1,7 @@
-import { IP_ADDRESS } from "react-native-dotenv";
 import Constants from "expo-constants";
+import { IP_ADDRESS } from "react-native-dotenv";
 
-const prodUrl = "";
+const prodUrl = "http://164.41.92.25:8000/";
 const devUrl = `http://${IP_ADDRESS}:8000/`;
 
 const ENV = {
@@ -10,10 +10,12 @@ const ENV = {
     apiUrl: devUrl + "api",
   },
   staging: {
+    socketUrl: prodUrl,
     apiUrl: prodUrl,
   },
   prod: {
-    apiUrl: prodUrl,
+    socketUrl: prodUrl,
+    apiUrl: prodUrl + "api",
   },
 };
 

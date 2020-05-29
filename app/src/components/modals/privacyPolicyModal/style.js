@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 import fonts from "../../../../assets/styles/fontVariable";
 const styles = StyleSheet.create({
-  closeButton: {
+  backButton: {
     position: "absolute",
     zIndex: 5,
-    right: 15,
+    left: 15,
     top: 15,
   },
   privacyLink: {
