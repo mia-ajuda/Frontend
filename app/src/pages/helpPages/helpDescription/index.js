@@ -141,6 +141,17 @@ export default function HelpDescription({ route, navigation }) {
     );
   }
 
+  function calculateAge(birthday) {
+    birthday = new Date(birthday);
+    const now = new Date();
+    let age = now.getFullYear() - birthday.getFullYear();
+    let month = now.getMonth() - birthday.getMonth();
+    if (month < 0 || (month === 0 && now.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
@@ -168,7 +179,7 @@ export default function HelpDescription({ route, navigation }) {
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Idade:{" "}
                   </Text>
-                  {age || moment().diff(user.birthday, "year")}
+                  {age || calculateAge(user.birthday)}
                 </Text>
                 <Text style={styles.infoText}>
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
@@ -268,11 +279,11 @@ export default function HelpDescription({ route, navigation }) {
                 press={() => openModal("offer")}
               />
             </>
-          ) : helpStatus === "waiting" ?(
+          ) : helpStatus === "waiting" ? (
             <Text style={styles.waitingToBeAccepted}>
               Aguarde o dono da ajuda escolher seu ajudante.
             </Text>
-              ) : null}
+          ) : null}
         </View>
       </View>
     </ScrollView>
