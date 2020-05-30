@@ -142,13 +142,7 @@ export default function HelpDescription({ route, navigation }) {
   }
 
   function calculateAge(birthday) {
-    birthday = new Date(birthday);
-    const now = new Date();
-    let age = now.getFullYear() - birthday.getFullYear();
-    let month = now.getMonth() - birthday.getMonth();
-    if (month < 0 || (month === 0 && now.getDate() < birthday.getDate())) {
-      age--;
-    }
+    let age = moment().diff(moment(birthday, "DD/MM/YYYY"), "years");
     return age;
   }
 
