@@ -5,7 +5,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   ActivityIndicator,
-  Alert
+  Alert,
 } from "react-native";
 import { UserContext } from "../../../store/contexts/userContext";
 import { TextInputMask } from "react-native-masked-text";
@@ -48,23 +48,27 @@ export default function EditProfile({ route, navigation }) {
   const handlePhone = () => {
     let phoneFilter =
       "+55" +
-      mainField.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+      mainField
+        .replace("(", "")
+        .replace(")", "")
+        .replace("-", "")
+        .replace(" ", "");
 
-    let ddd = phoneFilter.substring(0, 5);
-    let numero = phoneFilter.substring(5, 14);
-    if (numero.length === 9) {
-      numero = numero.replace("9", "");
-      phoneFilter = ddd + numero;
-    }
+    // let ddd = phoneFilter.substring(0, 5);
+    // let numero = phoneFilter.substring(5, 14);
+    // if (numero.length === 9) {
+    //   numero = numero.replace("9", "");
+    //   phoneFilter = ddd + numero;
+    // }
 
-    if (phoneFilter.length === 14) {
-      phoneFilter = phoneFilter.replace("9", "");
-    }
+    // if (phoneFilter.length === 14) {
+    //   phoneFilter = phoneFilter.replace("9", "");
+    // }
 
     return phoneFilter;
   };
 
-  const cepHandle = async currentCep => {
+  const cepHandle = async (currentCep) => {
     setMainField(currentCep.substring(0, 8));
 
     if (currentCep.length === 8) {
@@ -94,7 +98,7 @@ export default function EditProfile({ route, navigation }) {
     setLoading(false);
   };
 
-  const stateHandle = enteredName => {
+  const stateHandle = (enteredName) => {
     if (enteredName.length > 2) {
       const subUf = enteredName.substring(0, 2);
       setState(subUf);
@@ -103,19 +107,19 @@ export default function EditProfile({ route, navigation }) {
     }
   };
 
-  const handleCity = value => {
+  const handleCity = (value) => {
     setCity(value);
   };
 
-  const handleNumber = value => {
+  const handleNumber = (value) => {
     setNumberPlace(value);
   };
 
-  const handleComplement = value => {
+  const handleComplement = (value) => {
     setComplement(value);
   };
 
-  const handleValue = value => {
+  const handleValue = (value) => {
     setMainField(value);
   };
 
@@ -127,17 +131,17 @@ export default function EditProfile({ route, navigation }) {
         number: numberPlace,
         complement,
         city,
-        state
+        state,
       };
     } else if (route.params.attribute === "name") {
       data = {
         ...route.params.user,
-        name: mainField
+        name: mainField,
       };
     } else {
       data = {
         ...route.params.user,
-        phone: handlePhone()
+        phone: handlePhone(),
       };
     }
 
@@ -156,7 +160,7 @@ export default function EditProfile({ route, navigation }) {
         "Alteração feita com sucesso!",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
     } catch (err) {
@@ -167,7 +171,7 @@ export default function EditProfile({ route, navigation }) {
         err.error || "Algo deu errado, tente novamente mais tarde",
         [{ text: "OK", onPress: () => {} }],
         {
-          cancelable: false
+          cancelable: false,
         }
       );
       console.log(err.message);
@@ -196,20 +200,20 @@ export default function EditProfile({ route, navigation }) {
             style={{
               flex: 1,
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <ActivityIndicator size="large" color={colors.primary} />
           </View>
         ) : (
           <>
-            {
-              route.params.attribute !== "cep" ? (
-                <Text style={styles.titleEdit}>Fique a vontade para modificar suas informações!</Text>
-              ) :(
-                <></>
-              )
-            }
+            {route.params.attribute !== "cep" ? (
+              <Text style={styles.titleEdit}>
+                Fique a vontade para modificar suas informações!
+              </Text>
+            ) : (
+              <></>
+            )}
             <View style={styles.content}>
               {route.params.attribute === "phone" ? (
                 <View style={styles.phoneView}>
@@ -217,16 +221,18 @@ export default function EditProfile({ route, navigation }) {
                   <TextInputMask
                     style={[
                       styles.inputMask,
-                      mainField === "" || isMainFieldValid ? styles.valid : styles.invalid
+                      mainField === "" || isMainFieldValid
+                        ? styles.valid
+                        : styles.invalid,
                     ]}
                     type={"cel-phone"}
                     options={{
                       maskType: "BRL",
                       withDDD: true,
-                      dddMask: "(99) "
+                      dddMask: "(99) ",
                     }}
                     value={mainField}
-                    onChangeText={text => {
+                    onChangeText={(text) => {
                       setMainField(text);
 
                       if (text.length >= 14) {
