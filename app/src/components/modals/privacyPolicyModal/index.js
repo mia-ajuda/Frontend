@@ -25,7 +25,7 @@ export default function PrivacyPolicyModal({ visible, setVisible }) {
         />
       </TouchableOpacity>
       <ScrollView
-        contentContainerStyle={{ margin: 20,     marginVertical: 45 }}
+        contentContainerStyle={{ margin: 20,     marginVertical: 45 , paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
         <Markdown>{privacy}</Markdown>
