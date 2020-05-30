@@ -29,7 +29,7 @@ export default function TermsModal({ visible, setVisible }) {
         />
       </TouchableOpacity>
       <ScrollView
-        contentContainerStyle={{ margin: 20 }}
+        contentContainerStyle={{ margin: 20, paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity style={styles.privacyLink} onPress={() => setPrivacyModalVisible(true)}>
