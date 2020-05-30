@@ -8,17 +8,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   logo: {
+    marginTop: 50,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
-    justifyContent: "center",
-    marginBottom: 50,
+    width: "100%",
   },
   input: {
-    flex: 1,
+    marginTop: 20,
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 20,
   },
 
   textInput: {
@@ -27,21 +27,19 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.light,
     color: colors.light,
     marginVertical: 20,
-    width: "90%",
+    width: "100%",
   },
   forgotPassword: {
-    width: "90%",
-    alignItems: "flex-end",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
   },
   forgotPasswordtext: {
+    ...fonts.body,
+    marginHorizontal: 20,
+    marginBottom: 20,
     color: colors.light,
   },
   viewBtn: {
     alignItems: "center",
-    justifyContent: "flex-start",
-    marginTop: 10,
-    marginBottom: 30,
     flex: 1,
   },
   login: {
@@ -51,56 +49,10 @@ const styles = StyleSheet.create({
     ...fonts.body,
     color: colors.light,
     fontFamily: "montserrat-semibold",
-    marginBottom: 30,
-  },
-  viewGoogle: {
-    width: "25%",
-    borderRadius: 25,
-    marginHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  btnGoogle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
-  },
-  lgnGoogle: {
-    color: "white",
-    fontFamily: "montserrat-semibold",
+    borderBottomWidth: 1,
+    borderBottomColor: "#fff",
     fontSize: 18,
   },
-  viewFacebook: {
-    width: "25%",
-    borderRadius: 25,
-    marginHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  btnFacebook: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
-  },
-  lgnFacebook: {
-    color: "white",
-    fontFamily: "montserrat-semibold",
-    fontSize: 18,
-  },
-  quickLogin: {
-    justifyContent: "center",
-    flexDirection: "row",
-    marginBottom: 30,
-    width: "90%",
-  },
-  teste1: {
-    backgroundColor: 'orange',
-  },
-  teste2: {
-    backgroundColor: 'green',
-  }
 });
 
 export default styles;
