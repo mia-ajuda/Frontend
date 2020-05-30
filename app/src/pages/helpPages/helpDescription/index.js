@@ -141,6 +141,11 @@ export default function HelpDescription({ route, navigation }) {
     );
   }
 
+  function calculateAge(birthday) {
+    let age = moment().diff(moment(birthday, "DD/MM/YYYY"), "years");
+    return age;
+  }
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
@@ -168,7 +173,7 @@ export default function HelpDescription({ route, navigation }) {
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
                     Idade:{" "}
                   </Text>
-                  {age || moment().diff(user.birthday, "year")}
+                  {age || calculateAge(user.birthday)}
                 </Text>
                 <Text style={styles.infoText}>
                   <Text style={{ fontFamily: "montserrat-semibold" }}>
@@ -268,11 +273,11 @@ export default function HelpDescription({ route, navigation }) {
                 press={() => openModal("offer")}
               />
             </>
-          ) : helpStatus === "waiting" ?(
+          ) : helpStatus === "waiting" ? (
             <Text style={styles.waitingToBeAccepted}>
               Aguarde o dono da ajuda escolher seu ajudante.
             </Text>
-              ) : null}
+          ) : null}
         </View>
       </View>
     </ScrollView>

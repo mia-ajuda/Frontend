@@ -22,6 +22,7 @@ export const UserContextProvider = (props) => {
     if (accessToken) {
       try {
         const user = await UserService.requestUserData();
+        user.birthday = parseDate(user.birthday);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       } catch (error) {
         dispatch({ type: actions.user.requestSignIn });
@@ -62,6 +63,14 @@ export const UserContextProvider = (props) => {
     }
     getLocation();
   }, []);
+
+  function parseDate(date) {
+    const newDate = new Date(date);
+    return `${("0" + (newDate.getDate() + 1)).slice(-2)}/${(
+      "0" +
+      (newDate.getMonth() + 1)
+    ).slice(-2)}/${newDate.getFullYear()}`;
+  }
 
   return (
     <UserContext.Provider value={{ user, dispatch, currentRegion }}>

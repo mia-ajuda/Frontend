@@ -154,9 +154,7 @@ export default function Profile({ navigation }) {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>
-              {moment(user.birthday).format("DD/MM/YYYY")}
-            </Text>
+            <Text style={styles.textInput}>{user.birthday}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>
