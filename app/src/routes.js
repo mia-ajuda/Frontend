@@ -284,6 +284,7 @@ const headerStyle = {
   headerStyle: {
     height: 90,
     backgroundColor: colors.primary,
+    elevation: 0,
   },
   headerTitleStyle: {
     ...fonts.title,
