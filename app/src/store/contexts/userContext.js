@@ -23,7 +23,6 @@ export const UserContextProvider = (props) => {
       try {
         const user = await UserService.requestUserData();
         user.birthday = parseDate(user.birthday);
-        console.log(user.birthday);
         dispatch({ type: actions.user.storeUserInfo, data: user });
       } catch (error) {
         dispatch({ type: actions.user.requestSignIn });

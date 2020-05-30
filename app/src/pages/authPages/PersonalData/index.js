@@ -78,17 +78,6 @@ export default function PersonalData({ route, navigation }) {
         .replace("-", "")
         .replace(" ", "");
 
-    // let ddd = phoneFilter.substring(0, 5);
-    // let numero = phoneFilter.substring(5, 14);
-    // if (numero.length === 9) {
-    //   numero = numero.replace("9", "");
-    //   phoneFilter = ddd + numero;
-    // }
-
-    // if (phoneFilter.length === 14) {
-    //   phoneFilter = phoneFilter.replace("9", "");
-    // }
-
     return phoneFilter;
   };
 
