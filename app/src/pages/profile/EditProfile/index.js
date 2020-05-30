@@ -212,7 +212,7 @@ export default function EditProfile({ route, navigation }) {
                       styles.inputMask,
                       mainField === "" || isMainFieldValid
                         ? styles.valid
-                        : styles.invalid,        console.log(user.birthday);
+                        : styles.invalid,        
                     ]}
                     type={"cel-phone"}
                     options={{
