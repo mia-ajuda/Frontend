@@ -49,7 +49,7 @@ export default function RiskGroup({ route, navigation }) {
 
     const completeRegistragionData = {
       ...userData,
-      disease: newDisease,
+      riskGroup: newDisease,
     };
 
     try {
