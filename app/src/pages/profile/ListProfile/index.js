@@ -117,6 +117,14 @@ export default function Profile({ navigation }) {
     }
   };
 
+  function parseDate(date) {
+    const newDate = new Date(date);
+    return `${("0" + (newDate.getDate() + 1)).slice(-2)}/${(
+      "0" +
+      (newDate.getMonth() + 1)
+    ).slice(-2)}/${newDate.getFullYear()}`;
+  }
+
   return (
     <ScrollView style={styles.container}>
       <ConfirmationModal
@@ -154,7 +162,7 @@ export default function Profile({ navigation }) {
         <View style={styles.viewInput}>
           <Text style={styles.labelInput}>Data de Nascimento</Text>
           <View style={styles.inputWrapper}>
-            <Text style={styles.textInput}>{user.birthday}</Text>
+            <Text style={styles.textInput}>{parseDate(user.birthday)}</Text>
           </View>
         </View>
         <View style={styles.viewInput}>

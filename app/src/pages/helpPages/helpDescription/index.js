@@ -142,7 +142,7 @@ export default function HelpDescription({ route, navigation }) {
   }
 
   function calculateAge(birthday) {
-    let age = moment().diff(moment(birthday, "DD/MM/YYYY"), "years");
+    let age = moment().diff(moment(birthday), "years");
     return age;
   }
 
