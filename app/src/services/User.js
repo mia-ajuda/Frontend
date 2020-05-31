@@ -8,6 +8,8 @@ import * as Google from "expo-google-app-auth";
 import authConfig from "../config/authmiaajuda-firebase";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
+import translateFirebaseError from "../utils/translateFirebaseAuthError";
+
 const setUserDeviceId = async () => {
   try {
     if (Constants.isDevice) {
@@ -56,8 +58,14 @@ class UserService {
 
       return user;
     } catch (error) {
-      console.log(error.response.data);
-      throw { error: error.response.data.error };
+      const translatedMessage = translateFirebaseError[error.code];
+
+      throw {
+        message:
+          translatedMessage ||
+          error.response.data.error ||
+          "Algo deu errado, tente novamente mais tarde",
+      };
     }
   }
 
