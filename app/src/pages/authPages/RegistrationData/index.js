@@ -91,9 +91,8 @@ export default function RegistrationData({ route, navigation }) {
 
   return (
     <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.safeAreaView}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
       {!keyboardShow ? (
         <View>

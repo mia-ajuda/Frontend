@@ -50,7 +50,10 @@ export default function ForgotPassword({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

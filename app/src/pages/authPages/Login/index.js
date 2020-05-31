@@ -69,7 +69,10 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+    >
       <View style={styles.logo}>
         <Image
           style={{ flex: 1, resizeMode: "contain" }}
@@ -128,6 +131,6 @@ export default function Login({ navigation }) {
           <Text style={styles.signupText}>Criar Conta</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

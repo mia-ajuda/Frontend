@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
   View,
-  KeyboardAvoidingView,
   Text,
   TouchableOpacity,
   Alert,
@@ -86,7 +85,7 @@ export default function RiskGroup({ route, navigation }) {
     }
   };
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.backIcon}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -123,6 +122,6 @@ export default function RiskGroup({ route, navigation }) {
           <Button title="Concluir" large press={confirmSignUp} />
         )}
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }

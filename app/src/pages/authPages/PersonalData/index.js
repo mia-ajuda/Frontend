@@ -135,7 +135,7 @@ export default function PersonalData({ route, navigation }) {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : null}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
       {!keyboardShow ? (
