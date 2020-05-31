@@ -56,15 +56,11 @@ export default function Login({ navigation }) {
         dispatch({ type: actions.user.storeUserInfo, data: user });
       }
     } catch (err) {
+      console.log(err);
       setLoading(false);
-      Alert.alert(
-        "Ooops..",
-        err.error || "Algo deu errado, tente novamente mais tarde",
-        [{ text: "OK", onPress: () => {} }],
-        {
-          cancelable: false,
-        }
-      );
+      Alert.alert("Ooops..", err.message, [{ text: "OK", onPress: () => {} }], {
+        cancelable: false,
+      });
     }
   };
 
