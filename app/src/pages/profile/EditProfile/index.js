@@ -170,7 +170,7 @@ export default function EditProfile({ route, navigation }) {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : null}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
       <ConfirmationModal
@@ -198,7 +198,8 @@ export default function EditProfile({ route, navigation }) {
           <>
             {route.params.attribute !== "cep" ? (
               <Text style={styles.titleEdit}>
-                Fique a vontade para modificar suas informações!
+                Preencha o campo com a nova informação e pressione "Editar" para
+                modificar.
               </Text>
             ) : (
               <></>
