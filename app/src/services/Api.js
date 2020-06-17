@@ -24,8 +24,11 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.status === 401) {
+    if (error.response=="Network Error"){
+      console.log('aaa')      
+      throw (error);
+    }
+    else if (error.response.status === 401) {
         const correctRequest = await firebase.auth().currentUser.getIdToken().then(async (idTokenUser) => {
           await AsyncStorage.setItem("accessToken", idTokenUser);
           originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
@@ -41,7 +44,6 @@ api.interceptors.response.use(
     else{
       throw (error);
     }
-   
   }
 );
 

@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
   btnDanger: { ...btn, backgroundColor: colors.danger },
   textWarning: { ...text, color: colors.dark },
   btnWarning: { ...btn, backgroundColor: colors.secondary },
-  textDefault: { ...text, color: colors.light },
-  btnDefault: { ...btn, backgroundColor: colors.primary },
+  textDefault: {
+    ...text, color: colors.light},
+  btnDefault: { ...btn, backgroundColor: colors.primary, borderColor: colors.primary, borderWidth: 2,  },
   textDisabled: { ...text, color: "#666" },
-  btnDisabled: { ...btn, backgroundColor: "#ccc", elevation: 0 },
+  btnDisabled: { ...btn, backgroundColor: "#ccc", elevation: 0, borderColor: "#ccc", borderWidth: 2 },
   textNotSelected: {...text, color: colors.primary},
   btnNotSelected: { 
     ...btn,
