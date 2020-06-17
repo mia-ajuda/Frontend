@@ -7,17 +7,18 @@ import {
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Icon } from "react-native-elements";
+import { Icon,CheckBox } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import TermsModal from "../../../components/modals/conditionTermsModal";
-
+import Buttom from "../../../components/UI/button"
 export default function Photo({ route, navigation }) {
   const { userData } = route.params;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [photo, setPhoto] = useState("");
   const [termsModalVisible, setTermsModalVisible] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -106,11 +107,19 @@ export default function Photo({ route, navigation }) {
                 borderBottomWidth: 1,
               }}
             />
-            <Text style={styles.smallText}>
-              Ao clicar em continuar você concorda com os
-              <Text style={styles.hyperLink}> Termos de Uso </Text>e a
-              <Text style={styles.hyperLink}> Política de Pivacidade</Text>.
-            </Text>
+              <View style={styles.checkboxView}>
+              <Text style={styles.smallText}>
+                  Por meio deste você concorda com os{"\n"}
+                <Text style={styles.hyperLink}> Termos de Uso </Text>e a
+                <Text style={styles.hyperLink}> Política de Pivacidade</Text>.
+              </Text>
+              <CheckBox
+                center
+                iconRight
+                checked={checked}
+                onIconPress={() => setChecked(!checked)}
+              />
+            </View>
             <View
               style={{
                 borderBottomColor: "#686868",
@@ -119,12 +128,20 @@ export default function Photo({ route, navigation }) {
             />
           </TouchableOpacity>
           <View style={styles.buttonPreview}>
-            <TouchableOpacity onPress={cancelHandler} style={styles.btn}>
-              <Text style={styles.btnText}>Voltar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btn1} onPress={continueHandler}>
-              <Text style={styles.btnText1}>Continuar</Text>
-            </TouchableOpacity>
+              <Buttom
+                title="Voltar"
+                type="notSelected"
+                press={() => {
+                  cancelHandler();
+                }}
+              />
+            <Buttom
+              disabled={!checked}
+              title="Continuar"
+              press={() => {
+                continueHandler();
+              }}
+            />
           </View>
           <TermsModal
             visible={termsModalVisible}
