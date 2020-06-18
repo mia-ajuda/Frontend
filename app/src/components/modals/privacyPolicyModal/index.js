@@ -15,13 +15,14 @@ export default function PrivacyPolicyModal({ visible, setVisible }) {
       animationType="slide"
     >
       <TouchableOpacity
-        style={styles.backButton}
+        style={styles.closeButton}
         onPress={() => setVisible(false)}
       >
         <Icon
-          name="chevron-left"
+          name="times-circle"
           type="font-awesome"
-          size={25}
+          color={colors.danger}
+          size={35}
         />
       </TouchableOpacity>
       <ScrollView

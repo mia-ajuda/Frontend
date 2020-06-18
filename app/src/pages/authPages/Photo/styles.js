@@ -35,15 +35,15 @@ const styles = StyleSheet.create({
     ...fonts.subtitle,
     fontSize: 12,
     fontFamily: "montserrat-semibold",
-    textAlign: "center",
+    textAlign:"center",
     marginTop: 5,
     marginBottom: 5,
   },
   hyperLink: {
     ...fonts.subtitle,
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "montserrat-semibold",
-    textAlign: "left",
+    textAlign: "center",
     marginTop: 5,
     marginBottom: 5,
     color: colors.primary,
@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
   },
   checkboxView:{
     width:"100%",
-    flexDirection:"row",
+    flexDirection:"column",
     alignItems:"center",
     justifyContent:"center",
     padding:10,
-  }
+  },
 });
 
 export default styles;

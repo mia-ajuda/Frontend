@@ -11,6 +11,7 @@ import { Icon,CheckBox } from "react-native-elements";
 import styles from "./styles";
 import Container from "../../../components/Container";
 import TermsModal from "../../../components/modals/conditionTermsModal";
+import PrivacyPolicyModal from "../../../components/modals/privacyPolicyModal"
 import Buttom from "../../../components/UI/button"
 export default function Photo({ route, navigation }) {
   const { userData } = route.params;
@@ -19,6 +20,7 @@ export default function Photo({ route, navigation }) {
   const [photo, setPhoto] = useState("");
   const [termsModalVisible, setTermsModalVisible] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -97,36 +99,32 @@ export default function Photo({ route, navigation }) {
               escolher outra foto.
             </Text>
           </View>
-          <TouchableOpacity
-            style={{ flex: 1, margin: 16 }}
-            onPress={() => setTermsModalVisible(true)}
-          >
-            <View
-              style={{
-                borderBottomColor: "#686868",
-                borderBottomWidth: 1,
-              }}
-            />
-              <View style={styles.checkboxView}>
-              <Text style={styles.smallText}>
-                  Por meio deste você concorda com os{"\n"}
-                <Text style={styles.hyperLink}> Termos de Uso </Text>e a
-                <Text style={styles.hyperLink}> Política de Pivacidade</Text>.
-              </Text>
+          
+            
+            <View style={styles.checkboxView}>
+              <View>
+                <TouchableOpacity
+                  onPress={() => setTermsModalVisible(true)}
+                >
+                  <Text style={styles.hyperLink}>Termos de Uso</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setPrivacyModalVisible(true)}
+                >
+                  <Text style={styles.hyperLink}>Políticas de privacidade</Text>
+                </TouchableOpacity>
+              </View>
               <CheckBox
-                center
+                title=" Li e concordo com os termos acima"
+                style={styles.checkbox}
                 iconRight
                 checked={checked}
+                onPress={() => setChecked(!checked)}
                 onIconPress={() => setChecked(!checked)}
               />
             </View>
-            <View
-              style={{
-                borderBottomColor: "#686868",
-                borderBottomWidth: 1,
-              }}
-            />
-          </TouchableOpacity>
+            
+          
           <View style={styles.buttonPreview}>
               <Buttom
                 title="Voltar"
@@ -146,6 +144,10 @@ export default function Photo({ route, navigation }) {
           <TermsModal
             visible={termsModalVisible}
             setVisible={setTermsModalVisible}
+          />
+          <PrivacyPolicyModal 
+            visible={privacyModalVisible} 
+            setVisible={setPrivacyModalVisible} 
           />
         </View>
       )}
