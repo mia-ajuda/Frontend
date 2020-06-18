@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     alignContent:"space-between",
-    justifyContent:"space-evenly"
+    justifyContent:"space-evenly",
+    marginTop: 30
   },
   btn: {
     marginHorizontal: 10,
