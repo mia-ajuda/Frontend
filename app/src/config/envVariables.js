@@ -5,25 +5,25 @@ const prodUrl = 'http://164.41.92.25:8000/';
 const devUrl = `http://${IP_ADDRESS}:8000/`;
 
 const ENV = {
-  dev: {
-    socketUrl: devUrl,
-    apiUrl: devUrl + 'api',
-  },
-  staging: {
-    socketUrl: prodUrl,
-    apiUrl: prodUrl,
-  },
-  prod: {
-    socketUrl: prodUrl,
-    apiUrl: prodUrl + 'api',
-  },
+    dev: {
+        socketUrl: devUrl,
+        apiUrl: devUrl + 'api',
+    },
+    staging: {
+        socketUrl: prodUrl,
+        apiUrl: prodUrl,
+    },
+    prod: {
+        socketUrl: prodUrl,
+        apiUrl: prodUrl + 'api',
+    },
 };
 
 function getEnvVars(env = '') {
-  if (env === null || env === undefined || env === '') return ENV.dev;
-  if (env.indexOf('dev') !== -1) return ENV.dev;
-  if (env.indexOf('prod') !== -1) return ENV.prod;
-  if (env.indexOf('staging') !== -1) return ENV.staging;
+    if (env === null || env === undefined || env === '') return ENV.dev;
+    if (env.indexOf('dev') !== -1) return ENV.dev;
+    if (env.indexOf('prod') !== -1) return ENV.prod;
+    if (env.indexOf('staging') !== -1) return ENV.staging;
 }
 
 export default getEnvVars(Constants.manifest.releaseChannel);

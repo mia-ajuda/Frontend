@@ -6,15 +6,15 @@ import CategoryContextProvider from './store/contexts/categoryContext';
 import LocationContextProvider from './store/contexts/locationContext';
 
 export default function Root() {
-  return (
-    <UserContextProvider>
-      <CategoryContextProvider>
-        <LocationContextProvider>
-          <HelpContextProvider>
-            <Routes />
-          </HelpContextProvider>
-        </LocationContextProvider>
-      </CategoryContextProvider>
-    </UserContextProvider>
-  );
+    return (
+        <UserContextProvider>
+            <CategoryContextProvider>
+                <LocationContextProvider>
+                    <HelpContextProvider>
+                        <Routes />
+                    </HelpContextProvider>
+                </LocationContextProvider>
+            </CategoryContextProvider>
+        </UserContextProvider>
+    );
 }

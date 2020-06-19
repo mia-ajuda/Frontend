@@ -4,104 +4,104 @@ import colors from '../../../assets/styles/colorVariables';
 import fonts from '../../../assets/styles/fontVariable';
 
 export default StyleSheet.create({
-  cardContainer: {
-    maxWidth: 740,
-    maxHeight: 240,
+    cardContainer: {
+        maxWidth: 740,
+        maxHeight: 240,
 
-    marginTop: 20,
+        marginTop: 20,
 
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+
+        backgroundColor: colors.light,
+        borderRadius: 8,
+
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingBottom: 15,
+        paddingTop: 10,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
 
-    elevation: 2,
+    cardTitle: {
+        maxWidth: '100%',
+        maxHeight: '30%',
+    },
 
-    backgroundColor: colors.light,
-    borderRadius: 8,
+    titleContent: {
+        ...fonts.title,
+        fontFamily: 'montserrat-semibold',
+        color: colors.primary,
 
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+        lineHeight: 30,
+        textAlign: 'center',
+    },
 
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 15,
-    paddingTop: 10,
-  },
+    cardDescription: {
+        marginTop: 5,
+        maxWidth: '100%',
+        maxHeight: '70%',
 
-  cardTitle: {
-    maxWidth: '100%',
-    maxHeight: '30%',
-  },
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
 
-  titleContent: {
-    ...fonts.title,
-    fontFamily: 'montserrat-semibold',
-    color: colors.primary,
+    descriptionContent: {
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: 12,
 
-    lineHeight: 30,
-    textAlign: 'center',
-  },
+        lineHeight: 14,
+        color: colors.dark,
+    },
 
-  cardDescription: {
-    marginTop: 5,
-    maxWidth: '100%',
-    maxHeight: '70%',
+    categoryWarning: {
+        backgroundColor: colors.secondary,
+        borderRadius: 8,
 
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
+        maxHeight: 30,
 
-  descriptionContent: {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 12,
+        paddingHorizontal: 15,
 
-    lineHeight: 14,
-    color: colors.dark,
-  },
+        alignSelf: 'flex-start',
+    },
 
-  categoryWarning: {
-    backgroundColor: colors.secondary,
-    borderRadius: 8,
+    categoryName: {
+        ...fonts.body,
+        fontFamily: 'montserrat-semibold',
+        lineHeight: 30,
+        textAlign: 'center',
+    },
 
-    maxHeight: 30,
-
-    paddingHorizontal: 15,
-
-    alignSelf: 'flex-start',
-  },
-
-  categoryName: {
-    ...fonts.body,
-    fontFamily: 'montserrat-semibold',
-    lineHeight: 30,
-    textAlign: 'center',
-  },
-
-  bottomItens: {
-    width: '100%',
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  labelBadge: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
-  badgeStyle: {
-    backgroundColor: colors.danger,
-    height: 30,
-    width: 30,
-    borderRadius: 50,
-  },
-  containerBadge: {
-    position: 'absolute',
-    top: -7,
-    right: -6,
-  },
+    bottomItens: {
+        width: '100%',
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    labelBadge: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    badgeStyle: {
+        backgroundColor: colors.danger,
+        height: 30,
+        width: 30,
+        borderRadius: 50,
+    },
+    containerBadge: {
+        position: 'absolute',
+        top: -7,
+        right: -6,
+    },
 });

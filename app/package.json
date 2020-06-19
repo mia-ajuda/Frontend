@@ -3,11 +3,13 @@
   "scripts": {
     "start": "expo start",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx src/",
+    "lint:fix": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx src/ --fix",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "format": "prettier --check ./src"
+    "format": "prettier --check ./src",
+    "format:fix": "prettier --write ./src"
   },
   "dependencies": {
     "@bam.tech/react-native-component-map-clustering": "^1.1.1",
