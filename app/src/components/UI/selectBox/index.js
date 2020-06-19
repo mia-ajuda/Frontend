@@ -7,12 +7,12 @@ export default function SelectBox({
   category,
   selectedCategoryArray,
 }) {
-  const [selected, setSelect] = useState(
+  const [selectedItem, setSelectItem] = useState(
     filterCategoryArray.some((categoryId) => categoryId === category._id)
   );
 
   useEffect(() => {
-    if (selected) {
+    if (selectedItem) {
       setSelectedCategoryArray([...selectedCategoryArray, category._id]);
     } else {
       const removeFilter = filterCategoryArray.filter(
@@ -20,7 +20,7 @@ export default function SelectBox({
       );
       setSelectedCategoryArray(removeFilter);
     }
-  }, [selected]);
+  }, [selectedItem]);
 
   return (
     <>
@@ -28,8 +28,8 @@ export default function SelectBox({
         title={category.name}
         textStyle={styles.checkBoxText}
         checkedIcon="check-square"
-        checked={selected}
-        onPress={() => setSelect(!selected)}
+        checked={selectedItem}
+        onPress={() => setSelectItem(!selectedItem)}
       />
     </>
   );
