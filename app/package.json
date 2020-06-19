@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx src/",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -49,8 +50,17 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "babel-eslint": "^10.1.0",
     "babel-preset-expo": "~8.0.0",
-    "prettier": "^2.0.4",
+    "eslint": "^7.3.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "prettier": "^2.0.5",
     "react-native-dotenv": "^0.2.0"
   },
   "private": true
