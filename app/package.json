@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "format": "prettier --check ./src",
-    "format:fix": "prettier --write ./src"
+    "format:fix": "prettier --write ./src",
+    "validate": "yarn run lint && yarn run format"
   },
   "dependencies": {
     "@bam.tech/react-native-component-map-clustering": "^1.1.1",
@@ -63,6 +64,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "react-native-dotenv": "^0.2.0"
   },
