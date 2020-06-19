@@ -1,29 +1,23 @@
-import React, { useState } from "react";
-import {
-  Image,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { Icon } from "react-native-elements";
-import styles from "./styles";
-import Container from "../../../components/Container";
-import TermsModal from "../../../components/modals/conditionTermsModal";
+import React, { useState } from 'react';
+import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Icon } from 'react-native-elements';
+import styles from './styles';
+import Container from '../../../components/Container';
+import TermsModal from '../../../components/modals/conditionTermsModal';
 
 export default function Photo({ route, navigation }) {
   const { userData } = route.params;
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState('');
   const [termsModalVisible, setTermsModalVisible] = useState(false);
 
   async function openImagePickerAsync() {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert("É preciso permissão para acesso a câmera!");
+      alert('É preciso permissão para acesso a câmera!');
       return;
     }
 
@@ -45,64 +39,53 @@ export default function Photo({ route, navigation }) {
 
   async function cancelHandler() {
     setSelectedImage(null);
-    setPhoto("");
+    setPhoto('');
   }
   async function continueHandler() {
     const newUserData = {
       photo,
       ...userData,
     };
-    navigation.navigate("riskGroup", { userData: newUserData });
+    navigation.navigate('riskGroup', { userData: newUserData });
   }
 
   return (
     <View style={styles.container}>
       {selectedImage === null ? (
-        <ImageBackground
-          source={require("../../../images/catPhoto.png")}
-          style={styles.logo}
-        >
+        <ImageBackground source={require('../../../images/catPhoto.png')} style={styles.logo}>
           <Container>
             <View style={styles.backIcon}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon name={"arrow-back"} color={"black"} />
+                <Icon name={'arrow-back'} color={'black'} />
               </TouchableOpacity>
             </View>
             <View style={styles.textView}>
               <Text style={styles.text}>
-                Também precisamos de uma foto sua, é só clicar na camêra aqui em
-                baixo!
+                Também precisamos de uma foto sua, é só clicar na camêra aqui em baixo!
               </Text>
             </View>
             <View style={styles.btnView}>
-              <TouchableOpacity
-                onPress={openImagePickerAsync}
-                style={styles.button}
-              >
-                <Icon name={"camera-alt"} color="gray" />
+              <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
+                <Icon name={'camera-alt'} color="gray" />
               </TouchableOpacity>
             </View>
           </Container>
         </ImageBackground>
       ) : (
         <View style={styles.container}>
-          <Image
-            source={{ uri: selectedImage.localUri }}
-            style={styles.thumbnail}
-          />
+          <Image source={{ uri: selectedImage.localUri }} style={styles.thumbnail} />
           <View style={styles.selectText}>
             <Text style={styles.text}>
-              Clique em continuar para prosseguir com o cadastro, ou voltar para
-              escolher outra foto.
+              Clique em continuar para prosseguir com o cadastro, ou voltar para escolher outra
+              foto.
             </Text>
           </View>
           <TouchableOpacity
             style={{ flex: 1, margin: 16 }}
-            onPress={() => setTermsModalVisible(true)}
-          >
+            onPress={() => setTermsModalVisible(true)}>
             <View
               style={{
-                borderBottomColor: "#686868",
+                borderBottomColor: '#686868',
                 borderBottomWidth: 1,
               }}
             />
@@ -113,7 +96,7 @@ export default function Photo({ route, navigation }) {
             </Text>
             <View
               style={{
-                borderBottomColor: "#686868",
+                borderBottomColor: '#686868',
                 borderBottomWidth: 1,
               }}
             />
@@ -126,10 +109,7 @@ export default function Photo({ route, navigation }) {
               <Text style={styles.btnText1}>Continuar</Text>
             </TouchableOpacity>
           </View>
-          <TermsModal
-            visible={termsModalVisible}
-            setVisible={setTermsModalVisible}
-          />
+          <TermsModal visible={termsModalVisible} setVisible={setTermsModalVisible} />
         </View>
       )}
     </View>

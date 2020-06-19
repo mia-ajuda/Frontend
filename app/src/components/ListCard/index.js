@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Icon } from "react-native-elements";
-import colors from "../../../assets/styles/colorVariables";
-import { Badge } from "react-native-elements";
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
+import colors from '../../../assets/styles/colorVariables';
+import { Badge } from 'react-native-elements';
 
-import styles from "./styles";
+import styles from './styles';
 
 export default function ListCard({
   helpTitle,
@@ -64,15 +64,10 @@ export default function ListCard({
           helpStatus,
         });
         setVisible && setVisible(false);
-      }}
-    >
-      {possibleHelpers &&
-      possibleHelpers.length !== 0 &&
-      pageName === "RequestDescription" ? (
+      }}>
+      {possibleHelpers && possibleHelpers.length !== 0 && pageName === 'RequestDescription' ? (
         <Badge
-          value={
-            <Text style={styles.labelBadge}>{possibleHelpers.length}</Text>
-          }
+          value={<Text style={styles.labelBadge}>{possibleHelpers.length}</Text>}
           badgeStyle={styles.badgeStyle}
           containerStyle={styles.containerBadge}
         />

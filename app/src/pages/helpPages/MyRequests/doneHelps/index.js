@@ -1,35 +1,32 @@
-import React, { useState, useContext, useCallback } from "react";
-import { View, ScrollView, ActivityIndicator } from "react-native";
-import ListCard from "../../../../components/ListCard";
-import { UserContext } from "../../../../store/contexts/userContext";
-import helpService from "../../../../services/Help";
-import styles from "../styles";
-import colors from "../../../../../assets/styles/colorVariables";
+import React, { useState, useContext, useCallback } from 'react';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
+import ListCard from '../../../../components/ListCard';
+import { UserContext } from '../../../../store/contexts/userContext';
+import helpService from '../../../../services/Help';
+import styles from '../styles';
+import colors from '../../../../../assets/styles/colorVariables';
 
-import ConfirmationModal from "../../../../components/modals/confirmationModal";
-import NoHelps from "../../../../components/NoHelps";
-import { useFocusEffect } from "@react-navigation/native";
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import NoHelps from '../../../../components/NoHelps';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function DoneHelps({ navigation }) {
   const [finishedHelpList, setFinishedHelpList] = useState([]);
 
   const [loadingHelps, setLoadingHelps] = useState(false);
-  const [isLoadingModal,setLoadingModal] = useState(false);
+  const [isLoadingModal, setLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 
   useFocusEffect(
     useCallback(() => {
       loadFinishedHelps();
-    }, [navigation])
+    }, [navigation]),
   );
 
   async function loadFinishedHelps() {
     setLoadingHelps(true);
-    let resFinished = await helpService.getHelpMultipleStatus(
-      userId,
-      "finished"
-    );
+    let resFinished = await helpService.getHelpMultipleStatus(userId, 'finished');
     setFinishedHelpList(resFinished);
     setLoadingHelps(false);
   }
@@ -58,7 +55,7 @@ export default function DoneHelps({ navigation }) {
           </View>
         </ScrollView>
       ) : (
-        <NoHelps title={"Você não possui ajudas finalizadas"} />
+        <NoHelps title={'Você não possui ajudas finalizadas'} />
       )}
     </View>
   );

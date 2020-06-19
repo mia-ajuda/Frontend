@@ -1,8 +1,8 @@
-import React from "react";
-import { View } from "react-native";
-import { Icon } from "react-native-elements";
-import colors from "../../../assets/styles/colorVariables";
-import styles from "./styles";
+import React from 'react';
+import { View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import colors from '../../../assets/styles/colorVariables';
+import styles from './styles';
 
 export default function Avatar({ help }) {
   const isRiskGroup = !!help.user.riskGroup.length;
@@ -10,12 +10,7 @@ export default function Avatar({ help }) {
 
   return (
     <View style={styles.container}>
-      <Icon
-        name="exclamation"
-        type="font-awesome"
-        size={45}
-        color={iconColor}
-      />
+      <Icon name="exclamation" type="font-awesome" size={45} color={iconColor} />
     </View>
   );
 }

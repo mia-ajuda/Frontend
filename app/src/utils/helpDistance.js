@@ -13,21 +13,15 @@ export function calculateDistance(centerCoordinates, pointCoordinates) {
 
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
   const center = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return radius * center;
 }
 
 function getDistanceInKm(centerCoordinates, pointCoordinates) {
-  let distance = calculateDistance(centerCoordinates, pointCoordinates)
-  distance =
-    distance > 1
-      ? `${distance.toFixed(2)} km`
-      : `${(distance * 1000).toFixed(0)} m`;
+  let distance = calculateDistance(centerCoordinates, pointCoordinates);
+  distance = distance > 1 ? `${distance.toFixed(2)} km` : `${(distance * 1000).toFixed(0)} m`;
 
   return distance;
 }

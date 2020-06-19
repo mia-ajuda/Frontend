@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, Picker, Text, Modal, ActivityIndicator, ScrollView } from "react-native";
-import styles from "./styles";
-import Container from "../../../components/Container";
-import Input from "../../../components/UI/input";
-import Button from "../../../components/UI/button";
-import colors from "../../../../assets/styles/colorVariables";
-import { CategoryContext } from "../../../store/contexts/categoryContext";
-import helpService from "../../../services/Help";
-import { UserContext } from "../../../store/contexts/userContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Picker, Text, Modal, ActivityIndicator, ScrollView } from 'react-native';
+import styles from './styles';
+import Container from '../../../components/Container';
+import Input from '../../../components/UI/input';
+import Button from '../../../components/UI/button';
+import colors from '../../../../assets/styles/colorVariables';
+import { CategoryContext } from '../../../store/contexts/categoryContext';
+import helpService from '../../../services/Help';
+import { UserContext } from '../../../store/contexts/userContext';
 
 export default function CreateHelp({ navigation }) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [category, setCategory] = useState({});
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVerification, setModalVerification] = useState(true);
   const [loading, setloading] = useState(false);
-  const [requestState, setRequestState] = useState("");
+  const [requestState, setRequestState] = useState('');
   const [limitErrorMessage, setLimitErrorMessage] = useState(null);
 
   const { categories } = useContext(CategoryContext);
@@ -25,28 +25,28 @@ export default function CreateHelp({ navigation }) {
 
   useEffect(() => {
     switch (requestState) {
-      case "waiting":
+      case 'waiting':
         setloading(true);
         break;
-      case "success":
+      case 'success':
         setloading(false);
         setModalVisible(true);
         setModalVerification(true);
-        setRequestState("");
-        setTitle("");
-        setDescription("");
+        setRequestState('');
+        setTitle('');
+        setDescription('');
         setCategory({});
         break;
-      case "fail":
+      case 'fail':
         setloading(false);
         setModalVisible(true);
         setModalVerification(false);
-        setRequestState("");
+        setRequestState('');
         break;
-      case "":
+      case '':
         break;
       default:
-        setRequestState("");
+        setRequestState('');
         setModalVisible(true);
         setModalVerification(false);
         break;
@@ -64,18 +64,18 @@ export default function CreateHelp({ navigation }) {
   function createHelp() {
     const { _id: userId } = user;
 
-    setRequestState("waiting");
+    setRequestState('waiting');
     helpService
-      .createHelp(title, category["_id"], description, userId)
+      .createHelp(title, category['_id'], description, userId)
       .then((res) => {
-        setRequestState("success");
+        setRequestState('success');
       })
       .catch((err) => {
         const errorMessage = err.response.data.error;
-        if(errorMessage && errorMessage.includes("Limite máximo")){
+        if (errorMessage && errorMessage.includes('Limite máximo')) {
           setLimitErrorMessage(errorMessage);
         }
-        setRequestState("fail");
+        setRequestState('fail');
       });
   }
   return (
@@ -91,26 +91,16 @@ export default function CreateHelp({ navigation }) {
                 <Picker
                   label="Categoria"
                   selectedValue={category}
-                  onValueChange={(itemValue) => setCategory(itemValue)}
-                >
+                  onValueChange={(itemValue) => setCategory(itemValue)}>
                   <Picker.Item label="" value={{}} />
                   {categories.map((cat) => (
-                    <Picker.Item
-                      key={cat._id}
-                      color={colors.dark}
-                      label={cat.name}
-                      value={cat}
-                    />
+                    <Picker.Item key={cat._id} color={colors.dark} label={cat.name} value={cat} />
                   ))}
                 </Picker>
               </View>
             </View>
             <View style={styles.margiView} />
-            <Input
-              label="Descrição"
-              textarea
-              change={(text) => setDescription(text)}
-            />
+            <Input label="Descrição" textarea change={(text) => setDescription(text)} />
             <Text>{description.length}/300</Text>
           </View>
 
@@ -118,12 +108,7 @@ export default function CreateHelp({ navigation }) {
             {loading ? (
               <ActivityIndicator size="large" color={colors.primary} />
             ) : (
-              <Button
-                title="Preciso de ajuda"
-                large
-                disabled={buttonDisabled}
-                press={createHelp}
-              />
+              <Button title="Preciso de ajuda" large disabled={buttonDisabled} press={createHelp} />
             )}
           </View>
         </View>
@@ -135,8 +120,7 @@ export default function CreateHelp({ navigation }) {
             transparent={true}
             style={styles.modal}
             animationType="fade"
-            visible={modalVisible}
-          >
+            visible={modalVisible}>
             <View style={[styles.backdrop, styles.centeredView]}>
               <View style={styles.modalView}>
                 {modalVerification ? (
@@ -145,17 +129,19 @@ export default function CreateHelp({ navigation }) {
                   </Text>
                 ) : (
                   <Text style={styles.modalText}>
-                   {limitErrorMessage ? limitErrorMessage :"Houve algum problema com sua solicitação. Tente mais tarde."}
+                    {limitErrorMessage
+                      ? limitErrorMessage
+                      : 'Houve algum problema com sua solicitação. Tente mais tarde.'}
                   </Text>
                 )}
 
                 <Button
-                  type={modalVerification ? null : "danger"}
+                  type={modalVerification ? null : 'danger'}
                   large
                   press={() => {
                     setModalVisible(!modalVisible);
 
-                    modalVerification ? navigation.navigate("main") : null;
+                    modalVerification ? navigation.navigate('main') : null;
                   }}
                   title="OK"
                 />

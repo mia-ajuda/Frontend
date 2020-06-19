@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import fonts from "../../../../assets/styles/fontVariable";
+import { StyleSheet } from 'react-native';
+import fonts from '../../../../assets/styles/fontVariable';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,24 +10,24 @@ const styles = StyleSheet.create({
     ...fonts.subtitle,
     fontSize: 20,
     marginBottom: 10,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     paddingHorizontal: 20,
   },
   userInfo: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   profileImage: {
     width: 100,
     height: 100,
-    resizeMode: "cover",
+    resizeMode: 'cover',
     borderRadius: 50,
     marginHorizontal: 10,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   infoTextView: {
-    alignSelf: "center",
+    alignSelf: 'center',
     marginLeft: 40,
     paddingRight: 100,
   },
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
   helpInfo: {
     flex: 1,
     marginTop: 50,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   helpInfo: {
     flex: 3,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     padding: 20,
   },
 
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
 
   ViewLink: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });
 

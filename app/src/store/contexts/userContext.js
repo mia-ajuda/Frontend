@@ -1,13 +1,10 @@
-import React, { useReducer, createContext, useState, useEffect } from "react";
-import { AsyncStorage } from "react-native";
-import { userReducer } from "../reducers/userReducer";
-import UserService from "../../services/User";
-import actions from "../actions";
-import firebase from "firebase";
-import {
-  requestPermissionsAsync,
-  getCurrentPositionAsync,
-} from "expo-location";
+import React, { useReducer, createContext, useState, useEffect } from 'react';
+import { AsyncStorage } from 'react-native';
+import { userReducer } from '../reducers/userReducer';
+import UserService from '../../services/User';
+import actions from '../actions';
+import firebase from 'firebase';
+import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 
 export const UserContext = createContext();
 
@@ -18,7 +15,7 @@ export const UserContextProvider = (props) => {
   const [currentRegion, setCurrentRegion] = useState(null);
 
   async function getUserInfo() {
-    const accessToken = await AsyncStorage.getItem("accessToken");
+    const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken) {
       try {
         const user = await UserService.requestUserData();
@@ -35,7 +32,7 @@ export const UserContextProvider = (props) => {
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         user.getIdToken().then(async (acesstoken) => {
-          await AsyncStorage.setItem("accessToken", acesstoken);
+          await AsyncStorage.setItem('accessToken', acesstoken);
           getUserInfo();
         });
       } else {

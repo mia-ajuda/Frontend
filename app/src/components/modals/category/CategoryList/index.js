@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react';
 import {
   View,
   Modal,
@@ -6,20 +6,18 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
-} from "react-native";
-import Buttom from "../../../UI/button";
-import SelectBox from "../../../UI/selectBox";
-import styles from "./styles";
-import { Icon } from "react-native-elements";
-import CategoryDescriptionModal from "../categoryDescription";
-import { CategoryContext } from "../../../../store/contexts/categoryContext";
+} from 'react-native';
+import Buttom from '../../../UI/button';
+import SelectBox from '../../../UI/selectBox';
+import styles from './styles';
+import { Icon } from 'react-native-elements';
+import CategoryDescriptionModal from '../categoryDescription';
+import { CategoryContext } from '../../../../store/contexts/categoryContext';
 
 export default function CategoryList({ visible, setVisible }) {
   const [descriptionModalVisible, setDescriptionModalVisible] = useState(false);
   const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
-  const { categories, setSelectedCategories, selectedCategories } = useContext(
-    CategoryContext
-  );
+  const { categories, setSelectedCategories, selectedCategories } = useContext(CategoryContext);
 
   async function filterHelplist() {
     setSelectedCategories(selectedCategoryArray);
@@ -36,15 +34,13 @@ export default function CategoryList({ visible, setVisible }) {
       visible={visible}
       animationType="fade"
       transparent
-      onRequestClose={() => setVisible(false)}
-    >
+      onRequestClose={() => setVisible(false)}>
       <TouchableOpacity
         style={styles.modalContainer}
         activeOpacity={1}
         onPress={() => {
           setVisible(false);
-        }}
-      >
+        }}>
         <TouchableWithoutFeedback>
           <View style={styles.modalContent}>
             <View style={styles.contentHeader}>
@@ -53,14 +49,8 @@ export default function CategoryList({ visible, setVisible }) {
                 style={styles.icon}
                 onPress={() => {
                   setDescriptionModalVisible(!descriptionModalVisible);
-                }}
-              >
-                <Icon
-                  name="question-circle"
-                  type="font-awesome"
-                  color="#C4C4C4"
-                  size={40}
-                />
+                }}>
+                <Icon name="question-circle" type="font-awesome" color="#C4C4C4" size={40} />
               </TouchableOpacity>
             </View>
             <CategoryDescriptionModal

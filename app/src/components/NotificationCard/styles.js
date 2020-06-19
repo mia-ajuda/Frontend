@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import colors from "../../../assets/styles/colorVariables";
-import fonts from "../../../assets/styles/fontVariable";
+import colors from '../../../assets/styles/colorVariables';
+import fonts from '../../../assets/styles/fontVariable';
 
 export default StyleSheet.create({
   cardContainer: {
@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
     marginTop: 15,
 
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -23,34 +23,34 @@ export default StyleSheet.create({
     backgroundColor: colors.light,
     borderRadius: 8,
 
-    flexDirection: "row",
+    flexDirection: 'row',
 
     paddingVertical: 15,
 
-    width: "100%",
+    width: '100%',
   },
 
   iconContent: {
     width: 30,
     height: 30,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginLeft: 15,
     borderRadius: 50,
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
 
   info: {
     marginLeft: 15,
-    width: "75%"
+    width: '75%',
   },
 
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 16,
   },
 
   time: {
-    color: "rgba(0, 0, 0, 0.6)",
-    fontWeight: "400",
+    color: 'rgba(0, 0, 0, 0.6)',
+    fontWeight: '400',
   },
 });

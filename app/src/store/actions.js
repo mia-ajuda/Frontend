@@ -1,14 +1,14 @@
 const actions = {
   user: {
-    storeUserInfo: "STORE_USER",
-    removeUserInfo: "REMOVE_USER",
-    requestSignIn: "SIGNIN",
+    storeUserInfo: 'STORE_USER',
+    removeUserInfo: 'REMOVE_USER',
+    requestSignIn: 'SIGNIN',
   },
   help: {
-    storeList: "ADD_HELP",
+    storeList: 'ADD_HELP',
   },
   category: {
-    getCategories: "GET_CATEGORIES",
+    getCategories: 'GET_CATEGORIES',
   },
 };
 

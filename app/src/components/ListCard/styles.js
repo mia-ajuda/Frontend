@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import colors from "../../../assets/styles/colorVariables";
-import fonts from "../../../assets/styles/fontVariable";
+import colors from '../../../assets/styles/colorVariables';
+import fonts from '../../../assets/styles/fontVariable';
 
 export default StyleSheet.create({
   cardContainer: {
@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
     marginTop: 20,
 
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1,
@@ -23,8 +23,8 @@ export default StyleSheet.create({
     backgroundColor: colors.light,
     borderRadius: 8,
 
-    justifyContent: "center",
-    alignItems: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
 
     paddingLeft: 20,
     paddingRight: 20,
@@ -33,31 +33,31 @@ export default StyleSheet.create({
   },
 
   cardTitle: {
-    maxWidth: "100%",
-    maxHeight: "30%",
+    maxWidth: '100%',
+    maxHeight: '30%',
   },
 
   titleContent: {
     ...fonts.title,
-    fontFamily: "montserrat-semibold",
+    fontFamily: 'montserrat-semibold',
     color: colors.primary,
 
     lineHeight: 30,
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   cardDescription: {
     marginTop: 5,
-    maxWidth: "100%",
-    maxHeight: "70%",
+    maxWidth: '100%',
+    maxHeight: '70%',
 
-    alignItems: "flex-start",
-    justifyContent: "center",
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
 
   descriptionContent: {
-    fontStyle: "normal",
-    fontWeight: "normal",
+    fontStyle: 'normal',
+    fontWeight: 'normal',
     fontSize: 12,
 
     lineHeight: 14,
@@ -72,26 +72,26 @@ export default StyleSheet.create({
 
     paddingHorizontal: 15,
 
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
   },
 
   categoryName: {
     ...fonts.body,
-    fontFamily: "montserrat-semibold",
+    fontFamily: 'montserrat-semibold',
     lineHeight: 30,
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   bottomItens: {
-    width: "100%",
+    width: '100%',
     marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   labelBadge: {
-    color: "#FFF",
-    fontWeight: "bold",
+    color: '#FFF',
+    fontWeight: 'bold',
   },
   badgeStyle: {
     backgroundColor: colors.danger,
@@ -100,7 +100,7 @@ export default StyleSheet.create({
     borderRadius: 50,
   },
   containerBadge: {
-    position: "absolute",
+    position: 'absolute',
     top: -7,
     right: -6,
   },

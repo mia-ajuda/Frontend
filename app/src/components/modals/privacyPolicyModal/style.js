@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
-import fonts from "../../../../assets/styles/fontVariable";
+import { StyleSheet } from 'react-native';
+import fonts from '../../../../assets/styles/fontVariable';
 const styles = StyleSheet.create({
   backButton: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 5,
     left: 15,
     top: 15,
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   privacyText: {
     ...fonts.subtitle,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#000",
+    borderBottomColor: '#000',
     fontSize: 16,
   },
 });

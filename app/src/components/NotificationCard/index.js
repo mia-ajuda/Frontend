@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
-import { Icon } from "react-native-elements";
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
 
-import colors from "../../../assets/styles/colorVariables";
-import styles from "./styles";
+import colors from '../../../assets/styles/colorVariables';
+import styles from './styles';
 
 export default function NotificationCard({
   notificationType,
@@ -13,7 +13,7 @@ export default function NotificationCard({
   dateNow,
 }) {
   const [time, setTime] = useState(``);
-  const [iconName, setIconName] = useState("bell");
+  const [iconName, setIconName] = useState('bell');
   const [iconBackground, setIconBackground] = useState(colors.primary);
 
   useEffect(() => {
@@ -22,9 +22,9 @@ export default function NotificationCard({
     let msDifferenceTime = dateNow.getTime() - date.getTime();
     if (msDifferenceTime < 0) {
       setTime('Agora');
-    } else{
+    } else {
       let interval = new Date(msDifferenceTime);
-      // Qualquer data registrada é contada a partir de 1970, 
+      // Qualquer data registrada é contada a partir de 1970,
       //então para pegar a quantidade certa de anos que passaram substraísse 1970.
       let yearsPassed = interval.getUTCFullYear() - 1970;
       let monthsPassed = interval.getUTCMonth();
@@ -32,7 +32,7 @@ export default function NotificationCard({
       let daysPassed = interval.getUTCDate() - 1;
       let hoursPassed = interval.getUTCHours();
       let minutesPassed = interval.getUTCMinutes();
-     
+
       if (yearsPassed > 0) {
         yearsPassed > 1
           ? setTime(`${yearsPassed} anos atrás`)
@@ -42,9 +42,7 @@ export default function NotificationCard({
           ? setTime(`${monthsPassed} meses atrás`)
           : setTime(`${monthsPassed} mês atrás`);
       } else if (daysPassed > 0) {
-        daysPassed > 1
-          ? setTime(`${daysPassed} dias atrás`)
-          : setTime(`${daysPassed} dia atrás`);
+        daysPassed > 1 ? setTime(`${daysPassed} dias atrás`) : setTime(`${daysPassed} dia atrás`);
       } else if (hoursPassed > 0) {
         hoursPassed > 1
           ? setTime(`${hoursPassed} horas atrás`)
@@ -56,30 +54,28 @@ export default function NotificationCard({
       } else {
         setTime(`Agora`);
       }
-
     }
-    
   }, [dateNow]);
 
   useEffect(() => {
     switch (notificationType) {
-      case "ajudaRecebida":
-        setIconName("bell");
+      case 'ajudaRecebida':
+        setIconName('bell');
         setIconBackground(colors.primary);
         break;
 
-      case "ajudaAceita":
-        setIconName("bell");
+      case 'ajudaAceita':
+        setIconName('bell');
         setIconBackground(colors.primary);
         break;
 
-      case "ajudaFinalizada":
-        setIconName("check");
+      case 'ajudaFinalizada':
+        setIconName('check');
         setIconBackground(colors.danger);
         break;
 
-      case "ajudaExpirada":
-        setIconName("exclamation");
+      case 'ajudaExpirada':
+        setIconName('exclamation');
         setIconBackground(colors.danger);
         break;
     }
@@ -88,12 +84,7 @@ export default function NotificationCard({
   return (
     <View style={styles.cardContainer}>
       <View style={[styles.iconContent, { backgroundColor: iconBackground }]}>
-        <Icon
-          size={15}
-          name={iconName}
-          type="font-awesome"
-          color={colors.light}
-        />
+        <Icon size={15} name={iconName} type="font-awesome" color={colors.light} />
       </View>
 
       <View style={styles.info}>

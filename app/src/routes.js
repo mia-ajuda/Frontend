@@ -1,39 +1,39 @@
-import React, { useContext, useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Image, StatusBar, View, Text } from "react-native";
-import { Icon, Tile } from "react-native-elements";
-import { UserContext } from "./store/contexts/userContext";
-import Constants from "expo-constants";
+import React, { useContext, useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Image, StatusBar, View, Text } from 'react-native';
+import { Icon, Tile } from 'react-native-elements';
+import { UserContext } from './store/contexts/userContext';
+import Constants from 'expo-constants';
 
-import Profile from "./pages/profile/ListProfile";
-import EditProfile from "./pages/profile/EditProfile";
-import Notification from "./pages/notification";
-import on_goingGivenHelp from "./pages/helpPages/givenHelps/on_going";
-import finishedGivenHelp from "./pages/helpPages/givenHelps/finished";
-import Login from "./pages/authPages/Login";
-import Location from "./pages/authPages/Location";
-import RegistrationData from "./pages/authPages/RegistrationData";
-import PersonalData from "./pages/authPages/PersonalData";
-import RiskGroup from "./pages/authPages/RiskGroup";
-import Photo from "./pages/authPages/Photo";
-import Address from "./pages/authPages/Address";
-import ForgotPassword from "./pages/authPages/ForgotPassword";
-import Main from "./pages/Main";
+import Profile from './pages/profile/ListProfile';
+import EditProfile from './pages/profile/EditProfile';
+import Notification from './pages/notification';
+import on_goingGivenHelp from './pages/helpPages/givenHelps/on_going';
+import finishedGivenHelp from './pages/helpPages/givenHelps/finished';
+import Login from './pages/authPages/Login';
+import Location from './pages/authPages/Location';
+import RegistrationData from './pages/authPages/RegistrationData';
+import PersonalData from './pages/authPages/PersonalData';
+import RiskGroup from './pages/authPages/RiskGroup';
+import Photo from './pages/authPages/Photo';
+import Address from './pages/authPages/Address';
+import ForgotPassword from './pages/authPages/ForgotPassword';
+import Main from './pages/Main';
 
-import OnGoingHelps from "./pages/helpPages/MyRequests/onGoing";
-import DoneHelps from "./pages/helpPages/MyRequests/doneHelps";
+import OnGoingHelps from './pages/helpPages/MyRequests/onGoing';
+import DoneHelps from './pages/helpPages/MyRequests/doneHelps';
 
-import colors from "../assets/styles/colorVariables";
-import CreateHelp from "./pages/helpPages/createHelp";
-import fonts from "../assets/styles/fontVariable";
-import Splash from "./pages/splash";
-import HelpDescription from "./pages/helpPages/helpDescription";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { HelpContext } from "./store/contexts/helpContext";
+import colors from '../assets/styles/colorVariables';
+import CreateHelp from './pages/helpPages/createHelp';
+import fonts from '../assets/styles/fontVariable';
+import Splash from './pages/splash';
+import HelpDescription from './pages/helpPages/helpDescription';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { HelpContext } from './store/contexts/helpContext';
 
-const backImage = require("../assets/images/back.png");
+const backImage = require('../assets/images/back.png');
 
 const BottomNavigation = createBottomTabNavigator();
 const MainStack = createStackNavigator();
@@ -45,14 +45,10 @@ const ProfileStack = createStackNavigator();
 const MainNavigation = () => (
   <>
     <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
-      <MainStack.Screen
-        name="main"
-        component={Main}
-        options={{ headerShown: false }}
-      />
+      <MainStack.Screen name="main" component={Main} options={{ headerShown: false }} />
       <MainStack.Screen
         name="createHelp"
-        options={{ title: "Pedir ajuda" }}
+        options={{ title: 'Pedir ajuda' }}
         component={CreateHelp}
       />
       <MainStack.Screen
@@ -70,16 +66,9 @@ const navigationGivenHelps = () => {
   return (
     <HelpTopBarNavigation.Navigator
       initialRouteName="em andamento"
-      tabBarOptions={tabTopBarOptions}
-    >
-      <HelpTopBarNavigation.Screen
-        name="em andamento"
-        component={on_goingGivenHelp}
-      />
-      <HelpTopBarNavigation.Screen
-        name="finalizadas"
-        component={finishedGivenHelp}
-      />
+      tabBarOptions={tabTopBarOptions}>
+      <HelpTopBarNavigation.Screen name="em andamento" component={on_goingGivenHelp} />
+      <HelpTopBarNavigation.Screen name="finalizadas" component={finishedGivenHelp} />
     </HelpTopBarNavigation.Navigator>
   );
 };
@@ -101,10 +90,7 @@ const HelpTopBar = () => (
 
 const navigationAskedHelps = () => {
   return (
-    <MyRequestsTab.Navigator
-      initialRouteName="em andamento"
-      tabBarOptions={tabTopBarOptions}
-    >
+    <MyRequestsTab.Navigator initialRouteName="em andamento" tabBarOptions={tabTopBarOptions}>
       <MyRequestsTab.Screen name="em andamento" component={OnGoingHelps} />
       <MyRequestsTab.Screen name="finalizados" component={DoneHelps} />
     </MyRequestsTab.Navigator>
@@ -134,7 +120,7 @@ const ProfileNavigation = () => (
         name="EditProfile"
         component={EditProfile}
         options={({ route }) => ({
-          title: "Editar Perfil",
+          title: 'Editar Perfil',
         })}
       />
     </ProfileStack.Navigator>
@@ -160,7 +146,7 @@ const BottomTab = () => {
         inactiveBackgroundColor: colors.primary,
         activeBackgroundColor: colors.primary,
         tabStyle: {
-          justifyContent: "center",
+          justifyContent: 'center',
         },
         showLabel: false,
       }}
@@ -169,47 +155,45 @@ const BottomTab = () => {
           let selectConfig;
 
           switch (route.name) {
-            case "main":
+            case 'main':
               selectConfig = focused
                 ? {
-                    src: require("../assets/images/whileLogo.png"),
+                    src: require('../assets/images/whileLogo.png'),
                     size: { height: 40, width: 40 },
                   }
                 : {
-                    src: require("../assets/images/whiteCat.png"),
-                    size: { height: 25, width: 25, resizeMode: "contain" },
+                    src: require('../assets/images/whiteCat.png'),
+                    size: { height: 25, width: 25, resizeMode: 'contain' },
                   };
-              return (
-                <Image source={selectConfig.src} style={selectConfig.size} />
-              );
+              return <Image source={selectConfig.src} style={selectConfig.size} />;
 
-            case "helpList":
+            case 'helpList':
               selectConfig = focused
-                ? { color: colors.primary, raised: true, name: "outdent" }
-                : { color: colors.light, raised: false, name: "outdent" };
+                ? { color: colors.primary, raised: true, name: 'outdent' }
+                : { color: colors.light, raised: false, name: 'outdent' };
               break;
 
-            case "givenHelp":
+            case 'givenHelp':
               selectConfig = focused
-                ? { color: colors.primary, raised: true, name: "outdent" }
-                : { color: colors.light, raised: false, name: "outdent" };
+                ? { color: colors.primary, raised: true, name: 'outdent' }
+                : { color: colors.light, raised: false, name: 'outdent' };
               break;
-            case "notification":
+            case 'notification':
               selectConfig = focused
-                ? { color: colors.primary, raised: true, name: "bell" }
-                : { color: colors.light, raised: false, name: "bell" };
+                ? { color: colors.primary, raised: true, name: 'bell' }
+                : { color: colors.light, raised: false, name: 'bell' };
               break;
-            case "profile":
+            case 'profile':
               selectConfig = focused
                 ? {
                     color: colors.primary,
                     raised: true,
-                    name: "user-circle",
+                    name: 'user-circle',
                   }
                 : {
                     color: colors.light,
                     raised: false,
-                    name: "user-circle",
+                    name: 'user-circle',
                   };
               break;
           }
@@ -225,13 +209,9 @@ const BottomTab = () => {
           );
         },
       })}
-      initialRouteName="main"
-    >
+      initialRouteName="main">
       <BottomNavigation.Screen name="notification" component={Notification} />
-      <BottomNavigation.Screen
-        name="helpList"
-        component={MyRequestsNavigation}
-      />
+      <BottomNavigation.Screen name="helpList" component={MyRequestsNavigation} />
       <BottomNavigation.Screen name="main" component={MainNavigation} />
       <BottomNavigation.Screen name="givenHelp" component={HelpTopBar} />
       <BottomNavigation.Screen name="profile" component={ProfileNavigation} />
@@ -251,15 +231,11 @@ const AuthRoutes = () => {
         initialRouteName="login"
         screenOptions={{
           headerShown: false,
-        }}
-      >
+        }}>
         <AuthStack.Screen name="login" component={Login} />
         <AuthStack.Screen name="location" component={Location} />
         <AuthStack.Screen name="address" component={Address} />
-        <AuthStack.Screen
-          name="registrationData"
-          component={RegistrationData}
-        />
+        <AuthStack.Screen name="registrationData" component={RegistrationData} />
         <AuthStack.Screen name="personalData" component={PersonalData} />
         <AuthStack.Screen name="riskGroup" component={RiskGroup} />
         <AuthStack.Screen name="photo" component={Photo} />
@@ -275,7 +251,7 @@ const headerStyle = {
       source={backImage}
       style={{
         flex: 1,
-        resizeMode: "contain",
+        resizeMode: 'contain',
         width: 10,
         marginLeft: 5,
       }}
@@ -289,11 +265,11 @@ const headerStyle = {
   headerTitleStyle: {
     ...fonts.title,
     color: colors.light,
-    fontFamily: "montserrat-medium",
+    fontFamily: 'montserrat-medium',
     marginHorizontal: 30,
   },
   headerTintColor: colors.light,
-  headerTitleAlign: "center",
+  headerTitleAlign: 'center',
 };
 
 const tabTopBarOptions = {
@@ -313,11 +289,7 @@ const tabTopBarOptions = {
 
 const Routes = () => {
   const { user } = useContext(UserContext);
-  return (
-    <NavigationContainer>
-      {user._id ? <BottomTab /> : <AuthRoutes />}
-    </NavigationContainer>
-  );
+  return <NavigationContainer>{user._id ? <BottomTab /> : <AuthRoutes />}</NavigationContainer>;
 };
 
 export default Routes;

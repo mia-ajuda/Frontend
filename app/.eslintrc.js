@@ -17,7 +17,8 @@ module.exports = {
     },
     'plugins': [
         'react',
-        'react-hooks'
+        'react-hooks',
+        'prettier'
     ],
     'rules': {
         'indent': [

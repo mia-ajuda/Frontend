@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -6,53 +6,48 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   Alert,
-} from "react-native";
-import { UserContext } from "../../../store/contexts/userContext";
-import { TextInputMask } from "react-native-masked-text";
-import Button from "../../../components/UI/button";
-import Input from "../../../components/UI/input";
-import colors from "../../../../assets/styles/colorVariables";
-import UserService from "../../../services/User";
-import axios from "axios";
-import styles from "./styles";
-import actions from "../../../store/actions";
-import ConfirmationModal from "../../../components/modals/confirmationModal";
+} from 'react-native';
+import { UserContext } from '../../../store/contexts/userContext';
+import { TextInputMask } from 'react-native-masked-text';
+import Button from '../../../components/UI/button';
+import Input from '../../../components/UI/input';
+import colors from '../../../../assets/styles/colorVariables';
+import UserService from '../../../services/User';
+import axios from 'axios';
+import styles from './styles';
+import actions from '../../../store/actions';
+import ConfirmationModal from '../../../components/modals/confirmationModal';
 
 export default function EditProfile({ route, navigation }) {
-  const [mainField, setMainField] = useState("");
+  const [mainField, setMainField] = useState('');
   const [isMainFieldValid, setMainFieldValid] = useState(true);
-  const [numberPlace, setNumberPlace] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [complement, setComplement] = useState("");
-  const [loading, setLoading] = useState("");
+  const [numberPlace, setNumberPlace] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [complement, setComplement] = useState('');
+  const [loading, setLoading] = useState('');
   const { dispatch } = useContext(UserContext);
   const [loadingModal, setLoadingModal] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    if (route.params.attribute === "phone") {
+    if (route.params.attribute === 'phone') {
       setMainField(route.params.user.phone.slice(3, 14));
-    } else if (route.params.attribute === "name") {
+    } else if (route.params.attribute === 'name') {
       setMainField(route.params.user.name);
     } else {
       const address = route.params.user.address;
-      setMainField(address.cep || "");
-      setCity(address.city || "");
-      setNumberPlace(String(address.number) || "");
-      setComplement(address.complement || "");
-      setState(address.state || "");
+      setMainField(address.cep || '');
+      setCity(address.city || '');
+      setNumberPlace(String(address.number) || '');
+      setComplement(address.complement || '');
+      setState(address.state || '');
     }
   }, []);
 
   const handlePhone = () => {
     let phoneFilter =
-      "+55" +
-      mainField
-        .replace("(", "")
-        .replace(")", "")
-        .replace("-", "")
-        .replace(" ", "");
+      '+55' + mainField.replace('(', '').replace(')', '').replace('-', '').replace(' ', '');
 
     return phoneFilter;
   };
@@ -63,9 +58,7 @@ export default function EditProfile({ route, navigation }) {
     if (currentCep.length === 8) {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://viacep.com.br/ws/${currentCep}/json/`
-        );
+        const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
 
         if (!response.data.erro) {
           const { localidade, uf, logradouro, bairro } = response.data;
@@ -73,7 +66,7 @@ export default function EditProfile({ route, navigation }) {
           setMainFieldValid(true);
           setState(uf);
           setCity(localidade);
-          setComplement(logradouro + " / " + bairro);
+          setComplement(logradouro + ' / ' + bairro);
         } else {
           setMainFieldValid(false);
         }
@@ -114,7 +107,7 @@ export default function EditProfile({ route, navigation }) {
 
   const handleEdit = async () => {
     let data = {};
-    if (route.params.attribute === "cep") {
+    if (route.params.attribute === 'cep') {
       data = {
         cep: mainField,
         number: numberPlace,
@@ -122,7 +115,7 @@ export default function EditProfile({ route, navigation }) {
         city,
         state,
       };
-    } else if (route.params.attribute === "name") {
+    } else if (route.params.attribute === 'name') {
       data = {
         ...route.params.user,
         name: mainField,
@@ -139,29 +132,24 @@ export default function EditProfile({ route, navigation }) {
       setLoadingModal(true);
       const resp = await UserService.editUser(
         data,
-        route.params.attribute === "cep" ? "/address" : ""
+        route.params.attribute === 'cep' ? '/address' : '',
       );
       dispatch({ type: actions.user.storeUserInfo, data: resp });
       setLoadingModal(false);
       setModalVisible(false);
-      Alert.alert(
-        "Sucesso",
-        "Alteração feita com sucesso!",
-        [{ text: "OK", onPress: () => {} }],
-        {
-          cancelable: false,
-        }
-      );
+      Alert.alert('Sucesso', 'Alteração feita com sucesso!', [{ text: 'OK', onPress: () => {} }], {
+        cancelable: false,
+      });
     } catch (err) {
       setLoadingModal(false);
       setModalVisible(false);
       Alert.alert(
-        "Ooops..",
-        err.error || "Algo deu errado, tente novamente mais tarde",
-        [{ text: "OK", onPress: () => {} }],
+        'Ooops..',
+        err.error || 'Algo deu errado, tente novamente mais tarde',
+        [{ text: 'OK', onPress: () => {} }],
         {
           cancelable: false,
-        }
+        },
       );
       console.log(err.message);
     }
@@ -170,56 +158,48 @@ export default function EditProfile({ route, navigation }) {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
       <ConfirmationModal
         visible={isModalVisible}
         setVisible={setModalVisible}
         action={handleEdit}
-        message={"Tem certeza que deseja modificar esta informação?"}
+        message={'Tem certeza que deseja modificar esta informação?'}
         isLoading={loadingModal}
       />
-      <ScrollView
-        style={{ width: "100%" }}
-        contentContainerStyle={styles.scroll}
-      >
+      <ScrollView style={{ width: '100%' }} contentContainerStyle={styles.scroll}>
         {loading ? (
           <View
             style={{
               flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <ActivityIndicator size="large" color={colors.primary} />
           </View>
         ) : (
           <>
-            {route.params.attribute !== "cep" ? (
+            {route.params.attribute !== 'cep' ? (
               <Text style={styles.titleEdit}>
-                Preencha o campo com a nova informação e pressione "Editar" para
-                modificar.
+                Preencha o campo com a nova informação e pressione "Editar" para modificar.
               </Text>
             ) : (
               <></>
             )}
             <View style={styles.content}>
-              {route.params.attribute === "phone" ? (
+              {route.params.attribute === 'phone' ? (
                 <View style={styles.phoneView}>
                   <Text style={styles.label}>Telefone</Text>
                   <TextInputMask
                     style={[
                       styles.inputMask,
-                      mainField === "" || isMainFieldValid
-                        ? styles.valid
-                        : styles.invalid,
+                      mainField === '' || isMainFieldValid ? styles.valid : styles.invalid,
                     ]}
-                    type={"cel-phone"}
+                    type={'cel-phone'}
                     options={{
-                      maskType: "BRL",
+                      maskType: 'BRL',
                       withDDD: true,
-                      dddMask: "(99) ",
+                      dddMask: '(99) ',
                     }}
                     value={mainField}
                     onChangeText={(text) => {
@@ -235,26 +215,20 @@ export default function EditProfile({ route, navigation }) {
                   />
                 </View>
               ) : (
-                <View style={{ width: "100%" }}>
+                <View style={{ width: '100%' }}>
                   <Input
-                    change={
-                      route.params.attribute === "cep" ? cepHandle : handleValue
-                    }
+                    change={route.params.attribute === 'cep' ? cepHandle : handleValue}
                     valid={isMainFieldValid}
-                    label={route.params.attribute === "cep" ? "CEP" : "Nome"}
-                    placeholder={`Digite seu ${
-                      route.params.attribute === "cep" ? "CEP" : "Nome"
-                    }`}
+                    label={route.params.attribute === 'cep' ? 'CEP' : 'Nome'}
+                    placeholder={`Digite seu ${route.params.attribute === 'cep' ? 'CEP' : 'Nome'}`}
                     value={mainField}
-                    keyboard={
-                      route.params.attribute === "cep" ? "numeric" : "default"
-                    }
+                    keyboard={route.params.attribute === 'cep' ? 'numeric' : 'default'}
                   />
                 </View>
               )}
 
-              {route.params.attribute === "cep" ? (
-                <View style={{ width: "100%" }}>
+              {route.params.attribute === 'cep' ? (
+                <View style={{ width: '100%' }}>
                   <View style={styles.viewMargin}></View>
                   <Input
                     change={handleCity}
@@ -263,12 +237,7 @@ export default function EditProfile({ route, navigation }) {
                     placeholder="Digite sua cidade"
                   />
                   <View style={styles.viewMargin}></View>
-                  <Input
-                    change={stateHandle}
-                    value={state}
-                    label="UF"
-                    placeholder="UF"
-                  />
+                  <Input change={stateHandle} value={state} label="UF" placeholder="UF" />
                   <View style={styles.viewMargin}></View>
                   <Input
                     change={handleNumber}
@@ -294,13 +263,10 @@ export default function EditProfile({ route, navigation }) {
               style={styles.btnEdit}
               title="Editar"
               disabled={
-                mainField === "" ||
+                mainField === '' ||
                 !isMainFieldValid ||
-                (route.params.attribute === "cep" &&
-                  (state === "" ||
-                    city === "" ||
-                    numberPlace === "" ||
-                    complement === ""))
+                (route.params.attribute === 'cep' &&
+                  (state === '' || city === '' || numberPlace === '' || complement === ''))
               }
               large
               press={() => setModalVisible(true)}

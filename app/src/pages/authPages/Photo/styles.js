@@ -1,49 +1,49 @@
-import { StyleSheet } from "react-native";
-import fonts from "../../../../assets/styles/fontVariable";
-import colors from "../../../../assets/styles/colorVariables";
+import { StyleSheet } from 'react-native';
+import fonts from '../../../../assets/styles/fontVariable';
+import colors from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 20,
-    backgroundColor: colors.light
+    backgroundColor: colors.light,
   },
   logo: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   button: {
-    backgroundColor: "#c4c4c4",
+    backgroundColor: '#c4c4c4',
     padding: 20,
     borderRadius: 100,
-    alignItems: "center",
+    alignItems: 'center',
   },
   thumbnail: {
     width: 200,
     height: 200,
     borderRadius: 125,
-    marginTop: 20
+    marginTop: 20,
   },
   text: {
     ...fonts.subtitle,
-    fontFamily: "montserrat-semibold",
-    textAlign: "center",
+    fontFamily: 'montserrat-semibold',
+    textAlign: 'center',
   },
   smallText: {
     ...fonts.subtitle,
     fontSize: 12,
-    fontFamily: "montserrat-semibold",
-    textAlign: "left",
+    fontFamily: 'montserrat-semibold',
+    textAlign: 'left',
     marginTop: 5,
     marginBottom: 5,
   },
   hyperLink: {
     ...fonts.subtitle,
     fontSize: 12,
-    fontFamily: "montserrat-semibold",
-    textAlign: "left",
+    fontFamily: 'montserrat-semibold',
+    textAlign: 'left',
     marginTop: 5,
     marginBottom: 5,
     color: colors.primary,
@@ -51,17 +51,17 @@ const styles = StyleSheet.create({
   textView: {
     flex: 6,
     margin: 16,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   btnView: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: 40,
   },
   buttonPreview: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   btn: {
     marginHorizontal: 10,
@@ -69,13 +69,13 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     borderRadius: 4,
     width: 150,
-    alignItems: "center",
+    alignItems: 'center',
   },
   btnText: {
     fontSize: 20,
     color: colors.primary,
     padding: 10,
-    fontFamily: "montserrat-medium",
+    fontFamily: 'montserrat-medium',
   },
   btn1: {
     marginHorizontal: 10,
@@ -84,26 +84,26 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 4,
     width: 150,
-    alignItems: "center",
+    alignItems: 'center',
   },
   btnText1: {
     fontSize: 20,
     color: colors.light,
     padding: 10,
-    fontFamily: "montserrat-medium",
+    fontFamily: 'montserrat-medium',
   },
   selectText: {
     flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginHorizontal: 20,
     marginVertical: 40,
-    width: "75%",
+    width: '75%',
   },
-  backIcon:{
+  backIcon: {
     alignItems: 'flex-start',
-    marginTop:5
-  }
+    marginTop: 5,
+  },
 });
 
 export default styles;

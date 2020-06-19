@@ -1,38 +1,36 @@
-import React, { useState, useContext, useCallback } from "react";
-import { View, ScrollView, ActivityIndicator } from "react-native";
-import ListCard from "../../../../components/ListCard";
-import { UserContext } from "../../../../store/contexts/userContext";
-import helpService from "../../../../services/Help";
-import styles from "../styles";
-import ConfirmationModal from "../../../../components/modals/confirmationModal";
-import { useFocusEffect } from "@react-navigation/native";
-import NoHelps from "../../../../components/NoHelps";
-import colors from "../../../../../assets/styles/colorVariables";
+import React, { useState, useContext, useCallback } from 'react';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
+import ListCard from '../../../../components/ListCard';
+import { UserContext } from '../../../../store/contexts/userContext';
+import helpService from '../../../../services/Help';
+import styles from '../styles';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import { useFocusEffect } from '@react-navigation/native';
+import NoHelps from '../../../../components/NoHelps';
+import colors from '../../../../../assets/styles/colorVariables';
 
 export default function OnGoingHelps({ navigation }) {
   const [onGoingHelpList, setOnGoingHelpList] = useState([]);
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-    false
-  );
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
   const [selectedHelp, setSelectedHelp] = useState(null);
   const [loadingHelps, setLoadingHelps] = useState(false);
-  const [isLoadingModal,setIsLoadingModal] = useState(false);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
   const { user } = useContext(UserContext);
   const { _id: userId } = user;
 
   useFocusEffect(
     useCallback(() => {
       loadOnGoingHelps();
-    }, [navigation])
+    }, [navigation]),
   );
 
   async function loadOnGoingHelps() {
     setLoadingHelps(true);
     try {
       let filteredHelps = await helpService.getHelpMultipleStatus(userId, [
-        "waiting",
-        "on_going",
-        "helper_finished",
+        'waiting',
+        'on_going',
+        'helper_finished',
       ]);
       setOnGoingHelpList(filteredHelps);
       setLoadingHelps(false);
@@ -63,9 +61,8 @@ export default function OnGoingHelps({ navigation }) {
         visible={confirmationModalVisible}
         setVisible={setConfirmationModalVisible}
         action={() => excludeHelp()}
-        message={"Você deseja deletar esse pedido de ajuda?"}
+        message={'Você deseja deletar esse pedido de ajuda?'}
         isLoading={isLoadingModal}
-
       />
       {loadingHelps ? (
         <View style={styles.loadingContainer}>
@@ -96,7 +93,7 @@ export default function OnGoingHelps({ navigation }) {
           </View>
         </ScrollView>
       ) : (
-        <NoHelps title={"Você não possui ajudas em andamento"} />
+        <NoHelps title={'Você não possui ajudas em andamento'} />
       )}
     </View>
   );

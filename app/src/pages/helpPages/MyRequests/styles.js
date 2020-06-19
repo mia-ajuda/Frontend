@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
-import Constants from "expo-constants";
-import colors from "../../../../assets/styles/colorVariables";
-import fonts from "../../../../assets/styles/fontVariable";
+import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import colors from '../../../../assets/styles/colorVariables';
+import fonts from '../../../../assets/styles/fontVariable';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   },
 
   loadingContainer: {
-    height: "100%",
-    justifyContent: "center",
+    height: '100%',
+    justifyContent: 'center',
   },
 });
 

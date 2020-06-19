@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, ActivityIndicator } from "react-native";
-import styles from "../../MyRequests/styles";
-import ListCard from "../../../../components/ListCard";
-import { UserContext } from "../../../../store/contexts/userContext";
-import NoHelps from "../../../../components/NoHelps";
-import helpService from "../../../../services/Help";
-import colors from "../../../../../assets/styles/colorVariables";
+import React, { useContext, useEffect, useState } from 'react';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
+import styles from '../../MyRequests/styles';
+import ListCard from '../../../../components/ListCard';
+import { UserContext } from '../../../../store/contexts/userContext';
+import NoHelps from '../../../../components/NoHelps';
+import helpService from '../../../../services/Help';
+import colors from '../../../../../assets/styles/colorVariables';
 export default function AskedHelps({ navigation }) {
   const { user } = useContext(UserContext);
   const [myHelps, setMyHelps] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       getHelps();
     });
     return unsubscribe;
@@ -20,11 +20,7 @@ export default function AskedHelps({ navigation }) {
 
   async function getHelps() {
     setLoading(true);
-    const helps = await helpService.getHelpMultipleStatus(
-      user._id,
-      "finished",
-      true
-    );
+    const helps = await helpService.getHelpMultipleStatus(user._id, 'finished', true);
     setMyHelps(helps);
     setLoading(false);
   }

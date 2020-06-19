@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  ScrollView,
-  Animated,
-  TouchableWithoutFeedback,
-  Image,
-  Text,
-} from "react-native";
-import { Icon } from "react-native-elements";
-import ListCard from "../ListCard";
+import React, { useState, useEffect, useRef } from 'react';
+import { View, ScrollView, Animated, TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { Icon } from 'react-native-elements';
+import ListCard from '../ListCard';
 
-import colors from "../../../assets/styles/colorVariables";
-import styles from "./styles";
+import colors from '../../../assets/styles/colorVariables';
+import styles from './styles';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
-  const [iconName, setIconName] = useState("caret-up");
+  const [iconName, setIconName] = useState('caret-up');
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(40));
 
   useEffect(() => {
     switch (visible) {
       case true:
-        setIconName("caret-down");
+        setIconName('caret-down');
         Animated.spring(animatedValue, {
           toValue: helps.length > 0 ? 400 : 300,
           tension: 10,
@@ -28,7 +21,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
         break;
 
       case false:
-        setIconName("caret-up");
+        setIconName('caret-up');
         Animated.spring(animatedValue, {
           toValue: 40,
         }).start();
@@ -37,17 +30,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
   }, [visible]);
 
   return (
-    <Animated.View
-      style={[styles.helpListContainer, { height: animatedValue }]}
-    >
+    <Animated.View style={[styles.helpListContainer, { height: animatedValue }]}>
       <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
         <View style={styles.buttonStyle}>
-          <Icon
-            size={25}
-            name={iconName}
-            type="font-awesome"
-            color={colors.light}
-          />
+          <Icon size={25} name={iconName} type="font-awesome" color={colors.light} />
         </View>
       </TouchableWithoutFeedback>
       {visible && (
@@ -56,8 +42,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
             <ScrollView
               style={styles.listContent}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollStyle}
-            >
+              contentContainerStyle={styles.scrollStyle}>
               {helps.map((help, i) => {
                 const isRiskGroup = !!help.user.riskGroup.length;
 
@@ -83,7 +68,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
           ) : (
             <View style={styles.emptyList}>
               <Image
-                source={require("../../../assets/images/whiteCat.png")}
+                source={require('../../../assets/images/whiteCat.png')}
                 style={styles.emptyListImage}
               />
               <Text style={styles.emptyListText}>Não há ajudas próximas </Text>

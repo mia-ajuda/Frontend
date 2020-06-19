@@ -1,17 +1,17 @@
-import { StyleSheet } from "react-native";
-import fonts from "../../../assets/styles/fontVariable";
-import colors from "../../../assets/styles/colorVariables";
+import { StyleSheet } from 'react-native';
+import fonts from '../../../assets/styles/fontVariable';
+import colors from '../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
   },
   emptyListImage: {
-    resizeMode: "contain",
+    resizeMode: 'contain',
     width: 200,
     height: 200,
   },
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     ...fonts.title,
     color: colors.primary,
     marginTop: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 export default styles;

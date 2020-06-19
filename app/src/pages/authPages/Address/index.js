@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -8,34 +8,34 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ToastAndroid,
-} from "react-native";
-import Input from "../../../components/UI/input";
-import Button from "../../../components/UI/button";
-import styles from "./styles";
-import { Icon } from "react-native-elements";
-import axios from "axios";
-import colors from "../../../../assets/styles/colorVariables";
+} from 'react-native';
+import Input from '../../../components/UI/input';
+import Button from '../../../components/UI/button';
+import styles from './styles';
+import { Icon } from 'react-native-elements';
+import axios from 'axios';
+import colors from '../../../../assets/styles/colorVariables';
 
 export default function Address({ route, navigation }) {
   const { userData } = route.params;
 
-  const [cep, setCep] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [complement, setComplement] = useState("");
-  const [numberPlace, setNUmberPlace] = useState("");
+  const [cep, setCep] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [complement, setComplement] = useState('');
+  const [numberPlace, setNUmberPlace] = useState('');
   const [keyboardShow, setKeyboardShow] = useState(false);
   const [isCepValid, setIsCepValid] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
     // cleanup function
     return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
     };
   }, []);
 
@@ -53,9 +53,7 @@ export default function Address({ route, navigation }) {
     if (currentCep.length === 8) {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://viacep.com.br/ws/${currentCep}/json/`
-        );
+        const response = await axios.get(`https://viacep.com.br/ws/${currentCep}/json/`);
 
         if (!response.data.erro) {
           const { localidade, uf, logradouro, bairro } = response.data;
@@ -63,14 +61,14 @@ export default function Address({ route, navigation }) {
           setIsCepValid(true);
           setState(uf);
           setCity(localidade);
-          setComplement(logradouro + " / " + bairro);
+          setComplement(logradouro + ' / ' + bairro);
         } else {
           ToastAndroid.showWithGravityAndOffset(
-            "CEP não encontrado!",
+            'CEP não encontrado!',
             ToastAndroid.LONG,
             ToastAndroid.CENTER,
             25,
-            50
+            50,
           );
 
           setIsCepValid(false);
@@ -108,30 +106,26 @@ export default function Address({ route, navigation }) {
     const address = { cep, city, state, number: numberPlace, complement };
     const newUserData = { address, ...userData };
     userData.photo
-      ? navigation.navigate("riskGroup", { userData: newUserData })
-      : navigation.navigate("photo", { userData: newUserData });
+      ? navigation.navigate('riskGroup', { userData: newUserData })
+      : navigation.navigate('photo', { userData: newUserData });
   };
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
       {!keyboardShow && !loading ? (
         <View>
           <View style={styles.backIcon}>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.button}
-            >
-              <Icon name={"arrow-back"} color={"black"} />
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+              <Icon name={'arrow-back'} color={'black'} />
             </TouchableOpacity>
           </View>
           <View>
             <Text style={styles.text1}>
-              Precisamos de algumas informações sobre onde você mora!! Por favor
-              preencha as informações abaixo?
+              Precisamos de algumas informações sobre onde você mora!! Por favor preencha as
+              informações abaixo?
             </Text>
           </View>
         </View>
@@ -141,10 +135,7 @@ export default function Address({ route, navigation }) {
 
       {!loading ? (
         <>
-          <ScrollView
-            style={{ width: "100%" }}
-            contentContainerStyle={styles.scroll}
-          >
+          <ScrollView style={{ width: '100%' }} contentContainerStyle={styles.scroll}>
             <View style={styles.inputView}>
               <Input
                 change={cepHandle}
@@ -162,12 +153,7 @@ export default function Address({ route, navigation }) {
                 placeholder="Digite sua cidade"
               />
               <View style={styles.viewMargin}></View>
-              <Input
-                change={stateHandle}
-                value={state}
-                label="UF"
-                placeholder="UF"
-              />
+              <Input change={stateHandle} value={state} label="UF" placeholder="UF" />
               <View style={styles.viewMargin}></View>
               <Input
                 change={numberHandle}
@@ -190,11 +176,7 @@ export default function Address({ route, navigation }) {
             <Button
               title="Continuar"
               disabled={
-                cep === "" ||
-                city === "" ||
-                state === "" ||
-                numberPlace === "" ||
-                !isCepValid
+                cep === '' || city === '' || state === '' || numberPlace === '' || !isCepValid
               }
               large
               press={continueHandler}
@@ -206,10 +188,9 @@ export default function Address({ route, navigation }) {
           <View
             style={{
               flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <ActivityIndicator size="large" color={colors.primary} />
           </View>
         </>

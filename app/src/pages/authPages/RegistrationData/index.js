@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   KeyboardAvoidingView,
@@ -7,35 +7,35 @@ import {
   Keyboard,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
-import UserService from "../../../services/User";
-import colors from "../../../../assets/styles/colorVariables";
+} from 'react-native';
+import UserService from '../../../services/User';
+import colors from '../../../../assets/styles/colorVariables';
 
-import Input from "../../../components/UI/input";
-import Button from "../../../components/UI/button";
-import styles from "./styles";
-import emailValidator from "../../../utils/emailValidation";
-import { Icon } from "react-native-elements";
+import Input from '../../../components/UI/input';
+import Button from '../../../components/UI/button';
+import styles from './styles';
+import emailValidator from '../../../utils/emailValidation';
+import { Icon } from 'react-native-elements';
 
 export default function RegistrationData({ route, navigation }) {
   const { userData } = route.params;
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(true);
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [confirmPass, setConfirmPass] = useState(true);
   const [keyboardShow, setKeyboardShow] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
 
     // cleanup function
     return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
     };
   }, []);
 
@@ -72,7 +72,7 @@ export default function RegistrationData({ route, navigation }) {
       hasUser: false,
       ...userData,
     };
-    navigation.navigate("personalData", { userData: newUserData });
+    navigation.navigate('personalData', { userData: newUserData });
   };
 
   const verifyEmailAdress = async () => {
@@ -80,8 +80,7 @@ export default function RegistrationData({ route, navigation }) {
       setLoading(true);
       Keyboard.dismiss();
       const doesEmailExist = await UserService.verifyUserInfo(email);
-      if (doesEmailExist)
-        throw "Esse email já está sendo usado por outro usuário";
+      if (doesEmailExist) throw 'Esse email já está sendo usado por outro usuário';
       continueHandler();
     } catch (err) {
       setError(err);
@@ -91,20 +90,13 @@ export default function RegistrationData({ route, navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.safeAreaView}
-    >
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={styles.safeAreaView}>
       {!keyboardShow ? (
         <View>
           <View style={styles.backIcon}>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={styles.button}
-            >
-              <Icon
-                name={"arrow-back"}
-                color={!keyboardShow ? "black" : "#f7f7f7"}
-              />
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+              <Icon name={'arrow-back'} color={!keyboardShow ? 'black' : '#f7f7f7'} />
             </TouchableOpacity>
           </View>
           <View style={styles.title}>
@@ -118,8 +110,7 @@ export default function RegistrationData({ route, navigation }) {
       )}
       <ScrollView
         style={[!keyboardShow ? styles.scroll : styles.scroll2]}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <View style={styles.form}>
           {error && <Text style={styles.errorMessage}>{error}</Text>}
 
@@ -129,7 +120,7 @@ export default function RegistrationData({ route, navigation }) {
             label="Email"
             placeholder="email@exemplo.com"
             valid={emailIsValid}
-            autoComplete={"off"}
+            autoComplete={'off'}
           />
           <View style={styles.viewMargin} />
 
@@ -138,7 +129,7 @@ export default function RegistrationData({ route, navigation }) {
             change={passwordHandler}
             label="Senha (pelo menos 8 caracteres)"
             placeholder="Senha"
-            valid={password.length >= 8 || password === ""}
+            valid={password.length >= 8 || password === ''}
           />
           <View style={styles.viewMargin} />
 

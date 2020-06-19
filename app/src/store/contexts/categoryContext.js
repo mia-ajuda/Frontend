@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import Category from "../../services/Category";
-import { UserContext } from "./userContext";
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import Category from '../../services/Category';
+import { UserContext } from './userContext';
 
 export const CategoryContext = createContext();
 
@@ -19,9 +19,7 @@ export default function CategoryContextProvider(props) {
   }
 
   return (
-    <CategoryContext.Provider
-      value={{ categories, selectedCategories, setSelectedCategories }}
-    >
+    <CategoryContext.Provider value={{ categories, selectedCategories, setSelectedCategories }}>
       {props.children}
     </CategoryContext.Provider>
   );

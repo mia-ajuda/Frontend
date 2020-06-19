@@ -1,21 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
-import { View, Text, Image, ScrollView, ActivityIndicator } from "react-native";
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 
-import NotificationCard from "../../components/NotificationCard";
-import { UserContext } from "../../store/contexts/userContext";
-import NotificationService from "../../services/Notification";
-import colors from "../../../assets/styles/colorVariables";
-import styles from "./styles";
+import NotificationCard from '../../components/NotificationCard';
+import { UserContext } from '../../store/contexts/userContext';
+import NotificationService from '../../services/Notification';
+import colors from '../../../assets/styles/colorVariables';
+import styles from './styles';
 
-export default function Notification({navigation}) {
-  const [loading,setLoading] = useState(false);
+export default function Notification({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { user } = useContext(UserContext);
 
   const { _id: userId } = user;
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       loadNotifications();
     });
     return unsubscribe;
@@ -37,12 +37,11 @@ export default function Notification({navigation}) {
         <Text style={styles.headerText}> Notificações </Text>
       </View>
 
-      { loading ? (
-        <View style = { styles.loadingContainer } >
-            <ActivityIndicator size="large" color={colors.primary} />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
-        ) : 
-        notifications.length > 0 ? (
+      ) : notifications.length > 0 ? (
         <ScrollView>
           <View style={styles.notificationList}>
             {notifications.map((item) => (
@@ -52,7 +51,7 @@ export default function Notification({navigation}) {
                 notificationTitle={item.title}
                 notificationBody={item.body}
                 notificationDate={item.registerDate}
-                dateNow = {Date.now()}
+                dateNow={Date.now()}
               />
             ))}
           </View>
@@ -60,7 +59,7 @@ export default function Notification({navigation}) {
       ) : (
         <View style={styles.noNotifications}>
           <Image
-            source={require("../../../assets/images/blueCat.png")}
+            source={require('../../../assets/images/blueCat.png')}
             style={styles.emptyListImage}
           />
           <Text style={styles.emptyListText}>Você não possui notificações</Text>

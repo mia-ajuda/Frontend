@@ -106,6 +106,6 @@ Certifique-se, pois, de ler atentamente qualquer aviso desta natureza.
 
 Obrigado por ler a nossa Política. Se tiver alguma dúvida sobre a presente Política, entre em contato com a Equipe Mia-Ajuda, que se encontra na Universidade de Braília, LESC - Laboratório de Engenharia de Software Colaborativo/LDTEA - FGA S9.
 
-`
+`;
 
 export default privacy;

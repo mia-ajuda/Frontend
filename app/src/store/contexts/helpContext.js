@@ -1,16 +1,10 @@
-import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import helpReducer from "../reducers/helpReducer";
-import { LocationContext } from "./locationContext";
-import { UserContext } from "./userContext";
-import { CategoryContext } from "./categoryContext";
-import actions from "../actions";
-import HelpService from "../../services/Help";
+import React, { createContext, useReducer, useContext, useEffect, useState } from 'react';
+import helpReducer from '../reducers/helpReducer';
+import { LocationContext } from './locationContext';
+import { UserContext } from './userContext';
+import { CategoryContext } from './categoryContext';
+import actions from '../actions';
+import HelpService from '../../services/Help';
 import {
   connect,
   disconnect,
@@ -18,18 +12,18 @@ import {
   subscribeToDeleteHelp,
   changeCategories,
   changeLocations,
-} from "../../services/socket";
-import { calculateDistance } from "../../utils/helpDistance";
-import firebase from "firebase";
+} from '../../services/socket';
+import { calculateDistance } from '../../utils/helpDistance';
+import firebase from 'firebase';
 export const HelpContext = createContext();
 let activeLocations = [];
 
 export default function HelpContextProvider(props) {
   const { location } = useContext(LocationContext);
   const { selectedCategories } = useContext(CategoryContext);
-  const { user, currentRegion} = useContext(UserContext);
+  const { user, currentRegion } = useContext(UserContext);
   const [helpList, dispatch] = useReducer(helpReducer, []);
-  const [ loadingHelps, setLoadingHelps ] = useState(false);
+  const [loadingHelps, setLoadingHelps] = useState(false);
   useEffect(() => {
     setLoadingHelps(true);
     if (currentRegion && user._id) {
@@ -37,7 +31,7 @@ export default function HelpContextProvider(props) {
       getHelpList(currentRegion);
       setupWebSocket();
     }
-  }, [user._id,currentRegion]);
+  }, [user._id, currentRegion]);
 
   useEffect(() => {
     subscribeToNewHelps((help) => {
@@ -69,14 +63,13 @@ export default function HelpContextProvider(props) {
   }, [selectedCategories]);
 
   useEffect(() => {
-    if(location)
-    { 
-      var latValidation = (location.latitude*10000)-(currentRegion.latitude*10000);
-      var longValidation = (location.longitude * 10000) - (currentRegion.longitude * 10000);
-      longValidation = Math.abs(longValidation)
-      latValidation = Math.abs(latValidation)
+    if (location) {
+      var latValidation = location.latitude * 10000 - currentRegion.latitude * 10000;
+      var longValidation = location.longitude * 10000 - currentRegion.longitude * 10000;
+      longValidation = Math.abs(longValidation);
+      latValidation = Math.abs(latValidation);
 
-      if (location && shouldRequest(location) && (latValidation>1 || longValidation>1)){
+      if (location && shouldRequest(location) && (latValidation > 1 || longValidation > 1)) {
         activeLocations.push(location);
         if (selectedCategories.length) {
           getHelpListWithCategories(location);
@@ -95,7 +88,7 @@ export default function HelpContextProvider(props) {
         let helpListArray = await HelpService.getNearHelp(loc, userId);
         if (activeLocations.length > 1) {
           helpListArray = [...helpList, ...helpListArray];
-          helpListArray = getUnique(helpListArray, "_id");
+          helpListArray = getUnique(helpListArray, '_id');
         }
         setLoadingHelps(false);
         dispatch({ type: actions.help.storeList, helps: helpListArray });
@@ -112,11 +105,11 @@ export default function HelpContextProvider(props) {
         let helpListFiltered = await HelpService.getAllHelpForCategory(
           loc,
           selectedCategories,
-          userId
+          userId,
         );
         if (activeLocations.length > 1) {
           helpListFiltered = [...helpList, ...helpListFiltered];
-          helpListFiltered = getUnique(helpListFiltered, "_id");
+          helpListFiltered = getUnique(helpListFiltered, '_id');
         }
         dispatch({ type: actions.help.storeList, helps: helpListFiltered });
       } catch (error) {

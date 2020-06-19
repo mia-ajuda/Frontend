@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -9,21 +9,21 @@ import {
   Alert,
   ActivityIndicator,
   Keyboard,
-} from "react-native";
-import UserService from "../../../services/User";
-import Button from "../../../components/UI/button";
-import { Icon } from "react-native-elements";
-import colors from "../../../../assets/styles/colorVariables";
+} from 'react-native';
+import UserService from '../../../services/User';
+import Button from '../../../components/UI/button';
+import { Icon } from 'react-native-elements';
+import colors from '../../../../assets/styles/colorVariables';
 
-import styles from "./styles";
-import { UserContext } from "../../../store/contexts/userContext";
-import actions from "../../../store/actions";
+import styles from './styles';
+import { UserContext } from '../../../store/contexts/userContext';
+import actions from '../../../store/actions';
 
 export default function Login({ navigation }) {
   const { dispatch } = useContext(UserContext);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +58,7 @@ export default function Login({ navigation }) {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      Alert.alert("Ooops..", err.message, [{ text: "OK", onPress: () => {} }], {
+      Alert.alert('Ooops..', err.message, [{ text: 'OK', onPress: () => {} }], {
         cancelable: false,
       });
     }
@@ -67,12 +67,11 @@ export default function Login({ navigation }) {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-    >
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
       <View style={styles.logo}>
         <Image
-          style={{ flex: 1, resizeMode: "contain" }}
-          source={require("../../../images/logo.png")}
+          style={{ flex: 1, resizeMode: 'contain' }}
+          source={require('../../../images/logo.png')}
         />
       </View>
       <View style={styles.input}>
@@ -99,10 +98,9 @@ export default function Login({ navigation }) {
       <View style={styles.viewBtn}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("forgotPassword");
+            navigation.navigate('forgotPassword');
           }}
-          style={{ alignSelf: "flex-end" }}
-        >
+          style={{ alignSelf: 'flex-end' }}>
           <Text style={styles.forgotPasswordtext}>Esqueceu a senha?</Text>
         </TouchableOpacity>
         <View style={styles.login}>
@@ -121,9 +119,8 @@ export default function Login({ navigation }) {
         <TouchableOpacity
           style={styles.signUP}
           onPress={async () => {
-            navigation.navigate("location");
-          }}
-        >
+            navigation.navigate('location');
+          }}>
           <Text style={styles.signupText}>Criar Conta</Text>
         </TouchableOpacity>
       </View>

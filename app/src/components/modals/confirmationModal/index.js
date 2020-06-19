@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,10 @@ import {
   TouchableWithoutFeedback,
   Modal,
   ActivityIndicator,
-} from "react-native";
-import Button from "../../UI/button";
-import styles from "./styles";
-import colors from "../../../../assets/styles/colorVariables";
+} from 'react-native';
+import Button from '../../UI/button';
+import styles from './styles';
+import colors from '../../../../assets/styles/colorVariables';
 
 export default function ConfirmationModal({
   visible,
@@ -19,12 +19,11 @@ export default function ConfirmationModal({
   isLoading,
   attention,
 }) {
-
-  function whileRequestLoading(){
-    if(!isLoading){
+  function whileRequestLoading() {
+    if (!isLoading) {
       setVisible(false);
     }
-  } 
+  }
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -32,25 +31,17 @@ export default function ConfirmationModal({
       <TouchableOpacity
         style={styles.container}
         onPress={() => whileRequestLoading()}
-        activeOpacity={1}
-      >
+        activeOpacity={1}>
         <TouchableWithoutFeedback>
           <View style={styles.content}>
             {isLoading ? (
               <ActivityIndicator size="large" color={colors.primary} />
             ) : (
               <>
-                {attention ?
-                  (<Text style={styles.warning}> Atenção! </Text>)
-                  : null
-                }
+                {attention ? <Text style={styles.warning}> Atenção! </Text> : null}
                 <Text style={styles.title}>{message}</Text>
                 <View style={styles.buttons}>
-                  <Button
-                    type="danger"
-                    title="Não"
-                    press={() => setVisible(false)}
-                  />
+                  <Button type="danger" title="Não" press={() => setVisible(false)} />
                   <Button title="Sim" press={action} />
                 </View>
               </>

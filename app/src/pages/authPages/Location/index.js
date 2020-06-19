@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Animated, TouchableOpacity, Image, Dimensions } from "react-native";
-import MapView from "react-native-maps";
-import styles from "./styles";
-import {
-  requestPermissionsAsync,
-  getCurrentPositionAsync,
-} from "expo-location";
-import Button from "../../../components/UI/button";
-import ConfirmationModal from "../../../components/modals/confirmationModal";
-import { Icon } from "react-native-elements";
-
+import React, { useEffect, useState } from 'react';
+import { View, Text, Animated, TouchableOpacity, Image, Dimensions } from 'react-native';
+import MapView from 'react-native-maps';
+import styles from './styles';
+import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
+import Button from '../../../components/UI/button';
+import ConfirmationModal from '../../../components/modals/confirmationModal';
+import { Icon } from 'react-native-elements';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -20,7 +16,7 @@ export default function Location({ route, navigation }) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [animatedHeigth] = useState(new Animated.Value(200));
   const [descriptionShown, setDescriptionShow] = useState(true);
-  const [iconName, setIconName] = useState("sort-up");
+  const [iconName, setIconName] = useState('sort-up');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -45,10 +41,10 @@ export default function Location({ route, navigation }) {
   useEffect(() => {
     if (descriptionShown) {
       showDescription();
-      setIconName("sort-down");
+      setIconName('sort-down');
     } else {
       hideDescription();
-      setIconName("sort-up");
+      setIconName('sort-up');
     }
   }, [descriptionShown]);
 
@@ -61,13 +57,13 @@ export default function Location({ route, navigation }) {
     };
     setModalIsVisible(false);
     userData.email
-      ? navigation.navigate("personalData", { userData: newUserData })
-      : navigation.navigate("registrationData", { userData: newUserData });
+      ? navigation.navigate('personalData', { userData: newUserData })
+      : navigation.navigate('registrationData', { userData: newUserData });
   }
 
   function showDescription() {
     Animated.spring(animatedHeigth, {
-      toValue: SCREEN_HEIGHT*0.3,
+      toValue: SCREEN_HEIGHT * 0.3,
       tension: 50,
     }).start();
   }
@@ -81,21 +77,18 @@ export default function Location({ route, navigation }) {
   return (
     <>
       <View style={styles.adjustPositionBox}>
-        <Text style={styles.adjustPositionText}>
-          Arraste para ajustar sua posição
-        </Text>
+        <Text style={styles.adjustPositionText}>Arraste para ajustar sua posição</Text>
       </View>
       <View
         style={{
-          position: "absolute",
+          position: 'absolute',
           zIndex: 5,
-          top: "43%",
-          left: "43%",
-        }}
-      >
+          top: '43%',
+          left: '43%',
+        }}>
         <Image
-          source={require("../../../../assets/images/blueCat.png")}
-          style={{ height: 50, width: 50, resizeMode: "contain" }}
+          source={require('../../../../assets/images/blueCat.png')}
+          style={{ height: 50, width: 50, resizeMode: 'contain' }}
         />
       </View>
       <MapView
@@ -104,27 +97,18 @@ export default function Location({ route, navigation }) {
         onRegionChangeComplete={(region) => setCurrentRegion(region)}
       />
 
-      <Animated.ScrollView
-        style={styles.description}
-        scrollEnabled={false}
-      >
+      <Animated.ScrollView style={styles.description} scrollEnabled={false}>
         <TouchableOpacity
           onPress={() => {
             setDescriptionShow(!descriptionShown);
-          }}
-        >
+          }}>
           <Icon name={iconName} type="font-awesome" />
-          <Text style={styles.descriptionTextTitle}>
-            Por que precisamos de sua posição?
-          </Text>
+          <Text style={styles.descriptionTextTitle}>Por que precisamos de sua posição?</Text>
           {descriptionShown && (
             <Text style={styles.descriptionText}>
-              A posição escolhida será usada para definir a localização das
-              ajudas criadas por você. Por isso, preste bastante atenção ao
-              escolhê-la, pois ela{" "}
-              <Text
-                style={{ fontFamily: "montserrat-semibold", color: "#e47171" }}
-              >
+              A posição escolhida será usada para definir a localização das ajudas criadas por você.
+              Por isso, preste bastante atenção ao escolhê-la, pois ela{' '}
+              <Text style={{ fontFamily: 'montserrat-semibold', color: '#e47171' }}>
                 não poderá ser alterada.
               </Text>
             </Text>
@@ -140,11 +124,7 @@ export default function Location({ route, navigation }) {
             navigation.goBack();
           }}
         />
-        <Button
-          title="Confirmar"
-          type="primary"
-          press={() => setModalIsVisible(!modalIsVisible)}
-        />
+        <Button title="Confirmar" type="primary" press={() => setModalIsVisible(!modalIsVisible)} />
       </View>
 
       <ConfirmationModal

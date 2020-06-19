@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
-import fonts from "../../../../assets/styles/fontVariable";
-import colors from "../../../../assets/styles/colorVariables";
+import { StyleSheet } from 'react-native';
+import fonts from '../../../../assets/styles/fontVariable';
+import colors from '../../../../assets/styles/colorVariables';
 
 const text = {
   ...fonts.subtitle,
-  textAlign: "center",
-  fontFamily: "montserrat-medium"
+  textAlign: 'center',
+  fontFamily: 'montserrat-medium',
 };
 
 const btn = {
@@ -13,7 +13,7 @@ const btn = {
   paddingVertical: 12,
   elevation: 1,
   borderRadius: 4,
-  marginVertical: 8
+  marginVertical: 8,
 };
 
 const styles = StyleSheet.create({
@@ -25,18 +25,18 @@ const styles = StyleSheet.create({
   btnWarning: { ...btn, backgroundColor: colors.secondary },
   textDefault: { ...text, color: colors.light },
   btnDefault: { ...btn, backgroundColor: colors.primary },
-  textDisabled: { ...text, color: "#666" },
-  btnDisabled: { ...btn, backgroundColor: "#ccc", elevation: 0 },
-  textNotSelected: {...text, color: colors.primary},
-  btnNotSelected: { 
+  textDisabled: { ...text, color: '#666' },
+  btnDisabled: { ...btn, backgroundColor: '#ccc', elevation: 0 },
+  textNotSelected: { ...text, color: colors.primary },
+  btnNotSelected: {
     ...btn,
-    backgroundColor: colors.light, 
+    backgroundColor: colors.light,
     elevation: 0,
     borderBottomColor: colors.primary,
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: colors.primary
-  }
+    borderColor: colors.primary,
+  },
 });
 
 export default styles;

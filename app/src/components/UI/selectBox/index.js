@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { CheckBox } from "react-native-elements";
-import styles from "./styles";
+import React, { useState, useEffect } from 'react';
+import { CheckBox } from 'react-native-elements';
+import styles from './styles';
 export default function SelectBox({
   setSelectedCategoryArray,
   filterCategoryArray,
@@ -8,16 +8,14 @@ export default function SelectBox({
   selectedCategoryArray,
 }) {
   const [selected, setSelect] = useState(
-    filterCategoryArray.some((categoryId) => categoryId === category._id)
+    filterCategoryArray.some((categoryId) => categoryId === category._id),
   );
 
   useEffect(() => {
     if (selected) {
       setSelectedCategoryArray([...selectedCategoryArray, category._id]);
     } else {
-      const removeFilter = filterCategoryArray.filter(
-        (id) => id !== category._id
-      );
+      const removeFilter = filterCategoryArray.filter((id) => id !== category._id);
       setSelectedCategoryArray(removeFilter);
     }
   }, [selected]);
