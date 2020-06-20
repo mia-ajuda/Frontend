@@ -24,6 +24,7 @@ api.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
+        console.log(error);
 
         if (error.response.status === 401) {
             const correctRequest = await firebase

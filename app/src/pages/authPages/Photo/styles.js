@@ -35,15 +35,15 @@ const styles = StyleSheet.create({
         ...fonts.subtitle,
         fontSize: 12,
         fontFamily: 'montserrat-semibold',
-        textAlign: 'left',
+        textAlign: 'center',
         marginTop: 5,
         marginBottom: 5,
     },
     hyperLink: {
         ...fonts.subtitle,
-        fontSize: 12,
+        fontSize: 13,
         fontFamily: 'montserrat-semibold',
-        textAlign: 'left',
+        textAlign: 'center',
         marginTop: 5,
         marginBottom: 5,
         color: colors.primary,
@@ -59,9 +59,13 @@ const styles = StyleSheet.create({
         marginVertical: 40,
     },
     buttonPreview: {
+        width: '100%',
         flex: 1,
         flexDirection: 'row',
         alignItems: 'flex-end',
+        alignContent: 'space-between',
+        justifyContent: 'space-evenly',
+        marginTop: 30,
     },
     btn: {
         marginHorizontal: 10,
@@ -103,6 +107,13 @@ const styles = StyleSheet.create({
     backIcon: {
         alignItems: 'flex-start',
         marginTop: 5,
+    },
+    checkboxView: {
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
     },
 });
 

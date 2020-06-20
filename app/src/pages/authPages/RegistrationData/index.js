@@ -52,7 +52,6 @@ export default function RegistrationData({ route, navigation }) {
         setEmail(enteredEmail);
         setEmailIsValid(emailValidator(email));
     };
-
     const passwordHandler = (enteredPassword) => {
         setPassword(enteredPassword);
     };

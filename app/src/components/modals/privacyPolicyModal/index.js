@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import styles from './style';
 import Markdown from 'react-native-markdown-display';
 import privacy from './privacy';
+import colors from '../../../../assets/styles/colorVariables';
 
 export default function PrivacyPolicyModal({ visible, setVisible }) {
     return (
@@ -12,9 +13,14 @@ export default function PrivacyPolicyModal({ visible, setVisible }) {
             onRequestClose={() => setVisible(false)}
             animationType="slide">
             <TouchableOpacity
-                style={styles.backButton}
+                style={styles.closeButton}
                 onPress={() => setVisible(false)}>
-                <Icon name="chevron-left" type="font-awesome" size={25} />
+                <Icon
+                    name="times-circle"
+                    type="font-awesome"
+                    color={colors.danger}
+                    size={35}
+                />
             </TouchableOpacity>
             <ScrollView
                 contentContainerStyle={{
