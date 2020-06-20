@@ -28,6 +28,7 @@
         "expo-image-picker": "~8.0.1",
         "expo-location": "~8.0.0",
         "firebase": "^7.13.2",
+        "logkitty": "^0.7.1",
         "moment": "^2.24.0",
         "moment-timezone": "^0.5.28",
         "native-base": "^2.13.12",
