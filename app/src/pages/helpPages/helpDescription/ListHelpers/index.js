@@ -85,6 +85,7 @@ export default function ListHelpers({
             );
             navigation.navigate('em andamento');
         } catch (err) {
+            navigation.goBack();
             Alert.alert(
                 'Opsss!',
                 'Erro ao finalizar ajuda, tente mais tarde!',
@@ -115,6 +116,7 @@ export default function ListHelpers({
                 },
             );
         } catch (err) {
+            navigation.goBack();
             Alert.alert(
                 'Ooops..',
                 err.error || 'Algo deu errado, tente novamente mais tarde',
