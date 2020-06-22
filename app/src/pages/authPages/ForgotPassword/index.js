@@ -20,7 +20,6 @@ import firebaseAuth from "../../../services/firebaseAuth";
 export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
-  const [firstUse, setFirstUse] = useState(true);
   const [loadRequisition, setLoadingRequisition] = useState(false);
 
   const handlerSubmit = async () => {
@@ -54,7 +53,10 @@ export default function ForgotPassword({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" color="#000000" />
@@ -84,9 +86,8 @@ export default function ForgotPassword({ navigation }) {
                   change={(value) => {
                     setIsEmailValid(validationEmail(value));
                     setEmail(value);
-                    setFirstUse(false);
                   }}
-                  valid={isEmailValid || firstUse}
+                  valid={isEmailValid}
                 />
               </View>
             </View>
