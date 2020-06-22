@@ -20,15 +20,15 @@ import firebaseAuth from "../../../services/firebaseAuth";
 export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
-  const [loadRequisition, setLoadingRequisition] = useState(false);
+  const [requestLoading, setRequestLoading] = useState(false);
 
   const handlerSubmit = async () => {
     try {
-      setLoadingRequisition(true);
+      setRequestLoading(true);
       await firebaseAuth
         .auth()
         .sendPasswordResetEmail(email.trim().toLowerCase());
-      setLoadingRequisition(false);
+      setRequestLoading(false);
       navigation.goBack();
       Alert.alert(
         "Sucesso",
@@ -37,7 +37,7 @@ export default function ForgotPassword({ navigation }) {
         { cancelable: false }
       );
     } catch (err) {
-      setLoadingRequisition(false);
+      setRequestLoading(false);
       Alert.alert(
         "Ooops",
         "Email não encontrado. Tente novamente!",
@@ -62,7 +62,7 @@ export default function ForgotPassword({ navigation }) {
             <Icon name="arrow-back" color="#000000" />
           </TouchableOpacity>
         </View>
-        {loadRequisition ? (
+        {requestLoading ? (
           <View style={styles.loading}>
             <ActivityIndicator color={colors.primary} size="large" />
           </View>
