@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 import {
   View,
   KeyboardAvoidingView,
@@ -20,51 +21,35 @@ import onlyNumbers from "../../../utils/onlyNumbers";
 
 export default function PersonalData({ route, navigation }) {
   const { userData } = route.params;
-
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [firstTimeBirthday, setFirstTimeBirthday] = useState(true);
-  const [birthIsValid, setBirthValid] = useState(true);
+  const [isBirthdateValid, setBirthValid] = useState(true);
   const [cpf, setCPF] = useState("");
   const [cpfIsValid, setCpfValid] = useState(true);
   const [cellPhone, setCellPhone] = useState("");
-  const [validPhone, setValidPhone] = useState(true);
-  const [phoneFirstTime, setPhoneFirstTime] = useState(true);
-  const [keyboardShow, setKeyboardShow] = useState(false);
-  const [ismentalHealthProfessional, setIsMentalHealthProfessional] = useState(
+  const [isValidPhone, setValidPhone] = useState(true);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [mentalHealthProfessional, setMentalHealthProfessional] = useState(
     false
   );
-  const [isVerificationLoading, setVerificationLoading] = useState(false);
+  const [cpfVerificationLoading, setCpfVerificationLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (userData.name) {
-      setName(userData.name);
-    }
-
-    if (userData.birthday) {
-      const dateSplit = userData.birthday.split("/");
-      const date = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
-      setBirthday(date);
-    }
-
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+    completeUserInfoIfGoogleAndFacebook();
+    Keyboard.addListener("keyboardDidShow", () => setKeyboardVisible(true));
+    Keyboard.addListener("keyboardDidHide", () => setKeyboardVisible(false));
 
     // cleanup function
     return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+      Keyboard.removeListener("keyboardDidShow", () =>
+        setKeyboardVisible(true)
+      );
+      Keyboard.removeListener("keyboardDidHide", () =>
+        setKeyboardVisible(false)
+      );
     };
   }, []);
-
-  const _keyboardDidShow = () => {
-    setKeyboardShow(true);
-  };
-
-  const _keyboardDidHide = () => {
-    setKeyboardShow(false);
-  };
 
   let refCpf;
   let refDate;
@@ -81,20 +66,13 @@ export default function PersonalData({ route, navigation }) {
     return phoneFilter;
   };
 
-  const handleDate = () => {
-    const auxDate = birthday.split("/");
-    const newDate = auxDate[2] + "-" + auxDate[1] + "-" + auxDate[0];
-
-    return newDate;
-  };
-
   useEffect(() => {
     if (cpf !== "") {
       setCpfValid(refCpf.isValid());
     }
-
     if (birthday !== "") {
-      setBirthValid(refDate.isValid());
+      const birthdateValidation = refDate.isValid() && birthday.length === 10; // has to be a valid date and len of 10
+      setBirthValid(birthdateValidation);
     }
   }, [cpf, birthday]);
 
@@ -102,35 +80,53 @@ export default function PersonalData({ route, navigation }) {
     setName(enteredName);
   };
 
+  /**
+   *
+   * Refazer essa lógica de checagem de cpf
+   *
+   *
+   *
+   */
   const continueHandler = () => {
+    verifyCpfExistence();
     const phone = handlePhone();
-    const birthdayFormated = handleDate();
+    const birthdayFormated = moment(birthday).format("YYYY-MM-DD");
     const newUserData = {
       ...userData,
       name,
       birthday: birthdayFormated,
       cpf,
       phone,
-      ismentalHealthProfessional,
+      mentalHealthProfessional,
     };
-    setVerificationLoading(false);
     navigation.navigate("address", { userData: newUserData });
   };
 
-  const verifyCpf = async () => {
+  const verifyCpfExistence = async () => {
     try {
-      const plainCpf = onlyNumbers(cpf);
-      setVerificationLoading(true);
+      setCpfVerificationLoading(true);
+      const cpfOnlyNumbers = onlyNumbers(cpf);
       Keyboard.dismiss();
-      const doesCpfExist = await UserService.verifyUserInfo(plainCpf);
-      if (doesCpfExist)
-        throw "Esse Cpf já está sendo utilizado por outro usuário";
-      continueHandler();
+      const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
+      if (cpfExist) throw "Esse Cpf já está sendo utilizado por outro usuário";
     } catch (err) {
       setError(err);
-      setVerificationLoading(false);
+    } finally {
+      setCpfVerificationLoading(false);
     }
   };
+
+  function completeUserInfoIfGoogleAndFacebook() {
+    if (userData.name) {
+      setName(userData.name);
+    }
+
+    if (userData.birthday) {
+      const dateSplit = userData.birthday.split("/");
+      const date = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
+      setBirthday(date);
+    }
+  }
 
   return (
     <KeyboardAvoidingView
@@ -138,7 +134,7 @@ export default function PersonalData({ route, navigation }) {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}
     >
-      {!keyboardShow ? (
+      {keyboardVisible == false && (
         <View>
           <View style={styles.backIcon}>
             <TouchableOpacity
@@ -147,7 +143,7 @@ export default function PersonalData({ route, navigation }) {
             >
               <Icon
                 name={"arrow-back"}
-                color={!keyboardShow ? "black" : "#f7f7f7"}
+                color={keyboardVisible ? "#f7f7f7" : "black"}
               />
             </TouchableOpacity>
           </View>
@@ -157,12 +153,11 @@ export default function PersonalData({ route, navigation }) {
             </Text>
           </View>
         </View>
-      ) : (
-        <></>
       )}
       <ScrollView
         style={{ width: "100%" }}
-        contentContainerStyle={[!keyboardShow ? styles.scroll : styles.scroll2]}
+        contentContainerStyle={keyboardVisible ? styles.scroll2 : styles.scroll}
+        showsVerticalScrollIndicator={false}
       >
         <View style={styles.inputView}>
           {error && <Text style={styles.errorMessage}>{error}</Text>}
@@ -184,13 +179,10 @@ export default function PersonalData({ route, navigation }) {
               value={birthday}
               onChangeText={(text) => {
                 setBirthday(text);
-                setFirstTimeBirthday(false);
               }}
               style={[
                 styles.inputMask,
-                (birthIsValid && birthday.length === 10) || firstTimeBirthday
-                  ? styles.valid
-                  : styles.invalid,
+                isBirthdateValid ? styles.valid : styles.invalid,
               ]}
               placeholder="Data de Nascimento"
               ref={(ref) => (refDate = ref)}
@@ -219,10 +211,7 @@ export default function PersonalData({ route, navigation }) {
             <TextInputMask
               style={[
                 styles.inputMask,
-                (cellPhone === "" && phoneFirstTime) ||
-                (validPhone && !phoneFirstTime)
-                  ? styles.valid
-                  : styles.invalid,
+                isValidPhone ? styles.valid : styles.invalid,
               ]}
               type={"cel-phone"}
               options={{
@@ -239,8 +228,6 @@ export default function PersonalData({ route, navigation }) {
                 } else {
                   setValidPhone(false);
                 }
-
-                setPhoneFirstTime(false);
               }}
               placeholder="Digite seu telefone"
             />
@@ -249,16 +236,16 @@ export default function PersonalData({ route, navigation }) {
           <View style={styles.toggleView}>
             <CheckBox
               title="Sou profissional de saúde mental"
-              checked={ismentalHealthProfessional}
+              checked={mentalHealthProfessional}
               onPress={() => {
-                setIsMentalHealthProfessional(!ismentalHealthProfessional);
+                setMentalHealthProfessional(!mentalHealthProfessional);
               }}
             />
           </View>
         </View>
       </ScrollView>
       <View style={styles.btnView}>
-        {isVerificationLoading ? (
+        {cpfVerificationLoading ? (
           <ActivityIndicator color={colors.primary} size="large" />
         ) : (
           <Button
@@ -268,13 +255,13 @@ export default function PersonalData({ route, navigation }) {
                 cpf !== "" &&
                 cpfIsValid &&
                 birthday !== "" &&
-                birthIsValid &&
+                isBirthdateValid &&
                 cellPhone !== "" &&
-                validPhone
+                isValidPhone
               )
             }
             large
-            press={verifyCpf}
+            press={continueHandler}
           />
         )}
       </View>
