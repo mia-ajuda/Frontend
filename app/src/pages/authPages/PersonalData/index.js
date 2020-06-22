@@ -102,7 +102,6 @@ export default function PersonalData({ route, navigation }) {
                 phone,
                 mentalHealthProfessional,
             };
-            console.log(newUserData);
             navigation.navigate('address', { userData: newUserData });
         } catch (error) {
             setError(error);
