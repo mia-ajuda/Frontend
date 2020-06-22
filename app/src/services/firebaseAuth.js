@@ -1,12 +1,15 @@
-import firebase from "firebase";
-import authConfig from "../config/authmiaajuda-firebase";
+import firebase from 'firebase';
+import Constants from 'expo-constants';
+import authConfig from '../config/authmiaajuda-firebase';
+import authConfigDEv from '../config/authmiaajuda-firebase-dev';
 
-const config = authConfig;
-
+const env = Constants.manifest.releaseChannel;
+const { apiKey, authDomain, projectId } =
+    env == 'prod' ? authConfig : authConfigDEv;
 const Firebase = firebase.initializeApp({
-  apiKey: config.apiKey,
-  authDomain: config.authDomain,
-  projectId: config.projectId
+    apiKey,
+    authDomain,
+    projectId,
 });
 
 export default Firebase;
