@@ -17,7 +17,7 @@ import { CheckBox } from 'react-native-elements';
 import styles from './styles';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
-import onlyNumbers from '../../../utils/onlyNumbers';
+import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 
 export default function PersonalData({ route, navigation }) {
     const { userData } = route.params;
@@ -68,15 +68,8 @@ export default function PersonalData({ route, navigation }) {
     let refDate;
 
     const formatPhone = () => {
-        let phoneFilter =
-            '+55' +
-            cellPhone
-                .replace('(', '')
-                .replace(')', '')
-                .replace('-', '')
-                .replace(' ', '');
-
-        return phoneFilter;
+        const filterdPhone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+        return filterdPhone;
     };
 
     const formatBirthDate = (date) => {
@@ -91,8 +84,8 @@ export default function PersonalData({ route, navigation }) {
         Keyboard.dismiss();
         try {
             await verifyCpfExistence();
-            const phone = formatPhone();
 
+            const phone = formatPhone();
             const birthdayFormated = formatBirthDate(birthday);
             const newUserData = {
                 ...userData,
@@ -110,7 +103,7 @@ export default function PersonalData({ route, navigation }) {
 
     const verifyCpfExistence = async () => {
         setCpfVerificationLoading(true);
-        const cpfOnlyNumbers = onlyNumbers(cpf);
+        const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
         const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
         setCpfVerificationLoading(false);
         if (cpfExist)
@@ -223,10 +216,10 @@ export default function PersonalData({ route, navigation }) {
                                 dddMask: '(99) ',
                             }}
                             value={cellPhone}
-                            onChangeText={(text) => {
-                                setCellPhone(text);
+                            onChangeText={(phone) => {
+                                setCellPhone(phone);
 
-                                if (text.length >= 14) {
+                                if (phone.length >= 14) {
                                     setValidPhone(true);
                                 } else {
                                     setValidPhone(false);

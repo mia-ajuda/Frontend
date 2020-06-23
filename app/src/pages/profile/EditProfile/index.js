@@ -18,6 +18,7 @@ import axios from 'axios';
 import styles from './styles';
 import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
+import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 
 export default function EditProfile({ route, navigation }) {
     const [mainField, setMainField] = useState('');
@@ -47,15 +48,8 @@ export default function EditProfile({ route, navigation }) {
     }, []);
 
     const handlePhone = () => {
-        let phoneFilter =
-            '+55' +
-            mainField
-                .replace('(', '')
-                .replace(')', '')
-                .replace('-', '')
-                .replace(' ', '');
-
-        return phoneFilter;
+        const filterdPhone = `+55${removeSpecialCharsFrom(mainField)}`;
+        return filterdPhone;
     };
 
     const cepHandle = async (currentCep) => {
