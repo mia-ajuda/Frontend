@@ -15,6 +15,8 @@ import UserService from '../../../services/User';
 import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
+import formatCPF from '../../../utils/formatCpf';
+import formatPhone from '../../../utils/formatPhone';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
@@ -24,31 +26,6 @@ export default function Profile({ navigation }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
-
-    function formatCPF(cpf) {
-        if (cpf.length !== 11) {
-            return '';
-        }
-
-        return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(
-            6,
-            9,
-        )}-${cpf.slice(9, 11)}`;
-    }
-
-    function formatPhone(phone) {
-        if (phone.length === 13) {
-            return `(${phone.slice(3, 5)}) ${phone.slice(5, 9)}-${phone.slice(
-                9,
-                14,
-            )}`;
-        }
-
-        return `(${phone.slice(3, 5)}) ${phone.slice(5, 10)}-${phone.slice(
-            10,
-            14,
-        )}`;
-    }
 
     async function logout() {
         await UserService.logOut();
@@ -138,12 +115,8 @@ export default function Profile({ navigation }) {
                 <TouchableOpacity onPress={openImagePickerAsync}>
                     <ImageBackground
                         source={profilePhoto}
-                        style={styles.imageProper}
-                        imageStyle={{
-                            borderRadius: 100,
-                            opacity: 0.5,
-                            backgroundColor: '#000',
-                        }}>
+                        style={styles.imageContainer}
+                        imageStyle={styles.profileImage}>
                         <Icon size={45} name={'camera-alt'} color="black" />
                     </ImageBackground>
                 </TouchableOpacity>
