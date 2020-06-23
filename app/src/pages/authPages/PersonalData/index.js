@@ -80,6 +80,15 @@ export default function PersonalData({ route, navigation }) {
         return `${year}-${month}-${day}`;
     };
 
+    const verifyCpfExistence = async () => {
+        setCpfVerificationLoading(true);
+        const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
+        const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
+        setCpfVerificationLoading(false);
+        if (cpfExist)
+            throw 'Esse Cpf já está sendo utilizado por outro usuário';
+    };
+
     const continueHandler = async () => {
         Keyboard.dismiss();
         try {
@@ -99,15 +108,6 @@ export default function PersonalData({ route, navigation }) {
         } catch (error) {
             setError(error);
         }
-    };
-
-    const verifyCpfExistence = async () => {
-        setCpfVerificationLoading(true);
-        const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
-        const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
-        setCpfVerificationLoading(false);
-        if (cpfExist)
-            throw 'Esse Cpf já está sendo utilizado por outro usuário';
     };
 
     function completeUserInfoIfGoogleAndFacebook() {

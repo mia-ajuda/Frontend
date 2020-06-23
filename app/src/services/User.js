@@ -10,38 +10,6 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
 
-const setUserDeviceId = async () => {
-    try {
-        if (Constants.isDevice) {
-            const { status: existingStatus } = await Permissions.getAsync(
-                Permissions.NOTIFICATIONS,
-            );
-            let finalStatus = existingStatus;
-
-            if (existingStatus !== 'granted') {
-                const { status } = await Permissions.askAsync(
-                    Permissions.NOTIFICATIONS,
-                );
-                finalStatus = status;
-            }
-            if (finalStatus !== 'granted') {
-                throw 'Failed to get push token for push notification!';
-            }
-        }
-
-        Notifications.getExpoPushTokenAsync()
-            .then(async (pushToken) => {
-                await api.put('/user', { deviceId: pushToken });
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('Tente rodar "expo login"');
-            });
-    } catch {
-        throw { error: 'Não foi possível recuperar Push Token!' };
-    }
-};
-
 class UserService {
     constructor() {}
 
@@ -56,7 +24,7 @@ class UserService {
                 .currentUser.getIdToken();
             await AsyncStorage.setItem('accessToken', idTokenUser);
             const user = await this.requestUserData();
-            setUserDeviceId();
+            this.setUserDeviceId();
 
             return user;
         } catch (error) {
@@ -138,7 +106,7 @@ class UserService {
                     await AsyncStorage.setItem('accessToken', idTokenUser);
                     const user = await this.requestUserData();
 
-                    setUserDeviceId();
+                    this.setUserDeviceId();
                     return user;
                 }
             }
@@ -203,7 +171,7 @@ class UserService {
 
                     const user = await this.requestUserData();
 
-                    setUserDeviceId();
+                    this.setUserDeviceId();
 
                     return user;
                 }
@@ -222,14 +190,8 @@ class UserService {
     }
 
     async signUp(data) {
-        const { hasUser } = data;
-
-        if (hasUser) {
-            data.password = '12345678';
-        }
-
         try {
-            const response = await api.post(`/user?hasUser=${hasUser}`, data);
+            const response = await api.post('/user', data);
             return response;
         } catch (error) {
             console.log(error.response);
@@ -247,10 +209,6 @@ class UserService {
         } catch {
             throw { error: 'Não foi possível Deslogar!' };
         }
-    }
-
-    isSignIn() {
-        return this._token !== undefined;
     }
 
     async requestUserData() {
@@ -271,6 +229,38 @@ class UserService {
     async editUser(data, complement = '') {
         const user = await api.put(`/user${complement}`, data);
         return user.data;
+    }
+
+    async setUserDeviceId() {
+        try {
+            if (Constants.isDevice) {
+                const { status: existingStatus } = await Permissions.getAsync(
+                    Permissions.NOTIFICATIONS,
+                );
+                let finalStatus = existingStatus;
+
+                if (existingStatus !== 'granted') {
+                    const { status } = await Permissions.askAsync(
+                        Permissions.NOTIFICATIONS,
+                    );
+                    finalStatus = status;
+                }
+                if (finalStatus !== 'granted') {
+                    throw 'Failed to get push token for push notification!';
+                }
+            }
+
+            Notifications.getExpoPushTokenAsync()
+                .then(async (pushToken) => {
+                    await api.put('/user', { deviceId: pushToken });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log('Tente rodar "expo login"');
+                });
+        } catch {
+            throw { error: 'Não foi possível recuperar Push Token!' };
+        }
     }
 }
 
