@@ -56,9 +56,9 @@ export default function HelpDescription({ route, navigation }) {
     }
 
     const photo = profilePhoto || user.photo;
-    const photoFormated = photo.includes('http')
+    const photoFormated = photo.includes('http') //photo from web
         ? { uri: photo }
-        : { uri: `data:image/png;base64,${photo}` };
+        : { uri: `data:image/png;base64,${photo}` }; // base 64
 
     async function chooseHelp() {
         try {
@@ -239,6 +239,7 @@ export default function HelpDescription({ route, navigation }) {
                         </View>
                     </>
                 )}
+
                 {user._id == helperId && helpStatus != 'finished' && (
                     <View style={styles.ViewLink}>
                         <View

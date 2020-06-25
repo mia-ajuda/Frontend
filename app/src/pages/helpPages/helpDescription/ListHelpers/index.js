@@ -30,7 +30,6 @@ export default function ListHelpers({
         'https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_Blank.svg',
     );
     const [helperName, setHelperName] = useState('');
-    const [, setHelperAge] = useState('');
     const [helperCity, setHelperCity] = useState('');
     const [helperPhone, setHelperPhone] = useState('');
     const [help, setHelp] = useState({});
@@ -40,10 +39,17 @@ export default function ListHelpers({
     const [modalMessage, setModalMessage] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const helperPhoto = (photo) =>
-        photo.includes('http')
-            ? { uri: photo }
-            : { uri: `data:image/png;base64,${photo}` };
+
+    const getHelperPhoto = (photo) => {
+        let helperPhoto;
+        if (photo.includes('http')) {
+            helperPhoto = { uri: photo };
+        } else {
+            helperPhoto = { uri: `data:image/png;base64,${photo}` };
+        }
+
+        return helperPhoto;
+    };
 
     const loadHelpInfo = async () => {
         setLoading(true);
@@ -58,9 +64,7 @@ export default function ListHelpers({
                     `user/getUser/${helpFinal[0].helperId}`,
                 );
                 setHelperImage(resp.data.photo);
-                setHelperAge(moment().diff(resp.data.birthday, 'year'));
                 setHelperName(resp.data.name);
-
                 setHelperCity(resp.data.address.city);
                 setHelperPhone(resp.data.phone);
             }
@@ -173,7 +177,7 @@ export default function ListHelpers({
                             <View style={{ flexDirection: 'row' }}>
                                 <Image
                                     style={styles.volunteerImage}
-                                    source={helperPhoto(helperImage)}
+                                    source={getHelperPhoto(helperImage)}
                                 />
                                 <View style={{ width: '80%' }}>
                                     <Text
@@ -260,7 +264,7 @@ export default function ListHelpers({
                                 <View style={styles.helper}>
                                     <Image
                                         style={styles.imageProfile}
-                                        source={helperPhoto(helper.photo)}
+                                        source={getHelperPhoto(helper.photo)}
                                     />
                                     <View>
                                         <Text

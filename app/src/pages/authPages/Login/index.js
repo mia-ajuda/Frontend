@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
 
     useEffect(() => {
         if (email && password) {
@@ -35,29 +35,20 @@ export default function Login({ navigation }) {
         }
     }, [email, password]);
 
-    const emailHandler = (enteredEmail) => {
-        setEmail(enteredEmail);
-    };
-
-    const passwordHandler = (enteredPassword) => {
-        setPassword(enteredPassword);
-    };
-
     const loginHandler = async () => {
         const data = { email: email.trim(), password };
         Keyboard.dismiss();
 
         try {
-            setLoading(true);
-
+            setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);
-            setLoading(false);
+            setLoadingLoginRequest(false);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
         } catch (err) {
             console.log(err);
-            setLoading(false);
+            setLoadingLoginRequest(false);
             Alert.alert(
                 'Ooops..',
                 err.message,
@@ -86,7 +77,7 @@ export default function Login({ navigation }) {
                     placeholder="Email"
                     autoCorrect={false}
                     placeholderTextColor="#FFF"
-                    onChangeText={emailHandler}
+                    onChangeText={(email) => setEmail(email)}
                     value={email}
                 />
 
@@ -96,7 +87,7 @@ export default function Login({ navigation }) {
                     placeholderTextColor="#FFF"
                     placeholder="Senha"
                     autoCorrect={false}
-                    onChangeText={passwordHandler}
+                    onChangeText={(password) => setPassword(password)}
                     value={password}
                 />
             </View>
@@ -111,7 +102,7 @@ export default function Login({ navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.login}>
-                    {loading ? (
+                    {loadingLoginRequest ? (
                         <ActivityIndicator size="large" color={colors.light} />
                     ) : (
                         <Button
@@ -119,7 +110,7 @@ export default function Login({ navigation }) {
                             type="white"
                             title="ENTRAR"
                             press={loginHandler}
-                            disabled={buttonDisabled || loading}
+                            disabled={buttonDisabled || loadingLoginRequest}
                         />
                     )}
                 </View>

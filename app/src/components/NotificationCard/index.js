@@ -12,16 +12,17 @@ export default function NotificationCard({
     notificationDate,
     dateNow,
 }) {
-    const [time, setTime] = useState('');
+    const [notificationTime, setNotificationTime] = useState('');
     const [iconName, setIconName] = useState('bell');
     const [iconBackground, setIconBackground] = useState(colors.primary);
 
     useEffect(() => {
-        let date = new Date(notificationDate);
+        let notificationDateFormated = new Date(notificationDate);
         let dateNow = new Date();
-        let msDifferenceTime = dateNow.getTime() - date.getTime();
+        let msDifferenceTime =
+            dateNow.getTime() - notificationDateFormated.getTime();
         if (msDifferenceTime < 0) {
-            setTime('Agora');
+            setNotificationTime('Agora');
         } else {
             let interval = new Date(msDifferenceTime);
             // Qualquer data registrada é contada a partir de 1970,
@@ -35,26 +36,26 @@ export default function NotificationCard({
 
             if (yearsPassed > 0) {
                 yearsPassed > 1
-                    ? setTime(`${yearsPassed} anos atrás`)
-                    : setTime(`${yearsPassed} ano atrás`);
+                    ? setNotificationTime(`${yearsPassed} anos atrás`)
+                    : setNotificationTime(`${yearsPassed} ano atrás`);
             } else if (monthsPassed > 0) {
                 monthsPassed > 1
-                    ? setTime(`${monthsPassed} meses atrás`)
-                    : setTime(`${monthsPassed} mês atrás`);
+                    ? setNotificationTime(`${monthsPassed} meses atrás`)
+                    : setNotificationTime(`${monthsPassed} mês atrás`);
             } else if (daysPassed > 0) {
                 daysPassed > 1
-                    ? setTime(`${daysPassed} dias atrás`)
-                    : setTime(`${daysPassed} dia atrás`);
+                    ? setNotificationTime(`${daysPassed} dias atrás`)
+                    : setNotificationTime(`${daysPassed} dia atrás`);
             } else if (hoursPassed > 0) {
                 hoursPassed > 1
-                    ? setTime(`${hoursPassed} horas atrás`)
-                    : setTime(`${hoursPassed} hora atrás`);
+                    ? setNotificationTime(`${hoursPassed} horas atrás`)
+                    : setNotificationTime(`${hoursPassed} hora atrás`);
             } else if (minutesPassed > 0) {
                 minutesPassed > 1
-                    ? setTime(`${minutesPassed} minutos atrás`)
-                    : setTime(`${minutesPassed} minuto atrás`);
+                    ? setNotificationTime(`${minutesPassed} minutos atrás`)
+                    : setNotificationTime(`${minutesPassed} minuto atrás`);
             } else {
-                setTime('Agora');
+                setNotificationTime('Agora');
             }
         }
     }, [dateNow]);
@@ -103,7 +104,7 @@ export default function NotificationCard({
                     {notificationTitle}
                 </Text>
                 <Text numberOfLines={2}>{notificationBody}</Text>
-                <Text style={styles.time}>{time}</Text>
+                <Text style={styles.time}>{notificationTime}</Text>
             </View>
         </View>
     );

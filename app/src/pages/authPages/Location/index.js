@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    View,
-    Text,
-    Animated,
-    TouchableOpacity,
-    Image,
-    Dimensions,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import {
@@ -17,16 +10,14 @@ import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { Icon } from 'react-native-elements';
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-
 export default function Location({ route, navigation }) {
     const userData = route.params ? route.params.userData : {};
 
     const [currentRegion, setCurrentRegion] = useState(null);
-    const [modalIsVisible, setModalIsVisible] = useState(false);
-    const [animatedHeigth] = useState(new Animated.Value(200));
+    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
     const [descriptionShown, setDescriptionShow] = useState(true);
-    const [iconName, setIconName] = useState('sort-up');
 
     useEffect(() => {
         async function getLocation() {
@@ -47,16 +38,6 @@ export default function Location({ route, navigation }) {
         getLocation();
     }, []);
 
-    useEffect(() => {
-        if (descriptionShown) {
-            showDescription();
-            setIconName('sort-down');
-        } else {
-            hideDescription();
-            setIconName('sort-up');
-        }
-    }, [descriptionShown]);
-
     function continueRegistration() {
         const { latitude, longitude } = currentRegion;
         const newUserData = {
@@ -64,25 +45,12 @@ export default function Location({ route, navigation }) {
             longitude,
             ...userData,
         };
-        setModalIsVisible(false);
+        setConfirmationModalVisible(false);
         userData.email
             ? navigation.navigate('personalData', { userData: newUserData })
             : navigation.navigate('registrationData', {
                   userData: newUserData,
               });
-    }
-
-    function showDescription() {
-        Animated.spring(animatedHeigth, {
-            toValue: SCREEN_HEIGHT * 0.3,
-            tension: 50,
-        }).start();
-    }
-    function hideDescription() {
-        Animated.spring(animatedHeigth, {
-            toValue: 70,
-            tension: 50,
-        }).start();
     }
 
     return (
@@ -110,14 +78,15 @@ export default function Location({ route, navigation }) {
                 onRegionChangeComplete={(region) => setCurrentRegion(region)}
             />
 
-            <Animated.ScrollView
-                style={styles.description}
-                scrollEnabled={false}>
+            <ScrollView style={styles.description} scrollEnabled={false}>
                 <TouchableOpacity
                     onPress={() => {
                         setDescriptionShow(!descriptionShown);
                     }}>
-                    <Icon name={iconName} type="font-awesome" />
+                    <Icon
+                        name={descriptionShown ? 'sort-down' : 'sort-up'}
+                        type="font-awesome"
+                    />
                     <Text style={styles.descriptionTextTitle}>
                         Por que precisamos de sua posição?
                     </Text>
@@ -136,7 +105,7 @@ export default function Location({ route, navigation }) {
                         </Text>
                     )}
                 </TouchableOpacity>
-            </Animated.ScrollView>
+            </ScrollView>
 
             <View style={styles.buttons}>
                 <Button
@@ -149,14 +118,16 @@ export default function Location({ route, navigation }) {
                 <Button
                     title="Confirmar"
                     type="primary"
-                    press={() => setModalIsVisible(!modalIsVisible)}
+                    press={() =>
+                        setConfirmationModalVisible(!confirmationModalVisible)
+                    }
                 />
             </View>
 
             <ConfirmationModal
                 message="Podemos confirmar sua posição atual?"
-                visible={modalIsVisible}
-                setVisible={setModalIsVisible}
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
                 action={continueRegistration}
             />
         </>

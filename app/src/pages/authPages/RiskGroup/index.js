@@ -11,6 +11,7 @@ import styles from './styles';
 import userService from '../../../services/User';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
+import riskGroups from '../../../utils/riskGroupsObject';
 
 export default function RiskGroup({ route, navigation }) {
     const { userData } = route.params;
@@ -23,15 +24,7 @@ export default function RiskGroup({ route, navigation }) {
         doenCardio: false,
     });
 
-    const riskGroups = {
-        dc: 'Doença respiratória',
-        hiv: 'HIV',
-        diab: 'Diabetes',
-        hiperT: 'Hipertensão',
-        doenCardio: 'Doenças cardiovasculares',
-    };
-
-    const handleButtonPress = (id) => {
+    const onRiskGroupSelection = (id) => {
         if (disease[id] === true) {
             setDisease({ ...disease, [id]: false });
         } else setDisease({ ...disease, [id]: true });
@@ -107,7 +100,7 @@ export default function RiskGroup({ route, navigation }) {
                         <View key={key} style={styles.inputItem}>
                             <Button
                                 type={!disease[key] ? 'notSelected' : null}
-                                press={() => handleButtonPress(key)}
+                                press={() => onRiskGroupSelection(key)}
                                 large
                                 title={value}
                             />

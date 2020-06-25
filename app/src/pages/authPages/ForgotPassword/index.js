@@ -21,16 +21,15 @@ import firebaseAuth from '../../../services/firebaseAuth';
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const [firstUse, setFirstUse] = useState(true);
-    const [loadRequisition, setLoadingRequisition] = useState(false);
+    const [requestLoading, setRequestLoading] = useState(false);
 
     const handlerSubmit = async () => {
         try {
-            setLoadingRequisition(true);
+            setRequestLoading(true);
             await firebaseAuth
                 .auth()
                 .sendPasswordResetEmail(email.trim().toLowerCase());
-            setLoadingRequisition(false);
+            setRequestLoading(false);
             navigation.goBack();
             Alert.alert(
                 'Sucesso',
@@ -39,7 +38,7 @@ export default function ForgotPassword({ navigation }) {
                 { cancelable: false },
             );
         } catch (err) {
-            setLoadingRequisition(false);
+            setRequestLoading(false);
             Alert.alert(
                 'Ooops',
                 'Email não encontrado. Tente novamente!',
@@ -54,13 +53,15 @@ export default function ForgotPassword({ navigation }) {
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                showsVerticalScrollIndicator={false}>
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon name="arrow-back" color="#000000" />
                     </TouchableOpacity>
                 </View>
-                {loadRequisition ? (
+                {requestLoading ? (
                     <View style={styles.loading}>
                         <ActivityIndicator
                             color={colors.primary}
@@ -90,9 +91,8 @@ export default function ForgotPassword({ navigation }) {
                                     change={(value) => {
                                         setIsEmailValid(validationEmail(value));
                                         setEmail(value);
-                                        setFirstUse(false);
                                     }}
-                                    valid={isEmailValid || firstUse}
+                                    valid={isEmailValid}
                                 />
                             </View>
                         </View>

@@ -72,9 +72,9 @@ export default function HelpContextProvider(props) {
 
     useEffect(() => {
         if (location) {
-            var latValidation =
+            let latValidation =
                 location.latitude * 10000 - currentRegion.latitude * 10000;
-            var longValidation =
+            let longValidation =
                 location.longitude * 10000 - currentRegion.longitude * 10000;
             longValidation = Math.abs(longValidation);
             latValidation = Math.abs(latValidation);

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import styles from './style';
 import Markdown from 'react-native-markdown-display';
-import terms from './terms';
+import terms from '../../../docs/terms';
 
 export default function TermsModal({ visible, setVisible }) {
     return (

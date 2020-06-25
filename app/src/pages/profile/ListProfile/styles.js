@@ -12,12 +12,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
-    imageProper: {
+    imageContainer: {
         width: 175,
         height: 175,
         marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    profileImage: {
+        borderRadius: 100,
+        opacity: 0.5,
+        backgroundColor: '#000',
     },
     viewSec: {
         backgroundColor: '#000000',

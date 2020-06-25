@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     View,
     ScrollView,
@@ -15,13 +15,13 @@ import styles from './styles';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
-    const [animatedValue] = useState(new Animated.Value(40));
+    const listHeight = useRef(new Animated.Value(40)).current;
 
     useEffect(() => {
         switch (visible) {
             case true:
                 setIconName('caret-down');
-                Animated.spring(animatedValue, {
+                Animated.spring(listHeight, {
                     toValue: helps.length > 0 ? 400 : 300,
                     tension: 10,
                 }).start();
@@ -29,7 +29,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
 
             case false:
                 setIconName('caret-up');
-                Animated.spring(animatedValue, {
+                Animated.spring(listHeight, {
                     toValue: 40,
                 }).start();
                 break;
@@ -38,7 +38,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
 
     return (
         <Animated.View
-            style={[styles.helpListContainer, { height: animatedValue }]}>
+            style={[styles.helpListContainer, { height: listHeight }]}>
             <TouchableWithoutFeedback onPress={() => setVisible(!visible)}>
                 <View style={styles.buttonStyle}>
                     <Icon

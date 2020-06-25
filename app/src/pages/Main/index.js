@@ -34,7 +34,6 @@ export default function Main({ navigation }) {
 
     function onRegionChange(position) {
         setLocation(position);
-        return setHelpListVisible(false);
     }
 
     return (
@@ -60,6 +59,7 @@ export default function Main({ navigation }) {
                 initialRegion={currentRegion}
                 style={styles.map}
                 region={region}
+                onRegionChange={() => setHelpListVisible(false)}
                 onRegionChangeComplete={(position) => onRegionChange(position)}
                 onPress={() => {
                     setHelpListVisible(false);
