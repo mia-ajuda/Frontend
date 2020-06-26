@@ -22,6 +22,32 @@ class FirebaseService {
     async getUserId() {
         return await this.firebase.auth().currentUser.getIdToken();
     }
+    async resetUserPassword(email) {
+        await this.firebase.auth().sendPasswordResetEmail(email);
+    }
+    async setPersistence() {
+        await this.firebase
+            .auth()
+            .setPersistence(this.firebase.auth.Auth.Persistence.LOCAL);
+    }
+    async getCredentialFacebook(token) {
+        return await this.firebase.auth.FacebookAuthProvider.credential(token);
+    }
+    async signInWithCredential(credential) {
+        return await this.firebase.auth().signInWithCredential(credential);
+    }
+    async getCredentialGoogle(idToken, accessToken) {
+        return await this.firebase.auth.GoogleAuthProvider.credential(
+            idToken,
+            accessToken,
+        );
+    }
+    async signOut() {
+        await this.firebase.auth().signOut();
+    }
+    async onAuthStateChanged(callbackfunction) {
+        this.firebase.auth().onAuthStateChanged(callbackfunction);
+    }
 }
 
 const firebaseService = new FirebaseService();

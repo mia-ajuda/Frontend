@@ -2,7 +2,6 @@ import api from '../services/Api';
 import { Notifications } from 'expo';
 import { AsyncStorage, Alert } from 'react-native';
 import * as Facebook from 'expo-facebook';
-import firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 import authConfig from '../config/authmiaajuda-firebase';
 import * as Permissions from 'expo-permissions';
@@ -47,15 +46,13 @@ class UserService {
             });
 
             if (type === 'success') {
-                await firebase
-                    .auth()
-                    .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-                const credential = await firebase.auth.FacebookAuthProvider.credential(
+                await firebaseService.setPersistence();
+                const credential = await firebaseService.getCredentialFacebook(
                     token,
                 );
-                const facebookProfileData = await firebase
-                    .auth()
-                    .signInWithCredential(credential); // Sign in with Facebook credential
+                const facebookProfileData = await firebaseService.signInWithCredential(
+                    credential,
+                );
 
                 const userFacebookInfo = facebookProfileData.additionalUserInfo;
 
@@ -97,9 +94,7 @@ class UserService {
                     );
                     return {};
                 } else {
-                    const idTokenUser = await firebase
-                        .auth()
-                        .currentUser.getIdToken();
+                    const idTokenUser = await firebaseService.getUserId();
                     await AsyncStorage.setItem('accessToken', idTokenUser);
                     const user = await this.requestUserData();
 
@@ -123,12 +118,12 @@ class UserService {
 
             if (googleResponse.type === 'success') {
                 const { idToken, accessToken } = googleResponse;
-                const credential = firebase.auth.GoogleAuthProvider.credential(
+                const credential = await firebaseService.getCredentialGoogle(
                     idToken,
                     accessToken,
                 );
 
-                await firebase.auth().signInWithCredential(credential);
+                await firebaseService.signInWithCredential(credential);
 
                 const isExists = await api.get(
                     `/checkUserExistence/${googleResponse.user.email}`,
@@ -161,9 +156,8 @@ class UserService {
                         },
                     );
                 } else {
-                    const idTokenUser = await firebase
-                        .auth()
-                        .currentUser.getIdToken();
+                    const idTokenUser = await firebaseService.getUserId();
+
                     await AsyncStorage.setItem('accessToken', idTokenUser);
 
                     const user = await this.requestUserData();
@@ -202,7 +196,7 @@ class UserService {
     async logOut() {
         try {
             await AsyncStorage.clear();
-            await firebase.auth().signOut();
+            await firebaseService.signOut();
         } catch {
             throw { error: 'Não foi possível Deslogar!' };
         }
