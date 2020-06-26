@@ -16,7 +16,7 @@ import Button from '../../../components/UI/button';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
 import validationEmail from '../../../utils/emailValidation';
-import firebaseAuth from '../../../services/firebaseAuth';
+import firebaseService from '../../../services/Firebase';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');
@@ -26,9 +26,7 @@ export default function ForgotPassword({ navigation }) {
     const handlerSubmit = async () => {
         try {
             setRequestLoading(true);
-            await firebaseAuth
-                .auth()
-                .sendPasswordResetEmail(email.trim().toLowerCase());
+            await firebaseService.resetUserPassword(email.trim().toLowerCase());
             setRequestLoading(false);
             navigation.goBack();
             Alert.alert(

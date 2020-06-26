@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import firebase from 'firebase';
 import ENV from '../config/envVariables';
+import firebaseService from './Firebase';
 
 const api = axios.create({
     baseURL: ENV.apiUrl,
@@ -27,9 +27,8 @@ api.interceptors.response.use(
         console.log(error);
 
         if (error.response.status === 401) {
-            const correctRequest = await firebase
-                .auth()
-                .currentUser.getIdToken()
+            const correctRequest = await firebaseService
+                .getUserId()
                 .then(async (idTokenUser) => {
                     await AsyncStorage.setItem('accessToken', idTokenUser);
                     originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
