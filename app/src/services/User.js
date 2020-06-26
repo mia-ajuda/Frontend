@@ -1,5 +1,4 @@
 import api from '../services/Api';
-import firebaseAuth from './firebaseAuth';
 import { Notifications } from 'expo';
 import { AsyncStorage, Alert } from 'react-native';
 import * as Facebook from 'expo-facebook';
@@ -10,18 +9,16 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
 
+import firebaseService from './Firebase';
+
 class UserService {
     constructor() {}
 
     async logIn(data) {
         try {
-            await firebaseAuth
-                .auth()
-                .signInWithEmailAndPassword(data.email, data.password);
+            await firebaseService.login(data.email, data.password);
 
-            const idTokenUser = await firebaseAuth
-                .auth()
-                .currentUser.getIdToken();
+            const idTokenUser = await firebaseService.getUserId();
             await AsyncStorage.setItem('accessToken', idTokenUser);
             const user = await this.requestUserData();
             this.setUserDeviceId();

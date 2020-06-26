@@ -6,6 +6,7 @@ import authConfigDEv from '../config/authmiaajuda-firebase-dev';
 const env = Constants.manifest.releaseChannel;
 const { apiKey, authDomain, projectId } =
     env == 'prod' ? authConfig : authConfigDEv;
+
 const Firebase = firebase.initializeApp({
     apiKey,
     authDomain,
