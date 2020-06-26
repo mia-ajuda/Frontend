@@ -1,5 +1,5 @@
 import React from 'react';
-import Routes from './routes';
+import Routes from './Navigation';
 import { UserContextProvider } from './store/contexts/userContext';
 import HelpContextProvider from './store/contexts/helpContext';
 import CategoryContextProvider from './store/contexts/categoryContext';
