@@ -13,6 +13,7 @@ stages:
 before_script:
   - cd app
   - cat $GOOGLE_CONFIG > .google-services.json
+  - cat $FIREBASE_CONFIG_DEV > ./src/config/authmiaajuda-firebase-dev.json
   - cat $FIREBASE_CONFIG > ./src/config/authmiaajuda-firebase.json
   - yarn install --pure-lockfile --non-interactive
 
