@@ -24,17 +24,22 @@ api.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        console.log(error);
-
-        if (error.response.status === 401) {
-            const correctRequest = await firebaseService
-                .getUserId()
-                .then(async (idTokenUser) => {
-                    await AsyncStorage.setItem('accessToken', idTokenUser);
-                    originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
-                    return await axios(originalRequest);
-                });
-            return correctRequest;
+        if (error.response != undefined) {
+            if (error.response.status === 401) {
+                const correctRequest = await firebaseService
+                    .getUserId()
+                    .then(async (idTokenUser) => {
+                        await AsyncStorage.setItem('accessToken', idTokenUser);
+                        originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
+                        return await axios(originalRequest);
+                    });
+                return correctRequest;
+            } else {
+                throw error;
+            }
+        } else if (error.message === 'Network Error') {
+            console.log(error.message);
+            throw error;
         } else {
             throw error;
         }
