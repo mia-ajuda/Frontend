@@ -1,17 +1,17 @@
 import { Alert } from 'react-native';
 
-function alertError(error) {
-    const type = 'Erro';
+function alertError(error, message = null, type = null) {
+    if (type == null) {
+        type = 'Erro';
+    }
+    if (message == null) {
+        message = error.response.data.error;
+    }
     console.log(error);
     if (error.message === 'Network Error') {
         Alert.alert(type, 'Falha de conexão', [{ title: 'OK' }]);
     } else {
-        try {
-            const message = error.response.data.error;
-            Alert.alert(type, message, [{ title: 'OK' }]);
-        } catch (error) {
-            console.log(error);
-        }
+        Alert.alert(type, message, [{ title: 'OK' }]);
     }
 }
 

@@ -101,7 +101,7 @@ export default function ListHelpers({
             alertSuccess('Ajudante escolhido com sucesso!');
         } catch (err) {
             navigation.goBack();
-            alertError(err);
+            alertError(err, null, 'Ooops..');
         }
     }
 
