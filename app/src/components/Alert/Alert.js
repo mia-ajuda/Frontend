@@ -24,4 +24,8 @@ function alertSuccess(message) {
     Alert.alert('Sucesso', message, [{ title: 'OK' }]);
 }
 
-export { alertSuccess, alertError };
+function alertMessage(message) {
+    Alert.alert(message);
+}
+
+export { alertSuccess, alertError, alertMessage };

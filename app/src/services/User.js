@@ -186,10 +186,7 @@ class UserService {
             return response;
         } catch (error) {
             console.log(error.response);
-            throw {
-                error:
-                    'Aconteceu algo errado ao cadastrar, tente novamente mais tarde.',
-            };
+            throw error;
         }
     }
 
