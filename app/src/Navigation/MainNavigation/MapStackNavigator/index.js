@@ -3,7 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../pages/Main';
 import CreateHelp from '../../../pages/helpPages/createHelp';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
-import headerStyle from '../MainStackHeaderStyle';
+import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
+
 const MainStack = createStackNavigator();
 
 const MainNavigation = () => (

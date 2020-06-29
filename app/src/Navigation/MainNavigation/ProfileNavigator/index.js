@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Profile from '../../../pages/profile/ListProfile';
 import EditProfile from '../../../pages/profile/EditProfile';
-import headerStyle from '../MainStackHeaderStyle';
+import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const ProfileStack = createStackNavigator();
 

@@ -2,9 +2,8 @@ import React from 'react';
 import on_goingGivenHelp from '../../../pages/helpPages/givenHelps/on_going';
 import finishedGivenHelp from '../../../pages/helpPages/givenHelps/finished';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
-import colors from '../../../../assets/styles/colorVariables';
-import fonts from '../../../../assets/styles/fontVariable';
-import headerStyle from '../MainStackHeaderStyle';
+import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
+import tabTopBarOptions from './tabTopBarMyHelp';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -43,18 +42,3 @@ const HelpTopBar = () => (
 );
 
 export default HelpTopBar;
-
-const tabTopBarOptions = {
-    style: {
-        backgroundColor: colors.primary,
-    },
-    labelStyle: {
-        ...fonts.body,
-        color: colors.light,
-        fontSize: 14,
-    },
-    indicatorStyle: {
-        backgroundColor: colors.light,
-        padding: 2,
-    },
-};

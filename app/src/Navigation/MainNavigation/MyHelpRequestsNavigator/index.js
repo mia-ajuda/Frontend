@@ -3,10 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
 import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
-import colors from '../../../../assets/styles/colorVariables';
-import fonts from '../../../../assets/styles/fontVariable';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
-import headerStyle from '../MainStackHeaderStyle';
+import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
+import tabTopBarOptions from './tabTopBarMyHelp';
 
 const MyRequestsTab = createMaterialTopTabNavigator();
 const stack = createStackNavigator();
@@ -32,20 +31,5 @@ const MyRequestsNavigation = () => (
         />
     </stack.Navigator>
 );
-
-const tabTopBarOptions = {
-    style: {
-        backgroundColor: colors.primary,
-    },
-    labelStyle: {
-        ...fonts.body,
-        color: colors.light,
-        fontSize: 14,
-    },
-    indicatorStyle: {
-        backgroundColor: colors.light,
-        padding: 2,
-    },
-};
 
 export default MyRequestsNavigation;
