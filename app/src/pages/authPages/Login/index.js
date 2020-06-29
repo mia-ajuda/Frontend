@@ -18,8 +18,10 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function Login({ navigation }) {
+    const { useService } = useContext(ServiceContext);
     const { dispatch } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
@@ -38,10 +40,14 @@ export default function Login({ navigation }) {
     const loginHandler = async () => {
         const data = { email: email.trim(), password };
         Keyboard.dismiss();
-
+        // console.log("oisdjffgiaśfpfogǵpadkoipgjisafpfk");
+        // const user = await useService(UserService.logIn, data);
+        // console.log("User:");
+        // console.log(user);
         try {
             setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);
+            console.log(user);
             setLoadingLoginRequest(false);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });

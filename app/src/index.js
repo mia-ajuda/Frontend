@@ -4,6 +4,7 @@ import { UserContextProvider } from './store/contexts/userContext';
 import HelpContextProvider from './store/contexts/helpContext';
 import CategoryContextProvider from './store/contexts/categoryContext';
 import LocationContextProvider from './store/contexts/locationContext';
+import ServiceContextProvider from './store/contexts/serviceContext';
 
 export default function Root() {
     return (
@@ -11,7 +12,9 @@ export default function Root() {
             <CategoryContextProvider>
                 <LocationContextProvider>
                     <HelpContextProvider>
-                        <Routes />
+                        <ServiceContextProvider>
+                            <Routes />
+                        </ServiceContextProvider>
                     </HelpContextProvider>
                 </LocationContextProvider>
             </CategoryContextProvider>
