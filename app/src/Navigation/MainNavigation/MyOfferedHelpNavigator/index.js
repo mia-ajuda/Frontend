@@ -10,7 +10,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { createStackNavigator } from '@react-navigation/stack';
 
 const HelpTopBarNavigation = createMaterialTopTabNavigator();
-const stack = createStackNavigator();
+const OfferedHelpStack = createStackNavigator();
 
 const navigationGivenHelps = () => (
     <HelpTopBarNavigation.Navigator
@@ -28,16 +28,19 @@ const navigationGivenHelps = () => (
 );
 
 const HelpTopBar = () => (
-    <stack.Navigator screenOptions={headerStyle}>
-        <stack.Screen name="Minhas Ofertas" component={navigationGivenHelps} />
-        <stack.Screen
+    <OfferedHelpStack.Navigator screenOptions={headerStyle}>
+        <OfferedHelpStack.Screen
+            name="Minhas Ofertas"
+            component={navigationGivenHelps}
+        />
+        <OfferedHelpStack.Screen
             name="OfferDescription"
             component={HelpDescription}
             options={({ route }) => ({
                 title: route.params.helpTitle,
             })}
         />
-    </stack.Navigator>
+    </OfferedHelpStack.Navigator>
 );
 
 export default HelpTopBar;

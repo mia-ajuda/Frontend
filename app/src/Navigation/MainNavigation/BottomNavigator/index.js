@@ -34,7 +34,7 @@ const BottomTab = () => {
             />
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
-                name="givenHelp"
+                name="offeredHelp"
                 component={MyOfferedHelpNavigation}
             />
             <BottomNavigation.Screen

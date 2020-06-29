@@ -27,7 +27,7 @@ const navigationiIcons = {
             raised: false,
         },
     },
-    givenHelp: {
+    offeredHelp: {
         icon: 'outdent',
         active: {
             color: colors.primary,
