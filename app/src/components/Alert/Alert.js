@@ -5,7 +5,12 @@ function alertError(error, message = null, type = null) {
         type = 'Erro';
     }
     if (message == null) {
-        message = error.response.data.error;
+        try {
+            message = error.response.data.error;
+        } catch (err) {
+            console.log(err);
+            message = 'Algo deu errado, tente novamente mais tarde';
+        }
     }
     console.log(error);
     if (error.message === 'Network Error') {

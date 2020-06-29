@@ -6,7 +6,6 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
-    Alert,
     ActivityIndicator,
     Keyboard,
     Platform,
@@ -18,6 +17,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
+import { alertError } from '../../../components/Alert/Alert';
 
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);
@@ -47,16 +47,8 @@ export default function Login({ navigation }) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
         } catch (err) {
-            console.log(err);
             setLoadingLoginRequest(false);
-            Alert.alert(
-                'Ooops..',
-                err.message,
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertError(err, err.message, 'Ooops..');
         }
     };
 
