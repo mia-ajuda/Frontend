@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
         if (error.response.status === 401) {
             const correctRequest = await firebaseService
-                .getUserId()
+                .getUserToken()
                 .then(async (idTokenUser) => {
                     await AsyncStorage.setItem('accessToken', idTokenUser);
                     originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;

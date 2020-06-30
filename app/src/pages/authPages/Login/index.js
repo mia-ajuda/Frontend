@@ -11,7 +11,7 @@ import {
     Keyboard,
     Platform,
 } from 'react-native';
-import UserService from '../../../services/User';
+import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 
@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
 
         try {
             setLoadingLoginRequest(true);
-            const user = await UserService.logIn(data);
+            const user = await SessionService.signIn(data);
             setLoadingLoginRequest(false);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });

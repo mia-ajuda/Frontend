@@ -19,7 +19,7 @@ class FirebaseService {
         await this.firebase.auth().signInWithEmailAndPassword(email, password);
     }
 
-    async getUserId() {
+    async getUserToken() {
         return await this.firebase.auth().currentUser.getIdToken();
     }
     async resetUserPassword(email) {
