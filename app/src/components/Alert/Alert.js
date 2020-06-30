@@ -14,18 +14,18 @@ function alertError(error, message = null, type = null) {
     }
     console.log(error);
     if (error.message === 'Network Error') {
-        Alert.alert(type, 'Falha de conexão', [{ title: 'OK' }]);
+        Alert.alert(type, 'Falha de conexão');
     } else {
-        Alert.alert(type, message, [{ title: 'OK' }]);
+        Alert.alert(type, message);
     }
 }
 
 function alertSuccess(message) {
-    Alert.alert('Sucesso', message, [{ title: 'OK' }]);
+    Alert.alert('Sucesso', message);
 }
 
 function alertMessage(message) {
-    Alert.alert(message);
+    Alert.alert(null, message);
 }
 
 export { alertSuccess, alertError, alertMessage };
