@@ -3,7 +3,7 @@ import on_goingGivenHelp from '../../../pages/helpPages/givenHelps/on_going';
 import finishedGivenHelp from '../../../pages/helpPages/givenHelps/finished';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import tabTopBarOptions from './tabTopBarMyHelp';
+import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 

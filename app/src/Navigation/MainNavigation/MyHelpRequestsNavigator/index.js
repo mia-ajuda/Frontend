@@ -5,7 +5,7 @@ import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
 import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import tabTopBarOptions from './tabTopBarMyHelp';
+import tabTopBarOptions from './tabTopBarMyHelp.options';
 
 const MyRequestsTab = createMaterialTopTabNavigator();
 const stack = createStackNavigator();
