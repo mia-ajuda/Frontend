@@ -7,7 +7,7 @@ import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
 import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
 import Splash from '../../../pages/splash';
-import navigationIconsConfig from './navigationsIcons.options';
+import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
 
 const BottomNavigation = createBottomTabNavigator();
