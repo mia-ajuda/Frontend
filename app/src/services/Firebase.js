@@ -22,6 +22,12 @@ class FirebaseService {
     async getUserId() {
         return await this.firebase.auth().currentUser.getIdToken();
     }
+    async sendEmailVerification() {
+        return await this.firebase.auth().currentUser.sendEmailVerification();
+    }
+    async isEmailVerified() {
+        return await this.firebase.auth().currentUser.emailVerified;
+    }
     async resetUserPassword(email) {
         await this.firebase.auth().sendPasswordResetEmail(email);
     }

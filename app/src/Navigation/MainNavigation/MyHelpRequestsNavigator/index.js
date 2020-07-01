@@ -1,13 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
 import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyHelp.options';
 
-const TopTab = createMaterialTNavigator();
+const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const navigationAskedHelps = () => (
