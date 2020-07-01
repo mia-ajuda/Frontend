@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     forgotPassword: {
         justifyContent: 'flex-end',
     },
+    forgotPasswordOrientation: {
+        alignSelf: 'flex-end',
+    },
     forgotPasswordtext: {
         ...fonts.body,
         marginHorizontal: 20,
@@ -52,6 +55,10 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#fff',
         fontSize: 18,
+    },
+    logoImage: {
+        flex: 1,
+        resizeMode: 'contain',
     },
 });
 

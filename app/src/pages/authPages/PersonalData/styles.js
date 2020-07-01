@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
     },
+    scroll1: {
+        width: '100%',
+    },
     scroll2: {
         marginTop: 40,
         flexGrow: 1,

@@ -148,7 +148,7 @@ export default function PersonalData({ route, navigation }) {
                 </View>
             )}
             <ScrollView
-                style={{ width: '100%' }}
+                style={styles.scroll1}
                 contentContainerStyle={
                     keyboardVisible ? styles.scroll2 : styles.scroll
                 }

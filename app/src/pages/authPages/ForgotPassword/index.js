@@ -56,7 +56,7 @@ export default function ForgotPassword({ navigation }) {
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icon name="arrow-back" color="#000000" />
+                        <Icon name="arrow-back" color="black" />
                     </TouchableOpacity>
                 </View>
                 {requestLoading ? (

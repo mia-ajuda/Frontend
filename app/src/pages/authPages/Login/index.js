@@ -66,7 +66,7 @@ export default function Login({ navigation }) {
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <View style={styles.logo}>
                 <Image
-                    style={{ flex: 1, resizeMode: 'contain' }}
+                    style={styles.logoImage}
                     source={require('../../../images/logo.png')}
                 />
             </View>
@@ -96,7 +96,7 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={{ alignSelf: 'flex-end' }}>
+                    style={styles.forgotPasswordOrientation}>
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>

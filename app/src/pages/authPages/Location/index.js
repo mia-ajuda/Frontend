@@ -60,16 +60,10 @@ export default function Location({ route, navigation }) {
                     Arraste para ajustar sua posição
                 </Text>
             </View>
-            <View
-                style={{
-                    position: 'absolute',
-                    zIndex: 5,
-                    top: '43%',
-                    left: '43%',
-                }}>
+            <View style={styles.positionBlueCat}>
                 <Image
                     source={require('../../../../assets/images/blueCat.png')}
-                    style={{ height: 50, width: 50, resizeMode: 'contain' }}
+                    style={styles.iconBlueCat}
                 />
             </View>
             <MapView
@@ -95,11 +89,7 @@ export default function Location({ route, navigation }) {
                             A posição escolhida será usada para definir a
                             localização das ajudas criadas por você. Por isso,
                             preste bastante atenção ao escolhê-la, pois ela{' '}
-                            <Text
-                                style={{
-                                    fontFamily: 'montserrat-semibold',
-                                    color: '#e47171',
-                                }}>
+                            <Text style={styles.descriptionTextAlert}>
                                 não poderá ser alterada.
                             </Text>
                         </Text>
