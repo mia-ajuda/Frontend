@@ -16,7 +16,7 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import validationEmail from '../../../utils/emailValidation';
 import firebaseService from '../../../services/Firebase';
-import { alertSuccess, alertError } from '../../../components/Alert/Alert';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');

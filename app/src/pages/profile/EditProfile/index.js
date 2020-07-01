@@ -18,7 +18,7 @@ import styles from './styles';
 import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
-import { alertSuccess, alertError } from '../../../components/Alert/Alert';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function EditProfile({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');

@@ -13,7 +13,7 @@ import Container from '../../../components/Container';
 import TermsModal from '../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../components/UI/button';
-import { alertMessage } from '../../../components/Alert/Alert';
+import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
     const { userData } = route.params;
 

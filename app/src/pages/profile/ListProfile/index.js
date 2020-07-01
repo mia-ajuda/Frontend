@@ -16,11 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
 import formatPhone from '../../../utils/formatPhone';
-import {
-    alertMessage,
-    alertSuccess,
-    alertError,
-} from '../../../components/Alert/Alert';
+import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);

@@ -17,7 +17,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
-import { alertError } from '../../../components/Alert/Alert';
+import { alertError } from '../../../utils/Alert';
 
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);

@@ -16,7 +16,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import styles from './styles';
-import { alertError, alertSuccess } from '../../../../components/Alert/Alert';
+import { alertError, alertSuccess } from '../../../../utils/Alert';
 
 export default function ListHelpers({
     clickAction,

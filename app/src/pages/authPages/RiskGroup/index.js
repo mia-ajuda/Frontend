@@ -6,7 +6,7 @@ import userService from '../../../services/User';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
-import { alertSuccess, alertError } from '../../../components/Alert/Alert';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function RiskGroup({ route, navigation }) {
     const { userData } = route.params;

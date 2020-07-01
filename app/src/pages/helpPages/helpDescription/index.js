@@ -18,7 +18,7 @@ import HelpService from '../../../services/Help';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
-import { alertError, alertSuccess } from '../../../components/Alert/Alert';
+import { alertError, alertSuccess } from '../../../utils/Alert';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
