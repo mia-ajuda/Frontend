@@ -133,7 +133,7 @@ export default function EditProfile({ route, navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
         } catch (err) {
-            alertError(err, null, 'Ooops');
+            alertError(err, null, 'Ooops..');
         }
     };
 

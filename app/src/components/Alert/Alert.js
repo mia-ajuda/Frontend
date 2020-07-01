@@ -4,7 +4,11 @@ function alertError(error, message = null, type = null) {
     if (type == null) {
         type = 'Erro';
     }
-    if (message == null) {
+
+    if (error.message === 'Network Error') {
+        type = 'Erro';
+        message = 'Falha de conexão';
+    } else if (message == null) {
         try {
             message = error.response.data.error;
         } catch (err) {
@@ -13,11 +17,8 @@ function alertError(error, message = null, type = null) {
         }
     }
     console.log(error);
-    if (error.message === 'Network Error') {
-        Alert.alert(type, 'Falha de conexão');
-    } else {
-        Alert.alert(type, message);
-    }
+    console.log(message);
+    Alert.alert(type, message);
 }
 
 function alertSuccess(message) {
