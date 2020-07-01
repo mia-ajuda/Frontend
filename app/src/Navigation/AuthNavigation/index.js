@@ -9,29 +9,26 @@ import Photo from '../../pages/authPages/Photo';
 import Address from '../../pages/authPages/Address';
 import ForgotPassword from '../../pages/authPages/ForgotPassword';
 
-const AuthStack = createStackNavigator();
+const Stack = createStackNavigator();
 const AuthRoutes = () => {
     return (
-        <AuthStack.Navigator
+        <Stack.Navigator
             initialRouteName="login"
             screenOptions={{
                 headerShown: false,
             }}>
-            <AuthStack.Screen name="login" component={Login} />
-            <AuthStack.Screen name="location" component={Location} />
-            <AuthStack.Screen name="address" component={Address} />
-            <AuthStack.Screen
+            <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name="location" component={Location} />
+            <Stack.Screen name="address" component={Address} />
+            <Stack.Screen
                 name="registrationData"
                 component={RegistrationData}
             />
-            <AuthStack.Screen name="personalData" component={PersonalData} />
-            <AuthStack.Screen name="riskGroup" component={RiskGroup} />
-            <AuthStack.Screen name="photo" component={Photo} />
-            <AuthStack.Screen
-                name="forgotPassword"
-                component={ForgotPassword}
-            />
-        </AuthStack.Navigator>
+            <Stack.Screen name="personalData" component={PersonalData} />
+            <Stack.Screen name="riskGroup" component={RiskGroup} />
+            <Stack.Screen name="photo" component={Photo} />
+            <Stack.Screen name="forgotPassword" component={ForgotPassword} />
+        </Stack.Navigator>
     );
 };
 export default AuthRoutes;

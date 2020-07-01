@@ -4,19 +4,19 @@ import Profile from '../../../pages/profile/ListProfile';
 import EditProfile from '../../../pages/profile/EditProfile';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
-const ProfileStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const ProfileNavigation = () => (
-    <ProfileStack.Navigator screenOptions={headerStyle}>
-        <ProfileStack.Screen name="Perfil" component={Profile} />
-        <ProfileStack.Screen
+    <Stack.Navigator screenOptions={headerStyle}>
+        <Stack.Screen name="Perfil" component={Profile} />
+        <Stack.Screen
             name="EditProfile"
             component={EditProfile}
             options={() => ({
                 title: 'Editar Perfil',
             })}
         />
-    </ProfileStack.Navigator>
+    </Stack.Navigator>
 );
 
 export default ProfileNavigation;

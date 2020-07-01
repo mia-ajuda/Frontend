@@ -1,35 +1,35 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTNavigator } from '@react-navigation/material-top-tabs';
 import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
 import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyHelp.options';
 
-const MyRequestsTab = createMaterialTopTabNavigator();
-const stack = createStackNavigator();
+const TopTab = createMaterialTNavigator();
+const Stack = createStackNavigator();
 
 const navigationAskedHelps = () => (
-    <MyRequestsTab.Navigator
+    <TopTab.Navigator
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
-        <MyRequestsTab.Screen name="em andamento" component={OnGoingHelps} />
-        <MyRequestsTab.Screen name="finalizados" component={DoneHelps} />
-    </MyRequestsTab.Navigator>
+        <TopTab.Screen name="em andamento" component={OnGoingHelps} />
+        <TopTab.Screen name="finalizados" component={DoneHelps} />
+    </TopTab.Navigator>
 );
 
 const MyRequestsNavigation = () => (
-    <stack.Navigator screenOptions={headerStyle}>
-        <stack.Screen name="Meus pedidos" component={navigationAskedHelps} />
-        <stack.Screen
+    <Stack.Navigator screenOptions={headerStyle}>
+        <Stack.Screen name="Meus pedidos" component={navigationAskedHelps} />
+        <Stack.Screen
             name="RequestDescription"
             component={HelpDescription}
             options={({ route }) => ({
                 title: route.params.helpTitle,
             })}
         />
-    </stack.Navigator>
+    </Stack.Navigator>
 );
 
 export default MyRequestsNavigation;

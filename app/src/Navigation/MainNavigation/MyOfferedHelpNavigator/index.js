@@ -7,38 +7,29 @@ import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const HelpTopBarNavigation = createMaterialTopTabNavigator();
-const OfferedHelpStack = createStackNavigator();
+const TopTab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
 const navigationGivenHelps = () => (
-    <HelpTopBarNavigation.Navigator
+    <TopTab.Navigator
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
-        <HelpTopBarNavigation.Screen
-            name="em andamento"
-            component={on_goingGivenHelp}
-        />
-        <HelpTopBarNavigation.Screen
-            name="finalizadas"
-            component={finishedGivenHelp}
-        />
-    </HelpTopBarNavigation.Navigator>
+        <TopTab.Screen name="em andamento" component={on_goingGivenHelp} />
+        <TopTab.Screen name="finalizadas" component={finishedGivenHelp} />
+    </TopTab.Navigator>
 );
 
 const HelpTopBar = () => (
-    <OfferedHelpStack.Navigator screenOptions={headerStyle}>
-        <OfferedHelpStack.Screen
-            name="Minhas Ofertas"
-            component={navigationGivenHelps}
-        />
-        <OfferedHelpStack.Screen
+    <Stack.Navigator screenOptions={headerStyle}>
+        <Stack.Screen name="Minhas Ofertas" component={navigationGivenHelps} />
+        <Stack.Screen
             name="OfferDescription"
             component={HelpDescription}
             options={({ route }) => ({
                 title: route.params.helpTitle,
             })}
         />
-    </OfferedHelpStack.Navigator>
+    </Stack.Navigator>
 );
 
 export default HelpTopBar;

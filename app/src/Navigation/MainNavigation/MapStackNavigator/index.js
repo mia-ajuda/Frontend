@@ -5,28 +5,28 @@ import CreateHelp from '../../../pages/helpPages/createHelp';
 import HelpDescription from '../../../pages/helpPages/helpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
-const MainStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const MainNavigation = () => (
-    <MainStack.Navigator initialRouteName="main" screenOptions={headerStyle}>
-        <MainStack.Screen
+    <Stack.Navigator initialRouteName="main" screenOptions={headerStyle}>
+        <Stack.Screen
             name="main"
             component={Main}
             options={{ headerShown: false }}
         />
-        <MainStack.Screen
+        <Stack.Screen
             name="createHelp"
             options={{ title: 'Pedir ajuda' }}
             component={CreateHelp}
         />
-        <MainStack.Screen
+        <Stack.Screen
             name="helpDescription"
             options={({ route }) => ({
                 title: route.params.helpTitle,
             })}
             component={HelpDescription}
         />
-    </MainStack.Navigator>
+    </Stack.Navigator>
 );
 
 export default MainNavigation;
