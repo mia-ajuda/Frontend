@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { Alert } from 'react-native';
+import translateFirebaseError from '../../utils/translateFirebaseAuthError';
 
 export const ServiceContext = createContext();
 
@@ -8,26 +9,32 @@ export default function ServiceContextProvider(props) {
     const [errorMessage, setErrorMessage] = useState();
     useEffect(() => {
         if (showError) {
-            Alert.alert('Erro:', errorMessage);
+            Alert.alert('Houve um erro:', errorMessage, [
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        setShowError(false);
+                    },
+                },
+            ]);
         }
-    });
-    async function useService(serviceFunction, params) {
-        const newFunction = async function () {
-            try {
-                console.log("Service Function");
-                console.log(serviceFunction);
-                console.log(params);
-                console.log("Service");
-                const serviceReturn = await serviceFunction(params);
-                console.log(serviceReturn);
-                return serviceReturn;
-            } catch (error) {
-                console.log(error);
-                setShowError(true);
-                setErrorMessage(error.message);
+    }, [showError]);
+    async function useService(service, functionName, params) {
+        try {
+            return await service[functionName](...params);
+        } catch (error) {
+            let errorMessage;
+            if (error.code) {
+                errorMessage = translateFirebaseError[error.code];
+            } else {
+                errorMessage = error.response.data.error;
             }
-        };
-        return await newFunction();
+            setErrorMessage(
+                errorMessage | 'Algo deu errado, tente novamente mais tarde',
+            );
+            setShowError(true);
+            return false;
+        }
     }
     return (
         <ServiceContext.Provider value={{ useService }}>

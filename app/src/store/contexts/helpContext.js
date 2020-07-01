@@ -9,6 +9,7 @@ import helpReducer from '../reducers/helpReducer';
 import { LocationContext } from './locationContext';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
+import { ServiceContext } from './serviceContext';
 import actions from '../actions';
 import HelpService from '../../services/Help';
 import {
@@ -29,6 +30,8 @@ export default function HelpContextProvider(props) {
     const { user, currentRegion } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
+    const { useService } = useContext(ServiceContext);
+
     useEffect(() => {
         setLoadingHelps(true);
         if (currentRegion && user._id) {
@@ -99,7 +102,11 @@ export default function HelpContextProvider(props) {
         if (loc) {
             try {
                 const { _id: userId } = user;
-                let helpListArray = await HelpService.getNearHelp(loc, userId);
+                let helpListArray = await useService(
+                    HelpService,
+                    'getNearHelp',
+                    [loc, userId],
+                );
                 if (activeLocations.length > 1) {
                     helpListArray = [...helpList, ...helpListArray];
                     helpListArray = getUnique(helpListArray, '_id');

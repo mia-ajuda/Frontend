@@ -6,7 +6,6 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
-    Alert,
     ActivityIndicator,
     Keyboard,
     Platform,
@@ -21,8 +20,8 @@ import actions from '../../../store/actions';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function Login({ navigation }) {
-    const { useService } = useContext(ServiceContext);
     const { dispatch } = useContext(UserContext);
+    const { useService } = useContext(ServiceContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -38,31 +37,13 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const loginHandler = async () => {
+        setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         Keyboard.dismiss();
-        // console.log("oisdjffgiaśfpfogǵpadkoipgjisafpfk");
-        // const user = await useService(UserService.logIn, data);
-        // console.log("User:");
-        // console.log(user);
-        try {
-            setLoadingLoginRequest(true);
-            const user = await UserService.logIn(data);
-            console.log(user);
-            setLoadingLoginRequest(false);
-            if (user) {
-                dispatch({ type: actions.user.storeUserInfo, data: user });
-            }
-        } catch (err) {
-            console.log(err);
-            setLoadingLoginRequest(false);
-            Alert.alert(
-                'Ooops..',
-                err.message,
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+        const user = await useService(UserService, 'logIn', [data]);
+        setLoadingLoginRequest(false);
+        if (user) {
+            dispatch({ type: actions.user.storeUserInfo, data: user });
         }
     };
 

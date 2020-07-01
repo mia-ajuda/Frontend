@@ -8,16 +8,16 @@ import ServiceContextProvider from './store/contexts/serviceContext';
 
 export default function Root() {
     return (
-        <UserContextProvider>
-            <CategoryContextProvider>
-                <LocationContextProvider>
-                    <HelpContextProvider>
-                        <ServiceContextProvider>
+        <ServiceContextProvider>
+            <UserContextProvider>
+                <CategoryContextProvider>
+                    <LocationContextProvider>
+                        <HelpContextProvider>
                             <Routes />
-                        </ServiceContextProvider>
-                    </HelpContextProvider>
-                </LocationContextProvider>
-            </CategoryContextProvider>
-        </UserContextProvider>
+                        </HelpContextProvider>
+                    </LocationContextProvider>
+                </CategoryContextProvider>
+            </UserContextProvider>
+        </ServiceContextProvider>
     );
 }

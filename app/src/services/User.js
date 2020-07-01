@@ -6,7 +6,7 @@ import * as Google from 'expo-google-app-auth';
 import authConfig from '../config/authmiaajuda-firebase';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
-import translateFirebaseError from '../utils/translateFirebaseAuthError';
+// import translateFirebaseError from '../utils/translateFirebaseAuthError';
 
 import firebaseService from './Firebase';
 
@@ -14,25 +14,25 @@ class UserService {
     constructor() {}
 
     async logIn(data) {
-        try {
-            await firebaseService.login(data.email, data.password);
+        await firebaseService.login(data.email, data.password);
 
-            const idTokenUser = await firebaseService.getUserId();
-            await AsyncStorage.setItem('accessToken', idTokenUser);
-            const user = await this.requestUserData();
-            this.setUserDeviceId();
+        const idTokenUser = await firebaseService.getUserId();
+        await AsyncStorage.setItem('accessToken', idTokenUser);
+        const user = await this.requestUserData();
+        this.setUserDeviceId();
 
-            return user;
-        } catch (error) {
-            const translatedMessage = translateFirebaseError[error.code];
+        return user;
+        // try {
+        // } catch (error) {
+        //     const translatedMessage = translateFirebaseError[error.code];
 
-            throw {
-                message:
-                    translatedMessage ||
-                    error.response.data.error ||
-                    'Algo deu errado, tente novamente mais tarde',
-            };
-        }
+        //     throw {
+        //         message:
+        //             translatedMessage ||
+        //             error.response.data.error ||
+        //             'Algo deu errado, tente novamente mais tarde',
+        //     };
+        // }
     }
 
     async logInWithFacebook(navigation) {
