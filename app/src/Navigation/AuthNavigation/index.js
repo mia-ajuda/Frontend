@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../../pages/authPages/Login';
 import Location from '../../pages/authPages/Location';
@@ -8,16 +8,9 @@ import RiskGroup from '../../pages/authPages/RiskGroup';
 import Photo from '../../pages/authPages/Photo';
 import Address from '../../pages/authPages/Address';
 import ForgotPassword from '../../pages/authPages/ForgotPassword';
-import Splash from '../../pages/splash';
-import { UserContext } from '../../store/contexts/userContext';
 
 const AuthStack = createStackNavigator();
 const AuthRoutes = () => {
-    const { user } = useContext(UserContext);
-    if (user && user.showSplash) {
-        return <Splash />;
-    }
-
     return (
         <AuthStack.Navigator
             initialRouteName="login"
