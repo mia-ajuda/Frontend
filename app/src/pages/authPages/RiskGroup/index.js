@@ -49,7 +49,7 @@ export default function RiskGroup({ route, navigation }) {
             await userService.signUp(completeRegistragionData);
             Alert.alert(
                 'Sucesso',
-                'Seu cadastro foi realizado com sucesso!',
+                'Seu cadastro foi realizado com sucesso! Um email de verificação foi enviado para você',
                 [
                     {
                         text: 'OK',
