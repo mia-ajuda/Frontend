@@ -48,7 +48,11 @@ export default function Login({ navigation }) {
             }
         } catch (err) {
             setLoadingLoginRequest(false);
-            alertError(err, err.message, 'Ooops..');
+            if (err.message == 'Request failed with status code 404') {
+                alertError(err, null, 'Ooops..');
+            } else {
+                alertError(err, err.message, 'Ooops..');
+            }
         }
     };
 
