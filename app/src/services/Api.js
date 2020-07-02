@@ -13,7 +13,7 @@ api.interceptors.request.use(
         config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
     },
-    (error) => {
+    async (error) => {
         console.log(error);
     },
 );
@@ -23,10 +23,10 @@ api.interceptors.response.use(
         return response;
     },
     async (error) => {
+        console.log('error interceptors', error.message);
         const originalRequest = error.config;
-        console.log(error);
-
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
+            console.log('ifffffffffff');
             const correctRequest = await firebaseService
                 .getUserId()
                 .then(async (idTokenUser) => {
@@ -35,8 +35,6 @@ api.interceptors.response.use(
                     return await axios(originalRequest);
                 });
             return correctRequest;
-        } else {
-            throw error;
         }
     },
 );

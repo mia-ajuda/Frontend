@@ -47,7 +47,6 @@ export default function Login({ navigation }) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
         } catch (err) {
-            console.log(err);
             setLoadingLoginRequest(false);
             Alert.alert(
                 'Ooops..',
