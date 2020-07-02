@@ -96,7 +96,7 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={styles.forgotPasswordOrientation}>
+                    style={styles.forgotPasswordButton}>
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>

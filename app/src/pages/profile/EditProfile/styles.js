@@ -56,7 +56,7 @@ export default StyleSheet.create({
         ...fonts.title,
         fontWeight: '600',
     },
-    cepWidth: {
+    cep: {
         width: '100%',
     },
 });

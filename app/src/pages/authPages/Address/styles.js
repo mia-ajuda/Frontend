@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
     },
-    scroll1: {
+    formScrollContainer: {
         width: '100%',
     },
     viewText: {

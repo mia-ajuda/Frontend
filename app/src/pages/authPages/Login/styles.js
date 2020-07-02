@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     forgotPassword: {
         justifyContent: 'flex-end',
     },
-    forgotPasswordOrientation: {
+    forgotPasswordButton: {
         alignSelf: 'flex-end',
     },
     forgotPasswordtext: {

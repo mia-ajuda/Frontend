@@ -100,10 +100,10 @@ export default StyleSheet.create({
     volunteerContainerDirection: {
         flexDirection: 'row',
     },
-    volunteerWidth: {
+    volunteerText: {
         width: '80%',
     },
-    volunteerWrap: {
+    volunteerName: {
         flexWrap: 'wrap',
     },
 });

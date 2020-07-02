@@ -179,11 +179,11 @@ export default function ListHelpers({
                                     style={styles.volunteerImage}
                                     source={getHelperPhoto(helperImage)}
                                 />
-                                <View style={styles.volunteerWidth}>
+                                <View style={styles.volunteerText}>
                                     <Text style={styles.infoTextFont}>
                                         {helperName}
                                     </Text>
-                                    <Text style={styles.volunteerWrap}>
+                                    <Text style={styles.volunteerName}>
                                         <Text style={styles.infoTextFont}>
                                             Cidade:{' '}
                                         </Text>

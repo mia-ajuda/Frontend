@@ -146,7 +146,7 @@ export default function Address({ route, navigation }) {
             {!loading ? (
                 <>
                     <ScrollView
-                        style={styles.scroll1}
+                        style={styles.formScrollContainer}
                         contentContainerStyle={styles.scroll}>
                         <View style={styles.inputView}>
                             <Input
