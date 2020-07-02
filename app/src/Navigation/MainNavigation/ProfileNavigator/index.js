@@ -12,9 +12,9 @@ const ProfileNavigation = () => (
         <Stack.Screen
             name="EditProfile"
             component={EditProfile}
-            options={() => ({
+            options={{
                 title: 'Editar Perfil',
-            })}
+            }}
         />
     </Stack.Navigator>
 );

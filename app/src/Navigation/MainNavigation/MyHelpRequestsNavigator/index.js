@@ -10,7 +10,7 @@ import tabTopBarOptions from './tabTopBarMyHelp.options';
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
-const navigationAskedHelps = () => (
+const NavigationAskedHelps = () => (
     <TopTab.Navigator
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
@@ -21,7 +21,7 @@ const navigationAskedHelps = () => (
 
 const MyRequestsNavigation = () => (
     <Stack.Navigator screenOptions={headerStyle}>
-        <Stack.Screen name="Meus pedidos" component={navigationAskedHelps} />
+        <Stack.Screen name="Meus pedidos" component={NavigationAskedHelps} />
         <Stack.Screen
             name="RequestDescription"
             component={HelpDescription}

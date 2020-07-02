@@ -7,10 +7,10 @@ import Splash from '../pages/splash';
 
 const Routes = () => {
     const { user } = useContext(UserContext);
-    const loadingUserInformation = user && user.showSplash;
+    const isLoadingUserInformation = user && user.showSplash;
     const isUserAuthenticated = user._id;
 
-    if (loadingUserInformation) {
+    if (isLoadingUserInformation) {
         return <Splash />;
     }
 
