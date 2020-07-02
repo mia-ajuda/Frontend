@@ -15,6 +15,10 @@ class FirebaseService {
         });
     }
 
+    isEmailVerified() {
+        return this.firebase.auth().currentUser.emailVerified;
+    }
+
     async login(email, password) {
         await this.firebase.auth().signInWithEmailAndPassword(email, password);
     }

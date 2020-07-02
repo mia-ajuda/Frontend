@@ -13,23 +13,21 @@ import firebaseService from './Firebase';
 class UserService {
     constructor() {}
 
-    async logIn(data) {
+    async logIn(dataFromUser) {
         try {
-            await firebaseService.login(data.email, data.password);
-            const checkIfUserIsVerified = firebaseService.firebase.auth()
-                .currentUser.emailVerified;
-            if (checkIfUserIsVerified) {
-                const idTokenUser = await firebaseService.getUserId(); // Chaves de acesso
-                await AsyncStorage.setItem('accessToken', idTokenUser); // Permitir rotas
-                const user = await this.requestUserData();
-                this.setUserDeviceId();
-                return user;
-            } else {
-                await this.logOut();
-                throw {
-                    message: 'Seu e-mail não foi verificado',
-                };
+            await firebaseService.login(
+                dataFromUser.email,
+                dataFromUser.password,
+            );
+            const isEmailVerified = firebaseService.isEmailVerified();
+            if (!isEmailVerified) {
+                throw { code: 'auth/email-not-verified' };
             }
+            const idTokenUser = await firebaseService.getUserId();
+            await AsyncStorage.setItem('accessToken', idTokenUser);
+            const user = await this.requestUserData();
+            this.setUserDeviceId();
+            return user;
         } catch (error) {
             const translatedMessage = translateFirebaseError[error.code];
             throw {
