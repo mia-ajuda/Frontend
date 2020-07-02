@@ -34,15 +34,9 @@ api.interceptors.response.use(
                         return await axios(originalRequest);
                     });
                 return correctRequest;
-            } else {
-                throw error;
             }
-        } else if (error.message === 'Network Error') {
-            console.log(error.message);
-            throw error;
-        } else {
-            throw error;
         }
+        throw error;
     },
 );
 
