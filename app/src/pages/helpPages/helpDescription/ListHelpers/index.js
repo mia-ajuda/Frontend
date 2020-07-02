@@ -174,41 +174,23 @@ export default function ListHelpers({
                     <View>
                         <Text style={styles.textVolunteer}>Voluntário:</Text>
                         <View style={styles.volunteerContainer}>
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={styles.volunteerContainerDirection}>
                                 <Image
                                     style={styles.volunteerImage}
                                     source={getHelperPhoto(helperImage)}
                                 />
-                                <View style={{ width: '80%' }}>
-                                    <Text
-                                        style={[
-                                            {
-                                                fontFamily:
-                                                    'montserrat-semibold',
-                                            },
-                                        ]}>
+                                <View style={styles.volunteerWidth}>
+                                    <Text style={styles.infoTextFont}>
                                         {helperName}
                                     </Text>
-                                    <Text style={{ flexWrap: 'wrap' }}>
-                                        <Text
-                                            style={[
-                                                {
-                                                    fontFamily:
-                                                        'montserrat-semibold',
-                                                },
-                                            ]}>
+                                    <Text style={styles.volunteerWrap}>
+                                        <Text style={styles.infoTextFont}>
                                             Cidade:{' '}
                                         </Text>
                                         {helperCity}
                                     </Text>
                                     <Text>
-                                        <Text
-                                            style={[
-                                                {
-                                                    fontFamily:
-                                                        'montserrat-semibold',
-                                                },
-                                            ]}>
+                                        <Text style={styles.infoTextFont}>
                                             Telefone:{' '}
                                         </Text>
                                         {helperPhone}
@@ -270,10 +252,7 @@ export default function ListHelpers({
                                         <Text
                                             style={[
                                                 styles.infoText,
-                                                {
-                                                    fontFamily:
-                                                        'montserrat-semibold',
-                                                },
+                                                styles.infoTextFont,
                                             ]}>
                                             {helper.name}
                                         </Text>
@@ -281,10 +260,7 @@ export default function ListHelpers({
                                             <Text
                                                 style={[
                                                     styles.infoText,
-                                                    {
-                                                        fontFamily:
-                                                            'montserrat-semibold',
-                                                    },
+                                                    styles.infoTextFont,
                                                 ]}>
                                                 Idade:{' '}
                                             </Text>
@@ -297,10 +273,7 @@ export default function ListHelpers({
                                             <Text
                                                 style={[
                                                     styles.infoText,
-                                                    {
-                                                        fontFamily:
-                                                            'montserrat-semibold',
-                                                    },
+                                                    styles.infoTextFont,
                                                 ]}>
                                                 Cidade:{' '}
                                             </Text>

@@ -169,15 +169,10 @@ export default function EditProfile({ route, navigation }) {
                 isLoading={loadingModal}
             />
             <ScrollView
-                style={{ width: '100%' }}
+                style={styles.cepWidth}
                 contentContainerStyle={styles.scroll}>
                 {loading ? (
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
+                    <View style={styles.scrollLoading}>
                         <ActivityIndicator
                             size="large"
                             color={colors.primary}
@@ -225,7 +220,7 @@ export default function EditProfile({ route, navigation }) {
                                     />
                                 </View>
                             ) : (
-                                <View style={{ width: '100%' }}>
+                                <View style={styles.cepWidth}>
                                     <Input
                                         change={
                                             route.params.attribute === 'cep'
@@ -254,7 +249,7 @@ export default function EditProfile({ route, navigation }) {
                             )}
 
                             {route.params.attribute === 'cep' ? (
-                                <View style={{ width: '100%' }}>
+                                <View style={styles.cepWidth}>
                                     <View style={styles.viewMargin}></View>
                                     <Input
                                         change={(city) => setCity(city)}

@@ -46,6 +46,9 @@ export default StyleSheet.create({
     infoText: {
         fontSize: 15,
     },
+    infoTextFont: {
+        fontFamily: 'montserrat-semibold',
+    },
     badgeStyle: {
         backgroundColor: colors.danger,
         height: 30,
@@ -93,5 +96,14 @@ export default StyleSheet.create({
         ...fonts.subtitle,
         marginBottom: 10,
         fontWeight: 'bold',
+    },
+    volunteerContainerDirection: {
+        flexDirection: 'row',
+    },
+    volunteerWidth: {
+        width: '80%',
+    },
+    volunteerWrap: {
+        flexWrap: 'wrap',
     },
 });
