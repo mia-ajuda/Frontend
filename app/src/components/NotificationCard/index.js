@@ -13,8 +13,6 @@ export default function NotificationCard({
     dateNow,
 }) {
     const [notificationTime, setNotificationTime] = useState('');
-    const [iconName, setIconName] = useState('bell');
-    const [iconBackground, setIconBackground] = useState(colors.primary);
 
     useEffect(() => {
         let notificationDateFormated = new Date(notificationDate);
@@ -60,32 +58,33 @@ export default function NotificationCard({
         }
     }, [dateNow]);
 
-    useEffect(() => {
+    const renderCardIcon = () => {
+        let iconName;
+        let iconBackground;
+
         switch (notificationType) {
             case 'ajudaRecebida':
-                setIconName('bell');
-                setIconBackground(colors.primary);
+                iconName = 'bell';
+                iconBackground = colors.primary;
                 break;
 
             case 'ajudaAceita':
-                setIconName('bell');
-                setIconBackground(colors.primary);
+                iconName = 'bell';
+                iconBackground = colors.primary;
                 break;
 
             case 'ajudaFinalizada':
-                setIconName('check');
-                setIconBackground(colors.danger);
+                iconName = 'check';
+                iconBackground = colors.success;
                 break;
 
             case 'ajudaExpirada':
-                setIconName('exclamation');
-                setIconBackground(colors.danger);
+                iconName = 'exclamation';
+                iconBackground = colors.danger;
                 break;
         }
-    }, []);
 
-    return (
-        <View style={styles.cardContainer}>
+        return (
             <View
                 style={[
                     styles.iconContent,
@@ -98,7 +97,11 @@ export default function NotificationCard({
                     color={colors.light}
                 />
             </View>
+        );
+    };
 
+    return (
+        <View style={styles.cardContainer}>
             <View style={styles.info}>
                 <Text style={styles.title} numberOfLines={2}>
                     {notificationTitle}
@@ -106,6 +109,7 @@ export default function NotificationCard({
                 <Text numberOfLines={2}>{notificationBody}</Text>
                 <Text style={styles.time}>{notificationTime}</Text>
             </View>
+            {renderCardIcon()}
         </View>
     );
 }
