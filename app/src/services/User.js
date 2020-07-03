@@ -13,12 +13,9 @@ import firebaseService from './Firebase';
 class UserService {
     constructor() {}
 
-    async logIn(dataFromUser) {
+    async logIn(loginInfo) {
         try {
-            await firebaseService.login(
-                dataFromUser.email,
-                dataFromUser.password,
-            );
+            await firebaseService.login(loginInfo.email, loginInfo.password);
             const isEmailVerified = firebaseService.isEmailVerified();
             if (!isEmailVerified) {
                 throw { code: 'auth/email-not-verified' };
