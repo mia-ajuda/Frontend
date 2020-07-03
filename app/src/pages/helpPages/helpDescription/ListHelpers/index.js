@@ -5,7 +5,6 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
-    Alert,
     ActivityIndicator,
 } from 'react-native';
 import { Badge } from 'react-native-elements';
@@ -17,6 +16,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import styles from './styles';
+import { alertError, alertSuccess } from '../../../../utils/Alert';
 
 export default function ListHelpers({
     clickAction,
@@ -78,26 +78,13 @@ export default function ListHelpers({
     async function ownerFinishedHelp() {
         try {
             await api.put(`/help/ownerConfirmation/${helpId}/${user._id}`);
-            setVisible(false);
-            Alert.alert(
-                'Sucesso!',
+            navigation.goBack();
+            alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
             );
-            navigation.navigate('em andamento');
         } catch (err) {
             navigation.goBack();
-            Alert.alert(
-                'Opsss!',
-                'Erro ao finalizar ajuda, tente mais tarde!',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertError(err);
         }
     }
 
@@ -111,24 +98,10 @@ export default function ListHelpers({
             await api.put(`/help/chooseHelper/${helpId}/${helperId}`);
             setVisible(false);
             setIsLoading(false);
-            Alert.alert(
-                'Sucesso!',
-                'Ajudante escolhido com sucesso!',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertSuccess('Ajudante escolhido com sucesso!');
         } catch (err) {
             navigation.goBack();
-            Alert.alert(
-                'Ooops..',
-                err.error || 'Algo deu errado, tente novamente mais tarde',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertError(err, null, 'Ooops..');
         }
     }
 

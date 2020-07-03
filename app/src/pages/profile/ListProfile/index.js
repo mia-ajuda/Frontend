@@ -5,7 +5,6 @@ import {
     Text,
     ImageBackground,
     TouchableOpacity,
-    Alert,
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
@@ -17,6 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
 import formatPhone from '../../../utils/formatPhone';
+import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
@@ -44,7 +44,7 @@ export default function Profile({ navigation }) {
 
         if (permissionResult.granted === false) {
             // eslint-disable-next-line no-undef
-            alert('É preciso permissão para acesso a câmera!');
+            alertMessage('É preciso permissão para acesso a câmera!');
             return;
         }
 
@@ -71,26 +71,11 @@ export default function Profile({ navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             setLoadingModal(false);
             setModalVisible(false);
-            Alert.alert(
-                'Sucesso',
-                'Foto atualizada com sucesso!',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertSuccess('Foto atualizada com sucesso!');
         } catch (err) {
             setLoadingModal(false);
             setModalVisible(false);
-            console.log(err.data);
-            Alert.alert(
-                'Ooops..',
-                err.error || 'Algo deu errado, tente novamente mais tarde',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertError(err, null, 'Ooops..');
         }
     };
 
