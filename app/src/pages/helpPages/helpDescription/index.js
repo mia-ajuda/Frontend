@@ -3,7 +3,6 @@ import {
     View,
     Text,
     Image,
-    Alert,
     ScrollView,
     Linking,
     TouchableOpacity,
@@ -19,6 +18,7 @@ import HelpService from '../../../services/Help';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
+import { alertError, alertSuccess } from '../../../utils/Alert';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -63,41 +63,31 @@ export default function HelpDescription({ route, navigation }) {
     async function chooseHelp() {
         try {
             await HelpService.chooseHelp(helpId, user._id);
-            setConfirmationModalVisible(false);
             let helpListArray = helpList.filter((help) => {
                 return help._id != helpId;
             });
             dispatch({ type: actions.help.storeList, helps: helpListArray });
             navigation.goBack();
-            helpAlert(
+            alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
-                'Sucesso',
             );
         } catch (error) {
-            console.log(error);
             navigation.goBack();
-            helpAlert('Erro ao processar sua oferta de ajuda', 'Erro');
+            alertError(error);
         }
     }
 
     async function finishHelp() {
         try {
             await HelpService.finishHelpByHelper(helpId, user._id);
-            setConfirmationModalVisible(false);
             navigation.goBack();
-            helpAlert(
+            alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
-                'Sucesso',
             );
         } catch (error) {
-            console.log(error);
             navigation.goBack();
-            helpAlert('Erro ao finalizar sua ajuda', 'Erro');
+            alertError(error);
         }
-    }
-
-    function helpAlert(message, type) {
-        Alert.alert(type, message, [{ title: 'OK' }]);
     }
 
     function openModal(action) {

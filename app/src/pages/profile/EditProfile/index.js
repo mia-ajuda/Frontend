@@ -5,7 +5,6 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     ActivityIndicator,
-    Alert,
     Platform,
 } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -19,6 +18,7 @@ import styles from './styles';
 import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function EditProfile({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
@@ -131,28 +131,9 @@ export default function EditProfile({ route, navigation }) {
                 route.params.attribute === 'cep' ? '/address' : '',
             );
             dispatch({ type: actions.user.storeUserInfo, data: resp });
-            setLoadingModal(false);
-            setModalVisible(false);
-            Alert.alert(
-                'Sucesso',
-                'Alteração feita com sucesso!',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            alertSuccess('Alteração feita com sucesso!');
         } catch (err) {
-            setLoadingModal(false);
-            setModalVisible(false);
-            Alert.alert(
-                'Ooops..',
-                err.error || 'Algo deu errado, tente novamente mais tarde',
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
-            console.log(err.message);
+            alertError(err, null, 'Ooops..');
         }
     };
 
