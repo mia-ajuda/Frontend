@@ -14,18 +14,19 @@ class SessionService {
             const idTokenUser = await firebaseService.getUserToken();
             await AsyncStorage.setItem('accessToken', idTokenUser);
             const user = await UserService.requestUserData();
-            UserService.setUserDeviceId();
+            await UserService.setUserDeviceId();
 
             return user;
         } catch (error) {
-            const translatedMessage = translateFirebaseError[error.code];
-
-            throw {
-                message:
-                    translatedMessage ||
-                    error.response.data.error ||
-                    'Algo deu errado, tente novamente mais tarde',
-            };
+            const errorFromFirebase = error.code;
+            if (errorFromFirebase) {
+                const translatedMessage =
+                    translateFirebaseError[errorFromFirebase];
+                throw {
+                    message: translatedMessage,
+                };
+            }
+            throw error;
         }
     }
 
