@@ -26,17 +26,17 @@ let activeLocations = [];
 export default function HelpContextProvider(props) {
     const { location } = useContext(LocationContext);
     const { selectedCategories } = useContext(CategoryContext);
-    const { user, currentRegion } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
     useEffect(() => {
         setLoadingHelps(true);
-        if (currentRegion && user._id) {
-            activeLocations.push(currentRegion);
-            getHelpList(currentRegion);
+        if (userPosition && user._id) {
+            activeLocations.push(userPosition);
+            getHelpList(userPosition);
             setupWebSocket();
         }
-    }, [user._id, currentRegion]);
+    }, [user._id, userPosition]);
 
     useEffect(() => {
         subscribeToNewHelps((help) => {
@@ -73,9 +73,9 @@ export default function HelpContextProvider(props) {
     useEffect(() => {
         if (location) {
             let latValidation =
-                location.latitude * 10000 - currentRegion.latitude * 10000;
+                location.latitude * 10000 - userPosition.latitude * 10000;
             let longValidation =
-                location.longitude * 10000 - currentRegion.longitude * 10000;
+                location.longitude * 10000 - userPosition.longitude * 10000;
             longValidation = Math.abs(longValidation);
             latValidation = Math.abs(latValidation);
 
@@ -151,7 +151,7 @@ export default function HelpContextProvider(props) {
     function setupWebSocket() {
         disconnect();
         const { _id: userId } = user;
-        connect(JSON.stringify(currentRegion), userId);
+        connect(JSON.stringify(userPosition), userId);
     }
 
     function shouldRequest({ latitude, longitude }) {

@@ -4,14 +4,14 @@ import { UserContext } from './userContext';
 export const LocationContext = createContext();
 
 export default function LocationContextProvider(props) {
-    const { currentRegion } = useContext(UserContext);
-    const [location, setLocation] = useState(currentRegion);
+    const { userPosition } = useContext(UserContext);
+    const [location, setLocation] = useState(userPosition);
 
     useEffect(() => {
-        if (currentRegion) {
-            setLocation(currentRegion);
+        if (userPosition) {
+            setLocation(userPosition);
         }
-    }, [currentRegion]);
+    }, [userPosition]);
 
     return (
         <LocationContext.Provider value={{ location, setLocation }}>

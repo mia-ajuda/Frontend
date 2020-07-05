@@ -15,7 +15,7 @@ import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../components/UI/button';
 import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
-    const { userData } = route.params;
+    const { userDataFromAddressPage } = route.params;
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [photo, setPhoto] = useState('');
@@ -52,11 +52,11 @@ export default function Photo({ route, navigation }) {
         setPhoto('');
     }
     async function continueHandler() {
-        const newUserData = {
+        const userDataFromPhotoPage = {
             photo,
-            ...userData,
+            ...userDataFromAddressPage,
         };
-        navigation.navigate('riskGroup', { userData: newUserData });
+        navigation.navigate('riskGroup', { userDataFromPhotoPage });
     }
 
     return (

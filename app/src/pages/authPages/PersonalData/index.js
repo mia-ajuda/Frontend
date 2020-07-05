@@ -20,7 +20,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 
 export default function PersonalData({ route, navigation }) {
-    const { userData } = route.params;
+    const { userDatafromRegistrationPage } = route.params;
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState('');
     const [isBirthdateValid, setBirthValid] = useState(true);
@@ -47,7 +47,6 @@ export default function PersonalData({ route, navigation }) {
     }, [cpf, birthday]);
 
     useEffect(() => {
-        completeUserInfoIfGoogleAndFacebook();
         Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
         Keyboard.addListener('keyboardDidHide', () =>
             setKeyboardVisible(false),
@@ -96,31 +95,19 @@ export default function PersonalData({ route, navigation }) {
 
             const phone = formatPhone();
             const birthdayFormated = formatBirthDate(birthday);
-            const newUserData = {
-                ...userData,
+            const userDataFromPersonalPage = {
                 name,
                 birthday: birthdayFormated,
                 cpf,
                 phone,
                 mentalHealthProfessional,
+                ...userDatafromRegistrationPage,
             };
-            navigation.navigate('address', { userData: newUserData });
+            navigation.navigate('address', { userDataFromPersonalPage });
         } catch (error) {
             setError(error);
         }
     };
-
-    function completeUserInfoIfGoogleAndFacebook() {
-        if (userData.name) {
-            setName(userData.name);
-        }
-
-        if (userData.birthday) {
-            const dateSplit = userData.birthday.split('/');
-            const date = dateSplit[1] + '/' + dateSplit[0] + '/' + dateSplit[2];
-            setBirthday(date);
-        }
-    }
 
     return (
         <KeyboardAvoidingView

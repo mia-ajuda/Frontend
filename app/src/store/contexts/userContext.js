@@ -15,7 +15,7 @@ export const UserContextProvider = (props) => {
     const [user, dispatch] = useReducer(userReducer, {
         showSplash: true,
     });
-    const [currentRegion, setCurrentRegion] = useState(null);
+    const [userPosition, setUserPosition] = useState(null);
 
     async function getUserInfo() {
         const accessToken = await AsyncStorage.getItem('accessToken');
@@ -52,7 +52,7 @@ export const UserContextProvider = (props) => {
                     enableHighAccuracy: true,
                 });
                 const { latitude, longitude } = coords;
-                setCurrentRegion({
+                setUserPosition({
                     latitude,
                     longitude,
                     latitudeDelta: 0.025,
@@ -64,7 +64,8 @@ export const UserContextProvider = (props) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, dispatch, currentRegion }}>
+        <UserContext.Provider
+            value={{ user, dispatch, userPosition, setUserPosition }}>
             {props.children}
         </UserContext.Provider>
     );

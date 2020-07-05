@@ -18,7 +18,7 @@ import { DeviceInformation } from '../../../store/contexts/deviceInformationCont
 
 export default function Address({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformation);
-    const { userData } = route.params;
+    const { userDataFromPersonalPage } = route.params;
 
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
@@ -137,9 +137,18 @@ export default function Address({ route, navigation }) {
     };
 
     const continueButtonPressed = () => {
-        const address = { cep, city, uf, number: numberPlace, complement };
-        const newUserData = { address, ...userData };
-        navigation.navigate('photo', { userData: newUserData });
+        const address = {
+            cep,
+            city,
+            state: uf,
+            number: numberPlace,
+            complement,
+        };
+        const userDataFromAddressPage = {
+            address,
+            ...userDataFromPersonalPage,
+        };
+        navigation.navigate('photo', { userDataFromAddressPage });
     };
 
     return (

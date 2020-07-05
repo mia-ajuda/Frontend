@@ -25,7 +25,7 @@ export default function Main({ navigation }) {
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
-    const { currentRegion } = useContext(UserContext);
+    const { userPosition } = useContext(UserContext);
     const { setLocation } = useContext(LocationContext);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export default function Main({ navigation }) {
             <TouchableOpacity
                 style={styles.recenter}
                 onPress={() => {
-                    setRegion(currentRegion);
+                    setRegion(userPosition);
                 }}>
                 <Icon
                     name="target-two"
@@ -56,7 +56,7 @@ export default function Main({ navigation }) {
             </TouchableOpacity>
 
             <MapView
-                initialRegion={currentRegion}
+                initialRegion={userPosition}
                 style={styles.map}
                 region={region}
                 onRegionChange={() => setHelpListVisible(false)}
@@ -65,13 +65,13 @@ export default function Main({ navigation }) {
                     setHelpListVisible(false);
                 }}
                 customMapStyle={mapStyle.day.map}>
-                {currentRegion && (
+                {userPosition && (
                     <>
                         <Marker
                             title="Este é você!"
                             coordinate={{
-                                latitude: currentRegion.latitude,
-                                longitude: currentRegion.longitude,
+                                latitude: userPosition.latitude,
+                                longitude: userPosition.longitude,
                             }}>
                             <Image
                                 source={mapStyle.day.cat}
@@ -80,8 +80,8 @@ export default function Main({ navigation }) {
                         </Marker>
                         <Circle
                             center={{
-                                latitude: currentRegion.latitude,
-                                longitude: currentRegion.longitude,
+                                latitude: userPosition.latitude,
+                                longitude: userPosition.longitude,
                             }}
                             radius={2000}
                             strokeColor={mapStyle.day.radiusColor}

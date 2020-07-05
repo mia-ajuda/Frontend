@@ -9,7 +9,7 @@ import riskGroups from '../../../utils/riskGroupsObject';
 import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function RiskGroup({ route, navigation }) {
-    const { userData } = route.params;
+    const { userDataFromPhotoPage } = route.params;
     const [loading, setLoading] = useState(false);
     const [disease, setDisease] = useState({
         dc: false,
@@ -35,10 +35,9 @@ export default function RiskGroup({ route, navigation }) {
         }
 
         const completeRegistragionData = {
-            ...userData,
+            ...userDataFromPhotoPage,
             riskGroup: newDisease,
         };
-
         try {
             setLoading(true);
             await userService.signUp(completeRegistragionData);

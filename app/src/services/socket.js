@@ -15,9 +15,9 @@ function subscribeToDeleteHelp(subscribeFunction) {
     socket.on('delete-help', subscribeFunction);
 }
 
-function connect(currentRegion, userId) {
+function connect(userPosition, userId) {
     socket.io.opts.query = {
-        currentRegion,
+        userPosition,
         userId,
     };
     socket.connect();
