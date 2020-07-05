@@ -53,12 +53,16 @@ export default function Address({ route, navigation }) {
         }
     }
 
-    const continueButtonPressed = () => {
-        const address = { cep, city, uf, number: numberPlace, complement };
-        const newUserData = { address, ...userData };
-        navigation.navigate('photo', { userData: newUserData });
+    const renderPageDescription = () => {
+        if (keyboard.visible === false) {
+            return (
+                <Text style={styles.pageDescription}>
+                    Precisamos de algumas informações sobre onde você mora. Por
+                    favor, preencha as informações abaixo.
+                </Text>
+            );
+        }
     };
-
     const renderLoadingIndicator = () => (
         <View style={styles.loadingIndicator}>
             <ActivityIndicator size="large" color={colors.primary} />
@@ -110,12 +114,11 @@ export default function Address({ route, navigation }) {
     );
 
     const renderContinueButton = () => {
-        const disableButton = !(
-            cep.length ||
-            city.length ||
-            uf.length ||
-            numberPlace.length
-        );
+        const disableButton =
+            cep.length == 0 ||
+            city.length == 0 ||
+            uf.length == 0 ||
+            numberPlace.length == 0;
 
         return (
             <View style={styles.btnView}>
@@ -129,15 +132,10 @@ export default function Address({ route, navigation }) {
         );
     };
 
-    const renderPageDescription = () => {
-        if (keyboard.visible === false) {
-            return (
-                <Text style={styles.pageDescription}>
-                    Precisamos de algumas informações sobre onde você mora. Por
-                    favor, preencha as informações abaixo.
-                </Text>
-            );
-        }
+    const continueButtonPressed = () => {
+        const address = { cep, city, uf, number: numberPlace, complement };
+        const newUserData = { address, ...userData };
+        navigation.navigate('photo', { userData: newUserData });
     };
 
     return (
