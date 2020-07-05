@@ -7,8 +7,6 @@ import {
     TouchableOpacity,
     Text,
     ActivityIndicator,
-    Keyboard,
-    Platform,
 } from 'react-native';
 import UserService from '../../../services/User';
 import Button from '../../../components/UI/button';
@@ -16,11 +14,13 @@ import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
+import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import actions from '../../../store/actions';
 import { alertError } from '../../../utils/Alert';
 
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);
+    const { keyboard } = useContext(DeviceInformationContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
 
     const loginHandler = async () => {
         const data = { email: email.trim(), password };
-        Keyboard.dismiss();
+        keyboard.hide();
 
         try {
             setLoadingLoginRequest(true);
@@ -56,10 +56,21 @@ export default function Login({ navigation }) {
         }
     };
 
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.light} />
+    );
+    const renderLoginButton = () => (
+        <Button
+            large
+            type="white"
+            title="ENTRAR"
+            press={loginHandler}
+            disabled={buttonDisabled || loadingLoginRequest}
+        />
+    );
+
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView style={styles.container} behavior="height">
             <View style={styles.logo}>
                 <Image
                     style={styles.logoImage}
@@ -98,21 +109,13 @@ export default function Login({ navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.login}>
-                    {loadingLoginRequest ? (
-                        <ActivityIndicator size="large" color={colors.light} />
-                    ) : (
-                        <Button
-                            large
-                            type="white"
-                            title="ENTRAR"
-                            press={loginHandler}
-                            disabled={buttonDisabled || loadingLoginRequest}
-                        />
-                    )}
+                    {loadingLoginRequest
+                        ? renderLoadingIndicator()
+                        : renderLoginButton()}
                 </View>
                 <TouchableOpacity
                     style={styles.signUP}
-                    onPress={async () => {
+                    onPress={() => {
                         navigation.navigate('location');
                     }}>
                     <Text style={styles.signupText}>Criar Conta</Text>

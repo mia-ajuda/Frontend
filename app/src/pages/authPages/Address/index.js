@@ -14,10 +14,10 @@ import styles from './styles';
 import { Icon } from 'react-native-elements';
 import ViaCep from '../../../services/ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
-import { DeviceInformation } from '../../../store/contexts/deviceInformationContext';
+import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
 export default function Address({ route, navigation }) {
-    const { keyboard } = useContext(DeviceInformation);
+    const { keyboard } = useContext(DeviceInformationContext);
     const { userDataFromPersonalPage } = route.params;
 
     const [cep, setCep] = useState('');

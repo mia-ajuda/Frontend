@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Keyboard, Platform } from 'react-native';
 
-export const DeviceInformation = createContext();
+export const DeviceInformationContext = createContext();
 
 export default function DeviceInfoProvider({ children }) {
     const [keyboardInformation, setKeyboardInformation] = useState({
@@ -29,12 +29,12 @@ export default function DeviceInfoProvider({ children }) {
     };
 
     return (
-        <DeviceInformation.Provider
+        <DeviceInformationContext.Provider
             value={{
                 operationalSystem,
                 keyboard: keyboardInformation,
             }}>
             {children}
-        </DeviceInformation.Provider>
+        </DeviceInformationContext.Provider>
     );
 }
