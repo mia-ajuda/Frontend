@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Alert,
-    ActivityIndicator,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function RiskGroup({ route, navigation }) {
     const { userData } = route.params;
@@ -47,34 +42,11 @@ export default function RiskGroup({ route, navigation }) {
         try {
             setLoading(true);
             await SessionService.signUp(completeRegistragionData);
-            Alert.alert(
-                'Sucesso',
-                'Seu cadastro foi realizado com sucesso!',
-                [
-                    {
-                        text: 'OK',
-                        onPress: () => {},
-                    },
-                ],
-                { cancelable: false },
-            );
-        } catch (err) {
-            console.log(err);
-            Alert.alert(
-                'Erro',
-                err.error ||
-                    'Erro ao finalizar seu cadastro. Tente novamente mais tarde!',
-                [
-                    {
-                        text: 'OK',
-                        onPress: () => {},
-                    },
-                ],
-                { cancelable: false },
-            );
-        } finally {
-            setLoading(false);
             navigation.navigate('login');
+            alertSuccess('Seu cadastro foi realizado com sucesso');
+        } catch (err) {
+            navigation.navigate('login');
+            alertError(err);
         }
     };
     return (

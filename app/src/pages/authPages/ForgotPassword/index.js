@@ -5,7 +5,6 @@ import {
     ScrollView,
     Text,
     TouchableOpacity,
-    Alert,
     ActivityIndicator,
     KeyboardAvoidingView,
     Platform,
@@ -17,6 +16,7 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import validationEmail from '../../../utils/emailValidation';
 import firebaseService from '../../../services/Firebase';
+import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');
@@ -27,23 +27,17 @@ export default function ForgotPassword({ navigation }) {
         try {
             setRequestLoading(true);
             await firebaseService.resetUserPassword(email.trim().toLowerCase());
-            setRequestLoading(false);
             navigation.goBack();
-            Alert.alert(
-                'Sucesso',
+            alertSuccess(
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',
-                [{ text: 'OK', onPress: () => {} }],
-                { cancelable: false },
             );
         } catch (err) {
             setRequestLoading(false);
-            Alert.alert(
-                'Ooops',
+            alertError(
+                err,
                 'Email não encontrado. Tente novamente!',
-                [{ text: 'OK', onPress: () => {} }],
-                { cancelable: false },
+                'Ooops..',
             );
-            console.log(err.message);
         }
     };
 
@@ -56,7 +50,7 @@ export default function ForgotPassword({ navigation }) {
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icon name="arrow-back" color="#000000" />
+                        <Icon name="arrow-back" color="black" />
                     </TouchableOpacity>
                 </View>
                 {requestLoading ? (

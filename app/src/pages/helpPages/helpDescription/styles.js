@@ -35,6 +35,17 @@ const styles = StyleSheet.create({
         ...fonts.body,
         marginBottom: 3,
     },
+    infoTextFont: {
+        fontFamily: 'montserrat-semibold',
+    },
+    infoTextBottom: {
+        marginBottom: 50,
+    },
+    infoTextDescription: {
+        fontFamily: 'montserrat-semibold',
+        marginTop: 20,
+        marginBottom: 10,
+    },
     helpInfo: {
         flex: 3,
         justifyContent: 'space-between',
@@ -49,6 +60,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
+    },
+    ViewLinkBox: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginBottom: 20,
     },
 });
 

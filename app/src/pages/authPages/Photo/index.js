@@ -5,7 +5,6 @@ import {
     Text,
     TouchableOpacity,
     View,
-    Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Icon, CheckBox } from 'react-native-elements';
@@ -14,6 +13,7 @@ import Container from '../../../components/Container';
 import TermsModal from '../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../components/UI/button';
+import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
     const { userData } = route.params;
 
@@ -27,7 +27,7 @@ export default function Photo({ route, navigation }) {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
         if (permissionResult.granted === false) {
-            Alert.alert('É preciso permissão para acesso a câmera!');
+            alertMessage('É preciso permissão para acesso a câmera!');
             return;
         }
 
