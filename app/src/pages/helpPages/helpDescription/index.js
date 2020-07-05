@@ -160,35 +160,25 @@ export default function HelpDescription({ route, navigation }) {
                                 <Text
                                     style={[
                                         styles.infoText,
-                                        { fontFamily: 'montserrat-semibold' },
+                                        styles.infoTextFont,
                                     ]}>
                                     {userName || user.name}
                                 </Text>
                                 <Text style={styles.infoText}>
-                                    <Text
-                                        style={{
-                                            fontFamily: 'montserrat-semibold',
-                                        }}>
+                                    <Text style={styles.infoTextFont}>
                                         Idade:{' '}
                                     </Text>
                                     {age || calculateAge(user.birthday)}
                                 </Text>
                                 <Text style={styles.infoText}>
-                                    <Text
-                                        style={{
-                                            fontFamily: 'montserrat-semibold',
-                                        }}>
+                                    <Text style={styles.infoTextFont}>
                                         Cidade:{' '}
                                     </Text>
                                     {city || user.address.city}
                                 </Text>
                                 {user._id == helperId && (
                                     <Text style={styles.infoText}>
-                                        <Text
-                                            style={{
-                                                fontFamily:
-                                                    'montserrat-semibold',
-                                            }}>
+                                        <Text style={styles.infoTextFont}>
                                             Telefone:
                                         </Text>
                                         {userPhone}
@@ -199,10 +189,7 @@ export default function HelpDescription({ route, navigation }) {
                         <View style={styles.helpInfo}>
                             <View style={styles.helpInfoText}>
                                 <Text style={styles.infoText}>
-                                    <Text
-                                        style={{
-                                            fontFamily: 'montserrat-semibold',
-                                        }}>
+                                    <Text style={styles.infoTextFont}>
                                         Categoria:{' '}
                                     </Text>
                                     {categoryName}
@@ -210,18 +197,14 @@ export default function HelpDescription({ route, navigation }) {
                                 <Text
                                     style={[
                                         styles.infoText,
-                                        {
-                                            fontFamily: 'montserrat-semibold',
-                                            marginTop: 20,
-                                            marginBottom: 10,
-                                        },
+                                        styles.infoTextDescription,
                                     ]}>
                                     Descrição:
                                 </Text>
                                 <Text
                                     style={[
                                         styles.infoText,
-                                        { marginBottom: 50 },
+                                        styles.infoTextBottom,
                                     ]}>
                                     {helpDescription}
                                 </Text>
@@ -232,13 +215,7 @@ export default function HelpDescription({ route, navigation }) {
 
                 {user._id == helperId && helpStatus != 'finished' && (
                     <View style={styles.ViewLink}>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-around',
-                                width: '100%',
-                                marginBottom: 20,
-                            }}>
+                        <View style={styles.ViewLinkBox}>
                             <TouchableOpacity onPress={openWhatsapp}>
                                 <Icon
                                     name="whatsapp"

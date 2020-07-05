@@ -21,6 +21,7 @@ export default function Address({ route, navigation }) {
     const { userData } = route.params;
 
     const [cep, setCep] = useState('');
+    const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
     const [complement, setComplement] = useState('');
@@ -44,7 +45,9 @@ export default function Address({ route, navigation }) {
             setUf(uf);
             setCity(localidade);
             setComplement(`${logradouro}/${bairro}`);
+            setCepValid(true);
         } catch (error) {
+            setCepValid(false);
             ToastMessage(
                 error.message || 'Não foi possível recuperar este cep',
             );
@@ -78,6 +81,7 @@ export default function Address({ route, navigation }) {
                 value={cep}
                 keyboard="numeric"
                 maxLength={8}
+                valid={isCepValid}
             />
             <View style={styles.viewMargin}></View>
             <Input
@@ -141,8 +145,8 @@ export default function Address({ route, navigation }) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior="height">
             <ScrollView
-                style={{ width: '100%' }}
-                contentContainerStyle={styles.scroll}>
+                style={styles.scroll}
+                contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon name={'arrow-back'} color={'black'} />

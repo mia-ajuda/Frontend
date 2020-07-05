@@ -10,8 +10,11 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 30,
     },
-    scroll: {
+    scrollContainer: {
         justifyContent: 'center',
+    },
+    formScrollContainer: {
+        width: '100%',
     },
     viewText: {
         width: '90%',
@@ -63,6 +66,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    scroll: { width: '100%' },
 });
 
 export default styles;
