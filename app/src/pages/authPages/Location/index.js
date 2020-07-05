@@ -1,56 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
-import {
-    requestPermissionsAsync,
-    getCurrentPositionAsync,
-} from 'expo-location';
+import { UserContext } from '../../../store/contexts/userContext';
+
 import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { Icon } from 'react-native-elements';
 
-export default function Location({ route, navigation }) {
-    const userData = route.params ? route.params.userData : {};
-
-    const [currentRegion, setCurrentRegion] = useState(null);
+export default function Location({ navigation }) {
+    const { userPosition, setUserPosition } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
-    const [descriptionShown, setDescriptionShow] = useState(true);
+    const [
+        resquestPositionCardVisible,
+        setResquestPositionCardVisible,
+    ] = useState(true);
 
-    useEffect(() => {
-        async function getLocation() {
-            const { granted } = await requestPermissionsAsync();
-            if (granted) {
-                const { coords } = await getCurrentPositionAsync({
-                    enableHighAccuracy: true,
-                });
-                const { latitude, longitude } = coords;
-                setCurrentRegion({
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.0025,
-                    longitudeDelta: 0.0025,
-                });
-            }
+    const renderPositionRequestCard = () => {
+        let iconName;
+        let explanationText;
+
+        if (resquestPositionCardVisible) {
+            iconName = 'sort-down';
+            explanationText = (
+                <Text style={styles.descriptionText}>
+                    A posição escolhida será usada para definir a localização
+                    das ajudas criadas por você. Por isso, preste bastante
+                    atenção ao escolhê-la, pois ela{' '}
+                    <Text style={styles.descriptionTextAlert}>
+                        não poderá ser alterada.
+                    </Text>
+                </Text>
+            );
+        } else {
+            iconName = 'sort-up';
+            explanationText = null;
         }
-        getLocation();
-    }, []);
-
+        return (
+            <View style={styles.description}>
+                <TouchableOpacity
+                    onPress={() => {
+                        setResquestPositionCardVisible(
+                            !resquestPositionCardVisible,
+                        );
+                    }}>
+                    <Icon name={iconName} type="font-awesome" />
+                    <Text style={styles.descriptionTextTitle}>
+                        Por que precisamos de sua posição?
+                    </Text>
+                    {explanationText}
+                </TouchableOpacity>
+            </View>
+        );
+    };
     function continueRegistration() {
-        const { latitude, longitude } = currentRegion;
-        const newUserData = {
+        const { latitude, longitude } = userPosition;
+        const userDataFromLocationPage = {
             latitude,
             longitude,
-            ...userData,
         };
         setConfirmationModalVisible(false);
-        userData.email
-            ? navigation.navigate('personalData', { userData: newUserData })
-            : navigation.navigate('registrationData', {
-                  userData: newUserData,
-              });
+        navigation.navigate('registrationData', { userDataFromLocationPage });
     }
 
     return (
@@ -67,35 +79,16 @@ export default function Location({ route, navigation }) {
                 />
             </View>
             <MapView
-                initialRegion={currentRegion}
+                initialRegion={{
+                    ...userPosition,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                }}
                 style={styles.map}
-                onRegionChangeComplete={(region) => setCurrentRegion(region)}
+                onRegionChangeComplete={(region) => setUserPosition(region)}
             />
 
-            <ScrollView style={styles.description} scrollEnabled={false}>
-                <TouchableOpacity
-                    onPress={() => {
-                        setDescriptionShow(!descriptionShown);
-                    }}>
-                    <Icon
-                        name={descriptionShown ? 'sort-down' : 'sort-up'}
-                        type="font-awesome"
-                    />
-                    <Text style={styles.descriptionTextTitle}>
-                        Por que precisamos de sua posição?
-                    </Text>
-                    {descriptionShown && (
-                        <Text style={styles.descriptionText}>
-                            A posição escolhida será usada para definir a
-                            localização das ajudas criadas por você. Por isso,
-                            preste bastante atenção ao escolhê-la, pois ela{' '}
-                            <Text style={styles.descriptionTextAlert}>
-                                não poderá ser alterada.
-                            </Text>
-                        </Text>
-                    )}
-                </TouchableOpacity>
-            </ScrollView>
+            {renderPositionRequestCard()}
 
             <View style={styles.buttons}>
                 <Button
