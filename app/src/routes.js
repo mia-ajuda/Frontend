@@ -292,7 +292,7 @@ const AuthRoutes = () => {
     return (
         <>
             <AuthStack.Navigator
-                initialRouteName="login"
+                initialRouteName="address"
                 screenOptions={{
                     headerShown: false,
                 }}>
