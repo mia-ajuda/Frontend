@@ -16,8 +16,7 @@ function alertError(error, message = null, type = null) {
             message = 'Algo deu errado, tente novamente mais tarde';
         }
     }
-    console.log(error);
-    console.log(message);
+
     Alert.alert(type, message);
 }
 
