@@ -33,7 +33,7 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         firebaseService.onAuthStateChanged(async function (user) {
-            if (user) {
+            if (user && user.emailVerified) {
                 user.getIdToken().then(async (acesstoken) => {
                     await AsyncStorage.setItem('accessToken', acesstoken);
                     getUserInfo();
