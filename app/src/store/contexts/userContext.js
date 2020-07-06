@@ -4,10 +4,12 @@ import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import actions from '../actions';
 import firebaseService from '../../services/Firebase';
+import warning from '../../docs/warning';
 import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import { Alert } from 'react-native';
 
 export const UserContext = createContext();
 
@@ -38,6 +40,40 @@ export const UserContextProvider = (props) => {
                     await AsyncStorage.setItem('accessToken', acesstoken);
                     getUserInfo();
                 });
+            } else {
+                getUserInfo();
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        firebaseService.onAuthStateChanged(async function (user) {
+            if (user) {
+                try {
+                    let dontShowAgain = await AsyncStorage.getItem(
+                        'dontShowAgain',
+                    );
+                    console.log('Valor: ' + dontShowAgain);
+                    if (dontShowAgain !== 'true') {
+                        Alert.alert('Segurança em primeiro lugar', warning, [
+                            {
+                                text: 'Não mostrar novamente',
+                                onPress: async () => {
+                                    await AsyncStorage.setItem(
+                                        'dontShowAgain',
+                                        'true',
+                                    );
+                                },
+                            },
+                            {
+                                text: 'Ok',
+                                onPress: () => console.log('Ok Press'),
+                            },
+                        ]);
+                    }
+                } catch (error) {
+                    console.log('Problema: ', error);
+                }
             } else {
                 getUserInfo();
             }
