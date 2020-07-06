@@ -17,7 +17,7 @@ class UserService {
         try {
             await firebaseService.login(loginInfo.email, loginInfo.password);
             const isEmailVerified = firebaseService.isEmailVerified();
-            if (!isEmailVerified) {
+            if (isEmailVerified == false) {
                 throw { code: 'auth/email-not-verified' };
             }
             const idTokenUser = await firebaseService.getUserId();
@@ -186,7 +186,7 @@ class UserService {
             const response = await api.post('/user', data);
             await firebaseService.login(data.email, data.password);
             await firebaseService.sendEmailVerification();
-            await this.logOut();
+            await firebaseService.signOut();
             return response;
         } catch (error) {
             console.log(error.response);
