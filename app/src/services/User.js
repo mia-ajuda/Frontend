@@ -31,13 +31,13 @@ class UserService {
                 };
             }
         } catch (error) {
-            const translatedMessage = translateFirebaseError[error.code];
-            throw {
-                message:
-                    translatedMessage ||
-                    error.response.data.error ||
-                    'Algo deu errado, tente novamente mais tarde',
-            };
+            if (error.code != undefined) {
+                const translatedMessage = translateFirebaseError[error.code];
+                throw {
+                    message: translatedMessage,
+                };
+            }
+            throw error;
         }
     }
 
@@ -195,10 +195,7 @@ class UserService {
             return response;
         } catch (error) {
             console.log(error.response);
-            throw {
-                error:
-                    'Aconteceu algo errado ao cadastrar, tente novamente mais tarde.',
-            };
+            throw error;
         }
     }
 

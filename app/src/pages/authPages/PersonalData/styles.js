@@ -11,11 +11,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         backgroundColor: color.light,
     },
-    scroll: {
+    scrollContainer: {
         flexGrow: 1,
         justifyContent: 'center',
     },
-    scroll2: {
+    formScroll: {
+        width: '100%',
+    },
+    scrollContainerOnTyping: {
         marginTop: 40,
         flexGrow: 1,
         justifyContent: 'center',
