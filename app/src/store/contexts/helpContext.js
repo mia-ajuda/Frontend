@@ -30,12 +30,21 @@ export default function HelpContextProvider(props) {
             getHelpList(currentRegion);
             setupWebSocket();
         }
-    }, [user._id]);
+    }, [user._id, currentRegion]);
 
     useEffect(() => {
         subscribeToNewHelps((help) => {
             if (help.ownerId !== user._id) {
                 const helpListArray = [...helpList, help];
+                helpListArray.sort((a, b) => {
+                    if (a.distanceValue < b.distanceValue) {
+                        return -1;
+                    }
+                    if (a.distanceValue > b.distanceValue) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
