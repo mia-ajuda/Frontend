@@ -22,7 +22,6 @@ class FirebaseService {
     async login(email, password) {
         await this.firebase.auth().signInWithEmailAndPassword(email, password);
     }
-
     async sendEmailVerification() {
         await this.firebase.auth().currentUser.sendEmailVerification();
     }
