@@ -19,6 +19,7 @@ import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
+import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
     const { userData } = route.params;
@@ -34,7 +35,7 @@ export default function PersonalData({ route, navigation }) {
         false,
     );
     const [cpfVerificationLoading, setCpfVerificationLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
     const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
@@ -90,28 +91,26 @@ export default function PersonalData({ route, navigation }) {
         ]);
         setCpfVerificationLoading(false);
         if (cpfExist)
-            throw 'Esse Cpf já está sendo utilizado por outro usuário';
+            alertError(
+                null,
+                'Esse Cpf já está sendo utilizado por outro usuário',
+            );
     };
 
     const continueHandler = async () => {
         Keyboard.dismiss();
-        try {
-            await verifyCpfExistence();
-
-            const phone = formatPhone();
-            const birthdayFormated = formatBirthDate(birthday);
-            const newUserData = {
-                ...userData,
-                name,
-                birthday: birthdayFormated,
-                cpf,
-                phone,
-                mentalHealthProfessional,
-            };
-            navigation.navigate('address', { userData: newUserData });
-        } catch (error) {
-            setError(error);
-        }
+        await verifyCpfExistence();
+        const phone = formatPhone();
+        const birthdayFormated = formatBirthDate(birthday);
+        const newUserData = {
+            ...userData,
+            name,
+            birthday: birthdayFormated,
+            cpf,
+            phone,
+            mentalHealthProfessional,
+        };
+        navigation.navigate('address', { userData: newUserData });
     };
 
     function completeUserInfoIfGoogleAndFacebook() {

@@ -1,49 +1,15 @@
-import React, { useState, createContext, useEffect } from 'react';
-import { Alert } from 'react-native';
-import translateFirebaseError from '../../utils/translateFirebaseAuthError';
-
+import React, { createContext } from 'react';
+import { alertError } from '../../utils/Alert';
 export const ServiceContext = createContext();
 
 export default function ServiceContextProvider(props) {
-    const [showError, setShowError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState();
-    useEffect(() => {
-        if (showError) {
-            Alert.alert('Houve um erro:', errorMessage, [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        setShowError(false);
-                    },
-                },
-            ]);
-        }
-    }, [showError]);
-    async function useService(
-        service,
-        functionName,
-        params,
-        hasErrorMessage = false,
-    ) {
+    async function useService(service, functionName, params, errorMessage) {
         try {
-            console.log(service);
-            console.log(functionName);
-            console.log(params);
-            return await service[functionName](...params);
+            let functionReturn = await service[functionName](...params);
+            if (!functionReturn) functionReturn = true;
+            return functionReturn;
         } catch (error) {
-            let errorMessage;
-            if (error.code) {
-                errorMessage = translateFirebaseError[error.code];
-            } else {
-                errorMessage = error.response.data.error;
-            }
-            if (!hasErrorMessage) {
-                setErrorMessage(
-                    errorMessage |
-                        'Algo deu errado, tente novamente mais tarde',
-                );
-                setShowError(true);
-            }
+            alertError(error, errorMessage);
             return false;
         }
     }

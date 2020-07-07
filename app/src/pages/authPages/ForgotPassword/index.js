@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import {
     View,
@@ -16,28 +16,29 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import validationEmail from '../../../utils/emailValidation';
 import firebaseService from '../../../services/Firebase';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [requestLoading, setRequestLoading] = useState(false);
+    const { useService } = useContext(ServiceContext);
 
     const handlerSubmit = async () => {
-        try {
-            setRequestLoading(true);
-            await firebaseService.resetUserPassword(email.trim().toLowerCase());
+        setRequestLoading(true);
+        const foundEmail = await useService(
+            firebaseService,
+            'resetUserPassword',
+            [email.trim().toLowerCase()],
+        );
+        if (foundEmail) {
             navigation.goBack();
             alertSuccess(
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',
             );
-        } catch (err) {
+        } else {
             setRequestLoading(false);
-            alertError(
-                err,
-                'Email não encontrado. Tente novamente!',
-                'Ooops..',
-            );
         }
     };
 

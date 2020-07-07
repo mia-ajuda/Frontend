@@ -19,6 +19,7 @@ import styles from './styles';
 import emailValidator from '../../../utils/emailValidation';
 import { Icon } from 'react-native-elements';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
+import { alertError } from '../../../utils/Alert';
 
 export default function RegistrationData({ route, navigation }) {
     const { userData } = route.params;
@@ -85,7 +86,8 @@ export default function RegistrationData({ route, navigation }) {
             email,
         ]);
         if (doesEmailExist) {
-            Alert.alert('Erro', 'Email já existente');
+            alertError(null, 'Email já existente');
+            // Alert.alert('Erro', 'Email já existente');
             setLoading(false);
         } else continueHandler();
     };
