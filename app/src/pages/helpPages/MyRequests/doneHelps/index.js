@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
-import ListCard from '../../../../components/ListCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -41,17 +41,8 @@ export default function DoneHelps({ navigation }) {
             ) : finishedHelpList.length > 0 ? (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((item) => (
-                            <View key={item._id}>
-                                <ListCard
-                                    helpTitle={item.title}
-                                    helpDescription={item.description}
-                                    helpStatus={item.status}
-                                    categoryName={item.category[0].name}
-                                    navigation={navigation}
-                                    pageName="RequestDescription"
-                                />
-                            </View>
+                        {finishedHelpList.map((help) => (
+                            <HelpCard key={help._id} help={help} />
                         ))}
                     </View>
                 </ScrollView>

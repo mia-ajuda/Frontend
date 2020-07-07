@@ -4,6 +4,19 @@ import colors from '../../../assets/styles/colorVariables';
 import fonts from '../../../assets/styles/fontVariable';
 
 export default StyleSheet.create({
+    badgeStyle: {
+        backgroundColor: colors.danger,
+        height: 30,
+        width: 30,
+        borderRadius: 50,
+    },
+    bottomItens: {
+        width: '100%',
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     cardContainer: {
         maxWidth: 740,
         maxHeight: 240,
@@ -31,21 +44,6 @@ export default StyleSheet.create({
         paddingBottom: 15,
         paddingTop: 10,
     },
-
-    cardTitle: {
-        maxWidth: '100%',
-        maxHeight: '30%',
-    },
-
-    titleContent: {
-        ...fonts.title,
-        fontFamily: 'montserrat-semibold',
-        color: colors.primary,
-
-        lineHeight: 30,
-        textAlign: 'center',
-    },
-
     cardDescription: {
         marginTop: 5,
         maxWidth: '100%',
@@ -54,16 +52,16 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
     },
-
-    descriptionContent: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: 12,
-
-        lineHeight: 14,
-        color: colors.dark,
+    cardTitle: {
+        maxWidth: '100%',
+        maxHeight: '30%',
     },
-
+    categoryName: {
+        ...fonts.body,
+        fontFamily: 'montserrat-semibold',
+        lineHeight: 30,
+        textAlign: 'center',
+    },
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
@@ -74,34 +72,25 @@ export default StyleSheet.create({
 
         alignSelf: 'flex-start',
     },
-
-    categoryName: {
-        ...fonts.body,
-        fontFamily: 'montserrat-semibold',
-        lineHeight: 30,
-        textAlign: 'center',
-    },
-
-    bottomItens: {
-        width: '100%',
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    labelBadge: {
-        color: '#FFF',
-        fontWeight: 'bold',
-    },
-    badgeStyle: {
-        backgroundColor: colors.danger,
-        height: 30,
-        width: 30,
-        borderRadius: 50,
-    },
     containerBadge: {
         position: 'absolute',
         top: -7,
         right: -6,
+    },
+    descriptionContent: {
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontSize: 12,
+
+        lineHeight: 14,
+        color: colors.dark,
+    },
+    titleContent: {
+        ...fonts.title,
+        fontFamily: 'montserrat-semibold',
+        color: colors.primary,
+
+        lineHeight: 30,
+        textAlign: 'center',
     },
 });

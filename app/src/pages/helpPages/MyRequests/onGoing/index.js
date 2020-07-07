@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
-import ListCard from '../../../../components/ListCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -14,7 +14,7 @@ export default function OnGoingHelps({ navigation }) {
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
-    const [selectedHelp, setSelectedHelp] = useState(null);
+    const [selectedHelp] = useState(null);
     const [loadingHelps, setLoadingHelps] = useState(false);
     const [isLoadingModal, setIsLoadingModal] = useState(false);
     const { user } = useContext(UserContext);
@@ -73,25 +73,7 @@ export default function OnGoingHelps({ navigation }) {
                 <ScrollView>
                     <View style={styles.helpList}>
                         {onGoingHelpList.map((item) => (
-                            <View key={item._id}>
-                                <ListCard
-                                    helpTitle={item.title}
-                                    helpId={item._id}
-                                    helpDescription={item.description}
-                                    categoryName={item.category[0].name}
-                                    deleteVisible={true}
-                                    setConfirmationModalVisible={
-                                        setConfirmationModalVisible
-                                    }
-                                    setSelectedHelp={setSelectedHelp}
-                                    navigation={navigation}
-                                    possibleHelpers={item.possibleHelpers}
-                                    ownerId={item.ownerId}
-                                    helpStatus={item.status}
-                                    helperId={item.helperId}
-                                    pageName="RequestDescription"
-                                />
-                            </View>
+                            <HelpCard key={item._id} help={item} showBadge />
                         ))}
                     </View>
                 </ScrollView>
