@@ -15,11 +15,18 @@ class FirebaseService {
         });
     }
 
+    isEmailVerified() {
+        return this.firebase.auth().currentUser.emailVerified;
+    }
+
     async login(email, password) {
         await this.firebase.auth().signInWithEmailAndPassword(email, password);
     }
+    async sendEmailVerification() {
+        await this.firebase.auth().currentUser.sendEmailVerification();
+    }
 
-    async getUserToken() {
+    async getUserId() {
         return await this.firebase.auth().currentUser.getIdToken();
     }
     async resetUserPassword(email) {
