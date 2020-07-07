@@ -15,6 +15,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
@@ -25,10 +26,11 @@ export default function CreateHelp({ navigation }) {
     const [modalVerification, setModalVerification] = useState(true);
     const [loading, setloading] = useState(false);
     const [requestState, setRequestState] = useState('');
-    const [limitErrorMessage, setLimitErrorMessage] = useState(null);
+    const [limitErrorMessage] = useState(null);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         switch (requestState) {
@@ -68,22 +70,30 @@ export default function CreateHelp({ navigation }) {
         }
     }, [title, description, category]);
 
-    function createHelp() {
+    async function createHelp() {
         const { _id: userId } = user;
 
         setRequestState('waiting');
-        helpService
-            .createHelp(title, category['_id'], description, userId)
-            .then(() => {
-                setRequestState('success');
-            })
-            .catch((err) => {
-                const errorMessage = err.response.data.error;
-                if (errorMessage && errorMessage.includes('Limite máximo')) {
-                    setLimitErrorMessage(errorMessage);
-                }
-                setRequestState('fail');
-            });
+        const helpCreated = await useService(
+            helpService,
+            'createHelp',
+            [title, category['_id'], description, userId],
+            true,
+        );
+        console.log(helpCreated);
+        if (helpCreated) setRequestState('success');
+        else setRequestState('fail');
+        //     helpService
+        //         .createHelp(title, category['_id'], description, userId)
+        //         .then(() => {
+        //         })
+        //         .catch((err) => {
+        //             const errorMessage = err.response.data.error;
+        //             if (errorMessage && errorMessage.includes('Limite máximo')) {
+        //                 setLimitErrorMessage(errorMessage);
+        //             }
+        //             setRequestState('fail');
+        //         });
     }
     return (
         <ScrollView>

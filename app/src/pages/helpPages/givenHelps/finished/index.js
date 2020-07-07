@@ -6,10 +6,13 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
+import { ServiceContext } from '../../../../store/contexts/serviceContext';
+
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
     const [myHelps, setMyHelps] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -20,11 +23,17 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoading(true);
-        const helps = await helpService.getHelpMultipleStatus(
+        //validar
+        const helps = await useService(helpService, 'getHelpMultipleStatus', [
             user._id,
             'finished',
             true,
-        );
+        ]);
+        // const helps = await helpService.getHelpMultipleStatus(
+        //     user._id,
+        //     'finished',
+        //     true,
+        // );
         setMyHelps(helps);
         setLoading(false);
     }

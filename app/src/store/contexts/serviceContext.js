@@ -19,8 +19,16 @@ export default function ServiceContextProvider(props) {
             ]);
         }
     }, [showError]);
-    async function useService(service, functionName, params) {
+    async function useService(
+        service,
+        functionName,
+        params,
+        hasErrorMessage = false,
+    ) {
         try {
+            console.log(service);
+            console.log(functionName);
+            console.log(params);
             return await service[functionName](...params);
         } catch (error) {
             let errorMessage;
@@ -29,10 +37,13 @@ export default function ServiceContextProvider(props) {
             } else {
                 errorMessage = error.response.data.error;
             }
-            setErrorMessage(
-                errorMessage | 'Algo deu errado, tente novamente mais tarde',
-            );
-            setShowError(true);
+            if (!hasErrorMessage) {
+                setErrorMessage(
+                    errorMessage |
+                        'Algo deu errado, tente novamente mais tarde',
+                );
+                setShowError(true);
+            }
             return false;
         }
     }

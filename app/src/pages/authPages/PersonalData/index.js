@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -18,6 +18,7 @@ import styles from './styles';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function PersonalData({ route, navigation }) {
     const { userData } = route.params;
@@ -34,6 +35,7 @@ export default function PersonalData({ route, navigation }) {
     );
     const [cpfVerificationLoading, setCpfVerificationLoading] = useState(false);
     const [error, setError] = useState(false);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         if (cpf !== '') {
@@ -83,7 +85,9 @@ export default function PersonalData({ route, navigation }) {
     const verifyCpfExistence = async () => {
         setCpfVerificationLoading(true);
         const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
-        const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
+        const cpfExist = await useService(UserService, 'verifyUserInfo', [
+            cpfOnlyNumbers,
+        ]);
         setCpfVerificationLoading(false);
         if (cpfExist)
             throw 'Esse Cpf já está sendo utilizado por outro usuário';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -14,11 +14,13 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import axios from 'axios';
 import colors from '../../../../assets/styles/colorVariables';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
+import adressService from '../../../services/Adress';
 
 export default function Address({ route, navigation }) {
     const { userData } = route.params;
+    const { useService } = useContext(ServiceContext);
 
     const [cep, setCep] = useState('');
     const [city, setCity] = useState('');
@@ -52,37 +54,27 @@ export default function Address({ route, navigation }) {
         setCep(currentCep.substring(0, 8));
 
         if (currentCep.length === 8) {
-            try {
-                setLoading(true);
-                const response = await axios.get(
-                    `https://viacep.com.br/ws/${currentCep}/json/`,
+            setLoading(true);
+            const response = await useService(adressService, 'getCEPInfo', [
+                currentCep,
+            ]);
+            console.log(response);
+            if (!response.data.erro) {
+                const { localidade, uf, logradouro, bairro } = response.data;
+                setIsCepValid(true);
+                setState(uf);
+                setCity(localidade);
+                setComplement(logradouro + ' / ' + bairro);
+            } else {
+                ToastAndroid.showWithGravityAndOffset(
+                    'CEP não encontrado!',
+                    ToastAndroid.LONG,
+                    ToastAndroid.CENTER,
+                    25,
+                    50,
                 );
 
-                if (!response.data.erro) {
-                    const {
-                        localidade,
-                        uf,
-                        logradouro,
-                        bairro,
-                    } = response.data;
-
-                    setIsCepValid(true);
-                    setState(uf);
-                    setCity(localidade);
-                    setComplement(logradouro + ' / ' + bairro);
-                } else {
-                    ToastAndroid.showWithGravityAndOffset(
-                        'CEP não encontrado!',
-                        ToastAndroid.LONG,
-                        ToastAndroid.CENTER,
-                        25,
-                        50,
-                    );
-
-                    setIsCepValid(false);
-                }
-            } catch {
-                setIsCepValid(true);
+                setIsCepValid(false);
             }
         }
 

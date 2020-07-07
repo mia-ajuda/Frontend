@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     Text,
     KeyboardAvoidingView,
@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Platform,
+    Alert,
 } from 'react-native';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
@@ -17,6 +18,7 @@ import Button from '../../../components/UI/button';
 import styles from './styles';
 import emailValidator from '../../../utils/emailValidation';
 import { Icon } from 'react-native-elements';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function RegistrationData({ route, navigation }) {
     const { userData } = route.params;
@@ -27,7 +29,8 @@ export default function RegistrationData({ route, navigation }) {
     const [confirmPass, setConfirmPass] = useState(true);
     const [keyboardShow, setKeyboardShow] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [error] = useState(false);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -76,17 +79,15 @@ export default function RegistrationData({ route, navigation }) {
     };
 
     const verifyEmailAdress = async () => {
-        try {
-            setLoading(true);
-            Keyboard.dismiss();
-            const doesEmailExist = await UserService.verifyUserInfo(email);
-            if (doesEmailExist)
-                throw 'Esse email já está sendo usado por outro usuário';
-            continueHandler();
-        } catch (err) {
-            setError(err);
+        setLoading(true);
+        Keyboard.dismiss();
+        const doesEmailExist = await useService(UserService, 'verifyUserInfo', [
+            email,
+        ]);
+        if (doesEmailExist) {
+            Alert.alert('Erro', 'Email já existente');
             setLoading(false);
-        }
+        } else continueHandler();
     };
 
     return (
