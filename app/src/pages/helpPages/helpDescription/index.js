@@ -19,8 +19,8 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
 import { alertError, alertSuccess } from '../../../utils/Alert';
-import warning from '../../../utils/warning';
-import { offeringHelpDescription } from '../../../docs/warning';
+import { showWarningFor } from '../../../utils/warningPopUp';
+import { offeringHelpMessage } from '../../../docs/warning';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -63,7 +63,7 @@ export default function HelpDescription({ route, navigation }) {
         : { uri: `data:image/png;base64,${photo}` }; // base 64
 
     useEffect(() => {
-        warning(offeringHelpDescription, 'offeringHelp');
+        showWarningFor('offeringHelp', offeringHelpMessage);
     }, []);
 
     async function chooseHelp() {

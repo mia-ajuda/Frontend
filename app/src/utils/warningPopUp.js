@@ -1,8 +1,8 @@
 import { Alert, AsyncStorage } from 'react-native';
 
-async function warning(message, warningType) {
+async function showWarningFor(warningType, message) {
     const dontShowAgainPressed = await AsyncStorage.getItem(warningType);
-    if (dontShowAgainPressed != 'true') {
+    if (dontShowAgainPressed) {
         Alert.alert('Importante', message, [
             {
                 text: 'Não mostrar novamente',
@@ -17,4 +17,4 @@ async function warning(message, warningType) {
     }
 }
 
-export default warning;
+export { showWarningFor };
