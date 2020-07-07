@@ -8,13 +8,14 @@ cache:
 
 stages:
   - publish
-  - staging
+  - upload
 
 before_script:
   - cd app
   - cat $GOOGLE_CONFIG > .google-services.json
   - cat $FIREBASE_CONFIG_DEV > ./src/config/authmiaajuda-firebase-dev.json
   - cat $FIREBASE_CONFIG > ./src/config/authmiaajuda-firebase.json
+  - cat $GOOGLE_PLAY > ./src/config/google-play-key.json
   - yarn install --pure-lockfile --non-interactive
 
 publishing:
@@ -28,13 +29,10 @@ publishing:
   only:
     - master
 
-staging:
-  stage: staging
+uploading:
+  stage: upload
   script:
-    - chmod +x ./setup_env.sh
-    - ./setup_env.sh
-    - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-    - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
-    - expo publish --release-channel staging --non-interactive
+    - expo upload:android --type aab --key ./config/google-play-key.json --latest
   only:
-    - develop
+    - master
+
