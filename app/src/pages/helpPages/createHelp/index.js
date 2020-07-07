@@ -15,6 +15,8 @@ import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
+import warning from '../../../utils/warning';
+import { requestHelpDescription } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
@@ -59,6 +61,10 @@ export default function CreateHelp({ navigation }) {
                 break;
         }
     }, [requestState]);
+
+    useEffect(() => {
+        warning(requestHelpDescription, 'helpRequest');
+    }, []);
 
     useEffect(() => {
         if (title && category && description) {
