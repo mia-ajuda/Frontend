@@ -7,8 +7,8 @@ import authConfig from '../config/authmiaajuda-firebase';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
-
 import firebaseService from './Firebase';
+import env from '../config/envVariables';
 
 class UserService {
     constructor() {}
@@ -17,7 +17,7 @@ class UserService {
         try {
             await firebaseService.login(loginInfo.email, loginInfo.password);
             const isEmailVerified = firebaseService.isEmailVerified();
-            if (isEmailVerified == false) {
+            if (isEmailVerified == false && env.production) {
                 throw { code: 'auth/email-not-verified' };
             }
             const idTokenUser = await firebaseService.getUserId();
