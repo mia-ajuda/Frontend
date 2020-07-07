@@ -152,9 +152,11 @@ export default function PersonalData({ route, navigation }) {
                 </View>
             )}
             <ScrollView
-                style={{ width: '100%' }}
+                style={styles.formScroll}
                 contentContainerStyle={
-                    keyboardVisible ? styles.scroll2 : styles.scroll
+                    keyboardVisible
+                        ? styles.scrollContainerOnTyping
+                        : styles.scrollContainer
                 }
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.inputView}>

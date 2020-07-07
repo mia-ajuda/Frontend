@@ -6,7 +6,6 @@ import React, {
     useState,
 } from 'react';
 import helpReducer from '../reducers/helpReducer';
-import { LocationContext } from './locationContext';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
 import { ServiceContext } from './serviceContext';
@@ -18,14 +17,10 @@ import {
     subscribeToNewHelps,
     subscribeToDeleteHelp,
     changeCategories,
-    changeLocations,
 } from '../../services/socket';
-import { calculateDistance } from '../../utils/helpDistance';
 export const HelpContext = createContext();
-let activeLocations = [];
 
 export default function HelpContextProvider(props) {
-    const { location } = useContext(LocationContext);
     const { selectedCategories } = useContext(CategoryContext);
     const { user, currentRegion } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
@@ -35,7 +30,6 @@ export default function HelpContextProvider(props) {
     useEffect(() => {
         setLoadingHelps(true);
         if (currentRegion && user._id) {
-            activeLocations.push(currentRegion);
             getHelpList(currentRegion);
             setupWebSocket();
         }
@@ -45,6 +39,15 @@ export default function HelpContextProvider(props) {
         subscribeToNewHelps((help) => {
             if (help.ownerId !== user._id) {
                 const helpListArray = [...helpList, help];
+                helpListArray.sort((a, b) => {
+                    if (a.distanceValue < b.distanceValue) {
+                        return -1;
+                    }
+                    if (a.distanceValue > b.distanceValue) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
@@ -61,42 +64,15 @@ export default function HelpContextProvider(props) {
     }, [helpList]);
 
     useEffect(() => {
-        if (location) {
-            activeLocations = [location];
+        if (currentRegion) {
             if (selectedCategories.length) {
-                getHelpListWithCategories(location);
+                getHelpListWithCategories(currentRegion);
             } else {
-                getHelpList(location);
+                getHelpList(currentRegion);
             }
             changeCategories(selectedCategories);
-            changeLocations(activeLocations);
         }
     }, [selectedCategories]);
-
-    useEffect(() => {
-        if (location) {
-            let latValidation =
-                location.latitude * 10000 - currentRegion.latitude * 10000;
-            let longValidation =
-                location.longitude * 10000 - currentRegion.longitude * 10000;
-            longValidation = Math.abs(longValidation);
-            latValidation = Math.abs(latValidation);
-
-            if (
-                location &&
-                shouldRequest(location) &&
-                (latValidation > 1 || longValidation > 1)
-            ) {
-                activeLocations.push(location);
-                if (selectedCategories.length) {
-                    getHelpListWithCategories(location);
-                } else {
-                    getHelpList(location);
-                }
-                changeLocations(activeLocations);
-            }
-        }
-    }, [location]);
 
     async function getHelpList(loc) {
         if (loc) {
@@ -107,10 +83,6 @@ export default function HelpContextProvider(props) {
                     'getNearHelp',
                     [loc, userId],
                 );
-                if (activeLocations.length > 1) {
-                    helpListArray = [...helpList, ...helpListArray];
-                    helpListArray = getUnique(helpListArray, '_id');
-                }
                 setLoadingHelps(false);
                 dispatch({
                     type: actions.help.storeList,
@@ -131,10 +103,6 @@ export default function HelpContextProvider(props) {
                     selectedCategories,
                     userId,
                 );
-                if (activeLocations.length > 1) {
-                    helpListFiltered = [...helpList, ...helpListFiltered];
-                    helpListFiltered = getUnique(helpListFiltered, '_id');
-                }
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListFiltered,
@@ -145,38 +113,10 @@ export default function HelpContextProvider(props) {
         }
     }
 
-    function getUnique(arr, comp) {
-        const unique = arr
-            .map((e) => e[comp])
-            .map((e, i, final) => final.indexOf(e) === i && i)
-            .filter((e) => arr[e])
-            .map((e) => arr[e]);
-
-        return unique;
-    }
-
     function setupWebSocket() {
         disconnect();
         const { _id: userId } = user;
         connect(JSON.stringify(currentRegion), userId);
-    }
-
-    function shouldRequest({ latitude, longitude }) {
-        let should = true;
-        if (activeLocations) {
-            activeLocations.every((element) => {
-                const distance = calculateDistance(
-                    { latitude, longitude },
-                    element,
-                );
-                if (distance < 1) {
-                    should = false;
-                    return false;
-                }
-                return true;
-            });
-        }
-        return should;
     }
 
     return (

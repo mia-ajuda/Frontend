@@ -14,8 +14,12 @@ export default function CategoryContextProvider(props) {
     }, [user]);
 
     async function fetchCategories() {
-        const categoriesArray = await Category.getAllCategories();
-        setCategories(categoriesArray);
+        try {
+            const categoriesArray = await Category.getAllCategories();
+            setCategories(categoriesArray);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

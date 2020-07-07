@@ -53,6 +53,21 @@ const styles = StyleSheet.create({
         top: 10,
         marginBottom: 10,
     },
+    positionBlueCat: {
+        position: 'absolute',
+        zIndex: 5,
+        top: '43%',
+        left: '43%',
+    },
+    iconBlueCat: {
+        height: 50,
+        width: 50,
+        resizeMode: 'contain',
+    },
+    descriptionTextAlert: {
+        fontFamily: 'montserrat-semibold',
+        color: '#e47171',
+    },
 });
 
 export default styles;
