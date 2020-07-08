@@ -15,8 +15,8 @@ import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
-import { showWarningFor } from '../../../utils/warningPopUp';
-import { requestHelpMessage } from '../../../docs/warning';
+import showWarningFor from '../../../utils/warningPopUp';
+import { requestHelpWarningMessage } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
@@ -63,7 +63,7 @@ export default function CreateHelp({ navigation }) {
     }, [requestState]);
 
     useEffect(() => {
-        showWarningFor('helpRequest', requestHelpMessage);
+        showWarningFor('helpRequest', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {

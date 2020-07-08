@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     View,
     Text,
@@ -19,8 +19,6 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
 import { alertError, alertSuccess } from '../../../utils/Alert';
-import { showWarningFor } from '../../../utils/warningPopUp';
-import { offeringHelpMessage } from '../../../docs/warning';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -61,10 +59,6 @@ export default function HelpDescription({ route, navigation }) {
     const photoFormated = photo.includes('http') //photo from web
         ? { uri: photo }
         : { uri: `data:image/png;base64,${photo}` }; // base 64
-
-    useEffect(() => {
-        showWarningFor('offeringHelp', offeringHelpMessage);
-    }, []);
 
     async function chooseHelp() {
         try {

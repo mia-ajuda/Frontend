@@ -18,8 +18,6 @@ import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
 import HelpList from '../../components/HelpList';
-import { showWarningFor } from '../../utils/warningPopUp';
-import { mainMessage } from '../../docs/warning';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -31,9 +29,6 @@ export default function Main({ navigation }) {
     useEffect(() => {
         setRegion(null);
     }, [region]);
-    useEffect(() => {
-        showWarningFor('main', mainMessage);
-    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
