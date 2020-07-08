@@ -17,7 +17,6 @@ import Button from '../../components/UI/button';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
-import { LocationContext } from '../../store/contexts/locationContext';
 import HelpList from '../../components/HelpList';
 
 export default function Main({ navigation }) {
@@ -26,15 +25,10 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
     const { currentRegion } = useContext(UserContext);
-    const { setLocation } = useContext(LocationContext);
 
     useEffect(() => {
         setRegion(null);
     }, [region]);
-
-    function onRegionChange(position) {
-        setLocation(position);
-    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -60,7 +54,6 @@ export default function Main({ navigation }) {
                 style={styles.map}
                 region={region}
                 onRegionChange={() => setHelpListVisible(false)}
-                onRegionChangeComplete={(position) => onRegionChange(position)}
                 onPress={() => {
                     setHelpListVisible(false);
                 }}

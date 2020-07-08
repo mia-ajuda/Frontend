@@ -6,7 +6,6 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
-    Alert,
     ActivityIndicator,
     Keyboard,
     Platform,
@@ -18,6 +17,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
+import { alertError } from '../../../utils/Alert';
 
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);
@@ -47,16 +47,12 @@ export default function Login({ navigation }) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
         } catch (err) {
-            console.log(err);
             setLoadingLoginRequest(false);
-            Alert.alert(
-                'Ooops..',
-                err.message,
-                [{ text: 'OK', onPress: () => {} }],
-                {
-                    cancelable: false,
-                },
-            );
+            if (err.message == 'Request failed with status code 404') {
+                alertError(err, null, 'Ooops..');
+            } else {
+                alertError(err, err.message, 'Ooops..');
+            }
         }
     };
 
@@ -66,7 +62,7 @@ export default function Login({ navigation }) {
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <View style={styles.logo}>
                 <Image
-                    style={{ flex: 1, resizeMode: 'contain' }}
+                    style={styles.logoImage}
                     source={require('../../../images/logo.png')}
                 />
             </View>
@@ -96,7 +92,7 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={{ alignSelf: 'flex-end' }}>
+                    style={styles.forgotPasswordButton}>
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>

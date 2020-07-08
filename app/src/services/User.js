@@ -13,25 +13,26 @@ import firebaseService from './Firebase';
 class UserService {
     constructor() {}
 
-    async logIn(data) {
+    async logIn(loginInfo) {
         try {
-            await firebaseService.login(data.email, data.password);
-
+            await firebaseService.login(loginInfo.email, loginInfo.password);
+            const isEmailVerified = firebaseService.isEmailVerified();
+            if (isEmailVerified == false) {
+                throw { code: 'auth/email-not-verified' };
+            }
             const idTokenUser = await firebaseService.getUserId();
             await AsyncStorage.setItem('accessToken', idTokenUser);
             const user = await this.requestUserData();
             this.setUserDeviceId();
-
             return user;
         } catch (error) {
-            const translatedMessage = translateFirebaseError[error.code];
-
-            throw {
-                message:
-                    translatedMessage ||
-                    error.response.data.error ||
-                    'Algo deu errado, tente novamente mais tarde',
-            };
+            if (error.code != undefined) {
+                const translatedMessage = translateFirebaseError[error.code];
+                throw {
+                    message: translatedMessage,
+                };
+            }
+            throw error;
         }
     }
 
@@ -183,13 +184,13 @@ class UserService {
     async signUp(data) {
         try {
             const response = await api.post('/user', data);
+            await firebaseService.login(data.email, data.password);
+            await firebaseService.sendEmailVerification();
+            await firebaseService.signOut();
             return response;
         } catch (error) {
             console.log(error.response);
-            throw {
-                error:
-                    'Aconteceu algo errado ao cadastrar, tente novamente mais tarde.',
-            };
+            throw error;
         }
     }
 
