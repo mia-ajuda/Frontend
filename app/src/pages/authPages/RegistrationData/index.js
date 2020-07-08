@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Platform,
-    Alert,
 } from 'react-native';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
@@ -87,7 +86,6 @@ export default function RegistrationData({ route, navigation }) {
         ]);
         if (doesEmailExist) {
             alertError(null, 'Email já existente');
-            // Alert.alert('Erro', 'Email já existente');
             setLoading(false);
         } else continueHandler();
     };

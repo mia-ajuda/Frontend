@@ -90,27 +90,32 @@ export default function PersonalData({ route, navigation }) {
             cpfOnlyNumbers,
         ]);
         setCpfVerificationLoading(false);
-        if (cpfExist)
+        if (cpfExist) {
             alertError(
                 null,
                 'Esse Cpf já está sendo utilizado por outro usuário',
             );
+            return true;
+        }
+        return false;
     };
 
     const continueHandler = async () => {
         Keyboard.dismiss();
-        await verifyCpfExistence();
-        const phone = formatPhone();
-        const birthdayFormated = formatBirthDate(birthday);
-        const newUserData = {
-            ...userData,
-            name,
-            birthday: birthdayFormated,
-            cpf,
-            phone,
-            mentalHealthProfessional,
-        };
-        navigation.navigate('address', { userData: newUserData });
+        const cpfExists = await verifyCpfExistence();
+        if (!cpfExists) {
+            const phone = formatPhone();
+            const birthdayFormated = formatBirthDate(birthday);
+            const newUserData = {
+                ...userData,
+                name,
+                birthday: birthdayFormated,
+                cpf,
+                phone,
+                mentalHealthProfessional,
+            };
+            navigation.navigate('address', { userData: newUserData });
+        }
     };
 
     function completeUserInfoIfGoogleAndFacebook() {

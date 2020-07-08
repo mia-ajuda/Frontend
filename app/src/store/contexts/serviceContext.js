@@ -6,7 +6,6 @@ export default function ServiceContextProvider(props) {
     async function useService(service, functionName, params, errorMessage) {
         try {
             let functionReturn = await service[functionName](...params);
-            if (!functionReturn) functionReturn = true;
             return functionReturn;
         } catch (error) {
             alertError(error, errorMessage);
