@@ -9,6 +9,8 @@ import {
 import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { Icon } from 'react-native-elements';
+import showWarningFor from '../../../utils/warningPopUp';
+import { userPositionWarningMessage } from '../../../docs/warning';
 
 export default function Location({ route, navigation }) {
     const userData = route.params ? route.params.userData : {};
@@ -36,6 +38,10 @@ export default function Location({ route, navigation }) {
             }
         }
         getLocation();
+    }, []);
+
+    useEffect(() => {
+        showWarningFor('userPosition', userPositionWarningMessage);
     }, []);
 
     function continueRegistration() {
