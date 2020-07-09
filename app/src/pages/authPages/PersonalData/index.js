@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -15,8 +15,11 @@ import { CheckBox } from 'react-native-elements';
 import styles from './styles';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
+import cpfValidator from '../../../utils/cpfValidator';
+import dateValidator from '../../../utils/dateValidator';
+import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
-import formatBirthDate from '../../../utils/formatDate';
+import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
 export default function PersonalData({ route, navigation }) {
@@ -24,35 +27,13 @@ export default function PersonalData({ route, navigation }) {
     const { userDatafromRegistrationPage } = route.params;
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState('');
-    const [isBirthdateValid, setBirthValid] = useState(true);
     const [cpf, setCPF] = useState('');
-    const [cpfIsValid, setCpfValid] = useState(true);
     const [cellPhone, setCellPhone] = useState('');
-    const [isValidPhone, setValidPhone] = useState(true);
     const [mentalHealthProfessional, setMentalHealthProfessional] = useState(
         false,
     );
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
     const [validateCpfErrorMessage, setValidateCpfErrorMessage] = useState();
-
-    useEffect(() => {
-        if (cpf !== '') {
-            setCpfValid(refCpf.isValid());
-        }
-        if (birthday !== '') {
-            const birthdateValidation =
-                refDate.isValid() && birthday.length === 10; // has to be a valid date and len of 10
-            setBirthValid(birthdateValidation);
-        }
-    }, [cpf, birthday]);
-
-    let refCpf;
-    let refDate;
-
-    const formatPhone = () => {
-        const filterdPhone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-        return filterdPhone;
-    };
 
     const verifyCpfExistence = async () => {
         setloadingCpfVerification(true);
@@ -68,8 +49,8 @@ export default function PersonalData({ route, navigation }) {
         try {
             await verifyCpfExistence();
 
-            const phone = formatPhone();
-            const birthdayFormated = formatBirthDate(birthday);
+            const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+            const birthdayFormated = formatDate(birthday);
             const userDataFromPersonalPage = {
                 name,
                 birthday: birthdayFormated,
@@ -83,30 +64,6 @@ export default function PersonalData({ route, navigation }) {
             setValidateCpfErrorMessage(error);
         }
     };
-
-    const renderLoadingIdicator = () => (
-        <View style={styles.btnView}>
-            <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-    );
-
-    const renderContinueButton = () => (
-        <Button
-            title="Continuar"
-            disabled={
-                !(
-                    cpf !== '' &&
-                    cpfIsValid &&
-                    birthday !== '' &&
-                    isBirthdateValid &&
-                    cellPhone !== '' &&
-                    isValidPhone
-                )
-            }
-            large
-            press={continueHandler}
-        />
-    );
 
     const renderPageHeader = () => {
         if (keyboard.visible == false) {
@@ -130,56 +87,61 @@ export default function PersonalData({ route, navigation }) {
         }
     };
 
-    const renderPhoneInputForm = () => (
-        <View>
-            <Text style={styles.label}>Telefone</Text>
-            <TextInputMask
-                style={[
-                    styles.inputMask,
-                    isValidPhone ? styles.valid : styles.invalid,
-                ]}
-                type={'cel-phone'}
-                options={{
-                    maskType: 'BRL',
-                    withDDD: true,
-                    dddMask: '(99) ',
-                }}
-                value={cellPhone}
-                onChangeText={(phone) => {
-                    setCellPhone(phone);
-
-                    if (phone.length >= 14) {
-                        setValidPhone(true);
-                    } else {
-                        setValidPhone(false);
-                    }
-                }}
-                placeholder="Digite seu telefone"
-            />
+    const renderLoadingIdicator = () => (
+        <View style={styles.btnView}>
+            <ActivityIndicator color={colors.primary} size="large" />
         </View>
     );
 
-    const renderBirthDtInputForm = () => (
-        <View>
-            <Text style={styles.label}>Data de Nascimento</Text>
-            <TextInputMask
-                type={'datetime'}
-                options={{
-                    format: 'DD/MM/YYYY',
-                }}
-                value={birthday}
-                onChangeText={(text) => {
-                    setBirthday(text);
-                }}
-                style={[
-                    styles.inputMask,
-                    isBirthdateValid ? styles.valid : styles.invalid,
-                ]}
-                placeholder="Data de Nascimento"
-                ref={(ref) => (refDate = ref)}
-            />
-        </View>
-    );
+    const renderPhoneInputForm = () => {
+        const isPhoneValid = phoneValidator(cellPhone) || cellPhone == '';
+        return (
+            <View>
+                <Text style={styles.label}>Telefone</Text>
+                <TextInputMask
+                    style={[
+                        styles.inputMask,
+                        isPhoneValid ? styles.valid : styles.invalid,
+                    ]}
+                    type={'cel-phone'}
+                    options={{
+                        maskType: 'BRL',
+                        withDDD: true,
+                        dddMask: '(99) ',
+                    }}
+                    value={cellPhone}
+                    onChangeText={(phone) => {
+                        setCellPhone(phone);
+                    }}
+                    placeholder="Digite seu telefone"
+                />
+            </View>
+        );
+    };
+
+    const renderBirthDtInputForm = () => {
+        const isBirthdateValid = dateValidator(birthday) || birthday == '';
+        return (
+            <View>
+                <Text style={styles.label}>Data de Nascimento</Text>
+                <TextInputMask
+                    type={'datetime'}
+                    options={{
+                        format: 'DD/MM/YYYY',
+                    }}
+                    value={birthday}
+                    onChangeText={(text) => {
+                        setBirthday(text);
+                    }}
+                    style={[
+                        styles.inputMask,
+                        isBirthdateValid ? styles.valid : styles.invalid,
+                    ]}
+                    placeholder="Data de Nascimento"
+                />
+            </View>
+        );
+    };
 
     const renderNameInputForm = () => (
         <Input
@@ -190,24 +152,26 @@ export default function PersonalData({ route, navigation }) {
         />
     );
 
-    const renderCpfInputForm = () => (
-        <View>
-            <Text style={styles.label}>CPF</Text>
-            <TextInputMask
-                type={'cpf'}
-                value={cpf}
-                onChangeText={(text) => {
-                    setCPF(text);
-                }}
-                style={[
-                    styles.inputMask,
-                    cpfIsValid ? styles.valid : styles.invalid,
-                ]}
-                placeholder="Digite seu CPF"
-                ref={(ref) => (refCpf = ref)}
-            />
-        </View>
-    );
+    const renderCpfInputForm = () => {
+        const isCpfValid = cpfValidator(cpf) || cpf == '';
+        return (
+            <View>
+                <Text style={styles.label}>CPF</Text>
+                <TextInputMask
+                    type={'cpf'}
+                    value={cpf}
+                    onChangeText={(text) => {
+                        setCPF(text);
+                    }}
+                    style={[
+                        styles.inputMask,
+                        isCpfValid ? styles.valid : styles.invalid,
+                    ]}
+                    placeholder="Digite seu CPF"
+                />
+            </View>
+        );
+    };
 
     const renderProfessionalHealthCheckbox = () => (
         <View style={styles.toggleView}>
@@ -220,6 +184,21 @@ export default function PersonalData({ route, navigation }) {
             />
         </View>
     );
+
+    const renderContinueButton = () => {
+        const fieldsValid =
+            cpfValidator(cpf) &&
+            phoneValidator(cellPhone) &&
+            dateValidator(birthday);
+        return (
+            <Button
+                title="Continuar"
+                disabled={fieldsValid == false}
+                large
+                press={continueHandler}
+            />
+        );
+    };
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="height">

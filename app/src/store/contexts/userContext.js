@@ -18,9 +18,11 @@ export const UserContextProvider = (props) => {
 
     async function getUserInfo() {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+
         if (userPreviouslyLogged) {
             try {
                 const user = await UserService.requestUserData();
+
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } catch (error) {
                 dispatch({ type: actions.user.requestSignIn });

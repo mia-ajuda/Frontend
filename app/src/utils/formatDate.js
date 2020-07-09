@@ -1,4 +1,4 @@
-const formatBirthDate = (date) => {
+const formatDate = (date) => {
     const dateArray = date.split('/');
     const year = dateArray[2];
     const month = dateArray[1];
@@ -6,4 +6,4 @@ const formatBirthDate = (date) => {
     return `${year}-${month}-${day}`;
 };
 
-export default formatBirthDate;
+export default formatDate;
