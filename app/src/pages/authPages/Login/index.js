@@ -21,7 +21,6 @@ import { alertError } from '../../../utils/Alert';
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);
     const { keyboard } = useContext(DeviceInformationContext);
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -38,7 +37,6 @@ export default function Login({ navigation }) {
     const loginHandler = async () => {
         const data = { email: email.trim(), password };
         keyboard.hide();
-
         try {
             setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);

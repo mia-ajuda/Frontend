@@ -3,7 +3,6 @@ import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import actions from '../actions';
-import firebaseService from '../../services/Firebase';
 import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
@@ -32,16 +31,7 @@ export const UserContextProvider = (props) => {
     }
 
     useEffect(() => {
-        firebaseService.onAuthStateChanged(async function (user) {
-            if (user) {
-                user.getIdToken().then(async (acesstoken) => {
-                    await AsyncStorage.setItem('accessToken', acesstoken);
-                    getUserInfo();
-                });
-            } else {
-                getUserInfo();
-            }
-        });
+        getUserInfo();
     }, []);
 
     useEffect(() => {

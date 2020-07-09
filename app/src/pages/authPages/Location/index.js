@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
@@ -7,6 +7,8 @@ import { UserContext } from '../../../store/contexts/userContext';
 import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { Icon } from 'react-native-elements';
+import showWarningFor from '../../../utils/warningPopUp';
+import { userPositionWarningMessage } from '../../../docs/warning';
 
 export default function Location({ navigation }) {
     const { userPosition, setUserPosition } = useContext(UserContext);
@@ -17,6 +19,10 @@ export default function Location({ navigation }) {
         resquestPositionCardVisible,
         setResquestPositionCardVisible,
     ] = useState(true);
+
+    useEffect(() => {
+        showWarningFor('userPosition', userPositionWarningMessage);
+    }, []);
 
     const renderPositionRequestCard = () => {
         let iconName;

@@ -7,19 +7,22 @@ import Constants from 'expo-constants';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
 
 import firebaseService from './Firebase';
+import env from '../config/envVariables';
 
 class UserService {
     constructor() {}
 
-    async logIn(data) {
+    async logIn(loginInfo) {
         try {
-            await firebaseService.login(data.email, data.password);
-
+            await firebaseService.login(loginInfo.email, loginInfo.password);
+            const isEmailVerified = firebaseService.isEmailVerified();
+            if (isEmailVerified == false && env.production) {
+                throw { code: 'auth/email-not-verified' };
+            }
             const idTokenUser = await firebaseService.getUserId();
             await AsyncStorage.setItem('accessToken', idTokenUser);
             const user = await this.requestUserData();
             this.setUserDeviceId();
-
             return user;
         } catch (error) {
             if (error.code != undefined) {
@@ -35,6 +38,9 @@ class UserService {
     async signUp(data) {
         try {
             const response = await api.post('/user', data);
+            await firebaseService.login(data.email, data.password);
+            await firebaseService.sendEmailVerification();
+            await firebaseService.signOut();
             return response;
         } catch (error) {
             console.log(error.response);

@@ -23,10 +23,6 @@ function connect(userPosition, userId) {
     socket.connect();
 }
 
-function changeLocations(locations) {
-    socket.emit('change-locations', locations);
-}
-
 function changeCategories(categories) {
     socket.emit('change-categories', categories);
 }
@@ -42,6 +38,5 @@ export {
     disconnect,
     subscribeToNewHelps,
     subscribeToDeleteHelp,
-    changeLocations,
     changeCategories,
 };
