@@ -1,7 +1,6 @@
 import api from '../services/Api';
 import { Notifications } from 'expo';
 import { AsyncStorage } from 'react-native';
-
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
@@ -15,8 +14,11 @@ class UserService {
     async logIn(loginInfo) {
         try {
             await firebaseService.login(loginInfo.email, loginInfo.password);
+
             const isEmailVerified = firebaseService.isEmailVerified();
-            if (isEmailVerified == false && env.production) {
+            const isProductionEnviroment = env.production;
+
+            if (isEmailVerified == false && isProductionEnviroment) {
                 throw { code: 'auth/email-not-verified' };
             }
             const idTokenUser = await firebaseService.getUserId();
@@ -50,7 +52,7 @@ class UserService {
 
     async logOut() {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem('accessToken');
             await firebaseService.signOut();
         } catch {
             throw { error: 'Não foi possível Deslogar!' };

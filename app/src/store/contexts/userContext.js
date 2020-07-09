@@ -17,8 +17,8 @@ export const UserContextProvider = (props) => {
     const [userPosition, setUserPosition] = useState(null);
 
     async function getUserInfo() {
-        const accessToken = await AsyncStorage.getItem('accessToken');
-        if (accessToken) {
+        const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+        if (userPreviouslyLogged) {
             try {
                 const user = await UserService.requestUserData();
                 dispatch({ type: actions.user.storeUserInfo, data: user });
