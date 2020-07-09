@@ -55,10 +55,7 @@ export default function HelpDescription({ route, navigation }) {
         age--;
     }
 
-    const photo = profilePhoto || user.photo;
-    const photoFormated = photo.includes('http') //photo from web
-        ? { uri: photo }
-        : { uri: `data:image/png;base64,${photo}` }; // base 64
+    const userProfilephoto = profilePhoto || user.photo;
 
     async function chooseHelp() {
         try {
@@ -153,7 +150,9 @@ export default function HelpDescription({ route, navigation }) {
                     <>
                         <View style={styles.userInfo}>
                             <Image
-                                source={photoFormated}
+                                source={{
+                                    uri: `data:image/png;base64,${userProfilephoto}`,
+                                }}
                                 style={styles.profileImage}
                             />
                             <View style={styles.infoTextView}>
