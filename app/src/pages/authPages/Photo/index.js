@@ -59,6 +59,25 @@ export default function Photo({ route, navigation }) {
         navigation.navigate('riskGroup', { userData: newUserData });
     }
 
+    const titleCheckBox = (
+        <View style={styles.checkBoxTitle}>
+            <View style={styles.checkBoxContent}>
+                <Text style={styles.checkBoxText}> Você concorda com os </Text>
+                <TouchableOpacity onPress={() => setTermsModalVisible(true)}>
+                    <Text style={styles.hyperLink}> Termos de Uso </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.checkBoxContent}>
+                <Text style={styles.checkBoxText}>e as </Text>
+                <TouchableOpacity onPress={() => setPrivacyModalVisible(true)}>
+                    <Text style={styles.hyperLink}>
+                        Políticas de privacidade
+                    </Text>
+                </TouchableOpacity>
+                <Text style={styles.checkBoxText}>.</Text>
+            </View>
+        </View>
+    );
     return (
         <View style={styles.container}>
             {selectedImage === null ? (
@@ -99,26 +118,12 @@ export default function Photo({ route, navigation }) {
                             ou voltar para escolher outra foto.
                         </Text>
                     </View>
-
-                    <View style={styles.checkboxView}>
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => setTermsModalVisible(true)}>
-                                <Text style={styles.hyperLink}>
-                                    Termos de Uso
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => setPrivacyModalVisible(true)}>
-                                <Text style={styles.hyperLink}>
-                                    Políticas de privacidade
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                    <View style={styles.checkBox}>
                         <CheckBox
-                            title=" Li e concordo com os termos acima"
+                            title={titleCheckBox}
                             style={styles.checkbox}
                             iconRight
+                            size={28}
                             checked={checked}
                             onPress={() => setChecked(!checked)}
                             onIconPress={() => setChecked(!checked)}
