@@ -62,7 +62,7 @@ export default function Photo({ route, navigation }) {
     const titleCheckBox = (
         <View style={styles.checkBoxTitle}>
             <View style={styles.checkBoxContent}>
-                <Text style={styles.checkBoxText}> Você concorda com os </Text>
+                <Text style={styles.checkBoxText}> Li e concordo com os </Text>
                 <TouchableOpacity onPress={() => setTermsModalVisible(true)}>
                     <Text style={styles.hyperLink}> Termos de Uso </Text>
                 </TouchableOpacity>
