@@ -16,7 +16,7 @@ class UserService {
             await firebaseService.login(loginInfo.email, loginInfo.password);
 
             const isEmailVerified = firebaseService.isEmailVerified();
-            const isProductionEnviroment = env.prod;
+            const isProductionEnviroment = env.production;
 
             if (isEmailVerified == false && isProductionEnviroment) {
                 throw { code: 'auth/email-not-verified' };
