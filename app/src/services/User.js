@@ -24,16 +24,11 @@ class UserService {
     }
 
     async signUp(data) {
-        try {
-            const response = await api.post('/user', data);
-            await firebaseService.login(data.email, data.password);
-            await firebaseService.sendEmailVerification();
-            await firebaseService.signOut();
-            return response;
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
+        const response = await api.post('/user', data);
+        await firebaseService.login(data.email, data.password);
+        await firebaseService.sendEmailVerification();
+        await firebaseService.signOut();
+        return response;
     }
 
     async logOut() {
