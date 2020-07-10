@@ -5,9 +5,10 @@ import colors from '../../../assets/styles/colorVariables';
 
 import styles from './styles';
 
-export default function HelpCard({ help, showBadge = false }) {
+export default function HelpCard({ help, showBadge = false, onClick }) {
     return (
         <TouchableOpacity
+            onPress={onClick}
             style={[
                 styles.cardContainer,
                 help.user.riskGroup.length

@@ -13,7 +13,7 @@ import HelpCard from '../HelpCard';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 
-export default function HelpList({ helps, visible, setVisible }) {
+export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
     const listHeight = useRef(new Animated.Value(40)).current;
 
@@ -36,6 +36,11 @@ export default function HelpList({ helps, visible, setVisible }) {
         }
     }, [visible]);
 
+    function clickHandler(helpId) {
+        console.log(helpId);
+        navigation.navigate('helpDetails', { id: helpId });
+    }
+
     return (
         <Animated.View
             style={[styles.helpListContainer, { height: listHeight }]}>
@@ -57,7 +62,11 @@ export default function HelpList({ helps, visible, setVisible }) {
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.scrollStyle}>
                             {helps.map((help, index) => (
-                                <HelpCard key={index} help={help} />
+                                <HelpCard
+                                    key={index}
+                                    help={help}
+                                    onClick={() => clickHandler(help._id)}
+                                />
                             ))}
                         </ScrollView>
                     ) : (

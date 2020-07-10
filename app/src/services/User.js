@@ -213,6 +213,16 @@ class UserService {
         }
     }
 
+    async getUserById(id) {
+        try {
+            const user = await api.get(`/user/getUser/${id}`);
+            return user.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     async verifyUserInfo(value) {
         const response = await api.get(`/checkUserExistence/${value}`);
         return !!response.data;

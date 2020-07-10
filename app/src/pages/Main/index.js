@@ -99,15 +99,8 @@ export default function Main({ navigation }) {
                                 <Avatar help={help} />
                                 <Callout
                                     onPress={() =>
-                                        navigation.navigate('helpDescription', {
-                                            helpTitle: help.title,
-                                            helpDescription: help.description,
-                                            categoryName: help.category[0].name,
-                                            helpId: help._id,
-                                            userName: help.user.name,
-                                            birthday: help.user.birthday,
-                                            city: help.user.address.city,
-                                            profilePhoto: help.user.photo,
+                                        navigation.navigate('helpDetails', {
+                                            id: help._id,
                                         })
                                     }
                                     style={styles.callout}>

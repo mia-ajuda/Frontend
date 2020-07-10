@@ -76,6 +76,17 @@ class HelpService {
             throw error;
         }
     }
+
+    async getHelp(helpId) {
+        try {
+            const url = `/help/${helpId}`;
+            const response = await api.get(url);
+            return response.data;
+        } catch (error) {
+            console.error(error.response);
+            throw error;
+        }
+    }
 }
 
 const helpService = new HelpService();

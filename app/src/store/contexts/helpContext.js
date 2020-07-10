@@ -71,6 +71,13 @@ export default function HelpContextProvider(props) {
         }
     }, [selectedCategories]);
 
+    function removeHelpFromMap(helpId) {
+        let helpListArray = helpList.filter((help) => {
+            return help._id != helpId;
+        });
+        dispatch({ type: actions.help.storeList, helps: helpListArray });
+    }
+
     async function getHelpList(loc) {
         if (loc) {
             try {
@@ -113,7 +120,8 @@ export default function HelpContextProvider(props) {
     }
 
     return (
-        <HelpContext.Provider value={{ helpList, dispatch, loadingHelps }}>
+        <HelpContext.Provider
+            value={{ helpList, dispatch, loadingHelps, removeHelpFromMap }}>
             {props.children}
         </HelpContext.Provider>
     );
