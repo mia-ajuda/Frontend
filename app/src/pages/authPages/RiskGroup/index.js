@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Button from '../../../components/UI/button';
 import styles from './styles';
-import userService from '../../../services/User';
+import UserService from '../../../services/User';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function RiskGroup({ route, navigation }) {
+    const { useService } = useContext(ServiceContext);
     const { userData } = route.params;
     const [loading, setLoading] = useState(false);
     const [disease, setDisease] = useState({
@@ -39,14 +41,15 @@ export default function RiskGroup({ route, navigation }) {
             riskGroup: newDisease,
         };
 
-        try {
-            setLoading(true);
-            await userService.signUp(completeRegistragionData);
+        setLoading(true);
+        const completeRegister = await useService(UserService, 'signUp', [
+            completeRegistragionData,
+        ]);
+        if (completeRegister) {
             navigation.navigate('login');
             alertSuccess('Seu cadastro foi realizado com sucesso');
-        } catch (err) {
+        } else {
             navigation.navigate('login');
-            alertError(err);
         }
     };
     return (

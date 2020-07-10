@@ -58,7 +58,6 @@ export default function Address({ route, navigation }) {
             const response = await useService(adressService, 'getCEPInfo', [
                 currentCep,
             ]);
-            console.log(response);
             if (!response.data.erro) {
                 const { localidade, uf, logradouro, bairro } = response.data;
                 setIsCepValid(true);
