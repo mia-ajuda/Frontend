@@ -86,20 +86,8 @@ export default function CreateHelp({ navigation }) {
             [title, category['_id'], description, userId],
             true,
         );
-        console.log(helpCreated);
         if (helpCreated) setRequestState('success');
         else setRequestState('fail');
-        //     helpService
-        //         .createHelp(title, category['_id'], description, userId)
-        //         .then(() => {
-        //         })
-        //         .catch((err) => {
-        //             const errorMessage = err.response.data.error;
-        //             if (errorMessage && errorMessage.includes('Limite máximo')) {
-        //                 setLimitErrorMessage(errorMessage);
-        //             }
-        //             setRequestState('fail');
-        //         });
     }
     return (
         <ScrollView>
