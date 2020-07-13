@@ -122,18 +122,20 @@ export default function EditProfile({ route, navigation }) {
             };
         }
 
-        navigation.goBack();
         try {
             setLoadingModal(true);
-            console.log(data);
             const resp = await UserService.editUser(
                 data,
                 route.params.attribute === 'cep' ? '/address' : '',
             );
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
+            setLoadingModal(false);
+            setModalVisible(false);
+            navigation.goBack();
         } catch (err) {
             alertError(err, null, 'Ooops..');
+            setLoadingModal(false);
         }
     };
 
