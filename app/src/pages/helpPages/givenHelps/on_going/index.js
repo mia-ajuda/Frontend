@@ -23,12 +23,14 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoading(true);
-        let filteredHelps = await useService(
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
-        setMyHelps(filteredHelps);
+        if (filteredHelps) {
+            setMyHelps(filteredHelps);
+        }
         setLoading(false);
     }
 

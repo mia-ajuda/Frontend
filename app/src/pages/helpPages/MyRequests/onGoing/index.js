@@ -30,28 +30,30 @@ export default function OnGoingHelps({ navigation }) {
 
     async function loadOnGoingHelps() {
         setLoadingHelps(true);
-        let filteredHelps = await useService(
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
         );
-        setOnGoingHelpList(filteredHelps);
+        if (filteredHelps) {
+            setOnGoingHelpList(filteredHelps);
+        }
         setLoadingHelps(false);
     }
 
     async function excludeHelp() {
-        try {
-            setIsLoadingModal(true);
-            await helpService.deleteHelp(selectedHelp);
-            setIsLoadingModal(false);
+        setIsLoadingModal(true);
+        const validRequest = await useService(helpService, 'deleteHelp', [
+            selectedHelp,
+        ]);
+        if (validRequest) {
             const updatedArray = onGoingHelpList.filter((help) => {
                 return help._id !== selectedHelp;
             });
             setOnGoingHelpList(updatedArray);
-            setConfirmationModalVisible(false);
-        } catch (error) {
-            console.log(error);
         }
+        setIsLoadingModal(false);
+        setConfirmationModalVisible(false);
     }
 
     return (

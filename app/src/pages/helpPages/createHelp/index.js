@@ -80,12 +80,12 @@ export default function CreateHelp({ navigation }) {
         const { _id: userId } = user;
 
         setRequestState('waiting');
-        const helpCreated = await useService(
-            helpService,
-            'createHelp',
-            [title, category['_id'], description, userId],
-            true,
-        );
+        const helpCreated = await useService(helpService, 'createHelp', [
+            title,
+            category['_id'],
+            description,
+            userId,
+        ]);
         if (helpCreated) setRequestState('success');
         else setRequestState('fail');
     }

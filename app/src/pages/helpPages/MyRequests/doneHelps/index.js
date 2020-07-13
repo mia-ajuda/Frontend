@@ -26,12 +26,14 @@ export default function DoneHelps({ navigation }) {
 
     async function loadFinishedHelps() {
         setLoadingHelps(true);
-        let resFinished = await useService(
+        const resFinished = await useService(
             helpService,
             'getHelpMultipleStatus',
             [userId, 'finished'],
         );
-        setFinishedHelpList(resFinished);
+        if (resFinished) {
+            setFinishedHelpList(resFinished);
+        }
         setLoadingHelps(false);
     }
 

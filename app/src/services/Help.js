@@ -58,23 +58,13 @@ class HelpService {
     }
 
     async chooseHelp(idHelp, idHelper) {
-        try {
-            const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
-            await api.put(url);
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
+        const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
+        await api.put(url);
     }
 
     async finishHelpByHelper(idHelp, idHelper) {
-        try {
-            const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
-            await api.put(url);
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
+        const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
+        await api.put(url);
     }
 }
 

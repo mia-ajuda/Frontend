@@ -23,18 +23,14 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoading(true);
-        //validar
         const helps = await useService(helpService, 'getHelpMultipleStatus', [
             user._id,
             'finished',
             true,
         ]);
-        // const helps = await helpService.getHelpMultipleStatus(
-        //     user._id,
-        //     'finished',
-        //     true,
-        // );
-        setMyHelps(helps);
+        if (helps) {
+            setMyHelps(helps);
+        }
         setLoading(false);
     }
 

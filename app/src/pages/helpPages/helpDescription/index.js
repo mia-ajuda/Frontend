@@ -14,11 +14,12 @@ import Button from '../../../components/UI/button';
 import moment from 'moment';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { UserContext } from '../../../store/contexts/userContext';
-import HelpService from '../../../services/Help';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
-import { alertError, alertSuccess } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
+import helpService from '../../../services/Help';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -30,6 +31,7 @@ export default function HelpDescription({ route, navigation }) {
     const [modalAction, setModalAction] = useState(() => {});
     const [modalMessage, setModalMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { useService } = useContext(ServiceContext);
 
     const {
         helpDescription,
@@ -58,8 +60,10 @@ export default function HelpDescription({ route, navigation }) {
     const userProfilephoto = profilePhoto || user.photo;
 
     async function chooseHelp() {
-        try {
-            await HelpService.chooseHelp(helpId, user._id);
+        const validRequest = await useService(helpService, 'chooseHelp', [
+            user._id,
+        ]);
+        if (validRequest) {
             let helpListArray = helpList.filter((help) => {
                 return help._id != helpId;
             });
@@ -68,22 +72,24 @@ export default function HelpDescription({ route, navigation }) {
             alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
             );
-        } catch (error) {
+        } else {
             navigation.goBack();
-            alertError(error);
         }
     }
 
     async function finishHelp() {
-        try {
-            await HelpService.finishHelpByHelper(helpId, user._id);
+        const validRequest = await useService(
+            helpService,
+            'finishHelpByHelper',
+            [helpId, user._id],
+        );
+        if (validRequest) {
             navigation.goBack();
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
             );
-        } catch (error) {
+        } else {
             navigation.goBack();
-            alertError(error);
         }
     }
 
