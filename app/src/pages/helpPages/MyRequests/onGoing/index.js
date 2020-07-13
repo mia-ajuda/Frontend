@@ -8,6 +8,7 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
+import { ServiceContext } from '../../../../store/contexts/serviceContext';
 
 export default function OnGoingHelps({ navigation }) {
     const [onGoingHelpList, setOnGoingHelpList] = useState([]);
@@ -19,6 +20,7 @@ export default function OnGoingHelps({ navigation }) {
     const [isLoadingModal, setIsLoadingModal] = useState(false);
     const { user } = useContext(UserContext);
     const { _id: userId } = user;
+    const { useService } = useContext(ServiceContext);
 
     useFocusEffect(
         useCallback(() => {
@@ -28,16 +30,13 @@ export default function OnGoingHelps({ navigation }) {
 
     async function loadOnGoingHelps() {
         setLoadingHelps(true);
-        try {
-            let filteredHelps = await helpService.getHelpMultipleStatus(
-                userId,
-                ['waiting', 'on_going', 'helper_finished'],
-            );
-            setOnGoingHelpList(filteredHelps);
-            setLoadingHelps(false);
-        } catch (err) {
-            console.log(err);
-        }
+        let filteredHelps = await useService(
+            helpService,
+            'getHelpMultipleStatus',
+            [userId, ['waiting', 'on_going', 'helper_finished']],
+        );
+        setOnGoingHelpList(filteredHelps);
+        setLoadingHelps(false);
     }
 
     async function excludeHelp() {

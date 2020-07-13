@@ -28,11 +28,6 @@ export default function AskedHelps({ navigation }) {
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
-        // let filteredHelps = await helpService.getHelpMultipleStatus(
-        //     user._id,
-        //     ['on_going', 'owner_finished', 'waiting'],
-        //     true,
-        // );
         setMyHelps(filteredHelps);
         setLoading(false);
     }
