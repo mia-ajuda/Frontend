@@ -36,7 +36,7 @@ export default function Login({ navigation }) {
 
     const loginHandler = async () => {
         const data = { email: email.trim(), password };
-        keyboard.hide();
+        keyboard.dismiss();
         try {
             setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);

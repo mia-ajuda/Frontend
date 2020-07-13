@@ -13,7 +13,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import Button from '../../../components/UI/button';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
-import checkEmailFormat from '../../../utils/emailValidation';
+import checkEmailFormat from '../../../utils/emailValidator';
 import firebaseService from '../../../services/Firebase';
 import { alertSuccess, alertError } from '../../../utils/Alert';
 
@@ -49,6 +49,7 @@ export default function ForgotPassword({ navigation }) {
             <ActivityIndicator color={colors.primary} size="large" />
         </View>
     );
+
     const forgotPasswordForm = () => {
         let buttonDisabled;
         let isEmailInputValid;

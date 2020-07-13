@@ -36,7 +36,7 @@ export default function Address({ route, navigation }) {
     }, [cep]);
 
     async function getCepInformation(currentCep) {
-        keyboard.hide();
+        keyboard.dismiss();
         try {
             setCepRequestLoading(true);
             const cepInformation = await ViaCep.getCepInformation(currentCep);

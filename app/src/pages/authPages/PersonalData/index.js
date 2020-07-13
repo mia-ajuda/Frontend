@@ -45,7 +45,7 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const continueHandler = async () => {
-        keyboard.hide();
+        keyboard.dismiss();
         try {
             await verifyCpfExistence();
 

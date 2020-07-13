@@ -6,7 +6,7 @@ export const DeviceInformationContext = createContext();
 export default function DeviceInfoProvider({ children }) {
     const [keyboardInformation, setKeyboardInformation] = useState({
         visible: false,
-        hide: Keyboard.dismiss,
+        dismiss: Keyboard.dismiss,
     });
     const operationalSystem = Platform.OS;
 
