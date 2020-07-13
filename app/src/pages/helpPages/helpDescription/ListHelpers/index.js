@@ -40,17 +40,6 @@ export default function ListHelpers({
 
     const [loading, setLoading] = useState(false);
 
-    const getHelperPhoto = (photo) => {
-        let helperPhoto;
-        if (photo.includes('http')) {
-            helperPhoto = { uri: photo };
-        } else {
-            helperPhoto = { uri: `data:image/png;base64,${photo}` };
-        }
-
-        return helperPhoto;
-    };
-
     const loadHelpInfo = async () => {
         setLoading(true);
         try {
@@ -150,7 +139,9 @@ export default function ListHelpers({
                             <View style={styles.volunteerContainerDirection}>
                                 <Image
                                     style={styles.volunteerImage}
-                                    source={getHelperPhoto(helperImage)}
+                                    source={{
+                                        uri: `data:image/png;base64,${helperImage}`,
+                                    }}
                                 />
                                 <View style={styles.volunteerText}>
                                     <Text style={styles.infoTextFont}>
@@ -219,7 +210,9 @@ export default function ListHelpers({
                                 <View style={styles.helper}>
                                     <Image
                                         style={styles.imageProfile}
-                                        source={getHelperPhoto(helper.photo)}
+                                        source={{
+                                            uri: `data:image/png;base64,${helper.photo}`,
+                                        }}
                                     />
                                     <View>
                                         <Text

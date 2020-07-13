@@ -6,7 +6,7 @@ const devUrl = `http://${IP_ADDRESS}:8000/`;
 
 const ENV = {
     dev: {
-        production: false,
+        development: true,
         socketUrl: devUrl,
         apiUrl: devUrl + 'api',
     },
