@@ -28,15 +28,17 @@ export default function EditNameField({ route, navigation }) {
             ...route.params.user,
             name: fieldToEdit,
         };
-        navigation.goBack();
         try {
             setLoadingModal(true);
-            console.log(data);
             const resp = await UserService.editUser(data);
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
+            setLoadingModal(false);
+            setModalVisible(false);
+            navigation.goBack();
         } catch (err) {
             alertError(err, null, 'Ooops..');
+            setLoadingModal(false);
         }
     };
 

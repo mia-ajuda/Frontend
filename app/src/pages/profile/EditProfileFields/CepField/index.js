@@ -41,7 +41,6 @@ export default function EditCepField({ route, navigation }) {
 
     const cepHandle = async (currentCep) => {
         setFieldToEdit(currentCep.substring(0, 8));
-
         if (currentCep.length === 8) {
             try {
                 setLoading(true);
@@ -91,18 +90,17 @@ export default function EditCepField({ route, navigation }) {
             city: newCity,
             state,
         };
-        navigation.goBack();
         try {
             setLoadingModal(true);
-            console.log(data);
-            const resp = await UserService.editUser(
-                data,
-                route.params.attribute === '/address',
-            );
+            const resp = await UserService.editUserAdress(data);
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
+            setLoadingModal(false);
+            setModalVisible(false);
+            navigation.goBack();
         } catch (err) {
             alertError(err, null, 'Ooops..');
+            setLoadingModal(false);
         }
     };
 

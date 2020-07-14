@@ -88,6 +88,11 @@ class UserService {
         return user.data;
     }
 
+    async editUserAdress(data) {
+        const user = await api.put('/user/address', data);
+        return user.data;
+    }
+
     async setUserDeviceId() {
         try {
             if (Constants.isDevice) {
