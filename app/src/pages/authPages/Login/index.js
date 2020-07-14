@@ -42,7 +42,6 @@ export default function Login({ navigation }) {
         try {
             setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);
-            setLoadingLoginRequest(false);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
