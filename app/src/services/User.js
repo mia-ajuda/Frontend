@@ -42,9 +42,7 @@ class UserService {
             const response = await api.post('/user', data);
             await firebaseService.login(data.email, data.password);
             await firebaseService.sendEmailVerification();
-
-            await this.logOut();
-
+            await firebaseService.signOut();
             return response;
         } catch (error) {
             console.log(error.response);
