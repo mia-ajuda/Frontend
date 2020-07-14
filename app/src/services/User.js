@@ -17,7 +17,6 @@ class UserService {
 
             const isEmailVerified = firebaseService.isEmailVerified();
             const isProductionEnviroment = env.production;
-
             if (isEmailVerified == false && isProductionEnviroment) {
                 throw { code: 'auth/email-not-verified' };
             }
@@ -31,6 +30,7 @@ class UserService {
                 const translatedMessage = translateFirebaseError[error.code];
                 throw {
                     message: translatedMessage,
+                    code: error.code,
                 };
             }
             throw error;
