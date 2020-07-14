@@ -32,7 +32,7 @@ function alertMessage(message) {
 function alertMessageEmailVerification(message) {
     Alert.alert('Email não verificado', message, [
         {
-            text: 'Reeviar email',
+            text: 'Reenviar email',
             onPress: async () => {
                 await firebaseService.sendEmailVerification();
                 alertSuccess(
