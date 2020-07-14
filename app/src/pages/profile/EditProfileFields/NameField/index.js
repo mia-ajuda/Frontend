@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import { UserContext } from '../../../store/contexts/userContext';
-import Button from '../../../components/UI/button';
-import Input from '../../../components/UI/input';
-import UserService from '../../../services/User';
+import { UserContext } from '../../../../store/contexts/userContext';
+import Button from '../../../../components/UI/button';
+import Input from '../../../../components/UI/input';
+import UserService from '../../../../services/User';
 import styles from './styles';
-import actions from '../../../store/actions';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import actions from '../../../../store/actions';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import { alertSuccess, alertError } from '../../../../utils/Alert';
 
-export default function EditProfile({ route, navigation }) {
+export default function EditNameField({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
-    const [isFieldEditedValid, setFieldEditedValid] = useState(true);
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
@@ -60,7 +59,6 @@ export default function EditProfile({ route, navigation }) {
                     <View style={styles.cep}>
                         <Input
                             change={handleFiledToEditChange}
-                            valid={isFieldEditedValid}
                             label={'Nome'}
                             placeholder={'Digite seu nome'}
                             value={fieldToEdit}
@@ -71,7 +69,7 @@ export default function EditProfile({ route, navigation }) {
                 <Button
                     style={styles.btnEdit}
                     title="Editar"
-                    disabled={fieldToEdit === '' || !isFieldEditedValid}
+                    disabled={fieldToEdit === ''}
                     large
                     press={() => setModalVisible(true)}
                 />

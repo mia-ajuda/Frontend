@@ -16,7 +16,7 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../../utils/removeSpecialChars';
 import { alertSuccess, alertError } from '../../../../utils/Alert';
 
-export default function EditProfileFields({ route, navigation }) {
+export default function EditPhoneField({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
     const [isFieldEditedValid, setFieldEditedValid] = useState(true);
     const { dispatch } = useContext(UserContext);

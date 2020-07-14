@@ -7,18 +7,18 @@ import {
     ActivityIndicator,
     Platform,
 } from 'react-native';
-import { UserContext } from '../../../store/contexts/userContext';
-import Button from '../../../components/UI/button';
-import Input from '../../../components/UI/input';
-import colors from '../../../../assets/styles/colorVariables';
-import UserService from '../../../services/User';
+import { UserContext } from '../../../../store/contexts/userContext';
+import Button from '../../../../components/UI/button';
+import Input from '../../../../components/UI/input';
+import colors from '../../../../../assets/styles/colorVariables';
+import UserService from '../../../../services/User';
 import axios from 'axios';
 import styles from './styles';
-import actions from '../../../store/actions';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import actions from '../../../../store/actions';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import { alertSuccess, alertError } from '../../../../utils/Alert';
 
-export default function EditProfile({ route, navigation }) {
+export default function EditCepField({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
     const [isFieldEditedValid, setFieldEditedValid] = useState(true);
     const [numberPlace, setNumberPlace] = useState('');
