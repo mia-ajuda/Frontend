@@ -19,12 +19,6 @@ export default function ConfirmationModal({
     isLoading,
     attention,
 }) {
-    function whileRequestLoading() {
-        if (!isLoading) {
-            setVisible(false);
-        }
-    }
-
     const renderLoadingIndicator = () => (
         <ActivityIndicator size="large" color={colors.primary} />
     );
@@ -51,7 +45,7 @@ export default function ConfirmationModal({
         <Modal visible={visible} transparent animationType="fade">
             <TouchableOpacity
                 style={styles.container}
-                onPress={() => whileRequestLoading()}
+                onPress={() => setVisible(false)}
                 activeOpacity={1}>
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
