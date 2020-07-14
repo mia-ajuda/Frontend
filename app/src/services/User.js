@@ -26,11 +26,13 @@ class UserService {
             this.setUserDeviceId();
             return user;
         } catch (error) {
-            if (error.code != undefined) {
-                const translatedMessage = translateFirebaseError[error.code];
+            const errorFromFirebase = error.code;
+            if (errorFromFirebase != undefined) {
+                const translatedMessage =
+                    translateFirebaseError[errorFromFirebase];
                 throw {
                     message: translatedMessage,
-                    code: error.code,
+                    code: errorFromFirebase,
                 };
             }
             throw error;
