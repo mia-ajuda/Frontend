@@ -43,7 +43,9 @@ export default function RiskGroup({ route, navigation }) {
             setLoading(true);
             await userService.signUp(completeRegistragionData);
             navigation.navigate('login');
-            alertSuccess('Seu cadastro foi realizado com sucesso');
+            alertSuccess(
+                'Seu cadastro foi realizado com sucesso! Um email de verificação foi enviado para sua caixa de entrada',
+            );
         } catch (err) {
             navigation.navigate('login');
             alertError(err);
