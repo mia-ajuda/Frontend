@@ -6,7 +6,7 @@ const errorMessages = {
         'Foram feitas muitas tentativas de login com esse email. Tente novamente mais tarde.',
     ' auth/invalid-password': 'Senha inválida.',
     'auth/email-not-verified':
-        'Se você não recebeu nenhum email de verificação, tente reenviar o email e checar também em sua caixa de spam',
+        'Se você não recebeu um email de verificação, tente reenviar o email e checar também em sua caixa de spam',
 };
 
 export default errorMessages;
