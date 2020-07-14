@@ -43,9 +43,7 @@ const styles = StyleSheet.create({
         ...fonts.subtitle,
         fontSize: 13,
         fontFamily: 'montserrat-semibold',
-        textAlign: 'center',
-        marginTop: 5,
-        marginBottom: 5,
+        textAlign: 'left',
         color: colors.primary,
     },
     textView: {
@@ -108,12 +106,24 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         marginTop: 5,
     },
-    checkboxView: {
-        width: '100%',
+    checkBox: {
+        justifyContent: 'center',
+        alignContent: 'space-between',
+    },
+    checkBoxTitle: {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
+        marginRight: 20,
+    },
+    checkBoxContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    checkBoxText: {
+        fontSize: 13,
+        fontFamily: 'montserrat-medium',
     },
 });
 
