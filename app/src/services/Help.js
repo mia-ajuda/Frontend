@@ -60,11 +60,19 @@ class HelpService {
     async chooseHelp(idHelp, idHelper) {
         const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
         await api.put(url);
+        return true;
     }
 
     async finishHelpByHelper(idHelp, idHelper) {
         const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
         await api.put(url);
+        return true;
+    }
+
+    async chooseHelper(idHelp, idHelper) {
+        const url = `/help/chooseHelper/${idHelp}/${idHelper}`;
+        await api.put(url);
+        return true;
     }
 }
 

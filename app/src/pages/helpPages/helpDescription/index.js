@@ -61,6 +61,7 @@ export default function HelpDescription({ route, navigation }) {
 
     async function chooseHelp() {
         const validRequest = await useService(helpService, 'chooseHelp', [
+            helpId,
             user._id,
         ]);
         if (validRequest) {
@@ -68,13 +69,11 @@ export default function HelpDescription({ route, navigation }) {
                 return help._id != helpId;
             });
             dispatch({ type: actions.help.storeList, helps: helpListArray });
-            navigation.goBack();
             alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
             );
-        } else {
-            navigation.goBack();
         }
+        navigation.goBack();
     }
 
     async function finishHelp() {
@@ -84,13 +83,11 @@ export default function HelpDescription({ route, navigation }) {
             [helpId, user._id],
         );
         if (validRequest) {
-            navigation.goBack();
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
             );
-        } else {
-            navigation.goBack();
         }
+        navigation.goBack();
     }
 
     function openModal(action) {
