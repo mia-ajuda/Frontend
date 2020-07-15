@@ -3,7 +3,6 @@ import {
     View,
     Picker,
     Text,
-    Modal,
     ActivityIndicator,
     ScrollView,
 } from 'react-native';
@@ -13,8 +12,13 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
+
+import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
+// import NewHelpModalFailure from '../../../components/modals/newHelpModal/failure';
+
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
+
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
@@ -24,43 +28,11 @@ export default function CreateHelp({ navigation }) {
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalVerification, setModalVerification] = useState(true);
     const [loading, setloading] = useState(false);
-    const [requestState, setRequestState] = useState('');
-    const [limitErrorMessage, setLimitErrorMessage] = useState(null);
+    // const [limitErrorMessage, setLimitErrorMessage] = useState(null);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
-
-    useEffect(() => {
-        switch (requestState) {
-            case 'waiting':
-                setloading(true);
-                break;
-            case 'success':
-                setloading(false);
-                setModalVisible(true);
-                setModalVerification(true);
-                setRequestState('');
-                setTitle('');
-                setDescription('');
-                setCategory({});
-                break;
-            case 'fail':
-                setloading(false);
-                setModalVisible(true);
-                setModalVerification(false);
-                setRequestState('');
-                break;
-            case '':
-                break;
-            default:
-                setRequestState('');
-                setModalVisible(true);
-                setModalVerification(false);
-                break;
-        }
-    }, [requestState]);
 
     useEffect(() => {
         showWarningFor('helpRequest', requestHelpWarningMessage);
@@ -74,22 +46,27 @@ export default function CreateHelp({ navigation }) {
         }
     }, [title, description, category]);
 
-    function createHelp() {
+    async function createHelp() {
         const { _id: userId } = user;
-
-        setRequestState('waiting');
-        helpService
-            .createHelp(title, category['_id'], description, userId)
-            .then(() => {
-                setRequestState('success');
-            })
-            .catch((err) => {
-                const errorMessage = err.response.data.error;
-                if (errorMessage && errorMessage.includes('Limite máximo')) {
-                    setLimitErrorMessage(errorMessage);
-                }
-                setRequestState('fail');
-            });
+        try {
+            setloading(true);
+            await helpService.createHelp(
+                title,
+                category['_id'],
+                description,
+                userId,
+            );
+        } catch (error) {
+            console.log(error);
+            // const errorMessage = error.response.data.error;
+            // if (errorMessage && errorMessage.includes('Limite máximo')) {
+            // setLimitErrorMessage(errorMessage);
+            // }
+        } finally {
+            setModalVisible(true);
+            setloading(false);
+            navigation.navigate('main');
+        }
     }
     return (
         <ScrollView>
@@ -148,46 +125,10 @@ export default function CreateHelp({ navigation }) {
                     </View>
                 </View>
             </Container>
-
-            <View style={styles.fullScreen}>
-                <View style={styles.centeredView}>
-                    <Modal
-                        transparent={true}
-                        style={styles.modal}
-                        animationType="fade"
-                        visible={modalVisible}>
-                        <View style={[styles.backdrop, styles.centeredView]}>
-                            <View style={styles.modalView}>
-                                {modalVerification ? (
-                                    <Text style={styles.modalText}>
-                                        Sua solicitação de ajuda foi criada com
-                                        sucesso!
-                                    </Text>
-                                ) : (
-                                    <Text style={styles.modalText}>
-                                        {limitErrorMessage
-                                            ? limitErrorMessage
-                                            : 'Houve algum problema com sua solicitação. Tente mais tarde.'}
-                                    </Text>
-                                )}
-
-                                <Button
-                                    type={modalVerification ? null : 'danger'}
-                                    large
-                                    press={() => {
-                                        setModalVisible(!modalVisible);
-
-                                        modalVerification
-                                            ? navigation.navigate('main')
-                                            : null;
-                                    }}
-                                    title="OK"
-                                />
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
-            </View>
+            <NewHelpModalSuccess
+                visible={modalVisible}
+                setVisible={setModalVisible}
+            />
         </ScrollView>
     );
 }

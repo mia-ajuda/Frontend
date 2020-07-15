@@ -12,6 +12,7 @@ export default function Input({
     valid = true,
     autoComplete,
     keyboard = 'default',
+    maxLength,
 }) {
     let input;
     if (textarea) {
@@ -58,7 +59,7 @@ export default function Input({
                 value={value}
                 autoCompleteType={autoComplete ? autoComplete : 'off'}
                 keyboardType={keyboard ? keyboard : 'default'}
-                maxLength={50}
+                maxLength={maxLength}
             />
         );
     }
