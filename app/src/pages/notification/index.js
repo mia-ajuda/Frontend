@@ -6,12 +6,13 @@ import { UserContext } from '../../store/contexts/userContext';
 import NotificationService from '../../services/Notification';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
+import { ServiceContext } from '../../store/contexts/serviceContext';
 
 export default function Notification({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const { user } = useContext(UserContext);
-
+    const { useService } = useContext(ServiceContext);
     const { _id: userId } = user;
 
     useEffect(() => {
@@ -22,15 +23,16 @@ export default function Notification({ navigation }) {
     }, [navigation]);
 
     async function loadNotifications() {
-        try {
-            setLoading(true);
-            setNotifications(
-                await NotificationService.getAllNotifications(userId),
-            );
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
+        setLoading(true);
+        const notificationsResponse = await useService(
+            NotificationService,
+            'getAllNotifications',
+            [userId],
+        );
+        if (notificationsResponse) {
+            setNotifications(notificationsResponse);
         }
+        setLoading(false);
     }
 
     return (
