@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         height: '25%',
+        marginTop: 20,
     },
     input: {
         ...fonts.body,
@@ -27,6 +28,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         borderColor: colors.primary,
+    },
+    catagoryPicker: {
+        marginTop: 20,
     },
     pikerItem: {
         ...fonts.body,
@@ -44,6 +48,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         padding: 10,
+    },
+    descriptionInput: {
+        marginTop: 20,
     },
 });
 
