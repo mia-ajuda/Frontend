@@ -14,7 +14,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-// import NewHelpModalFailure from '../../../components/modals/newHelpModal/failure';
+import NewHelpModalError from '../../../components/modals/newHelpModal/failure';
 
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -27,9 +27,12 @@ export default function CreateHelp({ navigation }) {
     const [category, setCategory] = useState({});
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
+        false,
+    );
+    const [modalErrorModalVisible, setErrorModalVisible] = useState(false);
     const [loading, setloading] = useState(false);
-    // const [limitErrorMessage, setLimitErrorMessage] = useState(null);
+    const [limitErrorMessage, setLimitErrorMessage] = useState(null);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
@@ -56,16 +59,15 @@ export default function CreateHelp({ navigation }) {
                 description,
                 userId,
             );
+            setModalSuccessMoldalVisible(true);
         } catch (error) {
-            console.log(error);
-            // const errorMessage = error.response.data.error;
-            // if (errorMessage && errorMessage.includes('Limite máximo')) {
-            // setLimitErrorMessage(errorMessage);
-            // }
+            const errorMessage = error.response.data.error;
+            if (errorMessage && errorMessage.includes('Limite máximo')) {
+                setLimitErrorMessage(errorMessage);
+            }
+            setErrorModalVisible(true);
         } finally {
-            setModalVisible(true);
             setloading(false);
-            navigation.navigate('main');
         }
     }
     return (
@@ -126,8 +128,13 @@ export default function CreateHelp({ navigation }) {
                 </View>
             </Container>
             <NewHelpModalSuccess
-                visible={modalVisible}
-                setVisible={setModalVisible}
+                visible={modalSuccessModalVisible}
+                onOkPressed={() => navigation.navigate('main')}
+            />
+            <NewHelpModalError
+                visible={modalErrorModalVisible}
+                onOkPressed={() => navigation.navigate('main')}
+                errorMessage={limitErrorMessage}
             />
         </ScrollView>
     );

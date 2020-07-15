@@ -3,7 +3,7 @@ import { Modal, View, Text } from 'react-native';
 import Button from '../../../UI/button';
 import styles from './styles';
 
-export default function NewHelpModal({ visible, setVisible }) {
+export default function NewHelpModal({ visible, onOkPressed }) {
     return (
         <View style={styles.modalContainer}>
             <Modal
@@ -16,13 +16,7 @@ export default function NewHelpModal({ visible, setVisible }) {
                         Sua solicitação de ajuda foi criada com sucesso!
                     </Text>
 
-                    <Button
-                        large
-                        press={() => {
-                            setVisible(!visible);
-                        }}
-                        title="OK"
-                    />
+                    <Button large press={onOkPressed} title="OK" />
                 </View>
             </Modal>
         </View>

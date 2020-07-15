@@ -1,49 +1,38 @@
 import { StyleSheet } from 'react-native';
-import fonts from '../../../../../assets/styles/fontVariable';
 import colors from '../../../../../assets/styles/colorVariables';
+import fonts from '../../../../../assets/styles/fontVariable';
+import { Dimensions } from 'react-native';
+const { height: screen_height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    view: {
+    modalContainer: {
         flex: 1,
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    margiView: {
-        marginVertical: 12,
-    },
-    btnContainer: {
-        height: '25%',
-    },
-    input: {
-        ...fonts.body,
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: colors.primary,
-        padding: 10,
-    },
-    picker: {
-        ...fonts.body,
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: colors.primary,
-    },
-    pikerItem: {
-        ...fonts.body,
-        color: colors.primary,
-    },
-    label: {
-        ...fonts.body,
-        fontFamily: 'montserrat-semibold',
-        color: colors.primary,
-    },
-
-    loading: {
-        flex: 1,
-        height: '100%',
         justifyContent: 'center',
-        flexDirection: 'row',
-        padding: 10,
+        alignItems: 'center',
+    },
+    modal: {
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    modalView: {
+        backgroundColor: colors.light,
+        padding: 20,
+        borderRadius: 10,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '80%',
+        elevation: 5,
+        alignSelf: 'center',
+        marginTop: screen_height * 0.3,
+    },
+    modalText: {
+        ...fonts.subtitle,
+        fontSize: 20,
+        textAlign: 'center',
+        marginVertical: 30,
+    },
+    backdrop: {
+        backgroundColor: '#35353590',
     },
 });
 

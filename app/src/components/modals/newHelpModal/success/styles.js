@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../../../../assets/styles/colorVariables';
 import fonts from '../../../../../assets/styles/fontVariable';
+import { Dimensions } from 'react-native';
+const { height: screen_height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -19,14 +21,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '80%',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
         elevation: 5,
+        alignSelf: 'center',
+        marginTop: screen_height * 0.3,
     },
     modalText: {
         ...fonts.subtitle,
