@@ -18,7 +18,8 @@ import styles from './styles';
 import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function EditProfile({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
@@ -31,6 +32,7 @@ export default function EditProfile({ route, navigation }) {
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         if (route.params.attribute === 'phone') {
@@ -122,19 +124,21 @@ export default function EditProfile({ route, navigation }) {
             };
         }
 
-        navigation.goBack();
-        try {
-            setLoadingModal(true);
-            console.log(data);
-            const resp = await UserService.editUser(
-                data,
-                route.params.attribute === 'cep' ? '/address' : '',
-            );
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
+        setLoadingModal(true);
+        const params = route.params.attribute === 'cep' ? '/address' : '';
+        const editResponse = await useService(UserService, 'editUser', [
+            data,
+            params,
+        ]);
+        if (editResponse) {
+            dispatch({
+                type: actions.user.storeUserInfo,
+                data: editResponse,
+            });
             alertSuccess('Alteração feita com sucesso!');
-        } catch (err) {
-            alertError(err, null, 'Ooops..');
         }
+        setModalVisible(false);
+        navigation.goBack();
     };
 
     return (
