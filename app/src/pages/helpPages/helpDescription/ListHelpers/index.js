@@ -16,7 +16,9 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import styles from './styles';
-import { alertError, alertSuccess } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../../utils/Alert';
+import { ServiceContext } from '../../../../store/contexts/serviceContext';
+import helpService from '../../../../services/Help';
 
 export default function ListHelpers({
     clickAction,
@@ -37,7 +39,7 @@ export default function ListHelpers({
     const [isLoading, setIsLoading] = useState(false);
     const [modalAction, setModalAction] = useState(() => {});
     const [modalMessage, setModalMessage] = useState('');
-
+    const { useService } = useContext(ServiceContext);
     const [loading, setLoading] = useState(false);
 
     const loadHelpInfo = async () => {
@@ -65,16 +67,17 @@ export default function ListHelpers({
     };
 
     async function ownerFinishedHelp() {
-        try {
-            await api.put(`/help/ownerConfirmation/${helpId}/${user._id}`);
-            navigation.goBack();
+        const validRequest = await useService(
+            helpService,
+            'finishHelpByOwner',
+            [helpId, user._id],
+        );
+        if (validRequest) {
             alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
             );
-        } catch (err) {
-            navigation.goBack();
-            alertError(err);
         }
+        navigation.goBack();
     }
 
     useEffect(() => {
@@ -83,14 +86,16 @@ export default function ListHelpers({
     }, [helpId, visible]);
 
     async function chooseHelper(helperId) {
-        try {
-            await api.put(`/help/chooseHelper/${helpId}/${helperId}`);
-            setVisible(false);
-            setIsLoading(false);
+        const validRequest = await useService(helpService, 'chooseHelper', [
+            helpId,
+            helperId,
+        ]);
+        setVisible(false);
+        setIsLoading(false);
+        if (validRequest) {
             alertSuccess('Ajudante escolhido com sucesso!');
-        } catch (err) {
+        } else {
             navigation.goBack();
-            alertError(err, null, 'Ooops..');
         }
     }
 
