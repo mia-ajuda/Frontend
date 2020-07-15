@@ -16,7 +16,10 @@ import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import actions from '../../../store/actions';
-import { alertError } from '../../../utils/Alert';
+import {
+    alertError,
+    alertMessageEmailVerification,
+} from '../../../utils/Alert';
 
 export default function Login({ navigation }) {
     const { dispatch } = useContext(UserContext);
@@ -40,14 +43,17 @@ export default function Login({ navigation }) {
         try {
             setLoadingLoginRequest(true);
             const user = await UserService.logIn(data);
-            setLoadingLoginRequest(false);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }
         } catch (err) {
             setLoadingLoginRequest(false);
+            const emailNotVerifiedError = err.code == 'auth/email-not-verified';
+
             if (err.message == 'Request failed with status code 404') {
                 alertError(err, null, 'Ooops..');
+            } else if (emailNotVerifiedError) {
+                alertMessageEmailVerification(err.message);
             } else {
                 alertError(err, err.message, 'Ooops..');
             }

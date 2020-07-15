@@ -17,7 +17,6 @@ class UserService {
 
             const isEmailVerified = firebaseService.isEmailVerified();
             const isProductionEnviroment = env.production;
-
             if (isEmailVerified == false && isProductionEnviroment) {
                 throw { code: 'auth/email-not-verified' };
             }
@@ -27,10 +26,13 @@ class UserService {
             this.setUserDeviceId();
             return user;
         } catch (error) {
-            if (error.code != undefined) {
-                const translatedMessage = translateFirebaseError[error.code];
+            const errorFromFirebase = error.code;
+            if (errorFromFirebase != undefined) {
+                const translatedMessage =
+                    translateFirebaseError[errorFromFirebase];
                 throw {
                     message: translatedMessage,
+                    code: errorFromFirebase,
                 };
             }
             throw error;

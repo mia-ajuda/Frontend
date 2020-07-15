@@ -1,4 +1,5 @@
 import { Alert } from 'react-native';
+import firebaseService from '../services/Firebase';
 
 function alertError(error, message = null, type = null) {
     if (type == null) {
@@ -27,5 +28,25 @@ function alertSuccess(message) {
 function alertMessage(message) {
     Alert.alert(null, message);
 }
+function alertMessageEmailVerification(message) {
+    Alert.alert('Email não verificado', message, [
+        {
+            text: 'Reenviar email',
+            onPress: async () => {
+                await firebaseService.sendEmailVerification();
+                alertSuccess(
+                    'Email enviado com sucesso! Verifique sua caixa de entrada e também sua caixa de spam.',
+                );
+            },
+            style: 'cancel',
+        },
+        { text: 'OK', onPress: () => {} },
+    ]);
+}
 
-export { alertSuccess, alertError, alertMessage };
+export {
+    alertSuccess,
+    alertError,
+    alertMessage,
+    alertMessageEmailVerification,
+};
