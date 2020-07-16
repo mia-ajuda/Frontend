@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, ScrollView, Image, ActivityIndicator } from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import helpService from '../../../services/Help';
-import calculateAge from '../../../utils/calculateAge';
 import styles from './styles';
-import CategoryTag from '../../../components/CategoryTag';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import HelpService from '../../../services/Help';
+import HelpUserInfo from '../../../components/HelpUserInfo';
+import HelpInfo from '../../../components/HelpInfo';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { alertSuccess, alertError } from '../../../utils/Alert';
@@ -60,24 +60,8 @@ export default function HelpDetails({ route, navigation }) {
                 action={chooseHelp}
                 message={`Você deseja ajudar ${help.user.name}?`}
             />
-            <View style={styles.userInfo}>
-                <Image source={photo} style={styles.ownerPhoto} />
-                <Text style={styles.name}>{help.user.name}</Text>
-                <Text style={styles.text}>
-                    {calculateAge(help.user.birthday)} anos
-                </Text>
-            </View>
-            <View
-                style={{
-                    alignItems: 'center',
-                    flexGrow: 1,
-                }}>
-                <Text style={styles.title}>{help.title}</Text>
-                <CategoryTag category={help.category[0].name} />
-                <Text style={(styles.text, styles.description)}>
-                    {help.description}
-                </Text>
-            </View>
+            <HelpUserInfo help={help} photo={photo} />
+            <HelpInfo help={help} />
             <Button
                 title="Oferecer Ajuda"
                 large
