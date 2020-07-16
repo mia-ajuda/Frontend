@@ -10,7 +10,9 @@ import { alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function RiskGroup({ route, navigation }) {
     const { userDataFromPhotoPage } = route.params;
-    const [loading, setLoading] = useState(false);
+    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
+        false,
+    );
     const [disease, setDisease] = useState({
         dc: false,
         hiv: false,
@@ -39,19 +41,18 @@ export default function RiskGroup({ route, navigation }) {
             riskGroup: newDisease,
         };
         try {
-            setLoading(true);
+            setLoadingUserRegistration(true);
             await userService.signUp(completeRegistragionData);
             navigation.navigate('login');
-            alertSuccess(
-                'Seu cadastro foi realizado com sucesso! Um email de verificação foi enviado para sua caixa de entrada',
-            );
+            alertSuccess('Seu cadastro foi realizado com sucesso');
         } catch (err) {
             navigation.navigate('login');
             alertError(err);
         }
     };
-    return (
-        <View style={styles.container}>
+
+    const renderPageHeader = () => (
+        <>
             <View style={styles.backIcon}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
@@ -66,24 +67,46 @@ export default function RiskGroup({ route, navigation }) {
                     condições a seguir:
                 </Text>
             </View>
+        </>
+    );
 
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
+    );
+
+    const renderRiskGroupSelection = () => {
+        console.log(Object.entries(riskGroups));
+        return (
             <View style={styles.input}>
-                {Object.entries(riskGroups).map(([key, value]) => {
-                    return (
-                        <View key={key} style={styles.inputItem}>
-                            <Button
-                                type={!disease[key] ? 'notSelected' : null}
-                                press={() => onRiskGroupSelection(key)}
-                                large
-                                title={value}
-                            />
-                        </View>
-                    );
-                })}
+                {Object.entries(riskGroups).map(
+                    ([objecKey, riskGroupValue]) => {
+                        return (
+                            <View key={objecKey} style={styles.inputItem}>
+                                <Button
+                                    type={
+                                        !disease[objecKey]
+                                            ? 'notSelected'
+                                            : null
+                                    }
+                                    press={() => onRiskGroupSelection(objecKey)}
+                                    large
+                                    title={riskGroupValue}
+                                />
+                            </View>
+                        );
+                    },
+                )}
             </View>
+        );
+    };
+
+    return (
+        <View style={styles.container}>
+            {renderPageHeader()}
+            {renderRiskGroupSelection()}
             <View style={styles.btnView}>
-                {loading ? (
-                    <ActivityIndicator size="large" color={colors.primary} />
+                {loadingUserRegistration ? (
+                    renderLoadingIndicator()
                 ) : (
                     <Button title="Concluir" large press={confirmSignUp} />
                 )}
