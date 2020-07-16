@@ -75,7 +75,6 @@ export default function RiskGroup({ route, navigation }) {
     );
 
     const renderRiskGroupSelection = () => {
-        console.log(Object.entries(riskGroups));
         return (
             <View style={styles.input}>
                 {Object.entries(riskGroups).map(

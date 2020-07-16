@@ -18,7 +18,7 @@ export default function PhotoPreview({ route, navigation }) {
 
     async function continueHandler() {
         const userDataFromPhotoPage = {
-            selectedPhoto,
+            photo: selectedPhoto,
             ...userDataFromAddressPage,
         };
         navigation.navigate('riskGroup', { userDataFromPhotoPage });
