@@ -9,7 +9,7 @@ import styles from './styles';
 
 export default function Notification({ navigation }) {
     const [loadingNotifications, setLoading] = useState(false);
-    const [notifications, setNotifications] = useState([]);
+    const [helpNotifications, setNotifications] = useState([]);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -23,9 +23,10 @@ export default function Notification({ navigation }) {
         const { _id: userId } = user;
         try {
             setLoading(true);
-            setNotifications(
-                await NotificationService.getAllNotifications(userId),
+            const notifications = await NotificationService.getAllNotifications(
+                userId,
             );
+            setNotifications(notifications);
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -38,7 +39,7 @@ export default function Notification({ navigation }) {
         </View>
     );
     const renderNotificationList = () => {
-        if (notifications.length == 0) {
+        if (helpNotifications.length == 0) {
             return (
                 <View style={styles.noNotifications}>
                     <Image
@@ -54,7 +55,7 @@ export default function Notification({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.notificationList}>
-                        {notifications.map((item) => (
+                        {helpNotifications.map((item) => (
                             <NotificationCard
                                 key={item._id}
                                 notificationType={item.notificationType}

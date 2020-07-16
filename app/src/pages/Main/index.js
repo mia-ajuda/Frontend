@@ -1,14 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-    View,
-    Image,
-    TouchableOpacity,
-    SafeAreaView,
-    Text,
-} from 'react-native';
+import { View, TouchableOpacity, SafeAreaView } from 'react-native';
 import styles from './styles';
-import MapView, { Marker, Circle, Callout } from 'react-native-maps';
-import Avatar from '../../components/helpAvatar';
+import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
@@ -18,6 +11,8 @@ import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
 import HelpList from '../../components/HelpList';
+import UserMarker from './UserMarker';
+import HelpMarker from './HelpMarker';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -29,6 +24,48 @@ export default function Main({ navigation }) {
     useEffect(() => {
         setRegion(null);
     }, [region]);
+
+    const renderHelpMakers = () => {
+        return helpList.map((help) => {
+            const isRiskGroup = !!help.user.riskGroup.length;
+
+            return (
+                <HelpMarker
+                    key={help._id}
+                    isRiskGroup={isRiskGroup}
+                    help={help}
+                />
+            );
+        });
+    };
+
+    const renderFilterButton = () => (
+        <TouchableOpacity
+            style={styles.filter}
+            onPress={() => {
+                setFilterModalVisible(!filterModalVisible);
+            }}>
+            <Icon
+                name="filter"
+                type="font-awesome"
+                color={colors.dark}
+                size={20}
+            />
+        </TouchableOpacity>
+    );
+
+    const renderNewHelpButton = () => (
+        <View style={styles.helpButton}>
+            <Button
+                title="Pedir ajuda"
+                press={() => {
+                    navigation.navigate('createHelp');
+                }}
+                type="danger"
+                large
+            />
+        </View>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -58,106 +95,13 @@ export default function Main({ navigation }) {
                     setHelpListVisible(false);
                 }}
                 customMapStyle={mapStyle.day.map}>
-                {userPosition && (
-                    <>
-                        <Marker
-                            title="Este é você!"
-                            coordinate={{
-                                latitude: userPosition.latitude,
-                                longitude: userPosition.longitude,
-                            }}>
-                            <Image
-                                source={mapStyle.day.cat}
-                                style={styles.catAvatar}
-                            />
-                        </Marker>
-                        <Circle
-                            center={{
-                                latitude: userPosition.latitude,
-                                longitude: userPosition.longitude,
-                            }}
-                            radius={2000}
-                            strokeColor={mapStyle.day.radiusColor}
-                            fillColor={mapStyle.day.radiusColor}
-                        />
-                    </>
-                )}
-                {helpList &&
-                    helpList.map((help) => {
-                        const isRiskGroup = !!help.user.riskGroup.length;
+                <UserMarker userPosition={userPosition} />
 
-                        return (
-                            <Marker
-                                title={help.distance}
-                                key={help._id}
-                                tracksViewChanges={false}
-                                coordinate={{
-                                    latitude: help.user.location.coordinates[1],
-                                    longitude:
-                                        help.user.location.coordinates[0],
-                                }}>
-                                <Avatar help={help} />
-                                <Callout
-                                    onPress={() =>
-                                        navigation.navigate('helpDescription', {
-                                            helpTitle: help.title,
-                                            helpDescription: help.description,
-                                            categoryName: help.category[0].name,
-                                            helpId: help._id,
-                                            userName: help.user.name,
-                                            birthday: help.user.birthday,
-                                            city: help.user.address.city,
-                                            profilePhoto: help.user.photo,
-                                        })
-                                    }
-                                    style={styles.callout}>
-                                    {isRiskGroup ? (
-                                        <Text
-                                            style={
-                                                styles.calloutPersonDistance
-                                            }>
-                                            Grupo de risco
-                                        </Text>
-                                    ) : null}
-                                    <Text
-                                        style={styles.calloutPersonName}
-                                        numberOfLines={1}>
-                                        {help.user.name}
-                                    </Text>
-                                    <Text style={styles.calloutPress}>
-                                        Toque para ver
-                                    </Text>
-                                </Callout>
-                            </Marker>
-                        );
-                    })}
+                {renderHelpMakers()}
             </MapView>
-            {!helpListVisible && (
-                <>
-                    <TouchableOpacity
-                        style={styles.filter}
-                        onPress={() => {
-                            setFilterModalVisible(!filterModalVisible);
-                        }}>
-                        <Icon
-                            name="filter"
-                            type="font-awesome"
-                            color={colors.dark}
-                            size={20}
-                        />
-                    </TouchableOpacity>
-                    <View style={styles.helpButton}>
-                        <Button
-                            title="Pedir ajuda"
-                            press={() => {
-                                navigation.navigate('createHelp');
-                            }}
-                            type="danger"
-                            large
-                        />
-                    </View>
-                </>
-            )}
+
+            {renderFilterButton()}
+            {renderNewHelpButton()}
 
             <View style={styles.helpList}>
                 <HelpList
