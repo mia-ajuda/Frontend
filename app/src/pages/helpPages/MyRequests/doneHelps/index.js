@@ -11,10 +11,9 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function DoneHelps({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
+    const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 
-    const [loadingHelps, setLoadingHelps] = useState(false);
     const { user } = useContext(UserContext);
-    const { _id: userId } = user;
 
     useFocusEffect(
         useCallback(() => {
@@ -23,31 +22,35 @@ export default function DoneHelps({ navigation }) {
     );
 
     async function loadFinishedHelps() {
-        setLoadingHelps(true);
-        let resFinished = await helpService.getHelpMultipleStatus(
+        setLoadingHelpRequests(true);
+        const { _id: userId } = user;
+
+        let myFinshedHelps = await helpService.getHelpMultipleStatus(
             userId,
             'finished',
         );
-        setFinishedHelpList(resFinished);
-        setLoadingHelps(false);
+        setFinishedHelpList(myFinshedHelps);
+        setLoadingHelpRequests(false);
     }
 
-    return (
-        <View>
-            {loadingHelps ? (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
-                </View>
-            ) : finishedHelpList.length > 0 ? (
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
+
+    const renderHelpList = () => {
+        if (finishedHelpList.length > 0) {
+            return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((item) => (
-                            <View key={item._id}>
+                        {finishedHelpList.map((help) => (
+                            <View key={help._id}>
                                 <ListCard
-                                    helpTitle={item.title}
-                                    helpDescription={item.description}
-                                    helpStatus={item.status}
-                                    categoryName={item.category[0].name}
+                                    helpTitle={help.title}
+                                    helpDescription={help.description}
+                                    helpStatus={help.status}
+                                    categoryName={help.category[0].name}
                                     navigation={navigation}
                                     pageName="RequestDescription"
                                 />
@@ -55,9 +58,14 @@ export default function DoneHelps({ navigation }) {
                         ))}
                     </View>
                 </ScrollView>
-            ) : (
-                <NoHelps title={'Você não possui ajudas finalizadas'} />
-            )}
+            );
+        } else {
+            return <NoHelps title={'Você não possui ajudas finalizadas'} />;
+        }
+    };
+    return (
+        <View>
+            {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
         </View>
     );
 }

@@ -8,8 +8,8 @@ import colors from '../../../../../assets/styles/colorVariables';
 import helpService from '../../../../services/Help';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
-    const [myHelpsResquests, setMyHelpsRequests] = useState([]);
-    const [loadingHelpsResquests, setLoadingHelpsResquests] = useState(true);
+    const [myOfferedHelps, setMyMyOfferedHelps] = useState([]);
+    const [loadingOfferdHelps, setLoadingOfferdHelps] = useState(true);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -19,14 +19,14 @@ export default function AskedHelps({ navigation }) {
     }, [navigation]);
 
     async function getHelps() {
-        setLoadingHelpsResquests(true);
+        setLoadingOfferdHelps(true);
         let filteredHelps = await helpService.getHelpMultipleStatus(
             user._id,
             ['on_going', 'owner_finished', 'waiting'],
             true,
         );
-        setMyHelpsRequests(filteredHelps);
-        setLoadingHelpsResquests(false);
+        setMyMyOfferedHelps(filteredHelps);
+        setLoadingOfferdHelps(false);
     }
 
     const renderLoadingIndicator = () => (
@@ -36,10 +36,10 @@ export default function AskedHelps({ navigation }) {
     );
 
     const renderHelpRequestsList = () => {
-        if (myHelpsResquests.length > 0) {
+        if (myOfferedHelps.length > 0) {
             return (
                 <ScrollView>
-                    {myHelpsResquests.map((help) => (
+                    {myOfferedHelps.map((help) => (
                         <ListCard
                             key={help._id}
                             profilePhoto={help.user.photo}
@@ -72,7 +72,7 @@ export default function AskedHelps({ navigation }) {
 
     return (
         <View style={styles.helpList}>
-            {loadingHelpsResquests
+            {loadingOfferdHelps
                 ? renderLoadingIndicator()
                 : renderHelpRequestsList()}
         </View>
