@@ -32,12 +32,9 @@ class UserService {
     }
 
     async logOut() {
-        try {
-            await AsyncStorage.removeItem('accessToken');
-            await firebaseService.signOut();
-        } catch {
-            throw { error: 'Não foi possível Deslogar!' };
-        }
+        await AsyncStorage.removeItem('accessToken');
+        await firebaseService.signOut();
+        return true;
     }
 
     async requestUserData() {

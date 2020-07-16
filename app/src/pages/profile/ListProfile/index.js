@@ -16,17 +16,21 @@ import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
 import formatPhone from '../../../utils/formatPhone';
-import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
+import { alertMessage, alertSuccess } from '../../../utils/Alert';
+import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
+    const { useService } = useContext(ServiceContext);
 
     async function logout() {
-        await UserService.logOut();
-        dispatch({ type: actions.user.removeUserInfo });
+        const validLogout = await useService(UserService, 'logOut', []);
+        if (validLogout) {
+            dispatch({ type: actions.user.removeUserInfo });
+        }
     }
 
     function handleEdit(attribute) {
@@ -59,21 +63,23 @@ export default function Profile({ navigation }) {
     }
 
     const sendPhoto = async () => {
-        try {
-            setLoadingModal(true);
-            const resp = await UserService.editUser({
-                ...user,
-                photo: photo,
+        setLoadingModal(true);
+        const data = {
+            ...user,
+            photo: photo,
+        };
+        const validEditPhoto = await useService(UserService, 'editUser', [
+            data,
+        ]);
+        if (validEditPhoto) {
+            dispatch({
+                type: actions.user.storeUserInfo,
+                data: validEditPhoto,
             });
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
-            setLoadingModal(false);
-            setModalVisible(false);
             alertSuccess('Foto atualizada com sucesso!');
-        } catch (err) {
-            setLoadingModal(false);
-            setModalVisible(false);
-            alertError(err, null, 'Ooops..');
         }
+        setLoadingModal(false);
+        setModalVisible(false);
     };
 
     function parseDate(date) {

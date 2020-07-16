@@ -32,8 +32,7 @@ export default function ForgotPassword({ navigation }) {
             'resetUserPassword',
             [email.trim().toLowerCase()],
         );
-        // Quando encontra encontra um email o retorno da função é undefined
-        if (foundEmail === undefined) {
+        if (foundEmail) {
             navigation.goBack();
             alertSuccess(
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',

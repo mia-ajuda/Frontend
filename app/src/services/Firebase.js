@@ -32,6 +32,7 @@ class FirebaseService {
     }
     async resetUserPassword(email) {
         await this.firebase.auth().sendPasswordResetEmail(email);
+        return true;
     }
     async setPersistence() {
         await this.firebase

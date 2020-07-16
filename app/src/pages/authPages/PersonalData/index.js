@@ -102,7 +102,7 @@ export default function PersonalData({ route, navigation }) {
 
     const continueHandler = async () => {
         Keyboard.dismiss();
-        const cpfExists = await verifyCpfExistence();
+        const cpfExists = verifyCpfExistence();
         if (!cpfExists) {
             const phone = formatPhone();
             const birthdayFormated = formatBirthDate(birthday);
