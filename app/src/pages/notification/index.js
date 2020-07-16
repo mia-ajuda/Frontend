@@ -8,8 +8,8 @@ import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 
 export default function Notification({ navigation }) {
-    const [loadingNotifications, setLoading] = useState(false);
-    const [notifications, setNotifications] = useState([]);
+    const [loadingNotifications, setLoadingNotifications] = useState(false);
+    const [userHelpNotifications, setNotifications] = useState([]);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -22,11 +22,12 @@ export default function Notification({ navigation }) {
     async function loadNotifications() {
         const { _id: userId } = user;
         try {
-            setLoading(true);
-            setNotifications(
-                await NotificationService.getAllNotifications(userId),
+            setLoadingNotifications(true);
+            const notifications = await NotificationService.getAllNotifications(
+                userId,
             );
-            setLoading(false);
+            setLoadingNotifications(false);
+            setNotifications(notifications);
         } catch (error) {
             console.log(error);
         }
@@ -38,23 +39,11 @@ export default function Notification({ navigation }) {
         </View>
     );
     const renderNotificationList = () => {
-        if (notifications.length == 0) {
-            return (
-                <View style={styles.noNotifications}>
-                    <Image
-                        source={require('../../../assets/images/blueCat.png')}
-                        style={styles.emptyListImage}
-                    />
-                    <Text style={styles.emptyListText}>
-                        Você não possui notificações
-                    </Text>
-                </View>
-            );
-        } else {
+        if (userHelpNotifications.length > 0) {
             return (
                 <ScrollView>
                     <View style={styles.notificationList}>
-                        {notifications.map((item) => (
+                        {userHelpNotifications.map((item) => (
                             <NotificationCard
                                 key={item._id}
                                 notificationType={item.notificationType}
@@ -66,6 +55,18 @@ export default function Notification({ navigation }) {
                         ))}
                     </View>
                 </ScrollView>
+            );
+        } else {
+            return (
+                <View style={styles.noNotifications}>
+                    <Image
+                        source={require('../../../assets/images/blueCat.png')}
+                        style={styles.emptyListImage}
+                    />
+                    <Text style={styles.emptyListText}>
+                        Você não possui notificações
+                    </Text>
+                </View>
             );
         }
     };
