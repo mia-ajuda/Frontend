@@ -21,9 +21,6 @@ import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
-    const profilePhoto = user.photo.includes('http')
-        ? { uri: user.photo } // google+ or facebook
-        : { uri: `data:image/png;base64,${user.photo}` }; //base64
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
@@ -100,7 +97,7 @@ export default function Profile({ navigation }) {
             <View style={styles.imageView}>
                 <TouchableOpacity onPress={openImagePickerAsync}>
                     <ImageBackground
-                        source={profilePhoto}
+                        source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
                         imageStyle={styles.profileImage}>
                         <Icon size={45} name={'camera-alt'} color="black" />

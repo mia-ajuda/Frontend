@@ -4,8 +4,6 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
 class UserService {
-    constructor() {}
-
     async requestUserData() {
         try {
             const user = await api.get('/user/getUser');

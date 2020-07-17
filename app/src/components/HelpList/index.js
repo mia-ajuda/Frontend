@@ -24,6 +24,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                 Animated.spring(listHeight, {
                     toValue: helps.length > 0 ? 400 : 300,
                     tension: 10,
+                    useNativeDriver: false,
                 }).start();
                 break;
 
@@ -31,6 +32,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                 setIconName('caret-up');
                 Animated.spring(listHeight, {
                     toValue: 40,
+                    useNativeDriver: false,
                 }).start();
                 break;
         }
