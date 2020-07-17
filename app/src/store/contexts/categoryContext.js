@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import Category from '../../services/Category';
 import { UserContext } from './userContext';
+import { ServiceContext } from './serviceContext';
 
 export const CategoryContext = createContext();
 
@@ -8,17 +9,20 @@ export default function CategoryContextProvider(props) {
     const [categories, setCategories] = useState([]);
     const { user } = useContext(UserContext);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         if (user) fetchCategories();
     }, [user]);
 
     async function fetchCategories() {
-        try {
-            const categoriesArray = await Category.getAllCategories();
+        const categoriesArray = await useService(
+            Category,
+            'getAllCategories',
+            [],
+        );
+        if (categoriesArray) {
             setCategories(categoriesArray);
-        } catch (error) {
-            console.log(error);
         }
     }
 

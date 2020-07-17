@@ -76,39 +76,34 @@ export default function HelpContextProvider(props) {
 
     async function getHelpList(loc) {
         if (loc) {
-            try {
-                const { _id: userId } = user;
-                let helpListArray = await useService(
-                    HelpService,
-                    'getNearHelp',
-                    [loc, userId],
-                );
-                setLoadingHelps(false);
+            const { _id: userId } = user;
+            const helpListArray = await useService(HelpService, 'getNearHelp', [
+                loc,
+                userId,
+            ]);
+            if (helpListArray) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
                 });
-            } catch (error) {
-                console.log(error);
             }
+            setLoadingHelps(false);
         }
     }
 
     async function getHelpListWithCategories(loc) {
         if (loc && selectedCategories.length) {
-            try {
-                const { _id: userId } = user;
-                let helpListFiltered = await HelpService.getAllHelpForCategory(
-                    loc,
-                    selectedCategories,
-                    userId,
-                );
+            const { _id: userId } = user;
+            const helpListFiltered = await useService(
+                HelpService,
+                'getAllHelpForCategory',
+                [loc, selectedCategories, userId],
+            );
+            if (helpListFiltered) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListFiltered,
                 });
-            } catch (error) {
-                console.log(error);
             }
         }
     }
