@@ -1,4 +1,10 @@
-import React, { useReducer, createContext, useState, useEffect } from 'react';
+import React, {
+    useReducer,
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+} from 'react';
 import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
@@ -8,6 +14,7 @@ import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import { ServiceContext } from './serviceContext';
 
 export const UserContext = createContext();
 
@@ -16,14 +23,14 @@ export const UserContextProvider = (props) => {
         showSplash: true,
     });
     const [currentRegion, setCurrentRegion] = useState(null);
-
+    const { useService } = useContext(ServiceContext);
     async function getUserInfo() {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
         if (userPreviouslyLogged) {
-            try {
-                const user = await UserService.requestUserData();
+            const user = await useService(UserService, 'requestUserData', []);
+            if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
-            } catch (error) {
+            } else {
                 dispatch({ type: actions.user.requestSignIn });
             }
         } else {

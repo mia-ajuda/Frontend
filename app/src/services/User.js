@@ -38,13 +38,8 @@ class UserService {
     }
 
     async requestUserData() {
-        try {
-            const user = await api.get('/user/getUser');
-            return user.data;
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+        const user = await api.get('/user/getUser');
+        return user.data;
     }
 
     async verifyUserInfo(value) {
