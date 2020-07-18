@@ -3,7 +3,6 @@
 </p>
 
 <p align="center">
-<a href="https://play.google.com/store/apps/details?id=com.unb.miaajuda" target="_blank"><img src="https://img.shields.io/badge/Mia%20Ajuda-Google%20Play-yellow"></a>
 <a href="https://miaajuda.netlify.app/" target="_blank"><img src="https://img.shields.io/badge/Mia%20Ajuda-Website-blue"></a>
 <a href="https://mia-ajuda.github.io/Documentation/#/" target="_blank"><img src="https://img.shields.io/badge/Mia%20Ajuda-Docs-purple"></a>
 <a href="https://github.com/mia-ajuda/Frontend/pulls" target="_blank"><img src="https://img.shields.io/github/issues-pr/mia-ajuda/Frontend?color=red&label=Pull%20Requests"></a>
