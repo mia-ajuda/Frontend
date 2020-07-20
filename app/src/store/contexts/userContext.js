@@ -14,7 +14,12 @@ export const UserContextProvider = (props) => {
     const [user, dispatch] = useReducer(userReducer, {
         showSplash: true,
     });
-    const [userPosition, setUserPosition] = useState(null);
+    const [userPosition, setUserPosition] = useState({
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.025,
+        longitudeDelta: 0.025,
+    });
 
     async function getUserInfo() {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
