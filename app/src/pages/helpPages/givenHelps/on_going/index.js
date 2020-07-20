@@ -8,7 +8,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 import helpService from '../../../../services/Help';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
-    const [myOfferedHelps, setMyMyOfferedHelps] = useState([]);
+    const [myOfferedHelps, setMyOfferedHelps] = useState([]);
     const [loadingOfferdHelps, setLoadingOfferdHelps] = useState(true);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function AskedHelps({ navigation }) {
             ['on_going', 'owner_finished', 'waiting'],
             true,
         );
-        setMyMyOfferedHelps(filteredHelps);
+        setMyOfferedHelps(filteredHelps);
         setLoadingOfferdHelps(false);
     }
 
