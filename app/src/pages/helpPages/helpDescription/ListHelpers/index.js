@@ -8,7 +8,6 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { Badge } from 'react-native-elements';
-import api from '../../../../services/Api';
 import moment from 'moment';
 import { UserContext } from '../../../../store/contexts/userContext';
 import Button from '../../../../components/UI/button';
@@ -19,6 +18,7 @@ import styles from './styles';
 import { alertSuccess } from '../../../../utils/Alert';
 import { ServiceContext } from '../../../../store/contexts/serviceContext';
 import helpService from '../../../../services/Help';
+import UserService from '../../../../services/User';
 
 export default function ListHelpers({
     clickAction,
@@ -44,26 +44,22 @@ export default function ListHelpers({
 
     const loadHelpInfo = async () => {
         setLoading(true);
-        try {
-            const helps = await api.get(`/help?id=${user._id}`);
-            const helpFinal = helps.data.filter((help) => help._id === helpId);
-            setHelp(helpFinal[0]);
-            setPossibleHelpers(helpFinal[0].possibleHelpers);
-
-            if (helpFinal[0].helperId) {
-                const resp = await api.get(
-                    `user/getUser/${helpFinal[0].helperId}`,
-                );
-                setHelperImage(resp.data.photo);
-                setHelperName(resp.data.name);
-                setHelperCity(resp.data.address.city);
-                setHelperPhone(resp.data.phone);
-            }
-            setLoading(false);
-        } catch (err) {
-            setLoading(false);
-            console.log(err.response);
+        const helps = await useService(helpService, 'getAllUserHelps', [
+            user._id,
+        ]);
+        const helpFinal = helps.data.filter((help) => help._id === helpId);
+        setHelp(helpFinal[0]);
+        setPossibleHelpers(helpFinal[0].possibleHelpers);
+        if (helpFinal[0].helperId) {
+            const resp = await useService(UserService, 'requestUserData', [
+                helpFinal[0].helperId,
+            ]);
+            setHelperImage(resp.photo);
+            setHelperName(resp.name);
+            setHelperCity(resp.address.city);
+            setHelperPhone(resp.phone);
         }
+        setLoading(false);
     };
 
     async function ownerFinishedHelp() {

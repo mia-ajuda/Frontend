@@ -37,8 +37,14 @@ class UserService {
         return true;
     }
 
-    async requestUserData() {
-        const user = await api.get('/user/getUser');
+    async requestUserData(helperId = null) {
+        let url;
+        if (helperId) {
+            url = `user/getUser/${helperId}`;
+        } else {
+            url = '/user/getUser';
+        }
+        const user = await api.get(url);
         return user.data;
     }
 

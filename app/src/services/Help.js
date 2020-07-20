@@ -80,6 +80,12 @@ class HelpService {
         await api.put(url);
         return true;
     }
+
+    async getAllUserHelps(userId) {
+        const url = `/help?id=${userId}`;
+        const helps = await api.get(url);
+        return helps;
+    }
 }
 
 const helpService = new HelpService();
