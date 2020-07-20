@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
     viewMargin: {
         marginVertical: 6,
     },
-    scroll: {
+    scrollOnUserTyping: {
         width: '100%',
     },
-    scroll2: {
+    scroll: {
         width: '100%',
         marginTop: 50,
     },
@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 20,
         color: 'red',
+    },
+    scrollContainerStyle: {
+        flexGrow: 1,
+        justifyContent: 'center',
     },
 });
 

@@ -35,6 +35,54 @@ export default function CategoryList({ visible, setVisible }) {
         setVisible(!visible);
     }
 
+    const renderCategories = () => (
+        <ScrollView style={styles.modalBody}>
+            {categories.map((category) => (
+                <SelectBox
+                    key={category._id}
+                    title={category.name}
+                    filterCategoryArray={selectedCategories}
+                    setSelectedCategoryArray={setSelectedCategoryArray}
+                    selectedCategoryArray={selectedCategoryArray}
+                    category={category}
+                />
+            ))}
+        </ScrollView>
+    );
+
+    const renderFilterButtons = () => {
+        if (selectedCategories.length) {
+            return (
+                <View style={styles.filterButtons}>
+                    <Buttom
+                        title="Limpar"
+                        type="primary"
+                        press={() => {
+                            clearFilterHelplist();
+                        }}
+                    />
+                    <Buttom
+                        title="Filtrar"
+                        type="warning"
+                        press={() => {
+                            filterHelplist();
+                        }}
+                    />
+                </View>
+            );
+        }
+        return (
+            <Buttom
+                title="Filtrar"
+                type="warning"
+                large
+                press={() => {
+                    filterHelplist();
+                }}
+            />
+        );
+    };
+
     return (
         <Modal
             visible={visible}
@@ -66,56 +114,16 @@ export default function CategoryList({ visible, setVisible }) {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <CategoryDescriptionModal
-                            visible={descriptionModalVisible}
-                            setVisible={setDescriptionModalVisible}
-                        />
-                        <ScrollView style={styles.modalBody}>
-                            {categories.map((category) => (
-                                <SelectBox
-                                    key={category._id}
-                                    title={category.name}
-                                    filterCategoryArray={selectedCategories}
-                                    setSelectedCategoryArray={
-                                        setSelectedCategoryArray
-                                    }
-                                    selectedCategoryArray={
-                                        selectedCategoryArray
-                                    }
-                                    category={category}
-                                />
-                            ))}
-                        </ScrollView>
-                        {selectedCategories.length ? (
-                            <View style={styles.filterButtons}>
-                                <Buttom
-                                    title="Limpar"
-                                    type="primary"
-                                    press={() => {
-                                        clearFilterHelplist();
-                                    }}
-                                />
-                                <Buttom
-                                    title="Filtrar"
-                                    type="warning"
-                                    press={() => {
-                                        filterHelplist();
-                                    }}
-                                />
-                            </View>
-                        ) : (
-                            <Buttom
-                                title="Filtrar"
-                                type="warning"
-                                large
-                                press={() => {
-                                    filterHelplist();
-                                }}
-                            />
-                        )}
+
+                        {renderCategories()}
+                        {renderFilterButtons()}
                     </View>
                 </TouchableWithoutFeedback>
             </TouchableOpacity>
+            <CategoryDescriptionModal
+                visible={descriptionModalVisible}
+                setVisible={setDescriptionModalVisible}
+            />
         </Modal>
     );
 }
