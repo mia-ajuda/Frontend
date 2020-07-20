@@ -19,44 +19,39 @@ export default function ConfirmationModal({
     isLoading,
     attention,
 }) {
-    function whileRequestLoading() {
-        if (!isLoading) {
-            setVisible(false);
-        }
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
+    );
+
+    function renderModalContent() {
+        const attentionWarning = <Text style={styles.warning}>Atenção!</Text>;
+        return (
+            <>
+                {attention == true ? attentionWarning : null}
+                <Text style={styles.title}>{message}</Text>
+                <View style={styles.buttons}>
+                    <Button
+                        type="danger"
+                        title="Não"
+                        press={() => setVisible(false)}
+                    />
+                    <Button title="Sim" press={action} />
+                </View>
+            </>
+        );
     }
 
     return (
         <Modal visible={visible} transparent animationType="fade">
             <TouchableOpacity
                 style={styles.container}
-                onPress={() => whileRequestLoading()}
+                onPress={() => setVisible(false)}
                 activeOpacity={1}>
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
-                        {isLoading ? (
-                            <ActivityIndicator
-                                size="large"
-                                color={colors.primary}
-                            />
-                        ) : (
-                            <>
-                                {attention ? (
-                                    <Text style={styles.warning}>
-                                        {' '}
-                                        Atenção!{' '}
-                                    </Text>
-                                ) : null}
-                                <Text style={styles.title}>{message}</Text>
-                                <View style={styles.buttons}>
-                                    <Button
-                                        type="danger"
-                                        title="Não"
-                                        press={() => setVisible(false)}
-                                    />
-                                    <Button title="Sim" press={action} />
-                                </View>
-                            </>
-                        )}
+                        {isLoading
+                            ? renderLoadingIndicator()
+                            : renderModalContent()}
                     </View>
                 </TouchableWithoutFeedback>
             </TouchableOpacity>

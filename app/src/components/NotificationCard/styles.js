@@ -36,6 +36,7 @@ export default StyleSheet.create({
         marginLeft: 15,
         borderRadius: 50,
         backgroundColor: colors.primary,
+        elevation: 1,
     },
 
     info: {

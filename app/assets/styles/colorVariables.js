@@ -1,9 +1,10 @@
 const colors = {
-  primary: "#4b8ab9",
-  secondary: "#f7ef6e",
-  danger: "#e47171",
-  dark: "#353535",
-  light: "#f7f7f7"
+    primary: '#4b8ab9',
+    secondary: '#f7ef6e',
+    danger: '#e47171',
+    dark: '#353535',
+    light: '#f7f7f7',
+    success: '#77dd77',
 };
 
 export default colors;
