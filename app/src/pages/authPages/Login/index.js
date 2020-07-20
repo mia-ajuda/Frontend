@@ -8,7 +8,7 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
-import UserService from '../../../services/User';
+import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 
@@ -42,7 +42,7 @@ export default function Login({ navigation }) {
         keyboard.dismiss();
         try {
             setLoadingLoginRequest(true);
-            const user = await UserService.logIn(data);
+            const user = await SessionService.signIn(data);
             if (user) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             }

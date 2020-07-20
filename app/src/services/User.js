@@ -1,66 +1,9 @@
 import api from '../services/Api';
 import { Notifications } from 'expo';
-import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
-import translateFirebaseError from '../utils/translateFirebaseAuthError';
-
-import firebaseService from './Firebase';
-import env from '../config/envVariables';
 
 class UserService {
-    constructor() {}
-
-    async logIn(loginInfo) {
-        try {
-            await firebaseService.login(loginInfo.email, loginInfo.password);
-
-            const isEmailVerified = firebaseService.isEmailVerified();
-            const shouldVerifyEmail = env.production || env.staging;
-            if (isEmailVerified == false && shouldVerifyEmail) {
-                throw { code: 'auth/email-not-verified' };
-            }
-            const idTokenUser = await firebaseService.getUserId();
-            await AsyncStorage.setItem('accessToken', idTokenUser);
-            const user = await this.requestUserData();
-            this.setUserDeviceId();
-            return user;
-        } catch (error) {
-            const errorFromFirebase = error.code;
-            if (errorFromFirebase != undefined) {
-                const translatedMessage =
-                    translateFirebaseError[errorFromFirebase];
-                throw {
-                    message: translatedMessage,
-                    code: errorFromFirebase,
-                };
-            }
-            throw error;
-        }
-    }
-
-    async signUp(data) {
-        try {
-            const response = await api.post('/user', data);
-            await firebaseService.login(data.email, data.password);
-            await firebaseService.sendEmailVerification();
-            await firebaseService.signOut();
-            return response;
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
-    }
-
-    async logOut() {
-        try {
-            await AsyncStorage.removeItem('accessToken');
-            await firebaseService.signOut();
-        } catch {
-            throw { error: 'Não foi possível Deslogar!' };
-        }
-    }
-
     async requestUserData() {
         try {
             const user = await api.get('/user/getUser');

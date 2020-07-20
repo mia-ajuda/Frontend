@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Button from '../../../components/UI/button';
 import styles from './styles';
-import userService from '../../../services/User';
+import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
@@ -42,7 +42,7 @@ export default function RiskGroup({ route, navigation }) {
         };
         try {
             setLoadingUserRegistration(true);
-            await userService.signUp(completeRegistragionData);
+            await SessionService.signUp(completeRegistragionData);
             navigation.navigate('login');
             alertSuccess('Seu cadastro foi realizado com sucesso');
         } catch (err) {
