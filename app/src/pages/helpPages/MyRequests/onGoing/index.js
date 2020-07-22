@@ -11,17 +11,15 @@ import colors from '../../../../../assets/styles/colorVariables';
 import { ServiceContext } from '../../../../store/contexts/serviceContext';
 
 export default function OnGoingHelps({ navigation }) {
-    const [onGoingHelpList, setOnGoingHelpList] = useState([]);
+    const [myHelpRequests, setMyHelpRequests] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
-    const [selectedHelp, setSelectedHelp] = useState(null);
-    const [loadingHelps, setLoadingHelps] = useState(false);
-    const [isLoadingModal, setIsLoadingModal] = useState(false);
+    const [helpToDelete, setHelpToDelete] = useState(null);
+    const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
+    const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
     const { user } = useContext(UserContext);
-    const { _id: userId } = user;
     const { useService } = useContext(ServiceContext);
-
     useFocusEffect(
         useCallback(() => {
             loadOnGoingHelps();
@@ -29,33 +27,72 @@ export default function OnGoingHelps({ navigation }) {
     );
 
     async function loadOnGoingHelps() {
-        setLoadingHelps(true);
+        const { _id: userId } = user;
+        setLoadingMyHelpRequests(true);
         const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
         );
         if (filteredHelps) {
-            setOnGoingHelpList(filteredHelps);
+            setMyHelpRequests(filteredHelps);
         }
-        setLoadingHelps(false);
+        setLoadingMyHelpRequests(false);
     }
 
     async function excludeHelp() {
-        setIsLoadingModal(true);
-        const validRequest = await useService(helpService, 'deleteHelp', [
-            selectedHelp,
+        setHelpDeletionLoading(true);
+        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            helpToDelete,
         ]);
-        if (validRequest) {
-            const updatedArray = onGoingHelpList.filter((help) => {
-                return help._id !== selectedHelp;
+        if (validDeleteRequest) {
+            const updatedArray = myHelpRequests.filter((help) => {
+                return help._id !== helpToDelete;
             });
-            setOnGoingHelpList(updatedArray);
+            setMyHelpRequests(updatedArray);
         }
-        setIsLoadingModal(false);
         setConfirmationModalVisible(false);
     }
 
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
+
+    const renderMyRequestsHelpList = () => {
+        if (myHelpRequests.length > 0) {
+            return (
+                <ScrollView>
+                    <View style={styles.helpList}>
+                        {myHelpRequests.map((help) => (
+                            <View key={help._id}>
+                                <ListCard
+                                    helpTitle={help.title}
+                                    helpId={help._id}
+                                    helpDescription={help.description}
+                                    categoryName={help.category[0].name}
+                                    deleteVisible={true}
+                                    setConfirmationModalVisible={
+                                        setConfirmationModalVisible
+                                    }
+                                    setSelectedHelp={setHelpToDelete}
+                                    navigation={navigation}
+                                    possibleHelpers={help.possibleHelpers}
+                                    ownerId={help.ownerId}
+                                    helpStatus={help.status}
+                                    helperId={help.helperId}
+                                    pageName="RequestDescription"
+                                />
+                            </View>
+                        ))}
+                    </View>
+                </ScrollView>
+            );
+        } else {
+            return <NoHelps title={'Você não possui ajudas em andamento'} />;
+        }
+    };
     return (
         <View>
             <ConfirmationModal
@@ -64,41 +101,11 @@ export default function OnGoingHelps({ navigation }) {
                 setVisible={setConfirmationModalVisible}
                 action={() => excludeHelp()}
                 message={'Você deseja deletar esse pedido de ajuda?'}
-                isLoading={isLoadingModal}
+                isLoading={isHelpDeletionLoading}
             />
-            {loadingHelps ? (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
-                </View>
-            ) : onGoingHelpList.length > 0 ? (
-                <ScrollView>
-                    <View style={styles.helpList}>
-                        {onGoingHelpList.map((item) => (
-                            <View key={item._id}>
-                                <ListCard
-                                    helpTitle={item.title}
-                                    helpId={item._id}
-                                    helpDescription={item.description}
-                                    categoryName={item.category[0].name}
-                                    deleteVisible={true}
-                                    setConfirmationModalVisible={
-                                        setConfirmationModalVisible
-                                    }
-                                    setSelectedHelp={setSelectedHelp}
-                                    navigation={navigation}
-                                    possibleHelpers={item.possibleHelpers}
-                                    ownerId={item.ownerId}
-                                    helpStatus={item.status}
-                                    helperId={item.helperId}
-                                    pageName="RequestDescription"
-                                />
-                            </View>
-                        ))}
-                    </View>
-                </ScrollView>
-            ) : (
-                <NoHelps title={'Você não possui ajudas em andamento'} />
-            )}
+            {loadingMyHelpRequests
+                ? renderLoadingIndicator()
+                : renderMyRequestsHelpList()}
         </View>
     );
 }

@@ -1,42 +1,9 @@
 import api from '../services/Api';
 import { Notifications } from 'expo';
-import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
-// import translateFirebaseError from '../utils/translateFirebaseAuthError';
-
-import firebaseService from './Firebase';
 
 class UserService {
-    constructor() {}
-
-    async logIn(loginInfo) {
-        await firebaseService.login(loginInfo.email, loginInfo.password);
-        const isEmailVerified = firebaseService.isEmailVerified();
-        if (isEmailVerified == false) {
-            throw { code: 'auth/email-not-verified' };
-        }
-        const idTokenUser = await firebaseService.getUserId();
-        await AsyncStorage.setItem('accessToken', idTokenUser);
-        const user = await this.requestUserData();
-        this.setUserDeviceId();
-        return user;
-    }
-
-    async signUp(data) {
-        const response = await api.post('/user', data);
-        await firebaseService.login(data.email, data.password);
-        await firebaseService.sendEmailVerification();
-        await firebaseService.signOut();
-        return response;
-    }
-
-    async logOut() {
-        await AsyncStorage.removeItem('accessToken');
-        await firebaseService.signOut();
-        return true;
-    }
-
     async requestUserData(helperId = null) {
         let url;
         if (helperId) {

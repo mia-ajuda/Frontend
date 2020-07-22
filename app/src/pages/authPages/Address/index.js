@@ -1,215 +1,173 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
     KeyboardAvoidingView,
     Text,
     ScrollView,
-    Keyboard,
     TouchableOpacity,
     ActivityIndicator,
-    ToastAndroid,
-    Platform,
 } from 'react-native';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import colors from '../../../../assets/styles/colorVariables';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
-import adressService from '../../../services/Adress';
+import ViaCep from '../../../services/ExternalServices/ViaCep';
+import colors from '../../../../assets/styles/colorVariables';
+import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
 export default function Address({ route, navigation }) {
-    const { userData } = route.params;
+    const { keyboard } = useContext(DeviceInformationContext);
+    const { userDataFromPersonalPage } = route.params;
     const { useService } = useContext(ServiceContext);
-
     const [cep, setCep] = useState('');
+    const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
-    const [state, setState] = useState('');
+    const [uf, setUf] = useState('');
     const [complement, setComplement] = useState('');
-    const [numberPlace, setNUmberPlace] = useState('');
-    const [keyboardShow, setKeyboardShow] = useState(false);
-    const [isCepValid, setIsCepValid] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [numberPlace, setNumberPlace] = useState('');
+    const [isCepRequestLoading, setCepRequestLoading] = useState(false);
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
-        Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+        const shouldResquestCepInformation = cep.length === 8;
+        if (shouldResquestCepInformation) {
+            getCepInformation(cep);
+        }
+    }, [cep]);
 
-        // cleanup function
-        return () => {
-            Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
-            Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+    async function getCepInformation(currentCep) {
+        keyboard.dismiss();
+        setCepRequestLoading(true);
+        const cepInformation = await useService(
+            ViaCep,
+            'getCepInformation',
+            [currentCep],
+            null,
+        );
+        if (cepInformation) {
+            const { bairro, localidade, logradouro, uf } = cepInformation;
+            setUf(uf);
+            setCity(localidade);
+            setComplement(`${logradouro}/${bairro}`);
+            setCepValid(true);
+        }
+        setCepRequestLoading(false);
+    }
+
+    const renderPageDescription = () => {
+        if (keyboard.visible === false) {
+            return (
+                <Text style={styles.pageDescription}>
+                    Precisamos de algumas informações sobre onde você mora. Por
+                    favor, preencha as informações abaixo.
+                </Text>
+            );
+        }
+    };
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingIndicator}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
+
+    const renderRegistrationForm = () => (
+        <View style={styles.inputView}>
+            <Input
+                change={(cep) => setCep(cep)}
+                label="CEP"
+                placeholder="Digite seu CEP"
+                value={cep}
+                keyboard="numeric"
+                maxLength={8}
+                valid={isCepValid}
+            />
+            <View style={styles.viewMargin}></View>
+            <Input
+                change={(city) => setCity(city)}
+                value={city}
+                label="Cidade"
+                placeholder="Digite sua cidade"
+            />
+            <View style={styles.viewMargin}></View>
+            <Input
+                change={(uf) => setUf(uf)}
+                value={uf}
+                label="UF"
+                placeholder="UF"
+                maxLength={2}
+            />
+            <View style={styles.viewMargin}></View>
+            <Input
+                change={(number) => setNumberPlace(number)}
+                label="Número"
+                placeholder="Digite o número de sua residência"
+                value={numberPlace}
+                keyboard="numeric"
+            />
+            <View style={styles.viewMargin}></View>
+            <Input
+                change={(complement) => setComplement(complement)}
+                label="Complemento"
+                value={complement}
+                placeholder="Opcional"
+            />
+            <View style={styles.viewMargin}></View>
+        </View>
+    );
+
+    const renderContinueButton = () => {
+        const disableButton =
+            cep.length == 0 ||
+            city.length == 0 ||
+            uf.length == 0 ||
+            numberPlace.length == 0;
+
+        return (
+            <View style={styles.btnView}>
+                <Button
+                    title="Continuar"
+                    disabled={disableButton}
+                    large
+                    press={continueButtonPressed}
+                />
+            </View>
+        );
+    };
+
+    const continueButtonPressed = () => {
+        const address = {
+            cep,
+            city,
+            state: uf,
+            number: numberPlace,
+            complement,
         };
-    }, []);
-
-    const _keyboardDidShow = () => {
-        setKeyboardShow(true);
-    };
-
-    const _keyboardDidHide = () => {
-        setKeyboardShow(false);
-    };
-
-    const cepHandle = async (currentCep) => {
-        setCep(currentCep.substring(0, 8));
-
-        if (currentCep.length === 8) {
-            setLoading(true);
-            const response = await useService(adressService, 'getCEPInfo', [
-                currentCep,
-            ]);
-            if (!response.data.erro) {
-                const { localidade, uf, logradouro, bairro } = response.data;
-                setIsCepValid(true);
-                setState(uf);
-                setCity(localidade);
-                setComplement(logradouro + ' / ' + bairro);
-            } else {
-                ToastAndroid.showWithGravityAndOffset(
-                    'CEP não encontrado!',
-                    ToastAndroid.LONG,
-                    ToastAndroid.CENTER,
-                    25,
-                    50,
-                );
-
-                setIsCepValid(false);
-            }
-        }
-
-        setLoading(false);
-    };
-
-    const cityHandle = (enteredName) => {
-        setCity(enteredName);
-    };
-
-    const stateHandle = (enteredName) => {
-        if (enteredName.length > 2) {
-            const subUf = enteredName.substring(0, 2);
-            setState(subUf);
-        } else {
-            setState(enteredName);
-        }
-    };
-
-    const complementHandle = (enteredName) => {
-        setComplement(enteredName);
-    };
-
-    const numberHandle = (enteredName) => {
-        setNUmberPlace(enteredName);
-    };
-
-    const continueHandler = () => {
-        const address = { cep, city, state, number: numberPlace, complement };
-        const newUserData = { address, ...userData };
-        userData.photo
-            ? navigation.navigate('riskGroup', { userData: newUserData })
-            : navigation.navigate('photo', { userData: newUserData });
+        const userDataFromAddressPage = {
+            address,
+            ...userDataFromPersonalPage,
+        };
+        navigation.navigate('photo', { userDataFromAddressPage });
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
-            {!keyboardShow && !loading ? (
-                <View>
-                    <View style={styles.backIcon}>
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            style={styles.button}>
-                            <Icon name={'arrow-back'} color={'black'} />
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <Text style={styles.text1}>
-                            Precisamos de algumas informações sobre onde você
-                            mora!! Por favor preencha as informações abaixo?
-                        </Text>
-                    </View>
+        <KeyboardAvoidingView style={styles.container} behavior="height">
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.backIcon}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Icon name={'arrow-back'} color={'black'} />
+                    </TouchableOpacity>
                 </View>
-            ) : (
-                <></>
-            )}
 
-            {!loading ? (
-                <>
-                    <ScrollView
-                        style={styles.formScrollContainer}
-                        contentContainerStyle={styles.scroll}>
-                        <View style={styles.inputView}>
-                            <Input
-                                change={cepHandle}
-                                valid={isCepValid}
-                                label="CEP"
-                                placeholder="Digite seu CEP"
-                                value={cep}
-                                keyboard="numeric"
-                            />
-                            <View style={styles.viewMargin}></View>
-                            <Input
-                                change={cityHandle}
-                                value={city}
-                                label="Cidade"
-                                placeholder="Digite sua cidade"
-                            />
-                            <View style={styles.viewMargin}></View>
-                            <Input
-                                change={stateHandle}
-                                value={state}
-                                label="UF"
-                                placeholder="UF"
-                            />
-                            <View style={styles.viewMargin}></View>
-                            <Input
-                                change={numberHandle}
-                                label="Número"
-                                placeholder="Digite o número de sua residência"
-                                value={numberPlace}
-                                keyboard="numeric"
-                            />
-                            <View style={styles.viewMargin}></View>
-                            <Input
-                                change={complementHandle}
-                                label="Complemento"
-                                value={complement}
-                                placeholder="Opcional"
-                            />
-                            <View style={styles.viewMargin}></View>
-                        </View>
-                    </ScrollView>
-                    <View style={styles.btnView}>
-                        <Button
-                            title="Continuar"
-                            disabled={
-                                cep === '' ||
-                                city === '' ||
-                                state === '' ||
-                                numberPlace === '' ||
-                                !isCepValid
-                            }
-                            large
-                            press={continueHandler}
-                        />
-                    </View>
-                </>
-            ) : (
-                <>
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                        <ActivityIndicator
-                            size="large"
-                            color={colors.primary}
-                        />
-                    </View>
-                </>
-            )}
+                {renderPageDescription()}
+
+                {isCepRequestLoading
+                    ? renderLoadingIndicator()
+                    : renderRegistrationForm()}
+            </ScrollView>
+
+            {renderContinueButton()}
         </KeyboardAvoidingView>
     );
 }

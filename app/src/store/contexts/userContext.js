@@ -9,7 +9,6 @@ import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import actions from '../actions';
-import firebaseService from '../../services/Firebase';
 import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
@@ -22,10 +21,17 @@ export const UserContextProvider = (props) => {
     const [user, dispatch] = useReducer(userReducer, {
         showSplash: true,
     });
-    const [currentRegion, setCurrentRegion] = useState(null);
     const { useService } = useContext(ServiceContext);
+    const [userPosition, setUserPosition] = useState({
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.025,
+        longitudeDelta: 0.025,
+    });
+
     async function getUserInfo() {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+
         if (userPreviouslyLogged) {
             const user = await useService(UserService, 'requestUserData', []);
             if (user) {
@@ -39,16 +45,7 @@ export const UserContextProvider = (props) => {
     }
 
     useEffect(() => {
-        firebaseService.onAuthStateChanged(async function (user) {
-            if (user && user.emailVerified) {
-                user.getIdToken().then(async (acesstoken) => {
-                    await AsyncStorage.setItem('accessToken', acesstoken);
-                    getUserInfo();
-                });
-            } else {
-                getUserInfo();
-            }
-        });
+        getUserInfo();
     }, []);
 
     useEffect(() => {
@@ -59,7 +56,7 @@ export const UserContextProvider = (props) => {
                     enableHighAccuracy: true,
                 });
                 const { latitude, longitude } = coords;
-                setCurrentRegion({
+                setUserPosition({
                     latitude,
                     longitude,
                     latitudeDelta: 0.025,
@@ -71,7 +68,8 @@ export const UserContextProvider = (props) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, dispatch, currentRegion }}>
+        <UserContext.Provider
+            value={{ user, dispatch, userPosition, setUserPosition }}>
             {props.children}
         </UserContext.Provider>
     );

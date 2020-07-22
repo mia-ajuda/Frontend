@@ -22,18 +22,18 @@ export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
     const { selectedCategories } = useContext(CategoryContext);
-    const { user, currentRegion } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
     const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         setLoadingHelps(true);
-        if (currentRegion && user._id) {
-            getHelpList(currentRegion);
+        if (userPosition && user._id) {
+            getHelpList(userPosition);
             setupWebSocket();
         }
-    }, [user._id, currentRegion]);
+    }, [user._id, userPosition]);
 
     useEffect(() => {
         subscribeToNewHelps((help) => {
@@ -64,11 +64,11 @@ export default function HelpContextProvider(props) {
     }, [helpList]);
 
     useEffect(() => {
-        if (currentRegion) {
+        if (userPosition) {
             if (selectedCategories.length) {
-                getHelpListWithCategories(currentRegion);
+                getHelpListWithCategories(userPosition);
             } else {
-                getHelpList(currentRegion);
+                getHelpList(userPosition);
             }
             changeCategories(selectedCategories);
         }
@@ -111,7 +111,7 @@ export default function HelpContextProvider(props) {
     function setupWebSocket() {
         disconnect();
         const { _id: userId } = user;
-        connect(JSON.stringify(currentRegion), userId);
+        connect(JSON.stringify(userPosition), userId);
     }
 
     return (

@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         height: '25%',
+        marginTop: 20,
     },
     input: {
         ...fonts.body,
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: colors.primary,
     },
+    catagoryPicker: {
+        marginTop: 20,
+    },
     pikerItem: {
         ...fonts.body,
         color: colors.primary,
@@ -37,32 +41,7 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         color: colors.primary,
     },
-    modal: {
-        justifyContent: 'space-around',
-        alignItems: 'center',
-    },
-    modalView: {
-        backgroundColor: colors.light,
-        padding: 20,
-        borderRadius: 10,
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        width: '80%',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    modalText: {
-        ...fonts.subtitle,
-        fontSize: 20,
-        textAlign: 'center',
-        marginVertical: 30,
-    },
+
     loading: {
         flex: 1,
         height: '100%',
@@ -70,13 +49,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    backdrop: {
-        backgroundColor: '#35353590',
+    descriptionInput: {
+        marginTop: 20,
     },
 });
 

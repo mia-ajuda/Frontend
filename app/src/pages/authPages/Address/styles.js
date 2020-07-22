@@ -10,8 +10,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 30,
     },
-    scroll: {
-        flexGrow: 1,
+    scrollContainer: {
         justifyContent: 'center',
     },
     formScrollContainer: {
@@ -22,10 +21,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 20,
     },
-    text1: {
+    pageDescription: {
         ...fonts.subtitle,
         fontFamily: 'montserrat-semibold',
-        marginTop: 15,
+        marginBottom: 20,
     },
     inputView: {
         width: '100%',
@@ -59,9 +58,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     backIcon: {
-        marginTop: 15,
         alignItems: 'flex-start',
+        marginVertical: 10,
     },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    scroll: { width: '100%' },
 });
 
 export default styles;

@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { alertError } from '../../utils/Alert';
+import { alertError, alertMessageEmailVerification } from '../../utils/Alert';
 export const ServiceContext = createContext();
 
 export default function ServiceContextProvider(props) {
@@ -8,7 +8,11 @@ export default function ServiceContextProvider(props) {
             let functionReturn = await service[functionName](...params);
             return functionReturn;
         } catch (error) {
-            alertError(error, errorMessage);
+            if (error.code == 'auth/email-not-verified') {
+                alertMessageEmailVerification(error.message);
+            } else {
+                alertError(error, errorMessage);
+            }
             return false;
         }
     }

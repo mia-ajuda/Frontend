@@ -10,8 +10,8 @@ import { ServiceContext } from '../../../../store/contexts/serviceContext';
 
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
-    const [myHelps, setMyHelps] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [myOfferedHelps, setMyOfferedHelps] = useState([]);
+    const [loadingOfferdHelps, setLoadingOfferdHelps] = useState(true);
     const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
@@ -22,27 +22,29 @@ export default function AskedHelps({ navigation }) {
     }, [navigation]);
 
     async function getHelps() {
-        setLoading(true);
+        setLoadingOfferdHelps(true);
         const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
         if (filteredHelps) {
-            setMyHelps(filteredHelps);
+            setMyOfferedHelps(filteredHelps);
         }
-        setLoading(false);
+        setLoadingOfferdHelps(false);
     }
 
-    return (
-        <View style={styles.helpList}>
-            {loading ? (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
-                </View>
-            ) : myHelps.length ? (
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
+
+    const renderHelpRequestsList = () => {
+        if (myOfferedHelps.length > 0) {
+            return (
                 <ScrollView>
-                    {myHelps.map((help) => (
+                    {myOfferedHelps.map((help) => (
                         <ListCard
                             key={help._id}
                             profilePhoto={help.user.photo}
@@ -65,9 +67,19 @@ export default function AskedHelps({ navigation }) {
                         />
                     ))}
                 </ScrollView>
-            ) : (
+            );
+        } else {
+            return (
                 <NoHelps title="Você não está ajudando ninguém até o momento" />
-            )}
+            );
+        }
+    };
+
+    return (
+        <View style={styles.helpList}>
+            {loadingOfferdHelps
+                ? renderLoadingIndicator()
+                : renderHelpRequestsList()}
         </View>
     );
 }

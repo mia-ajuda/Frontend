@@ -11,6 +11,7 @@ import Button from '../../../components/UI/button';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
 import UserService from '../../../services/User';
+import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
@@ -27,7 +28,11 @@ export default function Profile({ navigation }) {
     const { useService } = useContext(ServiceContext);
 
     async function logout() {
-        const validLogout = await useService(UserService, 'logOut', []);
+        const validLogout = await useService(
+            SessionService,
+            'SessionService',
+            [],
+        );
         if (validLogout) {
             dispatch({ type: actions.user.removeUserInfo });
         }
