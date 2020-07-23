@@ -7,6 +7,7 @@ import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import firebaseService from '../../services/Firebase';
 
 export const UserContext = createContext();
 
@@ -21,24 +22,8 @@ export const UserContextProvider = (props) => {
         longitudeDelta: 0.025,
     });
 
-    async function getUserInfo() {
-        const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-
-        if (userPreviouslyLogged) {
-            try {
-                const user = await UserService.requestUserData();
-
-                dispatch({ type: actions.user.storeUserInfo, data: user });
-            } catch (error) {
-                dispatch({ type: actions.user.requestSignIn });
-            }
-        } else {
-            dispatch({ type: actions.user.requestSignIn });
-        }
-    }
-
     useEffect(() => {
-        getUserInfo();
+        refreshFirebaseToken();
     }, []);
 
     useEffect(() => {
@@ -59,6 +44,33 @@ export const UserContextProvider = (props) => {
         }
         getLocation();
     }, []);
+
+    function refreshFirebaseToken() {
+        firebaseService.onAuthStateChanged(async function (user) {
+            if (user && user.emailVerified) {
+                user.getIdToken().then(async (acesstoken) => {
+                    await AsyncStorage.setItem('accessToken', acesstoken);
+                });
+            }
+            getUserInfo();
+        });
+    }
+
+    async function getUserInfo() {
+        const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+
+        if (userPreviouslyLogged) {
+            try {
+                const user = await UserService.requestUserData();
+
+                dispatch({ type: actions.user.storeUserInfo, data: user });
+            } catch (error) {
+                dispatch({ type: actions.user.requestSignIn });
+            }
+        } else {
+            dispatch({ type: actions.user.requestSignIn });
+        }
+    }
 
     return (
         <UserContext.Provider
