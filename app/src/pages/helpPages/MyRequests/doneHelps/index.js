@@ -47,10 +47,7 @@ export default function DoneHelps({ navigation }) {
                         {finishedHelpList.map((help) => (
                             <View key={help._id}>
                                 <ListCard
-                                    helpTitle={help.title}
-                                    helpDescription={help.description}
-                                    helpStatus={help.status}
-                                    categoryName={help.category[0].name}
+                                    help={help}
                                     navigation={navigation}
                                     pageName="RequestDescription"
                                 />

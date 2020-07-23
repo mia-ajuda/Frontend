@@ -69,20 +69,13 @@ export default function OnGoingHelps({ navigation }) {
                         {myHelpRequests.map((help) => (
                             <View key={help._id}>
                                 <ListCard
-                                    helpTitle={help.title}
-                                    helpId={help._id}
-                                    helpDescription={help.description}
-                                    categoryName={help.category[0].name}
+                                    help={help}
                                     deleteVisible={true}
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible
                                     }
                                     setSelectedHelp={setHelpToDelete}
                                     navigation={navigation}
-                                    possibleHelpers={help.possibleHelpers}
-                                    ownerId={help.ownerId}
-                                    helpStatus={help.status}
-                                    helperId={help.helperId}
                                     pageName="RequestDescription"
                                 />
                             </View>

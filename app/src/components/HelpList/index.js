@@ -64,16 +64,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
 
                                 return (
                                     <ListCard
-                                        key={help._id}
-                                        profilePhoto={help.user.photo}
-                                        helpId={help._id}
-                                        deleteVisible={false}
-                                        helpTitle={help.title}
-                                        helpDescription={help.description}
-                                        categoryName={help.category[0].name}
-                                        userName={help.user.name}
-                                        birthday={help.user.birthday}
-                                        city={help.user.address.city}
+                                        help={help}
                                         navigation={navigation}
                                         pageName="helpDescription"
                                         isRiskGroup={isRiskGroup}

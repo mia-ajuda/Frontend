@@ -6,34 +6,15 @@ import { Badge } from 'react-native-elements';
 
 import styles from './styles';
 
-export default function ListCard({
-    helpTitle,
-    helpDescription,
-    categoryName,
-    deleteVisible,
-    setConfirmationModalVisible,
-    navigation,
-    helpId,
-    userName,
-    birthday,
-    setVisible,
-    city,
-    profilePhoto,
-    possibleHelpers,
-    ownerId,
-    helpStatus,
-    helperId,
-    userPhone,
-    userLocation,
-    pageName,
-    isRiskGroup,
-    setSelectedHelp,
-}) {
+export default function ListCard({ help, navigation, pageName, isRiskGroup,
+            deleteVisible, setConfirmationModalVisible, setSelectedHelp}) {
     function handleDelete() {
         setConfirmationModalVisible(true);
-        setSelectedHelp(helpId);
+        setSelectedHelp(help._id);
     }
-
+    const possibleHelpers= help.possibleHelpers.map(
+        (helper) => helper._id,
+    );
     return (
         <TouchableOpacity
             style={[
@@ -46,22 +27,7 @@ export default function ListCard({
                     : {},
             ]}
             onPress={() => {
-                navigation.navigate(pageName, {
-                    helpTitle,
-                    helpDescription,
-                    categoryName,
-                    helpId,
-                    userName,
-                    birthday,
-                    city,
-                    profilePhoto,
-                    possibleHelpers,
-                    helpStatus,
-                    ownerId,
-                    helperId,
-                    userPhone,
-                    userLocation,
-                });
+                navigation.navigate(pageName, {help});
                 setVisible && setVisible(false);
             }}>
             {possibleHelpers &&
@@ -81,18 +47,18 @@ export default function ListCard({
             )}
             <View style={styles.cardTitle}>
                 <Text numberOfLines={1} style={styles.titleContent}>
-                    {helpTitle}
+                    {help.title}
                 </Text>
             </View>
             <View style={styles.cardDescription}>
                 <Text numberOfLines={3} style={styles.descriptionContent}>
-                    {helpDescription}
+                    {help.description}
                 </Text>
                 <View style={styles.bottomItens}>
                     <View style={styles.categoryWarning}>
                         <Text style={styles.categoryName}>
                             {' '}
-                            {categoryName}{' '}
+                            {help.category[0].name}{' '}
                         </Text>
                     </View>
                     {deleteVisible ? (

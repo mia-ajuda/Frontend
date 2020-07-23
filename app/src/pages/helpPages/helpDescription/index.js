@@ -31,37 +31,43 @@ export default function HelpDescription({ route, navigation }) {
     const [modalMessage, setModalMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const {
-        helpDescription,
-        categoryName,
-        helpId,
-        userName,
-        birthday,
-        city,
-        profilePhoto,
-        ownerId,
-        helperId,
-        userPhone,
-        userLocation,
-        helpStatus,
-        possibleHelpers,
-    } = route.params;
+    // const {
+    //         helpDescription,
+    //         categoryName,
+    //         helpId,
+    //         userName,
+    //         birthday,
+    //         city,
+    //         profilePhoto,
+    //         ownerId,
+    //         helperId,
+    //         userPhone,
+    //         userLocation,
+    //         helpStatus,
+    //         possibleHelpers,
+    // } = route.params;
+
+    const { help } = route.params;
+
+    const possibleHelpers= help.possibleHelpers.map(
+        (helper) => helper._id,
+    );
 
     const today = new Date();
-    const birthDate = new Date(birthday);
+    const birthDate = new Date(help.user.birthday);
     let age = today.getFullYear() - birthDate.getFullYear();
     const month = today.getMonth() - birthDate.getMonth();
     if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
 
-    const userProfilephoto = profilePhoto || user.photo;
+    const userProfilephoto = help.user.photo || user.photo;
 
     async function chooseHelp() {
         try {
-            await HelpService.chooseHelp(helpId, user._id);
-            let helpListArray = helpList.filter((help) => {
-                return help._id != helpId;
+            await HelpService.chooseHelp(help._id, user._id);
+            let helpListArray = helpList.filter((unfilterHelp) => {
+                return unfilterHelp._id != help._id;
             });
             dispatch({ type: actions.help.storeList, helps: helpListArray });
             navigation.goBack();
@@ -76,7 +82,7 @@ export default function HelpDescription({ route, navigation }) {
 
     async function finishHelp() {
         try {
-            await HelpService.finishHelpByHelper(helpId, user._id);
+            await HelpService.finishHelpByHelper(help._id, user._id);
             navigation.goBack();
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
@@ -116,11 +122,14 @@ export default function HelpDescription({ route, navigation }) {
             ios: 'maps:0,0?q=',
             android: 'geo:0,0?q=',
         });
-        const latLng = `${userLocation[1]},${userLocation[0]}`;
-        const label = 'Pedido de Ajuda de ' + userName;
+        const latitude = help.user.location.coordinates[1];
+        const longitude = help.user.location.coordinates[0];
+
+        const userAskingForHelpLocation = `${latitude},${longitude}`;
+        const helpLabel = 'Pedido de Ajuda de ' + help.user.name;
         const url = Platform.select({
-            ios: `${scheme}${label}@${latLng}`,
-            android: `${scheme}${latLng}(${label})`,
+            ios: `${scheme}${helpLabel}@${userAskingForHelpLocation}`,
+            android: `${scheme}${userAskingForHelpLocation}(${helpLabel})`,
         });
         Linking.openURL(url);
     }
@@ -161,7 +170,7 @@ export default function HelpDescription({ route, navigation }) {
                                         styles.infoText,
                                         styles.infoTextFont,
                                     ]}>
-                                    {userName || user.name}
+                                    {help.user.name || user.name}
                                 </Text>
                                 <Text style={styles.infoText}>
                                     <Text style={styles.infoTextFont}>
@@ -175,7 +184,7 @@ export default function HelpDescription({ route, navigation }) {
                                     </Text>
                                     {city || user.address.city}
                                 </Text>
-                                {user._id == helperId && (
+                                {user._id == help._id && (
                                     <Text style={styles.infoText}>
                                         <Text style={styles.infoTextFont}>
                                             Telefone:
@@ -205,14 +214,14 @@ export default function HelpDescription({ route, navigation }) {
                                         styles.infoText,
                                         styles.infoTextBottom,
                                     ]}>
-                                    {helpDescription}
+                                    {help.description}
                                 </Text>
                             </View>
                         </View>
                     </>
                 )}
 
-                {user._id == helperId && helpStatus != 'finished' && (
+                {user._id == help._id && help.status != 'finished' && (
                     <View style={styles.ViewLink}>
                         <View style={styles.ViewLinkBox}>
                             <TouchableOpacity onPress={openWhatsapp}>
@@ -242,26 +251,26 @@ export default function HelpDescription({ route, navigation }) {
                     </View>
                 )}
                 <View style={styles.helpButtons}>
-                    {user._id === ownerId ? (
+                    {user._id === help.ownerId ? (
                         <ListHelpers
                             stateAction={clickPossibleHelpers}
                             clickAction={setClickPossibleHelpers}
-                            helpId={helpId}
+                            helpId={help._id}
                             navigation={navigation}
                         />
-                    ) : user._id !== helperId &&
-                      helpStatus != 'finished' &&
+                    ) : user._id !== help._id &&
+                      help.status != 'finished' &&
                       (!possibleHelpers ||
                           !possibleHelpers.includes(user._id)) ? (
                         <>
-                            <Text>{helpStatus}</Text>
+                            <Text>{help.status}</Text>
                             <Button
                                 title="Oferecer Ajuda"
                                 large
                                 press={() => openModal('offer')}
                             />
                         </>
-                    ) : helpStatus === 'waiting' ? (
+                    ) : help.status === 'waiting' ? (
                         <Text style={styles.waitingToBeAccepted}>
                             Aguarde o dono da ajuda escolher seu ajudante.
                         </Text>

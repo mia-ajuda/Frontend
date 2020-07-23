@@ -41,23 +41,8 @@ export default function AskedHelps({ navigation }) {
                 <ScrollView>
                     {myOfferedHelps.map((help) => (
                         <ListCard
-                            key={help._id}
-                            profilePhoto={help.user.photo}
-                            helpId={help._id}
-                            helpTitle={help.title}
-                            helpDescription={help.description}
-                            helpStatus={help.status}
-                            categoryName={help.category[0].name}
-                            userName={help.user.name}
-                            birthday={help.user.birthday}
-                            city={help.user.address.city}
+                            help={help}
                             navigation={navigation}
-                            helperId={help.helperId}
-                            possibleHelpers={help.possibleHelpers.map(
-                                (helper) => helper._id,
-                            )}
-                            userPhone={help.user.phone}
-                            userLocation={help.user.location.coordinates}
                             pageName="OfferDescription"
                         />
                     ))}
