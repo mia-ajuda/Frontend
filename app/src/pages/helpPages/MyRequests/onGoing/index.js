@@ -1,6 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
-import ListCard from '../../../../components/ListCard';
+import {
+    View,
+    ScrollView,
+    ActivityIndicator,
+    TouchableOpacity,
+} from 'react-native';
+import ListCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -67,7 +72,13 @@ export default function OnGoingHelps({ navigation }) {
                 <ScrollView>
                     <View style={styles.helpList}>
                         {myHelpRequests.map((help) => (
-                            <View key={help._id}>
+                            <TouchableOpacity
+                                key={help._id}
+                                onPress={() =>
+                                    navigation.navigate('RequestDescription', {
+                                        help,
+                                    })
+                                }>
                                 <ListCard
                                     help={help}
                                     deleteVisible={true}
@@ -75,10 +86,8 @@ export default function OnGoingHelps({ navigation }) {
                                         setConfirmationModalVisible
                                     }
                                     setSelectedHelp={setHelpToDelete}
-                                    navigation={navigation}
-                                    pageName="RequestDescription"
                                 />
-                            </View>
+                            </TouchableOpacity>
                         ))}
                     </View>
                 </ScrollView>

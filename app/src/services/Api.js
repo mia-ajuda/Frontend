@@ -26,6 +26,7 @@ api.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response != undefined) {
             if (error.response.status === 401) {
+                console.log(error.response);
                 const correctRequest = await firebaseService
                     .getUserId()
                     .then(async (idTokenUser) => {

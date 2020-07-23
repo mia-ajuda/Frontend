@@ -7,25 +7,12 @@ export default StyleSheet.create({
     cardContainer: {
         maxWidth: 740,
         maxHeight: 240,
-
         marginTop: 20,
-
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-
         elevation: 2,
-
         backgroundColor: colors.light,
         borderRadius: 8,
-
         justifyContent: 'center',
         alignItems: 'flex-start',
-
         paddingLeft: 20,
         paddingRight: 20,
         paddingBottom: 15,

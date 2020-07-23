@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from '../../MyRequests/styles';
-import ListCard from '../../../../components/ListCard';
+import ListCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
     const [myFinishedHelps, setMyFinishedHelps] = useState([]);
@@ -39,11 +40,15 @@ export default function AskedHelps({ navigation }) {
             return (
                 <ScrollView>
                     {myFinishedHelps.map((help) => (
-                        <ListCard
-                            help={help}
-                            navigation={navigation}
-                            pageName="OfferDescription"
-                        />
+                        <TouchableOpacity
+                            key={help._id}
+                            onPress={() =>
+                                navigation.navigate('OfferDescription', {
+                                    help,
+                                })
+                            }>
+                            <ListCard help={help} />
+                        </TouchableOpacity>
                     ))}
                 </ScrollView>
             );

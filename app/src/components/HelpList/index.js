@@ -8,10 +8,11 @@ import {
     Text,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ListCard from '../ListCard';
+import ListCard from '../HelpCard';
 
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
@@ -63,12 +64,19 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                     .length;
 
                                 return (
-                                    <ListCard
-                                        help={help}
-                                        navigation={navigation}
-                                        pageName="helpDescription"
-                                        isRiskGroup={isRiskGroup}
-                                    />
+                                    <TouchableOpacity
+                                        key={help._id}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                'helpDescription',
+                                                { help },
+                                            )
+                                        }>
+                                        <ListCard
+                                            help={help}
+                                            isRiskGroup={isRiskGroup}
+                                        />
+                                    </TouchableOpacity>
                                 );
                             })}
                         </ScrollView>

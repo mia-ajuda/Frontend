@@ -49,9 +49,7 @@ export default function HelpDescription({ route, navigation }) {
 
     const { help } = route.params;
 
-    const possibleHelpers= help.possibleHelpers.map(
-        (helper) => helper._id,
-    );
+    const possibleHelpersIds = help.possibleHelpers.map((helper) => helper._id);
 
     const today = new Date();
     const birthDate = new Date(help.user.birthday);
@@ -136,7 +134,9 @@ export default function HelpDescription({ route, navigation }) {
 
     function openWhatsapp() {
         Linking.openURL(
-            `whatsapp://send?phone=${userPhone}&text=${'Olá, precisa de ajuda?'}`,
+            `whatsapp://send?phone=${
+                help.user.phone
+            }&text=${'Olá, precisa de ajuda?'}`,
         );
     }
 
@@ -182,14 +182,15 @@ export default function HelpDescription({ route, navigation }) {
                                     <Text style={styles.infoTextFont}>
                                         Cidade:{' '}
                                     </Text>
-                                    {city || user.address.city}
+                                    {help.user.address.city ||
+                                        user.address.city}
                                 </Text>
                                 {user._id == help._id && (
                                     <Text style={styles.infoText}>
                                         <Text style={styles.infoTextFont}>
                                             Telefone:
                                         </Text>
-                                        {userPhone}
+                                        {help.user.phone}
                                     </Text>
                                 )}
                             </View>
@@ -200,7 +201,7 @@ export default function HelpDescription({ route, navigation }) {
                                     <Text style={styles.infoTextFont}>
                                         Categoria:{' '}
                                     </Text>
-                                    {categoryName}
+                                    {help.category[0].name}
                                 </Text>
                                 <Text
                                     style={[
@@ -260,8 +261,8 @@ export default function HelpDescription({ route, navigation }) {
                         />
                     ) : user._id !== help._id &&
                       help.status != 'finished' &&
-                      (!possibleHelpers ||
-                          !possibleHelpers.includes(user._id)) ? (
+                      (!possibleHelpersIds ||
+                          !possibleHelpersIds.includes(user._id)) ? (
                         <>
                             <Text>{help.status}</Text>
                             <Button

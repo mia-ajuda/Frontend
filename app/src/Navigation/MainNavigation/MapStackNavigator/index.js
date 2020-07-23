@@ -22,7 +22,7 @@ const MainNavigation = () => (
         <Stack.Screen
             name="helpDescription"
             options={({ route }) => ({
-                title: route.params.helpTitle,
+                title: route.params.help.title,
             })}
             component={HelpDescription}
         />

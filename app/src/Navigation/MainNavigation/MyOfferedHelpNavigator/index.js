@@ -26,7 +26,7 @@ const HelpTopBar = () => (
             name="OfferDescription"
             component={HelpDescription}
             options={({ route }) => ({
-                title: route.params.helpTitle,
+                title: route.params.help.title,
             })}
         />
     </Stack.Navigator>
