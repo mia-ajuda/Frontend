@@ -22,6 +22,7 @@ import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
+import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -34,7 +35,6 @@ export default function PersonalData({ route, navigation }) {
         false,
     );
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
-    const [validateCpfErrorMessage, setValidateCpfErrorMessage] = useState();
     const { useService } = useContext(ServiceContext);
 
     const verifyCpfExistence = async () => {
@@ -44,13 +44,17 @@ export default function PersonalData({ route, navigation }) {
             cpfOnlyNumbers,
         ]);
         setloadingCpfVerification(false);
-        if (cpfExist) {
-            setValidateCpfErrorMessage(
-                'Esse Cpf já está sendo utilizado por outro usuário',
-            );
-            return true;
+        if (!cpfExist.message) {
+            if (cpfExist) {
+                alertError(
+                    null,
+                    'Esse Cpf já está sendo utilizado por outro usuário',
+                );
+                return true;
+            }
+            return false;
         }
-        return false;
+        return true;
     };
 
     const continueHandler = async () => {
@@ -218,12 +222,6 @@ export default function PersonalData({ route, navigation }) {
                 }
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.inputView}>
-                    {validateCpfErrorMessage && (
-                        <Text style={styles.errorMessage}>
-                            {validateCpfErrorMessage}
-                        </Text>
-                    )}
-
                     {renderNameInputForm()}
                     {renderBirthDtInputForm()}
                     {renderPhoneInputForm()}

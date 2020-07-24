@@ -13,14 +13,12 @@ function alertError(error, message = null) {
             try {
                 message = error.response.data.error;
             } catch (err) {
-                console.log(err);
-                message = 'Algo deu errado, tente novamente mais tarde';
+                message =
+                    error.message ||
+                    'Algo deu errado, tente novamente mais tarde';
             }
         }
-        console.log(error);
     }
-
-    console.log(message);
     Alert.alert(type, message);
 }
 

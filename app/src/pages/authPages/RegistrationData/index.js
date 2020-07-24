@@ -18,6 +18,7 @@ import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
+import { alertError } from '../../../utils/Alert';
 
 export default function RegistrationData({ route, navigation }) {
     const { userDataFromLocationPage } = route.params;
@@ -29,7 +30,6 @@ export default function RegistrationData({ route, navigation }) {
         setLoadingEmailVerification,
     ] = useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-    const [checkEmailError, setCheckEmailError] = useState(null);
     const { useService } = useContext(ServiceContext);
     const passwordHandler = (enteredPassword) => {
         setPassword(enteredPassword);
@@ -50,12 +50,15 @@ export default function RegistrationData({ route, navigation }) {
         const doesEmailExist = await useService(UserService, 'verifyUserInfo', [
             email,
         ]);
-        if (doesEmailExist) {
-            setCheckEmailError(
-                'Esse email já está sendo usado por outro usuário',
-            );
-        } else {
-            continueHandler();
+        if (!doesEmailExist.message) {
+            if (doesEmailExist) {
+                alertError(
+                    null,
+                    'Esse email já está sendo usado por outro usuário',
+                );
+            } else {
+                continueHandler();
+            }
         }
         setLoadingEmailVerification(false);
     };
@@ -161,11 +164,6 @@ export default function RegistrationData({ route, navigation }) {
                 }
                 contentContainerStyle={styles.scrollContainerStyle}>
                 <View style={styles.form}>
-                    {checkEmailError && (
-                        <Text style={styles.errorMessage}>
-                            {checkEmailError}
-                        </Text>
-                    )}
                     {renderInputEmailForm()}
                     {renderInputPasswordForm()}
                     {renderInputConfirmationPasswordForm()}

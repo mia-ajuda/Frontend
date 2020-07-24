@@ -44,7 +44,7 @@ export default function Address({ route, navigation }) {
             [currentCep],
             null,
         );
-        if (cepInformation) {
+        if (!cepInformation.message) {
             const { bairro, localidade, logradouro, uf } = cepInformation;
             setUf(uf);
             setCity(localidade);

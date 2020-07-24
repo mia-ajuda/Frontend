@@ -13,7 +13,7 @@ export default function ServiceContextProvider(props) {
             } else {
                 alertError(error, errorMessage);
             }
-            return false;
+            return error;
         }
     }
     return (
