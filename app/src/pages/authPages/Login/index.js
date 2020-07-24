@@ -13,13 +13,10 @@ import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
-import { UserContext } from '../../../store/contexts/userContext';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import actions from '../../../store/actions';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
 
 export default function Login({ navigation }) {
-    const { dispatch } = useContext(UserContext);
     const { useService } = useContext(ServiceContext);
     const { keyboard } = useContext(DeviceInformationContext);
 
@@ -41,10 +38,7 @@ export default function Login({ navigation }) {
         const data = { email: email.trim(), password };
         keyboard.dismiss();
         setLoadingLoginRequest(true);
-        const user = await useService(SessionService, 'signIn', [data]);
-        if (user) {
-            dispatch({ type: actions.user.storeUserInfo, data: user });
-        }
+        await useService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };
 

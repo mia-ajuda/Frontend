@@ -29,7 +29,13 @@ export default function HelpContextProvider(props) {
 
     useEffect(() => {
         setLoadingHelps(true);
+        console.log('xxxxxxxxxxxxxxxxxx');
+        console.log(userPosition);
+        console.log(user._id);
+        console.log(0);
+        console.log('-----------------');
         if (userPosition && user._id) {
+            console.log(1);
             getHelpList(userPosition);
             setupWebSocket();
         }
@@ -64,10 +70,11 @@ export default function HelpContextProvider(props) {
     }, [helpList]);
 
     useEffect(() => {
-        if (userPosition) {
+        if (userPosition && user._id) {
             if (selectedCategories.length) {
                 getHelpListWithCategories(userPosition);
             } else {
+                console.log(2);
                 getHelpList(userPosition);
             }
             changeCategories(selectedCategories);
@@ -77,6 +84,7 @@ export default function HelpContextProvider(props) {
     async function getHelpList(loc) {
         if (loc) {
             const { _id: userId } = user;
+            console.log(3);
             const helpListArray = await useService(HelpService, 'getNearHelp', [
                 loc,
                 userId,
