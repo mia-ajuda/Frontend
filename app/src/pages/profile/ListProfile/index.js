@@ -28,11 +28,7 @@ export default function Profile({ navigation }) {
     const { useService } = useContext(ServiceContext);
 
     async function logout() {
-        const validLogout = await useService(
-            SessionService,
-            'SessionService',
-            [],
-        );
+        const validLogout = await useService(SessionService, 'signOut', []);
         if (validLogout) {
             dispatch({ type: actions.user.removeUserInfo });
         }
