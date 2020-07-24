@@ -14,14 +14,11 @@ class SessionService {
 
             const isEmailVerified = firebaseService.isEmailVerified();
             const shouldVerifyEmail = env.production || env.staging;
+
             if (isEmailVerified == false && shouldVerifyEmail) {
                 throw { code: 'auth/email-not-verified' };
             }
-            const idTokenUser = await firebaseService.getUserId();
-            await AsyncStorage.setItem('accessToken', idTokenUser);
-            const user = await UserService.requestUserData();
             UserService.setUserDeviceId();
-            return user;
         } catch (error) {
             const errorFromFirebase = error.code;
             if (errorFromFirebase) {

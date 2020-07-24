@@ -13,16 +13,13 @@ import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
-import { UserContext } from '../../../store/contexts/userContext';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import actions from '../../../store/actions';
 import {
     alertError,
     alertMessageEmailVerification,
 } from '../../../utils/Alert';
 
 export default function Login({ navigation }) {
-    const { dispatch } = useContext(UserContext);
     const { keyboard } = useContext(DeviceInformationContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,10 +39,7 @@ export default function Login({ navigation }) {
         keyboard.dismiss();
         try {
             setLoadingLoginRequest(true);
-            const user = await SessionService.signIn(data);
-            if (user) {
-                dispatch({ type: actions.user.storeUserInfo, data: user });
-            }
+            await SessionService.signIn(data);
         } catch (err) {
             setLoadingLoginRequest(false);
             const emailNotVerifiedError = err.code == 'auth/email-not-verified';

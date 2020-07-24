@@ -3,10 +3,13 @@ import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import actions from '../actions';
+import env from '../../config/envVariables';
+
 import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import firebaseService from '../../services/Firebase';
 
 export const UserContext = createContext();
 
@@ -21,23 +24,8 @@ export const UserContextProvider = (props) => {
         longitudeDelta: 0.025,
     });
 
-    async function getUserInfo() {
-        const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-
-        if (userPreviouslyLogged) {
-            try {
-                const user = await UserService.requestUserData();
-
-                dispatch({ type: actions.user.storeUserInfo, data: user });
-            } catch (error) {
-                dispatch({ type: actions.user.requestSignIn });
-            }
-        } else {
-            dispatch({ type: actions.user.requestSignIn });
-        }
-    }
-
     useEffect(() => {
+        setFirebaseTokenListener();
         getUserInfo();
     }, []);
 
@@ -59,6 +47,35 @@ export const UserContextProvider = (props) => {
         }
         getLocation();
     }, []);
+
+    function setFirebaseTokenListener() {
+        firebaseService.onAuthStateChanged(async function (user) {
+            const userEmailVerified = user && user.emailVerified;
+            const developmentEnviroment = user && env.development;
+
+            if (userEmailVerified || developmentEnviroment) {
+                const acesstoken = await user.getIdToken();
+                await AsyncStorage.setItem('accessToken', acesstoken);
+                await getUserInfo();
+            }
+        });
+    }
+
+    async function getUserInfo() {
+        const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+
+        if (userPreviouslyLogged) {
+            try {
+                const user = await UserService.requestUserData();
+
+                dispatch({ type: actions.user.storeUserInfo, data: user });
+            } catch (error) {
+                dispatch({ type: actions.user.requestSignIn });
+            }
+        } else {
+            dispatch({ type: actions.user.requestSignIn });
+        }
+    }
 
     return (
         <UserContext.Provider
