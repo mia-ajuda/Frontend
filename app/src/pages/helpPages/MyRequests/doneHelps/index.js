@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import ListCard from '../../../../components/HelpCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -57,7 +57,7 @@ export default function DoneHelps({ navigation }) {
                                         help,
                                     })
                                 }>
-                                <ListCard help={help} />
+                                <HelpCard help={help} />
                             </TouchableOpacity>
                         ))}
                     </View>

@@ -3,20 +3,33 @@ import { StyleSheet } from 'react-native';
 import colors from '../../../assets/styles/colorVariables';
 import fonts from '../../../assets/styles/fontVariable';
 
+const cardContainerStyle = {
+    maxWidth: 740,
+    maxHeight: 240,
+    marginTop: 20,
+    borderWidth: 1,
+    backgroundColor: colors.light,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 15,
+    paddingTop: 10,
+};
+
 export default StyleSheet.create({
     cardContainer: {
-        maxWidth: 740,
-        maxHeight: 240,
-        marginTop: 20,
-        elevation: 2,
-        backgroundColor: colors.light,
-        borderRadius: 8,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 15,
-        paddingTop: 10,
+        borderColor: 'rgba(0,0,0,0.1)',
+        ...cardContainerStyle,
+    },
+    cardContainerRiskGroup: {
+        borderRightWidth: 10,
+        borderRightColor: colors.danger,
+        borderLeftColor: 'rgba(0,0,0,0.1)',
+        borderBottomColor: 'rgba(0,0,0,0.1)',
+        borderTopColor: 'rgba(0,0,0,0.1)',
+        ...cardContainerStyle,
     },
 
     cardTitle: {
@@ -75,20 +88,5 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    labelBadge: {
-        color: '#FFF',
-        fontWeight: 'bold',
-    },
-    badgeStyle: {
-        backgroundColor: colors.danger,
-        height: 30,
-        width: 30,
-        borderRadius: 50,
-    },
-    containerBadge: {
-        position: 'absolute',
-        top: -7,
-        right: -6,
     },
 });

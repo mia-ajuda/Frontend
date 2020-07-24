@@ -8,7 +8,7 @@ import {
     Text,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ListCard from '../HelpCard';
+import HelpCard from '../HelpCard';
 
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
@@ -72,7 +72,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                                 { help },
                                             )
                                         }>
-                                        <ListCard
+                                        <HelpCard
                                             help={help}
                                             isRiskGroup={isRiskGroup}
                                         />

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from '../../MyRequests/styles';
-import ListCard from '../../../../components/HelpCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
@@ -48,7 +48,7 @@ export default function AskedHelps({ navigation }) {
                                     help,
                                 })
                             }>
-                            <ListCard help={help} />
+                            <HelpCard help={help} />
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
