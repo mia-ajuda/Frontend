@@ -18,12 +18,12 @@ export default function MyRequestHelpCard({
     }
 
     const renderBadgeIcon = () => {
-        if (help.possibleHelpers.legth > 0) {
+        if (help.possibleHelpers.length > 0) {
             return (
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
-                            {help.possibleHelpers.legth}
+                            {help.possibleHelpers.length}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}
