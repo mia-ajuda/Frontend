@@ -28,8 +28,8 @@ export default function Profile({ navigation }) {
     const { useService } = useContext(ServiceContext);
 
     async function logout() {
-        const validLogout = await useService(SessionService, 'signOut', []);
-        if (validLogout) {
+        const validLogout = await useService(SessionService, 'signOut');
+        if (!validLogout.message) {
             dispatch({ type: actions.user.removeUserInfo });
         }
     }
@@ -72,7 +72,7 @@ export default function Profile({ navigation }) {
         const validEditPhoto = await useService(UserService, 'editUser', [
             data,
         ]);
-        if (validEditPhoto) {
+        if (!validEditPhoto.message) {
             dispatch({
                 type: actions.user.storeUserInfo,
                 data: validEditPhoto,

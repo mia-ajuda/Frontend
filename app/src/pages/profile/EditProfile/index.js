@@ -13,13 +13,13 @@ import Button from '../../../components/UI/button';
 import Input from '../../../components/UI/input';
 import colors from '../../../../assets/styles/colorVariables';
 import UserService from '../../../services/User';
-import axios from 'axios';
 import styles from './styles';
 import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import { alertSuccess } from '../../../utils/Alert';
 import { ServiceContext } from '../../../store/contexts/serviceContext';
+import ViaCep from '../../../services/ExternalServices/ViaCep';
 
 export default function EditProfile({ route, navigation }) {
     const [fieldToEdit, setFieldToEdit] = useState('');
@@ -60,17 +60,19 @@ export default function EditProfile({ route, navigation }) {
         if (currentCep.length === 8) {
             try {
                 setLoading(true);
-                const response = await axios.get(
-                    `https://viacep.com.br/ws/${currentCep}/json/`,
+                const cepInformation = await useService(
+                    ViaCep,
+                    'getCepInformation',
+                    [currentCep],
                 );
 
-                if (!response.data.erro) {
+                if (!cepInformation.message) {
                     const {
                         localidade,
                         uf,
                         logradouro,
                         bairro,
-                    } = response.data;
+                    } = cepInformation;
 
                     setFieldEditedValid(true);
                     setState(uf);
@@ -130,7 +132,7 @@ export default function EditProfile({ route, navigation }) {
             data,
             params,
         ]);
-        if (editResponse) {
+        if (!editResponse.message) {
             dispatch({
                 type: actions.user.storeUserInfo,
                 data: editResponse,

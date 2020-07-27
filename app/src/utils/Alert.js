@@ -11,7 +11,11 @@ function alertError(error, message = null) {
             message = translateFirebaseError[error.code];
         } else if (message == null) {
             try {
-                message = error.response.data.error;
+                message =
+                    error.response.data.error ||
+                    error.message ||
+                    'Algo deu errado, tente novamente mais tarde';
+                console.log(message);
             } catch (err) {
                 message =
                     error.message ||

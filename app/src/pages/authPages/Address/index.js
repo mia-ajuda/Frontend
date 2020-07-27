@@ -38,12 +38,9 @@ export default function Address({ route, navigation }) {
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
         setCepRequestLoading(true);
-        const cepInformation = await useService(
-            ViaCep,
-            'getCepInformation',
-            [currentCep],
-            null,
-        );
+        const cepInformation = await useService(ViaCep, 'getCepInformation', [
+            currentCep,
+        ]);
         if (!cepInformation.message) {
             const { bairro, localidade, logradouro, uf } = cepInformation;
             setUf(uf);
