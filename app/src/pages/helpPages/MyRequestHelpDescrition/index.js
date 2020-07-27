@@ -33,51 +33,54 @@ export default function HelpDescription({ route, navigation }) {
         </TouchableOpacity>
     );
 
+    const renderHelpOwnerInfo = () => (
+        <View style={styles.userInfo}>
+            <Image
+                source={{
+                    uri: `data:image/png;base64,${userProfilephoto}`,
+                }}
+                style={styles.profileImage}
+            />
+            <View style={styles.infoTextView}>
+                <Text style={[styles.infoText, styles.infoTextFont]}>
+                    {help.user.name}
+                </Text>
+                <Text style={styles.infoText}>
+                    <Text style={styles.infoTextFont}>Idade: </Text>
+                    {getYearsSince(help.user.birthday)}
+                </Text>
+                <Text style={styles.infoText}>
+                    <Text style={styles.infoTextFont}>Cidade: </Text>
+                    {help.user.address.city}
+                </Text>
+            </View>
+        </View>
+    );
+
+    const renderHelpInfo = () => (
+        <View style={styles.helpInfo}>
+            <View style={styles.helpInfoText}>
+                <Text style={styles.infoText}>
+                    <Text style={styles.infoTextFont}>Categoria: </Text>
+                    {help.category[0].name}
+                </Text>
+                <Text style={[styles.infoText, styles.infoTextDescription]}>
+                    Descrição:
+                </Text>
+                <Text style={[styles.infoText, styles.infoTextBottom]}>
+                    {help.description}
+                </Text>
+            </View>
+        </View>
+    );
+
     const renderMyHelper = () => <HelperCard help={help} />;
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-                <View style={styles.userInfo}>
-                    <Image
-                        source={{
-                            uri: `data:image/png;base64,${userProfilephoto}`,
-                        }}
-                        style={styles.profileImage}
-                    />
-                    <View style={styles.infoTextView}>
-                        <Text style={[styles.infoText, styles.infoTextFont]}>
-                            {help.user.name}
-                        </Text>
-                        <Text style={styles.infoText}>
-                            <Text style={styles.infoTextFont}>Idade: </Text>
-                            {getYearsSince(help.user.birthday)}
-                        </Text>
-                        <Text style={styles.infoText}>
-                            <Text style={styles.infoTextFont}>Cidade: </Text>
-                            {help.user.address.city}
-                        </Text>
-                    </View>
-                </View>
-                <View style={styles.helpInfo}>
-                    <View style={styles.helpInfoText}>
-                        <Text style={styles.infoText}>
-                            <Text style={styles.infoTextFont}>Categoria: </Text>
-                            {help.category[0].name}
-                        </Text>
-                        <Text
-                            style={[
-                                styles.infoText,
-                                styles.infoTextDescription,
-                            ]}>
-                            Descrição:
-                        </Text>
-                        <Text style={[styles.infoText, styles.infoTextBottom]}>
-                            {help.description}
-                        </Text>
-                    </View>
-                </View>
-
+                {renderHelpOwnerInfo()}
+                {renderHelpInfo()}
                 <View style={styles.helpButtons}>
                     {help.helperId
                         ? renderMyHelper()
