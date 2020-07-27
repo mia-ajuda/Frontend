@@ -57,7 +57,7 @@ class HelpService {
         return deleteHelp;
     }
 
-    async chooseHelp(idHelp, idHelper) {
+    async offerHelp(idHelp, idHelper) {
         try {
             const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
             await api.put(url);
@@ -79,6 +79,10 @@ class HelpService {
 
     async finishHelpByOwner(helpId, ownerId) {
         await api.put(`/help/ownerConfirmation/${helpId}/${ownerId}`);
+    }
+
+    async chooseHelper(helpId, helperId) {
+        return await api.put(`/help/chooseHelper/${helpId}/${helperId}`);
     }
 }
 
