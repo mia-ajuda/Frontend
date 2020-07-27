@@ -32,10 +32,10 @@ export default function MapHelpDescription({ route, navigation }) {
         dispatch({ type: actions.help.storeList, helps: filteredHelpList });
     }
 
-    async function chooseHelp() {
+    async function offerHelp() {
         try {
             setChooseHelpRequestLoading(true);
-            await HelpService.chooseHelp(help._id, user._id);
+            await HelpService.offerHelp(help._id, user._id);
             removeHelpFromMap();
             goBackToMapPage();
             alertSuccess(
@@ -93,7 +93,7 @@ export default function MapHelpDescription({ route, navigation }) {
                 <ConfirmationModal
                     visible={confirmationModalVisible}
                     setVisible={setConfirmationModalVisible}
-                    action={chooseHelp}
+                    action={offerHelp}
                     message={'Você deseja confirmar a sua ajuda?'}
                     isLoading={isChooseHelpRequestLoading}
                 />

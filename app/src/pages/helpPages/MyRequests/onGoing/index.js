@@ -15,7 +15,7 @@ import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
 
 export default function OnGoingHelps({ navigation }) {
-    const [myHelpRequests, setMyHelpRequests] = useState([]);
+    const [myRequestedHelps, setMyRequestedHelps] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
@@ -38,7 +38,7 @@ export default function OnGoingHelps({ navigation }) {
                 userId,
                 ['waiting', 'on_going', 'helper_finished'],
             );
-            setMyHelpRequests(filteredHelps);
+            setMyRequestedHelps(filteredHelps);
             setLoadingMyHelpRequests(false);
         } catch (err) {
             console.log(err);
@@ -50,10 +50,10 @@ export default function OnGoingHelps({ navigation }) {
             setHelpDeletionLoading(true);
             await helpService.deleteHelp(helpToDelete);
             setHelpDeletionLoading(false);
-            const updatedArray = myHelpRequests.filter((help) => {
+            const updatedArray = myRequestedHelps.filter((help) => {
                 return help._id !== helpToDelete;
             });
-            setMyHelpRequests(updatedArray);
+            setMyRequestedHelps(updatedArray);
             setConfirmationModalVisible(false);
         } catch (error) {
             console.log(error);
@@ -67,17 +67,20 @@ export default function OnGoingHelps({ navigation }) {
     );
 
     const renderMyRequestsHelpList = () => {
-        if (myHelpRequests.length > 0) {
+        if (myRequestedHelps.length > 0) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {myHelpRequests.map((help) => (
+                        {myRequestedHelps.map((help) => (
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
-                                    navigation.navigate('RequestDescription', {
-                                        help,
-                                    })
+                                    navigation.navigate(
+                                        'MyRequestHelpDescrition',
+                                        {
+                                            help,
+                                        },
+                                    )
                                 }>
                                 <MyRequestHelpCard
                                     help={help}

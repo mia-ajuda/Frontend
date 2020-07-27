@@ -66,7 +66,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
     }
 
     const renderOnGoingHelpButtons = () => {
-        if (help.status == 'on_going') {
+        if (help.status != 'finished') {
             return (
                 <View style={styles.ViewLink}>
                     <View style={styles.ViewLinkBox}>

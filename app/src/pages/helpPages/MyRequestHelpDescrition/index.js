@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Badge } from 'react-native-elements';
 
 import styles from './styles';
-
+import HelperCard from './HelperCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import getYearsSince from '../../../utils/getYearsSince';
 
@@ -13,6 +13,27 @@ export default function HelpDescription({ route, navigation }) {
     const { help } = route.params;
 
     const userProfilephoto = help.user.photo || user.photo;
+
+    const renderPossibleHelpersButton = () => (
+        <TouchableOpacity
+            style={styles.buttonHelpers}
+            onPress={() =>
+                navigation.navigate('listPossibleHelpers', { help })
+            }>
+            <Text style={styles.textBtn}>Possíveis Ajudantes</Text>
+            <Badge
+                value={
+                    <Text style={styles.labelBadge}>
+                        {help.possibleHelpers.length}
+                    </Text>
+                }
+                badgeStyle={styles.badgeStyle}
+                containerStyle={styles.containerBadge}
+            />
+        </TouchableOpacity>
+    );
+
+    const renderMyHelper = () => <HelperCard help={help} />;
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -36,14 +57,6 @@ export default function HelpDescription({ route, navigation }) {
                             <Text style={styles.infoTextFont}>Cidade: </Text>
                             {help.user.address.city}
                         </Text>
-                        {user._id == help.he && (
-                            <Text style={styles.infoText}>
-                                <Text style={styles.infoTextFont}>
-                                    Telefone:
-                                </Text>
-                                {help.user.phone}
-                            </Text>
-                        )}
                     </View>
                 </View>
                 <View style={styles.helpInfo}>
@@ -66,29 +79,9 @@ export default function HelpDescription({ route, navigation }) {
                 </View>
 
                 <View style={styles.helpButtons}>
-                    <TouchableOpacity
-                        style={styles.buttonHelpers}
-                        onPress={() =>
-                            navigation.navigate('listPossibleHelpers', { help })
-                        }>
-                        <Text style={styles.textBtn}>Possíveis Ajudantes</Text>
-                        <Badge
-                            value={
-                                <Text style={styles.labelBadge}>
-                                    {help.possibleHelpers.length}
-                                </Text>
-                            }
-                            badgeStyle={styles.badgeStyle}
-                            containerStyle={styles.containerBadge}
-                        />
-                    </TouchableOpacity>
-                    {/* <ListHelpers
-                        stateAction={clickPossibleHelpers}
-                        clickAction={setClickPossibleHelpers}
-                        helpId={help._id}
-                        navigation={navigation}
-                    /> */}
-                    {/* <HelperCard help={help} /> */}
+                    {help.helperId
+                        ? renderMyHelper()
+                        : renderPossibleHelpersButton()}
                 </View>
             </View>
         </ScrollView>

@@ -30,4 +30,9 @@ export default StyleSheet.create({
     infoTextFont: {
         fontFamily: 'montserrat-semibold',
     },
+    noPossibleHelpers: {
+        flex: 1,
+        height: '100%',
+        marginTop: '30%',
+    },
 });

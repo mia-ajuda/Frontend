@@ -53,9 +53,12 @@ export default function DoneHelps({ navigation }) {
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
-                                    navigation.navigate('RequestDescription', {
-                                        help,
-                                    })
+                                    navigation.navigate(
+                                        'MyRequestHelpDescrition',
+                                        {
+                                            help,
+                                        },
+                                    )
                                 }>
                                 <HelpCard help={help} />
                             </TouchableOpacity>

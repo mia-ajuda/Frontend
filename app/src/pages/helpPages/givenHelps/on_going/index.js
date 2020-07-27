@@ -41,26 +41,17 @@ export default function AskedHelps({ navigation }) {
             return (
                 <ScrollView>
                     {myOfferedHelps.map((help) => {
-                        const offerWaitingOrOnGoing =
-                            help.status == 'on_going' ||
-                            help.status == 'waiting';
-
-                        if (offerWaitingOrOnGoing) {
-                            return (
-                                <TouchableOpacity
-                                    key={help._id}
-                                    onPress={() =>
-                                        navigation.navigate(
-                                            'OfferDescription',
-                                            {
-                                                help,
-                                            },
-                                        )
-                                    }>
-                                    <HelpCard help={help} />
-                                </TouchableOpacity>
-                            );
-                        }
+                        return (
+                            <TouchableOpacity
+                                key={help._id}
+                                onPress={() =>
+                                    navigation.navigate('OfferDescription', {
+                                        help,
+                                    })
+                                }>
+                                <HelpCard help={help} />
+                            </TouchableOpacity>
+                        );
                     })}
                 </ScrollView>
             );
