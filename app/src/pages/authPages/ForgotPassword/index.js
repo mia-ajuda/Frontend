@@ -35,7 +35,7 @@ export default function ForgotPassword({ navigation }) {
             'resetUserPassword',
             [email.trim().toLowerCase()],
         );
-        if (foundEmail) {
+        if (!foundEmail.message) {
             navigateBackToLoginPage();
             alertSuccess(
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',

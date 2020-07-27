@@ -16,9 +16,8 @@ class SessionService {
         if (isEmailVerified == false && shouldVerifyEmail) {
             throw { code: 'auth/email-not-verified' };
         }
-        UserService.setUserDeviceId();
+        await UserService.setUserDeviceId();
     }
-
     async signUp(data) {
         try {
             const response = await api.post('/user', data);

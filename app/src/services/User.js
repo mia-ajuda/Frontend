@@ -26,35 +26,28 @@ class UserService {
     }
 
     async setUserDeviceId() {
-        try {
-            if (Constants.isDevice) {
-                const { status: existingStatus } = await Permissions.getAsync(
+        if (Constants.isDevice) {
+            const { status: existingStatus } = await Permissions.getAsync(
+                Permissions.NOTIFICATIONS,
+            );
+            let finalStatus = existingStatus;
+
+            if (existingStatus !== 'granted') {
+                const { status } = await Permissions.askAsync(
                     Permissions.NOTIFICATIONS,
                 );
-                let finalStatus = existingStatus;
-
-                if (existingStatus !== 'granted') {
-                    const { status } = await Permissions.askAsync(
-                        Permissions.NOTIFICATIONS,
-                    );
-                    finalStatus = status;
-                }
-                if (finalStatus !== 'granted') {
-                    throw 'Failed to get push token for push notification!';
-                }
+                finalStatus = status;
             }
-
-            Notifications.getExpoPushTokenAsync()
-                .then(async (pushToken) => {
-                    await api.put('/user', { deviceId: pushToken });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    console.log('Tente rodar "expo login"');
-                });
-        } catch {
-            throw { error: 'Não foi possível recuperar Push Token!' };
+            if (finalStatus !== 'granted') {
+                throw new Error(
+                    'Failed to get push token for push notification!',
+                );
+            }
         }
+
+        await Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
+            await api.put('/user', { deviceId: pushToken });
+        });
     }
 }
 
