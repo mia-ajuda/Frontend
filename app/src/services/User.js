@@ -23,6 +23,11 @@ class UserService {
             throw error;
         }
     }
+    
+    async editUserAdress(data) {
+        const user = await api.put('/user/address', data);
+        return user.data;
+    }
 
     async verifyUserInfo(value) {
         const response = await api.get(`/checkUserExistence/${value}`);

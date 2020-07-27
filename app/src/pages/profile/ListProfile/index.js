@@ -30,12 +30,6 @@ export default function Profile({ navigation }) {
         dispatch({ type: actions.user.removeUserInfo });
     }
 
-    function handleEdit(attribute) {
-        navigation.navigate('EditProfile', {
-            attribute,
-            user,
-        });
-    }
 
     async function openImagePickerAsync() {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -107,7 +101,10 @@ export default function Profile({ navigation }) {
             <View style={styles.viewContent}>
                 <View style={styles.viewInput}>
                     <Text style={styles.labelInput}>Nome Completo</Text>
-                    <TouchableOpacity onPress={() => handleEdit('name')}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate('EditNameField', { user })
+                        }>
                         <View style={styles.inputWrapper}>
                             <Text style={styles.textInput}>{user.name}</Text>
                             <Icon size={25} name="edit" color="#000" />
@@ -138,7 +135,10 @@ export default function Profile({ navigation }) {
                 </View>
                 <View style={styles.viewInput}>
                     <Text style={styles.labelInput}>Telefone</Text>
-                    <TouchableOpacity onPress={() => handleEdit('phone')}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate('EditPhoneField', { user })
+                        }>
                         <View style={styles.inputWrapper}>
                             <Text style={styles.textInput}>
                                 {formatPhone(user.phone)}
@@ -149,7 +149,10 @@ export default function Profile({ navigation }) {
                 </View>
                 <View style={styles.viewInput}>
                     <Text style={styles.labelInput}>CEP</Text>
-                    <TouchableOpacity onPress={() => handleEdit('cep')}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate('EditCEPField', { user })
+                        }>
                         <View style={styles.inputWrapper}>
                             <Text style={styles.textInput}>
                                 {user.address.cep}
