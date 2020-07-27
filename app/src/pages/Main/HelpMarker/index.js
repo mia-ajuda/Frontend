@@ -27,7 +27,7 @@ export default function HelpsMarker({ help, isRiskGroup }) {
             <Avatar help={help} />
             <Callout
                 onPress={() =>
-                    navigation.navigate('helpDescription', {
+                    navigation.navigate('mapHelpDescription', {
                         help,
                     })
                 }

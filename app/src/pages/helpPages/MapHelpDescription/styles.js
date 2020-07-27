@@ -44,21 +44,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 
-    ViewLink: {
+    helpButtons: {
         flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    ViewLinkBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginBottom: 20,
-    },
-    waitingText: {
-        ...fonts.subtitle,
-        textAlign: 'center',
-        alignSelf: 'center',
     },
 });
 

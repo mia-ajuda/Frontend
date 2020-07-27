@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../pages/Main';
 import CreateHelp from '../../../pages/helpPages/createHelp';
-import HelpDescription from '../../../pages/helpPages/helpDescription';
+import MapHelpDescription from '../../../pages/helpPages/MapHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
@@ -20,11 +20,11 @@ const MainNavigation = () => (
             component={CreateHelp}
         />
         <Stack.Screen
-            name="helpDescription"
+            name="mapHelpDescription"
             options={({ route }) => ({
                 title: route.params.help.title,
             })}
-            component={HelpDescription}
+            component={MapHelpDescription}
         />
     </Stack.Navigator>
 );

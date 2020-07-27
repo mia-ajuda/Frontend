@@ -41,7 +41,6 @@ export default function AskedHelps({ navigation }) {
             return (
                 <ScrollView>
                     {myOfferedHelps.map((help) => {
-                        console.log(help);
                         const offerWaitingOrOnGoing =
                             help.status == 'on_going' ||
                             help.status == 'waiting';

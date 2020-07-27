@@ -68,7 +68,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                         key={help._id}
                                         onPress={() =>
                                             navigation.navigate(
-                                                'helpDescription',
+                                                'mapHelpDescription',
                                                 { help },
                                             )
                                         }>

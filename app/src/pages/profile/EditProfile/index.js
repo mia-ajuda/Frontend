@@ -125,7 +125,6 @@ export default function EditProfile({ route, navigation }) {
         navigation.goBack();
         try {
             setLoadingModal(true);
-            console.log(data);
             const resp = await UserService.editUser(
                 data,
                 route.params.attribute === 'cep' ? '/address' : '',
