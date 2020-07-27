@@ -6,6 +6,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import getYearsSince from '../../../utils/getYearsSince';
 
 import ListHelpers from './ListHelpers/index';
+// import HelperCard from './HelperCard';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -91,6 +92,7 @@ export default function HelpDescription({ route, navigation }) {
                         helpId={help._id}
                         navigation={navigation}
                     />
+                    {/* <HelperCard help={help} /> */}
                 </View>
             </View>
         </ScrollView>

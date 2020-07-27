@@ -26,7 +26,7 @@ export const UserContextProvider = (props) => {
 
         if (userPreviouslyLogged) {
             try {
-                const user = await UserService.requestUserData();
+                const user = await UserService.requestLoggedUserData();
 
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } catch (error) {

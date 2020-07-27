@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
 import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
-import HelpDescription from '../../../pages/helpPages/helpDescription';
+import MyRequestHelpDescrition from '../../../pages/helpPages/MyRequestHelpDescrition';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyHelp.options';
 
@@ -24,7 +24,7 @@ const MyRequestsNavigation = () => (
         <Stack.Screen name="Meus pedidos" component={NavigationAskedHelps} />
         <Stack.Screen
             name="RequestDescription"
-            component={HelpDescription}
+            component={MyRequestHelpDescrition}
             options={({ route }) => ({
                 title: route.params.help.title,
             })}

@@ -19,7 +19,7 @@ class SessionService {
             }
             const idTokenUser = await firebaseService.getUserId();
             await AsyncStorage.setItem('accessToken', idTokenUser);
-            const user = await UserService.requestUserData();
+            const user = await UserService.requestLoggedUserData();
             UserService.setUserDeviceId();
             return user;
         } catch (error) {

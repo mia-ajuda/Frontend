@@ -76,6 +76,10 @@ class HelpService {
             throw error;
         }
     }
+
+    async finishHelpByOwner(helpId, ownerId) {
+        await api.put(`/help/ownerConfirmation/${helpId}/${ownerId}`);
+    }
 }
 
 const helpService = new HelpService();
