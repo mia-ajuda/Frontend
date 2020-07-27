@@ -40,17 +40,29 @@ export default function AskedHelps({ navigation }) {
         if (myOfferedHelps.length > 0) {
             return (
                 <ScrollView>
-                    {myOfferedHelps.map((help) => (
-                        <TouchableOpacity
-                            key={help._id}
-                            onPress={() =>
-                                navigation.navigate('OfferDescription', {
-                                    help,
-                                })
-                            }>
-                            <HelpCard help={help} />
-                        </TouchableOpacity>
-                    ))}
+                    {myOfferedHelps.map((help) => {
+                        console.log(help);
+                        const offerWaitingOrOnGoing =
+                            help.status == 'on_going' ||
+                            help.status == 'waiting';
+
+                        if (offerWaitingOrOnGoing) {
+                            return (
+                                <TouchableOpacity
+                                    key={help._id}
+                                    onPress={() =>
+                                        navigation.navigate(
+                                            'OfferDescription',
+                                            {
+                                                help,
+                                            },
+                                        )
+                                    }>
+                                    <HelpCard help={help} />
+                                </TouchableOpacity>
+                            );
+                        }
+                    })}
                 </ScrollView>
             );
         } else {

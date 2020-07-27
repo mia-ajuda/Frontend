@@ -1,7 +1,7 @@
 import React from 'react';
 import on_goingGivenHelp from '../../../pages/helpPages/givenHelps/on_going';
 import finishedGivenHelp from '../../../pages/helpPages/givenHelps/finished';
-import HelpDescription from '../../../pages/helpPages/helpDescription';
+import MyOfferHelpDescription from '../../../pages/helpPages/MyOfferHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -24,7 +24,7 @@ const HelpTopBar = () => (
         <Stack.Screen name="Minhas Ofertas" component={NavigationGivenHelps} />
         <Stack.Screen
             name="OfferDescription"
-            component={HelpDescription}
+            component={MyOfferHelpDescription}
             options={({ route }) => ({
                 title: route.params.help.title,
             })}
