@@ -4,7 +4,6 @@ import Main from '../../../pages/Main';
 import CreateHelp from '../../../pages/helpPages/createHelp';
 import MapHelpDescription from '../../../pages/helpPages/MapHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import ListPossibleHelpers from '../../../pages/helpPages/MyRequestHelpDescrition/ListPossibleHelpers';
 
 const Stack = createStackNavigator();
 
@@ -26,13 +25,6 @@ const MainNavigation = () => (
                 title: route.params.help.title,
             })}
             component={MapHelpDescription}
-        />
-        <Stack.Screen
-            name="listPossibleHelpers"
-            options={({ route }) => ({
-                title: route.params.help.title,
-            })}
-            component={ListPossibleHelpers}
         />
     </Stack.Navigator>
 );
