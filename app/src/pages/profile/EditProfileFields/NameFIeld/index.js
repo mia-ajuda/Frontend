@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { UserContext } from '../../../../store/contexts/userContext';
 import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
@@ -10,49 +10,42 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { alertSuccess, alertError } from '../../../../utils/Alert';
 
 export default function EditNameField({ route, navigation }) {
-    const [fieldToEdit, setFieldToEdit] = useState('');
+    const userName = route.params.user.name;
     const { dispatch } = useContext(UserContext);
-    const [loadingModal, setLoadingModal] = useState(false);
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    useEffect(() => {
-        setFieldToEdit(route.params.user.name);
-    }, []);
-
-    const handleFiledToEditChange = (value) => {
-        setFieldToEdit(value);
-    };
+    const [newName, setNewName] = useState(userName);
+    const [editRequestLoading, setEditRequestLoading] = useState(false);
+    const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
+    const goBackToUserProfilePage = () => navigation.goBack();
 
     const handleEditRequest = async () => {
-        let data = {
+        const data = {
             ...route.params.user,
-            name: fieldToEdit,
+            name: newName,
         };
         try {
-            setLoadingModal(true);
-            const resp = await UserService.editUser(data);
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
+            setEditRequestLoading(true);
+            const user = await UserService.editUser(data);
+            dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
-            setLoadingModal(false);
-            setModalVisible(false);
-            navigation.goBack();
+            setConfirmationModalVisible(false);
+            goBackToUserProfilePage();
         } catch (err) {
+            setConfirmationModalVisible(false);
             alertError(err, null, 'Ooops..');
-            setLoadingModal(false);
+            goBackToUserProfilePage();
         }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
+        <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
             <ConfirmationModal
-                visible={isModalVisible}
-                setVisible={setModalVisible}
+                visible={isConfirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={loadingModal}
+                isLoading={editRequestLoading}
             />
             <ScrollView
                 style={styles.cep}
@@ -60,10 +53,10 @@ export default function EditNameField({ route, navigation }) {
                 <View style={styles.content}>
                     <View style={styles.cep}>
                         <Input
-                            change={handleFiledToEditChange}
+                            change={(name) => setNewName(name)}
                             label={'Nome'}
                             placeholder={'Digite seu nome'}
-                            value={fieldToEdit}
+                            value={newName}
                             keyboard={'default'}
                         />
                     </View>
@@ -71,9 +64,9 @@ export default function EditNameField({ route, navigation }) {
                 <Button
                     style={styles.btnEdit}
                     title="Editar"
-                    disabled={fieldToEdit === ''}
+                    disabled={newName === ''}
                     large
-                    press={() => setModalVisible(true)}
+                    press={() => setConfirmationModalVisible(true)}
                 />
             </ScrollView>
         </KeyboardAvoidingView>

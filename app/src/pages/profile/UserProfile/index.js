@@ -30,7 +30,6 @@ export default function Profile({ navigation }) {
         dispatch({ type: actions.user.removeUserInfo });
     }
 
-
     async function openImagePickerAsync() {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 

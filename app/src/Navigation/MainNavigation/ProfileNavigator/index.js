@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Profile from '../../../pages/profile/ListProfile';
+import Profile from '../../../pages/profile/UserProfile';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import EditNameField from '../../../pages/profile/EditProfileFields/NameFIeld';
 import EditCEPField from '../../../pages/profile/EditProfileFields/CEPField';

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
-    Text,
     ScrollView,
     KeyboardAvoidingView,
     ActivityIndicator,
@@ -29,9 +28,9 @@ export default function EditCepField({ route, navigation }) {
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
+    const address = route.params.user.address;
 
     useEffect(() => {
-        const address = route.params.user.address;
         setFieldToEdit(address.cep || '');
         setCity(address.city || '');
         setNumberPlace(String(address.number) || '');
@@ -99,7 +98,7 @@ export default function EditCepField({ route, navigation }) {
             setModalVisible(false);
             navigation.goBack();
         } catch (err) {
-            console.log(err.message || err)
+            console.log(err.message || err);
             alertError(err, null, 'Ooops..');
             setLoadingModal(false);
         }
@@ -129,10 +128,6 @@ export default function EditCepField({ route, navigation }) {
                     </View>
                 ) : (
                     <>
-                        <Text style={styles.titleEdit}>
-                            Preencha o campo com a nova informação e pressione
-                            &quot;Editar&quot; para modificar.
-                        </Text>
                         <View style={styles.content}>
                             <View style={styles.cep}>
                                 <Input
