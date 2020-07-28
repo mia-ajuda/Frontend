@@ -18,7 +18,7 @@ import actions from '../../../store/actions';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import { alertSuccess } from '../../../utils/Alert';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import ViaCep from '../../../services/ExternalServices/ViaCep';
 
 export default function EditProfile({ route, navigation }) {
@@ -32,7 +32,6 @@ export default function EditProfile({ route, navigation }) {
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         if (route.params.attribute === 'phone') {

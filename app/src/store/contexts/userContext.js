@@ -1,10 +1,4 @@
-import React, {
-    useReducer,
-    createContext,
-    useState,
-    useEffect,
-    useContext,
-} from 'react';
+import React, { useReducer, createContext, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
@@ -15,7 +9,7 @@ import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
-import { ServiceContext } from './serviceContext';
+import useService from '../../services/useService';
 import firebaseService from '../../services/Firebase';
 export const UserContext = createContext();
 
@@ -23,7 +17,6 @@ export const UserContextProvider = (props) => {
     const [user, dispatch] = useReducer(userReducer, {
         showSplash: true,
     });
-    const { useService } = useContext(ServiceContext);
     const [userPosition, setUserPosition] = useState({
         latitude: 0,
         longitude: 0,

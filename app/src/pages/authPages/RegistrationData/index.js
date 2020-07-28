@@ -17,7 +17,7 @@ import emailValidator from '../../../utils/emailValidator';
 import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
 export default function RegistrationData({ route, navigation }) {
@@ -30,7 +30,6 @@ export default function RegistrationData({ route, navigation }) {
         setLoadingEmailVerification,
     ] = useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-    const { useService } = useContext(ServiceContext);
     const passwordHandler = (enteredPassword) => {
         setPassword(enteredPassword);
     };

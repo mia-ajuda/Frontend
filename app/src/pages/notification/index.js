@@ -6,13 +6,12 @@ import { UserContext } from '../../store/contexts/userContext';
 import NotificationService from '../../services/Notification';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
-import { ServiceContext } from '../../store/contexts/serviceContext';
+import useService from '../../services/useService';
 
 export default function Notification({ navigation }) {
     const [loadingNotifications, setLoading] = useState(false);
     const [helpNotifications, setNotifications] = useState([]);
     const { user } = useContext(UserContext);
-    const { useService } = useContext(ServiceContext);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             loadNotifications();

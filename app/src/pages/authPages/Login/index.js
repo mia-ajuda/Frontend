@@ -14,10 +14,9 @@ import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 
 export default function Login({ navigation }) {
-    const { useService } = useContext(ServiceContext);
     const { keyboard } = useContext(DeviceInformationContext);
 
     const [email, setEmail] = useState('');

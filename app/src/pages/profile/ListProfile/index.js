@@ -18,14 +18,13 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
 import formatPhone from '../../../utils/formatPhone';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
-    const { useService } = useContext(ServiceContext);
 
     async function logout() {
         const validLogout = await useService(SessionService, 'signOut');

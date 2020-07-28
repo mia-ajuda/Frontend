@@ -11,7 +11,7 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import ViaCep from '../../../services/ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
@@ -19,7 +19,6 @@ import { DeviceInformationContext } from '../../../store/contexts/deviceInformat
 export default function Address({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
     const { userDataFromPersonalPage } = route.params;
-    const { useService } = useContext(ServiceContext);
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');

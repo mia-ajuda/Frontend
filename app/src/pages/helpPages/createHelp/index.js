@@ -17,7 +17,7 @@ import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success
 
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
@@ -33,7 +33,6 @@ export default function CreateHelp({ navigation }) {
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
-    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         showWarningFor('helpRequest', requestHelpWarningMessage);

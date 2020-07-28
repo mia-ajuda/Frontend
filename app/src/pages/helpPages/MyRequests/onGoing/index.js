@@ -8,7 +8,7 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
-import { ServiceContext } from '../../../../store/contexts/serviceContext';
+import useService from '../../../../services/useService';
 
 export default function OnGoingHelps({ navigation }) {
     const [myHelpRequests, setMyHelpRequests] = useState([]);
@@ -19,7 +19,6 @@ export default function OnGoingHelps({ navigation }) {
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
     const { user } = useContext(UserContext);
-    const { useService } = useContext(ServiceContext);
     useFocusEffect(
         useCallback(() => {
             loadOnGoingHelps();

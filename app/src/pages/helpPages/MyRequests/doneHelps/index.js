@@ -8,14 +8,13 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
-import { ServiceContext } from '../../../../store/contexts/serviceContext';
+import useService from '../../../../services/useService';
 
 export default function DoneHelps({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 
     const { user } = useContext(UserContext);
-    const { useService } = useContext(ServiceContext);
     useFocusEffect(
         useCallback(() => {
             loadFinishedHelps();

@@ -21,7 +21,7 @@ import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
@@ -35,7 +35,6 @@ export default function PersonalData({ route, navigation }) {
         false,
     );
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
-    const { useService } = useContext(ServiceContext);
 
     const verifyCpfExistence = async () => {
         setloadingCpfVerification(true);

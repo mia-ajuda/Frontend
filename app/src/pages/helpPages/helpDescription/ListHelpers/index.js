@@ -16,7 +16,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import styles from './styles';
 import { alertSuccess } from '../../../../utils/Alert';
-import { ServiceContext } from '../../../../store/contexts/serviceContext';
+import useService from '../../../../services/useService';
 import helpService from '../../../../services/Help';
 import UserService from '../../../../services/User';
 
@@ -39,7 +39,6 @@ export default function ListHelpers({
     const [isLoading, setIsLoading] = useState(false);
     const [modalAction, setModalAction] = useState(() => {});
     const [modalMessage, setModalMessage] = useState('');
-    const { useService } = useContext(ServiceContext);
     const [loading, setLoading] = useState(false);
 
     const loadHelpInfo = async () => {

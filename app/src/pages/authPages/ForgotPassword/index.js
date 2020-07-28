@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import {
     View,
@@ -16,12 +16,11 @@ import styles from './styles';
 import checkEmailFormat from '../../../utils/emailValidator';
 import firebaseService from '../../../services/Firebase';
 import { alertSuccess } from '../../../utils/Alert';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 
 export default function ForgotPassword({ navigation }) {
     const navigateBackToLoginPage = () => navigation.goBack();
     const [email, setEmail] = useState('');
-    const { useService } = useContext(ServiceContext);
     const [isEmailFormatValid, setIsEmailFormatValid] = useState(false);
     const [
         forgotPasswordRequestLoading,

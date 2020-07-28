@@ -18,7 +18,7 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import ListHelpers from './ListHelpers/index';
 import actions from '../../../store/actions';
 import { alertSuccess } from '../../../utils/Alert';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 import helpService from '../../../services/Help';
 
 export default function HelpDescription({ route, navigation }) {
@@ -31,7 +31,6 @@ export default function HelpDescription({ route, navigation }) {
     const [modalAction, setModalAction] = useState(() => {});
     const [modalMessage, setModalMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { useService } = useContext(ServiceContext);
 
     const {
         helpDescription,

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Button from '../../../components/UI/button';
 import styles from './styles';
@@ -7,14 +7,13 @@ import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
 import { alertSuccess } from '../../../utils/Alert';
-import { ServiceContext } from '../../../store/contexts/serviceContext';
+import useService from '../../../services/useService';
 
 export default function RiskGroup({ route, navigation }) {
     const { userDataFromPhotoPage } = route.params;
     const [loadingUserRegistration, setLoadingUserRegistration] = useState(
         false,
     );
-    const { useService } = useContext(ServiceContext);
     const [disease, setDisease] = useState({
         dc: false,
         hiv: false,

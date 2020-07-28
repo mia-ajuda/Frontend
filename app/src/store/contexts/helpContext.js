@@ -8,7 +8,7 @@ import React, {
 import helpReducer from '../reducers/helpReducer';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
-import { ServiceContext } from './serviceContext';
+import useService from '../../services/useService';
 import actions from '../actions';
 import HelpService from '../../services/Help';
 import {
@@ -25,7 +25,6 @@ export default function HelpContextProvider(props) {
     const { user, userPosition } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
-    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         setLoadingHelps(true);

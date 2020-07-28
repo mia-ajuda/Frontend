@@ -6,13 +6,12 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
-import { ServiceContext } from '../../../../store/contexts/serviceContext';
+import useService from '../../../../services/useService';
 
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
     const [myFinishedHelps, setMyFinishedHelps] = useState([]);
     const [loadingFinishedHelps, setLoadingFinishedHelps] = useState(true);
-    const { useService } = useContext(ServiceContext);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
