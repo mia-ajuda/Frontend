@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    KeyboardAvoidingView,
-    Platform,
-} from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, KeyboardAvoidingView } from 'react-native';
 import { UserContext } from '../../../../store/contexts/userContext';
 import { TextInputMask } from 'react-native-masked-text';
 import Button from '../../../../components/UI/button';
@@ -17,18 +11,18 @@ import removeSpecialCharsFrom from '../../../../utils/removeSpecialChars';
 import { alertSuccess, alertError } from '../../../../utils/Alert';
 
 export default function EditPhoneField({ route, navigation }) {
-    const [fieldToEdit, setFieldToEdit] = useState('');
-    const [isFieldEditedValid, setFieldEditedValid] = useState(true);
+    const phone = route.params.user?.phone.slice(3, 14);
+    const [newPhone, setNewPhone] = useState(phone);
+    const [isNewPhoneValid, setNewPhoneValid] = useState(true);
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    useEffect(() => {
-        setFieldToEdit(route.params.user.phone.slice(3, 14));
-    }, []);
+    const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
+    const goBackToUserProfilePage = () => navigation.goBack();
 
     const formatPhone = () => {
-        const filterdPhone = `+55${removeSpecialCharsFrom(fieldToEdit)}`;
+        const filterdPhone = `+55${removeSpecialCharsFrom(newPhone)}`;
         return filterdPhone;
     };
 
@@ -39,71 +33,63 @@ export default function EditPhoneField({ route, navigation }) {
         };
         try {
             setLoadingModal(true);
-            const resp = await UserService.editUser(data);
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
+            const user = await UserService.editUser(data);
+            dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
-            setLoadingModal(false);
-            setModalVisible(false);
-            navigation.goBack();
+            goBackToUserProfilePage();
         } catch (err) {
             alertError(err, null, 'Ooops..');
-            setLoadingModal(false);
+            goBackToUserProfilePage();
         }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 0}>
+        <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
             <ConfirmationModal
-                visible={isModalVisible}
-                setVisible={setModalVisible}
+                visible={isConfirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
                 isLoading={loadingModal}
             />
-            <ScrollView
-                style={styles.cep}
-                contentContainerStyle={styles.scroll}>
-                <View style={styles.content}>
-                    <View style={styles.phoneView}>
-                        <Text style={styles.label}>Telefone</Text>
-                        <TextInputMask
-                            style={[
-                                styles.inputMask,
-                                fieldToEdit === '' || isFieldEditedValid
-                                    ? styles.valid
-                                    : styles.invalid,
-                            ]}
-                            type={'cel-phone'}
-                            options={{
-                                maskType: 'BRL',
-                                withDDD: true,
-                                dddMask: '(99) ',
-                            }}
-                            value={fieldToEdit}
-                            onChangeText={(text) => {
-                                setFieldToEdit(text);
 
-                                if (text.length >= 14) {
-                                    setFieldEditedValid(true);
-                                } else {
-                                    setFieldEditedValid(false);
-                                }
-                            }}
-                            placeholder="Digite seu telefone"
-                        />
-                    </View>
+            <View style={styles.content}>
+                <View style={styles.phoneView}>
+                    <Text style={styles.label}>Telefone</Text>
+                    <TextInputMask
+                        style={[
+                            styles.inputMask,
+                            newPhone === '' || isNewPhoneValid
+                                ? styles.valid
+                                : styles.invalid,
+                        ]}
+                        type={'cel-phone'}
+                        options={{
+                            maskType: 'BRL',
+                            withDDD: true,
+                            dddMask: '(99) ',
+                        }}
+                        value={newPhone}
+                        onChangeText={(phone) => {
+                            setNewPhone(phone);
+
+                            if (phone.length >= 14) {
+                                setNewPhoneValid(true);
+                            } else {
+                                setNewPhoneValid(false);
+                            }
+                        }}
+                        placeholder="Digite seu telefone"
+                    />
                 </View>
-                <Button
-                    style={styles.btnEdit}
-                    title="Confirmar"
-                    disabled={fieldToEdit === '' || !isFieldEditedValid}
-                    large
-                    press={() => setModalVisible(true)}
-                />
-            </ScrollView>
+            </View>
+            <Button
+                style={styles.btnEdit}
+                title="Confirmar"
+                disabled={newPhone === '' || !isNewPhoneValid}
+                large
+                press={() => setConfirmationModalVisible(true)}
+            />
         </KeyboardAvoidingView>
     );
 }

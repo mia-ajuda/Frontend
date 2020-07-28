@@ -13,6 +13,7 @@ export default StyleSheet.create({
         flex: 4,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100%',
     },
     btnEdit: {
         backgroundColor: 'blue',
@@ -56,7 +57,7 @@ export default StyleSheet.create({
         ...fonts.title,
         fontWeight: '600',
     },
-    cep: {
+    nameInput: {
         width: '100%',
     },
 });

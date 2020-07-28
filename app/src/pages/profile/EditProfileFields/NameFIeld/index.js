@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, KeyboardAvoidingView } from 'react-native';
 import { UserContext } from '../../../../store/contexts/userContext';
 import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
@@ -47,28 +47,25 @@ export default function EditNameField({ route, navigation }) {
                 message={'Tem certeza que deseja modificar esta informação?'}
                 isLoading={editRequestLoading}
             />
-            <ScrollView
-                style={styles.cep}
-                contentContainerStyle={styles.scroll}>
-                <View style={styles.content}>
-                    <View style={styles.cep}>
-                        <Input
-                            change={(name) => setNewName(name)}
-                            label={'Nome'}
-                            placeholder={'Digite seu nome'}
-                            value={newName}
-                            keyboard={'default'}
-                        />
-                    </View>
+
+            <View style={styles.content}>
+                <View style={styles.nameInput}>
+                    <Input
+                        change={(name) => setNewName(name)}
+                        label={'Nome'}
+                        placeholder={'Digite seu nome'}
+                        value={newName}
+                        keyboard={'default'}
+                    />
                 </View>
-                <Button
-                    style={styles.btnEdit}
-                    title="Editar"
-                    disabled={newName === ''}
-                    large
-                    press={() => setConfirmationModalVisible(true)}
-                />
-            </ScrollView>
+            </View>
+            <Button
+                style={styles.btnEdit}
+                title="Editar"
+                disabled={newName === ''}
+                large
+                press={() => setConfirmationModalVisible(true)}
+            />
         </KeyboardAvoidingView>
     );
 }
