@@ -23,7 +23,7 @@ class UserService {
             throw error;
         }
     }
-    
+
     async editUserAdress(data) {
         const user = await api.put('/user/address', data);
         return user.data;

@@ -27,7 +27,6 @@ export default function Profile({ navigation }) {
 
     async function logout() {
         await SessionService.signOut();
-        dispatch({ type: actions.user.removeUserInfo });
     }
 
     async function openImagePickerAsync() {
