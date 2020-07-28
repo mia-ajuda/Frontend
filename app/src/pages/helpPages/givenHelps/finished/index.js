@@ -28,7 +28,7 @@ export default function AskedHelps({ navigation }) {
             'finished',
             true,
         ]);
-        if (helps) {
+        if (!helps.message) {
             setMyFinishedHelps(helps);
         }
         setLoadingFinishedHelps(false);

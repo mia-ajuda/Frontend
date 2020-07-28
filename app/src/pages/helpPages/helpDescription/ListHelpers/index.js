@@ -47,17 +47,21 @@ export default function ListHelpers({
         const helps = await useService(helpService, 'getAllUserHelps', [
             user._id,
         ]);
-        const helpFinal = helps.data.filter((help) => help._id === helpId);
-        setHelp(helpFinal[0]);
-        setPossibleHelpers(helpFinal[0].possibleHelpers);
-        if (helpFinal[0].helperId) {
-            const resp = await useService(UserService, 'requestUserData', [
-                helpFinal[0].helperId,
-            ]);
-            setHelperImage(resp.photo);
-            setHelperName(resp.name);
-            setHelperCity(resp.address.city);
-            setHelperPhone(resp.phone);
+        if (!helps.message) {
+            const helpFinal = helps.data.filter((help) => help._id === helpId);
+            setHelp(helpFinal[0]);
+            setPossibleHelpers(helpFinal[0].possibleHelpers);
+            if (helpFinal[0].helperId) {
+                const resp = await useService(UserService, 'requestUserData', [
+                    helpFinal[0].helperId,
+                ]);
+                if (!resp.message) {
+                    setHelperImage(resp.photo);
+                    setHelperName(resp.name);
+                    setHelperCity(resp.address.city);
+                    setHelperPhone(resp.phone);
+                }
+            }
         }
         setLoading(false);
     };
@@ -68,7 +72,7 @@ export default function ListHelpers({
             'finishHelpByOwner',
             [helpId, user._id],
         );
-        if (validRequest) {
+        if (!validRequest.message) {
             alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
             );
@@ -88,7 +92,7 @@ export default function ListHelpers({
         ]);
         setVisible(false);
         setIsLoading(false);
-        if (validRequest) {
+        if (!validRequest.message) {
             alertSuccess('Ajudante escolhido com sucesso!');
         } else {
             navigation.goBack();

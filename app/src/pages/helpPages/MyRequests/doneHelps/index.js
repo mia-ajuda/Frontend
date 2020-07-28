@@ -30,7 +30,7 @@ export default function DoneHelps({ navigation }) {
             'getHelpMultipleStatus',
             [userId, 'finished'],
         );
-        if (resFinished) {
+        if (!resFinished.message) {
             setFinishedHelpList(resFinished);
         }
         setLoadingHelpRequests(false);

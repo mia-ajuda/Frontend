@@ -64,7 +64,7 @@ export default function HelpDescription({ route, navigation }) {
             helpId,
             user._id,
         ]);
-        if (validRequest) {
+        if (!validRequest.message) {
             let helpListArray = helpList.filter((help) => {
                 return help._id != helpId;
             });
@@ -82,7 +82,7 @@ export default function HelpDescription({ route, navigation }) {
             'finishHelpByHelper',
             [helpId, user._id],
         );
-        if (validRequest) {
+        if (!validRequest.message) {
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
             );
