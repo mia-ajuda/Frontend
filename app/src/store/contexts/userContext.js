@@ -60,7 +60,10 @@ export const UserContextProvider = (props) => {
             const developmentEnviroment = user && env.development;
 
             if (userEmailVerified || developmentEnviroment) {
-                const acesstoken = await useService(user, 'getIdToken', []);
+                const acesstoken = await useService(
+                    firebaseService,
+                    'getUserId',
+                );
                 await AsyncStorage.setItem('accessToken', acesstoken);
             }
             await getUserInfo();
@@ -71,7 +74,7 @@ export const UserContextProvider = (props) => {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
 
         if (userPreviouslyLogged) {
-            const user = await useService(UserService, 'requestUserData', []);
+            const user = await useService(UserService, 'requestUserData');
             if (!user.message) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } else {
