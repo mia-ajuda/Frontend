@@ -3,7 +3,7 @@ import BottomTab from './MainNavigation/BottomNavigator';
 import AuthRoutes from './AuthNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from '../store/contexts/userContext';
-import Splash from '../pages/splash';
+import Splash from '../pages/Splash';
 
 const Routes = () => {
     const { user } = useContext(UserContext);

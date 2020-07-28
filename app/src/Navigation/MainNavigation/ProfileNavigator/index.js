@@ -1,10 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Profile from '../../../pages/profile/UserProfile';
+import Profile from '../../../pages/Profile/UserProfile';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import EditNameField from '../../../pages/profile/EditProfileFields/NameFIeld';
-import EditCEPField from '../../../pages/profile/EditProfileFields/CEPField';
-import EditPhoneField from '../../../pages/profile/EditProfileFields/PhoneFIeld';
+import EditNameField from '../../../pages/Profile/EditProfileFields/NameFIeld';
+import EditCEPField from '../../../pages/Profile/EditProfileFields/CEPField';
+import EditPhoneField from '../../../pages/Profile/EditProfileFields/PhoneFIeld';
 
 const Stack = createStackNavigator();
 

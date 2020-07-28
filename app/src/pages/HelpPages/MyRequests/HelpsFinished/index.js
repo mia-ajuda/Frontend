@@ -14,7 +14,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function DoneHelps({ navigation }) {
+export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 

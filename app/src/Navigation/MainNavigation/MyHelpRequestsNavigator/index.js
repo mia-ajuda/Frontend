@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import OnGoingHelps from '../../../pages/helpPages/MyRequests/onGoing';
-import DoneHelps from '../../../pages/helpPages/MyRequests/doneHelps';
-import MyRequestHelpDescrition from '../../../pages/helpPages/MyRequestHelpDescrition';
+import OnGoingHelps from '../../../pages/HelpPages/MyRequests/OnGoingHelps';
+import HelpsFinished from '../../../pages/HelpPages/MyRequests/HelpsFinished';
+import MyRequestHelpDescrition from '../../../pages/HelpPages/MyRequestHelpDescrition';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyHelp.options';
-import ListPossibleHelpers from '../../../pages/helpPages/MyRequestHelpDescrition/ListPossibleHelpers';
+import ListPossibleHelpers from '../../../pages/HelpPages/MyRequestHelpDescrition/ListPossibleHelpers';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -16,7 +16,7 @@ const NavigationAskedHelps = () => (
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
         <TopTab.Screen name="em andamento" component={OnGoingHelps} />
-        <TopTab.Screen name="finalizados" component={DoneHelps} />
+        <TopTab.Screen name="finalizados" component={HelpsFinished} />
     </TopTab.Navigator>
 );
 

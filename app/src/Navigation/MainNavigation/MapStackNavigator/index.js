@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../pages/Main';
-import CreateHelp from '../../../pages/helpPages/createHelp';
-import MapHelpDescription from '../../../pages/helpPages/MapHelpDescription';
+import CreateHelp from '../../../pages/HelpPages/CreateHelp';
+import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
