@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Notification from '../../../pages/notification';
+import Notification from '../../../pages/Notification';
 import MyRequestsNavigation from '../MyHelpRequestsNavigator';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
 import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
-import Splash from '../../../pages/splash';
+import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
 

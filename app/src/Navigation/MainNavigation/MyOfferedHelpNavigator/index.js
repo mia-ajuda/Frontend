@@ -1,7 +1,7 @@
 import React from 'react';
-import on_goingGivenHelp from '../../../pages/helpPages/givenHelps/on_going';
-import finishedGivenHelp from '../../../pages/helpPages/givenHelps/finished';
-import HelpDescription from '../../../pages/helpPages/helpDescription';
+import OnGoingHelps from '../../../pages/HelpPages/HelpsOffered/OnGoingHelps';
+import HelpsFinished from '../../../pages/HelpPages/HelpsOffered/HelpsFinished';
+import MyOfferHelpDescription from '../../../pages/HelpPages/MyOfferHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -14,8 +14,8 @@ const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
-        <TopTab.Screen name="em andamento" component={on_goingGivenHelp} />
-        <TopTab.Screen name="finalizadas" component={finishedGivenHelp} />
+        <TopTab.Screen name="em andamento" component={OnGoingHelps} />
+        <TopTab.Screen name="finalizadas" component={HelpsFinished} />
     </TopTab.Navigator>
 );
 
@@ -24,9 +24,9 @@ const HelpTopBar = () => (
         <Stack.Screen name="Minhas Ofertas" component={NavigationGivenHelps} />
         <Stack.Screen
             name="OfferDescription"
-            component={HelpDescription}
+            component={MyOfferHelpDescription}
             options={({ route }) => ({
-                title: route.params.helpTitle,
+                title: route.params.help.title,
             })}
         />
     </Stack.Navigator>

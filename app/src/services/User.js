@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
 class UserService {
-    async requestUserData() {
+    async requestLoggedUserData() {
         try {
             const user = await api.get('/user/getUser');
             return user.data;
@@ -12,6 +12,21 @@ class UserService {
             console.log(error);
             throw error;
         }
+    }
+
+    async requestUserDataById(id) {
+        try {
+            const user = await api.get(`/user/getUser/${id}`);
+            return user.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async editUserAdress(data) {
+        const user = await api.put('/user/address', data);
+        return user.data;
     }
 
     async verifyUserInfo(value) {

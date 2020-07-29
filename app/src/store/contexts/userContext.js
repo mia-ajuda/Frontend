@@ -26,7 +26,6 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         setFirebaseTokenListener();
-        getUserInfo();
     }, []);
 
     useEffect(() => {
@@ -56,8 +55,8 @@ export const UserContextProvider = (props) => {
             if (userEmailVerified || developmentEnviroment) {
                 const acesstoken = await user.getIdToken();
                 await AsyncStorage.setItem('accessToken', acesstoken);
-                await getUserInfo();
             }
+            await getUserInfo();
         });
     }
 
@@ -66,7 +65,7 @@ export const UserContextProvider = (props) => {
 
         if (userPreviouslyLogged) {
             try {
-                const user = await UserService.requestUserData();
+                const user = await UserService.requestLoggedUserData();
 
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } catch (error) {

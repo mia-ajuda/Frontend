@@ -16,9 +16,15 @@ const styles = StyleSheet.create({
         height: 200,
     },
 
-    emptyListText: {
+    emptyListTextPrimary: {
         ...fonts.title,
         color: colors.primary,
+        marginTop: 10,
+        textAlign: 'center',
+    },
+    emptyListTextLight: {
+        ...fonts.title,
+        color: colors.light,
         marginTop: 10,
         textAlign: 'center',
     },

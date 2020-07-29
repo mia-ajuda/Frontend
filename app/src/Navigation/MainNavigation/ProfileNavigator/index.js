@@ -1,8 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Profile from '../../../pages/profile/ListProfile';
-import EditProfile from '../../../pages/profile/EditProfile';
+import Profile from '../../../pages/Profile/UserProfile';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
+import EditNameField from '../../../pages/Profile/EditProfileFields/NameFIeld';
+import EditCEPField from '../../../pages/Profile/EditProfileFields/CEPField';
+import EditPhoneField from '../../../pages/Profile/EditProfileFields/PhoneFIeld';
 
 const Stack = createStackNavigator();
 
@@ -10,10 +12,24 @@ const ProfileNavigation = () => (
     <Stack.Navigator screenOptions={headerStyle}>
         <Stack.Screen name="Perfil" component={Profile} />
         <Stack.Screen
-            name="EditProfile"
-            component={EditProfile}
+            name="EditNameField"
+            component={EditNameField}
             options={{
-                title: 'Editar Perfil',
+                title: 'Editar Nome',
+            }}
+        />
+        <Stack.Screen
+            name="EditCEPField"
+            component={EditCEPField}
+            options={{
+                title: 'Editar CEP',
+            }}
+        />
+        <Stack.Screen
+            name="EditPhoneField"
+            component={EditPhoneField}
+            options={{
+                title: 'Editar Telefone',
             }}
         />
     </Stack.Navigator>
