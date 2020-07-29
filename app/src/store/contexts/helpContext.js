@@ -80,7 +80,7 @@ export default function HelpContextProvider(props) {
                 loc,
                 userId,
             ]);
-            if (!helpListArray.message) {
+            if (!helpListArray.error) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
@@ -98,7 +98,7 @@ export default function HelpContextProvider(props) {
                 'getAllHelpForCategory',
                 [loc, selectedCategories, userId],
             );
-            if (!helpListFiltered.message) {
+            if (!helpListFiltered.error) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListFiltered,

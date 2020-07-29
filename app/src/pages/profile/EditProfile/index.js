@@ -65,7 +65,7 @@ export default function EditProfile({ route, navigation }) {
                     [currentCep],
                 );
 
-                if (!cepInformation.message) {
+                if (!cepInformation.error) {
                     const {
                         localidade,
                         uf,
@@ -131,7 +131,7 @@ export default function EditProfile({ route, navigation }) {
             data,
             params,
         ]);
-        if (!editResponse.message) {
+        if (!editResponse.error) {
             dispatch({
                 type: actions.user.storeUserInfo,
                 data: editResponse,

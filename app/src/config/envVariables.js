@@ -22,7 +22,7 @@ const ENV = {
         apiUrl: prodUrl + 'api',
     },
 };
-console.log(devUrl + 'aa');
+
 function getEnvVars(env = '') {
     if (env === null || env === undefined || env === '') return ENV.dev;
     if (env.indexOf('dev') !== -1) return ENV.dev;

@@ -68,7 +68,7 @@ export const UserContextProvider = (props) => {
 
         if (userPreviouslyLogged) {
             const user = await useService(UserService, 'requestUserData');
-            if (!user.message) {
+            if (!user.error) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } else {
                 dispatch({ type: actions.user.requestSignIn });

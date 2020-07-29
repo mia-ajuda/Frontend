@@ -20,7 +20,7 @@ export default function CategoryContextProvider(props) {
             'getAllCategories',
             [],
         );
-        if (!categoriesArray.message) {
+        if (!categoriesArray.error) {
             setCategories(categoriesArray);
         }
     }

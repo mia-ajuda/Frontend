@@ -27,7 +27,7 @@ export default function Notification({ navigation }) {
             'getAllNotifications',
             [userId],
         );
-        if (!notificationsResponse.message) {
+        if (!notificationsResponse.error) {
             setNotifications(notificationsResponse);
         }
         setLoading(false);

@@ -46,7 +46,7 @@ export default function ListHelpers({
         const helps = await useService(helpService, 'getAllUserHelps', [
             user._id,
         ]);
-        if (!helps.message) {
+        if (!helps.error) {
             const helpFinal = helps.data.filter((help) => help._id === helpId);
             setHelp(helpFinal[0]);
             setPossibleHelpers(helpFinal[0].possibleHelpers);
@@ -54,7 +54,7 @@ export default function ListHelpers({
                 const resp = await useService(UserService, 'requestUserData', [
                     helpFinal[0].helperId,
                 ]);
-                if (!resp.message) {
+                if (!resp.error) {
                     setHelperImage(resp.photo);
                     setHelperName(resp.name);
                     setHelperCity(resp.address.city);
@@ -71,7 +71,7 @@ export default function ListHelpers({
             'finishHelpByOwner',
             [helpId, user._id],
         );
-        if (!validRequest.message) {
+        if (!validRequest.error) {
             alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
             );
@@ -91,7 +91,7 @@ export default function ListHelpers({
         ]);
         setVisible(false);
         setIsLoading(false);
-        if (!validRequest.message) {
+        if (!validRequest.error) {
             alertSuccess('Ajudante escolhido com sucesso!');
         } else {
             navigation.goBack();

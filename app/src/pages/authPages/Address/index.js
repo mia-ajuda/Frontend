@@ -40,7 +40,7 @@ export default function Address({ route, navigation }) {
         const cepInformation = await useService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
-        if (!cepInformation.message) {
+        if (!cepInformation.error) {
             const { bairro, localidade, logradouro, uf } = cepInformation;
             setUf(uf);
             setCity(localidade);

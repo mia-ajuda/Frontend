@@ -33,7 +33,7 @@ export default function OnGoingHelps({ navigation }) {
             'getHelpMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
         );
-        if (!filteredHelps.message) {
+        if (!filteredHelps.error) {
             setMyHelpRequests(filteredHelps);
         }
         setLoadingMyHelpRequests(false);
@@ -44,7 +44,7 @@ export default function OnGoingHelps({ navigation }) {
         const validDeleteRequest = await useService(helpService, 'deleteHelp', [
             helpToDelete,
         ]);
-        if (!validDeleteRequest.message) {
+        if (!validDeleteRequest.error) {
             const updatedArray = myHelpRequests.filter((help) => {
                 return help._id !== helpToDelete;
             });

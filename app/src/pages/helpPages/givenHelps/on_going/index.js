@@ -27,7 +27,7 @@ export default function AskedHelps({ navigation }) {
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
-        if (!filteredHelps.message) {
+        if (!filteredHelps.error) {
             setMyOfferedHelps(filteredHelps);
         }
         setLoadingOfferdHelps(false);

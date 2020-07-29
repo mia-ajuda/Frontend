@@ -43,7 +43,7 @@ export default function PersonalData({ route, navigation }) {
             cpfOnlyNumbers,
         ]);
         setloadingCpfVerification(false);
-        if (!cpfExist.message) {
+        if (!cpfExist.error) {
             if (cpfExist) {
                 alertError(
                     null,

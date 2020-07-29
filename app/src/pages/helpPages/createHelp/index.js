@@ -55,7 +55,7 @@ export default function CreateHelp({ navigation }) {
             description,
             userId,
         ]);
-        if (!validHelp.message) {
+        if (!validHelp.error) {
             setModalSuccessMoldalVisible(true);
         } else {
             navigation.navigate('main');

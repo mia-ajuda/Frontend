@@ -49,7 +49,7 @@ export default function RegistrationData({ route, navigation }) {
         const doesEmailExist = await useService(UserService, 'verifyUserInfo', [
             email,
         ]);
-        if (!doesEmailExist.message) {
+        if (!doesEmailExist.error) {
             if (doesEmailExist) {
                 alertError(
                     null,
