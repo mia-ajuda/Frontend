@@ -74,7 +74,9 @@ export default function HelpDescription({ route, navigation }) {
         </View>
     );
 
-    const renderMyHelper = () => <HelperCard help={help} />;
+    const renderMyHelper = () => {
+        if (help.status != 'finished') return <HelperCard help={help} />;
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
