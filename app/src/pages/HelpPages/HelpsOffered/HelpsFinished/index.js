@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from '../../MyRequests/styles';
-import ListCard from '../../../../components/ListCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import useService from '../../../../services/useService';
 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
     const [myFinishedHelps, setMyFinishedHelps] = useState([]);
@@ -43,23 +44,15 @@ export default function AskedHelps({ navigation }) {
             return (
                 <ScrollView>
                     {myFinishedHelps.map((help) => (
-                        <ListCard
+                        <TouchableOpacity
                             key={help._id}
-                            profilePhoto={help.user.photo}
-                            helpId={help._id}
-                            helpTitle={help.title}
-                            helpDescription={help.description}
-                            categoryName={help.category[0].name}
-                            userName={help.user.name}
-                            birthday={help.user.birthday}
-                            city={help.user.address.city}
-                            navigation={navigation}
-                            helperId={help.helperId}
-                            userPhone={help.user.phone}
-                            userLocation={help.user.location.coordinates}
-                            helpStatus={help.status}
-                            pageName="OfferDescription"
-                        />
+                            onPress={() =>
+                                navigation.navigate('OfferDescription', {
+                                    help,
+                                })
+                            }>
+                            <HelpCard help={help} />
+                        </TouchableOpacity>
                     ))}
                 </ScrollView>
             );

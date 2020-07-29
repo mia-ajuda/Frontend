@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
+import colors from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
     container: {
@@ -55,17 +56,33 @@ const styles = StyleSheet.create({
     helpButtons: {
         flex: 1,
     },
-
-    ViewLink: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    ViewLinkBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+    buttonHelpers: {
         width: '100%',
-        marginBottom: 20,
+        backgroundColor: colors.primary,
+        padding: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 6,
+    },
+    textBtn: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    containerBadge: {
+        position: 'absolute',
+        top: -7,
+        right: -6,
+    },
+    badgeStyle: {
+        backgroundColor: colors.danger,
+        height: 30,
+        width: 30,
+        borderRadius: 50,
+    },
+    labelBadge: {
+        color: '#FFF',
+        fontWeight: 'bold',
     },
 });
 

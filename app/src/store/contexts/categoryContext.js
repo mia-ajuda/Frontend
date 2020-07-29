@@ -15,11 +15,7 @@ export default function CategoryContextProvider(props) {
     }, [user]);
 
     async function fetchCategories() {
-        const categoriesArray = await useService(
-            Category,
-            'getAllCategories',
-            [],
-        );
+        const categoriesArray = await useService(Category, 'getAllCategories');
         if (!categoriesArray.error) {
             setCategories(categoriesArray);
         }

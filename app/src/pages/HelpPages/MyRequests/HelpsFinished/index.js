@@ -1,6 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
-import ListCard from '../../../../components/ListCard';
+import {
+    View,
+    ScrollView,
+    ActivityIndicator,
+    TouchableOpacity,
+} from 'react-native';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -10,7 +15,7 @@ import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../../services/useService';
 
-export default function DoneHelps({ navigation }) {
+export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 
@@ -47,16 +52,18 @@ export default function DoneHelps({ navigation }) {
                 <ScrollView>
                     <View style={styles.helpList}>
                         {finishedHelpList.map((help) => (
-                            <View key={help._id}>
-                                <ListCard
-                                    helpTitle={help.title}
-                                    helpDescription={help.description}
-                                    helpStatus={help.status}
-                                    categoryName={help.category[0].name}
-                                    navigation={navigation}
-                                    pageName="RequestDescription"
-                                />
-                            </View>
+                            <TouchableOpacity
+                                key={help._id}
+                                onPress={() =>
+                                    navigation.navigate(
+                                        'MyRequestHelpDescrition',
+                                        {
+                                            help,
+                                        },
+                                    )
+                                }>
+                                <HelpCard help={help} />
+                            </TouchableOpacity>
                         ))}
                     </View>
                 </ScrollView>

@@ -1,6 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
-import ListCard from '../../../../components/ListCard';
+import {
+    View,
+    ScrollView,
+    ActivityIndicator,
+    TouchableOpacity,
+} from 'react-native';
+import MyRequestHelpCard from '../../../../components/MyRequestHelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -11,7 +16,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 import useService from '../../../../services/useService';
 
 export default function OnGoingHelps({ navigation }) {
-    const [myHelpRequests, setMyHelpRequests] = useState([]);
+    const [myRequestedHelps, setMyRequestedHelps] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
@@ -34,7 +39,7 @@ export default function OnGoingHelps({ navigation }) {
             [userId, ['waiting', 'on_going', 'helper_finished']],
         );
         if (!filteredHelps.error) {
-            setMyHelpRequests(filteredHelps);
+            setMyRequestedHelps(filteredHelps);
         }
         setLoadingMyHelpRequests(false);
     }
@@ -45,10 +50,10 @@ export default function OnGoingHelps({ navigation }) {
             helpToDelete,
         ]);
         if (!validDeleteRequest.error) {
-            const updatedArray = myHelpRequests.filter((help) => {
+            const updatedArray = myRequestedHelps.filter((help) => {
                 return help._id !== helpToDelete;
             });
-            setMyHelpRequests(updatedArray);
+            setMyRequestedHelps(updatedArray);
         }
         setHelpDeletionLoading(false);
         setConfirmationModalVisible(false);
@@ -61,30 +66,30 @@ export default function OnGoingHelps({ navigation }) {
     );
 
     const renderMyRequestsHelpList = () => {
-        if (myHelpRequests.length > 0) {
+        if (myRequestedHelps.length > 0) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {myHelpRequests.map((help) => (
-                            <View key={help._id}>
-                                <ListCard
-                                    helpTitle={help.title}
-                                    helpId={help._id}
-                                    helpDescription={help.description}
-                                    categoryName={help.category[0].name}
+                        {myRequestedHelps.map((help) => (
+                            <TouchableOpacity
+                                key={help._id}
+                                onPress={() =>
+                                    navigation.navigate(
+                                        'MyRequestHelpDescrition',
+                                        {
+                                            help,
+                                        },
+                                    )
+                                }>
+                                <MyRequestHelpCard
+                                    help={help}
                                     deleteVisible={true}
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible
                                     }
                                     setSelectedHelp={setHelpToDelete}
-                                    navigation={navigation}
-                                    possibleHelpers={help.possibleHelpers}
-                                    ownerId={help.ownerId}
-                                    helpStatus={help.status}
-                                    helperId={help.helperId}
-                                    pageName="RequestDescription"
                                 />
-                            </View>
+                            </TouchableOpacity>
                         ))}
                     </View>
                 </ScrollView>

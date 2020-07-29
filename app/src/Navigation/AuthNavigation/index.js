@@ -1,14 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../../pages/authPages/Login';
-import Location from '../../pages/authPages/Location';
-import RegistrationData from '../../pages/authPages/RegistrationData';
-import PersonalData from '../../pages/authPages/PersonalData';
-import RiskGroup from '../../pages/authPages/RiskGroup';
-import Photo from '../../pages/authPages/Photo';
-import PreviewPhoto from '../../pages/authPages/Photo/PhotoPreview';
-import Address from '../../pages/authPages/Address';
-import ForgotPassword from '../../pages/authPages/ForgotPassword';
+import Login from '../../pages/AuthPages/Login';
+import Location from '../../pages/AuthPages/Location';
+import RegistrationData from '../../pages/AuthPages/RegistrationData';
+import PersonalData from '../../pages/AuthPages/PersonalData';
+import RiskGroup from '../../pages/AuthPages/RiskGroup';
+import Photo from '../../pages/AuthPages/Photo';
+import PreviewPhoto from '../../pages/AuthPages/Photo/PhotoPreview';
+import Address from '../../pages/AuthPages/Address';
+import ForgotPassword from '../../pages/AuthPages/ForgotPassword';
 
 const Stack = createStackNavigator();
 const AuthRoutes = () => {

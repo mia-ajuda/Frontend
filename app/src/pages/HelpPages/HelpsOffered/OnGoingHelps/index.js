@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from '../../MyRequests/styles';
-import ListCard from '../../../../components/ListCard';
+import HelpCard from '../../../../components/HelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
 import helpService from '../../../../services/Help';
 import useService from '../../../../services/useService';
 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
     const [myOfferedHelps, setMyOfferedHelps] = useState([]);
@@ -43,28 +44,19 @@ export default function AskedHelps({ navigation }) {
         if (myOfferedHelps.length > 0) {
             return (
                 <ScrollView>
-                    {myOfferedHelps.map((help) => (
-                        <ListCard
-                            key={help._id}
-                            profilePhoto={help.user.photo}
-                            helpId={help._id}
-                            helpTitle={help.title}
-                            helpDescription={help.description}
-                            helpStatus={help.status}
-                            categoryName={help.category[0].name}
-                            userName={help.user.name}
-                            birthday={help.user.birthday}
-                            city={help.user.address.city}
-                            navigation={navigation}
-                            helperId={help.helperId}
-                            possibleHelpers={help.possibleHelpers.map(
-                                (helper) => helper._id,
-                            )}
-                            userPhone={help.user.phone}
-                            userLocation={help.user.location.coordinates}
-                            pageName="OfferDescription"
-                        />
-                    ))}
+                    {myOfferedHelps.map((help) => {
+                        return (
+                            <TouchableOpacity
+                                key={help._id}
+                                onPress={() =>
+                                    navigation.navigate('OfferDescription', {
+                                        help,
+                                    })
+                                }>
+                                <HelpCard help={help} />
+                            </TouchableOpacity>
+                        );
+                    })}
                 </ScrollView>
             );
         } else {

@@ -4,14 +4,13 @@ import {
     ScrollView,
     Animated,
     TouchableWithoutFeedback,
-    Image,
-    Text,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ListCard from '../ListCard';
-
+import HelpCard from '../HelpCard';
+import NoHelps from '../../components/NoHelps';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
@@ -38,6 +37,42 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
         }
     }, [visible]);
 
+    const renderHelpList = () => {
+        return (
+            <ScrollView
+                style={styles.listContent}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollStyle}>
+                {helps.map((help) => {
+                    const isRiskGroup = !!help.user.riskGroup.length;
+
+                    return (
+                        <TouchableOpacity
+                            key={help._id}
+                            onPress={() =>
+                                navigation.navigate('mapHelpDescription', {
+                                    help,
+                                })
+                            }>
+                            <HelpCard help={help} isRiskGroup={isRiskGroup} />
+                        </TouchableOpacity>
+                    );
+                })}
+            </ScrollView>
+        );
+    };
+
+    const renderNoHelpMessage = () => (
+        <View
+            style={{
+                position: 'absolute',
+                width: '100%',
+                top: 30,
+            }}>
+            <NoHelps title="Não há ajudas próximas" color="light" />
+        </View>
+    );
+
     return (
         <Animated.View
             style={[styles.helpListContainer, { height: listHeight }]}>
@@ -51,49 +86,8 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                     />
                 </View>
             </TouchableWithoutFeedback>
-            {visible && (
-                <>
-                    {helps.length > 0 ? (
-                        <ScrollView
-                            style={styles.listContent}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={styles.scrollStyle}>
-                            {helps.map((help) => {
-                                const isRiskGroup = !!help.user.riskGroup
-                                    .length;
 
-                                return (
-                                    <ListCard
-                                        key={help._id}
-                                        profilePhoto={help.user.photo}
-                                        helpId={help._id}
-                                        deleteVisible={false}
-                                        helpTitle={help.title}
-                                        helpDescription={help.description}
-                                        categoryName={help.category[0].name}
-                                        userName={help.user.name}
-                                        birthday={help.user.birthday}
-                                        city={help.user.address.city}
-                                        navigation={navigation}
-                                        pageName="helpDescription"
-                                        isRiskGroup={isRiskGroup}
-                                    />
-                                );
-                            })}
-                        </ScrollView>
-                    ) : (
-                        <View style={styles.emptyList}>
-                            <Image
-                                source={require('../../../assets/images/whiteCat.png')}
-                                style={styles.emptyListImage}
-                            />
-                            <Text style={styles.emptyListText}>
-                                Não há ajudas próximas{' '}
-                            </Text>
-                        </View>
-                    )}
-                </>
-            )}
+            {helps.length > 0 ? renderHelpList() : renderNoHelpMessage()}
         </Animated.View>
     );
 }

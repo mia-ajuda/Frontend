@@ -59,7 +59,7 @@ export default function HelpDescription({ route, navigation }) {
     const userProfilephoto = profilePhoto || user.photo;
 
     async function chooseHelp() {
-        const validRequest = await useService(helpService, 'chooseHelp', [
+        const validRequest = await useService(helpService, 'offerHelp', [
             helpId,
             user._id,
         ]);

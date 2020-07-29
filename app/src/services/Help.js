@@ -57,7 +57,7 @@ class HelpService {
         return deleteHelp;
     }
 
-    async chooseHelp(idHelp, idHelper) {
+    async offerHelp(idHelp, idHelper) {
         const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
         await api.put(url);
         return true;

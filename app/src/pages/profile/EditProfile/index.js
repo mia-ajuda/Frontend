@@ -57,31 +57,21 @@ export default function EditProfile({ route, navigation }) {
         setFieldToEdit(currentCep.substring(0, 8));
 
         if (currentCep.length === 8) {
-            try {
-                setLoading(true);
-                const cepInformation = await useService(
-                    ViaCep,
-                    'getCepInformation',
-                    [currentCep],
-                );
+            setLoading(true);
+            const cepInformation = await useService(
+                ViaCep,
+                'getCepInformation',
+                [currentCep],
+            );
 
-                if (!cepInformation.error) {
-                    const {
-                        localidade,
-                        uf,
-                        logradouro,
-                        bairro,
-                    } = cepInformation;
-
-                    setFieldEditedValid(true);
-                    setState(uf);
-                    setCity(localidade);
-                    setComplement(logradouro + ' / ' + bairro);
-                } else {
-                    setFieldEditedValid(false);
-                }
-            } catch {
+            if (!cepInformation.error) {
+                const { localidade, uf, logradouro, bairro } = cepInformation;
                 setFieldEditedValid(true);
+                setState(uf);
+                setCity(localidade);
+                setComplement(logradouro + ' / ' + bairro);
+            } else {
+                setFieldEditedValid(false);
             }
         } else {
             setFieldEditedValid(false);

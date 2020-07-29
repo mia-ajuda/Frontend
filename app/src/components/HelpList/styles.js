@@ -17,7 +17,7 @@ export default StyleSheet.create({
     },
 
     buttonStyle: {
-        padding: 2,
+        padding: 10,
     },
     scrollStyle: {
         paddingBottom: 15,

@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../../assets/styles/colorVariables';
-import fonts from '../../../../assets/styles/fontVariable';
-
+import colors from '../../../../../assets/styles/colorVariables';
+import fonts from '../../../../../assets/styles/fontVariable';
 export default StyleSheet.create({
     container: {
         flex: 1,
@@ -13,6 +12,7 @@ export default StyleSheet.create({
         flex: 4,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100%',
     },
     btnEdit: {
         backgroundColor: 'blue',
