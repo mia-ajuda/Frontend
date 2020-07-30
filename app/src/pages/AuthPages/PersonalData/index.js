@@ -42,7 +42,7 @@ export default function PersonalData({ route, navigation }) {
         const idLabel = useCNPJ ? 'CNPJ' : 'CPF';
         const idOnlyNumbers = useCNPJ
             ? removeSpecialCharsFrom(cnpj)
-            : removeSpecialCharsFrom(cnpj);
+            : removeSpecialCharsFrom(cpf);
         const idExist = await UserService.verifyUserInfo(idOnlyNumbers);
         setloadingCpfVerification(false);
         if (idExist)
@@ -55,7 +55,7 @@ export default function PersonalData({ route, navigation }) {
             await verifyIdExistence();
 
             const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            const birthdayFormated = useCNPJ ? formatDate(birthday) : null;
+            const birthdayFormated = useCNPJ ? null : formatDate(birthday);
             const document = useCNPJ ? cnpj : cpf;
             const userDataFromPersonalPage = {
                 name,
@@ -65,6 +65,7 @@ export default function PersonalData({ route, navigation }) {
                 mentalHealthProfessional,
                 ...userDatafromRegistrationPage,
             };
+            console.log(userDataFromPersonalPage);
             navigation.navigate('address', { userDataFromPersonalPage });
         } catch (error) {
             setValidateCpfErrorMessage(error);
