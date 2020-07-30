@@ -84,6 +84,29 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontWeight: 'bold',
     },
+    titleFont: {
+        fontFamily: 'montserrat-semibold',
+        fontSize: 18,
+        textAlign: 'center',
+        paddingBottom: 10,
+    },
+    categoryWarning: {
+        backgroundColor: colors.secondary,
+        borderRadius: 8,
+
+        maxHeight: 30,
+
+        paddingHorizontal: 15,
+        alignSelf: 'center',
+    },
+
+    categoryName: {
+        ...fonts.body,
+        fontFamily: 'montserrat-semibold',
+        lineHeight: 30,
+        textAlign: 'center',
+        alignSelf: 'center'
+    },
 });
 
 export default styles;

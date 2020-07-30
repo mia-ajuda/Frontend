@@ -9,6 +9,7 @@ import { alertError, alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
+import CategoryDescriptionModal from '../../../components/modals/category/categoryDescription';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { help } = route.params;
@@ -73,13 +74,12 @@ export default function MapHelpDescription({ route, navigation }) {
     const renderHelpInformation = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Categoria: </Text>
-                    {help.category[0].name}
-                </Text>
-                <Text style={[styles.infoText, styles.infoTextDescription]}>
-                    Descrição:
-                </Text>
+                <Text style={styles.titleFont}>{help.title}</Text>
+                    <View style={styles.categoryWarning}>
+                        <Text style={styles.categoryName}>
+                            {help.category[0].name}
+                        </Text>
+                    </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>
