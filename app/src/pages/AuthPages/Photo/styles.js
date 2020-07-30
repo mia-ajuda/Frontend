@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
     btnView: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'space-evenly',
         marginVertical: 40,
+        flexDirection: 'row',
     },
 
     backIcon: {
