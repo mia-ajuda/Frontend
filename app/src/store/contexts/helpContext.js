@@ -62,7 +62,8 @@ export default function HelpContextProvider(props) {
     }, [helpList]);
 
     useEffect(() => {
-        if (userPosition) {
+        const isUserAuthenticated = user._id;
+        if (userPosition && isUserAuthenticated) {
             if (selectedCategories.length) {
                 getHelpListWithCategories(userPosition);
             } else {
