@@ -31,9 +31,10 @@ const styles = StyleSheet.create({
     text1: {
         ...fonts.subtitle,
         fontFamily: 'montserrat-semibold',
-        marginTop: 15,
+        marginVertical: 15,
     },
     inputView: {
+        flex: 1,
         width: '100%',
     },
     btnView: {
@@ -60,10 +61,12 @@ const styles = StyleSheet.create({
         marginVertical: 6,
     },
     toggleView: {
+        marginTop: 10,
         marginBottom: 45,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+    },
+    checkboxView: {
+        alignSelf: 'stretch',
     },
     backIcon: {
         alignItems: 'flex-start',

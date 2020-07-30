@@ -7,15 +7,15 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, CheckBox } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
-import { CheckBox } from 'react-native-elements';
 import styles from './styles';
 import UserService from '../../../services/User';
 import colors from '../../../../assets/styles/colorVariables';
 import cpfValidator from '../../../utils/cpfValidator';
+import cnpjValidator from '../../../utils/cnpjValidator';
 import dateValidator from '../../../utils/dateValidator';
 import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
@@ -28,33 +28,39 @@ export default function PersonalData({ route, navigation }) {
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState('');
     const [cpf, setCPF] = useState('');
+    const [cnpj, setCNPJ] = useState('');
     const [cellPhone, setCellPhone] = useState('');
     const [mentalHealthProfessional, setMentalHealthProfessional] = useState(
         false,
     );
+    const [useCNPJ, setUseCNPJ] = useState(false);
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
     const [validateCpfErrorMessage, setValidateCpfErrorMessage] = useState();
 
-    const verifyCpfExistence = async () => {
+    const verifyIdExistence = async () => {
         setloadingCpfVerification(true);
-        const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
-        const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
+        const idLabel = useCNPJ ? 'CNPJ' : 'CPF';
+        const idOnlyNumbers = useCNPJ
+            ? removeSpecialCharsFrom(cnpj)
+            : removeSpecialCharsFrom(cnpj);
+        const idExist = await UserService.verifyUserInfo(idOnlyNumbers);
         setloadingCpfVerification(false);
-        if (cpfExist)
-            throw 'Esse Cpf já está sendo utilizado por outro usuário';
+        if (idExist)
+            throw `Esse ${idLabel} já está sendo utilizado por outro usuário`;
     };
 
     const continueHandler = async () => {
         keyboard.dismiss();
         try {
-            await verifyCpfExistence();
+            await verifyIdExistence();
 
             const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            const birthdayFormated = formatDate(birthday);
+            const birthdayFormated = useCNPJ ? formatDate(birthday) : null;
+            const document = useCNPJ ? cnpj : cpf;
             const userDataFromPersonalPage = {
                 name,
                 birthday: birthdayFormated,
-                cpf,
+                document,
                 phone,
                 mentalHealthProfessional,
                 ...userDatafromRegistrationPage,
@@ -121,6 +127,7 @@ export default function PersonalData({ route, navigation }) {
 
     const renderBirthDtInputForm = () => {
         const isBirthdateValid = dateValidator(birthday) || birthday == '';
+        if (useCNPJ) return;
         return (
             <View>
                 <Text style={styles.label}>Data de Nascimento</Text>
@@ -138,58 +145,94 @@ export default function PersonalData({ route, navigation }) {
                         isBirthdateValid ? styles.valid : styles.invalid,
                     ]}
                     placeholder="Data de Nascimento"
+                    disabled={true}
                 />
             </View>
         );
     };
 
-    const renderNameInputForm = () => (
-        <Input
-            value={name}
-            change={(name) => setName(name)}
-            label="Nome Completo"
-            placeholder="Nome Completo"
-        />
-    );
+    const renderNameInputForm = () => {
+        const inputLabel = useCNPJ ? 'da Instituição' : 'Completo';
+        return (
+            <Input
+                value={name}
+                change={(name) => setName(name)}
+                label={`Nome ${inputLabel}`}
+                placeholder={`Nome ${inputLabel}`}
+            />
+        );
+    };
 
-    const renderCpfInputForm = () => {
-        const isCpfValid = cpfValidator(cpf) || cpf == '';
+    const renderIdInputForm = () => {
+        let idType = 'CPF';
+        let isIDValid = cpfValidator(cpf) || cpf == '';
+
+        if (useCNPJ) {
+            idType = 'CNPJ';
+            isIDValid = cnpjValidator(cnpj) || cnpj == '';
+        }
         return (
             <View>
-                <Text style={styles.label}>CPF</Text>
+                <Text style={styles.label}>{idType}</Text>
                 <TextInputMask
-                    type={'cpf'}
-                    value={cpf}
+                    type={idType.toLowerCase()}
+                    value={useCNPJ ? cnpj : cpf}
                     onChangeText={(text) => {
-                        setCPF(text);
+                        if (useCNPJ) setCNPJ(text);
+                        else setCPF(text);
                     }}
                     style={[
                         styles.inputMask,
-                        isCpfValid ? styles.valid : styles.invalid,
+                        isIDValid ? styles.valid : styles.invalid,
                     ]}
-                    placeholder="Digite seu CPF"
+                    placeholder={`Digite seu ${idType}`}
                 />
             </View>
         );
     };
 
-    const renderProfessionalHealthCheckbox = () => (
-        <View style={styles.toggleView}>
+    const renderProfessionalHealthCheckbox = () => {
+        if (useCNPJ) return;
+        return (
+            <View style={styles.toggleView}>
+                <View style={styles.checkboxView}>
+                    <CheckBox
+                        title="Sou profissional de saúde mental"
+                        checked={mentalHealthProfessional}
+                        onPress={() => {
+                            setMentalHealthProfessional(
+                                !mentalHealthProfessional,
+                            );
+                            setCNPJ('');
+                        }}
+                    />
+                </View>
+            </View>
+        );
+    };
+
+    const renderEntityButton = () => (
+        <View style={styles.checkboxView}>
             <CheckBox
-                title="Sou profissional de saúde mental"
-                checked={mentalHealthProfessional}
+                title="Sou uma ONG ou instituição"
+                checked={useCNPJ}
                 onPress={() => {
-                    setMentalHealthProfessional(!mentalHealthProfessional);
+                    setUseCNPJ(!useCNPJ);
+                    setMentalHealthProfessional(false);
+                    setCNPJ('');
+                    setCPF('');
                 }}
             />
         </View>
     );
 
     const renderContinueButton = () => {
-        const fieldsValid =
+        let fieldsValid =
             cpfValidator(cpf) &&
             phoneValidator(cellPhone) &&
             dateValidator(birthday);
+        if (useCNPJ)
+            fieldsValid = phoneValidator(cellPhone) && cnpjValidator(cnpj);
         return (
             <Button
                 title="Continuar"
@@ -217,11 +260,11 @@ export default function PersonalData({ route, navigation }) {
                             {validateCpfErrorMessage}
                         </Text>
                     )}
-
+                    {renderEntityButton()}
                     {renderNameInputForm()}
                     {renderBirthDtInputForm()}
                     {renderPhoneInputForm()}
-                    {renderCpfInputForm()}
+                    {renderIdInputForm()}
                     {renderProfessionalHealthCheckbox()}
                 </View>
             </ScrollView>
