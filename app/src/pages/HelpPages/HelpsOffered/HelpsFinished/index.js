@@ -6,6 +6,8 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
+import useService from '../../../../services/useService';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
@@ -21,12 +23,14 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoadingFinishedHelps(true);
-        const helps = await helpService.getHelpMultipleStatus(
+        const helps = await useService(helpService, 'getHelpMultipleStatus', [
             user._id,
             'finished',
             true,
-        );
-        setMyFinishedHelps(helps);
+        ]);
+        if (!helps.error) {
+            setMyFinishedHelps(helps);
+        }
         setLoadingFinishedHelps(false);
     }
 

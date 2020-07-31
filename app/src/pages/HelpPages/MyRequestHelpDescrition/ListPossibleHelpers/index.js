@@ -3,9 +3,9 @@ import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
 import getYearsSince from '../../../../utils/getYearsSince';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import HelpService from '../../../../services/Help';
-import { alertSuccess, alertError } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../../utils/Alert';
 import NoPossibleHelpers from '../../../../components/NoHelps';
-
+import useService from '../../../../services/useService';
 import styles from './styles';
 
 export default function ListPossibleHelpers({ navigation, route }) {
@@ -19,15 +19,16 @@ export default function ListPossibleHelpers({ navigation, route }) {
     const goBackToMyRequestsPage = () => navigation.navigate('Meus pedidos');
 
     async function chooseHelper() {
-        try {
-            setChooseRequestLoading(true);
-            await HelpService.chooseHelper(help._id, selectedHelperId);
-            goBackToMyRequestsPage();
+        setChooseRequestLoading(true);
+        const chooseHelperRequest = await useService(
+            HelpService,
+            'chooseHelper',
+            [help._id, selectedHelperId],
+        );
+        if (!chooseHelperRequest.error) {
             alertSuccess('Ajudante escolhido com sucesso!');
-        } catch (err) {
-            goBackToMyRequestsPage();
-            alertError(err, null, 'Ooops..');
         }
+        goBackToMyRequestsPage();
     }
 
     const renderPossibleHelpersList = () => {

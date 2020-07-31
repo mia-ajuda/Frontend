@@ -5,11 +5,11 @@ import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
-import { alertError, alertSuccess } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
-import CategoryDescriptionModal from '../../../components/modals/category/categoryDescription';
+import useService from '../../../services/useService';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { help } = route.params;
@@ -34,17 +34,19 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     async function offerHelp() {
-        try {
-            setChooseHelpRequestLoading(true);
-            await HelpService.offerHelp(help._id, user._id);
+        setChooseHelpRequestLoading(true);
+        const offerHelpRequest = await useService(HelpService, 'offerHelp', [
+            help._id,
+            user._id,
+        ]);
+        if (!offerHelpRequest.error) {
             removeHelpFromMap();
             goBackToMapPage();
             alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
             );
-        } catch (error) {
+        } else {
             goBackToMapPage();
-            alertError(error);
         }
     }
 
@@ -75,11 +77,11 @@ export default function MapHelpDescription({ route, navigation }) {
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
-                    <View style={styles.categoryWarning}>
-                        <Text style={styles.categoryName}>
-                            {help.category[0].name}
-                        </Text>
-                    </View>
+                <View style={styles.categoryWarning}>
+                    <Text style={styles.categoryName}>
+                        {help.category[0].name}
+                    </Text>
+                </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>

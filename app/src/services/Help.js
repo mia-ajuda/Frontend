@@ -58,31 +58,33 @@ class HelpService {
     }
 
     async offerHelp(idHelp, idHelper) {
-        try {
-            const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
-            await api.put(url);
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
+        const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
+        await api.put(url);
+        return true;
     }
 
     async finishHelpByHelper(idHelp, idHelper) {
-        try {
-            const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
-            await api.put(url);
-        } catch (error) {
-            console.log(error.response);
-            throw error;
-        }
+        const url = `/help/helperConfirmation/${idHelp}/${idHelper}`;
+        await api.put(url);
+        return true;
+    }
+
+    async chooseHelper(idHelp, idHelper) {
+        const url = `/help/chooseHelper/${idHelp}/${idHelper}`;
+        await api.put(url);
+        return true;
     }
 
     async finishHelpByOwner(helpId, ownerId) {
-        await api.put(`/help/ownerConfirmation/${helpId}/${ownerId}`);
+        const url = `/help/ownerConfirmation/${helpId}/${ownerId}`;
+        await api.put(url);
+        return true;
     }
 
-    async chooseHelper(helpId, helperId) {
-        return await api.put(`/help/chooseHelper/${helpId}/${helperId}`);
+    async getAllUserHelps(userId) {
+        const url = `/help?id=${userId}`;
+        const helps = await api.get(url);
+        return helps;
     }
 }
 

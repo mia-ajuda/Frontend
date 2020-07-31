@@ -8,6 +8,7 @@ import React, {
 import helpReducer from '../reducers/helpReducer';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
+import useService from '../../services/useService';
 import actions from '../actions';
 import HelpService from '../../services/Help';
 import {
@@ -62,7 +63,8 @@ export default function HelpContextProvider(props) {
     }, [helpList]);
 
     useEffect(() => {
-        if (userPosition) {
+        const isUserAuthenticated = user._id;
+        if (userPosition && isUserAuthenticated) {
             if (selectedCategories.length) {
                 getHelpListWithCategories(userPosition);
             } else {
@@ -72,37 +74,36 @@ export default function HelpContextProvider(props) {
         }
     }, [selectedCategories]);
 
-    async function getHelpList(loc) {
-        if (loc) {
-            try {
-                const { _id: userId } = user;
-                let helpListArray = await HelpService.getNearHelp(loc, userId);
-                setLoadingHelps(false);
+    async function getHelpList(coords) {
+        if (coords) {
+            const { _id: userId } = user;
+            const helpListArray = await useService(HelpService, 'getNearHelp', [
+                coords,
+                userId,
+            ]);
+            if (!helpListArray.error) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
                 });
-            } catch (error) {
-                console.log(error);
             }
+            setLoadingHelps(false);
         }
     }
 
-    async function getHelpListWithCategories(loc) {
-        if (loc && selectedCategories.length) {
-            try {
-                const { _id: userId } = user;
-                let helpListFiltered = await HelpService.getAllHelpForCategory(
-                    loc,
-                    selectedCategories,
-                    userId,
-                );
+    async function getHelpListWithCategories(coords) {
+        if (coords && selectedCategories.length) {
+            const { _id: userId } = user;
+            const helpListFiltered = await useService(
+                HelpService,
+                'getAllHelpForCategory',
+                [coords, selectedCategories, userId],
+            );
+            if (!helpListFiltered.error) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListFiltered,
                 });
-            } catch (error) {
-                console.log(error);
             }
         }
     }

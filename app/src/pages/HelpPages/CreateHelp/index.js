@@ -14,11 +14,10 @@ import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-import NewHelpModalError from '../../../components/modals/newHelpModal/failure';
 
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
-
+import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
@@ -30,9 +29,7 @@ export default function CreateHelp({ navigation }) {
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
-    const [modalErrorModalVisible, setErrorModalVisible] = useState(false);
     const [createHelpLoading, setCreateHelpLoading] = useState(false);
-    const [limitErrorMessage, setLimitErrorMessage] = useState(null);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
@@ -51,24 +48,19 @@ export default function CreateHelp({ navigation }) {
 
     async function createHelp() {
         const { _id: userId } = user;
-        try {
-            setCreateHelpLoading(true);
-            await helpService.createHelp(
-                title,
-                category['_id'],
-                description,
-                userId,
-            );
+        setCreateHelpLoading(true);
+        const createHelpRequest = await useService(helpService, 'createHelp', [
+            title,
+            category['_id'],
+            description,
+            userId,
+        ]);
+        if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
-        } catch (error) {
-            const errorMessage = error.response.data.error;
-            if (errorMessage && errorMessage.includes('Limite máximo')) {
-                setLimitErrorMessage(errorMessage);
-            }
-            setErrorModalVisible(true);
-        } finally {
-            setCreateHelpLoading(false);
+        } else {
+            navigation.navigate('main');
         }
+        setCreateHelpLoading(false);
     }
 
     const renderPickerCategoryForm = () => (
@@ -138,11 +130,6 @@ export default function CreateHelp({ navigation }) {
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
                 onOkPressed={() => navigation.navigate('main')}
-            />
-            <NewHelpModalError
-                visible={modalErrorModalVisible}
-                onOkPressed={() => navigation.navigate('main')}
-                errorMessage={limitErrorMessage}
             />
         </ScrollView>
     );

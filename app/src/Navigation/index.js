@@ -10,11 +10,9 @@ const Routes = () => {
 
     const isLoadingUserInformation = user && user.showSplash;
     const isUserAuthenticated = user._id;
-
     if (isLoadingUserInformation) {
         return <Splash />;
     }
-
     return (
         <NavigationContainer>
             {isUserAuthenticated ? <BottomTab /> : <AuthRoutes />}

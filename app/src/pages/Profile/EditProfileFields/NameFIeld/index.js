@@ -7,7 +7,8 @@ import UserService from '../../../../services/User';
 import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import { alertSuccess, alertError } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../../utils/Alert';
+import useService from '../../../../services/useService';
 
 export default function EditNameField({ route, navigation }) {
     const userName = route.params.user.name;
@@ -24,18 +25,14 @@ export default function EditNameField({ route, navigation }) {
             ...route.params.user,
             name: newName,
         };
-        try {
-            setEditRequestLoading(true);
-            const user = await UserService.editUser(data);
+        setEditRequestLoading(true);
+        const user = await useService(UserService, 'editUser', [data]);
+        if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
-            setConfirmationModalVisible(false);
-            goBackToUserProfilePage();
-        } catch (err) {
-            setConfirmationModalVisible(false);
-            alertError(err, null, 'Ooops..');
-            goBackToUserProfilePage();
         }
+        goBackToUserProfilePage();
+        setConfirmationModalVisible(false);
     };
 
     return (
