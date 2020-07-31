@@ -86,7 +86,11 @@ export default function RiskGroup({ route, navigation }) {
                 {loading ? (
                     <ActivityIndicator size="large" color={colors.primary} />
                 ) : (
-                    <Button title="Concluir" large press={confirmSignUp} />
+                    <Button 
+                    title="Concluir" 
+                    disabled={false}
+                    large 
+                    press={confirmSignUp} />
                 )}
             </View>
         </View>
