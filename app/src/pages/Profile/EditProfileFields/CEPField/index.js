@@ -4,19 +4,19 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     ActivityIndicator,
-    ToastMessage,
 } from 'react-native';
 import { UserContext } from '../../../../store/contexts/userContext';
 import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserService from '../../../../services/User';
-import ViaCep from '../../../../services/ExternalServices/ViaCep';
+import ViaCep from '../../../../ExternalServices/ViaCep';
 import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import { alertSuccess, alertError } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../../utils/Alert';
 import { DeviceInformationContext } from '../../../../store/contexts/deviceInformationContext';
+import useService from '../../../../services/useService';
 
 export default function EditCepField({ route, navigation }) {
     const address = route.params.user?.address;
@@ -46,23 +46,21 @@ export default function EditCepField({ route, navigation }) {
 
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
-        try {
-            setCepRequestLoading(true);
-            const cepInformation = await ViaCep.getCepInformation(currentCep);
+        setCepRequestLoading(true);
+        const cepInformation = await useService(ViaCep, 'getCepInformation', [
+            currentCep,
+        ]);
+        if (!cepInformation.error) {
             const { bairro, localidade, logradouro, uf } = cepInformation;
 
             setNewState(uf);
             setNewCity(localidade);
             setNewComplement(`${logradouro}/${bairro}`);
             setCepValid(true);
-        } catch (error) {
+        } else {
             setCepValid(false);
-            ToastMessage(
-                error.message || 'Não foi possível recuperar este cep',
-            );
-        } finally {
-            setCepRequestLoading(false);
         }
+        setCepRequestLoading(false);
     }
 
     const handleEditRequest = async () => {
@@ -73,16 +71,13 @@ export default function EditCepField({ route, navigation }) {
             city: newCity,
             state: newState,
         };
-        try {
-            setEditRequestLoading(true);
-            const resp = await UserService.editUserAdress(data);
+        setEditRequestLoading(true);
+        const resp = await useService(UserService, 'editUserAdress', [data]);
+        if (!resp.error) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
-            goBackToUserProfilePage();
-        } catch (err) {
-            alertError(err, null, 'Ooops..');
-            goBackToUserProfilePage();
         }
+        goBackToUserProfilePage();
     };
 
     const renderLoadingIndicator = () => (

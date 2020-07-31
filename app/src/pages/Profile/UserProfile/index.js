@@ -17,7 +17,8 @@ import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
 import formatPhone from '../../../utils/formatPhone';
-import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
+import { alertMessage, alertSuccess } from '../../../utils/Alert';
+import useService from '../../../services/useService';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
@@ -26,7 +27,7 @@ export default function Profile({ navigation }) {
     const [photo, setPhoto] = useState('');
 
     async function logout() {
-        await SessionService.signOut();
+        await useService(SessionService, 'signOut');
     }
 
     async function openImagePickerAsync() {
@@ -52,21 +53,23 @@ export default function Profile({ navigation }) {
     }
 
     const sendPhoto = async () => {
-        try {
-            setLoadingModal(true);
-            const resp = await UserService.editUser({
-                ...user,
-                photo: photo,
+        setLoadingModal(true);
+        const data = {
+            ...user,
+            photo: photo,
+        };
+        const validEditPhoto = await useService(UserService, 'editUser', [
+            data,
+        ]);
+        if (!validEditPhoto.error) {
+            dispatch({
+                type: actions.user.storeUserInfo,
+                data: validEditPhoto,
             });
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
-            setLoadingModal(false);
-            setModalVisible(false);
             alertSuccess('Foto atualizada com sucesso!');
-        } catch (err) {
-            setLoadingModal(false);
-            setModalVisible(false);
-            alertError(err, null, 'Ooops..');
         }
+        setLoadingModal(false);
+        setModalVisible(false);
     };
 
     function parseDate(date) {

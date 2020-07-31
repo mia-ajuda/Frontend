@@ -6,6 +6,8 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
 import helpService from '../../../../services/Help';
+import useService from '../../../../services/useService';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
@@ -21,12 +23,14 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoadingOfferdHelps(true);
-        let filteredHelps = await helpService.getHelpMultipleStatus(
-            user._id,
-            ['on_going', 'owner_finished', 'waiting'],
-            true,
+        const filteredHelps = await useService(
+            helpService,
+            'getHelpMultipleStatus',
+            [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
-        setMyOfferedHelps(filteredHelps);
+        if (!filteredHelps.error) {
+            setMyOfferedHelps(filteredHelps);
+        }
         setLoadingOfferdHelps(false);
     }
 

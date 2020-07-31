@@ -7,7 +7,8 @@ import UserService from '../../../../services/User';
 import HelpService from '../../../../services/Help';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { UserContext } from '../../../../store/contexts/userContext';
-import { alertSuccess, alertError } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../../utils/Alert';
+import useService from '../../../../services/useService';
 
 export default function HelperCard({ help }) {
     const navigation = useNavigation();
@@ -26,28 +27,29 @@ export default function HelperCard({ help }) {
     }, []);
 
     async function getHelperInformation() {
-        try {
-            const helperResponse = await UserService.requestUserDataById(
-                help.helperId,
-            );
+        const helperResponse = await useService(
+            UserService,
+            'requestUserData',
+            [help.helperId],
+        );
+        if (!helperResponse.error) {
             setHelper(helperResponse);
-        } catch (error) {
-            console.log(error);
         }
     }
 
     async function finishHelpByOwner() {
-        try {
-            setFinishHelpRequestLoading(true);
-            await HelpService.finishHelpByOwner(help._id, user._id);
-            goBackToMyResquestsPage();
+        setFinishHelpRequestLoading(true);
+        const finishHelpRequest = await useService(
+            HelpService,
+            'finishHelpByOwner',
+            [help._id, user._id],
+        );
+        if (!finishHelpRequest.error) {
             alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
             );
-        } catch (err) {
-            goBackToMyResquestsPage();
-            alertError(err);
         }
+        goBackToMyResquestsPage();
     }
     return (
         <View>

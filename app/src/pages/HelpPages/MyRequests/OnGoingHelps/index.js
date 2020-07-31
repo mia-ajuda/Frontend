@@ -13,6 +13,7 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
+import useService from '../../../../services/useService';
 
 export default function OnGoingHelps({ navigation }) {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
@@ -23,7 +24,6 @@ export default function OnGoingHelps({ navigation }) {
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
     const { user } = useContext(UserContext);
-
     useFocusEffect(
         useCallback(() => {
             loadOnGoingHelps();
@@ -33,31 +33,30 @@ export default function OnGoingHelps({ navigation }) {
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
         setLoadingMyHelpRequests(true);
-        try {
-            let filteredHelps = await helpService.getHelpMultipleStatus(
-                userId,
-                ['waiting', 'on_going', 'helper_finished'],
-            );
+        const filteredHelps = await useService(
+            helpService,
+            'getHelpMultipleStatus',
+            [userId, ['waiting', 'on_going', 'helper_finished']],
+        );
+        if (!filteredHelps.error) {
             setMyRequestedHelps(filteredHelps);
-            setLoadingMyHelpRequests(false);
-        } catch (err) {
-            console.log(err);
         }
+        setLoadingMyHelpRequests(false);
     }
 
     async function excludeHelp() {
-        try {
-            setHelpDeletionLoading(true);
-            await helpService.deleteHelp(helpToDelete);
-            setHelpDeletionLoading(false);
+        setHelpDeletionLoading(true);
+        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            helpToDelete,
+        ]);
+        if (!validDeleteRequest.error) {
             const updatedArray = myRequestedHelps.filter((help) => {
                 return help._id !== helpToDelete;
             });
             setMyRequestedHelps(updatedArray);
-            setConfirmationModalVisible(false);
-        } catch (error) {
-            console.log(error);
         }
+        setHelpDeletionLoading(false);
+        setConfirmationModalVisible(false);
     }
 
     const renderLoadingIndicator = () => (

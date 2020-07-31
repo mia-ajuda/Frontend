@@ -21,6 +21,8 @@ import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
+import useService from '../../../services/useService';
+import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -33,36 +35,39 @@ export default function PersonalData({ route, navigation }) {
         false,
     );
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
-    const [validateCpfErrorMessage, setValidateCpfErrorMessage] = useState();
 
     const verifyCpfExistence = async () => {
+        keyboard.dismiss();
         setloadingCpfVerification(true);
         const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
-        const cpfExist = await UserService.verifyUserInfo(cpfOnlyNumbers);
+        const cpfExist = await useService(UserService, 'verifyUserInfo', [
+            cpfOnlyNumbers,
+        ]);
         setloadingCpfVerification(false);
-        if (cpfExist)
-            throw 'Esse Cpf já está sendo utilizado por outro usuário';
+        if (!cpfExist.error) {
+            if (cpfExist) {
+                alertError(
+                    null,
+                    'Esse Cpf já está sendo utilizado por outro usuário',
+                );
+            } else {
+                continueHandler();
+            }
+        }
     };
 
     const continueHandler = async () => {
-        keyboard.dismiss();
-        try {
-            await verifyCpfExistence();
-
-            const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            const birthdayFormated = formatDate(birthday);
-            const userDataFromPersonalPage = {
-                name,
-                birthday: birthdayFormated,
-                cpf,
-                phone,
-                mentalHealthProfessional,
-                ...userDatafromRegistrationPage,
-            };
-            navigation.navigate('address', { userDataFromPersonalPage });
-        } catch (error) {
-            setValidateCpfErrorMessage(error);
-        }
+        const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+        const birthdayFormated = formatDate(birthday);
+        const userDataFromPersonalPage = {
+            name,
+            birthday: birthdayFormated,
+            cpf,
+            phone,
+            mentalHealthProfessional,
+            ...userDatafromRegistrationPage,
+        };
+        navigation.navigate('address', { userDataFromPersonalPage });
     };
 
     const renderPageHeader = () => {
@@ -195,7 +200,7 @@ export default function PersonalData({ route, navigation }) {
                 title="Continuar"
                 disabled={fieldsValid == false}
                 large
-                press={continueHandler}
+                press={verifyCpfExistence}
             />
         );
     };
@@ -212,12 +217,6 @@ export default function PersonalData({ route, navigation }) {
                 }
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.inputView}>
-                    {validateCpfErrorMessage && (
-                        <Text style={styles.errorMessage}>
-                            {validateCpfErrorMessage}
-                        </Text>
-                    )}
-
                     {renderNameInputForm()}
                     {renderBirthDtInputForm()}
                     {renderPhoneInputForm()}

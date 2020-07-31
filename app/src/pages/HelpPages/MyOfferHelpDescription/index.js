@@ -14,8 +14,9 @@ import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
-import { alertError, alertSuccess } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
+import useService from '../../../services/useService';
 
 export default function MyOfferHelpDescription({ route, navigation }) {
     const { help } = route.params;
@@ -52,17 +53,18 @@ export default function MyOfferHelpDescription({ route, navigation }) {
         );
     }
     async function finishHelp() {
-        try {
-            setFinishRequestLoading(true);
-            await HelpService.finishHelpByHelper(help._id, user._id);
-            goBackToMyOfferedHelpPage();
+        setFinishRequestLoading(true);
+        const finishHelpRequest = await useService(
+            HelpService,
+            'finishHelpByHelper',
+            [help._id, user._id],
+        );
+        if (!finishHelpRequest.error) {
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
             );
-        } catch (error) {
-            goBackToMyOfferedHelpPage();
-            alertError(error);
         }
+        goBackToMyOfferedHelpPage();
     }
 
     const renderOnGoingHelpButtons = () => {

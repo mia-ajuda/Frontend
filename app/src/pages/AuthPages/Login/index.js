@@ -14,13 +14,11 @@ import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import {
-    alertError,
-    alertMessageEmailVerification,
-} from '../../../utils/Alert';
+import useService from '../../../services/useService';
 
 export default function Login({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -35,23 +33,12 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const loginHandler = async () => {
+        setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        try {
-            setLoadingLoginRequest(true);
-            await SessionService.signIn(data);
-        } catch (err) {
-            setLoadingLoginRequest(false);
-            const emailNotVerifiedError = err.code == 'auth/email-not-verified';
-
-            if (err.message == 'Request failed with status code 404') {
-                alertError(err, null, 'Ooops..');
-            } else if (emailNotVerifiedError) {
-                alertMessageEmailVerification(err.message);
-            } else {
-                alertError(err, err.message, 'Ooops..');
-            }
-        }
+        setLoadingLoginRequest(true);
+        await useService(SessionService, 'signIn', [data]);
+        setLoadingLoginRequest(false);
     };
 
     const renderLoadingIndicator = () => (

@@ -5,11 +5,11 @@ import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
-import { alertError, alertSuccess } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
-
+import useService from '../../../services/useService';
 export default function MapHelpDescription({ route, navigation }) {
     const { help } = route.params;
     const { helpList, dispatch } = useContext(HelpContext);
@@ -33,17 +33,19 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     async function offerHelp() {
-        try {
-            setChooseHelpRequestLoading(true);
-            await HelpService.offerHelp(help._id, user._id);
+        setChooseHelpRequestLoading(true);
+        const offerHelpRequest = await useService(HelpService, 'offerHelp', [
+            help._id,
+            user._id,
+        ]);
+        if (!offerHelpRequest.error) {
             removeHelpFromMap();
             goBackToMapPage();
             alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
             );
-        } catch (error) {
+        } else {
             goBackToMapPage();
-            alertError(error);
         }
     }
 
