@@ -12,7 +12,7 @@ import Button from '../../../components/UI/button';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import useService from '../../../services/useService';
-import ViaCep from '../../../services/ExternalServices/ViaCep';
+import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 

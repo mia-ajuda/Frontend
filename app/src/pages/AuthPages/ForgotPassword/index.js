@@ -29,12 +29,12 @@ export default function ForgotPassword({ navigation }) {
 
     const handlerSubmit = async () => {
         setForgotPasswordRequestLoading(true);
-        const foundEmail = await useService(
+        const resetPasswordRequest = await useService(
             firebaseService,
             'resetUserPassword',
             [email.trim().toLowerCase()],
         );
-        if (!foundEmail.error) {
+        if (!resetPasswordRequest.error) {
             navigateBackToLoginPage();
             alertSuccess(
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',

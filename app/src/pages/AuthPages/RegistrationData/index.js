@@ -47,7 +47,7 @@ export default function RegistrationData({ route, navigation }) {
         setLoadingEmailVerification(true);
         keyboard.dismiss();
         const doesEmailExist = await useService(UserService, 'verifyUserInfo', [
-            email,
+            email.toLowerCase(),
         ]);
         if (!doesEmailExist.error) {
             if (doesEmailExist) {

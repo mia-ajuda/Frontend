@@ -45,21 +45,22 @@ export default function PersonalData({ route, navigation }) {
         setloadingCpfVerification(false);
         if (!cpfExist.error) {
             if (cpfExist) {
-                alertError(
-                    null,
-                    'Esse Cpf já está sendo utilizado por outro usuário',
-                );
                 return true;
+            } else {
+                return false;
             }
-            return false;
         }
-        return true;
     };
 
     const continueHandler = async () => {
         keyboard.dismiss();
         const cpfExist = await verifyCpfExistence();
-        if (!cpfExist) {
+        if (cpfExist) {
+            alertError(
+                null,
+                'Esse Cpf já está sendo utilizado por outro usuário',
+            );
+        } else {
             const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
             const birthdayFormated = formatDate(birthday);
             const userDataFromPersonalPage = {

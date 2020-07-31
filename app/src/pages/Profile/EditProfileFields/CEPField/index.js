@@ -10,7 +10,7 @@ import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserService from '../../../../services/User';
-import ViaCep from '../../../../services/ExternalServices/ViaCep';
+import ViaCep from '../../../../ExternalServices/ViaCep';
 import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
