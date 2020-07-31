@@ -21,9 +21,7 @@ const MainNavigation = () => (
         />
         <Stack.Screen
             name="mapHelpDescription"
-            options={({ route }) => ({
-                title: route.params.help.title,
-            })}
+            options={{ title: 'Detalhes' }}
             component={MapHelpDescription}
         />
     </Stack.Navigator>

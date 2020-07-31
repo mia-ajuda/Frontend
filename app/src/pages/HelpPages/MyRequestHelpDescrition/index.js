@@ -60,13 +60,12 @@ export default function HelpDescription({ route, navigation }) {
     const renderHelpInfo = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Categoria: </Text>
-                    {help.category[0].name}
-                </Text>
-                <Text style={[styles.infoText, styles.infoTextDescription]}>
-                    Descrição:
-                </Text>
+                <Text style={styles.titleFont}>{help.title}</Text>
+                    <View style={styles.categoryWarning}>
+                        <Text style={styles.categoryName}>
+                            {help.category[0].name}
+                        </Text>
+                    </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>
