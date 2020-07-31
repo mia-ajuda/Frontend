@@ -35,7 +35,10 @@ export default function PersonalData({ route, navigation }) {
     );
     const [useCNPJ, setUseCNPJ] = useState(false);
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
-    const [validateCpfErrorMessage, setValidateCpfErrorMessage] = useState();
+    const [
+        validateDocumentErrorMessage,
+        setValidateDocumentErrorMessage,
+    ] = useState();
 
     const verifyIdExistence = async () => {
         setloadingCpfVerification(true);
@@ -53,22 +56,30 @@ export default function PersonalData({ route, navigation }) {
         keyboard.dismiss();
         try {
             await verifyIdExistence();
-
+            let userDataFromPersonalPage;
             const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            const birthdayFormated = useCNPJ ? null : formatDate(birthday);
-            const document = useCNPJ ? cnpj : cpf;
-            const userDataFromPersonalPage = {
-                name,
-                birthday: birthdayFormated,
-                document,
-                phone,
-                mentalHealthProfessional,
-                ...userDatafromRegistrationPage,
-            };
-            console.log(userDataFromPersonalPage);
+            if (useCNPJ) {
+                userDataFromPersonalPage = {
+                    name,
+                    cnpj,
+                    phone,
+                    ...userDatafromRegistrationPage,
+                };
+            } else {
+                const birthdayFormated = formatDate(birthday);
+                userDataFromPersonalPage = {
+                    name,
+                    birthday: birthdayFormated,
+                    cpf,
+                    phone,
+                    mentalHealthProfessional,
+                    ...userDatafromRegistrationPage,
+                };
+            }
+
             navigation.navigate('address', { userDataFromPersonalPage });
         } catch (error) {
-            setValidateCpfErrorMessage(error);
+            setValidateDocumentErrorMessage(error);
         }
     };
 
@@ -256,9 +267,9 @@ export default function PersonalData({ route, navigation }) {
                 }
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.inputView}>
-                    {validateCpfErrorMessage && (
+                    {validateDocumentErrorMessage && (
                         <Text style={styles.errorMessage}>
-                            {validateCpfErrorMessage}
+                            {validateDocumentErrorMessage}
                         </Text>
                     )}
                     {renderEntityButton()}

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
+import { alertSuccess, alertError } from '../../../../utils/Alert';
+import SessionService from '../../../../services/Session';
 import TermsModal from '../../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../../components/UI/button';
@@ -10,7 +12,7 @@ import styles from './styles';
 
 export default function PhotoPreview({ route, navigation }) {
     const { userDataFromAddressPage, selectedPhoto } = route.params;
-
+    const cnpjExist = userDataFromAddressPage.cnpj;
     const [termsModalVisible, setTermsModalVisible] = useState(false);
     const [checked, setChecked] = useState(false);
     const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
@@ -21,7 +23,17 @@ export default function PhotoPreview({ route, navigation }) {
             photo: selectedPhoto,
             ...userDataFromAddressPage,
         };
-        navigation.navigate('riskGroup', { userDataFromPhotoPage });
+        if (cnpjExist) {
+            try {
+                // setLoadingUserRegistration(true);
+                await SessionService.signUp(userDataFromPhotoPage);
+                navigation.navigate('login');
+                alertSuccess('Seu cadastro foi realizado com sucesso');
+            } catch (err) {
+                navigation.navigate('login');
+                alertError(err);
+            }
+        } else navigation.navigate('riskGroup', { userDataFromPhotoPage });
     }
 
     const titleCheckBox = (
@@ -78,7 +90,7 @@ export default function PhotoPreview({ route, navigation }) {
                 />
                 <Buttom
                     disabled={!checked}
-                    title="Continuar"
+                    title={cnpjExist ? 'Concluir' : 'Continuar'}
                     press={() => {
                         continueHandler();
                     }}

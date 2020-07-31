@@ -4,7 +4,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
 import Container from '../../../components/Container';
-import extractNumbers from '../../../utils/removeSpecialChars';
 
 import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
@@ -60,9 +59,7 @@ export default function Photo({ route, navigation }) {
         </TouchableOpacity>
     );
     const renderGalleryButton = () => {
-        const documentSize = extractNumbers(userDataFromAddressPage.document)
-            .length;
-        if (documentSize == 14) {
+        if (userDataFromAddressPage.cnpj) {
             return (
                 <TouchableOpacity
                     onPress={pickImageFromGallery}

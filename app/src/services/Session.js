@@ -35,7 +35,10 @@ class SessionService {
 
     async signUp(data) {
         try {
-            const response = await api.post('/user', data);
+            let response;
+            if (data.cnpj) response = await api.post('/entity', data);
+            else response = await api.post('/user', data);
+
             await firebaseService.login(data.email, data.password);
             await firebaseService.sendEmailVerification();
             await firebaseService.signOut();
