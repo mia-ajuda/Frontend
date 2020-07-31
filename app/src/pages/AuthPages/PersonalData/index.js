@@ -37,6 +37,7 @@ export default function PersonalData({ route, navigation }) {
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
 
     const verifyCpfExistence = async () => {
+        keyboard.dismiss();
         setloadingCpfVerification(true);
         const cpfOnlyNumbers = removeSpecialCharsFrom(cpf);
         const cpfExist = await useService(UserService, 'verifyUserInfo', [
@@ -45,34 +46,28 @@ export default function PersonalData({ route, navigation }) {
         setloadingCpfVerification(false);
         if (!cpfExist.error) {
             if (cpfExist) {
-                return true;
+                alertError(
+                    null,
+                    'Esse Cpf já está sendo utilizado por outro usuário',
+                );
             } else {
-                return false;
+                continueHandler();
             }
         }
     };
 
     const continueHandler = async () => {
-        keyboard.dismiss();
-        const cpfExist = await verifyCpfExistence();
-        if (cpfExist) {
-            alertError(
-                null,
-                'Esse Cpf já está sendo utilizado por outro usuário',
-            );
-        } else {
-            const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            const birthdayFormated = formatDate(birthday);
-            const userDataFromPersonalPage = {
-                name,
-                birthday: birthdayFormated,
-                cpf,
-                phone,
-                mentalHealthProfessional,
-                ...userDatafromRegistrationPage,
-            };
-            navigation.navigate('address', { userDataFromPersonalPage });
-        }
+        const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+        const birthdayFormated = formatDate(birthday);
+        const userDataFromPersonalPage = {
+            name,
+            birthday: birthdayFormated,
+            cpf,
+            phone,
+            mentalHealthProfessional,
+            ...userDatafromRegistrationPage,
+        };
+        navigation.navigate('address', { userDataFromPersonalPage });
     };
 
     const renderPageHeader = () => {
@@ -205,7 +200,7 @@ export default function PersonalData({ route, navigation }) {
                 title="Continuar"
                 disabled={fieldsValid == false}
                 large
-                press={continueHandler}
+                press={verifyCpfExistence}
             />
         );
     };

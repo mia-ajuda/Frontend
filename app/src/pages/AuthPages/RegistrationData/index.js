@@ -30,9 +30,6 @@ export default function RegistrationData({ route, navigation }) {
         setLoadingEmailVerification,
     ] = useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-    const passwordHandler = (enteredPassword) => {
-        setPassword(enteredPassword);
-    };
 
     const continueHandler = () => {
         const userDatafromRegistrationPage = {
@@ -105,7 +102,7 @@ export default function RegistrationData({ route, navigation }) {
         return (
             <Input
                 type="password"
-                change={passwordHandler}
+                change={(password) => setPassword(password)}
                 label="Senha (pelo menos 8 caracteres)"
                 placeholder="Senha"
                 valid={isPasswordValid}
