@@ -49,13 +49,13 @@ export default function CreateHelp({ navigation }) {
     async function createHelp() {
         const { _id: userId } = user;
         setCreateHelpLoading(true);
-        const validHelp = await useService(helpService, 'createHelp', [
+        const createHelpRequest = await useService(helpService, 'createHelp', [
             title,
             category['_id'],
             description,
             userId,
         ]);
-        if (!validHelp.error) {
+        if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
         } else {
             navigation.navigate('main');

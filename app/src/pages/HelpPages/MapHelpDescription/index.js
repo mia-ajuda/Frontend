@@ -34,11 +34,11 @@ export default function MapHelpDescription({ route, navigation }) {
 
     async function offerHelp() {
         setChooseHelpRequestLoading(true);
-        const validRequest = await useService(HelpService, 'offerHelp', [
+        const offerHelpRequest = await useService(HelpService, 'offerHelp', [
             help._id,
             user._id,
         ]);
-        if (!validRequest.error) {
+        if (!offerHelpRequest.error) {
             removeHelpFromMap();
             goBackToMapPage();
             alertSuccess(

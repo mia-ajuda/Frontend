@@ -54,19 +54,17 @@ export default function MyOfferHelpDescription({ route, navigation }) {
     }
     async function finishHelp() {
         setFinishRequestLoading(true);
-        const validRequest = await useService(
+        const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByHelper',
             [help._id, user._id],
         );
-        if (!validRequest.error) {
-            goBackToMyOfferedHelpPage();
+        if (!finishHelpRequest.error) {
             alertSuccess(
                 'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
             );
-        } else {
-            goBackToMyOfferedHelpPage();
         }
+        goBackToMyOfferedHelpPage();
     }
 
     const renderOnGoingHelpButtons = () => {

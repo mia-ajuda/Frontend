@@ -39,19 +39,17 @@ export default function HelperCard({ help }) {
 
     async function finishHelpByOwner() {
         setFinishHelpRequestLoading(true);
-        const validRequest = await useService(
+        const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByOwner',
             [help._id, user._id],
         );
-        if (!validRequest.error) {
-            goBackToMyResquestsPage();
+        if (!finishHelpRequest.error) {
             alertSuccess(
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
             );
-        } else {
-            goBackToMyResquestsPage();
         }
+        goBackToMyResquestsPage();
     }
     return (
         <View>

@@ -20,16 +20,15 @@ export default function ListPossibleHelpers({ navigation, route }) {
 
     async function chooseHelper() {
         setChooseRequestLoading(true);
-        const validRequest = await useService(HelpService, 'chooseHelper', [
-            help._id,
-            selectedHelperId,
-        ]);
-        if (!validRequest.error) {
-            goBackToMyRequestsPage();
+        const chooseHelperRequest = await useService(
+            HelpService,
+            'chooseHelper',
+            [help._id, selectedHelperId],
+        );
+        if (!chooseHelperRequest.error) {
             alertSuccess('Ajudante escolhido com sucesso!');
-        } else {
-            goBackToMyRequestsPage();
         }
+        goBackToMyRequestsPage();
     }
 
     const renderPossibleHelpersList = () => {

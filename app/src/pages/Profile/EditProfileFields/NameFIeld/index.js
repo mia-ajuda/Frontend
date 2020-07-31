@@ -27,7 +27,7 @@ export default function EditNameField({ route, navigation }) {
         };
         setEditRequestLoading(true);
         const user = await useService(UserService, 'editUser', [data]);
-        if (!user.erro) {
+        if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
         }

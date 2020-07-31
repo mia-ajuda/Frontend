@@ -43,10 +43,12 @@ export default function RiskGroup({ route, navigation }) {
         };
 
         setLoadingUserRegistration(true);
-        const completeRegister = await useService(SessionService, 'signUp', [
-            completeRegistragionData,
-        ]);
-        if (!completeRegister.error) {
+        const completeRegistration = await useService(
+            SessionService,
+            'signUp',
+            [completeRegistragionData],
+        );
+        if (!completeRegistration.error) {
             navigation.navigate('login');
             alertSuccess('Seu cadastro foi realizado com sucesso');
         } else {

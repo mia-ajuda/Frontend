@@ -74,11 +74,11 @@ export default function HelpContextProvider(props) {
         }
     }, [selectedCategories]);
 
-    async function getHelpList(loc) {
-        if (loc) {
+    async function getHelpList(coords) {
+        if (coords) {
             const { _id: userId } = user;
             const helpListArray = await useService(HelpService, 'getNearHelp', [
-                loc,
+                coords,
                 userId,
             ]);
             if (!helpListArray.error) {
@@ -91,13 +91,13 @@ export default function HelpContextProvider(props) {
         }
     }
 
-    async function getHelpListWithCategories(loc) {
-        if (loc && selectedCategories.length) {
+    async function getHelpListWithCategories(coords) {
+        if (coords && selectedCategories.length) {
             const { _id: userId } = user;
             const helpListFiltered = await useService(
                 HelpService,
                 'getAllHelpForCategory',
-                [loc, selectedCategories, userId],
+                [coords, selectedCategories, userId],
             );
             if (!helpListFiltered.error) {
                 dispatch({
