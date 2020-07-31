@@ -206,7 +206,7 @@ export default function PersonalData({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="height">
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
             {renderPageHeader()}
             <ScrollView
                 style={styles.formScroll}
