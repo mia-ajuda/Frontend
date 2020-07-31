@@ -8,8 +8,8 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import UserService from '../../../services/User';
+import EntityService from '../../../services/Entity';
 import colors from '../../../../assets/styles/colorVariables';
-
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
@@ -48,9 +48,13 @@ export default function RegistrationData({ route, navigation }) {
         try {
             setLoadingEmailVerification(true);
             keyboard.dismiss();
-            const doesEmailExist = await UserService.verifyUserInfo(email);
-            if (doesEmailExist)
+            let doesEmailExist = await UserService.verifyUserInfo(email);
+            if (doesEmailExist == false) {
+                doesEmailExist = await EntityService.verifyEntityInfo(email);
+            }
+            if (doesEmailExist) {
                 throw 'Esse email já está sendo usado por outro usuário';
+            }
             continueHandler();
         } catch (err) {
             setCheckEmailError(err);

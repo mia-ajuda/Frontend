@@ -2,6 +2,7 @@ import firebaseService from './Firebase';
 import { AsyncStorage } from 'react-native';
 import translateFirebaseError from '../utils/translateFirebaseAuthError';
 import UserService from './User';
+import EntityService from './Entity';
 
 import env from '../config/envVariables';
 import api from './Api';
@@ -18,7 +19,11 @@ class SessionService {
             if (isEmailVerified == false && shouldVerifyEmail) {
                 throw { code: 'auth/email-not-verified' };
             }
-            UserService.setUserDeviceId();
+            const doesEmailExist = await UserService.verifyUserInfo(
+                loginInfo.email,
+            );
+            if (doesEmailExist) UserService.setUserDeviceId();
+            else EntityService.setEntityDeviceId();
         } catch (error) {
             const errorFromFirebase = error.code;
             if (errorFromFirebase) {

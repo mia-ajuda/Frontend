@@ -13,6 +13,7 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import UserService from '../../../services/User';
+import EntityService from '../../../services/Entity';
 import colors from '../../../../assets/styles/colorVariables';
 import cpfValidator from '../../../utils/cpfValidator';
 import cnpjValidator from '../../../utils/cnpjValidator';
@@ -43,10 +44,16 @@ export default function PersonalData({ route, navigation }) {
     const verifyIdExistence = async () => {
         setloadingCpfVerification(true);
         const idLabel = useCNPJ ? 'CNPJ' : 'CPF';
-        const idOnlyNumbers = useCNPJ
-            ? removeSpecialCharsFrom(cnpj)
-            : removeSpecialCharsFrom(cpf);
-        const idExist = await UserService.verifyUserInfo(idOnlyNumbers);
+        let idOnlyNumbers;
+        let idExist;
+        if (useCNPJ) {
+            idOnlyNumbers = removeSpecialCharsFrom(cnpj);
+            idExist = await EntityService.verifyEntityInfo(idOnlyNumbers);
+        } else {
+            idOnlyNumbers = removeSpecialCharsFrom(cpf);
+            idExist = await UserService.verifyUserInfo(idOnlyNumbers);
+        }
+
         setloadingCpfVerification(false);
         if (idExist)
             throw `Esse ${idLabel} já está sendo utilizado por outro usuário`;
