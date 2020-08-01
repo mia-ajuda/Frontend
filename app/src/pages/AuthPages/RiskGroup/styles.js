@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     btnView: {
         width: '90%',
         bottom: 20,
+        backgroundColor: colors.primary,
         justifyContent: 'flex-end',
         position: 'absolute',
     },

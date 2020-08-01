@@ -165,5 +165,5 @@ export default function Address({ route, navigation }) {
 
             {renderContinueButton()}
         </KeyboardAvoidingView>
-    );
+    ) ;
 }

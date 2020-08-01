@@ -24,7 +24,7 @@ import { requestHelpWarningMessage } from '../../../docs/warning';
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState({});
-    const [deion, setDeion] = useState('');
+    const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
@@ -39,16 +39,15 @@ export default function CreateHelp({ navigation }) {
     }, []);
 
     useEffect(() => {
-        if (title && category && deion) {
+        if (title && category && description) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [title, deion, category]);
+    }, [title, description, category]);
 
     async function createHelp() {
         const { _id: userId } = user;
-
         setCreateHelpLoading(true);
         const createHelpRequest = await useService(helpService, 'createHelp', [
             title,
@@ -57,24 +56,11 @@ export default function CreateHelp({ navigation }) {
             userId,
         ]);
         if (!createHelpRequest.error) {
-
-        try {
-            setCreateHelpLoading(true);
-            await helpService.createHelp(
-                title,
-                category['_id'],
-                deion,
-                userId,
-            );
-        } finally {
-                 setModalSuccessMoldalVisible(true);}
-                }
-
-            else {
+            setModalSuccessMoldalVisible(true);
+        } else {
             navigation.navigate('main');
         }
         setCreateHelpLoading(false);
-        
     }
 
     const renderPickerCategoryForm = () => (
@@ -98,15 +84,14 @@ export default function CreateHelp({ navigation }) {
             </View>
         </View>
     );
-
-    const renderInputDeionForm = () => (
-        <View style={styles.deionInput}>
+    const renderInputDescriptionForm = () => (
+        <View style={styles.descriptionInput}>
             <Input
                 label="Descrição"
                 textarea
-                change={(text) => setDeion(text)}
+                change={(text) => setDescription(text)}
             />
-            <Text>{deion.length}/300</Text>
+            <Text>{description.length}/300</Text>
         </View>
     );
 
@@ -132,7 +117,7 @@ export default function CreateHelp({ navigation }) {
                 <View style={styles.view}>
                     {renderInputTitleForm()}
                     {renderPickerCategoryForm()}
-                    {renderInputDeionForm()}
+                    {renderInputDescriptionForm()}
 
                     <View style={styles.btnContainer}>
                         {createHelpLoading
@@ -147,5 +132,4 @@ export default function CreateHelp({ navigation }) {
             />
         </ScrollView>
     );
-    
 }
