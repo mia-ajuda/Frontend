@@ -12,7 +12,7 @@ const BUTTON_MIN_HEIGHT = 0;
 
 const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
-export default function FloatingButtons() {
+export default function CreateHelpButtons() {
     const navigation = useNavigation();
     const [isButtonsShown, setButtonsShown] = useState(false);
 
@@ -80,6 +80,39 @@ export default function FloatingButtons() {
         </Animated.View>
     );
 
+    const renderOfferButton = () => (
+        <AnimatedButton
+            onPress={navigateToCreateHelpOfferPage}
+            style={[
+                {
+                    transform: [
+                        {
+                            translateY: buttonsTransleY.interpolate({
+                                inputRange: [
+                                    BUTTON_MIN_HEIGHT,
+                                    BUTTON_MAX_HEIGHT,
+                                ],
+                                outputRange: [0, -BUTTON_MAX_HEIGHT],
+                            }),
+                        },
+                    ],
+                },
+                styles.helpButtonView,
+            ]}>
+            {isButtonsShown && (
+                <Text style={styles.helpButtonText}>oferecer ajuda</Text>
+            )}
+
+            <View style={styles.helpButton}>
+                <FontAwesome5
+                    name="hand-holding-heart"
+                    size={30}
+                    color={colors.primary}
+                />
+            </View>
+        </AnimatedButton>
+    );
+
     const renderRequestHelpButton = () => (
         <AnimatedButton
             onPress={navigateToCreateHelpPage}
@@ -110,38 +143,6 @@ export default function FloatingButtons() {
                 <FontAwesome
                     name="exclamation"
                     size={50}
-                    color={colors.primary}
-                />
-            </View>
-        </AnimatedButton>
-    );
-    const renderOfferButton = () => (
-        <AnimatedButton
-            onPress={navigateToCreateHelpOfferPage}
-            style={[
-                {
-                    transform: [
-                        {
-                            translateY: buttonsTransleY.interpolate({
-                                inputRange: [
-                                    BUTTON_MIN_HEIGHT,
-                                    BUTTON_MAX_HEIGHT,
-                                ],
-                                outputRange: [0, -BUTTON_MAX_HEIGHT],
-                            }),
-                        },
-                    ],
-                },
-                styles.helpButtonView,
-            ]}>
-            {isButtonsShown && (
-                <Text style={styles.helpButtonText}>oferecer ajuda</Text>
-            )}
-
-            <View style={styles.helpButton}>
-                <FontAwesome5
-                    name="hand-holding-heart"
-                    size={30}
                     color={colors.primary}
                 />
             </View>

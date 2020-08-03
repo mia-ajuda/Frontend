@@ -26,6 +26,7 @@ const headerStyle = {
         color: colors.light,
         fontFamily: 'montserrat-medium',
         marginHorizontal: 30,
+        fontSize: 20,
     },
     headerTintColor: colors.light,
     headerTitleAlign: 'center',

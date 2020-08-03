@@ -22,7 +22,9 @@ const MainNavigation = () => (
         />
         <Stack.Screen
             name="createHelpOffer"
-            options={{ title: 'Oferecer ajuda' }}
+            options={{
+                title: 'oferecer ajuda',
+            }}
             component={CreateHelpOffer}
         />
         <Stack.Screen

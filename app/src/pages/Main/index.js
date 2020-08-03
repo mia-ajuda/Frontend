@@ -5,7 +5,7 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
-import FloatingHelpButtons from '../../components/FloatingButton';
+import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
@@ -87,7 +87,7 @@ export default function Main({ navigation }) {
             </MapView>
 
             {renderFilterButton()}
-            <FloatingHelpButtons />
+            <CreateHelpButtons />
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
