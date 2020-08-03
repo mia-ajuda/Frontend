@@ -3,7 +3,6 @@
         "name": "Mia Ajuda",
         "slug": "miaajuda",
         "privacy": "public",
-        "sdkVersion": "36.0.0",
         "platforms": ["android"],
         "notification": {
             "icon": "./assets/images/logo.png",
