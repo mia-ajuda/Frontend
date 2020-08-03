@@ -5,8 +5,7 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
-
-import Button from '../../components/UI/button';
+import FloatingButtons from '../../components/FloatingButton';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
@@ -55,16 +54,17 @@ export default function Main({ navigation }) {
     );
 
     const renderNewHelpButton = () => (
-        <View style={styles.helpButton}>
-            <Button
-                title="Pedir ajuda"
-                press={() => {
-                    navigation.navigate('createHelp');
-                }}
-                type="danger"
-                large
-            />
-        </View>
+        // <View style={styles.helpButton}>
+        //     <Button
+        //         title="Pedir ajuda"
+        //         press={() => {
+        //             navigation.navigate('createHelp');
+        //         }}
+        //         type="danger"
+        //         large
+        //     />
+        // </View>
+        <FloatingButtons />
     );
 
     return (

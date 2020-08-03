@@ -6454,10 +6454,12 @@ react-native-ratings@^6.3.0:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
-react-native-reanimated@~1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.4.0.tgz#7f1acbf9be08492d834f512700570978052be2f9"
-  integrity sha512-tO7nSNNP+iRLVbkcSS5GXyDBb7tSI02+XuRL3/S39EAr35rnvUy2JfeLUQG+fWSObJjnMVhasUDEUwlENk8IXw==
+react-native-reanimated@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.10.1.tgz#82e79ae119e97b282ce53d16bc6db9765a56b22b"
+  integrity sha512-j9+GOEmLLEzFpxpYOA9dSBusUHGaTJAHSJ9tIXU4IgklN7hIB5CA6ONMnm6iQ5lC/nhNFdLKag/jOgzVa+mHBQ==
+  dependencies:
+    fbjs "^1.0.0"
 
 react-native-safe-area-context@0.6.0:
   version "0.6.0"
