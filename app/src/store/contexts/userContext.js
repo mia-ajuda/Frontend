@@ -2,6 +2,7 @@ import React, { useReducer, createContext, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
+import EntityService from '../../services/Entity';
 import actions from '../actions';
 import env from '../../config/envVariables';
 
@@ -65,9 +66,16 @@ export const UserContextProvider = (props) => {
 
         if (userPreviouslyLogged) {
             try {
-                const user = await UserService.requestLoggedUserData();
+                let userInfo;
 
-                dispatch({ type: actions.user.storeUserInfo, data: user });
+                const isUser = await UserService.verifyUserInfo();
+                if (isUser) {
+                    userInfo = await UserService.requestLoggedUserData();
+                } else {
+                    userInfo = await EntityService.requestLoggedEntityData();
+                }
+
+                dispatch({ type: actions.user.storeUserInfo, data: userInfo });
             } catch (error) {
                 dispatch({ type: actions.user.requestSignIn });
             }
