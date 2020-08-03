@@ -25,7 +25,11 @@ export default function FloatingButtons() {
     };
 
     const navigateToCreateHelpPage = () => {
-        navigation.navigate('createHelp');
+        navigation.navigate('createHelpRequest');
+        hideButtons();
+    };
+    const navigateToCreateHelpOfferPage = () => {
+        navigation.navigate('createHelpOffer');
         hideButtons();
     };
 
@@ -113,6 +117,7 @@ export default function FloatingButtons() {
     );
     const renderOfferButton = () => (
         <AnimatedButton
+            onPress={navigateToCreateHelpOfferPage}
             style={[
                 {
                     transform: [

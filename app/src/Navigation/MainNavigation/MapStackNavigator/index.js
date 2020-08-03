@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../pages/Main';
-import CreateHelp from '../../../pages/HelpPages/CreateHelp';
+import CreateHelpRequest from '../../../pages/HelpPages/CreateHelpRequest';
+import CreateHelpOffer from '../../../pages/HelpPages/CreateHelpOffer';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
@@ -15,9 +16,14 @@ const MainNavigation = () => (
             options={{ headerShown: false }}
         />
         <Stack.Screen
-            name="createHelp"
+            name="createHelpRequest"
             options={{ title: 'Pedir ajuda' }}
-            component={CreateHelp}
+            component={CreateHelpRequest}
+        />
+        <Stack.Screen
+            name="createHelpOffer"
+            options={{ title: 'Oferecer ajuda' }}
+            component={CreateHelpOffer}
         />
         <Stack.Screen
             name="mapHelpDescription"

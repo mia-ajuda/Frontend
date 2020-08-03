@@ -5,7 +5,7 @@ import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
 import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
-import FloatingButtons from '../../components/FloatingButton';
+import FloatingHelpButtons from '../../components/FloatingButton';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
@@ -53,20 +53,6 @@ export default function Main({ navigation }) {
         </TouchableOpacity>
     );
 
-    const renderNewHelpButton = () => (
-        // <View style={styles.helpButton}>
-        //     <Button
-        //         title="Pedir ajuda"
-        //         press={() => {
-        //             navigation.navigate('createHelp');
-        //         }}
-        //         type="danger"
-        //         large
-        //     />
-        // </View>
-        <FloatingButtons />
-    );
-
     return (
         <SafeAreaView style={styles.container}>
             <CategoryListModal
@@ -101,8 +87,7 @@ export default function Main({ navigation }) {
             </MapView>
 
             {renderFilterButton()}
-            {renderNewHelpButton()}
-
+            <FloatingHelpButtons />
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
