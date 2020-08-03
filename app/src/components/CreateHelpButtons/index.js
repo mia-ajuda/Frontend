@@ -10,7 +10,7 @@ const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
 const BUTTON_MIN_HEIGHT = 0;
 
-const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
+const HelpButtonAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
@@ -81,7 +81,7 @@ export default function CreateHelpButtons() {
     );
 
     const renderOfferButton = () => (
-        <AnimatedButton
+        <HelpButtonAnimated
             onPress={navigateToCreateHelpOfferPage}
             style={[
                 {
@@ -110,11 +110,11 @@ export default function CreateHelpButtons() {
                     color={colors.primary}
                 />
             </View>
-        </AnimatedButton>
+        </HelpButtonAnimated>
     );
 
     const renderRequestHelpButton = () => (
-        <AnimatedButton
+        <HelpButtonAnimated
             onPress={navigateToCreateHelpPage}
             style={[
                 {
@@ -146,7 +146,7 @@ export default function CreateHelpButtons() {
                     color={colors.primary}
                 />
             </View>
-        </AnimatedButton>
+        </HelpButtonAnimated>
     );
 
     return (
