@@ -14,10 +14,10 @@ const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
-    const [isButtonsShown, setButtonsShown] = useState(false);
+    const [isButtonsVisible, setButtonsVisible] = useState(false);
 
     const toggleButtonsVisibility = () => {
-        if (isButtonsShown) {
+        if (isButtonsVisible) {
             hideButtons();
         } else {
             showButtons();
@@ -40,7 +40,7 @@ export default function CreateHelpButtons() {
             easing: Easing.inOut(Easing.ease),
         };
         timing(buttonsTransleY, showButtonsConfig).start();
-        setButtonsShown(true);
+        setButtonsVisible(true);
     };
 
     const hideButtons = () => {
@@ -50,7 +50,7 @@ export default function CreateHelpButtons() {
             easing: Easing.inOut(Easing.ease),
         };
         timing(buttonsTransleY, hideButtonsConfig).start();
-        setButtonsShown(false);
+        setButtonsVisible(false);
     };
 
     const renderPlusButton = () => (
@@ -99,7 +99,7 @@ export default function CreateHelpButtons() {
                 },
                 styles.helpButtonView,
             ]}>
-            {isButtonsShown && (
+            {isButtonsVisible && (
                 <Text style={styles.helpButtonText}>Oferecer ajuda</Text>
             )}
 
@@ -132,7 +132,7 @@ export default function CreateHelpButtons() {
                 },
                 styles.helpButtonView,
             ]}>
-            {isButtonsShown && (
+            {isButtonsVisible && (
                 <Text style={styles.helpButtonText}>Pedir ajuda</Text>
             )}
             <View
