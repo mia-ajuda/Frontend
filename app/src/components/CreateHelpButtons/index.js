@@ -100,7 +100,7 @@ export default function CreateHelpButtons() {
                 styles.helpButtonView,
             ]}>
             {isButtonsShown && (
-                <Text style={styles.helpButtonText}>oferecer ajuda</Text>
+                <Text style={styles.helpButtonText}>Oferecer ajuda</Text>
             )}
 
             <View style={styles.helpButton}>
