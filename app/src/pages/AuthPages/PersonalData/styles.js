@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         color: color.primary,
     },
+    labelFalse: {
+        fontFamily: 'montserrat-semibold',
+        color: color.danger,
+    },
     viewMargin: {
         marginVertical: 6,
     },
@@ -65,8 +69,11 @@ const styles = StyleSheet.create({
         marginBottom: 45,
         alignItems: 'center',
     },
-    checkboxView: {
-        alignSelf: 'stretch',
+    switchView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
     },
     backIcon: {
         alignItems: 'flex-start',

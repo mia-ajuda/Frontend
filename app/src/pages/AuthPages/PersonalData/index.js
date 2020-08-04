@@ -6,8 +6,9 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
+    Switch,
 } from 'react-native';
-import { Icon, CheckBox } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
@@ -26,6 +27,7 @@ import { DeviceInformationContext } from '../../../store/contexts/deviceInformat
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
     const { userDatafromRegistrationPage } = route.params;
+
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState('');
     const [cpf, setCPF] = useState('');
@@ -144,7 +146,7 @@ export default function PersonalData({ route, navigation }) {
         );
     };
 
-    const renderBirthDtInputForm = () => {
+    const renderBirthdayInputForm = () => {
         const isBirthdateValid = dateValidator(birthday) || birthday == '';
         if (useCNPJ) return;
         return (
@@ -213,34 +215,53 @@ export default function PersonalData({ route, navigation }) {
     const renderProfessionalHealthCheckbox = () => {
         if (useCNPJ) return;
         return (
-            <View style={styles.toggleView}>
-                <View style={styles.checkboxView}>
-                    <CheckBox
-                        title="Sou profissional de saúde mental"
-                        checked={mentalHealthProfessional}
-                        onPress={() => {
-                            setMentalHealthProfessional(
-                                !mentalHealthProfessional,
-                            );
-                            setCNPJ('');
-                        }}
-                    />
-                </View>
+            <View style={styles.switchView}>
+                <Text
+                    style={
+                        mentalHealthProfessional
+                            ? styles.label
+                            : styles.labelFalse
+                    }>
+                    Sou profissional de saúde mental
+                </Text>
+                <Switch
+                    trackColor={{
+                        false: colors.dark,
+                        true: colors.primaryContrast,
+                    }}
+                    thumbColor={
+                        mentalHealthProfessional ? colors.primary : colors.light
+                    }
+                    ios_backgroundColor={colors.dark}
+                    onValueChange={() => {
+                        setMentalHealthProfessional(!mentalHealthProfessional);
+                        setCNPJ('');
+                    }}
+                    value={mentalHealthProfessional}
+                />
             </View>
         );
     };
 
     const renderEntityButton = () => (
-        <View style={styles.checkboxView}>
-            <CheckBox
-                title="Sou uma ONG ou instituição"
-                checked={useCNPJ}
-                onPress={() => {
+        <View style={styles.switchView}>
+            <Text style={useCNPJ ? styles.label : styles.labelFalse}>
+                Sou uma ONG ou instituição
+            </Text>
+            <Switch
+                trackColor={{
+                    false: colors.dark,
+                    true: colors.primaryContrast,
+                }}
+                thumbColor={useCNPJ ? colors.primary : colors.light}
+                ios_backgroundColor={colors.dark}
+                onValueChange={() => {
                     setUseCNPJ(!useCNPJ);
                     setMentalHealthProfessional(false);
                     setCNPJ('');
                     setCPF('');
                 }}
+                value={useCNPJ}
             />
         </View>
     );
@@ -279,9 +300,10 @@ export default function PersonalData({ route, navigation }) {
                             {validateDocumentErrorMessage}
                         </Text>
                     )}
+
                     {renderEntityButton()}
                     {renderNameInputForm()}
-                    {renderBirthDtInputForm()}
+                    {renderBirthdayInputForm()}
                     {renderPhoneInputForm()}
                     {renderIdInputForm()}
                     {renderProfessionalHealthCheckbox()}
