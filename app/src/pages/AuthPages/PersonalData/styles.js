@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     scrollContainerOnTyping: {
-        marginTop: 40,
         flexGrow: 1,
         justifyContent: 'center',
     },
@@ -56,7 +55,13 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: 'montserrat-semibold',
         color: color.primary,
+        marginTop: 10,
     },
+    switchLabel: {
+        fontFamily: 'montserrat-semibold',
+        color: color.primary,
+    },
+
     viewMargin: {
         marginVertical: 6,
     },
@@ -65,12 +70,18 @@ const styles = StyleSheet.create({
         marginBottom: 45,
         alignItems: 'center',
     },
-    checkboxView: {
-        alignSelf: 'stretch',
+    switchViewEntity: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    switchViewMentalHelthProfessional: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
     },
     backIcon: {
         alignItems: 'flex-start',
-        marginTop: 15,
     },
     errorMessage: {
         ...fonts.body,

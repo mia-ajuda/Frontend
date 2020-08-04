@@ -14,10 +14,20 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    pickPhotoButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    pickerText: {
+        ...fonts.body,
+        fontSize: 14,
+    },
     button: {
         backgroundColor: '#c4c4c4',
-        padding: 20,
-        borderRadius: 100,
+        width: 60,
+        height: 60,
+        borderRadius: 35,
+        justifyContent: 'center',
         alignItems: 'center',
     },
 

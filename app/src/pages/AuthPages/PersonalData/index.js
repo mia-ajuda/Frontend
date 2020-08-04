@@ -42,7 +42,6 @@ export default function PersonalData({ route, navigation }) {
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
 
     const verifyIdExistence = async () => {
-        // keyboard.dismiss();
         setloadingCpfVerification(true);
         const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
         const idOnlyNumbers = isEntityUser
@@ -214,13 +213,8 @@ export default function PersonalData({ route, navigation }) {
     const renderProfessionalHealthCheckbox = () => {
         if (isEntityUser) return;
         return (
-            <View style={styles.switchView}>
-                <Text
-                    style={
-                        mentalHealthProfessional
-                            ? styles.label
-                            : styles.labelFalse
-                    }>
+            <View style={styles.switchViewMentalHelthProfessional}>
+                <Text style={styles.switchLabel}>
                     Sou profissional de saúde mental
                 </Text>
                 <Switch
@@ -243,10 +237,8 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const renderEntityButton = () => (
-        <View style={styles.switchView}>
-            <Text style={isEntityUser ? styles.label : styles.labelFalse}>
-                Sou uma ONG ou instituição
-            </Text>
+        <View style={styles.switchViewEntity}>
+            <Text style={styles.switchLabel}>Sou uma ONG ou instituição</Text>
             <Switch
                 trackColor={{
                     false: colors.dark,

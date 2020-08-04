@@ -8,11 +8,12 @@ import Container from '../../../components/Container';
 import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
     const { userDataFromAddressPage } = route.params;
+    const goBackToAdressPage = () => navigation.goBack();
 
     async function requestPermission() {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
         if (permissionResult.granted === false) {
-            alertMessage('É preciso permissão para colocar uma foto!');
+            alertMessage('É preciso permissão para colocar uma foto.');
             return;
         }
     }
@@ -54,8 +55,13 @@ export default function Photo({ route, navigation }) {
         });
     }
     const renderCameraButton = () => (
-        <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
-            <Icon name={'camera-alt'} color="gray" />
+        <TouchableOpacity
+            onPress={openImagePickerAsync}
+            style={styles.pickPhotoButton}>
+            <View style={styles.button}>
+                <Icon name={'camera-alt'} color="gray" />
+            </View>
+            <Text style={styles.pickerText}>Abrir camera</Text>
         </TouchableOpacity>
     );
     const renderGalleryButton = () => {
@@ -63,8 +69,12 @@ export default function Photo({ route, navigation }) {
             return (
                 <TouchableOpacity
                     onPress={pickImageFromGallery}
-                    style={styles.button}>
-                    <Icon name={'photo-library'} color="gray" />
+                    style={styles.pickPhotoButton}>
+                    <View style={styles.button}>
+                        <Icon name={'photo-library'} color="gray" />
+                    </View>
+
+                    <Text style={styles.pickerText}>Abrir galeria</Text>
                 </TouchableOpacity>
             );
         }
@@ -76,7 +86,7 @@ export default function Photo({ route, navigation }) {
                 style={styles.logo}>
                 <Container>
                     <View style={styles.backIcon}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <TouchableOpacity onPress={() => goBackToAdressPage()}>
                             <Icon name={'arrow-back'} color={'black'} />
                         </TouchableOpacity>
                     </View>

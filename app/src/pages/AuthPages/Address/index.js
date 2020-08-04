@@ -146,7 +146,7 @@ export default function Address({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <KeyboardAvoidingView style={styles.container}>
             <ScrollView
                 style={styles.scroll}
                 contentContainerStyle={styles.scrollContainer}>
