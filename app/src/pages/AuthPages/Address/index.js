@@ -54,7 +54,7 @@ export default function Address({ route, navigation }) {
         if (keyboard.visible === false) {
             return (
                 <Text style={styles.pageDescription}>
-                    Precisamos de algumas informações sobre onde você mora. Por
+                    Utilizamos seu endereço como forma de autenticação. Por
                     favor, preencha as informações abaixo.
                 </Text>
             );
@@ -146,7 +146,7 @@ export default function Address({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="height">
+        <KeyboardAvoidingView style={styles.container} behavior='padding'>
             <ScrollView
                 style={styles.scroll}
                 contentContainerStyle={styles.scrollContainer}>
