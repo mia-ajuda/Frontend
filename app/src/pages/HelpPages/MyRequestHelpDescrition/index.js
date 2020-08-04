@@ -6,6 +6,7 @@ import styles from './styles';
 import HelperCard from './HelperCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import getYearsSince from '../../../utils/getYearsSince';
+import shortenName from '../../../utils/shortenName';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -33,39 +34,43 @@ export default function HelpDescription({ route, navigation }) {
         </TouchableOpacity>
     );
 
-    const renderHelpOwnerInfo = () => (
-        <View style={styles.userInfo}>
-            <Image
-                source={{
-                    uri: `data:image/png;base64,${userProfilephoto}`,
-                }}
-                style={styles.profileImage}
-            />
-            <View style={styles.infoTextView}>
-                <Text style={[styles.infoText, styles.infoTextFont]}>
-                    {help.user.name.split(' ').slice(0, 2).join(' ')}
-                </Text>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Idade: </Text>
-                    {getYearsSince(help.user.birthday)}
-                </Text>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Cidade: </Text>
-                    {help.user.address.city}
-                </Text>
+    const renderHelpOwnerInfo = () => {
+        const ownerNameFormated = shortenName(help.user.name);
+
+        return (
+            <View style={styles.userInfo}>
+                <Image
+                    source={{
+                        uri: `data:image/png;base64,${userProfilephoto}`,
+                    }}
+                    style={styles.profileImage}
+                />
+                <View style={styles.infoTextView}>
+                    <Text style={[styles.infoText, styles.infoTextFont]}>
+                        {ownerNameFormated}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Idade: </Text>
+                        {getYearsSince(help.user.birthday)}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Cidade: </Text>
+                        {help.user.address.city}
+                    </Text>
+                </View>
             </View>
-        </View>
-    );
+        );
+    };
 
     const renderHelpInfo = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
-                    <View style={styles.categoryWarning}>
-                        <Text style={styles.categoryName}>
-                            {help.category[0].name}
-                        </Text>
-                    </View>
+                <View style={styles.categoryWarning}>
+                    <Text style={styles.categoryName}>
+                        {help.category[0].name}
+                    </Text>
+                </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>

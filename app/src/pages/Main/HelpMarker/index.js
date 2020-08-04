@@ -4,9 +4,11 @@ import Avatar from '../../../components/helpAvatar';
 import { Text } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
+import ShortenName from '../../../utils/shortenName';
 
 export default function HelpsMarker({ help, isRiskGroup }) {
     const navigation = useNavigation();
+    const helpOwnerNameFormated = ShortenName(help.user.name);
 
     const renderCalloutTitleRiskGroup = () => {
         if (isRiskGroup) {
@@ -34,7 +36,7 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 style={styles.callout}>
                 {renderCalloutTitleRiskGroup()}
                 <Text style={styles.calloutPersonName} numberOfLines={1}>
-                    {help.user.name.split(' ').slice(0, 2).join(' ')}
+                    {helpOwnerNameFormated}
                 </Text>
                 <Text style={styles.calloutPress}>Toque para ver</Text>
             </Callout>
