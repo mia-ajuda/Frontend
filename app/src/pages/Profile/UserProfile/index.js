@@ -68,7 +68,6 @@ export default function Profile({ navigation }) {
             alertError(err, null, 'Ooops..');
         }
     };
-
     function parseDate(date) {
         const newDate = new Date(date);
         return `${('0' + (newDate.getDate() + 1)).slice(-2)}/${(
