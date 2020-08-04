@@ -27,7 +27,7 @@ class HelpService {
 
     async getAllHelpForCategory(coords, categoryId, id) {
         const { longitude, latitude } = coords;
-        const url = `/help?id=${id}&near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`;
+        const url = `/help?id=${id}&coords=${longitude},${latitude}&categoryId=${categoryId}`;
 
         const helps = await api.get(url);
 
