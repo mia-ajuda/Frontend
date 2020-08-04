@@ -35,7 +35,7 @@ export default function CreateHelp({ navigation }) {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        showWarningFor('helpRequest', requestHelpWarningMessage);
+        showWarningFor('createHelp', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {
@@ -49,12 +49,11 @@ export default function CreateHelp({ navigation }) {
     async function createHelp() {
         const { _id: userId } = user;
         setCreateHelpLoading(true);
-        const createHelpRequest = await useService(helpService, 'createHelp', [
-            title,
-            category['_id'],
-            description,
-            userId,
-        ]);
+        const createHelpRequest = await useService(
+            helpService,
+            'createHelpRequest',
+            [title, category['_id'], description, userId],
+        );
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
         } else {
@@ -97,7 +96,7 @@ export default function CreateHelp({ navigation }) {
     );
 
     const renderInputTitleForm = () => (
-        <Input label="Título" change={(text) => setTitle(text)} />
+        <Input label="Título do pedido" change={(text) => setTitle(text)} />
     );
     const renderLoadingIdicator = () => (
         <ActivityIndicator size="large" color={colors.primary} />
