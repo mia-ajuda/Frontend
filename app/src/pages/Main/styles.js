@@ -35,13 +35,6 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         elevation: 5,
     },
-    helpButton: {
-        position: 'absolute',
-        bottom: 45,
-        right: 20,
-        zIndex: 1,
-        elevation: 5,
-    },
     helpList: {
         position: 'absolute',
         bottom: 0,
