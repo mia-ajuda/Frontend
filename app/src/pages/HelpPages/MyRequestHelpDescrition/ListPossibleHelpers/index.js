@@ -7,6 +7,7 @@ import { alertSuccess } from '../../../../utils/Alert';
 import NoPossibleHelpers from '../../../../components/NoHelps';
 import useService from '../../../../services/useService';
 import styles from './styles';
+import shortenName from '../../../../utils/shortenName';
 
 export default function ListPossibleHelpers({ navigation, route }) {
     const { help } = route.params;
@@ -48,7 +49,7 @@ export default function ListPossibleHelpers({ navigation, route }) {
                     />
                     <View>
                         <Text style={[styles.infoText, styles.infoTextFont]}>
-                            {helper.name}
+                            {shortenName(helper.name)}
                         </Text>
                         <Text>
                             <Text

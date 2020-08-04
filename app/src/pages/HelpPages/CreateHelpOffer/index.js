@@ -12,9 +12,7 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
-
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
@@ -22,45 +20,49 @@ import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
-    const [title, setTitle] = useState('');
-    const [category, setCategory] = useState({});
-    const [description, setDescription] = useState('');
+    const [helpOfferTitle, setHelpOfferTitle] = useState('');
+    const [helpOfferCategory, setHelpOfferCategory] = useState({});
+    const [helpOfferDescription, setHelpOfferDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
-    const [createHelpLoading, setCreateHelpLoading] = useState(false);
+    const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        showWarningFor('helpRequest', requestHelpWarningMessage);
+        showWarningFor('createHelp', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {
-        if (title && category && description) {
+        if (helpOfferTitle && helpOfferCategory && helpOfferDescription) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [title, description, category]);
+    }, [helpOfferTitle, helpOfferDescription, helpOfferCategory]);
 
-    async function createHelp() {
+    async function createHelpOffer() {
         const { _id: userId } = user;
-        setCreateHelpLoading(true);
-        const createHelpRequest = await useService(helpService, 'createHelp', [
-            title,
-            category['_id'],
-            description,
-            userId,
-        ]);
+        setCreateHelpOfferLoading(true);
+        const createHelpRequest = await useService(
+            helpService,
+            'createHelpOffer',
+            [
+                helpOfferTitle,
+                helpOfferCategory['_id'],
+                helpOfferDescription,
+                userId,
+            ],
+        );
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
         } else {
             navigation.navigate('main');
         }
-        setCreateHelpLoading(false);
+        setCreateHelpOfferLoading(false);
     }
 
     const renderPickerCategoryForm = () => (
@@ -69,11 +71,13 @@ export default function CreateHelp({ navigation }) {
             <View style={styles.picker}>
                 <Picker
                     label="Categoria"
-                    selectedValue={category}
-                    onValueChange={(itemValue) => setCategory(itemValue)}>
-                        <Text style={styles.label}>Escolha uma Categoria</Text>
+                    selectedValue={helpOfferCategory}
+                    onValueChange={(itemValue) =>
+                        setHelpOfferCategory(itemValue)
+                    }>
+                    <Picker.Item label="" value={{}} />
                     {categories.map((category) => (
-                        <Picker.itemValue style={styles.picker}
+                        <Picker.Item
                             key={category._id}
                             color={colors.dark}
                             label={category.name}
@@ -84,30 +88,34 @@ export default function CreateHelp({ navigation }) {
             </View>
         </View>
     );
+
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input
                 label="Descrição"
                 textarea
-                change={(text) => setDescription(text)}
+                change={(text) => setHelpOfferDescription(text)}
             />
-            <Text>{description.length}/300</Text>
+            <Text>{helpOfferDescription.length}/300</Text>
         </View>
     );
 
     const renderInputTitleForm = () => (
-        <Input label="Título" change={(text) => setTitle(text)} />
+        <Input
+            label="Título da oferta"
+            change={(text) => setHelpOfferTitle(text)}
+        />
     );
     const renderLoadingIdicator = () => (
         <ActivityIndicator size="large" color={colors.primary} />
     );
 
-    const createHelpBtn = () => (
+    const createHelpOfferBtn = () => (
         <Button
-            title="Preciso de ajuda"
+            title="Criar oferta"
             large
             disabled={buttonDisabled}
-            press={createHelp}
+            press={createHelpOffer}
         />
     );
 
@@ -120,9 +128,9 @@ export default function CreateHelp({ navigation }) {
                     {renderInputDescriptionForm()}
 
                     <View style={styles.btnContainer}>
-                        {createHelpLoading
+                        {createHelpOfferLoading
                             ? renderLoadingIdicator()
-                            : createHelpBtn()}
+                            : createHelpOfferBtn()}
                     </View>
                 </View>
             </Container>

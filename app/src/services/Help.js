@@ -40,7 +40,7 @@ class HelpService {
         return helps.data;
     }
 
-    async createHelp(title, categoryId, description, ownerId) {
+    async createHelpRequest(title, categoryId, description, ownerId) {
         const data = {
             title,
             categoryId,
@@ -49,6 +49,17 @@ class HelpService {
         };
 
         const createdHelpResponse = await api.post('/help', data);
+        return createdHelpResponse.data;
+    }
+    async createHelpOffer(title, categoryId, description, ownerId) {
+        const data = {
+            title,
+            categoryId,
+            description,
+            ownerId,
+        };
+
+        const createdHelpResponse = await api.post('/helpOffer', data);
         return createdHelpResponse.data;
     }
 
