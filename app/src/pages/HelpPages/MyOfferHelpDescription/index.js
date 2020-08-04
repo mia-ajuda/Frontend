@@ -113,7 +113,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
     };
 
     const renderHelpOwnerInformation = () => {
-        const ownerNameShorten = shortenName(help.user.name);
+        const ownerNameFormated = shortenName(help.user.name);
 
         return (
             <View style={styles.userInfo}>
@@ -125,7 +125,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
                 />
                 <View style={styles.infoTextView}>
                     <Text style={[styles.infoText, styles.infoTextFont]}>
-                        {ownerNameShorten}
+                        {ownerNameFormated}
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Idade: </Text>
