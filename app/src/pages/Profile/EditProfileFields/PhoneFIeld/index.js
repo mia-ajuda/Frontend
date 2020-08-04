@@ -4,6 +4,7 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import { TextInputMask } from 'react-native-masked-text';
 import Button from '../../../../components/UI/button';
 import UserService from '../../../../services/User';
+import EntityService from '../../../../services/Entity';
 import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
@@ -12,6 +13,7 @@ import { alertSuccess, alertError } from '../../../../utils/Alert';
 
 export default function EditPhoneField({ route, navigation }) {
     const phone = route.params.user?.phone.slice(3, 14);
+    const useCnpj = route.params.user.cnpj;
     const [newPhone, setNewPhone] = useState(phone);
     const [isNewPhoneValid, setNewPhoneValid] = useState(true);
     const { dispatch } = useContext(UserContext);
@@ -33,7 +35,9 @@ export default function EditPhoneField({ route, navigation }) {
         };
         try {
             setLoadingModal(true);
-            const user = await UserService.editUser(data);
+            const user = useCnpj
+                ? await EntityService.editEntity(data)
+                : await UserService.editUser(data);
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
             goBackToUserProfilePage();

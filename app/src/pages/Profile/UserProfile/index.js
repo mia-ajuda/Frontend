@@ -5,18 +5,22 @@ import {
     Text,
     ImageBackground,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
 import { UserContext } from '../../../store/contexts/userContext';
 import actions from '../../../store/actions';
 import UserService from '../../../services/User';
+import EntityService from '../../../services/Entity';
 import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import formatCPF from '../../../utils/formatCpf';
+import formatCNPJ from '../../../utils/formatCNPJ';
 import formatPhone from '../../../utils/formatPhone';
+import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
 
 export default function Profile({ navigation }) {
@@ -27,6 +31,28 @@ export default function Profile({ navigation }) {
 
     async function logout() {
         await SessionService.signOut();
+    }
+
+    function chooseBetweenCameraOrGallery() {
+        if (user.cpf) {
+            openImagePickerAsync();
+        } else {
+            Alert.alert(
+                null,
+                'Como deseja atualizar a foto?',
+                [
+                    {
+                        text: 'Câmera',
+                        onPress: openImagePickerAsync,
+                    },
+                    {
+                        text: 'Galeria',
+                        onPress: pickImageFromGallery,
+                    },
+                ],
+                { cancelable: true },
+            );
+        }
     }
 
     async function openImagePickerAsync() {
@@ -51,14 +77,48 @@ export default function Profile({ navigation }) {
         setModalVisible(true);
     }
 
+    async function pickImageFromGallery() {
+        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            // eslint-disable-next-line no-undef
+            alertMessage('É preciso permissão para acesso a câmera!');
+            return;
+        }
+        const pickerResult = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 0.5,
+            aspect: [1, 1],
+            base64: true,
+        });
+
+        if (pickerResult.cancelled === true) {
+            return;
+        }
+
+        if (pickerResult.cancelled === true) {
+            return;
+        }
+
+        setPhoto(pickerResult.base64);
+        setModalVisible(true);
+    }
+
     const sendPhoto = async () => {
         try {
             setLoadingModal(true);
-            const resp = await UserService.editUser({
-                ...user,
-                photo: photo,
-            });
-            dispatch({ type: actions.user.storeUserInfo, data: resp });
+            let photoUpdated;
+            if (user.cnpj)
+                photoUpdated = await EntityService.editEntity({
+                    ...user,
+                    photo: photo,
+                });
+            else
+                photoUpdated = await UserService.editUser({
+                    ...user,
+                    photo: photo,
+                });
+            dispatch({ type: actions.user.storeUserInfo, data: photoUpdated });
             setLoadingModal(false);
             setModalVisible(false);
             alertSuccess('Foto atualizada com sucesso!');
@@ -68,14 +128,33 @@ export default function Profile({ navigation }) {
             alertError(err, null, 'Ooops..');
         }
     };
-    function parseDate(date) {
-        const newDate = new Date(date);
-        return `${('0' + (newDate.getDate() + 1)).slice(-2)}/${(
-            '0' +
-            (newDate.getMonth() + 1)
-        ).slice(-2)}/${newDate.getFullYear()}`;
-    }
 
+    function renderUserInfoFrom(label, data) {
+        return (
+            <View style={styles.viewInput}>
+                <Text style={styles.labelInput}>{label}</Text>
+                <View style={styles.inputWrapper}>
+                    <Text style={styles.textInput}>{data}</Text>
+                </View>
+            </View>
+        );
+    }
+    function renderEditableUserInfoFrom(label, data, navigateToPage) {
+        return (
+            <View style={styles.viewInput}>
+                <Text style={styles.labelInput}>{label}</Text>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate(navigateToPage, { user })
+                    }>
+                    <View style={styles.inputWrapper}>
+                        <Text style={styles.textInput}>{data}</Text>
+                        <Icon size={25} name="edit" color="#000" />
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
     return (
         <ScrollView style={styles.container}>
             <ConfirmationModal
@@ -86,7 +165,7 @@ export default function Profile({ navigation }) {
                 isLoading={loadingModal}
             />
             <View style={styles.imageView}>
-                <TouchableOpacity onPress={openImagePickerAsync}>
+                <TouchableOpacity onPress={chooseBetweenCameraOrGallery}>
                     <ImageBackground
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
@@ -96,68 +175,30 @@ export default function Profile({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.viewContent}>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>Nome Completo</Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            navigation.navigate('EditNameField', { user })
-                        }>
-                        <View style={styles.inputWrapper}>
-                            <Text style={styles.textInput}>{user.name}</Text>
-                            <Icon size={25} name="edit" color="#000" />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>Data de Nascimento</Text>
-                    <View style={styles.inputWrapper}>
-                        <Text style={styles.textInput}>
-                            {parseDate(user.birthday)}
-                        </Text>
-                    </View>
-                </View>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>E-mail</Text>
-                    <View style={styles.inputWrapper}>
-                        <Text style={styles.textInput}>{user.email}</Text>
-                    </View>
-                </View>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>CPF</Text>
-                    <View style={styles.inputWrapper}>
-                        <Text style={styles.textInput}>
-                            {formatCPF(user.cpf)}
-                        </Text>
-                    </View>
-                </View>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>Telefone</Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            navigation.navigate('EditPhoneField', { user })
-                        }>
-                        <View style={styles.inputWrapper}>
-                            <Text style={styles.textInput}>
-                                {formatPhone(user.phone)}
-                            </Text>
-                            <Icon size={25} name="edit" color="#000" />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.viewInput}>
-                    <Text style={styles.labelInput}>CEP</Text>
-                    <TouchableOpacity
-                        onPress={() =>
-                            navigation.navigate('EditCEPField', { user })
-                        }>
-                        <View style={styles.inputWrapper}>
-                            <Text style={styles.textInput}>
-                                {user.address.cep}
-                            </Text>
-                            <Icon size={25} name="edit" color="#000" />
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                {renderEditableUserInfoFrom(
+                    'Nome Completo',
+                    user.name,
+                    'EditNameField',
+                )}
+                {user.birthday &&
+                    renderUserInfoFrom(
+                        'Data de Nascimento',
+                        parseDate(user.birthday),
+                    )}
+                {renderUserInfoFrom('E-mail', user.email)}
+                {user.cpf
+                    ? renderUserInfoFrom('CPF', formatCPF(user.cpf))
+                    : renderUserInfoFrom('CNPJ', formatCNPJ(user.cnpj))}
+                {renderEditableUserInfoFrom(
+                    'Telefone',
+                    formatPhone(user.phone),
+                    'EditPhoneField',
+                )}
+                {renderEditableUserInfoFrom(
+                    'CEP',
+                    user.address.cep,
+                    'EditCEPField',
+                )}
                 <View style={styles.buttonWrapper}>
                     <Button
                         style={styles.buttonExit}
@@ -165,7 +206,7 @@ export default function Profile({ navigation }) {
                         press={() => {
                             logout();
                         }}
-                        title="sair"
+                        title="Sair"
                     />
                 </View>
             </View>

@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+    Image,
+    Text,
+    TouchableOpacity,
+    View,
+    ActivityIndicator,
+} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
 import { alertSuccess, alertError } from '../../../../utils/Alert';
@@ -7,6 +13,7 @@ import SessionService from '../../../../services/Session';
 import TermsModal from '../../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../../components/UI/button';
+import colors from '../../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 
@@ -16,6 +23,9 @@ export default function PhotoPreview({ route, navigation }) {
     const [termsModalVisible, setTermsModalVisible] = useState(false);
     const [checked, setChecked] = useState(false);
     const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
+        false,
+    );
     const navigateBackToPhotoPage = () => navigation.goBack();
 
     async function continueHandler() {
@@ -24,8 +34,8 @@ export default function PhotoPreview({ route, navigation }) {
             ...userDataFromAddressPage,
         };
         if (cnpjExist) {
+            setLoadingUserRegistration(true);
             try {
-                // setLoadingUserRegistration(true);
                 await SessionService.signUp(userDataFromPhotoPage);
                 navigation.navigate('login');
                 alertSuccess('Seu cadastro foi realizado com sucesso');
@@ -55,7 +65,9 @@ export default function PhotoPreview({ route, navigation }) {
             </View>
         </View>
     );
-
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
+    );
     return (
         <View style={styles.container}>
             <Image
@@ -79,23 +91,29 @@ export default function PhotoPreview({ route, navigation }) {
                     onIconPress={() => setChecked(!checked)}
                 />
             </View>
-
             <View style={styles.buttonPreview}>
-                <Buttom
-                    title="Voltar"
-                    type="notSelected"
-                    press={() => {
-                        navigateBackToPhotoPage();
-                    }}
-                />
-                <Buttom
-                    disabled={!checked}
-                    title={cnpjExist ? 'Concluir' : 'Continuar'}
-                    press={() => {
-                        continueHandler();
-                    }}
-                />
+                {loadingUserRegistration ? (
+                    renderLoadingIndicator()
+                ) : (
+                    <View>
+                        <Buttom
+                            title="Voltar"
+                            type="notSelected"
+                            press={() => {
+                                navigateBackToPhotoPage();
+                            }}
+                        />
+                        <Buttom
+                            disabled={!checked}
+                            title={cnpjExist ? 'Concluir' : 'Continuar'}
+                            press={() => {
+                                continueHandler();
+                            }}
+                        />
+                    </View>
+                )}
             </View>
+
             <TermsModal
                 visible={termsModalVisible}
                 setVisible={setTermsModalVisible}
