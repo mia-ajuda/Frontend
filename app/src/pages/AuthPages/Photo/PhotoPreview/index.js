@@ -95,7 +95,7 @@ export default function PhotoPreview({ route, navigation }) {
                 {loadingUserRegistration ? (
                     renderLoadingIndicator()
                 ) : (
-                    <View>
+                    <>
                         <Buttom
                             title="Voltar"
                             type="notSelected"
@@ -110,7 +110,7 @@ export default function PhotoPreview({ route, navigation }) {
                                 continueHandler();
                             }}
                         />
-                    </View>
+                    </>
                 )}
             </View>
 
