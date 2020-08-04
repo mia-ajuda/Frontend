@@ -6,13 +6,15 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
+    Switch,
 } from 'react-native';
-import { Icon, CheckBox } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import UserService from '../../../services/User';
+import EntityService from '../../../services/Entity';
 import colors from '../../../../assets/styles/colorVariables';
 import cpfValidator from '../../../utils/cpfValidator';
 import cnpjValidator from '../../../utils/cnpjValidator';
@@ -21,10 +23,13 @@ import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
+import useService from '../../../services/useService';
+import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
     const { userDatafromRegistrationPage } = route.params;
+
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState('');
     const [cpf, setCPF] = useState('');
@@ -33,54 +38,57 @@ export default function PersonalData({ route, navigation }) {
     const [mentalHealthProfessional, setMentalHealthProfessional] = useState(
         false,
     );
-    const [useCNPJ, setUseCNPJ] = useState(false);
+    const [isEntityUser, setIsEntityUser] = useState(false);
     const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
-    const [
-        validateDocumentErrorMessage,
-        setValidateDocumentErrorMessage,
-    ] = useState();
 
     const verifyIdExistence = async () => {
+        // keyboard.dismiss();
         setloadingCpfVerification(true);
-        const idLabel = useCNPJ ? 'CNPJ' : 'CPF';
-        const idOnlyNumbers = useCNPJ
+        const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
+        const idOnlyNumbers = isEntityUser
             ? removeSpecialCharsFrom(cnpj)
             : removeSpecialCharsFrom(cpf);
-        const idExist = await UserService.verifyUserInfo(idOnlyNumbers);
+        const idExist = isEntityUser
+            ? await useService(EntityService, 'verifyEntityInfo', [
+                  idOnlyNumbers,
+              ])
+            : await useService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
+
         setloadingCpfVerification(false);
-        if (idExist)
-            throw `Esse ${idLabel} já está sendo utilizado por outro usuário`;
+        if (!idExist.error) {
+            if (idExist) {
+                alertError(
+                    null,
+                    `Esse ${idLabel} já está sendo utilizado por outro usuário`,
+                );
+            } else {
+                continueHandler();
+            }
+        }
     };
 
     const continueHandler = async () => {
-        keyboard.dismiss();
-        try {
-            await verifyIdExistence();
-            let userDataFromPersonalPage;
-            const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-            if (useCNPJ) {
-                userDataFromPersonalPage = {
-                    name,
-                    cnpj,
-                    phone,
-                    ...userDatafromRegistrationPage,
-                };
-            } else {
-                const birthdayFormated = formatDate(birthday);
-                userDataFromPersonalPage = {
-                    name,
-                    birthday: birthdayFormated,
-                    cpf,
-                    phone,
-                    mentalHealthProfessional,
-                    ...userDatafromRegistrationPage,
-                };
-            }
-
-            navigation.navigate('address', { userDataFromPersonalPage });
-        } catch (error) {
-            setValidateDocumentErrorMessage(error);
+        let userDataFromPersonalPage;
+        const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+        if (isEntityUser) {
+            userDataFromPersonalPage = {
+                name,
+                cnpj,
+                phone,
+                ...userDatafromRegistrationPage,
+            };
+        } else {
+            const birthdayFormated = formatDate(birthday);
+            userDataFromPersonalPage = {
+                name,
+                birthday: birthdayFormated,
+                cpf,
+                phone,
+                mentalHealthProfessional,
+                ...userDatafromRegistrationPage,
+            };
         }
+        navigation.navigate('address', { userDataFromPersonalPage });
     };
 
     const renderPageHeader = () => {
@@ -137,9 +145,9 @@ export default function PersonalData({ route, navigation }) {
         );
     };
 
-    const renderBirthDtInputForm = () => {
+    const renderBirthdayInputForm = () => {
         const isBirthdateValid = dateValidator(birthday) || birthday == '';
-        if (useCNPJ) return;
+        if (isEntityUser) return;
         return (
             <View>
                 <Text style={styles.label}>Data de Nascimento</Text>
@@ -164,7 +172,7 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const renderNameInputForm = () => {
-        const inputLabel = useCNPJ ? 'da Instituição' : 'Completo';
+        const inputLabel = isEntityUser ? 'da Instituição' : 'Completo';
         return (
             <Input
                 value={name}
@@ -179,7 +187,7 @@ export default function PersonalData({ route, navigation }) {
         let idType = 'CPF';
         let isIDValid = cpfValidator(cpf) || cpf == '';
 
-        if (useCNPJ) {
+        if (isEntityUser) {
             idType = 'CNPJ';
             isIDValid = cnpjValidator(cnpj) || cnpj == '';
         }
@@ -188,9 +196,9 @@ export default function PersonalData({ route, navigation }) {
                 <Text style={styles.label}>{idType}</Text>
                 <TextInputMask
                     type={idType.toLowerCase()}
-                    value={useCNPJ ? cnpj : cpf}
+                    value={isEntityUser ? cnpj : cpf}
                     onChangeText={(text) => {
-                        if (useCNPJ) setCNPJ(text);
+                        if (isEntityUser) setCNPJ(text);
                         else setCPF(text);
                     }}
                     style={[
@@ -204,36 +212,55 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const renderProfessionalHealthCheckbox = () => {
-        if (useCNPJ) return;
+        if (isEntityUser) return;
         return (
-            <View style={styles.toggleView}>
-                <View style={styles.checkboxView}>
-                    <CheckBox
-                        title="Sou profissional de saúde mental"
-                        checked={mentalHealthProfessional}
-                        onPress={() => {
-                            setMentalHealthProfessional(
-                                !mentalHealthProfessional,
-                            );
-                            setCNPJ('');
-                        }}
-                    />
-                </View>
+            <View style={styles.switchView}>
+                <Text
+                    style={
+                        mentalHealthProfessional
+                            ? styles.label
+                            : styles.labelFalse
+                    }>
+                    Sou profissional de saúde mental
+                </Text>
+                <Switch
+                    trackColor={{
+                        false: colors.dark,
+                        true: colors.primaryContrast,
+                    }}
+                    thumbColor={
+                        mentalHealthProfessional ? colors.primary : colors.light
+                    }
+                    ios_backgroundColor={colors.dark}
+                    onValueChange={() => {
+                        setMentalHealthProfessional(!mentalHealthProfessional);
+                        setCNPJ('');
+                    }}
+                    value={mentalHealthProfessional}
+                />
             </View>
         );
     };
 
     const renderEntityButton = () => (
-        <View style={styles.checkboxView}>
-            <CheckBox
-                title="Sou uma ONG ou instituição"
-                checked={useCNPJ}
-                onPress={() => {
-                    setUseCNPJ(!useCNPJ);
+        <View style={styles.switchView}>
+            <Text style={isEntityUser ? styles.label : styles.labelFalse}>
+                Sou uma ONG ou instituição
+            </Text>
+            <Switch
+                trackColor={{
+                    false: colors.dark,
+                    true: colors.primaryContrast,
+                }}
+                thumbColor={isEntityUser ? colors.primary : colors.light}
+                ios_backgroundColor={colors.dark}
+                onValueChange={() => {
+                    setIsEntityUser(!isEntityUser);
                     setMentalHealthProfessional(false);
                     setCNPJ('');
                     setCPF('');
                 }}
+                value={isEntityUser}
             />
         </View>
     );
@@ -243,14 +270,14 @@ export default function PersonalData({ route, navigation }) {
             cpfValidator(cpf) &&
             phoneValidator(cellPhone) &&
             dateValidator(birthday);
-        if (useCNPJ)
+        if (isEntityUser)
             fieldsValid = phoneValidator(cellPhone) && cnpjValidator(cnpj);
         return (
             <Button
                 title="Continuar"
                 disabled={fieldsValid == false}
                 large
-                press={continueHandler}
+                press={verifyIdExistence}
             />
         );
     };
@@ -267,14 +294,9 @@ export default function PersonalData({ route, navigation }) {
                 }
                 showsVerticalScrollIndicator={false}>
                 <View style={styles.inputView}>
-                    {validateDocumentErrorMessage && (
-                        <Text style={styles.errorMessage}>
-                            {validateDocumentErrorMessage}
-                        </Text>
-                    )}
                     {renderEntityButton()}
                     {renderNameInputForm()}
-                    {renderBirthDtInputForm()}
+                    {renderBirthdayInputForm()}
                     {renderPhoneInputForm()}
                     {renderIdInputForm()}
                     {renderProfessionalHealthCheckbox()}

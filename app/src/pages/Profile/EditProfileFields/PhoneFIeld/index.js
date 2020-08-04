@@ -8,8 +8,8 @@ import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../../utils/removeSpecialChars';
-import { alertSuccess, alertError } from '../../../../utils/Alert';
-
+import { alertSuccess } from '../../../../utils/Alert';
+import useService from '../../../../services/useService';
 export default function EditPhoneField({ route, navigation }) {
     const phone = route.params.user?.phone.slice(3, 14);
     const [newPhone, setNewPhone] = useState(phone);
@@ -31,16 +31,13 @@ export default function EditPhoneField({ route, navigation }) {
             ...route.params.user,
             phone: formatPhone(),
         };
-        try {
-            setLoadingModal(true);
-            const user = await UserService.editUser(data);
+        setLoadingModal(true);
+        const user = await useService(UserService, 'editUser', [data]);
+        if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
-            goBackToUserProfilePage();
-        } catch (err) {
-            alertError(err, null, 'Ooops..');
-            goBackToUserProfilePage();
         }
+        goBackToUserProfilePage();
     };
 
     return (

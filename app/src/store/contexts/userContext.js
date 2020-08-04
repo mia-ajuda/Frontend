@@ -9,8 +9,8 @@ import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import useService from '../../services/useService';
 import firebaseService from '../../services/Firebase';
-
 export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
@@ -53,7 +53,10 @@ export const UserContextProvider = (props) => {
             const developmentEnviroment = user && env.development;
 
             if (userEmailVerified || developmentEnviroment) {
-                const acesstoken = await user.getIdToken();
+                const acesstoken = await useService(
+                    firebaseService,
+                    'getUserId',
+                );
                 await AsyncStorage.setItem('accessToken', acesstoken);
             }
             await getUserInfo();
@@ -64,11 +67,10 @@ export const UserContextProvider = (props) => {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
 
         if (userPreviouslyLogged) {
-            try {
-                const user = await UserService.requestLoggedUserData();
-
+            const user = await useService(UserService, 'requestUserData');
+            if (!user.error) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
-            } catch (error) {
+            } else {
                 dispatch({ type: actions.user.requestSignIn });
             }
         } else {

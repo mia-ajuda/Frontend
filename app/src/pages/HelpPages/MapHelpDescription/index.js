@@ -5,10 +5,12 @@ import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
-import { alertError, alertSuccess } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
+import useService from '../../../services/useService';
+import shortenName from '../../../utils/shortenName';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { help } = route.params;
@@ -33,53 +35,57 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     async function offerHelp() {
-        try {
-            setChooseHelpRequestLoading(true);
-            await HelpService.offerHelp(help._id, user._id);
+        setChooseHelpRequestLoading(true);
+        const offerHelpRequest = await useService(HelpService, 'offerHelp', [
+            help._id,
+            user._id,
+        ]);
+        if (!offerHelpRequest.error) {
             removeHelpFromMap();
             goBackToMapPage();
             alertSuccess(
                 'Oferta enviada com sucesso e estará no aguardo para ser aceita',
             );
-        } catch (error) {
+        } else {
             goBackToMapPage();
-            alertError(error);
         }
     }
 
-    const renderHelpOwnerInformation = () => (
-        <View style={styles.userInfo}>
-            <Image
-                source={{
-                    uri: `data:image/png;base64,${helpOwnerPhoto}`,
-                }}
-                style={styles.profileImage}
-            />
-            <View style={styles.infoTextView}>
-                <Text style={[styles.infoText, styles.infoTextFont]}>
-                    {help.user.name}
-                </Text>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Idade: </Text>
-                    {getYearsSince(help.user.birthday)}
-                </Text>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Cidade: </Text>
-                    {help.user.address.city}
-                </Text>
+    const renderHelpOwnerInformation = () => {
+        const ownerNameFormated = shortenName(help.user.name);
+        return (
+            <View style={styles.userInfo}>
+                <Image
+                    source={{
+                        uri: `data:image/png;base64,${helpOwnerPhoto}`,
+                    }}
+                    style={styles.profileImage}
+                />
+                <View style={styles.infoTextView}>
+                    <Text style={[styles.infoText, styles.infoTextFont]}>
+                        {ownerNameFormated}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Idade: </Text>
+                        {getYearsSince(help.user.birthday)}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Cidade: </Text>
+                        {help.user.address.city}
+                    </Text>
+                </View>
             </View>
-        </View>
-    );
+        );
+    };
     const renderHelpInformation = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
-                <Text style={styles.infoText}>
-                    <Text style={styles.infoTextFont}>Categoria: </Text>
-                    {help.category[0].name}
-                </Text>
-                <Text style={[styles.infoText, styles.infoTextDescription]}>
-                    Descrição:
-                </Text>
+                <Text style={styles.titleFont}>{help.title}</Text>
+                <View style={styles.categoryWarning}>
+                    <Text style={styles.categoryName}>
+                        {help.category[0].name}
+                    </Text>
+                </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>

@@ -26,16 +26,12 @@ const MyRequestsNavigation = () => (
         <Stack.Screen
             name="MyRequestHelpDescrition"
             component={MyRequestHelpDescrition}
-            options={({ route }) => ({
-                title: route.params.help.title,
-            })}
+            options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
             name="listPossibleHelpers"
             component={ListPossibleHelpers}
-            options={({ route }) => ({
-                title: route.params.help.title,
-            })}
+            options={{ title: 'Possíveis Ajudantes' }}
         />
     </Stack.Navigator>
 );
