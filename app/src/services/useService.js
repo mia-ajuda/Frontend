@@ -10,6 +10,6 @@ export default async function useService(service, functionName, params = []) {
         } else {
             alertError(error);
         }
-        return { error: true };
+        return { error: true, errorData: error };
     }
 }

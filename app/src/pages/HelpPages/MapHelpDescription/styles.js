@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
 });
 

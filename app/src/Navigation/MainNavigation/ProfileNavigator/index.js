@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Profile from '../../../pages/Profile/UserProfile';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import EditNameField from '../../../pages/Profile/EditProfileFields/NameFIeld';
+import EditNameField from '../../../pages/Profile/EditProfileFields/NameField';
 import EditCEPField from '../../../pages/Profile/EditProfileFields/CEPField';
 import EditPhoneField from '../../../pages/Profile/EditProfileFields/PhoneFIeld';
 

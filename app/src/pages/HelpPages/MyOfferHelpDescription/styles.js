@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
         ...fonts.subtitle,
         textAlign: 'center',
         alignSelf: 'center',
-    },    titleFont: {
+    },
+    titleFont: {
         fontFamily: 'montserrat-semibold',
         fontSize: 18,
         textAlign: 'center',
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
 });
 
