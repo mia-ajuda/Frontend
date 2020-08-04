@@ -32,7 +32,6 @@ class SessionService {
 
         await firebaseService.login(data.email, data.password);
         await firebaseService.sendEmailVerification();
-        await firebaseService.signOut();
         return response;
     }
 

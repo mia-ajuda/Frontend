@@ -27,6 +27,7 @@ import useService from '../../../services/useService';
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
     const isEntityUser = user.cnpj;
+    const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
@@ -42,7 +43,7 @@ export default function Profile({ navigation }) {
         await useService(SessionService, 'signOut');
     }
 
-    async function chooseBetweenCameraOrGallery() {
+    async function changeImgeProfile() {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
         if (permissionResult.granted === false) {
@@ -50,16 +51,14 @@ export default function Profile({ navigation }) {
             alertMessage('É preciso permissão para ter acesso as mídias!');
             return;
         }
-        if (!isEntityUser) {
-            openImagePickerAsync();
-        } else {
+        if (isEntityUser) {
             Alert.alert(
                 null,
                 'Como deseja atualizar a foto?',
                 [
                     {
                         text: 'Câmera',
-                        onPress: openImagePickerAsync,
+                        onPress: openCameraAsync,
                     },
                     {
                         text: 'Galeria',
@@ -68,10 +67,12 @@ export default function Profile({ navigation }) {
                 ],
                 { cancelable: true },
             );
+        } else {
+            openCameraAsync();
         }
     }
 
-    async function openImagePickerAsync() {
+    async function openCameraAsync() {
         const pickerResult = await ImagePicker.launchCameraAsync({
             base64: true,
             allowsEditing: true,
@@ -121,7 +122,7 @@ export default function Profile({ navigation }) {
         setModalVisible(false);
     }
 
-    function renderUserInfoFrom(label, data) {
+    function renderUserInfo(label, data) {
         return (
             <View style={styles.viewInput}>
                 <Text style={styles.labelInput}>{label}</Text>
@@ -161,7 +162,7 @@ export default function Profile({ navigation }) {
                 isLoading={loadingModal}
             />
             <View style={styles.imageView}>
-                <TouchableOpacity onPress={chooseBetweenCameraOrGallery}>
+                <TouchableOpacity onPress={changeImgeProfile}>
                     <ImageBackground
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
@@ -172,10 +173,10 @@ export default function Profile({ navigation }) {
             </View>
             <View style={styles.viewContent}>
                 {renderEditableUserInfo('Nome Completo', user.name, 'Name')}
-                {isEntityUser &&
-                    renderUserInfoFrom('Data de Nascimento', birthday)}
-                {renderUserInfoFrom('E-mail', user.email)}
-                {renderUserInfoFrom(idLabel, idFormated)}
+                {isRegularUser &&
+                    renderUserInfo('Data de Nascimento', birthday)}
+                {renderUserInfo('E-mail', user.email)}
+                {renderUserInfo(idLabel, idFormated)}
                 {renderEditableUserInfo('Telefone', phone, 'Phone')}
                 {renderEditableUserInfo('CEP', user.address.cep, 'CEP')}
                 <View style={styles.buttonWrapper}>
