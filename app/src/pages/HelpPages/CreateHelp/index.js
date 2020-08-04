@@ -71,9 +71,9 @@ export default function CreateHelp({ navigation }) {
                     label="Categoria"
                     selectedValue={category}
                     onValueChange={(itemValue) => setCategory(itemValue)}>
-                    <Picker.Item label="" value={{}} />
+                        <Text style={styles.label}>Escolha uma Categoria</Text>
                     {categories.map((category) => (
-                        <Picker.Item
+                        <Picker.itemValue style={styles.picker}
                             key={category._id}
                             color={colors.dark}
                             label={category.name}
@@ -84,7 +84,6 @@ export default function CreateHelp({ navigation }) {
             </View>
         </View>
     );
-
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input

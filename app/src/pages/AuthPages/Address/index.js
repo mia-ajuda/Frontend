@@ -146,7 +146,7 @@ export default function Address({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="height">
+        <KeyboardAvoidingView style={styles.container} behavior='padding'>
             <ScrollView
                 style={styles.scroll}
                 contentContainerStyle={styles.scrollContainer}>
@@ -165,5 +165,5 @@ export default function Address({ route, navigation }) {
 
             {renderContinueButton()}
         </KeyboardAvoidingView>
-    );
+    ) ;
 }
