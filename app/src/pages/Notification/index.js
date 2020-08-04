@@ -6,12 +6,12 @@ import { UserContext } from '../../store/contexts/userContext';
 import NotificationService from '../../services/Notification';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
+import useService from '../../services/useService';
 
 export default function Notification({ navigation }) {
     const [loadingNotifications, setLoading] = useState(false);
     const [helpNotifications, setNotifications] = useState([]);
     const { user } = useContext(UserContext);
-
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             loadNotifications();
@@ -21,16 +21,16 @@ export default function Notification({ navigation }) {
 
     async function loadNotifications() {
         const { _id: userId } = user;
-        try {
-            setLoading(true);
-            const notifications = await NotificationService.getAllNotifications(
-                userId,
-            );
-            setNotifications(notifications);
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
+        setLoading(true);
+        const notificationsResponse = await useService(
+            NotificationService,
+            'getAllNotifications',
+            [userId],
+        );
+        if (!notificationsResponse.error) {
+            setNotifications(notificationsResponse);
         }
+        setLoading(false);
     }
 
     const renderLoadingIndicator = () => (

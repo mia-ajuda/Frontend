@@ -10,8 +10,8 @@ import {
     requestPermissionsAsync,
     getCurrentPositionAsync,
 } from 'expo-location';
+import useService from '../../services/useService';
 import firebaseService from '../../services/Firebase';
-
 export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
@@ -54,7 +54,10 @@ export const UserContextProvider = (props) => {
             const developmentEnviroment = user && env.development;
 
             if (userEmailVerified || developmentEnviroment) {
-                const acesstoken = await user.getIdToken();
+                const acesstoken = await useService(
+                    firebaseService,
+                    'getUserId',
+                );
                 await AsyncStorage.setItem('accessToken', acesstoken);
             }
             await getUserInfo();
@@ -65,18 +68,18 @@ export const UserContextProvider = (props) => {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
 
         if (userPreviouslyLogged) {
-            try {
-                let userInfo;
+            const isEntityUser = await useService(
+                EntityService,
+                'verifyEntityInfo',
+            );
 
-                const isUser = await UserService.verifyUserInfo();
-                if (isUser) {
-                    userInfo = await UserService.requestLoggedUserData();
-                } else {
-                    userInfo = await EntityService.requestLoggedEntityData();
-                }
+            const user = isEntityUser
+                ? await useService(EntityService, 'requestEntityData')
+                : await useService(UserService, 'requestUserData');
 
-                dispatch({ type: actions.user.storeUserInfo, data: userInfo });
-            } catch (error) {
+            if (!user.error) {
+                dispatch({ type: actions.user.storeUserInfo, data: user });
+            } else {
                 dispatch({ type: actions.user.requestSignIn });
             }
         } else {

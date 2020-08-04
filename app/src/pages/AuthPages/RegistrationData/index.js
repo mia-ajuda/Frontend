@@ -17,6 +17,8 @@ import emailValidator from '../../../utils/emailValidator';
 import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
+import useService from '../../../services/useService';
+import { alertError } from '../../../utils/Alert';
 
 export default function RegistrationData({ route, navigation }) {
     const { userDataFromLocationPage } = route.params;
@@ -28,14 +30,8 @@ export default function RegistrationData({ route, navigation }) {
         setLoadingEmailVerification,
     ] = useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-    const [checkEmailError, setCheckEmailError] = useState(null);
-
-    const passwordHandler = (enteredPassword) => {
-        setPassword(enteredPassword);
-    };
 
     const continueHandler = () => {
-        setLoadingEmailVerification(false);
         const userDatafromRegistrationPage = {
             email,
             password,
@@ -45,21 +41,29 @@ export default function RegistrationData({ route, navigation }) {
     };
 
     const verifyEmailAdress = async () => {
-        try {
-            setLoadingEmailVerification(true);
-            keyboard.dismiss();
-            let doesEmailExist = await UserService.verifyUserInfo(email);
-            if (doesEmailExist == false) {
-                doesEmailExist = await EntityService.verifyEntityInfo(email);
+        setLoadingEmailVerification(true);
+        keyboard.dismiss();
+
+        let isARegularUser = await useService(UserService, 'verifyUserInfo', [
+            email.toLowerCase(),
+        ]);
+        if (!isARegularUser)
+            isARegularUser = await useService(
+                EntityService,
+                'verifyEntityInfo',
+                [email.toLowerCase()],
+            );
+        if (!isARegularUser.error) {
+            if (isARegularUser) {
+                alertError(
+                    null,
+                    'Esse email já está sendo usado por outro usuário',
+                );
+            } else {
+                continueHandler();
             }
-            if (doesEmailExist) {
-                throw 'Esse email já está sendo usado por outro usuário';
-            }
-            continueHandler();
-        } catch (err) {
-            setCheckEmailError(err);
-            setLoadingEmailVerification(false);
         }
+        setLoadingEmailVerification(false);
     };
 
     const renderPageHeader = () => {
@@ -105,7 +109,7 @@ export default function RegistrationData({ route, navigation }) {
         return (
             <Input
                 type="password"
-                change={passwordHandler}
+                change={(password) => setPassword(password)}
                 label="Senha (pelo menos 8 caracteres)"
                 placeholder="Senha"
                 valid={isPasswordValid}
@@ -163,11 +167,6 @@ export default function RegistrationData({ route, navigation }) {
                 }
                 contentContainerStyle={styles.scrollContainerStyle}>
                 <View style={styles.form}>
-                    {checkEmailError && (
-                        <Text style={styles.errorMessage}>
-                            {checkEmailError}
-                        </Text>
-                    )}
                     {renderInputEmailForm()}
                     {renderInputPasswordForm()}
                     {renderInputConfirmationPasswordForm()}

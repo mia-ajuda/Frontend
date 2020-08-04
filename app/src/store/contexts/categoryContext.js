@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import Category from '../../services/Category';
 import { UserContext } from './userContext';
+import useService from '../../services/useService';
 
 export const CategoryContext = createContext();
 
@@ -10,15 +11,14 @@ export default function CategoryContextProvider(props) {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     useEffect(() => {
-        if (user) fetchCategories();
+        const isUserAuthenticated = user._id;
+        if (isUserAuthenticated) fetchCategories();
     }, [user]);
 
     async function fetchCategories() {
-        try {
-            const categoriesArray = await Category.getAllCategories();
+        const categoriesArray = await useService(Category, 'getAllCategories');
+        if (!categoriesArray.error) {
             setCategories(categoriesArray);
-        } catch (error) {
-            console.log(error);
         }
     }
 

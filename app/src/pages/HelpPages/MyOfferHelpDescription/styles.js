@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
+import colors from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
     container: {
@@ -57,6 +58,29 @@ const styles = StyleSheet.create({
     },
     waitingText: {
         ...fonts.subtitle,
+        textAlign: 'center',
+        alignSelf: 'center',
+    },
+    titleFont: {
+        fontFamily: 'montserrat-semibold',
+        fontSize: 18,
+        textAlign: 'center',
+        paddingBottom: 10,
+    },
+    categoryWarning: {
+        backgroundColor: colors.secondary,
+        borderRadius: 8,
+
+        maxHeight: 30,
+
+        paddingHorizontal: 15,
+        alignSelf: 'center',
+    },
+
+    categoryName: {
+        ...fonts.body,
+        fontFamily: 'montserrat-semibold',
+        lineHeight: 30,
         textAlign: 'center',
         alignSelf: 'center',
     },

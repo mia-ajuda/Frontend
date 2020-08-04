@@ -21,20 +21,36 @@ import formatCPF from '../../../utils/formatCpf';
 import formatCNPJ from '../../../utils/formatCNPJ';
 import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
-import { alertMessage, alertSuccess, alertError } from '../../../utils/Alert';
+import { alertMessage, alertSuccess } from '../../../utils/Alert';
+import useService from '../../../services/useService';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
+    const isEntityUser = user.cnpj;
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
 
+    const phone = formatPhone(user.phone);
+    const idFormated = isEntityUser
+        ? formatCNPJ(user.cnpj)
+        : formatCPF(user.cpf);
+    const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
+    const birthday = parseDate(user.birthday);
+
     async function logout() {
-        await SessionService.signOut();
+        await useService(SessionService, 'signOut');
     }
 
-    function chooseBetweenCameraOrGallery() {
-        if (user.cpf) {
+    async function chooseBetweenCameraOrGallery() {
+        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            // eslint-disable-next-line no-undef
+            alertMessage('É preciso permissão para ter acesso as mídias!');
+            return;
+        }
+        if (!isEntityUser) {
             openImagePickerAsync();
         } else {
             Alert.alert(
@@ -56,14 +72,6 @@ export default function Profile({ navigation }) {
     }
 
     async function openImagePickerAsync() {
-        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-        if (permissionResult.granted === false) {
-            // eslint-disable-next-line no-undef
-            alertMessage('É preciso permissão para acesso a câmera!');
-            return;
-        }
-
         const pickerResult = await ImagePicker.launchCameraAsync({
             base64: true,
             allowsEditing: true,
@@ -78,13 +86,6 @@ export default function Profile({ navigation }) {
     }
 
     async function pickImageFromGallery() {
-        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-        if (permissionResult.granted === false) {
-            // eslint-disable-next-line no-undef
-            alertMessage('É preciso permissão para acesso a câmera!');
-            return;
-        }
         const pickerResult = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             quality: 0.5,
@@ -95,39 +96,30 @@ export default function Profile({ navigation }) {
         if (pickerResult.cancelled === true) {
             return;
         }
-
-        if (pickerResult.cancelled === true) {
-            return;
-        }
-
         setPhoto(pickerResult.base64);
         setModalVisible(true);
     }
 
-    const sendPhoto = async () => {
-        try {
-            setLoadingModal(true);
-            let photoUpdated;
-            if (user.cnpj)
-                photoUpdated = await EntityService.editEntity({
-                    ...user,
-                    photo: photo,
-                });
-            else
-                photoUpdated = await UserService.editUser({
-                    ...user,
-                    photo: photo,
-                });
-            dispatch({ type: actions.user.storeUserInfo, data: photoUpdated });
-            setLoadingModal(false);
-            setModalVisible(false);
+    async function sendPhoto() {
+        setLoadingModal(true);
+        const data = {
+            ...user,
+            photo: photo,
+        };
+
+        const validEditPhoto = isEntityUser
+            ? await useService(EntityService, 'editEntity', [data])
+            : await useService(UserService, 'editUser', [data]);
+        if (!validEditPhoto.error) {
+            dispatch({
+                type: actions.user.storeUserInfo,
+                data: validEditPhoto,
+            });
             alertSuccess('Foto atualizada com sucesso!');
-        } catch (err) {
-            setLoadingModal(false);
-            setModalVisible(false);
-            alertError(err, null, 'Ooops..');
         }
-    };
+        setLoadingModal(false);
+        setModalVisible(false);
+    }
 
     function renderUserInfoFrom(label, data) {
         return (
@@ -139,13 +131,16 @@ export default function Profile({ navigation }) {
             </View>
         );
     }
-    function renderEditableUserInfoFrom(label, data, navigateToPage) {
+
+    function renderEditableUserInfo(label, data, navigateToPage) {
         return (
             <View style={styles.viewInput}>
                 <Text style={styles.labelInput}>{label}</Text>
                 <TouchableOpacity
                     onPress={() =>
-                        navigation.navigate(navigateToPage, { user })
+                        navigation.navigate(`Edit${navigateToPage}Field`, {
+                            user,
+                        })
                     }>
                     <View style={styles.inputWrapper}>
                         <Text style={styles.textInput}>{data}</Text>
@@ -155,6 +150,7 @@ export default function Profile({ navigation }) {
             </View>
         );
     }
+
     return (
         <ScrollView style={styles.container}>
             <ConfirmationModal
@@ -175,30 +171,13 @@ export default function Profile({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.viewContent}>
-                {renderEditableUserInfoFrom(
-                    'Nome Completo',
-                    user.name,
-                    'EditNameField',
-                )}
-                {user.birthday &&
-                    renderUserInfoFrom(
-                        'Data de Nascimento',
-                        parseDate(user.birthday),
-                    )}
+                {renderEditableUserInfo('Nome Completo', user.name, 'Name')}
+                {isEntityUser &&
+                    renderUserInfoFrom('Data de Nascimento', birthday)}
                 {renderUserInfoFrom('E-mail', user.email)}
-                {user.cpf
-                    ? renderUserInfoFrom('CPF', formatCPF(user.cpf))
-                    : renderUserInfoFrom('CNPJ', formatCNPJ(user.cnpj))}
-                {renderEditableUserInfoFrom(
-                    'Telefone',
-                    formatPhone(user.phone),
-                    'EditPhoneField',
-                )}
-                {renderEditableUserInfoFrom(
-                    'CEP',
-                    user.address.cep,
-                    'EditCEPField',
-                )}
+                {renderUserInfoFrom(idLabel, idFormated)}
+                {renderEditableUserInfo('Telefone', phone, 'Phone')}
+                {renderEditableUserInfo('CEP', user.address.cep, 'CEP')}
                 <View style={styles.buttonWrapper}>
                     <Button
                         style={styles.buttonExit}

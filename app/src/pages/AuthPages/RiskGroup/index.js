@@ -6,7 +6,8 @@ import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
-import { alertSuccess, alertError } from '../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
+import useService from '../../../services/useService';
 
 export default function RiskGroup({ route, navigation }) {
     const { userDataFromPhotoPage } = route.params;
@@ -40,14 +41,18 @@ export default function RiskGroup({ route, navigation }) {
             ...userDataFromPhotoPage,
             riskGroup: newDisease,
         };
-        try {
-            setLoadingUserRegistration(true);
-            await SessionService.signUp(completeRegistragionData);
+
+        setLoadingUserRegistration(true);
+        const completeRegistration = await useService(
+            SessionService,
+            'signUp',
+            [completeRegistragionData],
+        );
+        if (!completeRegistration.error) {
             navigation.navigate('login');
             alertSuccess('Seu cadastro foi realizado com sucesso');
-        } catch (err) {
+        } else {
             navigation.navigate('login');
-            alertError(err);
         }
     };
 

@@ -13,13 +13,13 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
+import useService from '../../../../services/useService';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 
     const { user } = useContext(UserContext);
-
     useFocusEffect(
         useCallback(() => {
             loadFinishedHelps();
@@ -29,12 +29,14 @@ export default function HelpsFinished({ navigation }) {
     async function loadFinishedHelps() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
-
-        let myFinshedHelps = await helpService.getHelpMultipleStatus(
-            userId,
-            'finished',
+        const resFinished = await useService(
+            helpService,
+            'getHelpMultipleStatus',
+            [userId, 'finished'],
         );
-        setFinishedHelpList(myFinshedHelps);
+        if (!resFinished.error) {
+            setFinishedHelpList(resFinished);
+        }
         setLoadingHelpRequests(false);
     }
 

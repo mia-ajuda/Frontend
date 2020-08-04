@@ -4,26 +4,6 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
 class EntityService {
-    async requestLoggedEntityData() {
-        try {
-            const entity = await api.get('/entity/getEntity');
-            return entity.data;
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
-    async requestEntityDataById(id) {
-        try {
-            const entity = await api.get(`/entity/getEntity/${id}`);
-            return entity.data;
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
-    }
-
     async editEntityAdress(data) {
         const entity = await api.put('/entity/address', data);
         return entity.data;
