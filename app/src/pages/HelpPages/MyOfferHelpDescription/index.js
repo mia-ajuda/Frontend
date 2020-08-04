@@ -121,7 +121,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
             />
             <View style={styles.infoTextView}>
                 <Text style={[styles.infoText, styles.infoTextFont]}>
-                    {help.user.name}
+                    {help.user.name.split(' ').slice(0, 2).join(' ')}
                 </Text>
                 <Text style={styles.infoText}>
                     <Text style={styles.infoTextFont}>Idade: </Text>

@@ -34,7 +34,7 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 style={styles.callout}>
                 {renderCalloutTitleRiskGroup()}
                 <Text style={styles.calloutPersonName} numberOfLines={1}>
-                    {help.user.name}
+                    {help.user.name.split(' ').slice(0, 2).join(' ')}
                 </Text>
                 <Text style={styles.calloutPress}>Toque para ver</Text>
             </Callout>

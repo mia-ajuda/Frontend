@@ -48,7 +48,7 @@ export default function ListPossibleHelpers({ navigation, route }) {
                     />
                     <View>
                         <Text style={[styles.infoText, styles.infoTextFont]}>
-                            {helper.name}
+                            {helper.name.split(' ').slice(0, 2).join(' ')}
                         </Text>
                         <Text>
                             <Text
