@@ -75,7 +75,6 @@ export default function CreateHelp({ navigation }) {
                     onValueChange={(itemValue) =>
                         setHelpOfferCategory(itemValue)
                     }>
-                    <Picker.Item label="" value={{}} />
                     {categories.map((category) => (
                         <Picker.Item
                             key={category._id}
