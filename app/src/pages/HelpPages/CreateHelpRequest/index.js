@@ -23,7 +23,7 @@ import { requestHelpWarningMessage } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState({});
+    const [category, setCategory] = useState(null);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
@@ -70,6 +70,7 @@ export default function CreateHelp({ navigation }) {
                     label="Categoria"
                     selectedValue={category}
                     onValueChange={(itemValue) => setCategory(itemValue)}>
+                    <Picker.Item label="" value={null} />
                     {categories.map((category) => (
                         <Picker.Item
                             key={category._id}
