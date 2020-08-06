@@ -51,10 +51,10 @@ class HelpService {
         const createdHelpResponse = await api.post('/help', data);
         return createdHelpResponse.data;
     }
-    async createHelpOffer(title, categoryId, description, ownerId) {
+    async createHelpOffer(title, categoryIds, description, ownerId) {
         const data = {
             title,
-            categoryId,
+            categoryIds,
             description,
             ownerId,
         };

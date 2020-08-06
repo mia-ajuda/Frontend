@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
     View,
     Modal,
@@ -14,32 +14,36 @@ import Button from '../../../UI/button';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
 
-export default function CategorySelector({ modalVisible, setModalVisible }) {
+export default function CategorySelector({
+    modalVisible,
+    hideModal,
+    setHelpCategoryIds,
+    categoryIds,
+}) {
     const { categories } = useContext(CategoryContext);
-    const [selectedCategoriesId, setSelectedCategoriesId] = useState([]);
 
     const includeCategoryIntoSelectedCategories = (categoryId) =>
-        setSelectedCategoriesId([...selectedCategoriesId, categoryId]);
+        setHelpCategoryIds([...categoryIds, categoryId]);
 
     const removeCategoryFromSelectedCategories = (categoryId) => {
-        const removeCategoryId = selectedCategoriesId.filter(
+        const removeCategoryId = categoryIds.filter(
             (categoryIdFromState) => categoryIdFromState !== categoryId,
         );
-        setSelectedCategoriesId(removeCategoryId);
+        setHelpCategoryIds(removeCategoryId);
     };
 
     const selectCategory = (categoryId) => {
-        if (selectedCategoriesId.includes(categoryId)) {
+        if (categoryIds.includes(categoryId)) {
             removeCategoryFromSelectedCategories(categoryId);
-        } else if (selectedCategoriesId.length < 3) {
+        } else if (categoryIds.length < 3) {
             includeCategoryIntoSelectedCategories(categoryId);
         }
     };
 
     const getCategoryStyle = (categoryId) => {
-        if (selectedCategoriesId.includes(categoryId)) {
+        if (categoryIds.includes(categoryId)) {
             return styles.selectedCategory;
-        } else if (selectedCategoriesId.length >= 3) {
+        } else if (categoryIds.length >= 3) {
             return styles.unvailableToSelectCategory;
         } else {
             return styles.notSelectedCategory;
@@ -47,10 +51,7 @@ export default function CategorySelector({ modalVisible, setModalVisible }) {
     };
 
     const getCategoryActiveOpacity = (categoryId) => {
-        if (
-            selectedCategoriesId.includes(categoryId) ||
-            selectedCategoriesId.length < 3
-        ) {
+        if (categoryIds.includes(categoryId) || categoryIds.length < 3) {
             return 0;
         } else {
             return 1;
@@ -58,9 +59,7 @@ export default function CategorySelector({ modalVisible, setModalVisible }) {
     };
 
     const renderCloseButton = () => (
-        <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setModalVisible(false)}>
+        <TouchableOpacity style={styles.closeButton} onPress={hideModal}>
             <Icon
                 name="times-circle"
                 type="font-awesome"
@@ -98,14 +97,23 @@ export default function CategorySelector({ modalVisible, setModalVisible }) {
         <Modal
             visible={modalVisible}
             transparent
-            onRequestClose={() => setModalVisible(false)}>
-            <TouchableOpacity style={styles.container} activeOpacity={1}>
+            onRequestClose={hideModal}
+            animationType="fade">
+            <TouchableOpacity
+                style={styles.container}
+                activeOpacity={1}
+                onPress={hideModal}>
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
                         {renderCloseButton()}
                         {renderModalTitle()}
                         {renderCategoryList()}
-                        <Button title="concluir" large type="warning" />
+                        <Button
+                            title="concluir"
+                            large
+                            type="warning"
+                            press={hideModal}
+                        />
                     </View>
                 </TouchableWithoutFeedback>
             </TouchableOpacity>

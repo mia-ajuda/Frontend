@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Picker,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -19,31 +12,41 @@ import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 import CategorySelector from '../../../components/modals/category/CategorySelector';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { CategoryContext } from '../../../store/contexts/categoryContext';
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
-    const [helpOfferCategory, setHelpOfferCategory] = useState(null);
+    const [helpOfferCategoryIds, setHelpOfferCategoryIds] = useState([]);
     const [helpOfferDescription, setHelpOfferDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
+    const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
 
-    const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
+    const { categories } = useContext(CategoryContext);
+
+    const openCategoryModal = () => setCategoryModalVisible(true);
+    const hideCategoryModal = () => setCategoryModalVisible(false);
 
     useEffect(() => {
         showWarningFor('createHelp', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {
-        if (helpOfferTitle && helpOfferCategory && helpOfferDescription) {
+        if (
+            helpOfferTitle &&
+            helpOfferCategoryIds.length &&
+            helpOfferDescription
+        ) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [helpOfferTitle, helpOfferDescription, helpOfferCategory]);
+    }, [helpOfferTitle, helpOfferDescription, helpOfferCategoryIds]);
 
     async function createHelpOffer() {
         const { _id: userId } = user;
@@ -53,7 +56,7 @@ export default function CreateHelp({ navigation }) {
             'createHelpOffer',
             [
                 helpOfferTitle,
-                helpOfferCategory['_id'],
+                helpOfferCategoryIds,
                 helpOfferDescription,
                 userId,
             ],
@@ -67,28 +70,40 @@ export default function CreateHelp({ navigation }) {
     }
 
     const renderPickerCategoryForm = () => (
-        <View style={styles.catagoryPicker}>
-            <Text style={styles.label}>Categoria</Text>
-            <View style={styles.picker}>
-                <Picker
-                    label="Categoria"
-                    selectedValue={helpOfferCategory}
-                    onValueChange={(itemValue) =>
-                        setHelpOfferCategory(itemValue)
-                    }>
-                    <Picker.Item label="" value={null} />
-                    {categories.map((category) => (
-                        <Picker.Item
-                            key={category._id}
-                            color={colors.dark}
-                            label={category.name}
-                            value={category}
-                        />
-                    ))}
-                </Picker>
-            </View>
-        </View>
+        <TouchableOpacity
+            style={styles.addCategory}
+            onPress={openCategoryModal}>
+            <Text style={styles.addCategoryText}>Categorias +</Text>
+        </TouchableOpacity>
     );
+
+    const renderSelectedCategories = () => {
+        return (
+            <View
+                style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginTop: 10,
+                }}>
+                {categories.map((category) => {
+                    if (helpOfferCategoryIds.includes(category._id)) {
+                        return (
+                            <Text
+                                style={{
+                                    backgroundColor: colors.secondary,
+                                    padding: 5,
+                                    elevation: 2,
+                                    margin: 5,
+                                    borderRadius: 2,
+                                }}>
+                                {category.name}
+                            </Text>
+                        );
+                    }
+                })}
+            </View>
+        );
+    };
 
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
@@ -123,11 +138,18 @@ export default function CreateHelp({ navigation }) {
     return (
         <ScrollView>
             <Container>
-                <CategorySelector />
+                <CategorySelector
+                    modalVisible={categoryModalVisible}
+                    openModal={openCategoryModal}
+                    hideModal={hideCategoryModal}
+                    setHelpCategoryIds={setHelpOfferCategoryIds}
+                    categoryIds={helpOfferCategoryIds}
+                />
                 <View style={styles.view}>
                     {renderInputTitleForm()}
-                    {renderPickerCategoryForm()}
                     {renderInputDescriptionForm()}
+                    {renderPickerCategoryForm()}
+                    {renderSelectedCategories()}
 
                     <View style={styles.btnContainer}>
                         {createHelpOfferLoading

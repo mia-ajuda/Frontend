@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
-    Picker,
+    TouchableOpacity,
     Text,
     ActivityIndicator,
     ScrollView,
@@ -12,6 +12,7 @@ import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
+import CategorySelector from '../../../components/modals/category/CategorySelector';
 
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 
@@ -23,28 +24,32 @@ import { requestHelpWarningMessage } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState(null);
+    const [categoryIds, setCategoryIds] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
+    const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const [createHelpLoading, setCreateHelpLoading] = useState(false);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
+
+    const openCategoryModal = () => setCategoryModalVisible(true);
+    const hideCategoryModal = () => setCategoryModalVisible(false);
 
     useEffect(() => {
         showWarningFor('createHelp', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {
-        if (title && category && description) {
+        if (title && categoryIds.length && description) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [title, description, category]);
+    }, [title, description, categoryIds]);
 
     async function createHelp() {
         const { _id: userId } = user;
@@ -52,7 +57,7 @@ export default function CreateHelp({ navigation }) {
         const createHelpRequest = await useService(
             helpService,
             'createHelpRequest',
-            [title, category['_id'], description, userId],
+            [title, categoryIds, description, userId],
         );
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
@@ -63,26 +68,40 @@ export default function CreateHelp({ navigation }) {
     }
 
     const renderPickerCategoryForm = () => (
-        <View style={styles.catagoryPicker}>
-            <Text style={styles.label}>Categoria</Text>
-            <View style={styles.picker}>
-                <Picker
-                    label="Categoria"
-                    selectedValue={category}
-                    onValueChange={(itemValue) => setCategory(itemValue)}>
-                    <Picker.Item label="" value={null} />
-                    {categories.map((category) => (
-                        <Picker.Item
-                            key={category._id}
-                            color={colors.dark}
-                            label={category.name}
-                            value={category}
-                        />
-                    ))}
-                </Picker>
-            </View>
-        </View>
+        <TouchableOpacity
+            style={styles.addCategory}
+            onPress={openCategoryModal}>
+            <Text style={styles.addCategoryText}>Categorias +</Text>
+        </TouchableOpacity>
     );
+
+    const renderSelectedCategories = () => {
+        return (
+            <View
+                style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginTop: 10,
+                }}>
+                {categories.map((category) => {
+                    if (categoryIds.includes(category._id)) {
+                        return (
+                            <Text
+                                style={{
+                                    backgroundColor: colors.secondary,
+                                    padding: 5,
+                                    elevation: 2,
+                                    margin: 5,
+                                    borderRadius: 2,
+                                }}>
+                                {category.name}
+                            </Text>
+                        );
+                    }
+                })}
+            </View>
+        );
+    };
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input
@@ -113,10 +132,18 @@ export default function CreateHelp({ navigation }) {
     return (
         <ScrollView>
             <Container>
+                <CategorySelector
+                    modalVisible={categoryModalVisible}
+                    openModal={openCategoryModal}
+                    hideModal={hideCategoryModal}
+                    setHelpCategoryIds={setCategoryIds}
+                    categoryIds={categoryIds}
+                />
                 <View style={styles.view}>
                     {renderInputTitleForm()}
-                    {renderPickerCategoryForm()}
                     {renderInputDescriptionForm()}
+                    {renderPickerCategoryForm()}
+                    {renderSelectedCategories()}
 
                     <View style={styles.btnContainer}>
                         {createHelpLoading
