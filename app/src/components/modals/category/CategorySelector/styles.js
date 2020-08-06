@@ -21,7 +21,12 @@ const styles = StyleSheet.create({
     title: {
         ...fonts.subtitle,
         alignSelf: 'center',
-        marginBottom: 20,
+    },
+    subTitle: {
+        ...fonts.subtitle,
+        alignSelf: 'center',
+        fontSize: 14,
+        marginBottom: 10,
     },
     notSelectedCategory: {
         ...fonts.body,
@@ -32,6 +37,15 @@ const styles = StyleSheet.create({
         borderColor: colors.primary,
         color: colors.primary,
     },
+    unvailableToSelectCategory: {
+        ...fonts.body,
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5,
+        borderColor: '#c4c4c4',
+        color: '#c4c4c4',
+    },
     selectedCategory: {
         ...fonts.body,
         borderWidth: 1,
@@ -41,6 +55,11 @@ const styles = StyleSheet.create({
         borderColor: colors.primary,
         color: '#fff',
         backgroundColor: colors.primary,
+    },
+    closeButton: {
+        position: 'absolute',
+        right: 10,
+        top: 5,
     },
 });
 
