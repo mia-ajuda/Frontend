@@ -22,7 +22,7 @@ import CategorySelector from '../../../components/modals/category/CategorySelect
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
-    const [helpOfferCategory, setHelpOfferCategory] = useState({});
+    const [helpOfferCategory, setHelpOfferCategory] = useState(null);
     const [helpOfferDescription, setHelpOfferDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
@@ -76,6 +76,7 @@ export default function CreateHelp({ navigation }) {
                     onValueChange={(itemValue) =>
                         setHelpOfferCategory(itemValue)
                     }>
+                    <Picker.Item label="" value={null} />
                     {categories.map((category) => (
                         <Picker.Item
                             key={category._id}
