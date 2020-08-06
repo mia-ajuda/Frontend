@@ -18,6 +18,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
+import CategorySelector from '../../../components/modals/category/CategorySelector';
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
@@ -121,6 +122,7 @@ export default function CreateHelp({ navigation }) {
     return (
         <ScrollView>
             <Container>
+                <CategorySelector />
                 <View style={styles.view}>
                     {renderInputTitleForm()}
                     {renderPickerCategoryForm()}
