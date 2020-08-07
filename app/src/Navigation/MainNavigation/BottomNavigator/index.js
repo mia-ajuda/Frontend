@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Notification from '../../../pages/Notification';
-import MyRequestsNavigation from '../MyHelpRequestsNavigator';
+import FAQNavigator from '../FAQNavigator';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
+import HistoryNavigator from '../HistoryNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
@@ -28,14 +28,11 @@ const BottomTab = () => {
                 name="notification"
                 component={Notification}
             />
-            <BottomNavigation.Screen
-                name="helpList"
-                component={MyRequestsNavigation}
-            />
+            <BottomNavigation.Screen name="FAQ" component={FAQNavigator} />
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
-                name="offeredHelp"
-                component={MyOfferedHelpNavigation}
+                name="history"
+                component={HistoryNavigator}
             />
             <BottomNavigation.Screen
                 name="profile"

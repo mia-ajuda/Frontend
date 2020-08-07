@@ -20,7 +20,7 @@ const NavigationAskedHelps = () => (
     </TopTab.Navigator>
 );
 
-const MyRequestsNavigation = () => (
+const FAQNavigator = () => (
     <Stack.Navigator screenOptions={headerStyle}>
         <Stack.Screen name="Meus pedidos" component={NavigationAskedHelps} />
         <Stack.Screen
@@ -36,4 +36,4 @@ const MyRequestsNavigation = () => (
     </Stack.Navigator>
 );
 
-export default MyRequestsNavigation;
+export default FAQNavigator;
