@@ -11,9 +11,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
-import CategorySelector from '../../../components/modals/category/CategorySelector';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
+import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
@@ -23,14 +21,9 @@ export default function CreateHelp({ navigation }) {
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
-    const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
 
     const { user } = useContext(UserContext);
-    const { categories } = useContext(CategoryContext);
-
-    const openCategoryModal = () => setCategoryModalVisible(true);
-    const hideCategoryModal = () => setCategoryModalVisible(false);
 
     useEffect(() => {
         showWarningFor('createHelp', requestHelpWarningMessage);
@@ -69,42 +62,6 @@ export default function CreateHelp({ navigation }) {
         setCreateHelpOfferLoading(false);
     }
 
-    const renderPickerCategoryForm = () => (
-        <TouchableOpacity
-            style={styles.addCategory}
-            onPress={openCategoryModal}>
-            <Text style={styles.addCategoryText}>Categorias +</Text>
-        </TouchableOpacity>
-    );
-
-    const renderSelectedCategories = () => {
-        return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginTop: 10,
-                }}>
-                {categories.map((category) => {
-                    if (helpOfferCategoryIds.includes(category._id)) {
-                        return (
-                            <Text
-                                style={{
-                                    backgroundColor: colors.secondary,
-                                    padding: 5,
-                                    elevation: 2,
-                                    margin: 5,
-                                    borderRadius: 2,
-                                }}>
-                                {category.name}
-                            </Text>
-                        );
-                    }
-                })}
-            </View>
-        );
-    };
-
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input
@@ -138,19 +95,13 @@ export default function CreateHelp({ navigation }) {
     return (
         <ScrollView>
             <Container>
-                <CategorySelector
-                    modalVisible={categoryModalVisible}
-                    openModal={openCategoryModal}
-                    hideModal={hideCategoryModal}
-                    setHelpCategoryIds={setHelpOfferCategoryIds}
-                    categoryIds={helpOfferCategoryIds}
-                />
                 <View style={styles.view}>
                     {renderInputTitleForm()}
                     {renderInputDescriptionForm()}
-                    {renderPickerCategoryForm()}
-                    {renderSelectedCategories()}
-
+                    <SelectCategoryForm
+                        helpCategoryIds={helpOfferCategoryIds}
+                        setHelpCategoryIds={setHelpOfferCategoryIds}
+                    />
                     <View style={styles.btnContainer}>
                         {createHelpOfferLoading
                             ? renderLoadingIdicator()

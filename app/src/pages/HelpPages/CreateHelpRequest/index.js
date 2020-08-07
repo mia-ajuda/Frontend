@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    TouchableOpacity,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
-import CategorySelector from '../../../components/modals/category/CategorySelector';
+import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 
@@ -30,14 +23,8 @@ export default function CreateHelp({ navigation }) {
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
-    const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const [createHelpLoading, setCreateHelpLoading] = useState(false);
-
-    const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
-
-    const openCategoryModal = () => setCategoryModalVisible(true);
-    const hideCategoryModal = () => setCategoryModalVisible(false);
 
     useEffect(() => {
         showWarningFor('createHelp', requestHelpWarningMessage);
@@ -67,41 +54,6 @@ export default function CreateHelp({ navigation }) {
         setCreateHelpLoading(false);
     }
 
-    const renderPickerCategoryForm = () => (
-        <TouchableOpacity
-            style={styles.addCategory}
-            onPress={openCategoryModal}>
-            <Text style={styles.addCategoryText}>Categorias +</Text>
-        </TouchableOpacity>
-    );
-
-    const renderSelectedCategories = () => {
-        return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginTop: 10,
-                }}>
-                {categories.map((category) => {
-                    if (categoryIds.includes(category._id)) {
-                        return (
-                            <Text
-                                style={{
-                                    backgroundColor: colors.secondary,
-                                    padding: 5,
-                                    elevation: 2,
-                                    margin: 5,
-                                    borderRadius: 2,
-                                }}>
-                                {category.name}
-                            </Text>
-                        );
-                    }
-                })}
-            </View>
-        );
-    };
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input
@@ -132,19 +84,13 @@ export default function CreateHelp({ navigation }) {
     return (
         <ScrollView>
             <Container>
-                <CategorySelector
-                    modalVisible={categoryModalVisible}
-                    openModal={openCategoryModal}
-                    hideModal={hideCategoryModal}
-                    setHelpCategoryIds={setCategoryIds}
-                    categoryIds={categoryIds}
-                />
                 <View style={styles.view}>
                     {renderInputTitleForm()}
                     {renderInputDescriptionForm()}
-                    {renderPickerCategoryForm()}
-                    {renderSelectedCategories()}
-
+                    <SelectCategoryForm
+                        helpCategoryIds={categoryIds}
+                        setHelpCategoryIds={setCategoryIds}
+                    />
                     <View style={styles.btnContainer}>
                         {createHelpLoading
                             ? renderLoadingIdicator()
