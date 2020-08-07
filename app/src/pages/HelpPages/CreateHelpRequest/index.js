@@ -70,7 +70,7 @@ export default function CreateHelp({ navigation }) {
                     label="Categoria"
                     selectedValue={category}
                     onValueChange={(itemValue) => setCategory(itemValue)}>
-                    <Picker.Item label="" value={null} />
+                    <Picker.Item label="" value={''} />
                     {categories.map((category) => (
                         <Picker.Item
                             key={category._id}

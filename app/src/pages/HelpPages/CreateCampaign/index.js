@@ -13,56 +13,51 @@ import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-import helpService from '../../../services/Help';
+import campaignService from '../../../services/Campaign';
 import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
-export default function CreateHelp({ navigation }) {
-    const [helpOfferTitle, setHelpOfferTitle] = useState('');
-    const [helpOfferCategory, setHelpOfferCategory] = useState(null);
-    const [helpOfferDescription, setHelpOfferDescription] = useState('');
+export default function CreateCampaign({ navigation }) {
+    const [title, setTitle] = useState('');
+    const [category, setCategory] = useState(null);
+    const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
-    const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
+    const [createCampaignLoading, setCreateCampaignLoading] = useState(false);
 
     const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        showWarningFor('createHelp', requestHelpWarningMessage);
+        showWarningFor('createCampaign', requestHelpWarningMessage);
     }, []);
 
     useEffect(() => {
-        if (helpOfferTitle && helpOfferCategory && helpOfferDescription) {
+        if (title && category && description) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [helpOfferTitle, helpOfferDescription, helpOfferCategory]);
+    }, [title, description, category]);
 
-    async function createHelpOffer() {
+    async function createCampaign() {
         const { _id: userId } = user;
-        setCreateHelpOfferLoading(true);
-        const createHelpRequest = await useService(
-            helpService,
-            'createHelpOffer',
-            [
-                helpOfferTitle,
-                helpOfferCategory['_id'],
-                helpOfferDescription,
-                userId,
-            ],
+        setCreateCampaignLoading(true);
+        const createCampaign = await useService(
+            campaignService,
+            'createCampaign',
+            [title, category['_id'], description, userId],
         );
-        if (!createHelpRequest.error) {
+        if (!createCampaign.error) {
             setModalSuccessMoldalVisible(true);
         } else {
             navigation.navigate('main');
         }
-        setCreateHelpOfferLoading(false);
+        setCreateCampaignLoading(false);
     }
 
     const renderPickerCategoryForm = () => (
@@ -71,10 +66,10 @@ export default function CreateHelp({ navigation }) {
             <View style={styles.picker}>
                 <Picker
                     label="Categoria"
-                    selectedValue={helpOfferCategory}
-                    onValueChange={(itemValue) =>
-                        setHelpOfferCategory(itemValue)
-                    }>
+                    selectedValue={category}
+                    onValueChange={(itemValue) => {
+                        setCategory(itemValue);
+                    }}>
                     <Picker.Item label="" value={''} />
                     {categories.map((category) => (
                         <Picker.Item
@@ -94,28 +89,25 @@ export default function CreateHelp({ navigation }) {
             <Input
                 label="Descrição"
                 textarea
-                change={(text) => setHelpOfferDescription(text)}
+                change={(text) => setDescription(text)}
             />
-            <Text>{helpOfferDescription.length}/300</Text>
+            <Text>{description.length}/300</Text>
         </View>
     );
 
     const renderInputTitleForm = () => (
-        <Input
-            label="Título da oferta"
-            change={(text) => setHelpOfferTitle(text)}
-        />
+        <Input label="Título da campanha" change={(text) => setTitle(text)} />
     );
     const renderLoadingIdicator = () => (
         <ActivityIndicator size="large" color={colors.primary} />
     );
 
-    const createHelpOfferBtn = () => (
+    const createCampaignBtn = () => (
         <Button
-            title="Criar oferta"
+            title="Criar um campanha"
             large
             disabled={buttonDisabled}
-            press={createHelpOffer}
+            press={createCampaign}
         />
     );
 
@@ -128,9 +120,9 @@ export default function CreateHelp({ navigation }) {
                     {renderInputDescriptionForm()}
 
                     <View style={styles.btnContainer}>
-                        {createHelpOfferLoading
+                        {createCampaignLoading
                             ? renderLoadingIdicator()
-                            : createHelpOfferBtn()}
+                            : createCampaignBtn()}
                     </View>
                 </View>
             </Container>
