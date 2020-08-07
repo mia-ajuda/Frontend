@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
-export default function FaqCard() {
+export default function FaqCard({ faq }) {
     return (
         <View style={styles.cardContainer}>
-            <View style={styles.info}>
-                <Image
-                    style={styles.image}
-                    source={require('../../../assets/images/blueCat.png')}></Image>
-                <Text style={styles.title} numberOfLines={2}>
-                    Como usar o Mia-Ajuda?
-                </Text>
-            </View>
+            <TouchableOpacity>
+                <View style={styles.info}>
+                    <Image style={styles.image} source={faq.icon}></Image>
+                    <Text style={styles.title} numberOfLines={2}>
+                        {faq.description}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         </View>
     );
 }

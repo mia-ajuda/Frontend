@@ -18,26 +18,20 @@ export default StyleSheet.create({
         borderRadius: 8,
         borderWidth: 2,
         borderColor: colors.primary,
-        margin: 10,
+        margin: 8,
 
         flexDirection: 'row',
-        padding: 10,
+        justifyContent: 'center',
+        padding: 20,
         width: '45%',
-        height: '45%',
     },
 
     info: {
         alignItems: 'center',
     },
 
-    image: {
-        alignContent: 'center',
-        width: 50,
-        height: 70,
-    },
-
     title: {
-        fontSize: 16,
+        fontSize: 12,
         marginTop: 10,
         fontWeight: 'bold',
         color: colors.primary,

@@ -22,9 +22,12 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
 
-    loadingContainer: {
-        height: '100%',
+    cardsDirections: {
+        height: '80%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'center',
+        alignContent: 'center',
     },
 });
 
