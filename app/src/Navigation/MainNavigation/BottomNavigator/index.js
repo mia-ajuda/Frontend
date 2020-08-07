@@ -5,7 +5,7 @@ import Notification from '../../../pages/Notification';
 import InformationsCenter from '../../../pages/InformationsCenter';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
+import HistoryNavigator from '../HistoryNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
@@ -29,13 +29,13 @@ const BottomTab = () => {
                 component={Notification}
             />
             <BottomNavigation.Screen
-                name="faq"
+                name="FAQ"
                 component={InformationsCenter}
             />
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
-                name="offeredHelp"
-                component={MyOfferedHelpNavigation}
+                name="history"
+                component={HistoryNavigator}
             />
             <BottomNavigation.Screen
                 name="profile"

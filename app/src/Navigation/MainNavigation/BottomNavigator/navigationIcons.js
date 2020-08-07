@@ -1,6 +1,6 @@
 import colors from '../../../../assets/styles/colorVariables';
 
-const navigationiIcons = {
+const navigationIcons = {
     main: {
         active: {
             icon: require('../../../../assets/images/whileLogo.png'),
@@ -16,7 +16,7 @@ const navigationiIcons = {
         },
     },
 
-    faq: {
+    FAQ: {
         icon: 'question',
         active: {
             color: colors.primary,
@@ -27,8 +27,8 @@ const navigationiIcons = {
             raised: false,
         },
     },
-    offeredHelp: {
-        icon: 'outdent',
+    history: {
+        icon: 'th-list',
         active: {
             color: colors.primary,
             raised: true,
@@ -62,4 +62,4 @@ const navigationiIcons = {
     },
 };
 
-export default navigationiIcons;
+export default navigationIcons;
