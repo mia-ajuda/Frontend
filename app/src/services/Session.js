@@ -16,12 +16,11 @@ class SessionService {
         if (isEmailVerified == false && shouldVerifyEmail) {
             throw { code: 'auth/email-not-verified' };
         }
+        const loggedUser = await firebaseService.getCurrentUser();
 
-        const isARegularUser = await UserService.verifyUserInfo(
-            loginInfo.email,
-        );
+        const userType = loggedUser.displayName.split('|')[1].trim();
 
-        if (isARegularUser) UserService.setUserDeviceId();
+        if (userType == 'PF') UserService.setUserDeviceId();
         else EntityService.setEntityDeviceId();
     }
     async signUp(data) {
