@@ -16,8 +16,8 @@ const navigationiIcons = {
         },
     },
 
-    helpList: {
-        icon: 'outdent',
+    faq: {
+        icon: 'question',
         active: {
             color: colors.primary,
             raised: true,
