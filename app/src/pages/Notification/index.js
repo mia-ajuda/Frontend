@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator, Alert } from 'react-native';
 
 import NotificationCard from '../../components/NotificationCard';
 import { UserContext } from '../../store/contexts/userContext';
@@ -63,6 +63,8 @@ export default function Notification({ navigation }) {
                                 notificationBody={item.body}
                                 notificationDate={item.registerDate}
                                 dateNow={Date.now()}
+                                helpId={item.helpId}
+                                navigation={navigation}
                             />
                         ))}
                     </View>

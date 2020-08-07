@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import getPastimeFrom from '../../utils/getPastTime';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import helpService from '../../services/Help';
 
 export default function NotificationCard({
     notificationType,
@@ -11,6 +13,8 @@ export default function NotificationCard({
     notificationBody,
     notificationDate,
     dateNow,
+    helpId,
+    navigation
 }) {
     const [notificationTime, setNotificationTime] = useState('');
 
@@ -19,6 +23,11 @@ export default function NotificationCard({
         setNotificationTime(notificationPastTime);
     }, [dateNow]);
 
+    async function navigateToHelpPage(){
+        const help = await helpService.getHelpById(helpId);
+        console.log(help)
+        // navigation.navigate('MyRequestHelpDescrition');
+    }
     const renderCardIcon = () => {
         let iconName;
         let iconBackground;
@@ -62,7 +71,8 @@ export default function NotificationCard({
     };
 
     return (
-        <View style={styles.cardContainer}>
+        <TouchableOpacity style={styles.cardContainer}
+            onPress={navigateToHelpPage}>
             <View style={styles.info}>
                 <Text style={styles.title} numberOfLines={2}>
                     {notificationTitle}
@@ -71,6 +81,6 @@ export default function NotificationCard({
                 <Text style={styles.time}>{notificationTime}</Text>
             </View>
             {renderCardIcon()}
-        </View>
+        </TouchableOpacity>
     );
 }

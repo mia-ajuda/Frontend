@@ -65,7 +65,7 @@ class HelpService {
 
     async getHelpById(helpId) {
         const help = await api.get(`/help/${helpId}`);
-        return help;
+        return help.data;
     }
 
     async deleteHelp(helpId) {
