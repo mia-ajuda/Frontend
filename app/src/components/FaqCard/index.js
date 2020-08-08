@@ -8,7 +8,7 @@ export default function FaqCard({ faq }) {
         <View style={styles.cardContainer}>
             <TouchableOpacity>
                 <View style={styles.info}>
-                    <Image style={styles.image} source={faq.icon}></Image>
+                    <Image source={faq.icon}></Image>
                     <Text style={styles.title} numberOfLines={2}>
                         {faq.description}
                     </Text>
