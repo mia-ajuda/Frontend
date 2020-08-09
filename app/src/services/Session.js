@@ -20,8 +20,8 @@ class SessionService {
 
         const userType = loggedUser.displayName.split('|')[1].trim();
 
-        if (userType == 'PF') UserService.setUserDeviceId();
-        else EntityService.setEntityDeviceId();
+        if (userType == 'PJ') EntityService.setEntityDeviceId();
+        else UserService.setUserDeviceId();
     }
     async signUp(data) {
         const isEntityUser = data.cnpj;
