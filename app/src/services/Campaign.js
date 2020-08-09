@@ -4,14 +4,14 @@ class CampaignService {
     constructor() {}
 
     async getAllCampaigns(userId = null, status = null) {
-        let url = '/help';
+        let url = '/campaign';
         let id = userId;
-
         if (status) {
             url += `?id.except=${id}&status=${status}`;
         } else {
             url += `?id.except=${id}`;
         }
+        console.log(url);
 
         const allCampaigns = await api.get(url);
         return allCampaigns.data;
@@ -19,10 +19,10 @@ class CampaignService {
 
     async getNearCampaign(coords, id) {
         const { longitude, latitude } = coords;
-        const helps = await api.get(
-            `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
+        const campaign = await api.get(
+            `/campaign?id.except=${id}&near=true&coords=${longitude},${latitude}`,
         );
-        return helps.data;
+        return campaign.data;
     }
 
     async getAllCampaignForCategory(coords, categoryId, id) {
@@ -47,9 +47,7 @@ class CampaignService {
             description,
             ownerId,
         };
-        console.log('Chegou no service');
         const createdCampaignResponse = await api.post('/campaign', data);
-        console.log(createdCampaignResponse);
         return createdCampaignResponse.data;
     }
 

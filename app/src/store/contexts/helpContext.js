@@ -11,6 +11,7 @@ import { CategoryContext } from './categoryContext';
 import useService from '../../services/useService';
 import actions from '../actions';
 import HelpService from '../../services/Help';
+import CampaignService from '../../services/Campaign';
 import {
     connect,
     disconnect,
@@ -69,6 +70,7 @@ export default function HelpContextProvider(props) {
                 getHelpListWithCategories(userPosition);
             } else {
                 getHelpList(userPosition);
+                getCampaignList(userPosition);
             }
             changeCategories(selectedCategories);
         }
@@ -81,10 +83,28 @@ export default function HelpContextProvider(props) {
                 coords,
                 userId,
             ]);
+
             if (!helpListArray.error) {
                 dispatch({
                     type: actions.help.storeList,
                     helps: helpListArray,
+                });
+            }
+            setLoadingHelps(false);
+        }
+    }
+    async function getCampaignList(coords) {
+        if (coords) {
+            const { _id: userId } = user;
+            const campaignArrayList = await useService(
+                CampaignService,
+                'getNearCampaign',
+                [coords, userId],
+            );
+            if (!campaignArrayList.error) {
+                dispatch({
+                    type: actions.help.storeList,
+                    helps: campaignArrayList,
                 });
             }
             setLoadingHelps(false);
