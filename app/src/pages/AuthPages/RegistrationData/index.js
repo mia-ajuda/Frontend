@@ -23,6 +23,7 @@ import { alertError } from '../../../utils/Alert';
 export default function RegistrationData({ route, navigation }) {
     const { userDataFromLocationPage } = route.params;
     const [email, setEmail] = useState('');
+    const [confirmEmail, setConfirmEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [
@@ -95,9 +96,28 @@ export default function RegistrationData({ route, navigation }) {
             <Input
                 style={styles.firstInput}
                 change={(email) => setEmail(email)}
-                label="Email"
+                label="E-mail"
                 placeholder="email@exemplo.com"
                 valid={isEmailValid}
+                autoComplete={'off'}
+            />
+        );
+    };
+
+    const renderInputConfirmationEmailForm = () => {
+        const emailMatch = confirmEmail == email;
+        const isEmailValid = emailValidator(emailMatch);
+        const emptyInput = confirmEmail == '';
+        const isConfirmationEmailValid =
+            (emailMatch && isEmailValid) || emptyInput;
+
+        return (
+            <Input
+                style={styles.firstInput}
+                change={(email) => setConfirmEmail(email)}
+                label="Confirmar E-mail"
+                placeholder="Confirme seu E-mail"
+                valid={isConfirmationEmailValid}
                 autoComplete={'off'}
             />
         );
@@ -168,6 +188,7 @@ export default function RegistrationData({ route, navigation }) {
                 contentContainerStyle={styles.scrollContainerStyle}>
                 <View style={styles.form}>
                     {renderInputEmailForm()}
+                    {renderInputConfirmationEmailForm()}
                     {renderInputPasswordForm()}
                     {renderInputConfirmationPasswordForm()}
                 </View>
