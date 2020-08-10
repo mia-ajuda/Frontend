@@ -144,10 +144,14 @@ export default function MyOfferHelpDescription({ route, navigation }) {
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
-                <View style={styles.categoryWarning}>
-                    <Text style={styles.categoryName}>
-                        {help.category[0].name}
-                    </Text>
+                <View style={styles.categoryContainer}>
+                    {help.categories.map((category) => (
+                        <View key={category._id} style={styles.categoryWarning}>
+                            <Text style={styles.categoryName}>
+                                {category.name}
+                            </Text>
+                        </View>
+                    ))}
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}

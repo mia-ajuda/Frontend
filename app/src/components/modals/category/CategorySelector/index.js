@@ -109,7 +109,7 @@ export default function CategorySelector({
                         {renderModalTitle()}
                         {renderCategoryList()}
                         <Button
-                            title="concluir"
+                            title="Concluir"
                             large
                             type="warning"
                             press={hideModal}
