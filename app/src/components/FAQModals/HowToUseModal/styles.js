@@ -6,12 +6,10 @@ const minimumTextSize = 16;
 const styles = StyleSheet.create({
     modalContent: {
         width: '80%',
-        height: '80%',
         backgroundColor: '#fff',
         alignSelf: 'center',
-        elevation: 5,
+        top: '20.5%',
         borderRadius: 15,
-        top: '6.5%',
         padding: 16,
     },
     modalContainer: {
@@ -25,8 +23,7 @@ const styles = StyleSheet.create({
         top: 15,
     },
     closeIcon: {
-        top: '5.5%',
-        right: 20,
+        right: 1,
         position: 'absolute',
         zIndex: 5,
     },
@@ -37,7 +34,8 @@ const styles = StyleSheet.create({
     },
     title: {
         alignSelf: 'center',
-        marginBottom: 10,
+        textAlign: 'center',
+        marginBottom: 40,
         fontFamily: 'montserrat-semibold',
         color: colors.primary,
         fontSize: minimumTextSize * 1.5,
@@ -48,15 +46,16 @@ const styles = StyleSheet.create({
         height: '80%',
     },
     textButtons: {
-        borderWidth: 1,
-        borderRadius: 1,
+        borderRadius: 10,
+        marginTop: 10,
+        padding: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: colors.primary,
     },
     textContent: {
-        alignSelf: 'center',
+        textAlign: 'center',
         marginBottom: 10,
         fontFamily: 'montserrat-semibold',
         color: colors.light,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Modal, Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 import colors from '../../../../assets/styles/colorVariables';
@@ -85,32 +85,28 @@ export default function HowToUseModal({ visible, setVisible }) {
                 onPress={() => {
                     setVisible(false);
                 }}>
-                <ScrollView>
-                    <View style={styles.modalContent}>
-                        <View style={styles.contentHeader}>
-                            <Text style={styles.title}>
-                                Como usar o Mia Ajuda
-                            </Text>
+                <View style={styles.modalContent}>
+                    <View style={styles.contentHeader}>
+                        <Text style={styles.title}>Como usar o Mia Ajuda?</Text>
 
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setVisible(false);
-                                }}
-                                style={styles.closeIcon}>
-                                <Icon
-                                    name="times-circle"
-                                    type="font-awesome"
-                                    color={colors.primary}
-                                    size={35}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        {renderHowToCreateHelpModal()}
-                        {renderHowToOfferHelpModal()}
-                        {renderHowToChoseOfferHelpModal()}
-                        {renderHowToVolunteerModal()}
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible(false);
+                            }}
+                            style={styles.closeIcon}>
+                            <Icon
+                                name="times-circle"
+                                type="font-awesome"
+                                color={colors.primary}
+                                size={35}
+                            />
+                        </TouchableOpacity>
                     </View>
-                </ScrollView>
+                    {renderHowToCreateHelpModal()}
+                    {renderHowToOfferHelpModal()}
+                    {renderHowToChoseOfferHelpModal()}
+                    {renderHowToVolunteerModal()}
+                </View>
             </TouchableOpacity>
             <HowToCreateHelpModal
                 visible={howToCreateHelpModalVisible}
