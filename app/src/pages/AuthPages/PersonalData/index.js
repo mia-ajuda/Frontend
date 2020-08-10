@@ -103,7 +103,7 @@ export default function PersonalData({ route, navigation }) {
                     </View>
                     <View style={styles.title}>
                         <Text style={styles.text1}>
-                            Informe alguns dados para continuarmos seu com o seu
+                            Informe alguns dados para continuarmos com o seu
                             cadastro.
                         </Text>
                     </View>
