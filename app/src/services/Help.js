@@ -93,10 +93,8 @@ class HelpService {
     }
 
     async getHelpInfo(helpId) {
-        console.log(1);
         const url = `/help/helpInfo/${helpId}`;
         const result = await api.get(url);
-        console.log(2);
         return result.data;
     }
 }

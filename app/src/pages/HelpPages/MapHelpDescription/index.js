@@ -106,7 +106,7 @@ export default function MapHelpDescription({ route, navigation }) {
                 <Text style={styles.titleFont}>{help.title}</Text>
                 <View style={styles.categoryWarning}>
                     <Text style={styles.categoryName}>
-                        {helpInfo.category.name}
+                        {help.category.name}
                     </Text>
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>

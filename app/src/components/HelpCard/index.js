@@ -15,6 +15,9 @@ export default function HelpCard({ help, isRiskGroup, children }) {
                     {help.title}
                 </Text>
             </View>
+            <View style={styles.categoryWarning}>
+                <Text style={styles.categoryName}> {help.category.name} </Text>
+            </View>
             {children}
         </View>
     );
