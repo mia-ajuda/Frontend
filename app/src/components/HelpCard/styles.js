@@ -8,7 +8,6 @@ const cardContainerStyle = {
     maxHeight: 240,
     marginTop: 20,
     borderWidth: 1,
-    height: 120,
     backgroundColor: colors.light,
     borderRadius: 8,
     alignItems: 'flex-start',
@@ -49,7 +48,7 @@ export default StyleSheet.create({
 
     descriptionContent: {
         ...fonts.body,
-        fontSize: 16,
+        fontSize: 12,
 
         color: colors.dark,
     },
@@ -60,8 +59,9 @@ export default StyleSheet.create({
 
         maxHeight: 30,
 
-        paddingHorizontal: 15,
-        marginLeft: 5,
+        paddingHorizontal: 10,
+        marginRight: 5,
+        marginTop: 5,
         alignSelf: 'flex-start',
     },
 
@@ -70,6 +70,7 @@ export default StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',
+        fontSize: 12,
     },
 
     bottomItens: {

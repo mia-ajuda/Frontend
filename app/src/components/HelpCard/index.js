@@ -19,7 +19,7 @@ export default function HelpCard({ help, isRiskGroup, children }) {
                 <Text numberOfLines={3} style={styles.descriptionContent}>
                     {help.description}
                 </Text>
-                {/* <View style={styles.bottomItens}>
+                <View style={styles.bottomItens}>
                     <View style={styles.categoryContainer}>
                         {help.categories.map((category) => (
                             <View
@@ -31,7 +31,7 @@ export default function HelpCard({ help, isRiskGroup, children }) {
                             </View>
                         ))}
                     </View>
-                </View> */}
+                </View>
             </View>
             {children}
         </View>
