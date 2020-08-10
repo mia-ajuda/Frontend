@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Modal,
-    Text,
-    TouchableOpacity,
-    ScrollView,
-    ImageBackground,
-} from 'react-native';
+import { View, Modal, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import styles from './styles';
 import colors from '../../../../assets/styles/colorVariables';
 import { Icon } from 'react-native-elements';
-import HowToChoseHelpOfferModal from '../HowToUseModal';
-import HowToCreateHelpModal from '../HowToUseModal';
-import HowToOfferHelpModal from '../HowToUseModal';
-import HowToVolunteerModal from '../HowToUseModal';
+import HowToChoseHelpOfferModal from '../HowToUseModal/HowToChoseHelpOfferModal';
+import HowToCreateHelpModal from '../HowToUseModal/HowToCreateHelpModal';
+import HowToOfferHelpModal from '../HowToUseModal/HowToOfferHelpModal';
+import HowToVolunteerModal from '../HowToUseModal/HowToVolunteerModal';
 
 export default function HowToUseModal({ visible, setVisible }) {
     const [
@@ -34,6 +27,52 @@ export default function HowToUseModal({ visible, setVisible }) {
         setHowToVolunteerModalVisible,
     ] = useState(false);
 
+    const renderHowToCreateHelpModal = () => (
+        <TouchableOpacity
+            onPress={() => {
+                setHowToCreateHelpModalVisible(!howToCreateHelpModalVisible);
+            }}
+            style={styles.textButtons}>
+            <Text style={styles.textContent}>Como criar uma ajuda?</Text>
+        </TouchableOpacity>
+    );
+
+    const renderHowToOfferHelpModal = () => (
+        <TouchableOpacity
+            onPress={() => {
+                setHowToOfferHelpModalVisible(!howToOfferHelpModalVisible);
+            }}
+            style={styles.textButtons}>
+            <Text style={styles.textContent}>
+                Como criar uma oferta de ajuda?
+            </Text>
+        </TouchableOpacity>
+    );
+
+    const renderHowToChoseOfferHelpModal = () => (
+        <TouchableOpacity
+            onPress={() => {
+                setHowToChoseHelpOfferModalVisible(
+                    !howToChoseHelpOfferModalVisible,
+                );
+            }}
+            style={styles.textButtons}>
+            <Text style={styles.textContent}>
+                Como escolher uma oferta de ajuda?
+            </Text>
+        </TouchableOpacity>
+    );
+
+    const renderHowToVolunteerModal = () => (
+        <TouchableOpacity
+            onPress={() => {
+                setHowToVolunteerModalVisible(!howToVolunteerModalVisible);
+            }}
+            style={styles.textButtons}>
+            <Text style={styles.textContent}>Como ser um voluntário?</Text>
+        </TouchableOpacity>
+    );
+
     return (
         <Modal
             visible={visible}
@@ -46,106 +85,32 @@ export default function HowToUseModal({ visible, setVisible }) {
                 onPress={() => {
                     setVisible(false);
                 }}>
-                <ImageBackground
-                    source={require('../../../images/catPhoto.png')}
-                    style={styles.image}>
-                    <ScrollView>
-                        <View style={styles.modalContent}>
-                            <View style={styles.contentHeader}>
-                                <Text style={styles.title}>
-                                    Como usar o Mia Ajuda
-                                </Text>
-
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        setVisible(false);
-                                    }}
-                                    style={styles.closeIcon}>
-                                    <Icon
-                                        name="times-circle"
-                                        type="font-awesome"
-                                        color={colors.primary}
-                                        size={35}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                <ScrollView>
+                    <View style={styles.modalContent}>
+                        <View style={styles.contentHeader}>
+                            <Text style={styles.title}>
+                                Como usar o Mia Ajuda
+                            </Text>
 
                             <TouchableOpacity
                                 onPress={() => {
-                                    setHowToCreateHelpModalVisible(
-                                        !howToCreateHelpModalVisible,
-                                    );
+                                    setVisible(false);
                                 }}
-                                style={styles.textButtons}>
-                                <Text style={styles.textContent}>
-                                    Como criar uma ajuda?
-                                </Text>
-
+                                style={styles.closeIcon}>
                                 <Icon
-                                    style={styles.arrowIcon}
-                                    name="arrow-right"
+                                    name="times-circle"
                                     type="font-awesome"
-                                    color={colors.light}
-                                    size={35}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setHowToOfferHelpModalVisible(
-                                        !howToOfferHelpModalVisible,
-                                    );
-                                }}
-                                style={styles.textButtons}>
-                                <Text style={styles.textContent}>
-                                    Como criar uma oferta de ajuda?
-                                </Text>
-                                <Icon
-                                    style={styles.arrowIcon}
-                                    name="arrow-right"
-                                    type="font-awesome"
-                                    color={colors.light}
-                                    size={35}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setHowToChoseHelpOfferModalVisible(
-                                        !howToChoseHelpOfferModalVisible,
-                                    );
-                                }}
-                                style={styles.textButtons}>
-                                <Text style={styles.textContent}>
-                                    Como escolher uma oferta de ajuda?
-                                </Text>
-                                <Icon
-                                    style={styles.arrowIcon}
-                                    name="arrow-right"
-                                    type="font-awesome"
-                                    color={colors.light}
-                                    size={35}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setHowToVolunteerModalVisible(
-                                        !howToVolunteerModalVisible,
-                                    );
-                                }}
-                                style={styles.textButtons}>
-                                <Text style={styles.textContent}>
-                                    Como ser um voluntário?
-                                </Text>
-                                <Icon
-                                    style={styles.arrowIcon}
-                                    name="arrow-right"
-                                    type="font-awesome"
-                                    color={colors.light}
+                                    color={colors.primary}
                                     size={35}
                                 />
                             </TouchableOpacity>
                         </View>
-                    </ScrollView>
-                </ImageBackground>
+                        {renderHowToCreateHelpModal()}
+                        {renderHowToOfferHelpModal()}
+                        {renderHowToChoseOfferHelpModal()}
+                        {renderHowToVolunteerModal()}
+                    </View>
+                </ScrollView>
             </TouchableOpacity>
             <HowToCreateHelpModal
                 visible={howToCreateHelpModalVisible}

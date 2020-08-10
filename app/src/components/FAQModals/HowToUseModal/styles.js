@@ -19,11 +19,6 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: 'rgba(0,0,0,0.2)',
     },
-    image: {
-        flex: 1,
-        alignItems: 'center',
-        opacity: 0.6,
-    },
     contentHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
