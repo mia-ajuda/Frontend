@@ -4,6 +4,7 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import { TextInputMask } from 'react-native-masked-text';
 import Button from '../../../../components/UI/button';
 import UserService from '../../../../services/User';
+import EntityService from '../../../../services/Entity';
 import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
@@ -12,6 +13,7 @@ import { alertSuccess } from '../../../../utils/Alert';
 import useService from '../../../../services/useService';
 export default function EditPhoneField({ route, navigation }) {
     const phone = route.params.user?.phone.slice(3, 14);
+    const isEntityUser = route.params.user.cnpj;
     const [newPhone, setNewPhone] = useState(phone);
     const [isNewPhoneValid, setNewPhoneValid] = useState(true);
     const { dispatch } = useContext(UserContext);
@@ -32,7 +34,10 @@ export default function EditPhoneField({ route, navigation }) {
             phone: formatPhone(),
         };
         setLoadingModal(true);
-        const user = await useService(UserService, 'editUser', [data]);
+
+        const user = isEntityUser
+            ? await useService(EntityService, 'editEntity', [data])
+            : await useService(UserService, 'editUser', [data]);
         if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');

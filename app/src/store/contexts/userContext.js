@@ -2,6 +2,7 @@ import React, { useReducer, createContext, useState, useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
+import EntityService from '../../services/Entity';
 import actions from '../actions';
 import env from '../../config/envVariables';
 
@@ -59,15 +60,23 @@ export const UserContextProvider = (props) => {
                 );
                 await AsyncStorage.setItem('accessToken', acesstoken);
             }
-            await getUserInfo();
+            await getUserInfo(user);
         });
     }
 
-    async function getUserInfo() {
+    async function getUserInfo(user) {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-
+        const userEmail = user?.email;
         if (userPreviouslyLogged) {
-            const user = await useService(UserService, 'requestUserData');
+            const isEntityUser = await useService(
+                EntityService,
+                'verifyEntityInfo',
+                [userEmail],
+            );
+            const user = isEntityUser
+                ? await useService(EntityService, 'requestEntityData')
+                : await useService(UserService, 'requestUserData');
+
             if (!user.error) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });
             } else {

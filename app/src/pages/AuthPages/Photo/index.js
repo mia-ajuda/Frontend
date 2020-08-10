@@ -8,14 +8,18 @@ import Container from '../../../components/Container';
 import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
     const { userDataFromAddressPage } = route.params;
+    const goBackToAdressPage = () => navigation.goBack();
 
-    async function openImagePickerAsync() {
+    async function requestPermission() {
         const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
         if (permissionResult.granted === false) {
-            alertMessage('É preciso permissão para acesso a câmera!');
+            alertMessage('É preciso permissão para colocar uma foto.');
             return;
         }
+    }
+
+    async function openImagePickerAsync() {
+        requestPermission();
 
         const pickerResult = await ImagePicker.launchCameraAsync({
             base64: true,
@@ -31,7 +35,50 @@ export default function Photo({ route, navigation }) {
             userDataFromAddressPage,
         });
     }
+    async function pickImageFromGallery() {
+        requestPermission();
 
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 0.5,
+            aspect: [1, 1],
+            base64: true,
+        });
+
+        if (pickerResult.cancelled === true) {
+            return;
+        }
+
+        navigation.navigate('photoPreview', {
+            selectedPhoto: pickerResult.base64,
+            userDataFromAddressPage,
+        });
+    }
+    const renderCameraButton = () => (
+        <TouchableOpacity
+            onPress={openImagePickerAsync}
+            style={styles.pickPhotoButton}>
+            <View style={styles.button}>
+                <Icon name={'camera-alt'} color="gray" />
+            </View>
+            <Text style={styles.pickerText}>Abrir camera</Text>
+        </TouchableOpacity>
+    );
+    const renderGalleryButton = () => {
+        if (userDataFromAddressPage.cnpj) {
+            return (
+                <TouchableOpacity
+                    onPress={pickImageFromGallery}
+                    style={styles.pickPhotoButton}>
+                    <View style={styles.button}>
+                        <Icon name={'photo-library'} color="gray" />
+                    </View>
+
+                    <Text style={styles.pickerText}>Abrir galeria</Text>
+                </TouchableOpacity>
+            );
+        }
+    };
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -39,7 +86,7 @@ export default function Photo({ route, navigation }) {
                 style={styles.logo}>
                 <Container>
                     <View style={styles.backIcon}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <TouchableOpacity onPress={() => goBackToAdressPage()}>
                             <Icon name={'arrow-back'} color={'black'} />
                         </TouchableOpacity>
                     </View>
@@ -50,11 +97,8 @@ export default function Photo({ route, navigation }) {
                         </Text>
                     </View>
                     <View style={styles.btnView}>
-                        <TouchableOpacity
-                            onPress={openImagePickerAsync}
-                            style={styles.button}>
-                            <Icon name={'camera-alt'} color="gray" />
-                        </TouchableOpacity>
+                        {renderCameraButton()}
+                        {renderGalleryButton()}
                     </View>
                 </Container>
             </ImageBackground>
