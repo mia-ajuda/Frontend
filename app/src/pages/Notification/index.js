@@ -55,15 +55,11 @@ export default function Notification({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.notificationList}>
-                        {helpNotifications.map((item) => (
+                        {helpNotifications.map((notification) => (
                             <NotificationCard
-                                key={item._id}
-                                notificationType={item.notificationType}
-                                notificationTitle={item.title}
-                                notificationBody={item.body}
-                                notificationDate={item.registerDate}
+                                key={notification._id}
+                                notification={notification}
                                 dateNow={Date.now()}
-                                helpId={item.helpId}
                                 navigation={navigation}
                             />
                         ))}
