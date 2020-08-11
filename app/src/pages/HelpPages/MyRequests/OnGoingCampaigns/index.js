@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import MyRequestHelpCard from '../../../../components/MyRequestHelpCard';
 import { UserContext } from '../../../../store/contexts/userContext';
-import helpService from '../../../../services/Help';
+
+import campaignService from '../../../../services/Campaign';
+
 import styles from '../styles';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
@@ -15,12 +17,12 @@ import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
 import useService from '../../../../services/useService';
 
-export default function OnGoingHelps({ navigation }) {
-    const [myRequestedHelps, setMyRequestedHelps] = useState([]);
+export default function OnGoingCampaigns({ navigation }) {
+    const [myRequestedCampaigns, setMyRequestedCampaigns] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
-    const [helpToDelete, setHelpToDelete] = useState(null);
+    const [campaignToDelete, setCampaignToDelete] = useState(null);
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
     const { user } = useContext(UserContext);
@@ -30,33 +32,33 @@ export default function OnGoingHelps({ navigation }) {
             loadOnGoingHelps();
         }, [navigation]),
     );
-    useEffect(() => {
-        console.log(user);
-    }, []);
+
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
         setLoadingMyHelpRequests(true);
         const filteredHelps = await useService(
-            helpService,
-            'getHelpMultipleStatus',
+            campaignService,
+            'getCampaignMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
         );
         if (!filteredHelps.error) {
-            setMyRequestedHelps(filteredHelps);
+            setMyRequestedCampaigns(filteredHelps);
         }
         setLoadingMyHelpRequests(false);
     }
 
     async function excludeHelp() {
         setHelpDeletionLoading(true);
-        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
-            helpToDelete,
-        ]);
+        const validDeleteRequest = await useService(
+            campaignService,
+            'deleteHelp',
+            [campaignToDelete],
+        );
         if (!validDeleteRequest.error) {
-            const updatedArray = myRequestedHelps.filter((help) => {
-                return help._id !== helpToDelete;
+            const updatedArray = myRequestedCampaigns.filter((help) => {
+                return help._id !== campaignToDelete;
             });
-            setMyRequestedHelps(updatedArray);
+            setMyRequestedCampaigns(updatedArray);
         }
         setHelpDeletionLoading(false);
         setConfirmationModalVisible(false);
@@ -69,11 +71,11 @@ export default function OnGoingHelps({ navigation }) {
     );
 
     const renderMyRequestsHelpList = () => {
-        if (myRequestedHelps.length > 0) {
+        if (myRequestedCampaigns.length > 0) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {myRequestedHelps.map((help) => (
+                        {myRequestedCampaigns.map((help) => (
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
@@ -90,7 +92,7 @@ export default function OnGoingHelps({ navigation }) {
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible
                                     }
-                                    setSelectedHelp={setHelpToDelete}
+                                    setSelectedHelp={setCampaignToDelete}
                                 />
                             </TouchableOpacity>
                         ))}
@@ -98,7 +100,7 @@ export default function OnGoingHelps({ navigation }) {
                 </ScrollView>
             );
         } else {
-            return <NoHelps title={'Você não possui ajudas em andamento'} />;
+            return <NoHelps title={'Você não possui campanhas em andamento'} />;
         }
     };
     return (
@@ -108,7 +110,7 @@ export default function OnGoingHelps({ navigation }) {
                 visible={confirmationModalVisible}
                 setVisible={setConfirmationModalVisible}
                 action={() => excludeHelp()}
-                message={'Você deseja deletar esse pedido de ajuda?'}
+                message={'Você deseja deletar essa campanha?'}
                 isLoading={isHelpDeletionLoading}
             />
             {loadingMyHelpRequests

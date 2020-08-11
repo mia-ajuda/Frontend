@@ -12,16 +12,23 @@ import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function HelpList({ helps, visible, setVisible, navigation }) {
+export default function HelpList({
+    helps,
+    campaigns,
+    visible,
+    setVisible,
+    navigation,
+}) {
     const [iconName, setIconName] = useState('caret-up');
     const listHeight = useRef(new Animated.Value(40)).current;
 
     useEffect(() => {
+        const isAnEmptyList = campaigns.length === 0 && helps.length === 0;
         switch (visible) {
             case true:
                 setIconName('caret-down');
                 Animated.spring(listHeight, {
-                    toValue: helps.length > 0 ? 400 : 300,
+                    toValue: isAnEmptyList ? 300 : 400,
                     tension: 10,
                     useNativeDriver: false,
                 }).start();
@@ -55,6 +62,19 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                 })
                             }>
                             <HelpCard help={help} isRiskGroup={isRiskGroup} />
+                        </TouchableOpacity>
+                    );
+                })}
+                {campaigns.map((campaign) => {
+                    return (
+                        <TouchableOpacity
+                            key={campaign._id}
+                            onPress={() =>
+                                navigation.navigate('mapCampaignDescription', {
+                                    campaign,
+                                })
+                            }>
+                            <HelpCard help={campaign} isRiskGroup={false} />
                         </TouchableOpacity>
                     );
                 })}
