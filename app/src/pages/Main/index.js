@@ -8,9 +8,11 @@ import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
+import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import HelpList from '../../components/HelpList';
 import UserMarker from './UserMarker';
+import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 
 export default function Main({ navigation }) {
@@ -19,10 +21,17 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
     const { userPosition } = useContext(UserContext);
+    const { campaignList } = useContext(CampaignContext);
 
     useEffect(() => {
         setRegion(null);
     }, [region]);
+
+    const renderCampaignMarkers = () => {
+        return campaignList.map((campaign) => {
+            return <CampaignMarker key={campaign._id} campaign={campaign} />;
+        });
+    };
 
     const renderHelpMakers = () => {
         return helpList.map((help) => {
@@ -82,7 +91,7 @@ export default function Main({ navigation }) {
                 }}
                 customMapStyle={mapStyle.day.map}>
                 <UserMarker userPosition={userPosition} />
-
+                {renderCampaignMarkers()}
                 {renderHelpMakers()}
             </MapView>
 

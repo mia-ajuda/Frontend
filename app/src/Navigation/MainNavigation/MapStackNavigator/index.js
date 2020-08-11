@@ -5,6 +5,7 @@ import CreateHelpRequest from '../../../pages/HelpPages/CreateHelpRequest';
 import CreateHelpOffer from '../../../pages/HelpPages/CreateHelpOffer';
 import CreateCampaign from '../../../pages/HelpPages/CreateCampaign';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
+import MapCampaignDescription from '../../../pages/HelpPages/MapCampaignDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
@@ -37,6 +38,11 @@ const MainNavigation = () => (
             name="mapHelpDescription"
             options={{ title: 'Detalhes' }}
             component={MapHelpDescription}
+        />
+        <Stack.Screen
+            name="mapCampaignDescription"
+            options={{ title: 'Contato' }}
+            component={MapCampaignDescription}
         />
     </Stack.Navigator>
 );
