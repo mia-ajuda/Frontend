@@ -68,6 +68,11 @@ class HelpService {
         return help.data;
     }
 
+    async getHelpWithAggregationById(helpId) {
+        const help = await api.get(`/help/aggregation/${helpId}`);
+        return help.data;
+    }
+
     async deleteHelp(helpId) {
         const deleteHelp = await api.delete(`/help/${helpId}`);
         return deleteHelp;

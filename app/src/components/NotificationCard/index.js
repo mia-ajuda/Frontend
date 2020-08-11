@@ -21,7 +21,7 @@ export default function NotificationCard({
     }, [dateNow]);
 
     async function navigateToHelpPage(){
-        const help = await helpService.getHelpById(notification.helpId);
+        const help = await helpService.getHelpWithAggregationById(notification.helpId);
         switch (notification.notificationType) {
             case 'ajudaRecebida':
                 navigation.navigate(
@@ -42,6 +42,12 @@ export default function NotificationCard({
                 break;
 
             case 'ajudaFinalizada':
+                navigation.navigate(
+                    'OfferDescription',
+                    {
+                        help,
+                    },
+                );
                 break;
 
             case 'ajudaExpirada':
