@@ -10,6 +10,7 @@ import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserService from '../../../../services/User';
+import EntityService from '../../../../services/Entity';
 import ViaCep from '../../../../ExternalServices/ViaCep';
 import styles from './styles';
 import actions from '../../../../store/actions';
@@ -20,6 +21,8 @@ import useService from '../../../../services/useService';
 
 export default function EditCepField({ route, navigation }) {
     const address = route.params.user?.address;
+    const isEntityUser = route.params.user.cnpj;
+
     const { keyboard } = useContext(DeviceInformationContext);
     const [newCep, setNewCep] = useState(address.cep);
     const [isCepValid, setCepValid] = useState(true);
@@ -71,8 +74,11 @@ export default function EditCepField({ route, navigation }) {
             city: newCity,
             state: newState,
         };
+
         setEditRequestLoading(true);
-        const resp = await useService(UserService, 'editUserAdress', [data]);
+        const resp = isEntityUser
+            ? await useService(EntityService, 'editEntityAdress', [data])
+            : await useService(UserService, 'editUserAdress', [data]);
         if (!resp.error) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
