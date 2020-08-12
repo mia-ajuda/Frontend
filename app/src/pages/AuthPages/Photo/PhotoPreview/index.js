@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+    Image,
+    Text,
+    TouchableOpacity,
+    View,
+    ActivityIndicator,
+} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
+import { alertSuccess } from '../../../../utils/Alert';
+import SessionService from '../../../../services/Session';
 import TermsModal from '../../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../../components/UI/button';
+import useService from '../../../../services/useService';
+import colors from '../../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 
 export default function PhotoPreview({ route, navigation }) {
     const { userDataFromAddressPage, selectedPhoto } = route.params;
-
+    const isEntityUser = userDataFromAddressPage.cnpj;
     const [termsModalVisible, setTermsModalVisible] = useState(false);
     const [checked, setChecked] = useState(false);
     const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
+        false,
+    );
     const navigateBackToPhotoPage = () => navigation.goBack();
 
     async function continueHandler() {
@@ -21,7 +34,19 @@ export default function PhotoPreview({ route, navigation }) {
             photo: selectedPhoto,
             ...userDataFromAddressPage,
         };
-        navigation.navigate('riskGroup', { userDataFromPhotoPage });
+        if (isEntityUser) {
+            setLoadingUserRegistration(true);
+
+            const signUpRequest = await useService(SessionService, 'signUp', [
+                userDataFromPhotoPage,
+            ]);
+            if (!signUpRequest.error) {
+                alertSuccess('Seu cadastro foi realizado com sucesso');
+            }
+            navigation.navigate('login');
+        } else {
+            navigation.navigate('riskGroup', { userDataFromPhotoPage });
+        }
     }
 
     const titleCheckBox = (
@@ -43,7 +68,9 @@ export default function PhotoPreview({ route, navigation }) {
             </View>
         </View>
     );
-
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
+    );
     return (
         <View style={styles.container}>
             <Image
@@ -67,23 +94,29 @@ export default function PhotoPreview({ route, navigation }) {
                     onIconPress={() => setChecked(!checked)}
                 />
             </View>
-
             <View style={styles.buttonPreview}>
-                <Buttom
-                    title="Voltar"
-                    type="notSelected"
-                    press={() => {
-                        navigateBackToPhotoPage();
-                    }}
-                />
-                <Buttom
-                    disabled={!checked}
-                    title="Continuar"
-                    press={() => {
-                        continueHandler();
-                    }}
-                />
+                {loadingUserRegistration ? (
+                    renderLoadingIndicator()
+                ) : (
+                    <>
+                        <Buttom
+                            title="Voltar"
+                            type="notSelected"
+                            press={() => {
+                                navigateBackToPhotoPage();
+                            }}
+                        />
+                        <Buttom
+                            disabled={!checked}
+                            title={isEntityUser ? 'Concluir' : 'Continuar'}
+                            press={() => {
+                                continueHandler();
+                            }}
+                        />
+                    </>
+                )}
             </View>
+
             <TermsModal
                 visible={termsModalVisible}
                 setVisible={setTermsModalVisible}

@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     scrollContainerOnTyping: {
-        marginTop: 40,
         flexGrow: 1,
         justifyContent: 'center',
     },
@@ -31,9 +30,10 @@ const styles = StyleSheet.create({
     text1: {
         ...fonts.subtitle,
         fontFamily: 'montserrat-semibold',
-        marginTop: 15,
+        marginVertical: 15,
     },
     inputView: {
+        flex: 1,
         width: '100%',
     },
     btnView: {
@@ -55,19 +55,33 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: 'montserrat-semibold',
         color: color.primary,
+        marginTop: 10,
     },
+    switchLabel: {
+        fontFamily: 'montserrat-semibold',
+        color: color.primary,
+    },
+
     viewMargin: {
         marginVertical: 6,
     },
     toggleView: {
+        marginTop: 10,
         marginBottom: 45,
+        alignItems: 'center',
+    },
+    switchViewEntity: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        marginBottom: 20,
+    },
+    switchViewMentalHelthProfessional: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
     },
     backIcon: {
         alignItems: 'flex-start',
-        marginTop: 15,
     },
     errorMessage: {
         ...fonts.body,

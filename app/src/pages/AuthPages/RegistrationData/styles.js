@@ -6,13 +6,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 20,
         paddingHorizontal: 30,
-        justifyContent: 'space-between',
-        alignItems: 'center',
         backgroundColor: colors.light,
     },
     form: {
         width: '100%',
         justifyContent: 'space-between',
+        height: 250,
     },
     text1: {
         ...fonts.title,
