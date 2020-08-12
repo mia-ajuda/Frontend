@@ -39,7 +39,7 @@ export default function OnGoingCampaigns({ navigation }) {
         const filteredHelps = await useService(
             campaignService,
             'getCampaignMultipleStatus',
-            [userId, ['waiting', 'on_going', 'helper_finished']],
+            [userId, ['waiting']],
         );
         if (!filteredHelps.error) {
             setMyRequestedCampaigns(filteredHelps);
@@ -55,8 +55,8 @@ export default function OnGoingCampaigns({ navigation }) {
             [campaignToDelete],
         );
         if (!validDeleteRequest.error) {
-            const updatedArray = myRequestedCampaigns.filter((help) => {
-                return help._id !== campaignToDelete;
+            const updatedArray = myRequestedCampaigns.filter((campaign) => {
+                return campaign._id !== campaignToDelete;
             });
             setMyRequestedCampaigns(updatedArray);
         }
