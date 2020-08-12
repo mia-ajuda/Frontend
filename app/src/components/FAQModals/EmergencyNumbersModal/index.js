@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-    Modal,
-    ScrollView,
-    TouchableOpacity,
-    View,
-    ImageBackground,
-    Text,
-} from 'react-native';
+import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Container from '../../Container';
 import colors from '../../../../assets/styles/colorVariables';
@@ -31,6 +24,24 @@ export default function EmergencyNumbers({ visible, setVisible }) {
         { id: '11', number: '(61) 3207-4242', description: 'DECRIN' },
     ];
 
+    const renderEmergencyNumbersList = () => (
+        <View style={styles.modalContent}>
+            <ScrollView indicatorStyle="white">
+                {emergencyNumbers.map((numbers) => {
+                    return (
+                        <View key={numbers.id}>
+                            <Text style={styles.title}> {numbers.number} </Text>
+                            <Text style={styles.description}>
+                                {' '}
+                                {numbers.description}{' '}
+                            </Text>
+                        </View>
+                    );
+                })}
+            </ScrollView>
+        </View>
+    );
+
     return (
         <Modal
             visible={visible}
@@ -39,37 +50,19 @@ export default function EmergencyNumbers({ visible, setVisible }) {
             animationType="fade">
             <View style={styles.modalContainer}>
                 <Container>
-                    <ImageBackground
-                        source={require('../../../../assets/images/emergencyContactsPhone.png')}
-                        style={styles.image}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                setVisible(false);
-                            }}
-                            style={styles.icon}>
-                            <Icon
-                                name="times-circle"
-                                type="font-awesome"
-                                color={colors.primary}
-                                size={35}
-                            />
-                        </TouchableOpacity>
-
-                        <View style={styles.modalContent}>
-                            <ScrollView indicatorStyle="white">
-                                {emergencyNumbers.map((item) => (
-                                    <View key={item.id}>
-                                        <Text style={styles.title}>
-                                            {item.number}
-                                        </Text>
-                                        <Text style={styles.description}>
-                                            {item.description}
-                                        </Text>
-                                    </View>
-                                ))}
-                            </ScrollView>
-                        </View>
-                    </ImageBackground>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setVisible(false);
+                        }}
+                        style={styles.icon}>
+                        <Icon
+                            name="times-circle"
+                            type="font-awesome"
+                            color={colors.primary}
+                            size={35}
+                        />
+                    </TouchableOpacity>
+                    {renderEmergencyNumbersList()}
                 </Container>
             </View>
         </Modal>

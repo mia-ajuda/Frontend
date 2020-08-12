@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import EmergencyNumbers from '../../components/FAQModals/EmergencyNumbersModal';
-import HelpOfferedRecomendations from '../FAQModals/RecomendationsModal/HelpOfferedModal';
-import HelpRequestRecomendations from '../FAQModals/RecomendationsModal/HelpRequestModal';
+import HelpOfferedModal from '../FAQModals/RecomendationsModal/HelpOfferedModal';
+import HelpRequestModal from '../FAQModals/RecomendationsModal/HelpRequestModal';
 import HowToUseModal from '../FAQModals/HowToUseModal';
 
 import styles from './styles';
@@ -21,14 +21,14 @@ export default function FaqCard({ faq }) {
             );
         } else if (id == 2) {
             return (
-                <HelpRequestRecomendations
+                <HelpRequestModal
                     visible={modalVisible}
                     setVisible={setModalVisible}
                 />
             );
         } else if (id == 3) {
             return (
-                <HelpOfferedRecomendations
+                <HelpOfferedModal
                     visible={modalVisible}
                     setVisible={setModalVisible}
                 />

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity } from 'react-native';
-
 import styles from './styles';
 import colors from '../../../../assets/styles/colorVariables';
 import { Icon } from 'react-native-elements';
@@ -33,7 +32,9 @@ export default function HowToUseModal({ visible, setVisible }) {
                 setHowToCreateHelpModalVisible(!howToCreateHelpModalVisible);
             }}
             style={styles.textButtons}>
-            <Text style={styles.textContent}>Como criar uma ajuda?</Text>
+            <Text style={styles.textContent}>
+                Como criar um pedido de ajuda?
+            </Text>
         </TouchableOpacity>
     );
 

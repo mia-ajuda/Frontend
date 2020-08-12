@@ -9,11 +9,7 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: 'rgba(0,0,0,0.3)',
     },
-    image: {
-        flex: 1,
-        alignItems: 'center',
-        opacity: 0.6,
-    },
+
     modalContent: {
         paddingTop: 50,
         backgroundColor: colors.light,
@@ -30,6 +26,7 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: minimumTextSize * 1.5,
     },
+
     description: {
         alignSelf: 'center',
         marginBottom: 10,
@@ -37,6 +34,7 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: minimumTextSize * 1.2,
     },
+
     icon: {
         top: '5.5%',
         right: 20,
@@ -44,4 +42,5 @@ const styles = StyleSheet.create({
         zIndex: 5,
     },
 });
+
 export default styles;

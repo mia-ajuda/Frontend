@@ -12,26 +12,31 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 16,
     },
+
     modalContainer: {
         width: '100%',
         height: '100%',
         backgroundColor: 'rgba(0,0,0,0.2)',
     },
+
     contentHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
         top: 15,
     },
+
     closeIcon: {
         right: 1,
         position: 'absolute',
         zIndex: 5,
     },
+
     arrowIcon: {
         right: 20,
         position: 'absolute',
         zIndex: 5,
     },
+
     title: {
         alignSelf: 'center',
         textAlign: 'center',
@@ -45,6 +50,7 @@ const styles = StyleSheet.create({
         marginTop: 25,
         height: '80%',
     },
+
     textButtons: {
         borderRadius: 10,
         marginTop: 10,
@@ -54,6 +60,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.primary,
     },
+
     textContent: {
         textAlign: 'center',
         marginBottom: 10,
