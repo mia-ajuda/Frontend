@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-
 import FaqCard from '../../components/FaqCard';
-
-import faqOption from '../../utils/faqOptions';
+import faqOption from '../../docs/FAQ/faqOptions';
 import styles from './styles';
 
 export default function InformationsCenter() {

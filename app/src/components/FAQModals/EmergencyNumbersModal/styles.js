@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
 
     description: {
-        alignSelf: 'center',
+        textAlign: 'center',
         marginBottom: 10,
         fontFamily: 'montserrat-semibold',
         color: colors.primary,

@@ -2,23 +2,15 @@ import React from 'react';
 import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Container from '../../../Container';
+import howToChoseHelpOfferRecomendations from '../../../../docs/FAQ/HowToChooseHelpOffered';
 import colors from '../../../../../assets/styles/colorVariables';
 import styles from './styles';
 
 export default function HowToChoseHelpOffer({ visible, setVisible }) {
-    const HowToChoseHelpOfferRecomendations = [
-        {
-            id: '1',
-            title: 'Como escolher uma oferta de ajuda?',
-            description:
-                'Para escolher uma oferta de ajuda, é só olhar no mapa da página inicial do app, e clicar no ícone de oferecer ajuda',
-        },
-    ];
-
     const renderHowToChoseHelpOfferStepsList = () => (
         <View style={styles.modalContent}>
             <ScrollView indicatorStyle="white">
-                {HowToChoseHelpOfferRecomendations.map((item) => (
+                {howToChoseHelpOfferRecomendations.map((item) => (
                     <View key={item.id}>
                         <Text style={styles.title}>{item.title}</Text>
                         <Text style={styles.description}>

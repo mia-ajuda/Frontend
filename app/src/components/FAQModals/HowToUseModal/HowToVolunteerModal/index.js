@@ -2,23 +2,15 @@ import React from 'react';
 import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Container from '../../../Container';
+import howToVolunteerRecomendations from '../../../../docs/FAQ/HowToBeVolunteer';
 import colors from '../../../../../assets/styles/colorVariables';
 import styles from './styles';
 
 export default function HowToVolunteer({ visible, setVisible }) {
-    const HowToVolunteerRecomendations = [
-        {
-            id: '1',
-            title: 'Como ser voluntário?',
-            description:
-                'Para ser voluntário, é só olhar no mapa da página inicial do app, e clicar no ícone.',
-        },
-    ];
-
     const renderHowToVolunteerStepsList = () => (
         <View style={styles.modalContent}>
             <ScrollView indicatorStyle="white">
-                {HowToVolunteerRecomendations.map((item) => (
+                {howToVolunteerRecomendations.map((item) => (
                     <View key={item.id}>
                         <Text style={styles.title}>{item.title}</Text>
                         <Text style={styles.description}>
