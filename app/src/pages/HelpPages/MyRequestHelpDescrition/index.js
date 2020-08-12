@@ -25,7 +25,8 @@ export default function HelpDescription({ route, navigation }) {
             <Badge
                 value={
                     <Text style={styles.labelBadge}>
-                        {help.possibleHelpers.length}
+                        {help.possibleHelpers.length +
+                            help.possibleEntities.length}
                     </Text>
                 }
                 badgeStyle={styles.badgeStyle}
