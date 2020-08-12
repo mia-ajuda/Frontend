@@ -33,7 +33,6 @@ export default function ListPossibleHelpers({ navigation, route }) {
     }
 
     const renderPossibleHelpersList = () => {
-        console.log('aaaaa');
         const possibleHelpers = help.possibleHelpers.concat(
             help.possibleEntities,
         );
@@ -55,13 +54,18 @@ export default function ListPossibleHelpers({ navigation, route }) {
                         <Text style={[styles.infoText, styles.infoTextFont]}>
                             {shortenName(helper.name)}
                         </Text>
-                        <Text>
-                            <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
-                                Idade:{' '}
+                        {getYearsSince(helper.birthday) != 0 && (
+                            <Text>
+                                <Text
+                                    style={[
+                                        styles.infoText,
+                                        styles.infoTextFont,
+                                    ]}>
+                                    Idade:{' '}
+                                </Text>
+                                {getYearsSince(helper.birthday)}
                             </Text>
-                            {getYearsSince(helper.birthday)}
-                        </Text>
+                        )}
                         <Text>
                             <Text
                                 style={[styles.infoText, styles.infoTextFont]}>

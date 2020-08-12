@@ -4,6 +4,7 @@ import styles from './styles';
 import { View, Image, Text } from 'react-native';
 import Button from '../../../../components/UI/button';
 import UserService from '../../../../services/User';
+import EntityService from '../../../../services/Entity';
 import HelpService from '../../../../services/Help';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { UserContext } from '../../../../store/contexts/userContext';
@@ -27,11 +28,12 @@ export default function HelperCard({ help }) {
     }, []);
 
     async function getHelperInformation() {
-        const helperResponse = await useService(
-            UserService,
-            'requestUserData',
-            [help.helperId],
-        );
+        let helperResponse = await UserService.requestUserData(help.helperId);
+        if (helperResponse.error)
+            helperResponse = await EntityService.equestEntityData(
+                help.helperId,
+            );
+
         if (!helperResponse.error) {
             setHelper(helperResponse);
         }
