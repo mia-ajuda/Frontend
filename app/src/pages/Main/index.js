@@ -9,6 +9,7 @@ import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
+// import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
 import UserMarker from './UserMarker';
 import HelpMarker from './HelpMarker';
@@ -19,6 +20,7 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
     const { userPosition } = useContext(UserContext);
+    // const { helpOfferList } = useContext(HelpOfferContext);
 
     useEffect(() => {
         setRegion(null);
