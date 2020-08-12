@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import EmergencyNumbers from '../../components/FAQModals/EmergencyNumbersModal';
 import HelpOfferedModal from '../FAQModals/RecomendationsModal/HelpOfferedModal';
 import HelpRequestModal from '../FAQModals/RecomendationsModal/HelpRequestModal';
 import HowToUseModal from '../FAQModals/HowToUseModal';
+import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
 
 export default function FaqCard({ faq }) {
@@ -49,7 +50,7 @@ export default function FaqCard({ faq }) {
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.info}>
-                    <Image source={faq.icon}></Image>
+                    <SvgUri width="65" height="60" source={faq.icon} />
                     <Text style={styles.title} numberOfLines={2}>
                         {faq.description}
                     </Text>
