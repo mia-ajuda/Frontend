@@ -5,7 +5,7 @@ import Notification from '../../../pages/Notification';
 import MyRequestsNavigation from '../MyHelpRequestsNavigator';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
+import OfferedHelpNavigation from '../OfferedHelpNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
@@ -35,7 +35,7 @@ const BottomTab = () => {
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
                 name="offeredHelp"
-                component={MyOfferedHelpNavigation}
+                component={OfferedHelpNavigation}
             />
             <BottomNavigation.Screen
                 name="profile"

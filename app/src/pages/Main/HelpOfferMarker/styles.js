@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     helpOfferMarker: {
         width: 40,
         height: 40,
+        backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
