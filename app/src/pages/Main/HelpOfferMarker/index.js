@@ -8,7 +8,6 @@ import styles from './styles';
 import ShortenName from '../../../utils/shortenName';
 
 export default function HelpsMarker({ helpOffer }) {
-    console.log(helpOffer);
     // const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(helpOffer.user.name);
 
@@ -21,7 +20,7 @@ export default function HelpsMarker({ helpOffer }) {
                 latitude: helpOffer.user.location.coordinates[1],
                 longitude: helpOffer.user.location.coordinates[0],
             }}>
-            <View>
+            <View style={styles.helpOfferMarker}>
                 <FontAwesome5
                     name="hand-holding-heart"
                     size={30}
@@ -29,6 +28,9 @@ export default function HelpsMarker({ helpOffer }) {
                 />
             </View>
             <Callout onPress={() => {}} style={styles.callout}>
+                <Text style={styles.calloutTitle} numberOfLines={1}>
+                    Oferta de ajuda
+                </Text>
                 <Text style={styles.calloutPersonName} numberOfLines={1}>
                     {helpOwnerNameFormated}
                 </Text>
