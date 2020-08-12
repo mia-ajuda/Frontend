@@ -9,10 +9,11 @@ import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { UserContext } from '../../store/contexts/userContext';
-// import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
+import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
 import UserMarker from './UserMarker';
 import HelpMarker from './HelpMarker';
+import HelpOfferMarker from './HelpOfferMarker';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -20,7 +21,7 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
     const { userPosition } = useContext(UserContext);
-    // const { helpOfferList } = useContext(HelpOfferContext);
+    const { helpOfferList } = useContext(HelpOfferContext);
 
     useEffect(() => {
         setRegion(null);
@@ -38,6 +39,11 @@ export default function Main({ navigation }) {
                 />
             );
         });
+    };
+    const renderHelpOfferMakers = () => {
+        return helpOfferList.map((helpOffer) => (
+            <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
+        ));
     };
 
     const renderFilterButton = () => (
@@ -86,6 +92,7 @@ export default function Main({ navigation }) {
                 <UserMarker userPosition={userPosition} />
 
                 {renderHelpMakers()}
+                {renderHelpOfferMakers()}
             </MapView>
 
             {renderFilterButton()}
