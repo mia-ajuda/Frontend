@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { UserContext } from './userContext';
-import { CategoryContext } from './categoryContext';
+import { connect, disconnect } from '../../services/socket';
 import useService from '../../services/useService';
 import CampaignService from '../../services/Campaign';
 
@@ -8,15 +8,13 @@ export const CampaignContext = createContext();
 
 export default function CampaignContextProvider(props) {
     const { user, userPosition } = useContext(UserContext);
-    const { selectedCategories } = useContext(CategoryContext);
     const [campaignList, setCampaignList] = useState([]);
-    const [campaignsFiltred, setCampaignsFiltred] = useState([]);
 
     useEffect(() => {
         const isUserAuthenticated = user._id;
         if (isUserAuthenticated) {
             getEntityList(userPosition);
-            getCampaignListWithCategories(userPosition);
+            setupWebSocket();
         }
     }, [user, userPosition]);
 
@@ -31,19 +29,15 @@ export default function CampaignContextProvider(props) {
             setCampaignList(campaigns);
         }
     }
-    async function getCampaignListWithCategories(coords) {
-        if (coords && selectedCategories.length) {
-            const { _id: userId } = user;
-            const campaignStatus = await useService(
-                CampaignService,
-                'getAllCampaignForCategory',
-                [coords, selectedCategories, userId],
-            );
-            setCampaignsFiltred(campaignStatus);
-        }
+
+    function setupWebSocket() {
+        disconnect();
+        const { _id: userId } = user;
+        connect(JSON.stringify(userPosition), userId);
     }
+
     return (
-        <CampaignContext.Provider value={{ campaignList, campaignsFiltred }}>
+        <CampaignContext.Provider value={{ campaignList }}>
             {props.children}
         </CampaignContext.Provider>
     );

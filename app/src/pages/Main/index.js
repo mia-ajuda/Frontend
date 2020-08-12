@@ -20,7 +20,7 @@ export default function Main({ navigation }) {
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
-    const { userPosition } = useContext(UserContext);
+    const { userPosition, user } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
 
     useEffect(() => {
@@ -62,6 +62,26 @@ export default function Main({ navigation }) {
         </TouchableOpacity>
     );
 
+    const renderCreateRequestButton = () => {
+        const isEntityUser = user.cnpj;
+        if (isEntityUser) {
+            return (
+                <TouchableOpacity
+                    style={styles.campaignButton}
+                    onPress={() => {
+                        navigation.navigate('createCampaign');
+                    }}>
+                    <Icon
+                        name="plus"
+                        type="font-awesome"
+                        color={colors.light}
+                        size={30}
+                    />
+                </TouchableOpacity>
+            );
+        } else return <CreateHelpButtons />;
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <CategoryListModal
@@ -94,9 +114,9 @@ export default function Main({ navigation }) {
                 {renderCampaignMarkers()}
                 {renderHelpMakers()}
             </MapView>
-
+            {renderCreateRequestButton()}
             {renderFilterButton()}
-            <CreateHelpButtons />
+
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}

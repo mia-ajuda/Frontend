@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,6 +33,17 @@ const styles = StyleSheet.create({
         zIndex: 1,
         backgroundColor: '#F7EF6E',
         padding: 15,
+        borderRadius: 100,
+        elevation: 5,
+    },
+    campaignButton: {
+        position: 'absolute',
+        right: 20,
+        bottom: 55,
+        zIndex: 1,
+        backgroundColor: colors.primary,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
         borderRadius: 100,
         elevation: 5,
     },

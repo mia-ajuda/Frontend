@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Animated, { Easing, timing } from 'react-native-reanimated';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
-import { UserContext } from '../../store/contexts/userContext';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -16,8 +15,6 @@ const HelpButtonAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
     const [isButtonsVisible, setButtonsVisible] = useState(false);
-    const { user } = useContext(UserContext);
-    const isEntityUser = user.cnpj;
     const toggleButtonsVisibility = () => {
         if (isButtonsVisible) {
             hideButtons();
@@ -32,10 +29,6 @@ export default function CreateHelpButtons() {
     };
     const navigateToCreateHelpOfferPage = () => {
         navigation.navigate('createHelpOffer');
-        hideButtons();
-    };
-    const navigateToCreateCampaignPage = () => {
-        navigation.navigate('createCampaign');
         hideButtons();
     };
 
@@ -59,138 +52,107 @@ export default function CreateHelpButtons() {
         setButtonsVisible(false);
     };
 
-    const renderPlusButton = () => {
-        if (!isEntityUser) {
-            return (
-                <Animated.View
-                    style={[
+    const renderPlusButton = () => (
+        <Animated.View
+            style={[
+                {
+                    transform: [
                         {
-                            transform: [
-                                {
-                                    rotate: buttonsTransleY.interpolate({
-                                        inputRange: [
-                                            BUTTON_MIN_HEIGHT,
-                                            BUTTON_MAX_HEIGHT,
-                                        ],
-                                        outputRange: [0, 0.8],
-                                    }),
-                                },
-                            ],
+                            rotate: buttonsTransleY.interpolate({
+                                inputRange: [
+                                    BUTTON_MIN_HEIGHT,
+                                    BUTTON_MAX_HEIGHT,
+                                ],
+                                outputRange: [0, 0.8],
+                            }),
                         },
-                        styles.plusButtonView,
-                    ]}>
-                    <TouchableOpacity
-                        style={styles.plusButton}
-                        activeOpacity={1}
-                        onPress={toggleButtonsVisibility}>
-                        <FontAwesome name="plus" size={30} color="#fff" />
-                    </TouchableOpacity>
-                </Animated.View>
-            );
-        }
-    };
+                    ],
+                },
+                styles.plusButtonView,
+            ]}>
+            <TouchableOpacity
+                style={styles.plusButton}
+                activeOpacity={1}
+                onPress={toggleButtonsVisibility}>
+                <FontAwesome name="plus" size={30} color="#fff" />
+            </TouchableOpacity>
+        </Animated.View>
+    );
 
-    const renderOfferButton = () => {
-        if (!isEntityUser) {
-            return (
-                <HelpButtonAnimated
-                    onPress={navigateToCreateHelpOfferPage}
-                    style={[
+    const renderOfferButton = () => (
+        <HelpButtonAnimated
+            onPress={navigateToCreateHelpOfferPage}
+            style={[
+                {
+                    transform: [
                         {
-                            transform: [
-                                {
-                                    translateY: buttonsTransleY.interpolate({
-                                        inputRange: [
-                                            BUTTON_MIN_HEIGHT,
-                                            BUTTON_MAX_HEIGHT,
-                                        ],
-                                        outputRange: [0, -BUTTON_MAX_HEIGHT],
-                                    }),
-                                },
-                            ],
+                            translateY: buttonsTransleY.interpolate({
+                                inputRange: [
+                                    BUTTON_MIN_HEIGHT,
+                                    BUTTON_MAX_HEIGHT,
+                                ],
+                                outputRange: [0, -BUTTON_MAX_HEIGHT],
+                            }),
                         },
-                        styles.helpButtonView,
-                    ]}>
-                    {isButtonsVisible && (
-                        <Text style={styles.helpButtonText}>
-                            Oferecer ajuda
-                        </Text>
-                    )}
+                    ],
+                },
+                styles.helpButtonView,
+            ]}>
+            {isButtonsVisible && (
+                <Text style={styles.helpButtonText}>Oferecer ajuda</Text>
+            )}
 
-                    <View style={styles.helpButton}>
-                        <FontAwesome5
-                            name="hand-holding-heart"
-                            size={30}
-                            color={colors.primary}
-                        />
-                    </View>
-                </HelpButtonAnimated>
-            );
-        }
-    };
+            <View style={styles.helpButton}>
+                <FontAwesome5
+                    name="hand-holding-heart"
+                    size={30}
+                    color={colors.primary}
+                />
+            </View>
+        </HelpButtonAnimated>
+    );
 
-    const renderRequestHelpButton = () => {
-        if (!isEntityUser) {
-            return (
-                <HelpButtonAnimated
-                    onPress={navigateToCreateHelpPage}
-                    style={[
+    const renderRequestHelpButton = () => (
+        <HelpButtonAnimated
+            onPress={navigateToCreateHelpPage}
+            style={[
+                {
+                    transform: [
                         {
-                            transform: [
-                                {
-                                    translateY: buttonsTransleY.interpolate({
-                                        inputRange: [
-                                            BUTTON_MIN_HEIGHT,
-                                            BUTTON_MAX_HEIGHT,
-                                        ],
-                                        outputRange: [
-                                            0,
-                                            -BUTTON_MAX_HEIGHT / 2,
-                                        ],
-                                    }),
-                                },
-                            ],
+                            translateY: buttonsTransleY.interpolate({
+                                inputRange: [
+                                    BUTTON_MIN_HEIGHT,
+                                    BUTTON_MAX_HEIGHT,
+                                ],
+                                outputRange: [0, -BUTTON_MAX_HEIGHT / 2],
+                            }),
                         },
-                        styles.helpButtonView,
-                    ]}>
-                    {isButtonsVisible && (
-                        <Text style={styles.helpButtonText}>Pedir ajuda</Text>
-                    )}
-                    <View
-                        style={[
-                            { transform: [{ rotate: '-15deg' }] },
-                            styles.helpButton,
-                        ]}>
-                        <FontAwesome
-                            name="exclamation"
-                            size={50}
-                            color={colors.primary}
-                        />
-                    </View>
-                </HelpButtonAnimated>
-            );
-        }
-    };
-    const renderCampaignButton = () => {
-        if (isEntityUser) {
-            return (
-                <View style={styles.plusButtonView}>
-                    <TouchableOpacity
-                        style={styles.plusButton}
-                        activeOpacity={1}
-                        onPress={navigateToCreateCampaignPage}>
-                        <FontAwesome name="plus" size={30} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-            );
-        }
-    };
+                    ],
+                },
+                styles.helpButtonView,
+            ]}>
+            {isButtonsVisible && (
+                <Text style={styles.helpButtonText}>Pedir ajuda</Text>
+            )}
+            <View
+                style={[
+                    { transform: [{ rotate: '-15deg' }] },
+                    styles.helpButton,
+                ]}>
+                <FontAwesome
+                    name="exclamation"
+                    size={50}
+                    color={colors.primary}
+                />
+            </View>
+        </HelpButtonAnimated>
+    );
+
     return (
         <>
             {renderPlusButton()}
             {renderOfferButton()}
             {renderRequestHelpButton()}
-            {renderCampaignButton()}
         </>
     );
 }
