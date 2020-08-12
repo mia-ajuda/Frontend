@@ -5,7 +5,7 @@ import CreateHelpRequest from '../../../pages/HelpPages/CreateHelpRequest';
 import CreateHelpOffer from '../../../pages/HelpPages/CreateHelpOffer';
 import CreateCampaign from '../../../pages/HelpPages/CreateCampaign';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
-import MapCampaignDescription from '../../../pages/HelpPages/MapCampaignDescription';
+import CampaignDescription from '../../../pages/HelpPages/CampaignDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
@@ -40,9 +40,9 @@ const MainNavigation = () => (
             component={MapHelpDescription}
         />
         <Stack.Screen
-            name="mapCampaignDescription"
+            name="campaignDescription"
             options={{ title: 'Contato' }}
-            component={MapCampaignDescription}
+            component={CampaignDescription}
         />
     </Stack.Navigator>
 );

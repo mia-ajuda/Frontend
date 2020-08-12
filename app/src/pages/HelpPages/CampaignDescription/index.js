@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     View,
     Image,
@@ -11,10 +11,11 @@ import {
 import { Icon } from 'react-native-elements';
 import styles from './styles';
 import shortenName from '../../../utils/shortenName';
+import { UserContext } from '../../../store/contexts/userContext';
 
-export default function MapCampaignDescription({ route }) {
+export default function CampaignDescription({ route }) {
     const { campaign } = route.params;
-
+    const { user } = useContext(UserContext);
     const campaignOwnerPhoto = campaign.entity.photo;
 
     function openGoogleMaps() {
@@ -42,29 +43,33 @@ export default function MapCampaignDescription({ route }) {
         );
     }
 
-    const renderContactEntityButtons = () => (
-        <View style={styles.ViewLink}>
-            <View style={styles.ViewLinkBox}>
-                <TouchableOpacity onPress={openWhatsapp}>
-                    <Icon
-                        name="whatsapp"
-                        type="font-awesome"
-                        size={50}
-                        color="#25d366"
-                    />
-                </TouchableOpacity>
+    const renderContactEntityButtons = () => {
+        if (user._id != campaign.ownerId) {
+            return (
+                <View style={styles.ViewLink}>
+                    <View style={styles.ViewLinkBox}>
+                        <TouchableOpacity onPress={openWhatsapp}>
+                            <Icon
+                                name="whatsapp"
+                                type="font-awesome"
+                                size={50}
+                                color="#25d366"
+                            />
+                        </TouchableOpacity>
 
-                <TouchableOpacity onPress={openGoogleMaps}>
-                    <Icon
-                        name="directions"
-                        type="font-awesome-5"
-                        size={50}
-                        color="#4285F4"
-                    />
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+                        <TouchableOpacity onPress={openGoogleMaps}>
+                            <Icon
+                                name="directions"
+                                type="font-awesome-5"
+                                size={50}
+                                color="#4285F4"
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        }
+    };
 
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(campaign.entity.name);

@@ -21,7 +21,7 @@ export default function CampaignMarker({ campaign }) {
             <Avatar iconType={'home'} />
             <Callout
                 onPress={() =>
-                    navigation.navigate('mapCampaignDescription', {
+                    navigation.navigate('campaignDescription', {
                         campaign,
                     })
                 }

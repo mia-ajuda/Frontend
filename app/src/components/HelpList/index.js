@@ -70,7 +70,7 @@ export default function HelpList({
                         <TouchableOpacity
                             key={campaign._id}
                             onPress={() =>
-                                navigation.navigate('mapCampaignDescription', {
+                                navigation.navigate('campaignDescription', {
                                     campaign,
                                 })
                             }>

@@ -51,7 +51,7 @@ export default function OnGoingCampaigns({ navigation }) {
         setHelpDeletionLoading(true);
         const validDeleteRequest = await useService(
             campaignService,
-            'deleteHelp',
+            'deleteCampaign',
             [campaignToDelete],
         );
         if (!validDeleteRequest.error) {
@@ -75,24 +75,22 @@ export default function OnGoingCampaigns({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {myRequestedCampaigns.map((help) => (
+                        {myRequestedCampaigns.map((campaign) => (
                             <TouchableOpacity
-                                key={help._id}
+                                key={campaign._id}
                                 onPress={() =>
-                                    navigation.navigate(
-                                        'MyRequestHelpDescrition',
-                                        {
-                                            help,
-                                        },
-                                    )
+                                    navigation.navigate('campaignDescription', {
+                                        campaign,
+                                    })
                                 }>
                                 <MyRequestHelpCard
-                                    help={help}
+                                    help={campaign}
                                     deleteVisible={true}
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible
                                     }
                                     setSelectedHelp={setCampaignToDelete}
+                                    isEntityUser={true}
                                 />
                             </TouchableOpacity>
                         ))}
