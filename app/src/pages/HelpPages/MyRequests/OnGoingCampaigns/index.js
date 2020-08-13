@@ -39,7 +39,7 @@ export default function OnGoingCampaigns({ navigation }) {
         const filteredHelps = await useService(
             campaignService,
             'getCampaignMultipleStatus',
-            [userId, 'waiting'],
+            [userId, ['on_going', 'owner_finished', 'waiting']],
         );
         if (!filteredHelps.error) {
             setMyRequestedCampaigns(filteredHelps);
