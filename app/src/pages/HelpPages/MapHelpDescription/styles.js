@@ -70,6 +70,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'center',
     },
+
+    loadingContainer: {
+        height: '100%',
+        justifyContent: 'center',
+    },
 });
 
 export default styles;
