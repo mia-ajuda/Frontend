@@ -53,6 +53,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
             }&text=${'Olá, precisa de ajuda?'}`,
         );
     }
+
     async function finishHelp() {
         setFinishRequestLoading(true);
         const finishHelpRequest = await useService(

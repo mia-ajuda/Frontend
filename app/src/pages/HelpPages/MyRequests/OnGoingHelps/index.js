@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -30,9 +30,7 @@ export default function OnGoingHelps({ navigation }) {
             loadOnGoingHelps();
         }, [navigation]),
     );
-    useEffect(() => {
-        console.log(user);
-    }, []);
+
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
         setLoadingMyHelpRequests(true);

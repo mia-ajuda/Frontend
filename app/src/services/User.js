@@ -15,6 +15,11 @@ class UserService {
         return user.data;
     }
 
+    async requestAnyTypeUserData(id) {
+        const user = await api.get(`user/getAnyUser/${id}`);
+        return user.data;
+    }
+
     async editUserAdress(data) {
         const user = await api.put('/user/address', data);
         return user.data;
