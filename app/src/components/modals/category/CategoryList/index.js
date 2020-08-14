@@ -85,19 +85,25 @@ export default function CategoryList({ visible, setVisible }) {
 
     const renderHelpFilterButtons = () => (
         <View style={styles.contentButtons}>
-            <View>
+            <View style={styles.helpFilterButton}>
                 <TouchableOpacity>
-                    <Text>Pedidos</Text>
+                    <View style={styles.info}>
+                        <Text style={styles.infoText}>Pedidos</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
-            <View>
+            <View style={styles.helpFilterButton}>
                 <TouchableOpacity>
-                    <Text>Ofertas</Text>
+                    <View style={styles.info}>
+                        <Text style={styles.infoText}>Ofertas</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
-            <View>
+            <View style={styles.helpFilterButton}>
                 <TouchableOpacity>
-                    <Text>Instituicoes</Text>
+                    <View style={styles.info}>
+                        <Text style={styles.infoText}>Instituições</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>
