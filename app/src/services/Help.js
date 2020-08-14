@@ -97,10 +97,10 @@ class HelpService {
         return true;
     }
 
-    async getAllUserHelps(userId) {
-        const url = `/help?id=${userId}`;
-        const helps = await api.get(url);
-        return helps;
+    async getHelpInfo(helpId) {
+        const url = `/help/helpInfo/${helpId}`;
+        const result = await api.get(url);
+        return result.data;
     }
 }
 

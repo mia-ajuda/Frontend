@@ -18,6 +18,18 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
     },
+    categoryName: {
+        backgroundColor: colors.secondary,
+        padding: 5,
+        elevation: 2,
+        margin: 5,
+        borderRadius: 2,
+    },
+    categoriesContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10,
+    },
 });
 
 export default styles;

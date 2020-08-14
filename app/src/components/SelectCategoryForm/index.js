@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import CategorySelector from '../modals/category/CategorySelector';
 import { CategoryContext } from '../../store/contexts/categoryContext';
-import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 
 export default function SelectCategoryForm({
@@ -24,23 +23,13 @@ export default function SelectCategoryForm({
 
     const renderSelectedCategories = () => {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginTop: 10,
-                }}>
+            <View style={styles.categoriesContainer}>
                 {categories.map((category) => {
                     if (helpCategoryIds.includes(category._id)) {
                         return (
                             <Text
-                                style={{
-                                    backgroundColor: colors.secondary,
-                                    padding: 5,
-                                    elevation: 2,
-                                    margin: 5,
-                                    borderRadius: 2,
-                                }}>
+                                key={category.name}
+                                style={styles.categoryName}>
                                 {category.name}
                             </Text>
                         );
