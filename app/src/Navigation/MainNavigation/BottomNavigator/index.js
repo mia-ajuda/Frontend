@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Notification from '../../../pages/Notification';
-import InformationsCenter from '../../../pages/InformationsCenter';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
 import HistoryNavigator from '../HistoryNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
+import FAQNavigator from '../FAQNavigator';
 
 const BottomNavigation = createBottomTabNavigator();
 const BottomTab = () => {
@@ -28,10 +28,7 @@ const BottomTab = () => {
                 name="notification"
                 component={Notification}
             />
-            <BottomNavigation.Screen
-                name="FAQ"
-                component={InformationsCenter}
-            />
+            <BottomNavigation.Screen name="FAQ" component={FAQNavigator} />
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
                 name="history"
