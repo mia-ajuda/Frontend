@@ -21,27 +21,36 @@ const styles = StyleSheet.create({
     contentHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
-        top: '75%',
+        top: '60%',
+        right: '2.5%',
     },
     icon: {
-        right: 20,
+        right: 45,
         position: 'absolute',
         bottom: 25,
     },
-    title: {
+    categoryTitle: {
         alignSelf: 'center',
         textAlign: 'center',
         marginBottom: 30,
         fontFamily: 'montserrat-semibold',
-        color: colors.primary,
+        color: colors.dark,
         fontSize: minimumTextSize * 1.2,
+    },
+    filterTitle: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontFamily: 'montserrat-semibold',
+        color: colors.dark,
+        fontSize: minimumTextSize * 1.5,
+        top: '3%',
     },
     categoryText: {
         ...fonts.subtitle,
         marginLeft: 10,
     },
     modalBody: {
-        marginTop: '70%',
+        marginTop: '55%',
     },
     filterButtons: {
         flexDirection: 'row',
@@ -53,7 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         alignSelf: 'center',
-        top: '45%',
+        top: '30%',
     },
     helpFilterButton: {
         flex: 1,
@@ -70,6 +79,12 @@ const styles = StyleSheet.create({
     infoText: {
         ...fonts.body,
         color: colors.primary,
+    },
+    closeIcon: {
+        top: '5.5%',
+        right: 20,
+        position: 'absolute',
+        zIndex: 5,
     },
 });
 
