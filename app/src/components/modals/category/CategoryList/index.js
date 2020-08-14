@@ -83,6 +83,25 @@ export default function CategoryList({ visible, setVisible }) {
         );
     };
 
+    const renderHelpFilterButtons = () => (
+        <View style={styles.contentButtons}>
+            <View>
+                <TouchableOpacity>
+                    <Text>Pedidos</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <Text>Ofertas</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <Text>Instituicoes</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
     return (
         <Modal
             visible={visible}
@@ -97,8 +116,9 @@ export default function CategoryList({ visible, setVisible }) {
                 }}>
                 <TouchableWithoutFeedback>
                     <View style={styles.modalContent}>
+                        {renderHelpFilterButtons()}
                         <View style={styles.contentHeader}>
-                            <Text style={styles.title}>Categorias</Text>
+                            <Text style={styles.title}>CATEGORIAS</Text>
                             <TouchableOpacity
                                 style={styles.icon}
                                 onPress={() => {

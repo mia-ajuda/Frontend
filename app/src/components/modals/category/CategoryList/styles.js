@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../../assets/styles/fontVariable';
-
+import colors from '../../../../../assets/styles/colorVariables';
+const minimumTextSize = 16;
 const styles = StyleSheet.create({
     modalContent: {
         width: '80%',
@@ -20,26 +21,40 @@ const styles = StyleSheet.create({
     contentHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
-        top: 15,
+        top: '75%',
     },
     icon: {
         right: 20,
         position: 'absolute',
+        bottom: 25,
     },
     title: {
-        ...fonts.title,
+        alignSelf: 'center',
+        textAlign: 'center',
+        marginBottom: 30,
+        fontFamily: 'montserrat-semibold',
+        color: colors.primary,
+        fontSize: minimumTextSize * 1.2,
     },
     categoryText: {
         ...fonts.subtitle,
         marginLeft: 10,
     },
     modalBody: {
-        marginTop: 25,
-        height: '80%',
+        marginTop: '70%',
     },
     filterButtons: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+    },
+    contentButtons: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        alignSelf: 'center',
+        left: '13%',
+        top: '40%',
     },
 });
 
