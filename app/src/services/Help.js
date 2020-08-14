@@ -13,8 +13,8 @@ class HelpService {
             url += `?id.except=${id}`;
         }
 
-        const allHelps = await api.get(url);
-        return allHelps.data;
+        await api.get(url);
+        return true;
     }
 
     async getNearHelp(coords, id) {
