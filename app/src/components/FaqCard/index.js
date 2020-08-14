@@ -4,11 +4,26 @@ import EmergencyNumbers from '../../components/FAQModals/EmergencyNumbersModal';
 import HelpOfferedModal from '../FAQModals/RecomendationsModal/HelpOfferedModal';
 import HelpRequestModal from '../FAQModals/RecomendationsModal/HelpRequestModal';
 import HowToUseModal from '../FAQModals/HowToUseModal';
-import SvgUri from 'react-native-svg-uri';
 import styles from './styles';
+import BlueCat from '../../../assets/images/blueCatCard.svg';
+import Exclamation from '../../../assets/images/exclamation.svg';
+import HelpHand from '../../../assets/images/hand.svg';
+import Phone from '../../../assets/images/phone.svg';
 
 export default function FaqCard({ faq }) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const renderSVGIcon = (id) => {
+        if (id == 1) {
+            return <BlueCat />;
+        } else if (id == 2) {
+            return <Exclamation />;
+        } else if (id == 3) {
+            return <HelpHand />;
+        } else if (id == 4) {
+            return <Phone />;
+        }
+    };
 
     const selectRenderModal = (id) => {
         if (id == 1) {
@@ -50,7 +65,7 @@ export default function FaqCard({ faq }) {
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.info}>
-                    <SvgUri width="65" height="60" source={faq.icon} />
+                    {renderSVGIcon(faq.id)}
                     <Text style={styles.title} numberOfLines={2}>
                         {faq.description}
                     </Text>
