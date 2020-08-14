@@ -12,7 +12,6 @@ export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
 
     const { help } = route.params;
-    console.log(help.categories);
     const userProfilephoto = help.user.photo || user.photo;
 
     const renderPossibleHelpersButton = () => (
