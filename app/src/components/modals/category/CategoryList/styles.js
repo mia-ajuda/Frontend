@@ -53,8 +53,23 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         alignSelf: 'center',
-        left: '13%',
-        top: '40%',
+        top: '45%',
+    },
+    helpFilterButton: {
+        flex: 1,
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: colors.primary,
+        width: 40,
+        height: 100,
+        marginHorizontal: 1,
+    },
+    info: {
+        alignItems: 'center',
+    },
+    infoText: {
+        ...fonts.body,
+        color: colors.primary,
     },
 });
 
