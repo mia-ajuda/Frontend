@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { UserContext } from './userContext';
-import { connect, disconnect } from '../../services/socket';
 import useService from '../../services/useService';
 import CampaignService from '../../services/Campaign';
 
@@ -14,7 +13,6 @@ export default function CampaignContextProvider(props) {
         const isUserAuthenticated = user._id;
         if (isUserAuthenticated) {
             getEntityList(userPosition);
-            setupWebSocket();
         }
     }, [user, userPosition]);
 
@@ -28,12 +26,6 @@ export default function CampaignContextProvider(props) {
             );
             setCampaignList(campaigns);
         }
-    }
-
-    function setupWebSocket() {
-        disconnect();
-        const { _id: userId } = user;
-        connect(JSON.stringify(userPosition), userId);
     }
 
     return (
