@@ -13,6 +13,7 @@ import styles from './styles';
 import { Icon } from 'react-native-elements';
 import CategoryDescriptionModal from '../categoryDescription';
 import { CategoryContext } from '../../../../store/contexts/categoryContext';
+import colors from '../../../../../assets/styles/colorVariables';
 
 export default function CategoryList({ visible, setVisible }) {
     const [descriptionModalVisible, setDescriptionModalVisible] = useState(
@@ -114,38 +115,45 @@ export default function CategoryList({ visible, setVisible }) {
             animationType="fade"
             transparent
             onRequestClose={() => setVisible(false)}>
-            <TouchableOpacity
-                style={styles.modalContainer}
-                activeOpacity={1}
-                onPress={() => {
-                    setVisible(false);
-                }}>
-                <TouchableWithoutFeedback>
-                    <View style={styles.modalContent}>
-                        {renderHelpFilterButtons()}
-                        <View style={styles.contentHeader}>
-                            <Text style={styles.title}>CATEGORIAS</Text>
-                            <TouchableOpacity
-                                style={styles.icon}
-                                onPress={() => {
-                                    setDescriptionModalVisible(
-                                        !descriptionModalVisible,
-                                    );
-                                }}>
-                                <Icon
-                                    name="question-circle"
-                                    type="font-awesome"
-                                    color="#C4C4C4"
-                                    size={40}
-                                />
-                            </TouchableOpacity>
-                        </View>
+            <TouchableWithoutFeedback>
+                <View style={styles.modalContent}>
+                    <Text style={styles.filterTitle}>FILTRO</Text>
 
-                        {renderCategories()}
-                        {renderFilterButtons()}
+                    <TouchableOpacity
+                        onPress={() => {
+                            setVisible(false);
+                        }}
+                        style={styles.closeIcon}>
+                        <Icon
+                            name="times-circle"
+                            type="font-awesome"
+                            color={colors.danger}
+                            size={35}
+                        />
+                    </TouchableOpacity>
+                    {renderHelpFilterButtons()}
+                    <View style={styles.contentHeader}>
+                        <Text style={styles.categoryTitle}>CATEGORIAS</Text>
+                        <TouchableOpacity
+                            style={styles.icon}
+                            onPress={() => {
+                                setDescriptionModalVisible(
+                                    !descriptionModalVisible,
+                                );
+                            }}>
+                            <Icon
+                                name="question-circle"
+                                type="font-awesome"
+                                color="#C4C4C4"
+                                size={35}
+                            />
+                        </TouchableOpacity>
                     </View>
-                </TouchableWithoutFeedback>
-            </TouchableOpacity>
+
+                    {renderCategories()}
+                    {renderFilterButtons()}
+                </View>
+            </TouchableWithoutFeedback>
             <CategoryDescriptionModal
                 visible={descriptionModalVisible}
                 setVisible={setDescriptionModalVisible}
