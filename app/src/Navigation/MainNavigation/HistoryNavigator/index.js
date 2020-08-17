@@ -19,7 +19,7 @@ const NavigationGivenHelps = () => (
     </TopTab.Navigator>
 );
 
-const HelpTopBar = () => (
+const HistoryNavigator = () => (
     <Stack.Navigator screenOptions={headerStyle}>
         <Stack.Screen name="Minhas Ofertas" component={NavigationGivenHelps} />
         <Stack.Screen
@@ -30,4 +30,4 @@ const HelpTopBar = () => (
     </Stack.Navigator>
 );
 
-export default HelpTopBar;
+export default HistoryNavigator;
