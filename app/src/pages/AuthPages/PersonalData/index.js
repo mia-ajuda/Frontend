@@ -35,7 +35,7 @@ export default function PersonalData({ route, navigation }) {
     const [cpf, setCPF] = useState('');
     const [cnpj, setCNPJ] = useState('');
     const [cellPhone, setCellPhone] = useState('');
-    const [mentalHealthProfessional, setMentalHealthProfessional] = useState(
+    const [ismentalHealthProfessional, setMentalHealthProfessional] = useState(
         false,
     );
     const [isEntityUser, setIsEntityUser] = useState(false);
@@ -83,7 +83,7 @@ export default function PersonalData({ route, navigation }) {
                 birthday: birthdayFormated,
                 cpf,
                 phone,
-                mentalHealthProfessional,
+                ismentalHealthProfessional,
                 ...userDatafromRegistrationPage,
             };
         }
@@ -223,14 +223,18 @@ export default function PersonalData({ route, navigation }) {
                         true: colors.primaryContrast,
                     }}
                     thumbColor={
-                        mentalHealthProfessional ? colors.primary : colors.light
+                        ismentalHealthProfessional
+                            ? colors.primary
+                            : colors.light
                     }
                     ios_backgroundColor={colors.dark}
                     onValueChange={() => {
-                        setMentalHealthProfessional(!mentalHealthProfessional);
+                        setMentalHealthProfessional(
+                            !ismentalHealthProfessional,
+                        );
                         setCNPJ('');
                     }}
-                    value={mentalHealthProfessional}
+                    value={ismentalHealthProfessional}
                 />
             </View>
         );
