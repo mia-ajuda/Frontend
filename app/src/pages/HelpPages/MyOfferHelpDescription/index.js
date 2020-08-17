@@ -147,7 +147,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
                 <Text style={styles.titleFont}>{help.title}</Text>
                 <View style={styles.categoryWarning}>
                     <Text style={styles.categoryName}>
-                        {help.category[0].name}
+                        {help.category.name}
                     </Text>
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
