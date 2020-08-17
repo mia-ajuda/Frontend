@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import CategorySelector from '../modals/category/CategorySelector';
+import CategorySelectorModal from '../modals/category/CategorySelector';
 import { CategoryContext } from '../../store/contexts/categoryContext';
 import styles from './styles';
 
 export default function SelectCategoryForm({
     helpCategoryIds,
     setHelpCategoryIds,
+    helpType,
 }) {
     const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const { categories } = useContext(CategoryContext);
@@ -40,12 +41,13 @@ export default function SelectCategoryForm({
     };
     return (
         <View>
-            <CategorySelector
+            <CategorySelectorModal
                 modalVisible={categoryModalVisible}
                 openModal={openCategoryModal}
                 hideModal={hideCategoryModal}
-                setHelpCategoryIds={setHelpCategoryIds}
-                categoryIds={helpCategoryIds}
+                setHelpSelectedCategoryIds={setHelpCategoryIds}
+                selectedCategoryIds={helpCategoryIds}
+                helpCreationType={helpType}
             />
             {renderPickerCategoryForm()}
             {renderSelectedCategories()}

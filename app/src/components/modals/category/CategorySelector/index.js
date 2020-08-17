@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
     View,
     Modal,
@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import { CategoryContext } from '../../../../store/contexts/categoryContext';
+import { UserContext } from '../../../../store/contexts/userContext';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../../assets/styles/colorVariables';
 
@@ -17,33 +18,40 @@ import styles from './styles';
 export default function CategorySelector({
     modalVisible,
     hideModal,
-    setHelpCategoryIds,
-    categoryIds,
+    setHelpSelectedCategoryIds,
+    selectedCategoryIds,
+    helpCreationType,
 }) {
+    const [categoriesByUser, setCategoriesByUser] = useState([]);
     const { categories } = useContext(CategoryContext);
+    const { user } = useContext(UserContext);
+
+    useEffect(() => {
+        filterCategoriesByUser();
+    }, []);
 
     const includeCategoryIntoSelectedCategories = (categoryId) =>
-        setHelpCategoryIds([...categoryIds, categoryId]);
+        setHelpSelectedCategoryIds([...selectedCategoryIds, categoryId]);
 
     const removeCategoryFromSelectedCategories = (categoryId) => {
-        const removeCategoryId = categoryIds.filter(
+        const removeCategoryId = selectedCategoryIds.filter(
             (categoryIdFromState) => categoryIdFromState !== categoryId,
         );
-        setHelpCategoryIds(removeCategoryId);
+        setHelpSelectedCategoryIds(removeCategoryId);
     };
 
     const selectCategory = (categoryId) => {
-        if (categoryIds.includes(categoryId)) {
+        if (selectedCategoryIds.includes(categoryId)) {
             removeCategoryFromSelectedCategories(categoryId);
-        } else if (categoryIds.length < 3) {
+        } else if (selectedCategoryIds.length < 3) {
             includeCategoryIntoSelectedCategories(categoryId);
         }
     };
 
     const getCategoryStyle = (categoryId) => {
-        if (categoryIds.includes(categoryId)) {
+        if (selectedCategoryIds.includes(categoryId)) {
             return styles.selectedCategory;
-        } else if (categoryIds.length >= 3) {
+        } else if (selectedCategoryIds.length >= 3) {
             return styles.unvailableToSelectCategory;
         } else {
             return styles.notSelectedCategory;
@@ -51,7 +59,10 @@ export default function CategorySelector({
     };
 
     const getCategoryActiveOpacity = (categoryId) => {
-        if (categoryIds.includes(categoryId) || categoryIds.length < 3) {
+        if (
+            selectedCategoryIds.includes(categoryId) ||
+            selectedCategoryIds.length < 3
+        ) {
             return 0;
         } else {
             return 1;
@@ -76,20 +87,40 @@ export default function CategorySelector({
         </>
     );
 
+    const removePsychologicalSupportFromCategories = () => {
+        return categories.filter(
+            (category) => category.name !== 'Apoio Psicológico',
+        );
+    };
+    const filterCategoriesByUser = () => {
+        let categoriesToList;
+        if (
+            helpCreationType == 'offer' &&
+            user.ismentalHealthProfessional == false
+        ) {
+            categoriesToList = removePsychologicalSupportFromCategories();
+        } else {
+            categoriesToList = categories;
+        }
+        setCategoriesByUser(categoriesToList);
+    };
+
     const renderCategoryList = () => (
         <ScrollView showsVerticalScrollIndicator={false}>
-            {categories?.map((category) => (
-                <TouchableOpacity
-                    activeOpacity={getCategoryActiveOpacity(category._id)}
-                    key={category._id}
-                    onPress={() => {
-                        selectCategory(category._id);
-                    }}>
-                    <Text style={getCategoryStyle(category._id)}>
-                        {category.name}
-                    </Text>
-                </TouchableOpacity>
-            ))}
+            {categoriesByUser?.map((category) => {
+                return (
+                    <TouchableOpacity
+                        activeOpacity={getCategoryActiveOpacity(category._id)}
+                        key={category._id}
+                        onPress={() => {
+                            selectCategory(category._id);
+                        }}>
+                        <Text style={getCategoryStyle(category._id)}>
+                            {category.name}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
         </ScrollView>
     );
 
