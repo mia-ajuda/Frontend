@@ -4,7 +4,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 const minimumTextSize = 16;
 const styles = StyleSheet.create({
     modalContent: {
-        width: '80%',
+        width: '90%',
         height: '80%',
         backgroundColor: '#fff',
         alignSelf: 'center',
@@ -69,16 +69,26 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         borderWidth: 2,
         borderColor: colors.primary,
-        width: 40,
-        height: 100,
-        marginHorizontal: 1,
+        height: 130,
+        marginHorizontal: 5,
+        justifyContent: 'space-around',
     },
     info: {
         alignItems: 'center',
+        padding: 5,
     },
     infoText: {
         ...fonts.body,
         color: colors.primary,
+        fontFamily: 'montserrat-semibold',
+        marginTop: 10,
+    },
+    infoTextInst: {
+        ...fonts.body,
+        color: colors.primary,
+        fontSize: 11,
+        marginTop: 20,
+        fontFamily: 'montserrat-semibold',
     },
     closeIcon: {
         top: '5.5%',

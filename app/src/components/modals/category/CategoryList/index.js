@@ -13,6 +13,7 @@ import styles from './styles';
 import { Icon } from 'react-native-elements';
 import CategoryDescriptionModal from '../categoryDescription';
 import { CategoryContext } from '../../../../store/contexts/categoryContext';
+import FilterButtons from '../../../UI/button/FilterButtons';
 import colors from '../../../../../assets/styles/colorVariables';
 
 export default function CategoryList({ visible, setVisible }) {
@@ -84,31 +85,6 @@ export default function CategoryList({ visible, setVisible }) {
         );
     };
 
-    const renderHelpFilterButtons = () => (
-        <View style={styles.contentButtons}>
-            <View style={styles.helpFilterButton}>
-                <TouchableOpacity>
-                    <View style={styles.info}>
-                        <Text style={styles.infoText}>Pedidos</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.helpFilterButton}>
-                <TouchableOpacity>
-                    <View style={styles.info}>
-                        <Text style={styles.infoText}>Ofertas</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.helpFilterButton}>
-                <TouchableOpacity>
-                    <View style={styles.info}>
-                        <Text style={styles.infoText}>Instituições</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
     return (
         <Modal
             visible={visible}
@@ -131,7 +107,7 @@ export default function CategoryList({ visible, setVisible }) {
                             size={35}
                         />
                     </TouchableOpacity>
-                    {renderHelpFilterButtons()}
+                    <FilterButtons />
                     <View style={styles.contentHeader}>
                         <Text style={styles.categoryTitle}>CATEGORIAS</Text>
                         <TouchableOpacity
