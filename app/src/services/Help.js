@@ -20,14 +20,14 @@ class HelpService {
     async getNearHelp(coords, id) {
         const { longitude, latitude } = coords;
         const helps = await api.get(
-            `/help?id.except=${id}&near=true&coords=${longitude},${latitude}`,
+            `/help?id=${id}&coords=${longitude},${latitude}`,
         );
         return helps.data;
     }
 
     async getAllHelpForCategory(coords, categoryId, id) {
         const { longitude, latitude } = coords;
-        const url = `/help?id.except=${id}&near=true&coords=${longitude},${latitude}&categoryId=${categoryId}`;
+        const url = `/help?id=${id}&coords=${longitude},${latitude}&categoryId=${categoryId}`;
 
         const helps = await api.get(url);
 
@@ -97,10 +97,10 @@ class HelpService {
         return true;
     }
 
-    async getAllUserHelps(userId) {
-        const url = `/help?id=${userId}`;
-        const helps = await api.get(url);
-        return helps;
+    async getHelpInfo(helpId) {
+        const url = `/help/helpInfo/${helpId}`;
+        const result = await api.get(url);
+        return result.data;
     }
 }
 

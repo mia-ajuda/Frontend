@@ -56,7 +56,6 @@ export default StyleSheet.create({
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
-
         maxHeight: 30,
 
         paddingHorizontal: 10,

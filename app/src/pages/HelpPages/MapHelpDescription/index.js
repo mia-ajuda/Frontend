@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Image, Text, ScrollView } from 'react-native';
+import { View, Image, Text, ScrollView, ActivityIndicator } from 'react-native';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
@@ -13,10 +13,14 @@ import actions from '../../../store/actions';
 import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
 
+import colors from '../../../../assets/styles/colorVariables';
+
 export default function MapHelpDescription({ route, navigation }) {
     const { help, helpType } = route.params;
     const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
+    const [isOwnerRequestLoading, setOwnerRequestLoading] = useState(true);
+    const [ownerInfo, setOwnerInfo] = useState({});
 
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
@@ -24,22 +28,30 @@ export default function MapHelpDescription({ route, navigation }) {
     const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
         false,
     );
-    const [helpOwnerPhoto, setHelpOwnerPhoto] = useState(null);
+    const goBackToMapPage = () => navigation.goBack();
+
     useEffect(() => {
-        getHelpOwnerPhoto();
+        getOwnerInfo();
     }, []);
 
-    async function getHelpOwnerPhoto() {
-        const photoRequest = await useService(UserService, 'getUserPhotoById', [
+    async function getOwnerInfo() {
+        setOwnerRequestLoading(true);
+        const result = await useService(UserService, 'requestUserData', [
             help.ownerId,
         ]);
-
-        if (!photoRequest.error) {
-            setHelpOwnerPhoto(photoRequest.data.photo);
+        if (!result.error) {
+            setOwnerInfo(result);
+            setOwnerRequestLoading(false);
+        } else {
+            goBackToMapPage();
         }
     }
 
-    const goBackToMapPage = () => navigation.goBack();
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
 
     function removeHelpFromMap() {
         let filteredHelpList = helpList.filter((helpFromMap) => {
@@ -71,7 +83,7 @@ export default function MapHelpDescription({ route, navigation }) {
             <View style={styles.userInfo}>
                 <Image
                     source={{
-                        uri: `data:image/png;base64,${helpOwnerPhoto}`,
+                        uri: `data:image/png;base64,${ownerInfo.photo}`,
                     }}
                     style={styles.profileImage}
                 />
@@ -81,11 +93,11 @@ export default function MapHelpDescription({ route, navigation }) {
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Idade: </Text>
-                        {getYearsSince(help.user.birthday)}
+                        {getYearsSince(ownerInfo.birthday)}
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
-                        {help.user.address.city}
+                        {ownerInfo.address.city}
                     </Text>
                 </View>
             </View>
@@ -124,24 +136,28 @@ export default function MapHelpDescription({ route, navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={styles.container}>
-                <ConfirmationModal
-                    visible={confirmationModalVisible}
-                    setVisible={setConfirmationModalVisible}
-                    action={offerHelp}
-                    message={'Você deseja confirmar a sua ajuda?'}
-                    isLoading={isChooseHelpRequestLoading}
-                />
+            {isOwnerRequestLoading ? (
+                renderLoadingIndicator()
+            ) : (
+                <View style={styles.container}>
+                    <ConfirmationModal
+                        visible={confirmationModalVisible}
+                        setVisible={setConfirmationModalVisible}
+                        action={offerHelp}
+                        message={'Você deseja confirmar a sua ajuda?'}
+                        isLoading={isChooseHelpRequestLoading}
+                    />
 
-                {renderHelpOwnerInformation()}
-                {renderHelpInformation()}
+                    {renderHelpOwnerInformation()}
+                    {renderHelpInformation()}
 
-                <View style={styles.helpButtons}>
-                    {helpType == 'offer'
-                        ? renderOfferButton()
-                        : renderHelpButton()}
+                    <View style={styles.helpButtons}>
+                        {helpType == 'offer'
+                            ? renderOfferButton()
+                            : renderHelpButton()}
+                    </View>
                 </View>
-            </View>
+            )}
         </ScrollView>
     );
 }

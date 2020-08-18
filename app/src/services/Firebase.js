@@ -20,7 +20,9 @@ class FirebaseService {
     }
 
     async login(email, password) {
-        await this.firebase.auth().signInWithEmailAndPassword(email, password);
+        return await this.firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password);
     }
     async sendEmailVerification() {
         await this.firebase.auth().currentUser.sendEmailVerification();
@@ -28,6 +30,9 @@ class FirebaseService {
 
     async getUserId() {
         return await this.firebase.auth().currentUser.getIdToken();
+    }
+    async getCurrentUser() {
+        return await this.firebase.auth().currentUser;
     }
     async resetUserPassword(email) {
         await this.firebase.auth().sendPasswordResetEmail(email);

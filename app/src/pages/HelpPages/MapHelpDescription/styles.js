@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexWrap: 'wrap',
     },
+    loadingContainer: {
+        height: '100%',
+        justifyContent: 'center',
+    },
 });
 
 export default styles;
