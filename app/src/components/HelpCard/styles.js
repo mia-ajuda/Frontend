@@ -10,8 +10,8 @@ const cardContainerStyle = {
     borderWidth: 1,
     backgroundColor: colors.light,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 15,
@@ -46,33 +46,12 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
-    cardDescription: {
-        marginTop: 5,
-        maxWidth: '100%',
-        maxHeight: '70%',
-
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-    },
-
-    descriptionContent: {
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        fontSize: 12,
-
-        lineHeight: 14,
-        color: colors.dark,
-    },
-
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
-
         maxHeight: 30,
-
         paddingHorizontal: 15,
-
-        alignSelf: 'flex-start',
+        marginTop: 17,
     },
 
     categoryName: {
@@ -80,13 +59,5 @@ export default StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',
-    },
-
-    bottomItens: {
-        width: '100%',
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
     },
 });
