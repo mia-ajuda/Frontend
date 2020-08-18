@@ -64,8 +64,8 @@ class HelpService {
     }
 
     async deleteHelp(helpId) {
-        const deleteHelp = await api.delete(`/help/${helpId}`);
-        return deleteHelp;
+        await api.delete(`/help/${helpId}`);
+        return true;
     }
 
     async offerHelp(idHelp, idHelper) {
