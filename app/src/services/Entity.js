@@ -16,7 +16,6 @@ class EntityService {
 
     async verifyEntityInfo(value) {
         const response = await api.get(`/checkEntityExistence/${value}`);
-        console.log('verifyEntityInfo', value, response.data);
         return !!response.data;
     }
 

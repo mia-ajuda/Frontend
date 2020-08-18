@@ -4,11 +4,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
-// import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import ShortenName from '../../../utils/shortenName';
 
 export default function HelpsMarker({ helpOffer }) {
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(helpOffer.user.name);
 
     return (
@@ -27,7 +27,14 @@ export default function HelpsMarker({ helpOffer }) {
                     color={colors.primary}
                 />
             </View>
-            <Callout onPress={() => {}} style={styles.callout}>
+            <Callout
+                onPress={() =>
+                    navigation.navigate('mapHelpDescription', {
+                        help: helpOffer,
+                        helpType: 'offer',
+                    })
+                }
+                style={styles.callout}>
                 <Text style={styles.calloutTitle} numberOfLines={1}>
                     Oferta de ajuda
                 </Text>

@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Image, Text, ScrollView } from 'react-native';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
+import UserService from '../../../services/User';
 import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
@@ -13,17 +14,30 @@ import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
 
 export default function MapHelpDescription({ route, navigation }) {
-    const { help } = route.params;
+    const { help, helpType } = route.params;
     const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
 
-    const helpOwnerPhoto = help.user.photo;
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
     const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
         false,
     );
+    const [helpOwnerPhoto, setHelpOwnerPhoto] = useState(null);
+    useEffect(() => {
+        getHelpOwnerPhoto();
+    }, []);
+
+    async function getHelpOwnerPhoto() {
+        const photoRequest = await useService(UserService, 'getUserPhotoById', [
+            help.ownerId,
+        ]);
+
+        if (!photoRequest.error) {
+            setHelpOwnerPhoto(photoRequest.data.photo);
+        }
+    }
 
     const goBackToMapPage = () => navigation.goBack();
 
@@ -97,6 +111,17 @@ export default function MapHelpDescription({ route, navigation }) {
         </View>
     );
 
+    const renderHelpButton = () => (
+        <Button
+            title="Oferecer Ajuda"
+            large
+            press={() => setConfirmationModalVisible(true)}
+        />
+    );
+    const renderOfferButton = () => (
+        <Button title="Se candidatar para essa oferta" large press={() => {}} />
+    );
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
@@ -112,11 +137,9 @@ export default function MapHelpDescription({ route, navigation }) {
                 {renderHelpInformation()}
 
                 <View style={styles.helpButtons}>
-                    <Button
-                        title="Oferecer Ajuda"
-                        large
-                        press={() => setConfirmationModalVisible(true)}
-                    />
+                    {helpType == 'offer'
+                        ? renderOfferButton()
+                        : renderHelpButton()}
                 </View>
             </View>
         </ScrollView>

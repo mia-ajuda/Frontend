@@ -54,6 +54,11 @@ class UserService {
             await api.put('/user', { deviceId: pushToken });
         });
     }
+
+    async getUserPhotoById(userId) {
+        const photo = await api.get(`/getUserPhoto/${userId}`);
+        return photo;
+    }
 }
 
 const userService = new UserService();
