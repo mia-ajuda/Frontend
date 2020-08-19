@@ -73,6 +73,11 @@ class HelpService {
         return help.data;
     }
 
+    async listHelpOffer() {
+        const helpOfferList = await api.get('/helpOffer/list');
+        return helpOfferList.data;
+    }
+
     async deleteHelp(helpId) {
         const deleteHelp = await api.delete(`/help/${helpId}`);
         return deleteHelp;

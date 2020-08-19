@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 15,
         alignSelf: 'center',
+        marginLeft: 5,
+        marginTop: 5,
     },
 
     categoryName: {
@@ -70,7 +72,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'center',
     },
-
+    categoryContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        marginVertical: 15,
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+    },
     loadingContainer: {
         height: '100%',
         justifyContent: 'center',
