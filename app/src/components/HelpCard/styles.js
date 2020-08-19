@@ -10,8 +10,7 @@ const cardContainerStyle = {
     borderWidth: 1,
     backgroundColor: colors.light,
     borderRadius: 8,
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 15,
@@ -32,11 +31,6 @@ export default StyleSheet.create({
         ...cardContainerStyle,
     },
 
-    cardTitle: {
-        maxWidth: '100%',
-        maxHeight: '30%',
-    },
-
     titleContent: {
         ...fonts.title,
         fontFamily: 'montserrat-semibold',
@@ -46,12 +40,28 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
+    cardDescription: {
+        marginTop: 5,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
+
+    descriptionContent: {
+        ...fonts.body,
+        fontSize: 12,
+
+        color: colors.dark,
+    },
+
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
         maxHeight: 30,
-        paddingHorizontal: 15,
-        marginTop: 17,
+
+        paddingHorizontal: 10,
+        marginRight: 5,
+        marginTop: 5,
+        alignSelf: 'flex-start',
     },
 
     categoryName: {
@@ -59,5 +69,19 @@ export default StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',
+        fontSize: 12,
+    },
+
+    bottomItens: {
+        width: '100%',
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        flexWrap: 'wrap',
     },
 });

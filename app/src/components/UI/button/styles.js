@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         ...btn,
         backgroundColor: colors.primary,
         borderColor: colors.primary,
-        borderWidth: 2,
     },
     textDisabled: { ...text, color: '#666' },
     btnDisabled: {
