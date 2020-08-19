@@ -74,7 +74,7 @@ export default function HelpList({
                                     campaign,
                                 })
                             }>
-                            <HelpCard help={campaign} isRiskGroup={false} />
+                            {/* <HelpCard help={campaign} isRiskGroup={false} /> */}
                         </TouchableOpacity>
                     );
                 })}
