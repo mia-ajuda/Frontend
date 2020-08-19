@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         alignSelf: 'center',
-        top: '35%',
+        top: '30%',
     },
     helpFilterButton: {
         flex: 1,
@@ -23,19 +23,29 @@ const styles = StyleSheet.create({
     info: {
         alignItems: 'center',
         padding: 5,
+        height: '100%',
+        justifyContent: 'center',
+    },
+    infoPress: {
+        backgroundColor: colors.primary,
+        alignItems: 'center',
+        padding: 5,
+        height: '100%',
+        justifyContent: 'center',
     },
     infoText: {
         ...fonts.body,
         color: colors.primary,
         fontFamily: 'montserrat-semibold',
         marginTop: 10,
-    },
-    infoTextInst: {
-        ...fonts.body,
-        color: colors.primary,
         fontSize: 11,
-        marginTop: 20,
+    },
+    infoPressText: {
+        ...fonts.body,
+        color: colors.light,
         fontFamily: 'montserrat-semibold',
+        marginTop: 10,
+        fontSize: 11,
     },
 });
 
