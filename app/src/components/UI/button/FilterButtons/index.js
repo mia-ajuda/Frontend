@@ -1,83 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Exclamation from '../../../../../assets/images/exclamation.svg';
-import HelpHand from '../../../../../assets/images/hand.svg';
-import House from '../../../../../assets/images/house.svg';
 import styles from './styles';
-
+import { FontAwesome5 } from '@expo/vector-icons';
+import colors from '../../../../../assets/styles/colorVariables';
+const filterButtonTypes = [
+    {
+        id: 1,
+        name: 'PEDIDOS',
+        isEnabled: false,
+        iconName: 'exclamation',
+    },
+    {
+        id: 2,
+        name: 'OFERTAS',
+        isEnabled: false,
+        iconName: 'hand-holding-heart',
+    },
+    {
+        id: 3,
+        name: 'INSTITUIÇÕES',
+        isEnabled: false,
+        iconName: 'home',
+    },
+];
 export default function FilterButtons() {
-    const types = [
-        {
-            id: 1,
-            name: 'PEDIDOS',
-            isEnabled: false,
-        },
-        {
-            id: 2,
-            name: 'OFERTAS',
-            isEnabled: false,
-        },
-        {
-            id: 3,
-            name: 'INSTITUIÇÕES',
-            isEnabled: false,
-        },
-    ];
+    const [selectedFilters, setSelectedFilteres] = useState([]);
 
-    const renderSVG = (id) => {
-        if (id === 1) {
-            return <Exclamation />;
-        } else if (id === 2) {
-            return <HelpHand />;
-        } else if (id === 3) {
-            return <House />;
-        }
-    };
-
-    const [helpTypes, setHelpTypes] = useState([]);
-
-    useEffect(() => {
-        setHelpTypes(types);
-    }, []);
-
-    function handleTypesButton(id) {
-        const newHelpTypes = helpTypes.map((helpType) => {
-            return helpType.id == id
-                ? { ...helpType, isEnabled: !helpType.isEnabled }
-                : helpType;
-        });
-
-        setHelpTypes(newHelpTypes);
-    }
-
-    const renderTypesContent = (helpType) => {
-        if (helpType.isEnabled) {
-            return (
-                <View style={styles.infoPress}>
-                    {renderSVG(helpType.id)}
-                    <Text style={styles.infoPressText}>{helpType.name}</Text>
-                </View>
-            );
+    function selectionFilter(id) {
+        if (selectedFilters.includes(id)) {
+            removeType(id);
         } else {
-            return (
-                <View style={styles.info}>
-                    {renderSVG(helpType.id)}
-                    <Text style={styles.infoText}>{helpType.name}</Text>
-                </View>
-            );
+            includeType(id);
         }
-    };
+    }
+    function includeType(id) {
+        setSelectedFilteres([...selectedFilters, id]);
+    }
+    function removeType(id) {
+        const filterType = selectedFilters.filter(
+            (selectedId) => selectedId !== id,
+        );
+        setSelectedFilteres(filterType);
+    }
 
     return (
         <View style={styles.contentButtons}>
-            {helpTypes.map((helpType) => (
+            {filterButtonTypes.map((filterButton) => (
                 <TouchableOpacity
-                    key={helpType.id}
+                    key={filterButton.id}
                     style={styles.helpFilterButton}
                     onPress={() => {
-                        handleTypesButton(helpType.id);
+                        selectionFilter(filterButton.id);
                     }}>
-                    {renderTypesContent(helpType)}
+                    <View
+                        style={
+                            selectedFilters.includes(filterButton.id)
+                                ? styles.infoPress
+                                : styles.info
+                        }>
+                        <FontAwesome5
+                            name={filterButton.iconName}
+                            size={60}
+                            color={
+                                selectedFilters.includes(filterButton.id)
+                                    ? colors.light
+                                    : colors.primary
+                            }
+                        />
+                        <Text
+                            style={
+                                selectedFilters.includes(filterButton.id)
+                                    ? styles.infoPressText
+                                    : styles.infoText
+                            }>
+                            {filterButton.name}
+                        </Text>
+                    </View>
                 </TouchableOpacity>
             ))}
         </View>
