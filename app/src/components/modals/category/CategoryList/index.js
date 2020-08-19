@@ -16,7 +16,7 @@ import { CategoryContext } from '../../../../store/contexts/categoryContext';
 import FilterButtons from '../../../UI/button/FilterButtons';
 import colors from '../../../../../assets/styles/colorVariables';
 
-export default function CategoryList({ visible, setVisible }) {
+export default function CategoryList({ visible, setVisible, isHistoryPage }) {
     const [descriptionModalVisible, setDescriptionModalVisible] = useState(
         false,
     );
@@ -26,17 +26,14 @@ export default function CategoryList({ visible, setVisible }) {
         setSelectedCategories,
         selectedCategories,
     } = useContext(CategoryContext);
-
     async function filterHelplist() {
         setSelectedCategories(selectedCategoryArray);
         setVisible(!visible);
     }
-
     async function clearFilterHelplist() {
         setSelectedCategories([]);
         setVisible(!visible);
     }
-
     const renderCategories = () => (
         <ScrollView style={styles.modalBody}>
             {categories.map((category) => (
@@ -51,7 +48,6 @@ export default function CategoryList({ visible, setVisible }) {
             ))}
         </ScrollView>
     );
-
     const renderFilterButtons = () => {
         if (selectedCategories.length) {
             return (
@@ -85,51 +81,77 @@ export default function CategoryList({ visible, setVisible }) {
         );
     };
 
+    const renderOnGoingFinishedButtons = () => {
+        if (isHistoryPage) {
+            return (
+                <View style={styles.onGoingFinishedButtonsArea}>
+                    <View style={styles.onGoingFinishedButtons}>
+                        <TouchableOpacity>
+                            <Text style={styles.infoText}>EM ANDAMENTO</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.onGoingFinishedButtons}>
+                        <TouchableOpacity>
+                            <Text style={styles.infoText}>FINALIZADO</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            );
+        }
+    };
+
     return (
         <Modal
             visible={visible}
             animationType="fade"
             transparent
             onRequestClose={() => setVisible(false)}>
-            <TouchableWithoutFeedback>
-                <View style={styles.modalContent}>
-                    <Text style={styles.filterTitle}>FILTRO</Text>
-
-                    <TouchableOpacity
-                        onPress={() => {
-                            setVisible(false);
-                        }}
-                        style={styles.closeIcon}>
-                        <Icon
-                            name="times-circle"
-                            type="font-awesome"
-                            color={colors.danger}
-                            size={35}
-                        />
-                    </TouchableOpacity>
-                    <FilterButtons />
-                    <View style={styles.contentHeader}>
-                        <Text style={styles.categoryTitle}>CATEGORIAS</Text>
+            <TouchableOpacity
+                style={styles.modalContainer}
+                activeOpacity={1}
+                onPress={() => {
+                    setVisible(false);
+                }}>
+                <TouchableWithoutFeedback>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.filterTitle}>FILTRO</Text>
                         <TouchableOpacity
-                            style={styles.icon}
                             onPress={() => {
-                                setDescriptionModalVisible(
-                                    !descriptionModalVisible,
-                                );
-                            }}>
+                                setVisible(false);
+                            }}
+                            style={styles.closeIcon}>
                             <Icon
-                                name="question-circle"
+                                name="times-circle"
                                 type="font-awesome"
-                                color="#C4C4C4"
+                                color={colors.danger}
                                 size={35}
                             />
                         </TouchableOpacity>
-                    </View>
+                        {renderOnGoingFinishedButtons()}
+                        <FilterButtons />
+                        <View style={styles.contentHeader}>
+                            <Text style={styles.categoryTitle}>CATEGORIAS</Text>
+                            <TouchableOpacity
+                                style={styles.icon}
+                                onPress={() => {
+                                    setDescriptionModalVisible(
+                                        !descriptionModalVisible,
+                                    );
+                                }}>
+                                <Icon
+                                    name="question-circle"
+                                    type="font-awesome"
+                                    color="#C4C4C4"
+                                    size={35}
+                                />
+                            </TouchableOpacity>
+                        </View>
 
-                    {renderCategories()}
-                    {renderFilterButtons()}
-                </View>
-            </TouchableWithoutFeedback>
+                        {renderCategories()}
+                        {renderFilterButtons()}
+                    </View>
+                </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <CategoryDescriptionModal
                 visible={descriptionModalVisible}
                 setVisible={setDescriptionModalVisible}
