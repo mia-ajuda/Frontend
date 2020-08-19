@@ -101,6 +101,7 @@ export default function CreateHelp({ navigation }) {
                     <SelectCategoryForm
                         helpCategoryIds={helpOfferCategoryIds}
                         setHelpCategoryIds={setHelpOfferCategoryIds}
+                        helpType={'offer'}
                     />
                     <View style={styles.btnContainer}>
                         {createHelpOfferLoading

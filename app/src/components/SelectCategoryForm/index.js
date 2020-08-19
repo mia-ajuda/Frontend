@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import CategorySelector from '../modals/category/CategorySelector';
+import CategorySelectorModal from '../modals/category/CategorySelector';
 import { CategoryContext } from '../../store/contexts/categoryContext';
-import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 
 export default function SelectCategoryForm({
     helpCategoryIds,
     setHelpCategoryIds,
+    helpType,
 }) {
     const [categoryModalVisible, setCategoryModalVisible] = useState(false);
     const { categories } = useContext(CategoryContext);
@@ -24,23 +24,13 @@ export default function SelectCategoryForm({
 
     const renderSelectedCategories = () => {
         return (
-            <View
-                style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginTop: 10,
-                }}>
+            <View style={styles.categoriesContainer}>
                 {categories.map((category) => {
                     if (helpCategoryIds.includes(category._id)) {
                         return (
                             <Text
-                                style={{
-                                    backgroundColor: colors.secondary,
-                                    padding: 5,
-                                    elevation: 2,
-                                    margin: 5,
-                                    borderRadius: 2,
-                                }}>
+                                key={category.name}
+                                style={styles.categoryName}>
                                 {category.name}
                             </Text>
                         );
@@ -51,12 +41,13 @@ export default function SelectCategoryForm({
     };
     return (
         <View>
-            <CategorySelector
+            <CategorySelectorModal
                 modalVisible={categoryModalVisible}
                 openModal={openCategoryModal}
                 hideModal={hideCategoryModal}
-                setHelpCategoryIds={setHelpCategoryIds}
-                categoryIds={helpCategoryIds}
+                setHelpSelectedCategoryIds={setHelpCategoryIds}
+                selectedCategoryIds={helpCategoryIds}
+                helpCreationType={helpType}
             />
             {renderPickerCategoryForm()}
             {renderSelectedCategories()}
