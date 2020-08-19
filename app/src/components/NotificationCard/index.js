@@ -1,53 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import getPastimeFrom from '../../utils/getPastTime';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import helpService from '../../services/Help';
-import userService from '../../services/User';
 
 export default function NotificationCard({
     notification,
-    dateNow
+    dateNow,
+    navigation,
 }) {
     const [notificationTime, setNotificationTime] = useState('');
-    const navigation = useNavigation();
     useEffect(() => {
         const notificationPastTime = getPastimeFrom(notification.registerDate);
         setNotificationTime(notificationPastTime);
     }, [dateNow]);
 
-    async function navigateToHelpPage(){
-        const help = await helpService.getHelpWithAggregationById(notification.helpId);
+    async function navigateToHelpPage() {
+        const help = await helpService.getHelpWithAggregationById(
+            notification.helpId,
+        );
         switch (notification.notificationType) {
             case 'ajudaRecebida':
-                navigation.navigate(
-                    'MyRequestHelpDescrition',
-                    {
-                        help,
-                    },
-                );
+                navigation.navigate('myRequestDescription', {
+                    help,
+                });
                 break;
 
             case 'ajudaAceita':
-                navigation.navigate(
-                    'OfferDescription',
-                    {
-                        help,
-                    },
-                );
+                navigation.navigate('OfferDescription', {
+                    help,
+                });
                 break;
 
             case 'ajudaFinalizada':
-                navigation.navigate(
-                    'OfferDescription',
-                    {
-                        help,
-                    },
-                );
+                navigation.navigate('OfferDescription', {
+                    help,
+                });
                 break;
 
             case 'ajudaExpirada':
@@ -98,7 +89,8 @@ export default function NotificationCard({
     };
 
     return (
-        <TouchableOpacity style={styles.cardContainer}
+        <TouchableOpacity
+            style={styles.cardContainer}
             key={notification.helpId}
             onPress={navigateToHelpPage}>
             <View style={styles.info}>
