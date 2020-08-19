@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
-
         maxHeight: 30,
-
         paddingHorizontal: 15,
         alignSelf: 'center',
+        marginLeft: 5,
+        marginTop: 5,
     },
 
     categoryName: {
@@ -106,6 +106,13 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlign: 'center',
         alignSelf: 'center',
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        marginVertical: 15,
+        justifyContent: 'center',
+        flexWrap: 'wrap',
     },
 });
 

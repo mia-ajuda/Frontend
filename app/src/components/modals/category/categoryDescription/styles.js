@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     },
     title: {
         ...fonts.title,
+        fontSize: 20,
         alignSelf: 'center',
         marginBottom: 10,
         fontFamily: 'montserrat-semibold',
