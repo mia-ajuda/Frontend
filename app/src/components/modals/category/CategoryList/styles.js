@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../../assets/styles/fontVariable';
+
 import colors from '../../../../../assets/styles/colorVariables';
 const minimumTextSize = 16;
 const styles = StyleSheet.create({
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 25,
     },
+    title: {
+        ...fonts.title,
+    },
     categoryTitle: {
         alignSelf: 'center',
         textAlign: 'center',
@@ -43,13 +47,14 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         color: colors.dark,
         fontSize: minimumTextSize * 1.5,
-        top: '3%',
+        top: '1%',
     },
     categoryText: {
         ...fonts.subtitle,
         marginLeft: 10,
     },
     modalBody: {
+        height: '80%',
         marginTop: '55%',
     },
     filterButtons: {
@@ -64,14 +69,15 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         top: '30%',
     },
-    helpFilterButton: {
-        flex: 1,
+    onGoingFinishedButtons: {
         borderRadius: 6,
         borderWidth: 2,
         borderColor: colors.primary,
-        height: 130,
-        marginHorizontal: 5,
-        justifyContent: 'space-around',
+        height: 40,
+        width: 150,
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: '10%',
     },
     info: {
         alignItems: 'center',
@@ -81,17 +87,14 @@ const styles = StyleSheet.create({
         ...fonts.body,
         color: colors.primary,
         fontFamily: 'montserrat-semibold',
-        marginTop: 10,
     },
-    infoTextInst: {
-        ...fonts.body,
-        color: colors.primary,
-        fontSize: 11,
-        marginTop: 20,
-        fontFamily: 'montserrat-semibold',
+    onGoingFinishedButtonsArea: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-around',
     },
     closeIcon: {
-        top: '5.5%',
+        top: '3%',
         right: 20,
         position: 'absolute',
         zIndex: 5,

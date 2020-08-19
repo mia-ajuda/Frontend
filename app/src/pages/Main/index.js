@@ -95,6 +95,7 @@ export default function Main({ navigation }) {
             <CategoryListModal
                 visible={filterModalVisible}
                 setVisible={setFilterModalVisible}
+                isHistoryPage={false}
             />
             <TouchableOpacity
                 style={styles.recenter}
