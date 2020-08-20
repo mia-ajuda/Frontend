@@ -5,6 +5,7 @@ import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../services/Help';
+import UserService from '../../../services/User';
 import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
@@ -15,11 +16,11 @@ import shortenName from '../../../utils/shortenName';
 import colors from '../../../../assets/styles/colorVariables';
 
 export default function MapHelpDescription({ route, navigation }) {
-    const { help } = route.params;
+    const { help, helpType } = route.params;
     const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
-    const [isHelpLoading, setHelpLoading] = useState(true);
-    const [helpInfo, setHelpInfo] = useState();
+    const [isOwnerRequestLoading, setOwnerRequestLoading] = useState(true);
+    const [ownerInfo, setOwnerInfo] = useState({});
 
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
@@ -27,17 +28,20 @@ export default function MapHelpDescription({ route, navigation }) {
     const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
         false,
     );
-
     const goBackToMapPage = () => navigation.goBack();
+
     useEffect(() => {
-        getHelpInfo();
+        getOwnerInfo();
     }, []);
 
-    async function getHelpInfo() {
-        const result = await useService(HelpService, 'getHelpInfo', [help._id]);
+    async function getOwnerInfo() {
+        setOwnerRequestLoading(true);
+        const result = await useService(UserService, 'requestUserData', [
+            help.ownerId,
+        ]);
         if (!result.error) {
-            setHelpInfo(result);
-            setHelpLoading(false);
+            setOwnerInfo(result);
+            setOwnerRequestLoading(false);
         } else {
             goBackToMapPage();
         }
@@ -74,13 +78,12 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     const renderHelpOwnerInformation = () => {
-        const helpOwnerPhoto = helpInfo.user.photo;
         const ownerNameFormated = shortenName(help.user.name);
         return (
             <View style={styles.userInfo}>
                 <Image
                     source={{
-                        uri: `data:image/png;base64,${helpOwnerPhoto}`,
+                        uri: `data:image/png;base64,${ownerInfo.photo}`,
                     }}
                     style={styles.profileImage}
                 />
@@ -90,11 +93,11 @@ export default function MapHelpDescription({ route, navigation }) {
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Idade: </Text>
-                        {getYearsSince(helpInfo.user.birthday)}
+                        {getYearsSince(ownerInfo.birthday)}
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
-                        {helpInfo.user.address.city}
+                        {ownerInfo.address.city}
                     </Text>
                 </View>
             </View>
@@ -114,15 +117,26 @@ export default function MapHelpDescription({ route, navigation }) {
                     ))}
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
-                    {helpInfo.description}
+                    {help.description}
                 </Text>
             </View>
         </View>
     );
 
+    const renderHelpButton = () => (
+        <Button
+            title="Oferecer Ajuda"
+            large
+            press={() => setConfirmationModalVisible(true)}
+        />
+    );
+    const renderOfferButton = () => (
+        <Button title="Se candidatar para essa oferta" large press={() => {}} />
+    );
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {isHelpLoading ? (
+            {isOwnerRequestLoading ? (
                 renderLoadingIndicator()
             ) : (
                 <View style={styles.container}>
@@ -138,11 +152,9 @@ export default function MapHelpDescription({ route, navigation }) {
                     {renderHelpInformation()}
 
                     <View style={styles.helpButtons}>
-                        <Button
-                            title="Oferecer Ajuda"
-                            large
-                            press={() => setConfirmationModalVisible(true)}
-                        />
+                        {helpType == 'offer'
+                            ? renderOfferButton()
+                            : renderHelpButton()}
                     </View>
                 </View>
             )}
