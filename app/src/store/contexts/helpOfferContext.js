@@ -21,6 +21,7 @@ export default function HelpOfferContextProvider({ children }) {
         const helpOfferListResponse = await useService(
             HelpService,
             'listHelpOffer',
+            [user._id],
         );
         if (!helpOfferListResponse.error) {
             setHelpOfferList(helpOfferListResponse);

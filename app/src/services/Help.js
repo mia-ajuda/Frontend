@@ -73,8 +73,8 @@ class HelpService {
         return help.data;
     }
 
-    async listHelpOffer() {
-        const helpOfferList = await api.get('/helpOffer/list');
+    async listHelpOffer(userId) {
+        const helpOfferList = await api.get(`/helpOffer/list?userId=${userId}`);
         return helpOfferList.data;
     }
 
