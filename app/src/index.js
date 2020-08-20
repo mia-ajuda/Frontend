@@ -5,6 +5,7 @@ import HelpContextProvider from './store/contexts/helpContext';
 import CampaignContextProvider from './store/contexts/campaignContext';
 import CategoryContextProvider from './store/contexts/categoryContext';
 import DeviceInfoProvider from './store/contexts/deviceInformationContext';
+import HelpOfferContextProvider from './store/contexts/helpOfferContext';
 
 export default function Root() {
     return (
@@ -12,9 +13,11 @@ export default function Root() {
             <UserContextProvider>
                 <CategoryContextProvider>
                     <CampaignContextProvider>
-                        <HelpContextProvider>
-                            <Routes />
-                        </HelpContextProvider>
+                        <HelpOfferContextProvider>
+                            <HelpContextProvider>
+                                <Routes />
+                            </HelpContextProvider>
+                        </HelpOfferContextProvider>
                     </CampaignContextProvider>
                 </CategoryContextProvider>
             </UserContextProvider>

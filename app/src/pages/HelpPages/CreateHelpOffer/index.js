@@ -1,27 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Picker,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
+import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
-    const [helpOfferCategory, setHelpOfferCategory] = useState(null);
+    const [helpOfferCategoryIds, setHelpOfferCategoryIds] = useState([]);
     const [helpOfferDescription, setHelpOfferDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
@@ -29,7 +23,6 @@ export default function CreateHelp({ navigation }) {
     );
     const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
 
-    const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -37,12 +30,16 @@ export default function CreateHelp({ navigation }) {
     }, []);
 
     useEffect(() => {
-        if (helpOfferTitle && helpOfferCategory && helpOfferDescription) {
+        if (
+            helpOfferTitle &&
+            helpOfferCategoryIds.length &&
+            helpOfferDescription
+        ) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [helpOfferTitle, helpOfferDescription, helpOfferCategory]);
+    }, [helpOfferTitle, helpOfferDescription, helpOfferCategoryIds]);
 
     async function createHelpOffer() {
         const { _id: userId } = user;
@@ -52,7 +49,7 @@ export default function CreateHelp({ navigation }) {
             'createHelpOffer',
             [
                 helpOfferTitle,
-                helpOfferCategory['_id'],
+                helpOfferCategoryIds,
                 helpOfferDescription,
                 userId,
             ],
@@ -64,30 +61,6 @@ export default function CreateHelp({ navigation }) {
         }
         setCreateHelpOfferLoading(false);
     }
-
-    const renderPickerCategoryForm = () => (
-        <View style={styles.catagoryPicker}>
-            <Text style={styles.label}>Categoria</Text>
-            <View style={styles.picker}>
-                <Picker
-                    label="Categoria"
-                    selectedValue={helpOfferCategory}
-                    onValueChange={(itemValue) =>
-                        setHelpOfferCategory(itemValue)
-                    }>
-                    <Picker.Item label="" value={''} />
-                    {categories.map((category) => (
-                        <Picker.Item
-                            key={category._id}
-                            color={colors.dark}
-                            label={category.name}
-                            value={category}
-                        />
-                    ))}
-                </Picker>
-            </View>
-        </View>
-    );
 
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
@@ -124,9 +97,12 @@ export default function CreateHelp({ navigation }) {
             <Container>
                 <View style={styles.view}>
                     {renderInputTitleForm()}
-                    {renderPickerCategoryForm()}
                     {renderInputDescriptionForm()}
-
+                    <SelectCategoryForm
+                        helpCategoryIds={helpOfferCategoryIds}
+                        setHelpCategoryIds={setHelpOfferCategoryIds}
+                        helpType={'offer'}
+                    />
                     <View style={styles.btnContainer}>
                         {createHelpOfferLoading
                             ? renderLoadingIdicator()

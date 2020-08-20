@@ -10,10 +10,12 @@ import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
+import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
 import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
+import HelpOfferMarker from './HelpOfferMarker';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -22,6 +24,7 @@ export default function Main({ navigation }) {
     const { helpList } = useContext(HelpContext);
     const { userPosition, user } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
+    const { helpOfferList } = useContext(HelpOfferContext);
 
     useEffect(() => {
         setRegion(null);
@@ -45,6 +48,11 @@ export default function Main({ navigation }) {
                 />
             );
         });
+    };
+    const renderHelpOfferMakers = () => {
+        return helpOfferList.map((helpOffer) => (
+            <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
+        ));
     };
 
     const renderFilterButton = () => (
@@ -113,6 +121,7 @@ export default function Main({ navigation }) {
                 <UserMarker userPosition={userPosition} />
                 {renderCampaignMarkers()}
                 {renderHelpMakers()}
+                {renderHelpOfferMakers()}
             </MapView>
             {renderCreateRequestButton()}
             {renderFilterButton()}
