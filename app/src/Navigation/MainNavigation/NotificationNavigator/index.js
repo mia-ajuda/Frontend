@@ -6,7 +6,6 @@ import MyOfferHelpDescription from '../../../pages/HelpPages/MyOfferHelpDescript
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import MyRequestDescription from '../../../pages/HelpPages/MyRequestHelpDescrition';
 import ListPossibleHelpers from '../../../pages/HelpPages/MyRequestHelpDescrition/ListPossibleHelpers';
-import HistoryNavigator from '../HistoryNavigator';
 
 const Stack = createStackNavigator();
 
@@ -25,16 +24,23 @@ const NavigationNotifications = () => (
         <Stack.Screen
             name="myOfferHelpDescription"
             component={MyOfferHelpDescription}
+            options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
             name="myRequestDescription"
             component={MyRequestDescription}
+            options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
             name="listPossibleHelpers"
             component={ListPossibleHelpers}
+            options={{ title: 'Detalhes' }}
         />
-        <Stack.Screen name="history" component={HistoryNavigator} />
+        <Stack.Screen
+            name="OfferDescription"
+            component={MyOfferHelpDescription}
+            options={{ title: 'Detalhes' }}
+        />
     </Stack.Navigator>
 );
 

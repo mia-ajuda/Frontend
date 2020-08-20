@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,6 +6,8 @@ import getPastimeFrom from '../../utils/getPastTime';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import helpService from '../../services/Help';
+import useService from '../../services/useService';
+import { UserContext } from '../../store/contexts/userContext';
 
 export default function NotificationCard({
     notification,
@@ -13,36 +15,27 @@ export default function NotificationCard({
     navigation,
 }) {
     const [notificationTime, setNotificationTime] = useState('');
+    const { user } = useContext(UserContext);
     useEffect(() => {
         const notificationPastTime = getPastimeFrom(notification.registerDate);
         setNotificationTime(notificationPastTime);
     }, [dateNow]);
 
     async function navigateToHelpPage() {
-        const help = await helpService.getHelpWithAggregationById(
-            notification.helpId,
+        const help = await useService(
+            helpService,
+            'getHelpWithAggregationById',
+            [notification.helpId],
         );
-        switch (notification.notificationType) {
-            case 'ajudaRecebida':
-                navigation.navigate('myRequestDescription', {
-                    help,
-                });
-                break;
-
-            case 'ajudaAceita':
-                navigation.navigate('OfferDescription', {
-                    help,
-                });
-                break;
-
-            case 'ajudaFinalizada':
-                navigation.navigate('OfferDescription', {
-                    help,
-                });
-                break;
-
-            case 'ajudaExpirada':
-                break;
+        const thisUserIsHelper = user._id == help.user._id ? true : false;
+        if (thisUserIsHelper) {
+            navigation.navigate('OfferDescription', {
+                help,
+            });
+        } else {
+            navigation.navigate('myRequestDescription', {
+                help,
+            });
         }
     }
 
