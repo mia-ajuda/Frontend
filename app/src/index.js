@@ -12,13 +12,13 @@ export default function Root() {
         <DeviceInfoProvider>
             <UserContextProvider>
                 <CategoryContextProvider>
-                    <CampaignContextProvider>
-                        <HelpOfferContextProvider>
+                    <HelpOfferContextProvider>
+                        <CampaignContextProvider>
                             <HelpContextProvider>
                                 <Routes />
                             </HelpContextProvider>
-                        </HelpOfferContextProvider>
-                    </CampaignContextProvider>
+                        </CampaignContextProvider>
+                    </HelpOfferContextProvider>
                 </CategoryContextProvider>
             </UserContextProvider>
         </DeviceInfoProvider>
