@@ -28,6 +28,12 @@ class CampaignService {
         return createdCampaignResponse.data;
     }
 
+    async finishCampaign(campaignId) {
+        const url = `/campaign/${campaignId}`;
+        await api.put(url);
+        return true;
+    }
+
     async deleteCampaign(campaignId) {
         const deleteCampaign = await api.delete(`/campaign/${campaignId}`);
         return deleteCampaign;

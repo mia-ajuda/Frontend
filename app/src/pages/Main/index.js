@@ -129,7 +129,6 @@ export default function Main({ navigation }) {
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
-                    campaigns={campaignList}
                     visible={helpListVisible}
                     setVisible={setHelpListVisible}
                     navigation={navigation}

@@ -1,27 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Picker,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 import campaignService from '../../../services/Campaign';
 import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
+import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
 export default function CreateCampaign({ navigation }) {
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
@@ -29,7 +23,6 @@ export default function CreateCampaign({ navigation }) {
     );
     const [createCampaignLoading, setCreateCampaignLoading] = useState(false);
 
-    const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -50,7 +43,7 @@ export default function CreateCampaign({ navigation }) {
         const createCampaign = await useService(
             campaignService,
             'createCampaign',
-            [title, category['_id'], description, userId],
+            [title, category, description, userId],
         );
         if (!createCampaign.error) {
             setModalSuccessMoldalVisible(true);
@@ -59,30 +52,6 @@ export default function CreateCampaign({ navigation }) {
         }
         setCreateCampaignLoading(false);
     }
-
-    const renderPickerCategoryForm = () => (
-        <View style={styles.catagoryPicker}>
-            <Text style={styles.label}>Categoria</Text>
-            <View style={styles.picker}>
-                <Picker
-                    label="Categoria"
-                    selectedValue={category}
-                    onValueChange={(itemValue) => {
-                        setCategory(itemValue);
-                    }}>
-                    <Picker.Item label="" value={''} />
-                    {categories.map((category) => (
-                        <Picker.Item
-                            key={category._id}
-                            color={colors.dark}
-                            label={category.name}
-                            value={category}
-                        />
-                    ))}
-                </Picker>
-            </View>
-        </View>
-    );
 
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
@@ -104,7 +73,7 @@ export default function CreateCampaign({ navigation }) {
 
     const createCampaignBtn = () => (
         <Button
-            title="Criar um campanha"
+            title="Criar uma campanha"
             large
             disabled={buttonDisabled}
             press={createCampaign}
@@ -116,9 +85,11 @@ export default function CreateCampaign({ navigation }) {
             <Container>
                 <View style={styles.view}>
                     {renderInputTitleForm()}
-                    {renderPickerCategoryForm()}
                     {renderInputDescriptionForm()}
-
+                    <SelectCategoryForm
+                        helpCategoryIds={category}
+                        setHelpCategoryIds={setCategory}
+                    />
                     <View style={styles.btnContainer}>
                         {createCampaignLoading
                             ? renderLoadingIdicator()

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     View,
     Image,
@@ -12,11 +12,21 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import useService from '../../../services/Session';
+import { alertSuccess } from '../../../../utils/Alert';
+import CampaignService from '../../../services/Campaign';
+import Button from '../../../../components/UI/button';
 
 export default function CampaignDescription({ route }) {
     const { campaign } = route.params;
     const { user } = useContext(UserContext);
     const campaignOwnerPhoto = campaign.entity.photo;
+    const [finishCampaignLoading, setFinishCampaignLoading] = useState(false);
+    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
+    const isTheSameUser = user._id === campaign.ownerId;
 
     function openGoogleMaps() {
         const scheme = Platform.select({
@@ -35,6 +45,19 @@ export default function CampaignDescription({ route }) {
         Linking.openURL(url);
     }
 
+    async function finishCampaign() {
+        setFinishCampaignLoading(true);
+        const finishHelpRequest = await useService(
+            CampaignService,
+            'finishCampaign',
+            [campaign._id],
+        );
+        if (!finishHelpRequest.error) {
+            alertSuccess('Campanha finalizada com sucesso!');
+        }
+        // goBackToMyResquestsPage();
+    }
+
     function openWhatsapp() {
         Linking.openURL(
             `whatsapp://send?phone=${
@@ -43,33 +66,29 @@ export default function CampaignDescription({ route }) {
         );
     }
 
-    const renderContactEntityButtons = () => {
-        if (user._id != campaign.ownerId) {
-            return (
-                <View style={styles.ViewLink}>
-                    <View style={styles.ViewLinkBox}>
-                        <TouchableOpacity onPress={openWhatsapp}>
-                            <Icon
-                                name="whatsapp"
-                                type="font-awesome"
-                                size={50}
-                                color="#25d366"
-                            />
-                        </TouchableOpacity>
+    const renderContactEntityButtons = () => (
+        <View style={styles.ViewLink}>
+            <View style={styles.ViewLinkBox}>
+                <TouchableOpacity onPress={openWhatsapp}>
+                    <Icon
+                        name="whatsapp"
+                        type="font-awesome"
+                        size={50}
+                        color="#25d366"
+                    />
+                </TouchableOpacity>
 
-                        <TouchableOpacity onPress={openGoogleMaps}>
-                            <Icon
-                                name="directions"
-                                type="font-awesome-5"
-                                size={50}
-                                color="#4285F4"
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-    };
+                <TouchableOpacity onPress={openGoogleMaps}>
+                    <Icon
+                        name="directions"
+                        type="font-awesome-5"
+                        size={50}
+                        color="#4285F4"
+                    />
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
 
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(campaign.entity.name);
@@ -97,14 +116,19 @@ export default function CampaignDescription({ route }) {
             </View>
         );
     };
+
     const renderHelpInformation = () => (
         <View style={styles.campaignInfo}>
             <View style={styles.campaignInfoText}>
                 <Text style={styles.titleFont}>{campaign.title}</Text>
                 <View style={styles.categoryWarning}>
-                    <Text style={styles.categoryName}>
-                        {campaign.category[0].name}
-                    </Text>
+                    {campaign.categories.map((category) => (
+                        <View key={category._id} style={styles.categoryWarning}>
+                            <Text style={styles.categoryName}>
+                                {category.name}
+                            </Text>
+                        </View>
+                    ))}
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {campaign.description}
@@ -112,14 +136,28 @@ export default function CampaignDescription({ route }) {
             </View>
         </View>
     );
-
+    const renderFinishCampaignButton = () => (
+        <Button
+            press={() => setConfirmationModalVisible(true)}
+            title="Finalizar Campanha"
+            large
+        />
+    );
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
                 {renderHelpOwnerInformation()}
                 {renderHelpInformation()}
-                {renderContactEntityButtons()}
+                {isTheSameUser && renderFinishCampaignButton()}
+                {!isTheSameUser && renderContactEntityButtons()}
             </View>
+            <ConfirmationModal
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
+                action={finishCampaign}
+                message={'Você tem certeza que deseja finalizar esta campanha?'}
+                isLoading={finishCampaignLoading}
+            />
         </ScrollView>
     );
 }
