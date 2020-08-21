@@ -1,8 +1,15 @@
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import React from 'react';
 import { Button } from 'react-native-elements';
 
 import Onboarding from 'react-native-onboarding-swiper';
+
+const completeIntroSlide = async () => {
+    //await AsyncStorage.setItem('hasOnborded', true);
+    const jsonValue = JSON.stringify(true);
+    await AsyncStorage.setItem('hasOnborded', jsonValue);
+    console.log('Done');
+};
 
 const Done = ({ ...props }) => (
     <Button
@@ -31,9 +38,10 @@ const Skip = ({ ...props }) => (
         }}
         textStyle={{ color: '#4B8AB9' }}
         {...props}
-        titleStyle={{ color: '#4B8AB9', fontFamily: 'montserrat-semibold' }}>
-        ,
-    </Button>
+        titleStyle={{
+            color: '#4B8AB9',
+            fontFamily: 'montserrat-semibold',
+        }}></Button>
 );
 
 const Next = ({ ...props }) => (
@@ -55,7 +63,7 @@ const Next = ({ ...props }) => (
 
 const IntroSlide = () => (
     <Onboarding
-        onDone={() => console.log('done')}
+        //onDone={() => console.log('done')}
         titleStyles={{
             color: '#4B8AB9',
             fontFamily: 'montserrat-semibold',
@@ -66,7 +74,7 @@ const IntroSlide = () => (
         NextButtonComponent={Next}
         SkipButtonComponent={Skip}
         DoneButtonComponent={Done}
-        //onDone={introDone('done')}
+        onDone={completeIntroSlide}
         pages={[
             {
                 title: 'Precisando de Ajuda ou querendo oferecer?',
