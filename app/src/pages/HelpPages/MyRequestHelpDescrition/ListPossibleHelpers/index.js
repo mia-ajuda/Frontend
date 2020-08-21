@@ -17,7 +17,7 @@ export default function ListPossibleHelpers({ navigation, route }) {
     const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
     const [selectedHelperId, setSelectedHelperId] = useState(false);
 
-    const goBackToMyRequestsPage = () => navigation.navigate('Meus pedidos');
+    const goBackToMyRequestsPage = () => navigation.goBack();
 
     async function chooseHelper() {
         setChooseRequestLoading(true);
