@@ -12,11 +12,11 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import ConfirmationModal from '../../../components/modals/confirmationModal';
 import useService from '../../../services/Session';
-import { alertSuccess } from '../../../../utils/Alert';
+import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
-import Button from '../../../../components/UI/button';
+import Button from '../../../components/UI/button';
 
 export default function CampaignDescription({ route }) {
     const { campaign } = route.params;
