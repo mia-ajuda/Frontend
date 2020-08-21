@@ -8,10 +8,12 @@ import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
+import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
 import UserMarker from './UserMarker';
+import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
 
@@ -20,12 +22,19 @@ export default function Main({ navigation }) {
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
-    const { userPosition } = useContext(UserContext);
+    const { userPosition, user } = useContext(UserContext);
+    const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
 
     useEffect(() => {
         setRegion(null);
     }, [region]);
+
+    const renderCampaignMarkers = () => {
+        return campaignList.map((campaign) => {
+            return <CampaignMarker key={campaign._id} campaign={campaign} />;
+        });
+    };
 
     const renderHelpMakers = () => {
         return helpList.map((help) => {
@@ -61,6 +70,26 @@ export default function Main({ navigation }) {
         </TouchableOpacity>
     );
 
+    const renderCreateRequestButton = () => {
+        const isEntityUser = user.cnpj;
+        if (isEntityUser) {
+            return (
+                <TouchableOpacity
+                    style={styles.campaignButton}
+                    onPress={() => {
+                        navigation.navigate('createCampaign');
+                    }}>
+                    <Icon
+                        name="plus"
+                        type="font-awesome"
+                        color={colors.light}
+                        size={30}
+                    />
+                </TouchableOpacity>
+            );
+        } else return <CreateHelpButtons />;
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <CategoryListModal
@@ -90,13 +119,13 @@ export default function Main({ navigation }) {
                 }}
                 customMapStyle={mapStyle.day.map}>
                 <UserMarker userPosition={userPosition} />
-
+                {renderCampaignMarkers()}
                 {renderHelpMakers()}
                 {renderHelpOfferMakers()}
             </MapView>
-
+            {renderCreateRequestButton()}
             {renderFilterButton()}
-            <CreateHelpButtons />
+
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}

@@ -66,6 +66,7 @@ export const UserContextProvider = (props) => {
 
     async function getUserInfo(user) {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
+
         const userType = user?.displayName.split('|')[1].trim();
 
         if (userPreviouslyLogged) {

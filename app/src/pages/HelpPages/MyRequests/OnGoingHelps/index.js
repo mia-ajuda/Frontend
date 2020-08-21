@@ -24,6 +24,7 @@ export default function OnGoingHelps({ navigation }) {
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
     const { user } = useContext(UserContext);
+
     useFocusEffect(
         useCallback(() => {
             loadOnGoingHelps();

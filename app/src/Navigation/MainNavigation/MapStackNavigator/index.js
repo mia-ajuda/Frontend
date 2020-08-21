@@ -3,7 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../pages/Main';
 import CreateHelpRequest from '../../../pages/HelpPages/CreateHelpRequest';
 import CreateHelpOffer from '../../../pages/HelpPages/CreateHelpOffer';
+import CreateCampaign from '../../../pages/HelpPages/CreateCampaign';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
+import CampaignDescription from '../../../pages/HelpPages/CampaignDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
@@ -28,9 +30,19 @@ const MainNavigation = () => (
             component={CreateHelpOffer}
         />
         <Stack.Screen
+            name="createCampaign"
+            options={{ title: 'Campanha' }}
+            component={CreateCampaign}
+        />
+        <Stack.Screen
             name="mapHelpDescription"
             options={{ title: 'Detalhes' }}
             component={MapHelpDescription}
+        />
+        <Stack.Screen
+            name="campaignDescription"
+            options={{ title: 'Contato' }}
+            component={CampaignDescription}
         />
     </Stack.Navigator>
 );

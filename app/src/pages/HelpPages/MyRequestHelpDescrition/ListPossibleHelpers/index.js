@@ -33,7 +33,10 @@ export default function ListPossibleHelpers({ navigation, route }) {
     }
 
     const renderPossibleHelpersList = () => {
-        return help.possibleHelpers.map((helper) => (
+        const possibleHelpers = help.possibleHelpers.concat(
+            help.possibleEntities,
+        );
+        return possibleHelpers.map((helper) => (
             <TouchableOpacity
                 key={helper._id}
                 onPress={() => {
@@ -51,13 +54,18 @@ export default function ListPossibleHelpers({ navigation, route }) {
                         <Text style={[styles.infoText, styles.infoTextFont]}>
                             {shortenName(helper.name)}
                         </Text>
-                        <Text>
-                            <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
-                                Idade:{' '}
+                        {getYearsSince(helper.birthday) != 0 && (
+                            <Text>
+                                <Text
+                                    style={[
+                                        styles.infoText,
+                                        styles.infoTextFont,
+                                    ]}>
+                                    Idade:{' '}
+                                </Text>
+                                {getYearsSince(helper.birthday)}
                             </Text>
-                            {getYearsSince(helper.birthday)}
-                        </Text>
+                        )}
                         <Text>
                             <Text
                                 style={[styles.infoText, styles.infoTextFont]}>
@@ -79,7 +87,7 @@ export default function ListPossibleHelpers({ navigation, route }) {
     );
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {help.possibleHelpers.length > 0
+            {help.possibleHelpers.length > 0 || help.possibleEntities.length > 0
                 ? renderPossibleHelpersList()
                 : renderNoPossibleHelpersMessage()}
             <ConfirmationModal
