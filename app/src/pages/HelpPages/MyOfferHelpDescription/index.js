@@ -19,7 +19,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
 
-export default function MyOfferHelpDescription({ route, navigation }) {
+export default function OfferHelpDescription({ route, navigation }) {
     const { help } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
@@ -53,6 +53,7 @@ export default function MyOfferHelpDescription({ route, navigation }) {
             }&text=${'Olá, precisa de ajuda?'}`,
         );
     }
+
     async function finishHelp() {
         setFinishRequestLoading(true);
         const finishHelpRequest = await useService(

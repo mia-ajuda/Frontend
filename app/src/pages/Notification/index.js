@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator, Alert } from 'react-native';
 
 import NotificationCard from '../../components/NotificationCard';
 import { UserContext } from '../../store/contexts/userContext';
@@ -55,14 +55,12 @@ export default function Notification({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.notificationList}>
-                        {helpNotifications.map((item) => (
+                        {helpNotifications.map((notification) => (
                             <NotificationCard
-                                key={item._id}
-                                notificationType={item.notificationType}
-                                notificationTitle={item.title}
-                                notificationBody={item.body}
-                                notificationDate={item.registerDate}
+                                key={notification._id}
+                                notification={notification}
                                 dateNow={Date.now()}
+                                navigation={navigation}
                             />
                         ))}
                     </View>

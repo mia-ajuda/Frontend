@@ -81,6 +81,7 @@ export default function HelpContextProvider(props) {
                 coords,
                 userId,
             ]);
+
             if (!helpListArray.error) {
                 dispatch({
                     type: actions.help.storeList,

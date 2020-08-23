@@ -1,6 +1,6 @@
 import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
-import Avatar from '../../../components/helpAvatar';
+import Avatar from '../../../components/Avatar';
 import { Text } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
@@ -26,7 +26,7 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 latitude: help.user.location.coordinates[1],
                 longitude: help.user.location.coordinates[0],
             }}>
-            <Avatar help={help} />
+            <Avatar help={help} iconType={'exclamation'} />
             <Callout
                 onPress={() =>
                     navigation.navigate('mapHelpDescription', {

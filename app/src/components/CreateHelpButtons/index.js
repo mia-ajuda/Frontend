@@ -15,7 +15,6 @@ const HelpButtonAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
     const [isButtonsVisible, setButtonsVisible] = useState(false);
-
     const toggleButtonsVisibility = () => {
         if (isButtonsVisible) {
             hideButtons();

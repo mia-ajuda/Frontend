@@ -1,7 +1,15 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
-import colors from '../../../../assets/styles/colorVariables';
+
 const styles = StyleSheet.create({
+    helpOfferMarker: {
+        width: 40,
+        height: 40,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25,
+    },
     callout: {
         width: 150,
         padding: 10,
@@ -10,12 +18,13 @@ const styles = StyleSheet.create({
     calloutPersonName: {
         ...fonts.body,
         fontSize: 12,
+        color: '#777',
     },
-    calloutGroupRiskText: {
-        ...fonts.body,
+    calloutTitle: {
+        ...fonts.subtitle,
         fontSize: 14,
-        color: colors.danger,
     },
+
     calloutPress: {
         ...fonts.body,
         fontFamily: 'montserrat-semibold',

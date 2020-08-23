@@ -11,6 +11,7 @@ export default function MyRequestHelpCard({
     help,
     setConfirmationModalVisible,
     setSelectedHelp,
+    isEntityUser,
 }) {
     function handleDelete() {
         setConfirmationModalVisible(true);
@@ -18,12 +19,16 @@ export default function MyRequestHelpCard({
     }
 
     const renderBadgeIcon = () => {
-        if (help.possibleHelpers.length > 0) {
+        if (
+            help.possibleHelpers.length > 0 ||
+            help.possibleEntities.length > 0
+        ) {
             return (
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
-                            {help.possibleHelpers.length}
+                            {help.possibleHelpers.length +
+                                help.possibleEntities.length}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}
@@ -34,8 +39,7 @@ export default function MyRequestHelpCard({
     };
     return (
         <HelpCard {...{ help }}>
-            {renderBadgeIcon()}
-
+            {!isEntityUser && renderBadgeIcon()}
             <View style={styles.deleteIcon}>
                 <Icon
                     size={25}
