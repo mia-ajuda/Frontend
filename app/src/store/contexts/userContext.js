@@ -66,9 +66,9 @@ export const UserContextProvider = (props) => {
 
     async function getUserInfo(user) {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-        if (userPreviouslyLogged && user) {
-            const userName = user.displayName.split('|');
-            const userType = userName.length === 1 ? 'PF' : userName[1].trim();
+        const userType = user?.displayName.split('|')[1]?.trim();
+
+        if (userPreviouslyLogged) {
             let userRequest;
             if (userType == 'PJ') {
                 userRequest = await useService(
