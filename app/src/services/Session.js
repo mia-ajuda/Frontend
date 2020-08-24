@@ -18,7 +18,8 @@ class SessionService {
         }
         const loggedUser = await firebaseService.getCurrentUser();
 
-        const userType = loggedUser?.displayName.split('|')[1].trim();
+        const userName = loggedUser.displayName.split('|');
+        const userType = userName.length === 1 ? 'PF' : userName[1].trim();
 
         if (userType == 'PJ') EntityService.setEntityDeviceId();
         else UserService.setUserDeviceId();

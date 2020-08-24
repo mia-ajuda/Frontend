@@ -26,7 +26,10 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 latitude: help.user.location.coordinates[1],
                 longitude: help.user.location.coordinates[0],
             }}>
-            <Avatar help={help} iconType={'exclamation'} />
+            <Avatar
+                isRiskGroup={help.user.riskGroup.length > 0}
+                iconType={'exclamation'}
+            />
             <Callout
                 onPress={() =>
                     navigation.navigate('mapHelpDescription', {

@@ -66,19 +66,24 @@ export const UserContextProvider = (props) => {
 
     async function getUserInfo(user) {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-
-        const userType = user?.displayName.split('|')[1].trim();
-
-        if (userPreviouslyLogged) {
-            let user;
+        if (userPreviouslyLogged && user) {
+            const userName = user.displayName.split('|');
+            const userType = userName.length === 1 ? 'PF' : userName[1].trim();
+            let userRequest;
             if (userType == 'PJ') {
-                user = await useService(EntityService, 'requestEntityData');
+                userRequest = await useService(
+                    EntityService,
+                    'requestEntityData',
+                );
             } else {
-                user = await useService(UserService, 'requestUserData');
+                userRequest = await useService(UserService, 'requestUserData');
             }
 
-            if (!user.error) {
-                dispatch({ type: actions.user.storeUserInfo, data: user });
+            if (!userRequest.error) {
+                dispatch({
+                    type: actions.user.storeUserInfo,
+                    data: userRequest,
+                });
             } else {
                 dispatch({ type: actions.user.requestSignIn });
             }
