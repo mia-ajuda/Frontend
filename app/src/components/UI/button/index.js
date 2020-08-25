@@ -8,6 +8,7 @@ export default function Button({
     type,
     large,
     disabled = false,
+    customStyle,
 }) {
     let btn;
     const isLarge = large ? { width: '100%' } : { width: '35%' };
@@ -17,7 +18,7 @@ export default function Button({
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
-                    style={[isLarge, styles.btnWhite]}
+                    style={[isLarge, styles.btnWhite, customStyle]}
                     onPress={press}>
                     <Text style={styles.textWhite}>{title}</Text>
                 </TouchableOpacity>
@@ -27,7 +28,7 @@ export default function Button({
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
-                    style={[isLarge, styles.btnDanger]}
+                    style={[isLarge, styles.btnDanger, customStyle]}
                     onPress={press}>
                     <Text style={styles.textDanger}>{title}</Text>
                 </TouchableOpacity>
@@ -37,7 +38,7 @@ export default function Button({
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
-                    style={[isLarge, styles.btnWarning]}
+                    style={[isLarge, styles.btnWarning, customStyle]}
                     onPress={press}>
                     <Text style={styles.textWarning}>{title}</Text>
                 </TouchableOpacity>
@@ -47,7 +48,7 @@ export default function Button({
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
-                    style={[isLarge, styles.btnNotSelected]}
+                    style={[isLarge, styles.btnNotSelected, customStyle]}
                     onPress={press}>
                     <Text style={styles.textNotSelected}>{title}</Text>
                 </TouchableOpacity>
@@ -58,7 +59,7 @@ export default function Button({
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
-                    style={[isLarge, styles.btnDefault]}
+                    style={[isLarge, styles.btnDefault, customStyle]}
                     onPress={press}>
                     <Text style={styles.textDefault}>{title}</Text>
                 </TouchableOpacity>

@@ -12,6 +12,7 @@ import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
 import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
+import HelpOfferModal from '../../../components/modals/HelpOfferModal';
 
 import colors from '../../../../assets/styles/colorVariables';
 
@@ -25,6 +26,7 @@ export default function MapHelpDescription({ route, navigation }) {
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
+    const [offerModalVisible, setOfferModalVisible] = useState(false);
     const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
         false,
     );
@@ -131,7 +133,13 @@ export default function MapHelpDescription({ route, navigation }) {
         />
     );
     const renderOfferButton = () => (
-        <Button title="Se candidatar para essa oferta" large press={() => {}} />
+        <Button
+            title="Se candidatar para essa oferta"
+            large
+            press={() => {
+                setOfferModalVisible(true);
+            }}
+        />
     );
 
     return (
@@ -146,6 +154,10 @@ export default function MapHelpDescription({ route, navigation }) {
                         action={offerHelp}
                         message={'Você deseja confirmar a sua ajuda?'}
                         isLoading={isChooseHelpRequestLoading}
+                    />
+                    <HelpOfferModal
+                        visible={offerModalVisible}
+                        setVisible={setOfferModalVisible}
                     />
 
                     {renderHelpOwnerInformation()}
