@@ -1,4 +1,5 @@
-import React, { useContext, AsyncStorage } from 'react';
+import React, { useContext } from 'react';
+import { AsyncStorage } from 'react-native';
 import BottomTab from './MainNavigation/BottomNavigator';
 import AuthRoutes from './AuthNavigation';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,23 +14,15 @@ const Routes = () => {
     const isUserAuthenticated = user._id;
 
     const isFinishedIntroSlide = async () => {
-        //return IntroSlideKey = await AsyncStorege.getItem(hasOnborded);
-        const isFinishedIntroSlide = await AsyncStorage.getItem('hasOnborded');
-        return isFinishedIntroSlide != null
-            ? JSON.parse(isFinishedIntroSlide)
-            : null;
+        const value = await AsyncStorage.getItem('hasOnborded');
+        return value;
     };
 
     if (isLoadingUserInformation) {
         return <Splash />;
     }
 
-    if (isFinishedIntroSlide) {
-        console.log('true!');
-    } else {
-        console.log('false');
-    }
-    if (isFinishedIntroSlide) {
+    if (isFinishedIntroSlide === null) {
         return <IntroSlide />;
     }
 

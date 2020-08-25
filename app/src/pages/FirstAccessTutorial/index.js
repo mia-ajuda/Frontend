@@ -5,9 +5,10 @@ import { Button } from 'react-native-elements';
 import Onboarding from 'react-native-onboarding-swiper';
 
 const completeIntroSlide = async () => {
-    //await AsyncStorage.setItem('hasOnborded', true);
-    const jsonValue = JSON.stringify(true);
-    await AsyncStorage.setItem('hasOnborded', jsonValue);
+    await AsyncStorage.setItem('hasOnborded:value', 'true');
+    const value = await AsyncStorage.getItem('hasOnborded');
+    //await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+    console.log(value);
     console.log('Done');
 };
 
