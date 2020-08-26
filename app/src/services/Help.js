@@ -3,20 +3,6 @@ import api from './Api';
 class HelpService {
     constructor() {}
 
-    async getAllHelps(userId = null, status = null) {
-        let url = '/help';
-        let id = userId;
-
-        if (status) {
-            url += `?id.except=${id}&status=${status}`;
-        } else {
-            url += `?id.except=${id}`;
-        }
-
-        await api.get(url);
-        return true;
-    }
-
     async getNearHelp(coords, id) {
         const { longitude, latitude } = coords;
         const helps = await api.get(
@@ -61,11 +47,6 @@ class HelpService {
 
         const createdHelpResponse = await api.post('/helpOffer', data);
         return createdHelpResponse.data;
-    }
-
-    async getHelpById(helpId) {
-        const help = await api.get(`/help/${helpId}`);
-        return help.data;
     }
 
     async getHelpWithAggregationById(helpId) {
