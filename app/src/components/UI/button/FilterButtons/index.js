@@ -1,29 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../../../../assets/styles/colorVariables';
-const filterButtonTypes = [
-    {
-        id: 1,
-        name: 'PEDIDOS',
-        isEnabled: false,
-        iconName: 'exclamation',
-    },
-    {
-        id: 2,
-        name: 'OFERTAS',
-        isEnabled: false,
-        iconName: 'hand-holding-heart',
-    },
-    {
-        id: 3,
-        name: 'INSTITUIÇÕES',
-        isEnabled: false,
-        iconName: 'home',
-    },
-];
-export default function FilterButtons() {
+import filterButtonTypes from '../../../../docs/filterMarkers';
+
+export default function FilterButtons({
+    setSelectedMarkerType,
+    selectedMarker,
+}) {
     const [selectedFilters, setSelectedFilteres] = useState([]);
 
     function selectionFilter(id) {
@@ -42,6 +27,14 @@ export default function FilterButtons() {
         );
         setSelectedFilteres(filterType);
     }
+
+    useEffect(() => {
+        setSelectedMarkerType(selectedFilters);
+    }, [selectedFilters]);
+
+    useEffect(() => {
+        setSelectedFilteres(selectedMarker);
+    }, [selectedMarker]);
 
     return (
         <View style={styles.contentButtons}>

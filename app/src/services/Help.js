@@ -30,7 +30,6 @@ class HelpService {
         const url = `/help?id=${id}&coords=${longitude},${latitude}&categoryId=${categoryId}`;
 
         const helps = await api.get(url);
-
         return helps.data;
     }
 
@@ -75,6 +74,13 @@ class HelpService {
 
     async listHelpOffer(userId) {
         const helpOfferList = await api.get(`/helpOffer/list?userId=${userId}`);
+        return helpOfferList.data;
+    }
+
+    async listHelpOfferWithCategories(userId, categoryId) {
+        const helpOfferList = await api.get(
+            `/helpOffer/list?userId=${userId}&categoryId=${categoryId}`,
+        );
         return helpOfferList.data;
     }
 

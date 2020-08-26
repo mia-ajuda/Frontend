@@ -16,7 +16,13 @@ import { CategoryContext } from '../../../../store/contexts/categoryContext';
 import FilterButtons from '../../../UI/button/FilterButtons';
 import colors from '../../../../../assets/styles/colorVariables';
 
-export default function CategoryList({ visible, setVisible, isHistoryPage }) {
+export default function CategoryList({
+    visible,
+    setVisible,
+    isHistoryPage,
+    setSelectedMarker,
+    selectedMarker,
+}) {
     const [descriptionModalVisible, setDescriptionModalVisible] = useState(
         false,
     );
@@ -26,12 +32,16 @@ export default function CategoryList({ visible, setVisible, isHistoryPage }) {
         setSelectedCategories,
         selectedCategories,
     } = useContext(CategoryContext);
+    const [selectedMarkerType, setSelectedMarkerType] = useState([]);
+
     async function filterHelplist() {
         setSelectedCategories(selectedCategoryArray);
+        setSelectedMarker(selectedMarkerType);
         setVisible(!visible);
     }
     async function clearFilterHelplist() {
         setSelectedCategories([]);
+        setSelectedMarker([]);
         setVisible(!visible);
     }
     const renderCategories = () => (
@@ -49,7 +59,7 @@ export default function CategoryList({ visible, setVisible, isHistoryPage }) {
         </ScrollView>
     );
     const renderFilterButtons = () => {
-        if (selectedCategories.length) {
+        if (selectedCategories.length || selectedMarker.length) {
             return (
                 <View style={styles.filterButtons}>
                     <Buttom
@@ -128,7 +138,10 @@ export default function CategoryList({ visible, setVisible, isHistoryPage }) {
                             />
                         </TouchableOpacity>
                         {renderOnGoingFinishedButtons()}
-                        <FilterButtons />
+                        <FilterButtons
+                            setSelectedMarkerType={setSelectedMarkerType}
+                            selectedMarker={selectedMarker}
+                        />
                         <View style={styles.contentHeader}>
                             <Text style={styles.categoryTitle}>CATEGORIAS</Text>
                             <TouchableOpacity
