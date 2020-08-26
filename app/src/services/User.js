@@ -4,14 +4,19 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
 class UserService {
-    async requestUserData(helperId = null) {
+    async requestUserData(userId = null) {
         let url;
-        if (helperId) {
-            url = `user/getUser/${helperId}`;
+        if (userId) {
+            url = `user/getUser/${userId}`;
         } else {
             url = '/user/getUser';
         }
         const user = await api.get(url);
+        return user.data;
+    }
+
+    async requestAnyTypeUserData(id) {
+        const user = await api.get(`user/getAnyUser/${id}`);
         return user.data;
     }
 

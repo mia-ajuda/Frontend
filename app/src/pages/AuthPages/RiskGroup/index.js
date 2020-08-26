@@ -112,11 +112,12 @@ export default function RiskGroup({ route, navigation }) {
                 {loadingUserRegistration ? (
                     renderLoadingIndicator()
                 ) : (
-                    <Button 
-                    disabled = {false}
-                    title="Concluir" 
-                    large 
-                    press={confirmSignUp} />
+                    <Button
+                        disabled={false}
+                        title="Concluir"
+                        large
+                        press={confirmSignUp}
+                    />
                 )}
             </View>
         </View>

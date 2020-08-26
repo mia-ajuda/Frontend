@@ -29,7 +29,7 @@ export default function HelperCard({ help }) {
     async function getHelperInformation() {
         const helperResponse = await useService(
             UserService,
-            'requestUserData',
+            'requestAnyTypeUserData',
             [help.helperId],
         );
         if (!helperResponse.error) {

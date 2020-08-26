@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Picker,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-} from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import { CategoryContext } from '../../../store/contexts/categoryContext';
+import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 
@@ -23,15 +17,13 @@ import { requestHelpWarningMessage } from '../../../docs/warning';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState(null);
+    const [categoryIds, setCategoryIds] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
         false,
     );
     const [createHelpLoading, setCreateHelpLoading] = useState(false);
-
-    const { categories } = useContext(CategoryContext);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -39,12 +31,12 @@ export default function CreateHelp({ navigation }) {
     }, []);
 
     useEffect(() => {
-        if (title && category && description) {
+        if (title && categoryIds.length && description) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [title, description, category]);
+    }, [title, description, categoryIds]);
 
     async function createHelp() {
         const { _id: userId } = user;
@@ -52,7 +44,7 @@ export default function CreateHelp({ navigation }) {
         const createHelpRequest = await useService(
             helpService,
             'createHelpRequest',
-            [title, category['_id'], description, userId],
+            [title, categoryIds, description, userId],
         );
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
@@ -62,27 +54,6 @@ export default function CreateHelp({ navigation }) {
         setCreateHelpLoading(false);
     }
 
-    const renderPickerCategoryForm = () => (
-        <View style={styles.catagoryPicker}>
-            <Text style={styles.label}>Categoria</Text>
-            <View style={styles.picker}>
-                <Picker
-                    label="Categoria"
-                    selectedValue={category}
-                    onValueChange={(itemValue) => setCategory(itemValue)}>
-                    <Picker.Item label="" value={null} />
-                    {categories.map((category) => (
-                        <Picker.Item
-                            key={category._id}
-                            color={colors.dark}
-                            label={category.name}
-                            value={category}
-                        />
-                    ))}
-                </Picker>
-            </View>
-        </View>
-    );
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
             <Input
@@ -115,9 +86,11 @@ export default function CreateHelp({ navigation }) {
             <Container>
                 <View style={styles.view}>
                     {renderInputTitleForm()}
-                    {renderPickerCategoryForm()}
                     {renderInputDescriptionForm()}
-
+                    <SelectCategoryForm
+                        helpCategoryIds={categoryIds}
+                        setHelpCategoryIds={setCategoryIds}
+                    />
                     <View style={styles.btnContainer}>
                         {createHelpLoading
                             ? renderLoadingIdicator()

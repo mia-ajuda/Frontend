@@ -4,8 +4,14 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 
 class EntityService {
-    async requestEntityData() {
-        const user = await api.get('/entity/getEntity');
+    async requestEntityData(userId = null) {
+        let url;
+        if (userId) {
+            url = `entity/getEntity/${userId}`;
+        } else {
+            url = 'entity/getEntity';
+        }
+        const user = await api.get(url);
         return user.data;
     }
 
@@ -16,7 +22,6 @@ class EntityService {
 
     async verifyEntityInfo(value) {
         const response = await api.get(`/checkEntityExistence/${value}`);
-        console.log('verifyEntityInfo', value, response.data);
         return !!response.data;
     }
 

@@ -63,6 +63,21 @@ class HelpService {
         return createdHelpResponse.data;
     }
 
+    async getHelpById(helpId) {
+        const help = await api.get(`/help/${helpId}`);
+        return help.data;
+    }
+
+    async getHelpWithAggregationById(helpId) {
+        const help = await api.get(`/help/aggregation/${helpId}`);
+        return help.data;
+    }
+
+    async listHelpOffer(userId) {
+        const helpOfferList = await api.get(`/helpOffer/list?userId=${userId}`);
+        return helpOfferList.data;
+    }
+
     async deleteHelp(helpId) {
         const deleteHelp = await api.delete(`/help/${helpId}`);
         return deleteHelp;
@@ -92,10 +107,10 @@ class HelpService {
         return true;
     }
 
-    async getAllUserHelps(userId) {
-        const url = `/help?id=${userId}`;
-        const helps = await api.get(url);
-        return helps;
+    async getHelpInfo(helpId) {
+        const url = `/help/helpInfo/${helpId}`;
+        const result = await api.get(url);
+        return result.data;
     }
 }
 

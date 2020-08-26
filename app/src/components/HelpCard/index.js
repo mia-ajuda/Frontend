@@ -20,10 +20,16 @@ export default function HelpCard({ help, isRiskGroup, children }) {
                     {help.description}
                 </Text>
                 <View style={styles.bottomItens}>
-                    <View style={styles.categoryWarning}>
-                        <Text style={styles.categoryName}>
-                            {help.category[0].name}
-                        </Text>
+                    <View style={styles.categoryContainer}>
+                        {help.categories.map((category) => (
+                            <View
+                                key={category._id}
+                                style={styles.categoryWarning}>
+                                <Text style={styles.categoryName}>
+                                    {category.name}
+                                </Text>
+                            </View>
+                        ))}
                     </View>
                 </View>
             </View>

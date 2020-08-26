@@ -66,16 +66,16 @@ export const UserContextProvider = (props) => {
 
     async function getUserInfo(user) {
         const userPreviouslyLogged = await AsyncStorage.getItem('accessToken');
-        const userEmail = user?.email;
+
+        const userType = user?.displayName.split('|')[1]?.trim();
+
         if (userPreviouslyLogged) {
-            const isEntityUser = await useService(
-                EntityService,
-                'verifyEntityInfo',
-                [userEmail],
-            );
-            const user = isEntityUser
-                ? await useService(EntityService, 'requestEntityData')
-                : await useService(UserService, 'requestUserData');
+            let user;
+            if (userType == 'PJ') {
+                user = await useService(EntityService, 'requestEntityData');
+            } else {
+                user = await useService(UserService, 'requestUserData');
+            }
 
             if (!user.error) {
                 dispatch({ type: actions.user.storeUserInfo, data: user });

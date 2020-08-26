@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Notification from '../../../pages/Notification';
-import MyRequestsNavigation from '../MyHelpRequestsNavigator';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import MyOfferedHelpNavigation from '../MyOfferedHelpNavigator';
+import HistoryNavigator from '../HistoryNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
+import FAQNavigator from '../FAQNavigator';
+import NotificationNavigation from '../NotificationNavigator';
 
 const BottomNavigation = createBottomTabNavigator();
 const BottomTab = () => {
@@ -26,16 +26,13 @@ const BottomTab = () => {
             initialRouteName="main">
             <BottomNavigation.Screen
                 name="notification"
-                component={Notification}
+                component={NotificationNavigation}
             />
-            <BottomNavigation.Screen
-                name="helpList"
-                component={MyRequestsNavigation}
-            />
+            <BottomNavigation.Screen name="FAQ" component={FAQNavigator} />
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
-                name="offeredHelp"
-                component={MyOfferedHelpNavigation}
+                name="history"
+                component={HistoryNavigator}
             />
             <BottomNavigation.Screen
                 name="profile"

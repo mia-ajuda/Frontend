@@ -17,11 +17,12 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
     const listHeight = useRef(new Animated.Value(40)).current;
 
     useEffect(() => {
+        const isAnEmptyList = helps.length === 0;
         switch (visible) {
             case true:
                 setIconName('caret-down');
                 Animated.spring(listHeight, {
-                    toValue: helps.length > 0 ? 400 : 300,
+                    toValue: isAnEmptyList ? 300 : 400,
                     tension: 10,
                     useNativeDriver: false,
                 }).start();
