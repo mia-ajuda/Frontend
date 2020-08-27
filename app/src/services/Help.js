@@ -13,8 +13,8 @@ class HelpService {
             url += `?id.except=${id}`;
         }
 
-        const allHelps = await api.get(url);
-        return allHelps.data;
+        await api.get(url);
+        return true;
     }
 
     async getNearHelp(coords, id) {
@@ -79,8 +79,8 @@ class HelpService {
     }
 
     async deleteHelp(helpId) {
-        const deleteHelp = await api.delete(`/help/${helpId}`);
-        return deleteHelp;
+        await api.delete(`/help/${helpId}`);
+        return true;
     }
 
     async offerHelp(idHelp, idHelper) {
