@@ -5,11 +5,11 @@ import { Button } from 'react-native-elements';
 import Onboarding from 'react-native-onboarding-swiper';
 
 const completeIntroSlide = async () => {
-    await AsyncStorage.setItem('hasOnborded:value', 'true');
-    const value = await AsyncStorage.getItem('hasOnborded');
+    await AsyncStorage.setItem('firstTimeUsingApp', 'true');
+    // const value = await AsyncStorage.getItem('hasOnborded');
     //await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-    console.log(value);
-    console.log('Done');
+    // console.log(value);
+    // console.log('Done');
 };
 
 const Done = ({ ...props }) => (
@@ -62,7 +62,7 @@ const Next = ({ ...props }) => (
     />
 );
 
-const IntroSlide = () => (
+const IntroSlides = () => (
     <Onboarding
         //onDone={() => console.log('done')}
         titleStyles={{
@@ -80,27 +80,43 @@ const IntroSlide = () => (
             {
                 title: 'Precisando de Ajuda ou querendo oferecer?',
                 backgroundColor: '#fff',
-                image: <Image source={require('./images/tela01.png')} />,
+                image: (
+                    <Image
+                        source={require('../../../assets/images/TutorialImages/tela01.png')}
+                    />
+                ),
                 subtitle:
                     'O Mia Ajuda possibilita que você solicite e oferte ajuda. Desde uma simples conversa até itens de necessidade básica.',
             },
             {
                 backgroundColor: '#fff',
-                image: <Image source={require('./images/tela02.png')} />,
+                image: (
+                    <Image
+                        source={require('../../../assets/images/TutorialImages/tela02.png')}
+                    />
+                ),
                 title: 'Não sabe como ajudar?',
                 subtitle:
                     'Conte uma história! Cante para alguém! Encontre um amigo para conversar! Doe um alimento! Colabore como queira! O importante é ajudar!',
             },
             {
                 backgroundColor: '#fff',
-                image: <Image source={require('./images/tela03.png')} />,
+                image: (
+                    <Image
+                        source={require('../../../assets/images/TutorialImages/tela03.png')}
+                    />
+                ),
                 title: 'Você é uma ONG?',
                 subtitle:
                     'Temos uma parte especial para ONGs. Venha ser um apoiador e torne o mundo cada vez melhor por meio da solidariedade!',
             },
             {
                 backgroundColor: '#fff',
-                image: <Image source={require('./images/tela04.png')} />,
+                image: (
+                    <Image
+                        source={require('../../../assets/images/TutorialImages/tela04.png')}
+                    />
+                ),
                 title: 'Ajude pessoas perto de você é espalhe amor pelo mundo',
                 subtitle: '',
                 titleStyles: {
@@ -115,4 +131,4 @@ const IntroSlide = () => (
 ///
 ///*{isUserAuthenticated ? <BottomTab /> : <AuthRoutes />}*/
 /// Esse trecho pertence a pasta Navegatation
-export default IntroSlide;
+export default IntroSlides;
