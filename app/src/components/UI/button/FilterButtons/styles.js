@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         alignSelf: 'center',
-        top: '30%',
+        top: '27%',
     },
     helpFilterButton: {
         flex: 1,

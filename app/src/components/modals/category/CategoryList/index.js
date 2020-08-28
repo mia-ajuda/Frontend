@@ -8,7 +8,6 @@ import {
     ScrollView,
 } from 'react-native';
 import Buttom from '../../../UI/button';
-import SelectBox from '../../../UI/selectBox';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import CategoryDescriptionModal from '../categoryDescription';
@@ -26,7 +25,6 @@ export default function CategoryList({
     const [descriptionModalVisible, setDescriptionModalVisible] = useState(
         false,
     );
-    const [selectedCategoryArray, setSelectedCategoryArray] = useState([]);
     const {
         categories,
         setSelectedCategories,
@@ -34,8 +32,47 @@ export default function CategoryList({
     } = useContext(CategoryContext);
     const [selectedMarkerType, setSelectedMarkerType] = useState([]);
 
+    const includeCategoryIntoSelectedCategories = (categoryId) =>
+        setSelectedCategories([...selectedCategories, categoryId]);
+
+    const removeCategoryFromSelectedCategories = (categoryId) => {
+        const removeCategoryId = selectedCategories.filter(
+            (categoryIdFromState) => categoryIdFromState !== categoryId,
+        );
+        setSelectedCategories(removeCategoryId);
+    };
+
+    const getCategoryActiveOpacity = (categoryId) => {
+        if (
+            selectedCategories.includes(categoryId) ||
+            selectedCategories.length < 3
+        ) {
+            return 0;
+        } else {
+            return 1;
+        }
+    };
+
+    const selectCategory = (categoryId) => {
+        if (selectedCategories.includes(categoryId)) {
+            removeCategoryFromSelectedCategories(categoryId);
+        } else if (selectedCategories.length < 3) {
+            includeCategoryIntoSelectedCategories(categoryId);
+        }
+    };
+
+    const getCategoryStyle = (categoryId) => {
+        if (selectedCategories.includes(categoryId)) {
+            return styles.selectedCategory;
+        } else if (selectedCategories.length >= 3) {
+            return styles.unvailableToSelectCategory;
+        } else {
+            return styles.notSelectedCategory;
+        }
+    };
+
     async function filterHelplist() {
-        setSelectedCategories(selectedCategoryArray);
+        setSelectedCategories(selectedCategories);
         setSelectedMarker(selectedMarkerType);
         setVisible(!visible);
     }
@@ -45,17 +82,23 @@ export default function CategoryList({
         setVisible(!visible);
     }
     const renderCategories = () => (
-        <ScrollView style={styles.modalBody}>
-            {categories.map((category) => (
-                <SelectBox
-                    key={category._id}
-                    title={category.name}
-                    filterCategoryArray={selectedCategories}
-                    setSelectedCategoryArray={setSelectedCategoryArray}
-                    selectedCategoryArray={selectedCategoryArray}
-                    category={category}
-                />
-            ))}
+        <ScrollView
+            style={styles.modalBody}
+            showsVerticalScrollIndicator={false}>
+            {categories.map((category) => {
+                return (
+                    <TouchableOpacity
+                        activeOpacity={getCategoryActiveOpacity(category._id)}
+                        key={category._id}
+                        onPress={() => {
+                            selectCategory(category._id);
+                        }}>
+                        <Text style={getCategoryStyle(category._id)}>
+                            {category.name}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
         </ScrollView>
     );
     const renderFilterButtons = () => {
@@ -159,7 +202,9 @@ export default function CategoryList({
                                 />
                             </TouchableOpacity>
                         </View>
-
+                        <View style={styles.contentWarning}>
+                            <Text style={styles.warning}>(No máximo 3)</Text>
+                        </View>
                         {renderCategories()}
                         {renderFilterButtons()}
                     </View>

@@ -22,7 +22,13 @@ const styles = StyleSheet.create({
     contentHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
-        top: '60%',
+        top: '52%',
+        right: '2.5%',
+    },
+    contentWarning: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        top: '43%',
         right: '2.5%',
     },
     icon: {
@@ -55,7 +61,7 @@ const styles = StyleSheet.create({
     },
     modalBody: {
         height: '80%',
-        marginTop: '55%',
+        marginTop: '45%',
     },
     filterButtons: {
         flexDirection: 'row',
@@ -98,6 +104,37 @@ const styles = StyleSheet.create({
         right: 20,
         position: 'absolute',
         zIndex: 5,
+    },
+    notSelectedCategory: {
+        ...fonts.body,
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5,
+        borderColor: colors.primary,
+        color: colors.primary,
+    },
+    unvailableToSelectCategory: {
+        ...fonts.body,
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5,
+        borderColor: '#c4c4c4',
+        color: '#c4c4c4',
+    },
+    selectedCategory: {
+        ...fonts.body,
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5,
+        borderColor: colors.primary,
+        color: '#fff',
+        backgroundColor: colors.primary,
+    },
+    warning: {
+        ...fonts.body,
     },
 });
 
