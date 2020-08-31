@@ -21,6 +21,7 @@ export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
+    const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
     const { userPosition, user } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
@@ -53,6 +54,26 @@ export default function Main({ navigation }) {
         return helpOfferList.map((helpOffer) => (
             <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
         ));
+    };
+
+    const markersStrategy = {
+        1: renderHelpMakers(),
+        2: renderHelpOfferMakers(),
+        3: renderCampaignMarkers(),
+    };
+
+    const renderMarkers = () => {
+        if (selectedMarker.length) {
+            return selectedMarker.map((marker) => {
+                return markersStrategy[marker];
+            });
+        } else {
+            return [
+                renderHelpMakers(),
+                renderHelpOfferMakers(),
+                renderCampaignMarkers(),
+            ];
+        }
     };
 
     const renderFilterButton = () => (
@@ -95,6 +116,9 @@ export default function Main({ navigation }) {
             <CategoryListModal
                 visible={filterModalVisible}
                 setVisible={setFilterModalVisible}
+                isHistoryPage={false}
+                setSelectedMarker={setSelectedMarker}
+                selectedMarker={selectedMarker}
             />
             <TouchableOpacity
                 style={styles.recenter}
@@ -119,9 +143,7 @@ export default function Main({ navigation }) {
                 }}
                 customMapStyle={mapStyle.day.map}>
                 <UserMarker userPosition={userPosition} />
-                {renderCampaignMarkers()}
-                {renderHelpMakers()}
-                {renderHelpOfferMakers()}
+                {renderMarkers()}
             </MapView>
             {renderCreateRequestButton()}
             {renderFilterButton()}
