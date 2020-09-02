@@ -7,10 +7,6 @@ import Onboarding from 'react-native-onboarding-swiper';
 export default function IntroSlides() {
     const completeIntroSlide = async () => {
         await AsyncStorage.setItem('firstTimeUsingApp', 'true');
-        // const value = await AsyncStorage.getItem('hasOnborded');
-        //await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-        // console.log(value);
-        // console.log('Done');
     };
 
     const Done = ({ ...props }) => (
@@ -134,6 +130,3 @@ export default function IntroSlides() {
         </View>
     );
 }
-///
-///*{isUserAuthenticated ? <BottomTab /> : <AuthRoutes />}*/
-/// Esse trecho pertence a pasta Navegatation
