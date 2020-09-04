@@ -9,6 +9,7 @@ export default function CategoryContextProvider(props) {
     const [categories, setCategories] = useState([]);
     const { user } = useContext(UserContext);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [filterCategories, setFilterCategories] = useState(false);
 
     useEffect(() => {
         const isUserAuthenticated = user._id;
@@ -24,7 +25,13 @@ export default function CategoryContextProvider(props) {
 
     return (
         <CategoryContext.Provider
-            value={{ categories, selectedCategories, setSelectedCategories }}>
+            value={{
+                categories,
+                selectedCategories,
+                setSelectedCategories,
+                filterCategories,
+                setFilterCategories,
+            }}>
             {props.children}
         </CategoryContext.Provider>
     );

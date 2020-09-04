@@ -21,7 +21,11 @@ import {
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
-    const { selectedCategories } = useContext(CategoryContext);
+    const {
+        selectedCategories,
+        filterCategories,
+        setFilterCategories,
+    } = useContext(CategoryContext);
     const { user, userPosition } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
@@ -69,6 +73,7 @@ export default function HelpContextProvider(props) {
                 getHelpListWithCategories(userPosition);
             } else {
                 getHelpList(userPosition);
+                setFilterCategories(false);
             }
             changeCategories(selectedCategories);
         }
@@ -93,7 +98,7 @@ export default function HelpContextProvider(props) {
     }
 
     async function getHelpListWithCategories(coords) {
-        if (coords && selectedCategories.length) {
+        if (coords && selectedCategories.length && filterCategories) {
             const { _id: userId } = user;
             const helpListFiltered = await useService(
                 HelpService,
