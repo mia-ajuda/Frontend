@@ -111,6 +111,7 @@ export default function HelpContextProvider(props) {
                     helps: helpListFiltered,
                 });
             }
+            setFilterCategories(false);
         }
     }
 
