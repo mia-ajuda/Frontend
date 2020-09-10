@@ -1,132 +1,90 @@
-import { Image, AsyncStorage, View, StatusBar } from 'react-native';
+import {
+    Image,
+    AsyncStorage,
+    Modal,
+    TouchableOpacity,
+    Text,
+    StatusBar,
+} from 'react-native';
 import React from 'react';
-import { Button } from 'react-native-elements';
-
 import Onboarding from 'react-native-onboarding-swiper';
+import styles from './styles';
 
-export default function IntroSlides() {
+const imageFirstSlide = require('../../../assets/images/TutorialImages/tela01.png');
+const imageSecondSlide = require('../../../assets/images/TutorialImages/tela02.png');
+const imageThirdSlide = require('../../../assets/images/TutorialImages/tela03.png');
+const imageFourthSlide = require('../../../assets/images/TutorialImages/tela04.png');
+
+export default function IntroSlides({ finishSlide, setFinishSlide }) {
     const completeIntroSlide = async () => {
-        await AsyncStorage.setItem('firstTimeUsingApp', 'true');
+        setFinishSlide(true);
+        await AsyncStorage.setItem('firstTimeUsingAppa', 'true');
     };
 
     const Done = ({ ...props }) => (
-        <Button
-            title={'Entrar/Cadastrar'}
-            buttonStyle={{
-                backgroundColor: 'transparent',
-            }}
-            containerViewStyle={{
-                marginVertical: 10,
-                width: 100,
-            }}
-            titleStyle={{ color: '#4B8AB9', fontFamily: 'montserrat-semibold' }}
-            {...props}
-        />
+        <TouchableOpacity style={styles.buttonBox} {...props}>
+            <Text style={styles.buttonText}>Entrar /</Text>
+            <Text style={styles.buttonText}>Cadastrar</Text>
+        </TouchableOpacity>
     );
 
     const Skip = ({ ...props }) => (
-        <Button
-            title={'Pular'}
-            buttonStyle={{
-                backgroundColor: 'transparent',
-            }}
-            containerViewStyle={{
-                marginVertical: 10,
-                width: 70,
-            }}
-            textStyle={{ color: '#4B8AB9' }}
-            {...props}
-            titleStyle={{
-                color: '#4B8AB9',
-                fontFamily: 'montserrat-semibold',
-            }}></Button>
+        <TouchableOpacity
+            style={styles.buttonBox}
+            onPress={() => completeIntroSlide()}
+            {...props}>
+            <Text style={styles.buttonText}>Pular</Text>
+        </TouchableOpacity>
     );
 
     const Next = ({ ...props }) => (
-        <Button
-            title={'Proximo'}
-            buttonStyle={{
-                backgroundColor: 'transparent',
-            }}
-            containerViewStyle={{
-                marginVertical: 10,
-                width: 70,
-                backgroundColor: 'transparent',
-            }}
-            textStyle={{ color: '#4B8AB9' }}
-            titleStyle={{ color: '#4B8AB9', fontFamily: 'montserrat-semibold' }}
-            {...props}
-        />
+        <TouchableOpacity style={styles.buttonBox} {...props}>
+            <Text style={styles.buttonText}>Próximo</Text>
+        </TouchableOpacity>
     );
     return (
-        <View style={{ flex: 1 }}>
-            <StatusBar backgroundColor="white" barStyle="dark-content" />
+        <Modal visible={!finishSlide} animationType="fade">
+            <StatusBar barStyle="default" hidden translucent />
             <Onboarding
-                //onDone={() => console.log('done')}
-                titleStyles={{
-                    color: '#4B8AB9',
-                    fontFamily: 'montserrat-semibold',
-                }}
-                subTitleStyles={{
-                    fontFamily: 'montserrat-semibold',
-                }}
-                controlStatusBar={false}
+                titleStyles={styles.titles}
+                subTitleStyles={styles.subtitle}
+                imageContainerStyles={styles.images}
                 NextButtonComponent={Next}
                 SkipButtonComponent={Skip}
                 DoneButtonComponent={Done}
                 onDone={completeIntroSlide}
+                controlStatusBar={true}
                 pages={[
                     {
                         title: 'Precisando de Ajuda ou querendo oferecer?',
-                        backgroundColor: '#fff',
-                        image: (
-                            <Image
-                                source={require('../../../assets/images/TutorialImages/tela01.png')}
-                            />
-                        ),
+                        backgroundColor: '#FFF',
+                        image: <Image source={imageFirstSlide} />,
                         subtitle:
                             'O Mia Ajuda possibilita que você solicite e oferte ajuda. Desde uma simples conversa até itens de necessidade básica.',
                     },
                     {
-                        backgroundColor: '#fff',
-                        image: (
-                            <Image
-                                source={require('../../../assets/images/TutorialImages/tela02.png')}
-                            />
-                        ),
+                        backgroundColor: '#FFF',
+                        image: <Image source={imageSecondSlide} />,
                         title: 'Não sabe como ajudar?',
                         subtitle:
                             'Conte uma história! Cante para alguém! Encontre um amigo para conversar! Doe um alimento! Colabore como queira! O importante é ajudar!',
                     },
                     {
-                        backgroundColor: '#fff',
-                        image: (
-                            <Image
-                                source={require('../../../assets/images/TutorialImages/tela03.png')}
-                            />
-                        ),
+                        backgroundColor: '#FFF',
+                        image: <Image source={imageThirdSlide} />,
                         title: 'Você é uma ONG?',
                         subtitle:
                             'Temos uma parte especial para ONGs. Venha ser um apoiador e torne o mundo cada vez melhor por meio da solidariedade!',
                     },
                     {
-                        backgroundColor: '#fff',
-                        image: (
-                            <Image
-                                source={require('../../../assets/images/TutorialImages/tela04.png')}
-                            />
-                        ),
+                        backgroundColor: '#FFF',
+                        image: <Image source={imageFourthSlide} />,
                         title:
                             'Ajude pessoas perto de você é espalhe amor pelo mundo',
                         subtitle: '',
-                        titleStyles: {
-                            color: 'rgba(0,0,0, 0.7)',
-                            fontSize: 20,
-                            marginTop: -50,
-                        },
                     },
                 ]}
             />
-        </View>
+        </Modal>
     );
 }
