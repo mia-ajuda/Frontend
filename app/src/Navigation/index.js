@@ -7,12 +7,13 @@ import Splash from '../pages/Splash';
 
 const Routes = () => {
     const { user } = useContext(UserContext);
-
     const isLoadingUserInformation = user && user.showSplash;
     const isUserAuthenticated = user._id;
+
     if (isLoadingUserInformation) {
         return <Splash />;
     }
+
     return (
         <NavigationContainer>
             {isUserAuthenticated ? <BottomTab /> : <AuthRoutes />}
