@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import styles from './styles';
+import colors from '../../../assets/styles/colorVariables';
 
 const imageFirstSlide = require('../../../assets/images/TutorialImages/tela01.png');
 const imageSecondSlide = require('../../../assets/images/TutorialImages/tela02.png');
@@ -18,21 +19,24 @@ const imageFourthSlide = require('../../../assets/images/TutorialImages/tela04.p
 export default function IntroSlides({ finishSlide, setFinishSlide }) {
     const completeIntroSlide = async () => {
         setFinishSlide(true);
-        await AsyncStorage.setItem('firstTimeUsingAppa', 'true');
+        await AsyncStorage.setItem('firstTimeUsingApp', 'true');
+        console.log(finishSlide);
     };
 
     const Done = ({ ...props }) => (
-        <TouchableOpacity style={styles.buttonBox} {...props}>
+        <TouchableOpacity
+            style={styles.buttonBox}
+            {...props}
+            onPress={() => completeIntroSlide()}>
             <Text style={styles.buttonText}>Entrar /</Text>
             <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
     );
 
-    const Skip = ({ ...props }) => (
+    const Skip = () => (
         <TouchableOpacity
             style={styles.buttonBox}
-            onPress={() => completeIntroSlide()}
-            {...props}>
+            onPress={() => completeIntroSlide()}>
             <Text style={styles.buttonText}>Pular</Text>
         </TouchableOpacity>
     );
@@ -44,7 +48,7 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
     );
     return (
         <Modal visible={!finishSlide} animationType="fade">
-            <StatusBar barStyle="default" hidden translucent />
+            <StatusBar barStyle="default" backgroundColor={colors.primary} />
             <Onboarding
                 titleStyles={styles.titles}
                 subTitleStyles={styles.subtitle}
@@ -53,7 +57,6 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
                 SkipButtonComponent={Skip}
                 DoneButtonComponent={Done}
                 onDone={completeIntroSlide}
-                controlStatusBar={true}
                 pages={[
                     {
                         title: 'Precisando de Ajuda ou querendo oferecer?',
