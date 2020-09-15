@@ -29,6 +29,7 @@ export default function CategoryList({
         categories,
         setSelectedCategories,
         selectedCategories,
+        setFilterCategories,
     } = useContext(CategoryContext);
     const [selectedMarkerType, setSelectedMarkerType] = useState([]);
 
@@ -41,7 +42,6 @@ export default function CategoryList({
         );
         setSelectedCategories(removeCategoryId);
     };
-
     const getCategoryActiveOpacity = (categoryId) => {
         if (
             selectedCategories.includes(categoryId) ||
@@ -74,6 +74,7 @@ export default function CategoryList({
     async function filterHelplist() {
         setSelectedCategories(selectedCategories);
         setSelectedMarker(selectedMarkerType);
+        setFilterCategories(true);
         setVisible(!visible);
     }
     async function clearFilterHelplist() {
