@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 
 import NotificationCard from '../../components/NotificationCard';
 import { UserContext } from '../../store/contexts/userContext';

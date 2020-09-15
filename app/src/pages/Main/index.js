@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import styles from './styles';
 import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
@@ -112,50 +112,57 @@ export default function Main({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <CategoryListModal
-                visible={filterModalVisible}
-                setVisible={setFilterModalVisible}
-                isHistoryPage={false}
-                setSelectedMarker={setSelectedMarker}
-                selectedMarker={selectedMarker}
+        <>
+            <StatusBar
+                backgroundColor="transparent"
+                translucent
+                barStyle="default"
             />
-            <TouchableOpacity
-                style={styles.recenter}
-                onPress={() => {
-                    setRegion(userPosition);
-                }}>
-                <Icon
-                    name="target-two"
-                    type="foundation"
-                    color={colors.light}
-                    size={35}
+            <SafeAreaView style={styles.container}>
+                <CategoryListModal
+                    visible={filterModalVisible}
+                    setVisible={setFilterModalVisible}
+                    isHistoryPage={false}
+                    setSelectedMarker={setSelectedMarker}
+                    selectedMarker={selectedMarker}
                 />
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.recenter}
+                    onPress={() => {
+                        setRegion(userPosition);
+                    }}>
+                    <Icon
+                        name="target-two"
+                        type="foundation"
+                        color={colors.light}
+                        size={35}
+                    />
+                </TouchableOpacity>
 
-            <MapView
-                initialRegion={userPosition}
-                style={styles.map}
-                region={region}
-                onRegionChange={() => setHelpListVisible(false)}
-                onPress={() => {
-                    setHelpListVisible(false);
-                }}
-                customMapStyle={mapStyle.day.map}>
-                <UserMarker userPosition={userPosition} />
-                {renderMarkers()}
-            </MapView>
-            {renderCreateRequestButton()}
-            {renderFilterButton()}
+                <MapView
+                    initialRegion={userPosition}
+                    style={styles.map}
+                    region={region}
+                    onRegionChange={() => setHelpListVisible(false)}
+                    onPress={() => {
+                        setHelpListVisible(false);
+                    }}
+                    customMapStyle={mapStyle.day.map}>
+                    <UserMarker userPosition={userPosition} />
+                    {renderMarkers()}
+                </MapView>
+                {renderCreateRequestButton()}
+                {renderFilterButton()}
 
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
-                    navigation={navigation}
-                />
-            </View>
-        </SafeAreaView>
+                <View style={styles.helpList}>
+                    <HelpList
+                        helps={helpList}
+                        visible={helpListVisible}
+                        setVisible={setHelpListVisible}
+                        navigation={navigation}
+                    />
+                </View>
+            </SafeAreaView>
+        </>
     );
 }

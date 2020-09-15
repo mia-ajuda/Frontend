@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     backIcon: {
+        marginTop: '10%',
         alignItems: 'flex-start',
     },
     errorMessage: {
