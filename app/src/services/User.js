@@ -9,7 +9,7 @@ class UserService {
         if (userId) {
             url = `user/getUser/${userId}`;
         } else {
-            url = '/user/getUser';
+            url = 'user/getUser';
         }
         const user = await api.get(url);
         return user.data;
@@ -21,17 +21,18 @@ class UserService {
     }
 
     async editUserAdress(data) {
-        const user = await api.put('/user/address', data);
+        const user = await api.put('user/address', data);
         return user.data;
     }
 
     async verifyUserInfo(value) {
-        const response = await api.get(`/checkUserExistence/${value}`);
+        console.log(`checkUserExistence/${value}`);
+        const response = await api.get(`checkUserExistence/${value}`);
         return !!response.data;
     }
 
     async editUser(data, complement = '') {
-        const user = await api.put(`/user${complement}`, data);
+        const user = await api.put(`user${complement}`, data);
         return user.data;
     }
 

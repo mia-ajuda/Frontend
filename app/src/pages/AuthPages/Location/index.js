@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -73,6 +73,15 @@ export default function Location({ navigation }) {
 
     return (
         <>
+            <StatusBar
+                translucent
+                backgroundColor={
+                    confirmationModalVisible ? 'rgba(0,0,0,0.4)' : 'transparent'
+                }
+                barStyle={
+                    confirmationModalVisible ? 'light-content' : 'dark-content'
+                }
+            />
             <View style={styles.adjustPositionBox}>
                 <Text style={styles.adjustPositionText}>
                     Arraste para ajustar sua posição

@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Switch,
+    StatusBar,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
@@ -279,29 +280,32 @@ export default function PersonalData({ route, navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="height">
-            {renderPageHeader()}
-            <ScrollView
-                style={styles.formScroll}
-                contentContainerStyle={
-                    keyboard.visible
-                        ? styles.scrollContainerOnTyping
-                        : styles.scrollContainer
-                }
-                showsVerticalScrollIndicator={false}>
-                <View style={styles.inputView}>
-                    {renderEntityButton()}
-                    {renderNameInputForm()}
-                    {renderBirthdayInputForm()}
-                    {renderPhoneInputForm()}
-                    {renderIdInputForm()}
-                    {renderProfessionalHealthCheckbox()}
-                </View>
-            </ScrollView>
+        <>
+            <StatusBar backgroundColor={colors.light} />
+            <KeyboardAvoidingView style={styles.container} behavior="height">
+                {renderPageHeader()}
+                <ScrollView
+                    style={styles.formScroll}
+                    contentContainerStyle={
+                        keyboard.visible
+                            ? styles.scrollContainerOnTyping
+                            : styles.scrollContainer
+                    }
+                    showsVerticalScrollIndicator={false}>
+                    <View style={styles.inputView}>
+                        {renderEntityButton()}
+                        {renderNameInputForm()}
+                        {renderBirthdayInputForm()}
+                        {renderPhoneInputForm()}
+                        {renderIdInputForm()}
+                        {renderProfessionalHealthCheckbox()}
+                    </View>
+                </ScrollView>
 
-            {loadingCpfVerification
-                ? renderLoadingIdicator()
-                : renderContinueButton()}
-        </KeyboardAvoidingView>
+                {loadingCpfVerification
+                    ? renderLoadingIdicator()
+                    : renderContinueButton()}
+            </KeyboardAvoidingView>
+        </>
     );
 }

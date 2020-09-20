@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import colors from '../../../assets/styles/colorVariables';
 import fonts from '../../../assets/styles/fontVariable';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -7,20 +6,20 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
     },
 
     header: {
         backgroundColor: colors.primary,
-        height: 70,
+        height: '13%',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     headerText: {
+        marginTop: '8%',
         ...fonts.title,
         color: colors.light,
-        fontSize: 28,
+        fontSize: 24,
     },
 
     notificationList: {

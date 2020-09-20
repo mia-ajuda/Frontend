@@ -6,21 +6,26 @@ import CampaignContextProvider from './store/contexts/campaignContext';
 import CategoryContextProvider from './store/contexts/categoryContext';
 import DeviceInfoProvider from './store/contexts/deviceInformationContext';
 import HelpOfferContextProvider from './store/contexts/helpOfferContext';
+import { StatusBar } from 'react-native';
+import colors from '../assets/styles/colorVariables';
 
 export default function Root() {
     return (
-        <DeviceInfoProvider>
-            <UserContextProvider>
-                <CategoryContextProvider>
-                    <HelpOfferContextProvider>
-                        <CampaignContextProvider>
-                            <HelpContextProvider>
-                                <Routes />
-                            </HelpContextProvider>
-                        </CampaignContextProvider>
-                    </HelpOfferContextProvider>
-                </CategoryContextProvider>
-            </UserContextProvider>
-        </DeviceInfoProvider>
+        <>
+            <StatusBar backgroundColor={colors.primary} />
+            <DeviceInfoProvider>
+                <UserContextProvider>
+                    <CategoryContextProvider>
+                        <HelpOfferContextProvider>
+                            <CampaignContextProvider>
+                                <HelpContextProvider>
+                                    <Routes />
+                                </HelpContextProvider>
+                            </CampaignContextProvider>
+                        </HelpOfferContextProvider>
+                    </CategoryContextProvider>
+                </UserContextProvider>
+            </DeviceInfoProvider>
+        </>
     );
 }

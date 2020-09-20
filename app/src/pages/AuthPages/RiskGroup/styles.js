@@ -28,13 +28,12 @@ const styles = StyleSheet.create({
     btnView: {
         width: '90%',
         bottom: 20,
-        backgroundColor: colors.primary,
         justifyContent: 'flex-end',
         position: 'absolute',
     },
     backIcon: {
         alignSelf: 'flex-start',
-        marginTop: 40,
+        marginTop: '10%',
         marginLeft: 15,
     },
 });

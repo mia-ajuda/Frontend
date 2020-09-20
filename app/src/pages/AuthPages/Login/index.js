@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const checkIfIsNewUser = async () => {
-        setIsNewUser(await AsyncStorage.getItem('firstTimeUsingAppa'));
+        setIsNewUser(await AsyncStorage.getItem('firstTimeUsingAppd'));
     };
 
     const loginHandler = async () => {
