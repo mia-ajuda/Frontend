@@ -1,11 +1,12 @@
 import React from 'react';
-import OnGoingHelps from '../../../pages/HelpPages/HelpsOffered/OnGoingHelps';
-import HelpsFinished from '../../../pages/HelpPages/HelpsOffered/HelpsFinished';
 import MyOfferHelpDescription from '../../../pages/HelpPages/MyOfferHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import history from '../../../pages/HistoryPages/History';
+import myOfferedHelp from '../../../pages/HistoryPages/MyOfferedHelp';
+import myRequestedHelp from '../../../pages/HistoryPages/MyRequestedHelp';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -14,8 +15,9 @@ const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="em andamento"
         tabBarOptions={tabTopBarOptions}>
-        <TopTab.Screen name="em andamento" component={OnGoingHelps} />
-        <TopTab.Screen name="finalizadas" component={HelpsFinished} />
+        <TopTab.Screen name="em andamento" component={myOfferedHelp} />
+        <TopTab.Screen name="finalizadas" component={myRequestedHelp} />
+        <TopTab.Screen name="historico" component={history} />
     </TopTab.Navigator>
 );
 
