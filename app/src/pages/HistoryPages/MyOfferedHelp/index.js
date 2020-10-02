@@ -5,7 +5,7 @@ import styles from '../styles';
 const myOfferedHelp = () => {
     return (
         <View style={styles.container}>
-            <Text>Oin 2</Text>
+            <Text>Oin</Text>
         </View>
     );
 };

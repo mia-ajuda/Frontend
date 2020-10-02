@@ -13,17 +13,17 @@ const Stack = createStackNavigator();
 
 const NavigationGivenHelps = () => (
     <TopTab.Navigator
-        initialRouteName="em andamento"
+        initialRouteName="Minhas ofertas"
         tabBarOptions={tabTopBarOptions}>
-        <TopTab.Screen name="em andamento" component={myOfferedHelp} />
-        <TopTab.Screen name="finalizadas" component={myRequestedHelp} />
+        <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
+        <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
         <TopTab.Screen name="historico" component={history} />
     </TopTab.Navigator>
 );
 
 const HistoryNavigator = () => (
     <Stack.Navigator screenOptions={headerStyle}>
-        <Stack.Screen name="Minhas Ofertas" component={NavigationGivenHelps} />
+        <Stack.Screen name="Histórico" component={NavigationGivenHelps} />
         <Stack.Screen
             name="OfferDescription"
             component={MyOfferHelpDescription}
