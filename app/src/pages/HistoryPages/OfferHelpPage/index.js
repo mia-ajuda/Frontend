@@ -9,7 +9,7 @@ import NoHelps from '../../../components/NoHelps';
 import HelpCard from '../../../components/HelpCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const history = ({ navigation }) => {
+const OfferHelpPage = ({ navigation }) => {
     const { user } = useContext(UserContext);
     const [myOfferedHelp, setMyOfferedHelps] = useState([]);
     const [loadingOfferedHelps, setLoadingOfferedHelps] = useState(true);
@@ -75,4 +75,4 @@ const history = ({ navigation }) => {
     );
 };
 
-export default history;
+export default OfferHelpPage;

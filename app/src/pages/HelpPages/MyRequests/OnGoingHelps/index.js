@@ -77,9 +77,7 @@ export default function OnGoingHelps({ navigation }) {
                                 onPress={() =>
                                     navigation.navigate(
                                         'MyRequestHelpDescrition',
-                                        {
-                                            help,
-                                        },
+                                        { help },
                                     )
                                 }>
                                 <MyRequestHelpCard
