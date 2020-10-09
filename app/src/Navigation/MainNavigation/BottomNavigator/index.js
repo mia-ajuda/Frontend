@@ -3,7 +3,7 @@ import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import HistoryNavigator from '../HistoryNavigator';
+import ActivitiesNavigator from '../ActivitiesNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
@@ -32,7 +32,7 @@ const BottomTab = () => {
             <BottomNavigation.Screen name="main" component={MapNavigation} />
             <BottomNavigation.Screen
                 name="history"
-                component={HistoryNavigator}
+                component={ActivitiesNavigator}
             />
             <BottomNavigation.Screen
                 name="profile"

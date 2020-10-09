@@ -27,7 +27,7 @@ const NavigationNotifications = () => (
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="myRequestDescription"
+            name="MyRequestHelpDescrition"
             component={MyRequestDescription}
             options={{ title: 'Detalhes' }}
         />
