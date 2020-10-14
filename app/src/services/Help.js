@@ -54,7 +54,10 @@ class HelpService {
     }
 
     async listHelpOffer(userId) {
-        const helpOfferList = await api.get(`/helpOffer/list?userId=${userId}`);
+        console.log(userId);
+        const helpOfferList = await api.get(
+            `/helpOffer/list?ownerId=${userId}`,
+        );
         return helpOfferList.data;
     }
 

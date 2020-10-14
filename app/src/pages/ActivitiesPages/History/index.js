@@ -1,43 +1,37 @@
-import React, { useState, useContext, useCallback } from 'react';
-import {
-    View,
-    ScrollView,
-    ActivityIndicator,
-    TouchableOpacity,
-} from 'react-native';
-import HelpCard from '../../../components/HelpCard';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, ActivityIndicator, ScrollView } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
-import helpService from '../../../services/Help';
 import styles from '../styles';
-import colors from '../../../../assets/styles/colorVariables';
-
-import NoHelps from '../../../components/NoHelps';
-import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
+import helpService from '../../../services/Help';
+import colors from '../../../../assets/styles/colorVariables';
+import NoHelps from '../../../components/NoHelps';
+import HelpCard from '../../../components/HelpCard';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function HelpsFinished({ navigation }) {
-    const [finishedHelpList, setFinishedHelpList] = useState([]);
-    const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
-
+const OfferHelpPage = ({ navigation }) => {
     const { user } = useContext(UserContext);
-    useFocusEffect(
-        useCallback(() => {
-            loadFinishedHelps();
-        }, [navigation]),
-    );
+    const [myOfferedHelp, setMyOfferedHelps] = useState([]);
+    const [loadingOfferedHelps, setLoadingOfferedHelps] = useState(true);
 
-    async function loadFinishedHelps() {
-        setLoadingHelpRequests(true);
-        const { _id: userId } = user;
-        const resFinished = await useService(
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getHelps();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    async function getHelps() {
+        setLoadingOfferedHelps(true);
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
-            [userId, 'finished'],
+            [user._id, ['on_going', 'owner_finished', 'waiting'], true],
         );
-        if (!resFinished.error) {
-            setFinishedHelpList(resFinished);
+        if (!filteredHelps.error) {
+            setMyOfferedHelps(filteredHelps);
         }
-        setLoadingHelpRequests(false);
+        setLoadingOfferedHelps(false);
     }
 
     const renderLoadingIndicator = () => (
@@ -46,35 +40,39 @@ export default function HelpsFinished({ navigation }) {
         </View>
     );
 
-    const renderHelpList = () => {
-        if (finishedHelpList.length > 0) {
+    const renderHelpRequestsList = () => {
+        if (myOfferedHelp.length > 0) {
             return (
                 <ScrollView>
-                    <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => (
+                    {myOfferedHelp.map((help) => {
+                        return (
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
-                                    navigation.navigate(
-                                        'MyRequestHelpDescrition',
-                                        {
-                                            help,
-                                        },
-                                    )
+                                    navigation.navigate('OfferDescription', {
+                                        help,
+                                    })
                                 }>
                                 <HelpCard help={help} />
                             </TouchableOpacity>
-                        ))}
-                    </View>
+                        );
+                    })}
                 </ScrollView>
             );
         } else {
-            return <NoHelps title={'Você não possui ajudas finalizadas'} />;
+            return (
+                <NoHelps title="Você não está ajudando ninguém até o momento" />
+            );
         }
     };
+
     return (
-        <View>
-            {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
+        <View style={styles.helpList}>
+            {loadingOfferedHelps
+                ? renderLoadingIndicator()
+                : renderHelpRequestsList()}
         </View>
     );
-}
+};
+
+export default OfferHelpPage;

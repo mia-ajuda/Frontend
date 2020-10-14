@@ -16,9 +16,12 @@ const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="Atividades"
         tabBarOptions={tabTopBarOptions}>
+        {/* Minhas ofertas de ajuda, diferente de interação com outros usuários */}
         <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
+        {/* Meus pedidos de ajuda */}
         <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
-        <TopTab.Screen name="Historico" component={History} />
+        {/* Interação com outros usuários */}
+        <TopTab.Screen name="Interações" component={History} />
     </TopTab.Navigator>
 );
 
