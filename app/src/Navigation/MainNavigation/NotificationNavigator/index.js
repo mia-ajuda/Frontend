@@ -5,7 +5,6 @@ import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import MyOfferHelpDescription from '../../../pages/HelpPages/MyOfferHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import MyRequestDescription from '../../../pages/HelpPages/MyRequestHelpDescrition';
-import ListPossibleHelpers from '../../../pages/HelpPages/MyRequestHelpDescrition/ListPossibleHelpers';
 
 const Stack = createStackNavigator();
 
@@ -29,11 +28,6 @@ const NavigationNotifications = () => (
         <Stack.Screen
             name="MyRequestHelpDescrition"
             component={MyRequestDescription}
-            options={{ title: 'Detalhes' }}
-        />
-        <Stack.Screen
-            name="listPossibleHelpers"
-            component={ListPossibleHelpers}
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen

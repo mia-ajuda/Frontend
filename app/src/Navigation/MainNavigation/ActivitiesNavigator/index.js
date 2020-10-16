@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
+import ListPossibleHelpers from '../../../pages/HelpPages/MyRequestHelpDescrition/ListPossibleHelpers';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -36,6 +37,11 @@ const ActivitiesNavigator = () => (
         <Stack.Screen
             name="MyRequestHelpDescrition"
             component={MyRequestDescription}
+            options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="listPossibleHelpers"
+            component={ListPossibleHelpers}
             options={{ title: 'Detalhes' }}
         />
     </Stack.Navigator>
