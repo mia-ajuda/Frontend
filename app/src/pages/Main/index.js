@@ -50,10 +50,17 @@ export default function Main({ navigation }) {
             );
         });
     };
+
     const renderHelpOfferMakers = () => {
-        return helpOfferList.map((helpOffer) => (
-            <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
-        ));
+        return helpOfferList.map((helpOffer) => {
+            if (helpOffer.ownerId != user._id)
+                return (
+                    <HelpOfferMarker
+                        key={helpOffer._id}
+                        helpOffer={helpOffer}
+                    />
+                );
+        });
     };
 
     const markersStrategy = {
