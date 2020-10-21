@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Badge } from 'react-native-elements';
-
 import styles from './styles';
 import HelperCard from './HelperCard';
-import { UserContext } from '../../../store/contexts/userContext';
-import getYearsSince from '../../../utils/getYearsSince';
-import shortenName from '../../../utils/shortenName';
+import { UserContext } from '../../../../store/contexts/userContext';
+import getYearsSince from '../../../../utils/getYearsSince';
+import shortenName from '../../../../utils/shortenName';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);

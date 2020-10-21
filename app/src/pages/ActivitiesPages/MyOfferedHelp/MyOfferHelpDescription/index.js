@@ -9,15 +9,15 @@ import {
     Platform,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
-import Button from '../../../components/UI/button';
-import getYearsSince from '../../../utils/getYearsSince';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import Button from '../../../../components/UI/button';
+import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
-import HelpService from '../../../services/Help';
-import { alertSuccess } from '../../../utils/Alert';
-import { UserContext } from '../../../store/contexts/userContext';
-import useService from '../../../services/useService';
-import shortenName from '../../../utils/shortenName';
+import HelpService from '../../../../services/Help';
+import { alertSuccess } from '../../../../utils/Alert';
+import { UserContext } from '../../../../store/contexts/userContext';
+import useService from '../../../../services/useService';
+import shortenName from '../../../../utils/shortenName';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { help } = route.params;
@@ -70,7 +70,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     }
 
     const renderOnGoingHelpButtons = () => {
-        if (help.status != 'finished') {
+        if (help.status != 'finished' && help.ownerId != user._id) {
             return (
                 <View style={styles.ViewLink}>
                     <View style={styles.ViewLinkBox}>

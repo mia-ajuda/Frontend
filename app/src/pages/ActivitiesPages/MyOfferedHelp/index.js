@@ -22,11 +22,11 @@ export default function HelpsFinished({ navigation }) {
     const { user } = useContext(UserContext);
     useFocusEffect(
         useCallback(() => {
-            loadFinishedHelps();
+            loadOnGoingOffers();
         }, [navigation]),
     );
 
-    async function loadFinishedHelps() {
+    async function loadOnGoingOffers() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
         const resFinished = await useService(helpService, 'listHelpOffer', [
@@ -52,14 +52,13 @@ export default function HelpsFinished({ navigation }) {
                         {finishedHelpList.map((help) => (
                             <TouchableOpacity
                                 key={help._id}
-                                onPress={
-                                    () => console.log('Apertou')
-                                    // navigation.navigate(
-                                    //     'MyRequestHelpDescrition',
-                                    //     {
-                                    //         help,
-                                    //     },
-                                    // )
+                                onPress={() =>
+                                    navigation.navigate(
+                                        'MyOfferHelpDescription',
+                                        {
+                                            help,
+                                        },
+                                    )
                                 }>
                                 {/* Tirar isEntityUser depois */}
                                 <MyRequestHelpCard

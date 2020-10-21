@@ -76,7 +76,7 @@ const MyRequestedHelp = ({ navigation }) => {
                                 key={help._id}
                                 onPress={() =>
                                     navigation.navigate(
-                                        'MyRequestHelpDescrition',
+                                        'MyRequestHelpDescription',
                                         {
                                             help,
                                         },
