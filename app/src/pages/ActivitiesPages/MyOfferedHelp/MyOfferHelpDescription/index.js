@@ -27,7 +27,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     );
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
-    const helpOwnerPhoto = help.user.photo;
+    const helpOwnerPhoto = help.user.photo || user.photo;
 
     function openGoogleMaps() {
         const scheme = Platform.select({
@@ -70,7 +70,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     }
 
     const renderOnGoingHelpButtons = () => {
-        if (help.status != 'finished' && help.ownerId != user._id) {
+        if (help.status != 'finished') {
             return (
                 <View style={styles.ViewLink}>
                     <View style={styles.ViewLinkBox}>

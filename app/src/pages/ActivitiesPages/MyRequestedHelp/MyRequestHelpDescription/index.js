@@ -9,7 +9,6 @@ import shortenName from '../../../../utils/shortenName';
 
 export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
-
     const { help } = route.params;
     const userProfilephoto = help.user.photo || user.photo;
 
