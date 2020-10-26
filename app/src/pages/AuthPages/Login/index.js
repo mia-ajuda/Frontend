@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
-    const [isNewUser, setIsNewUser] = useState(null);
+    const [isNewUser, setIsNewUser] = useState(false);
     const [finishSlide, setFinishSlide] = useState(false);
 
     useEffect(() => {
@@ -37,7 +37,8 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const checkIfIsNewUser = async () => {
-        setIsNewUser(await AsyncStorage.getItem('firstTimeUsingAppd'));
+        const isNew = await AsyncStorage.getItem('firstTimeUsingApp');
+        setIsNewUser(isNew);
     };
 
     const loginHandler = async () => {
