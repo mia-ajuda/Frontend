@@ -49,9 +49,12 @@ const OfferHelpPage = ({ navigation }) => {
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
-                                    navigation.navigate('OfferDescription', {
-                                        help,
-                                    })
+                                    navigation.navigate(
+                                        'MyOfferHelpDescription',
+                                        {
+                                            help,
+                                        },
+                                    )
                                 }>
                                 <HelpCard help={help} />
                             </TouchableOpacity>

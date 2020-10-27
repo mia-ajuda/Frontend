@@ -22,11 +22,11 @@ export default function HelpsFinished({ navigation }) {
     const { user } = useContext(UserContext);
     useFocusEffect(
         useCallback(() => {
-            loadFinishedHelps();
+            loadOnGoingOffers();
         }, [navigation]),
     );
 
-    async function loadFinishedHelps() {
+    async function loadOnGoingOffers() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
         const resFinished = await useService(
@@ -51,25 +51,37 @@ export default function HelpsFinished({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={
-                                    () => console.log('Apertou')
-                                    // navigation.navigate(
-                                    //     'MyRequestHelpDescrition',
-                                    //     {
-                                    //         help,
-                                    //     },
-                                    // )
-                                }>
-                                {/* Tirar isEntityUser depois */}
-                                <MyRequestHelpCard
-                                    help={help}
-                                    isEntityUser={true}
-                                />
-                            </TouchableOpacity>
-                        ))}
+                        {finishedHelpList.map((help) => {
+                            if (help.ownerId === user._id) {
+                                return (
+                                    <TouchableOpacity
+                                        key={help._id}
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                'MyOfferHelpDescription',
+                                                {
+                                                    help,
+                                                },
+                                            )
+                                        }>
+                                        {/* Tirar isEntityUser depois */}
+                                        <MyRequestHelpCard
+                                            help={help}
+                                            isEntityUser={true}
+                                        />
+                                    </TouchableOpacity>
+                                );
+                            } else {
+                                return (
+                                    <NoHelps
+                                        title={
+                                            'Você não possui nenhuma oferta criada'
+                                        }
+                                    />
+                                );
+                            }
+                        })}
+                        {/*TODO: O `if` foi adicionado porque as ajudas estavam aparecendo mesmo se voce nao for dono... Rever essa logica para uma mais escalavel.*/}
                     </View>
                 </ScrollView>
             );

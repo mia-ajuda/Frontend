@@ -1,6 +1,6 @@
 import React from 'react';
-import MyRequestDescription from '../../../pages/HelpPages/MyRequestHelpDescrition';
-import MyOfferHelpDescription from '../../../pages/HelpPages/MyOfferHelpDescription';
+import MyRequestDescription from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription';
+import MyOfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
-import ListPossibleHelpers from '../../../pages/HelpPages/MyRequestHelpDescrition/ListPossibleHelpers';
+import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -30,12 +30,12 @@ const ActivitiesNavigator = () => (
     <Stack.Navigator screenOptions={headerStyle}>
         <Stack.Screen name="Atividades" component={NavigationGivenHelps} />
         <Stack.Screen
-            name="OfferDescription"
+            name="MyOfferHelpDescription"
             component={MyOfferHelpDescription}
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="MyRequestHelpDescrition"
+            name="MyRequestHelpDescription"
             component={MyRequestDescription}
             options={{ title: 'Detalhes' }}
         />
