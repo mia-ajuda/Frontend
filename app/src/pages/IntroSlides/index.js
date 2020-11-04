@@ -20,7 +20,6 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
     const completeIntroSlide = async () => {
         setFinishSlide(true);
         await AsyncStorage.setItem('firstTimeUsingApp', 'true');
-        console.log(finishSlide);
     };
 
     const Done = ({ ...props }) => (
