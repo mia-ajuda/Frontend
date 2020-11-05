@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
-import getYearsSince from '../../../../utils/getYearsSince';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import HelpService from '../../../../services/Help';
-import { alertSuccess } from '../../../../utils/Alert';
-import NoPossibleHelpers from '../../../../components/NoHelps';
-import useService from '../../../../services/useService';
+import getYearsSince from '../../../../../utils/getYearsSince';
+import ConfirmationModal from '../../../../../components/modals/confirmationModal';
+import HelpService from '../../../../../services/Help';
+import { alertSuccess } from '../../../../../utils/Alert';
+import NoPossibleHelpers from '../../../../../components/NoHelps';
+import useService from '../../../../../services/useService';
 import styles from './styles';
-import shortenName from '../../../../utils/shortenName';
+import shortenName from '../../../../../utils/shortenName';
 
 export default function ListPossibleHelpers({ navigation, route }) {
     const { help } = route.params;

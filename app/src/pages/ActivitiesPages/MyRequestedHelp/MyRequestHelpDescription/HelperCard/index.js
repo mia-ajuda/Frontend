@@ -2,13 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { View, Image, Text } from 'react-native';
-import Button from '../../../../components/UI/button';
-import UserService from '../../../../services/User';
-import HelpService from '../../../../services/Help';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import { UserContext } from '../../../../store/contexts/userContext';
-import { alertSuccess } from '../../../../utils/Alert';
-import useService from '../../../../services/useService';
+import Button from '../../../../../components/UI/button';
+import UserService from '../../../../../services/User';
+import HelpService from '../../../../../services/Help';
+import ConfirmationModal from '../../../../../components/modals/confirmationModal';
+import { UserContext } from '../../../../../store/contexts/userContext';
+import { alertSuccess } from '../../../../../utils/Alert';
+import useService from '../../../../../services/useService';
 
 export default function HelperCard({ help }) {
     const navigation = useNavigation();

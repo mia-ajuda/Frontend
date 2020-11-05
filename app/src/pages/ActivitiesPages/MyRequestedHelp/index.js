@@ -5,17 +5,17 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import MyRequestHelpCard from '../../../../components/MyRequestHelpCard';
-import { UserContext } from '../../../../store/contexts/userContext';
-import helpService from '../../../../services/Help';
-import styles from '../styles';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
+import MyRequestHelpCard from '../../../components/MyRequestHelpCard';
+import { UserContext } from '../../../store/contexts/userContext';
+import helpService from '../../../services/Help';
+import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
-import NoHelps from '../../../../components/NoHelps';
-import colors from '../../../../../assets/styles/colorVariables';
-import useService from '../../../../services/useService';
+import NoHelps from '../../../components/NoHelps';
+import colors from '../../../../assets/styles/colorVariables';
+import useService from '../../../services/useService';
+import styles from '../styles';
 
-export default function OnGoingHelps({ navigation }) {
+const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
@@ -76,8 +76,10 @@ export default function OnGoingHelps({ navigation }) {
                                 key={help._id}
                                 onPress={() =>
                                     navigation.navigate(
-                                        'MyRequestHelpDescrition',
-                                        { help },
+                                        'MyRequestHelpDescription',
+                                        {
+                                            help,
+                                        },
                                     )
                                 }>
                                 <MyRequestHelpCard
@@ -97,6 +99,7 @@ export default function OnGoingHelps({ navigation }) {
             return <NoHelps title={'Você não possui ajudas em andamento'} />;
         }
     };
+
     return (
         <View>
             <ConfirmationModal
@@ -112,4 +115,6 @@ export default function OnGoingHelps({ navigation }) {
                 : renderMyRequestsHelpList()}
         </View>
     );
-}
+};
+
+export default MyRequestedHelp;
