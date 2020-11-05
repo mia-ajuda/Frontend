@@ -10,7 +10,7 @@ export default function Button({
     disabled = false,
 }) {
     let btn;
-    const isLarge = large ? { width: '100%' } : { width: '35%' };
+    const isLarge = large ? { width: '100%' } : { minWidth: '35%' };
 
     switch (type) {
         case 'white':

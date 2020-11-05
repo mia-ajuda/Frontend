@@ -4,8 +4,6 @@ import colors from '../../../assets/styles/colorVariables';
 const styles = StyleSheet.create({
     buttonBox: {
         backgroundColor: 'transparent',
-        marginHorizontal: 20,
-        marginVertical: 10,
     },
     buttonText: {
         color: colors.primary,
