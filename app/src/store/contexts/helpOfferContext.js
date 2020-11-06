@@ -31,6 +31,7 @@ export default function HelpOfferContextProvider({ children }) {
     }, [selectedCategories]);
 
     async function getHelpOfferList() {
+        console.log(user._id);
         const helpOfferListResponse = await useService(
             HelpService,
             'listHelpOffer',
