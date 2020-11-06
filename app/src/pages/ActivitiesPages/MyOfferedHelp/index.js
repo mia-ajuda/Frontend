@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import MyRequestHelpCard from '../../../components/MyRequestHelpCard';
+import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import styles from '../styles';
@@ -65,8 +65,8 @@ export default function HelpsFinished({ navigation }) {
                                             )
                                         }>
                                         {/* Tirar isEntityUser depois */}
-                                        <MyRequestHelpCard
-                                            help={help}
+                                        <MyRequestCard
+                                            object={help}
                                             isEntityUser={true}
                                         />
                                     </TouchableOpacity>

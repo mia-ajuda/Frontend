@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import MyRequestHelpCard from '../../../components/MyRequestHelpCard';
+import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
@@ -82,8 +82,8 @@ const MyRequestedHelp = ({ navigation }) => {
                                         },
                                     )
                                 }>
-                                <MyRequestHelpCard
-                                    help={help}
+                                <MyRequestCard
+                                    object={help}
                                     deleteVisible={true}
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible

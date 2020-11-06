@@ -3,32 +3,32 @@ import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../../../assets/styles/colorVariables';
 import { Badge } from 'react-native-elements';
-import HelpCard from '../HelpCard';
+import HistoricCard from '../HistoricCard';
 
 import styles from './styles';
 
-export default function MyRequestHelpCard({
-    help,
+export default function MyRequestCard({
+    object,
     setConfirmationModalVisible,
     setSelectedHelp,
     isEntityUser,
 }) {
     function handleDelete() {
         setConfirmationModalVisible(true);
-        setSelectedHelp(help._id);
+        setSelectedHelp(object._id);
     }
 
     const renderBadgeIcon = () => {
         if (
-            help.possibleHelpers.length > 0 ||
-            help.possibleEntities.length > 0
+            object.possibleHelpers.length > 0 ||
+            object.possibleEntities.length > 0
         ) {
             return (
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
-                            {help.possibleHelpers.length +
-                                help.possibleEntities.length}
+                            {object.possibleHelpers.length +
+                                object.possibleEntities.length}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}
@@ -38,7 +38,7 @@ export default function MyRequestHelpCard({
         }
     };
     return (
-        <HelpCard {...{ help }}>
+        <HistoricCard {...{ object }}>
             {!isEntityUser && renderBadgeIcon()}
             <View style={styles.deleteIcon}>
                 <Icon
@@ -49,6 +49,6 @@ export default function MyRequestHelpCard({
                     onPress={() => handleDelete()}
                 />
             </View>
-        </HelpCard>
+        </HistoricCard>
     );
 }
