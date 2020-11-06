@@ -72,6 +72,10 @@ export default StyleSheet.create({
         fontSize: 12,
     },
 
+    imageBackground: {
+        alignSelf: 'flex-end',
+        position: 'absolute',
+    },
     bottomItens: {
         width: '100%',
         marginTop: 10,
