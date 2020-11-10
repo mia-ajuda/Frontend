@@ -139,7 +139,11 @@ export default function CategoryList({
         if (isHistoryPage) {
             return (
                 <View style={styles.onGoingFinishedButtonsArea}>
-                    <View style={styles.onGoingFinishedButtons}>
+                    <View
+                        style={[
+                            styles.onGoingFinishedButtons,
+                            { marginRight: 10 },
+                        ]}>
                         <TouchableOpacity>
                             <Text style={styles.infoText}>EM ANDAMENTO</Text>
                         </TouchableOpacity>
@@ -182,28 +186,30 @@ export default function CategoryList({
                             />
                         </TouchableOpacity>
                         {renderOnGoingFinishedButtons()}
+
                         <FilterButtons
                             setSelectedMarkerType={setSelectedMarkerType}
                             selectedMarker={selectedMarker}
                         />
                         <View style={styles.contentHeader}>
-                            <Text style={styles.categoryTitle}>CATEGORIAS</Text>
-                            <TouchableOpacity
-                                style={styles.icon}
-                                onPress={() => {
-                                    setDescriptionModalVisible(
-                                        !descriptionModalVisible,
-                                    );
-                                }}>
-                                <Icon
-                                    name="question-circle"
-                                    type="font-awesome"
-                                    color="#C4C4C4"
-                                    size={35}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.contentWarning}>
+                            <View style={styles.categoryHeader}>
+                                <Text style={styles.categoryTitle}>
+                                    CATEGORIAS
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setDescriptionModalVisible(
+                                            !descriptionModalVisible,
+                                        );
+                                    }}>
+                                    <Icon
+                                        name="question-circle"
+                                        type="font-awesome"
+                                        color="#C4C4C4"
+                                        size={35}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                             <Text style={styles.warning}>(No máximo 3)</Text>
                         </View>
                         {renderCategories()}

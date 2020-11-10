@@ -15,7 +15,6 @@ const btn = {
     borderRadius: 4,
     marginVertical: 8,
     justifyContent: 'center',
-    alignItems: 'center',
 };
 
 const styles = StyleSheet.create({

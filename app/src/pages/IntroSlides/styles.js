@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
         marginTop: 0,
         color: colors.dark,
         fontFamily: 'montserrat-semibold',
+    },
+    image: {
+        width: (Dimensions.get('window').width * 100) / 100,
+        height: (Dimensions.get('window').height * 40) / 100,
+        resizeMode: 'contain',
     },
 });
 
