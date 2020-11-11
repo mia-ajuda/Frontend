@@ -27,7 +27,6 @@ export default function NotificationCard({
             'getHelpWithAggregationById',
             [notification.helpId],
         );
-        console.log(help.user._id);
         const thisUserIsHelper = user._id != help.ownerId ? true : false;
         if (thisUserIsHelper) {
             navigation.navigate('OfferDescription', {

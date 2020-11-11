@@ -50,27 +50,26 @@ export default function HelpsFinished({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => {
+                        {finishedHelpList.map((helpOffer) => {
                             return (
                                 <TouchableOpacity
-                                    key={help._id}
+                                    key={helpOffer._id}
                                     onPress={() =>
                                         navigation.navigate(
                                             'MyOfferHelpDescription',
                                             {
-                                                help,
+                                                helpOffer,
                                             },
                                         )
                                     }>
-                                    {/* Tirar isEntityUser depois */}
+                                    {/* Tirar isEntityUser depois assim que colocar o possiblehelpers*/}
                                     <MyRequestHelpCard
-                                        help={help}
+                                        help={helpOffer}
                                         isEntityUser={true}
                                     />
                                 </TouchableOpacity>
                             );
                         })}
-                        {/*TODO: O `if` foi adicionado porque as ajudas estavam aparecendo mesmo se voce nao for dono... Rever essa logica para uma mais escalavel.*/}
                     </View>
                 </ScrollView>
             );

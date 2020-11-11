@@ -37,6 +37,7 @@ export default function MyRequestHelpCard({
             );
         }
     };
+
     return (
         <HelpCard {...{ help }}>
             {!isEntityUser && renderBadgeIcon()}

@@ -53,13 +53,9 @@ export default function Main({ navigation }) {
 
     const renderHelpOfferMakers = () => {
         return helpOfferList.map((helpOffer) => {
-            if (helpOffer.ownerId != user._id)
-                return (
-                    <HelpOfferMarker
-                        key={helpOffer._id}
-                        helpOffer={helpOffer}
-                    />
-                );
+            return (
+                <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
+            );
         });
     };
 
