@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     map: {
@@ -27,7 +29,8 @@ const styles = StyleSheet.create({
     buttons: {
         position: 'absolute',
         zIndex: 5,
-        bottom: 10,
+        bottom: 0,
+        height: SCREEN_HEIGHT * 0.11,
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-around',
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         position: 'absolute',
         zIndex: 5,
-        bottom: 80,
+        bottom: SCREEN_HEIGHT * 0.11,
         alignSelf: 'center',
         elevation: 5,
         borderRadius: 10,

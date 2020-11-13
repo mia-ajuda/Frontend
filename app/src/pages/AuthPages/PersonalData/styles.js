@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
+        flexWrap: 'wrap',
     },
     backIcon: {
         marginTop: '10%',

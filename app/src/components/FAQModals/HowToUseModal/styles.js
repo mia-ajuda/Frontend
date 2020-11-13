@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         width: '80%',
         backgroundColor: '#fff',
         alignSelf: 'center',
-        top: '20.5%',
+        top: '10.5%',
         borderRadius: 15,
         padding: 16,
     },
@@ -20,15 +20,11 @@ const styles = StyleSheet.create({
     },
 
     contentHeader: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        top: 15,
+        flexDirection: 'column',
     },
 
     closeIcon: {
-        right: 1,
-        position: 'absolute',
-        zIndex: 5,
+        alignSelf: 'flex-end',
     },
 
     arrowIcon: {
@@ -40,7 +36,6 @@ const styles = StyleSheet.create({
     title: {
         alignSelf: 'center',
         textAlign: 'center',
-        marginBottom: 40,
         fontFamily: 'montserrat-semibold',
         color: colors.primary,
         fontSize: minimumTextSize * 1.5,

@@ -53,7 +53,7 @@ export default function FilterButtons({
                         }>
                         <FontAwesome5
                             name={filterButton.iconName}
-                            size={60}
+                            size={45}
                             color={
                                 selectedFilters.includes(filterButton.id)
                                     ? colors.light

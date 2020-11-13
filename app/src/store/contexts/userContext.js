@@ -31,6 +31,7 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         async function getLocation() {
+            await AsyncStorage.clear();
             const { granted } = await requestPermissionsAsync();
             if (granted) {
                 const { coords } = await getCurrentPositionAsync({
