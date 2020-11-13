@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         borderColor: colors.primary,
         padding: 5,
         marginTop: 20,
-        width: '40%',
+        alignSelf: 'flex-start',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
