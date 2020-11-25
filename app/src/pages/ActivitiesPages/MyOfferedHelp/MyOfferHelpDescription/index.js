@@ -20,25 +20,25 @@ import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 
 export default function OfferHelpDescription({ route, navigation }) {
-    const { help } = route.params;
+    const { helpOffer } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
-    const helpOwnerPhoto = help.user.photo || user.photo;
+    const helpOwnerPhoto = helpOffer.user.photo || user.photo;
 
     function openGoogleMaps() {
         const scheme = Platform.select({
             ios: 'maps:0,0?q=',
             android: 'geo:0,0?q=',
         });
-        const helpLatitude = help.user.location.coordinates[1];
-        const helpLongitude = help.user.location.coordinates[0];
+        const helpLatitude = helpOffer.user.location.coordinates[1];
+        const helpLongitude = helpOffer.user.location.coordinates[0];
 
         const helpCoordinates = `${helpLatitude},${helpLongitude}`;
-        const helpLabel = 'Pedido de Ajuda de ' + help.user.name;
+        const helpLabel = 'Pedido de Ajuda de ' + helpOffer.user.name;
         const url = Platform.select({
             ios: `${scheme}${helpLabel}@${helpCoordinates}`,
             android: `${scheme}${helpCoordinates}(${helpLabel})`,
@@ -49,7 +49,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     function openWhatsapp() {
         Linking.openURL(
             `whatsapp://send?phone=${
-                help.user.phone
+                helpOffer.user.phone
             }&text=${'Olá, precisa de ajuda?'}`,
         );
     }
@@ -59,7 +59,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByHelper',
-            [help._id, user._id],
+            [helpOffer._id, user._id],
         );
         if (!finishHelpRequest.error) {
             alertSuccess(
@@ -70,7 +70,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     }
 
     const renderOnGoingHelpButtons = () => {
-        if (help.status != 'finished') {
+        if (helpOffer.status != 'finished' && user._id != helpOffer.ownerId) {
             return (
                 <View style={styles.ViewLink}>
                     <View style={styles.ViewLinkBox}>
@@ -104,7 +104,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderWaitingHelpOwnerMessage = () => {
-        if (help.status == 'waiting') {
+        if (helpOffer.status == 'waiting') {
             return (
                 <Text style={styles.waitingText}>
                     Aguarde o dono da ajuda escolher seu ajudante.
@@ -114,7 +114,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderHelpOwnerInformation = () => {
-        const ownerNameFormated = shortenName(help.user.name);
+        const ownerNameFormated = shortenName(helpOffer.user.name);
 
         return (
             <View style={styles.userInfo}>
@@ -130,11 +130,11 @@ export default function OfferHelpDescription({ route, navigation }) {
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Idade: </Text>
-                        {getYearsSince(help.user.birthday)}
+                        {getYearsSince(helpOffer.user.birthday)}
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
-                        {help.user.address.city}
+                        {helpOffer.user.address.city}
                     </Text>
                 </View>
             </View>
@@ -144,9 +144,9 @@ export default function OfferHelpDescription({ route, navigation }) {
     const renderHelpInformation = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
-                <Text style={styles.titleFont}>{help.title}</Text>
+                <Text style={styles.titleFont}>{helpOffer.title}</Text>
                 <View style={styles.categoryContainer}>
-                    {help.categories.map((category) => (
+                    {helpOffer.categories.map((category) => (
                         <View key={category._id} style={styles.categoryWarning}>
                             <Text style={styles.categoryName}>
                                 {category.name}
@@ -155,7 +155,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                     ))}
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
-                    {help.description}
+                    {helpOffer.description}
                 </Text>
             </View>
         </View>
@@ -176,7 +176,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 {renderHelpOwnerInformation()}
                 {renderHelpInformation()}
 
-                {help.status == 'waiting'
+                {helpOffer.status == 'waiting'
                     ? renderWaitingHelpOwnerMessage()
                     : renderOnGoingHelpButtons()}
             </View>

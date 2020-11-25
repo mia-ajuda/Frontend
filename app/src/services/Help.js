@@ -53,15 +53,10 @@ class HelpService {
         return help.data;
     }
 
-    async listHelpOffer(userId) {
+    async listHelpOffer(userId, getOtherUsers) {
         const helpOfferList = await api.get(
-            `/helpOffer/list?ownerId=${userId}`,
+            `/helpOffer/list/?userId=${userId}&getOtherUsers=${getOtherUsers}`,
         );
-        return helpOfferList.data;
-    }
-
-    async listHelpOfferFromOwner(userId) {
-        const helpOfferList = await api.get(`/helpOffer/list/${userId}`);
         return helpOfferList.data;
     }
 

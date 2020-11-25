@@ -76,7 +76,6 @@ export default function MapHelpDescription({ route, navigation }) {
             goBackToMapPage();
         }
     }
-
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(help.user.name);
         return (
