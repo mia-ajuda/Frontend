@@ -27,8 +27,23 @@ export default function MyRequestCard({
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
+                            {' '}
                             {object.possibleHelpers.length +
-                                object.possibleEntities.length}
+                                object.possibleEntities.length}{' '}
+                        </Text>
+                    }
+                    badgeStyle={styles.badgeStyle}
+                    containerStyle={styles.containerBadge}
+                />
+            );
+        } else if (object.finishedCampaignList.length > 0) {
+            return (
+                <Badge
+                    value={
+                        <Text style={styles.labelBadgeCampaign}>
+                            {' '}
+                            {object.finishedCampaignList.length +
+                                object.possibleEntities.length}{' '}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}

@@ -58,7 +58,8 @@ export default function CampaignsFinished({ navigation }) {
                             if (campaign.ownerId === user._id) {
                                 return (
                                     <TouchableOpacity
-                                        key={campaign._id}
+                                    //Botão que leva para a page de Descrição
+                                    /*key={campaign._id}
                                         onPress={() =>
                                             navigation.navigate(
                                                 'MyOfferCampaignDescription',
@@ -66,7 +67,8 @@ export default function CampaignsFinished({ navigation }) {
                                                     campaign,
                                                 },
                                             )
-                                        }>
+                                        }*/
+                                    >
                                         {/* Tirar isEntityUser depois */}
                                         <MyRequestCard
                                             object={campaign}
