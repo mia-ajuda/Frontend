@@ -6,7 +6,7 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import HelpCard from '../HelpCard';
+import HistoricCard from '../HistoricCard';
 import NoHelps from '../../components/NoHelps';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
@@ -55,7 +55,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                     help,
                                 })
                             }>
-                            <HelpCard help={help} isRiskGroup={isRiskGroup} />
+                            <HistoricCard
+                                object={help}
+                                isRiskGroup={isRiskGroup}
+                            />
                         </TouchableOpacity>
                     );
                 })}

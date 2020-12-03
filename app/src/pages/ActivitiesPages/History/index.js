@@ -6,7 +6,7 @@ import useService from '../../../services/useService';
 import helpService from '../../../services/Help';
 import colors from '../../../../assets/styles/colorVariables';
 import NoHelps from '../../../components/NoHelps';
-import HelpCard from '../../../components/HelpCard';
+import HistoricCard from '../../../components/HistoricCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const OfferHelpPage = ({ navigation }) => {
@@ -56,7 +56,7 @@ const OfferHelpPage = ({ navigation }) => {
                                         },
                                     )
                                 }>
-                                <HelpCard help={help} />
+                                <HistoricCard object={help} />
                             </TouchableOpacity>
                         );
                     })}

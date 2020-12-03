@@ -3,7 +3,7 @@ import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
-import ActivitiesNavigator from '../ActivitiesNavigator';
+import ActivitiesNavigator from '../OngActivitiesNavigator';
 import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';

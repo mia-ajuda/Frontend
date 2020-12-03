@@ -7,37 +7,40 @@ import {
 } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
-import helpService from '../../../services/Help';
+// import helpService from '../../../services/Help';
 import styles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
 
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
+import campaignService from '../../../services/Campaign';
 
-export default function HelpsFinished({ navigation }) {
-    const [finishedHelpList, setFinishedHelpList] = useState([]);
-    const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
+export default function CampaignsFinished({ navigation }) {
+    const [finishedCampaignList, setFinishedCampaignList] = useState([]);
+    const [loadingCampaignRequests, setLoadingCampaignRequests] = useState(
+        false,
+    );
 
     const { user } = useContext(UserContext);
     useFocusEffect(
         useCallback(() => {
-            loadOnGoingOffers();
+            loadOnGoingCampaigns();
         }, [navigation]),
     );
 
-    async function loadOnGoingOffers() {
-        setLoadingHelpRequests(true);
+    async function loadOnGoingCampaigns() {
+        setLoadingCampaignRequests(true);
         const { _id: userId } = user;
         const resFinished = await useService(
-            helpService,
-            'listHelpOfferFromOwner',
-            [userId],
+            campaignService,
+            'getCampaignMultipleStatus',
+            [userId, 'waiting'],
         );
         if (!resFinished.error) {
-            setFinishedHelpList(resFinished);
+            setFinishedCampaignList(resFinished);
         }
-        setLoadingHelpRequests(false);
+        setLoadingCampaignRequests(false);
     }
 
     const renderLoadingIndicator = () => (
@@ -46,27 +49,29 @@ export default function HelpsFinished({ navigation }) {
         </View>
     );
 
-    const renderHelpList = () => {
-        if (finishedHelpList.length > 0) {
+    const renderCampaignList = () => {
+        if (finishedCampaignList.length > 0) {
             return (
                 <ScrollView>
-                    <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => {
-                            if (help.ownerId === user._id) {
+                    <View style={styles.campaignList}>
+                        {finishedCampaignList.map((campaign) => {
+                            if (campaign.ownerId === user._id) {
                                 return (
                                     <TouchableOpacity
-                                        key={help._id}
+                                    //Botão que leva para a page de Descrição
+                                    /*key={campaign._id}
                                         onPress={() =>
                                             navigation.navigate(
-                                                'MyOfferHelpDescription',
+                                                'MyOfferCampaignDescription',
                                                 {
-                                                    help,
+                                                    campaign,
                                                 },
                                             )
-                                        }>
+                                        }*/
+                                    >
                                         {/* Tirar isEntityUser depois */}
                                         <MyRequestCard
-                                            object={help}
+                                            object={campaign}
                                             isEntityUser={true}
                                         />
                                     </TouchableOpacity>
@@ -75,7 +80,7 @@ export default function HelpsFinished({ navigation }) {
                                 return (
                                     <NoHelps
                                         title={
-                                            'Você não possui nenhuma oferta criada'
+                                            'Você não possui nenhuma campanha criada'
                                         }
                                     />
                                 );
@@ -86,12 +91,16 @@ export default function HelpsFinished({ navigation }) {
                 </ScrollView>
             );
         } else {
-            return <NoHelps title={'Você não possui nenhuma oferta criada'} />;
+            return (
+                <NoHelps title={'Você não possui nenhuma campanha criada'} />
+            );
         }
     };
     return (
         <View>
-            {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
+            {loadingCampaignRequests
+                ? renderLoadingIndicator()
+                : renderCampaignList()}
         </View>
     );
 }
