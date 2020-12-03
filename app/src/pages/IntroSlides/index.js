@@ -27,8 +27,7 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
             style={styles.buttonBox}
             {...props}
             onPress={() => completeIntroSlide()}>
-            <Text style={styles.buttonText}>Entrar /</Text>
-            <Text style={styles.buttonText}>Cadastrar</Text>
+            <Text style={styles.buttonText}>Concluir</Text>
         </TouchableOpacity>
     );
 
@@ -60,27 +59,47 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
                     {
                         title: 'Precisando de Ajuda ou querendo oferecer?',
                         backgroundColor: '#FFF',
-                        image: <Image source={imageFirstSlide} />,
+                        image: (
+                            <Image
+                                source={imageFirstSlide}
+                                style={styles.image}
+                            />
+                        ),
                         subtitle:
                             'O Mia Ajuda possibilita que você solicite e oferte ajuda. Desde uma simples conversa até itens de necessidade básica.',
                     },
                     {
                         backgroundColor: '#FFF',
-                        image: <Image source={imageSecondSlide} />,
+                        image: (
+                            <Image
+                                source={imageSecondSlide}
+                                style={styles.image}
+                            />
+                        ),
                         title: 'Não sabe como ajudar?',
                         subtitle:
                             'Conte uma história! Cante para alguém! Encontre um amigo para conversar! Doe um alimento! Colabore como queira! O importante é ajudar!',
                     },
                     {
                         backgroundColor: '#FFF',
-                        image: <Image source={imageThirdSlide} />,
+                        image: (
+                            <Image
+                                source={imageThirdSlide}
+                                style={styles.image}
+                            />
+                        ),
                         title: 'Você é uma ONG?',
                         subtitle:
                             'Temos uma parte especial para ONGs. Venha ser um apoiador e torne o mundo cada vez melhor por meio da solidariedade!',
                     },
                     {
                         backgroundColor: '#FFF',
-                        image: <Image source={imageFourthSlide} />,
+                        image: (
+                            <Image
+                                source={imageFourthSlide}
+                                style={styles.image}
+                            />
+                        ),
                         title:
                             'Ajude pessoas perto de você é espalhe amor pelo mundo',
                         subtitle: '',

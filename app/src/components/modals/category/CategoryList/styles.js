@@ -1,17 +1,27 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import fonts from '../../../../../assets/styles/fontVariable';
-
 import colors from '../../../../../assets/styles/colorVariables';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 const minimumTextSize = 16;
+
+const adjustResponsive = {
+    height: '100%',
+    marginTop: 0,
+};
+const normalDimensions = {
+    height: '80%',
+    marginTop: '20.5%',
+};
 const styles = StyleSheet.create({
     modalContent: {
         width: '90%',
-        height: '80%',
+        ...(SCREEN_HEIGHT < 650 ? adjustResponsive : normalDimensions),
         backgroundColor: '#fff',
         alignSelf: 'center',
         elevation: 5,
         borderRadius: 15,
-        top: '6.5%',
         padding: 16,
     },
     modalContainer: {
@@ -20,10 +30,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.2)',
     },
     contentHeader: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    categoryHeader: {
         flexDirection: 'row',
         justifyContent: 'center',
-        top: '52%',
-        right: '2.5%',
+        alignItems: 'center',
     },
     contentWarning: {
         flexDirection: 'row',
@@ -31,20 +44,14 @@ const styles = StyleSheet.create({
         top: '43%',
         right: '2.5%',
     },
-    icon: {
-        right: 45,
-        position: 'absolute',
-        bottom: 25,
-    },
+    icon: {},
     title: {
         ...fonts.title,
     },
     categoryTitle: {
-        alignSelf: 'center',
-        textAlign: 'center',
-        marginBottom: 30,
         fontFamily: 'montserrat-semibold',
         color: colors.dark,
+        marginRight: 10,
         fontSize: minimumTextSize * 1.2,
     },
     filterTitle: {
@@ -61,7 +68,6 @@ const styles = StyleSheet.create({
     },
     modalBody: {
         height: '80%',
-        marginTop: '45%',
     },
     filterButtons: {
         flexDirection: 'row',
@@ -79,11 +85,9 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         borderWidth: 2,
         borderColor: colors.primary,
-        height: 40,
-        width: 150,
+        padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        top: '10%',
     },
     info: {
         alignItems: 'center',
@@ -93,11 +97,13 @@ const styles = StyleSheet.create({
         ...fonts.body,
         color: colors.primary,
         fontFamily: 'montserrat-semibold',
+        fontSize: 14,
     },
     onGoingFinishedButtonsArea: {
+        marginTop: 10,
         flexDirection: 'row',
         width: '100%',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
     },
     closeIcon: {
         top: '3%',

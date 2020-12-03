@@ -26,8 +26,8 @@ class UserService {
     }
 
     async verifyUserInfo(value) {
-        console.log(`checkUserExistence/${value}`);
         const response = await api.get(`checkUserExistence/${value}`);
+
         return !!response.data;
     }
 

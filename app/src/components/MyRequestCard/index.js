@@ -52,6 +52,7 @@ export default function MyRequestCard({
             );
         }
     };
+
     return (
         <HistoricCard {...{ object }}>
             {!isEntityUser && renderBadgeIcon()}

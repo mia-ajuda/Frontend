@@ -88,8 +88,6 @@ export default function HowToUseModal({ visible, setVisible }) {
                 }}>
                 <View style={styles.modalContent}>
                     <View style={styles.contentHeader}>
-                        <Text style={styles.title}>Como usar o Mia Ajuda?</Text>
-
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible(false);
@@ -102,6 +100,7 @@ export default function HowToUseModal({ visible, setVisible }) {
                                 size={35}
                             />
                         </TouchableOpacity>
+                        <Text style={styles.title}>Como usar o Mia Ajuda?</Text>
                     </View>
                     {renderHowToCreateHelpModal()}
                     {renderHowToOfferHelpModal()}
