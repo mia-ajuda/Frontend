@@ -36,6 +36,7 @@ class HelpService {
         const createdHelpResponse = await api.post('/help', data);
         return createdHelpResponse.data;
     }
+
     async createHelpOffer(title, categoryId, description, ownerId) {
         const data = {
             title,
@@ -74,6 +75,12 @@ class HelpService {
 
     async offerHelp(idHelp, idHelper) {
         const url = `/help/possibleHelpers/${idHelp}/${idHelper}`;
+        await api.put(url);
+        return true;
+    }
+
+    async applyToHelp(helpOfferId, idHelped) {
+        const url = `/helpOffer/possibleHelpedUsers/${idHelped}/${helpOfferId}`;
         await api.put(url);
         return true;
     }

@@ -76,6 +76,25 @@ export default function MapHelpDescription({ route, navigation }) {
             goBackToMapPage();
         }
     }
+
+    const applyToHelp = async () => {
+        setChooseHelpRequestLoading(true);
+        const applyToHelpRequest = await useService(
+            HelpService,
+            'applyToHelp',
+            [help._id, user._id],
+        );
+        if (!applyToHelpRequest.error) {
+            removeHelpFromMap();
+            goBackToMapPage();
+            alertSuccess(
+                'Pedido enviado com sucesso e estará no aguardo para ser aceita',
+            );
+        } else {
+            goBackToMapPage();
+        }
+    };
+
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(help.user.name);
         return (
@@ -130,7 +149,11 @@ export default function MapHelpDescription({ route, navigation }) {
         />
     );
     const renderOfferButton = () => (
-        <Button title="Se candidatar para essa oferta" large press={() => {}} />
+        <Button
+            title="Se candidatar para essa oferta"
+            large
+            press={() => setConfirmationModalVisible(true)}
+        />
     );
 
     return (
@@ -142,7 +165,7 @@ export default function MapHelpDescription({ route, navigation }) {
                     <ConfirmationModal
                         visible={confirmationModalVisible}
                         setVisible={setConfirmationModalVisible}
-                        action={offerHelp}
+                        action={helpType === 'offer' ? applyToHelp : offerHelp}
                         message={'Você deseja confirmar a sua ajuda?'}
                         isLoading={isChooseHelpRequestLoading}
                     />
