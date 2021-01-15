@@ -36,7 +36,7 @@ export default function MyRequestCard({
                     containerStyle={styles.containerBadge}
                 />
             );
-        } else if (object.finishedCampaignList.length > 0) {
+        } else if (isEntityUser && object.finishedCampaignList.length > 0) {
             return (
                 <Badge
                     value={

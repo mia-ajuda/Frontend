@@ -58,9 +58,9 @@ export default function CampaignsFinished({ navigation }) {
                             if (campaign.ownerId === user._id) {
                                 return (
                                     <TouchableOpacity
-                                    //Botão que leva para a page de Descrição
-                                    /*key={campaign._id}
-                                        onPress={() =>
+                                        //Botão que leva para a page de Descrição
+                                        key={campaign._id}
+                                        /*onPress={() =>
                                             navigation.navigate(
                                                 'MyOfferCampaignDescription',
                                                 {
