@@ -54,6 +54,7 @@ export default function MapHelpDescription({ route, navigation }) {
     );
 
     function removeHelpFromMap() {
+        console.log(filteredHelpList);
         let filteredHelpList = helpList.filter((helpFromMap) => {
             return helpFromMap._id != help._id;
         });

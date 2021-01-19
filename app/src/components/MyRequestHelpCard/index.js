@@ -20,8 +20,8 @@ export default function MyRequestHelpCard({
 
     const renderBadgeIcon = () => {
         if (
-            help.possibleHelpers.length > 0 ||
-            help.possibleEntities.length > 0
+            help?.possibleHelpers.length > 0 ||
+            help?.possibleEntities.length > 0
         ) {
             return (
                 <Badge

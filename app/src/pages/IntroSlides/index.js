@@ -18,8 +18,8 @@ const imageFourthSlide = require('../../../assets/images/TutorialImages/tela04.p
 
 export default function IntroSlides({ finishSlide, setFinishSlide }) {
     const completeIntroSlide = async () => {
-        setFinishSlide(true);
         await AsyncStorage.setItem('firstTimeUsingApp', 'true');
+        setFinishSlide(true);
     };
 
     const Done = ({ ...props }) => (
