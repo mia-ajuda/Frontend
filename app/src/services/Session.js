@@ -8,6 +8,15 @@ import api from './Api';
 
 class SessionService {
     constructor() {}
+    async setDeviceId() {
+        const loggedUser = await firebaseService.getCurrentUser();
+
+        const userType = loggedUser?.displayName.split('|')[1]?.trim();
+
+        if (userType == 'PJ') EntityService.setEntityDeviceId();
+        else UserService.setUserDeviceId();
+    }
+
     async signIn(loginInfo) {
         await firebaseService.login(loginInfo.email, loginInfo.password);
         const isEmailVerified = firebaseService.isEmailVerified();
@@ -16,13 +25,10 @@ class SessionService {
         if (isEmailVerified == false && shouldVerifyEmail) {
             throw { code: 'auth/email-not-verified' };
         }
-        const loggedUser = await firebaseService.getCurrentUser();
 
-        const userType = loggedUser?.displayName.split('|')[1]?.trim();
-
-        if (userType == 'PJ') EntityService.setEntityDeviceId();
-        else UserService.setUserDeviceId();
+        await this.setDeviceId();
     }
+
     async signUp(data) {
         const isEntityUser = data.cnpj;
         const response = isEntityUser
@@ -31,6 +37,8 @@ class SessionService {
 
         await firebaseService.login(data.email, data.password);
         await firebaseService.sendEmailVerification();
+        await this.setDeviceId();
+
         return response;
     }
 
