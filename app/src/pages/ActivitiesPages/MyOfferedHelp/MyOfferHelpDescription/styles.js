@@ -11,6 +11,34 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
     },
+    textBtn: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    buttonHelpers: {
+        width: '100%',
+        backgroundColor: colors.primary,
+        padding: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 6,
+    },
+    containerBadge: {
+        position: 'absolute',
+        top: -7,
+        right: -6,
+    },
+    badgeStyle: {
+        backgroundColor: colors.danger,
+        height: 30,
+        width: 30,
+        borderRadius: 50,
+    },
+    labelBadge: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
     profileImage: {
         width: 100,
         height: 100,

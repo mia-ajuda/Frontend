@@ -18,6 +18,7 @@ import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
+import { Badge } from 'react-native-elements';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpOffer } = route.params;
@@ -161,6 +162,33 @@ export default function OfferHelpDescription({ route, navigation }) {
         </View>
     );
 
+    const renderInterestedUsers = () => {
+        if (helpOffer.ownerId === user._id) {
+            return (
+                <TouchableOpacity
+                    style={styles.buttonHelpers}
+                    onPress={() => {
+                        console.log(helpOffer);
+                        navigation.navigate('listPossibleHelpers', {
+                            helpOffer,
+                        });
+                    }}>
+                    <Text style={styles.textBtn}>Interessados na Ajuda</Text>
+                    <Badge
+                        value={
+                            <Text style={styles.labelBadge}>
+                                {helpOffer?.possibleHelpers.length +
+                                    helpOffer?.possibleEntities.length}
+                            </Text>
+                        }
+                        badgeStyle={styles.badgeStyle}
+                        containerStyle={styles.containerBadge}
+                    />
+                </TouchableOpacity>
+            );
+        }
+    };
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
@@ -175,7 +203,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 />
                 {renderHelpOwnerInformation()}
                 {renderHelpInformation()}
-
+                {renderInterestedUsers()}
                 {helpOffer.status == 'waiting'
                     ? renderWaitingHelpOwnerMessage()
                     : renderOnGoingHelpButtons()}

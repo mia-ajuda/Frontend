@@ -62,11 +62,7 @@ export default function HelpsFinished({ navigation }) {
                                             },
                                         )
                                     }>
-                                    {/* Tirar isEntityUser depois assim que colocar o possiblehelpers*/}
-                                    <MyRequestHelpCard
-                                        help={helpOffer}
-                                        // isEntityUser={true}
-                                    />
+                                    <MyRequestHelpCard help={helpOffer} />
                                 </TouchableOpacity>
                             );
                         })}

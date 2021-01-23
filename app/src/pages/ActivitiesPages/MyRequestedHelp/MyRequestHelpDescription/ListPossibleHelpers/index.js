@@ -33,8 +33,8 @@ export default function ListPossibleHelpers({ navigation, route }) {
     }
 
     const renderPossibleHelpersList = () => {
-        const possibleHelpers = help.possibleHelpers.concat(
-            help.possibleEntities,
+        const possibleHelpers = help?.possibleHelpers.concat(
+            help?.possibleEntities,
         );
         return possibleHelpers.map((helper) => (
             <TouchableOpacity
@@ -87,7 +87,8 @@ export default function ListPossibleHelpers({ navigation, route }) {
     );
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {help.possibleHelpers.length > 0 || help.possibleEntities.length > 0
+            {help?.possibleHelpers.length > 0 ||
+            help?.possibleEntities.length > 0
                 ? renderPossibleHelpersList()
                 : renderNoPossibleHelpersMessage()}
             <ConfirmationModal
