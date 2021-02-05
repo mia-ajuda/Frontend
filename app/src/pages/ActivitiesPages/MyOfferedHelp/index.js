@@ -15,8 +15,8 @@ import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
 
-export default function HelpsFinished({ navigation }) {
-    const [finishedHelpList, setFinishedHelpList] = useState([]);
+export default function MyOfferedHelp({ navigation }) {
+    const [helpList, setHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
 
     const { user } = useContext(UserContext);
@@ -29,12 +29,14 @@ export default function HelpsFinished({ navigation }) {
     async function loadOnGoingOffers() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
-        const resFinished = await useService(helpService, 'listHelpOffer', [
-            userId,
-            true,
-        ]);
+        const resFinished = await useService(
+            helpService,
+            'listHelpOfferByOwnerId',
+            [userId],
+        );
+        console.log(userId, '<<<<<<<<<<<<<<<<<-');
         if (!resFinished.error) {
-            setFinishedHelpList(resFinished);
+            setHelpList(resFinished);
         }
         setLoadingHelpRequests(false);
     }
@@ -46,11 +48,11 @@ export default function HelpsFinished({ navigation }) {
     );
 
     const renderHelpList = () => {
-        if (finishedHelpList.length > 0) {
+        if (helpList.length > 0) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((helpOffer) => {
+                        {helpList.map((helpOffer) => {
                             return (
                                 <TouchableOpacity
                                     key={helpOffer._id}

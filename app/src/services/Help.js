@@ -61,6 +61,13 @@ class HelpService {
         return helpOfferList.data;
     }
 
+    async listHelpOfferByOwnerId(ownerId) {
+        const helpOfferList = await api.get(
+            `/helpOffer/listByOwner/${ownerId}`,
+        );
+        return helpOfferList.data;
+    }
+
     async listHelpOfferWithCategories(userId, categoryId) {
         const helpOfferList = await api.get(
             `/helpOffer/list?userId=${userId}&categoryId=${categoryId}`,
@@ -80,6 +87,7 @@ class HelpService {
     }
 
     async applyToHelp(helpOfferId, idHelped) {
+        console.log('Apply');
         const url = `/helpOffer/possibleHelpedUsers/${idHelped}/${helpOfferId}`;
         await api.put(url);
         return true;

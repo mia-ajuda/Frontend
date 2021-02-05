@@ -6,7 +6,7 @@ import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
-import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
+import MyOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
 
@@ -18,7 +18,7 @@ const NavigationGivenHelps = () => (
         initialRouteName="Atividades"
         tabBarOptions={tabTopBarOptions}>
         {/* Minhas ofertas de ajuda, diferente de interação com outros usuários */}
-        <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
+        <TopTab.Screen name="Minhas ofertas" component={MyOfferedHelp} />
         {/* Meus pedidos de ajuda */}
         <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
         {/* Interação com outros usuários */}

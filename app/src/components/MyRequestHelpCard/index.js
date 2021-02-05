@@ -26,8 +26,8 @@ export default function MyRequestHelpCard({
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
-                            {help.possibleHelpers.length +
-                                help.possibleEntities.length}
+                            {help?.possibleHelpers.length +
+                                help?.possibleEntities.length}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}
