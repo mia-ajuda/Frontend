@@ -98,7 +98,7 @@ export default function RegistrationData({ route, navigation }) {
                 label="Email"
                 placeholder="email@exemplo.com"
                 valid={isEmailValid}
-                autoComplete={'off'}
+                autoComplete={'email'}
             />
         );
     };

@@ -83,12 +83,14 @@ export default function ForgotPassword({ navigation }) {
                     <View style={styles.inputWrapper}>
                         <Input
                             placeholder="Digite seu email"
+                            keyboard={'email-address'}
                             value={email}
                             change={(email) => {
                                 setIsEmailFormatValid(checkEmailFormat(email));
                                 setEmail(email);
                             }}
                             valid={isEmailInputValid}
+                            autoComplete={'email'}
                         />
                     </View>
                 </View>

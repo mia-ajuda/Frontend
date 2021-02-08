@@ -36,6 +36,15 @@ export default function Login({ navigation }) {
         }
     }, [email, password]);
 
+    useEffect(() => {
+        let idNavigation = navigation.addListener('focus', () => {
+            setEmail('');
+        });
+        return () => {
+            navigation.removeEventListener(idNavigation);
+        };
+    }, []);
+
     const checkIfIsNewUser = async () => {
         const isNew = await AsyncStorage.getItem('firstTimeUsingApp');
         setIsNewUser(isNew);
