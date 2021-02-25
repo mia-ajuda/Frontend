@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    ScrollView,
+    KeyboardAvoidingView,
+} from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
@@ -83,25 +89,27 @@ export default function CreateHelp({ navigation }) {
 
     return (
         <ScrollView>
-            <Container>
-                <View style={styles.view}>
-                    {renderInputTitleForm()}
-                    {renderInputDescriptionForm()}
-                    <SelectCategoryForm
-                        helpCategoryIds={categoryIds}
-                        setHelpCategoryIds={setCategoryIds}
-                    />
-                    <View style={styles.btnContainer}>
-                        {createHelpLoading
-                            ? renderLoadingIdicator()
-                            : createHelpBtn()}
+            <KeyboardAvoidingView behavior={'padding'}>
+                <Container>
+                    <View style={styles.view}>
+                        {renderInputTitleForm()}
+                        {renderInputDescriptionForm()}
+                        <SelectCategoryForm
+                            helpCategoryIds={categoryIds}
+                            setHelpCategoryIds={setCategoryIds}
+                        />
+                        <View style={styles.btnContainer}>
+                            {createHelpLoading
+                                ? renderLoadingIdicator()
+                                : createHelpBtn()}
+                        </View>
                     </View>
-                </View>
-            </Container>
-            <NewHelpModalSuccess
-                visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('main')}
-            />
+                </Container>
+                <NewHelpModalSuccess
+                    visible={modalSuccessModalVisible}
+                    onOkPressed={() => navigation.navigate('main')}
+                />
+            </KeyboardAvoidingView>
         </ScrollView>
     );
 }
