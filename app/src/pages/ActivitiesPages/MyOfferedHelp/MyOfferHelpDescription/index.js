@@ -7,9 +7,9 @@ import {
     ScrollView,
     Linking,
     Platform,
-    Button,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Button from '../../../../components/UI/button';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
