@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import HelpCard from '../../../../components/HelpCard';
+import HistoricCard from '../../../../components/HistoricCard';
 import { UserContext } from '../../../../store/contexts/userContext';
 import helpService from '../../../../services/Help';
 import styles from '../styles';
@@ -62,7 +62,7 @@ export default function HelpsFinished({ navigation }) {
                                         },
                                     )
                                 }>
-                                <HelpCard help={help} />
+                                <HistoricCard object={help} />
                             </TouchableOpacity>
                         ))}
                     </View>

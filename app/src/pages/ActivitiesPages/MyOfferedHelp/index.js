@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
-import MyRequestHelpCard from '../../../components/MyRequestHelpCard';
+import MyRequestHelpCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import styles from '../styles';

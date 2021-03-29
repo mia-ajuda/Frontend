@@ -18,6 +18,7 @@ export default StyleSheet.create({
         width: 30,
         borderRadius: 50,
     },
+
     containerBadge: {
         position: 'absolute',
         top: -7,
