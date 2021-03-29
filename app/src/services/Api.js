@@ -1,5 +1,5 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ENV from '../config/envVariables';
 import firebaseService from './Firebase';
 
@@ -10,6 +10,7 @@ const api = axios.create({
 api.interceptors.request.use(
     async (config) => {
         const accessToken = await AsyncStorage.getItem('accessToken');
+        console.log('AsyncStorage get idToken: ');
         config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
     },

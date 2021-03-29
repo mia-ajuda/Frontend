@@ -3,7 +3,7 @@ import React from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const imageFirstSlide = require('../../../assets/images/TutorialImages/tela01.png');
 const imageSecondSlide = require('../../../assets/images/TutorialImages/tela02.png');
@@ -20,7 +20,9 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
         <TouchableOpacity
             style={styles.buttonBox}
             {...props}
-            onPress={() => completeIntroSlide()}>
+            onPress={() => {
+                completeIntroSlide();
+            }}>
             <Text style={styles.buttonText}>Concluir</Text>
         </TouchableOpacity>
     );
@@ -28,7 +30,9 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
     const Skip = () => (
         <TouchableOpacity
             style={styles.buttonBox}
-            onPress={() => completeIntroSlide()}>
+            onPress={() => {
+                completeIntroSlide();
+            }}>
             <Text style={styles.buttonText}>Pular</Text>
         </TouchableOpacity>
     );

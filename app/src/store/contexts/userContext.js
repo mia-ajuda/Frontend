@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import EntityService from '../../services/Entity';
@@ -53,7 +53,6 @@ export const UserContextProvider = (props) => {
         firebaseService.onAuthStateChanged(async function (user) {
             const userEmailVerified = user && user.emailVerified;
             const developmentEnviroment = user && env.development;
-
             if (userEmailVerified || developmentEnviroment) {
                 const acesstoken = await useService(
                     firebaseService,

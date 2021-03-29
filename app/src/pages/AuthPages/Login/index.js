@@ -8,7 +8,7 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
@@ -24,7 +24,6 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
-    const [isNewUser, setIsNewUser] = useState(false);
     const [finishSlide, setFinishSlide] = useState(false);
 
     useEffect(() => {
@@ -37,8 +36,7 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const checkIfIsNewUser = async () => {
-        const isNew = await AsyncStorage.getItem('firstTimeUsingApp');
-        setIsNewUser(isNew);
+        return await AsyncStorage.getItem('firstTimeUsingApp');
     };
 
     const loginHandler = async () => {
@@ -51,7 +49,7 @@ export default function Login({ navigation }) {
     };
 
     const renderIntroSlides = () => {
-        if (isNewUser === null)
+        if (checkIfIsNewUser() === null)
             return (
                 <IntroSlide
                     finishSlide={finishSlide}
