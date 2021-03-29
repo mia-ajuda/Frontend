@@ -1,4 +1,5 @@
-import { Alert, AsyncStorage } from 'react-native';
+import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 async function showWarning(warningType, message) {
     const dontShowAgainPressed = await AsyncStorage.getItem(warningType);

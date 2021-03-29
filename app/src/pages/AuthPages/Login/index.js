@@ -7,8 +7,8 @@ import {
     TouchableOpacity,
     Text,
     ActivityIndicator,
-    AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
