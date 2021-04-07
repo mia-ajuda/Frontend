@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
     },
     infoTextBottom: {
-        paddingTop: 15,
+        paddingTop: '15%',
         marginBottom: 50,
     },
     infoTextDescription: {
@@ -56,9 +56,7 @@ const styles = StyleSheet.create({
     categoryWarning: {
         backgroundColor: colors.secondary,
         borderRadius: 8,
-
         maxHeight: 30,
-
         paddingHorizontal: 15,
         alignSelf: 'center',
     },
