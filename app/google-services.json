@@ -1,0 +1,47 @@
+{
+    "project_info": {
+        "project_number": "835532070673",
+        "firebase_url": "https://miaajuda-1b205.firebaseio.com",
+        "project_id": "miaajuda-1b205",
+        "storage_bucket": "miaajuda-1b205.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:835532070673:android:76c81473dc59e2f10136b0",
+                "android_client_info": {
+                    "package_name": "com.unb.miaajuda"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "835532070673-l8nien1dq8s34vkkrt37imvqj2iotksp.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyD0FeOWX3kFg-S57iZTPfJj1kPXdiVaSBE"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "835532070673-l8nien1dq8s34vkkrt37imvqj2iotksp.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "835532070673-g2r9pf8tske7q9a4oa2vktk18jav8aqr.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "host.exp.exponent"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

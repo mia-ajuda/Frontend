@@ -13,12 +13,12 @@ import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
-import useService from '../../../services/Session';
+import useService from '../../../services/useService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
 
-export default function CampaignDescription({ route }) {
+export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
     const { user } = useContext(UserContext);
     const campaignOwnerPhoto = campaign.entity.photo;
@@ -27,6 +27,7 @@ export default function CampaignDescription({ route }) {
         false,
     );
     const isTheSameUser = user._id === campaign.ownerId;
+    const goBackToMyResquestsPage = () => navigation.goBack();
 
     function openGoogleMaps() {
         const scheme = Platform.select({
@@ -52,10 +53,11 @@ export default function CampaignDescription({ route }) {
             'finishCampaign',
             [campaign._id],
         );
+        console.log(finishHelpRequest);
         if (!finishHelpRequest.error) {
             alertSuccess('Campanha finalizada com sucesso!');
         }
-        // goBackToMyResquestsPage();
+        goBackToMyResquestsPage();
     }
 
     function openWhatsapp() {
