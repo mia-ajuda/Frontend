@@ -60,6 +60,10 @@ const styles = StyleSheet.create({
         ...fonts.subtitle,
         textAlign: 'center',
         alignSelf: 'center',
+        backgroundColor: '#FFA726',
+        borderRadius: 8,
+        padding: 5,
+        color: 'white',
     },
     titleFont: {
         fontFamily: 'montserrat-semibold',
