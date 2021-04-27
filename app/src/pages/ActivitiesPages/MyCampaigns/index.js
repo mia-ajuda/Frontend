@@ -7,10 +7,9 @@ import {
 } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
-// import helpService from '../../../services/Help';
 import styles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
-
+import ConfirmationModal from '../../../components/modals/confirmationModal';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
@@ -19,6 +18,14 @@ import campaignService from '../../../services/Campaign';
 export default function CampaignsFinished({ navigation }) {
     const [finishedCampaignList, setFinishedCampaignList] = useState([]);
     const [loadingCampaignRequests, setLoadingCampaignRequests] = useState(
+        false,
+    );
+
+    const [campaignDeletionLoading, setCampaignDeletionLoading] = useState(
+        false,
+    );
+    const [campaignToDelete, setCampaignToDelete] = useState(null);
+    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
 
@@ -49,6 +56,23 @@ export default function CampaignsFinished({ navigation }) {
         </View>
     );
 
+    async function excludeCampaign() {
+        setCampaignDeletionLoading(true);
+        const validDeleteRequest = await useService(
+            campaignService,
+            'deleteCampaign',
+            [campaignToDelete],
+        );
+        if (!validDeleteRequest.error) {
+            const updatedArray = finishedCampaignList.filter((help) => {
+                return help._id !== campaignToDelete;
+            });
+            setFinishedCampaignList(updatedArray);
+        }
+        setCampaignDeletionLoading(false);
+        setConfirmationModalVisible(false);
+    }
+
     const renderCampaignList = () => {
         if (finishedCampaignList.length > 0) {
             return (
@@ -58,21 +82,26 @@ export default function CampaignsFinished({ navigation }) {
                             if (campaign.ownerId === user._id) {
                                 return (
                                     <TouchableOpacity
-                                        //Botão que leva para a page de Descrição
+                                        // Botão que leva para a page de Descrição
                                         key={campaign._id}
-                                        /*onPress={() =>
+                                        onPress={() =>
                                             navigation.navigate(
-                                                'MyOfferCampaignDescription',
+                                                'campaignDescription',
                                                 {
                                                     campaign,
                                                 },
                                             )
-                                        }*/
-                                    >
+                                        }>
                                         {/* Tirar isEntityUser depois */}
                                         <MyRequestCard
                                             object={campaign}
                                             isEntityUser={true}
+                                            setConfirmationModalVisible={
+                                                setConfirmationModalVisible
+                                            }
+                                            setSelectedHelp={
+                                                setCampaignToDelete
+                                            }
                                         />
                                     </TouchableOpacity>
                                 );
@@ -98,6 +127,14 @@ export default function CampaignsFinished({ navigation }) {
     };
     return (
         <View>
+            <ConfirmationModal
+                attention={true}
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
+                action={() => excludeCampaign()}
+                message={'Você deseja deletar essa campanha?'}
+                isLoading={campaignDeletionLoading}
+            />
             {loadingCampaignRequests
                 ? renderLoadingIndicator()
                 : renderCampaignList()}

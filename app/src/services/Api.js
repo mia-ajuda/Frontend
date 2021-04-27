@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ENV from '../config/envVariables';
 import firebaseService from './Firebase';
+import jwt_decode from 'jwt-decode';
 
 const api = axios.create({
     baseURL: ENV.apiUrl,
@@ -9,35 +10,22 @@ const api = axios.create({
 
 api.interceptors.request.use(
     async (config) => {
-        const accessToken = await AsyncStorage.getItem('accessToken');
-        console.log('AsyncStorage get idToken: ');
+        let accessToken = await AsyncStorage.getItem('accessToken');
+        if (accessToken) {
+            const expireDate = jwt_decode(accessToken).exp;
+            const now = Date.now() / 1000;
+
+            if (now > expireDate) {
+                const newToken = await firebaseService.getUserId();
+                await AsyncStorage.setItem('accessToken', newToken);
+                accessToken = newToken;
+            }
+        }
         config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
     },
     (error) => {
         console.log(error);
-    },
-);
-
-api.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-    async (error) => {
-        const originalRequest = error.config;
-        if (error.response != undefined) {
-            if (error.response.status === 401) {
-                const correctRequest = await firebaseService
-                    .getUserId()
-                    .then(async (idTokenUser) => {
-                        await AsyncStorage.setItem('accessToken', idTokenUser);
-                        originalRequest.headers.Authorization = `Bearer ${idTokenUser}`;
-                        return await axios(originalRequest);
-                    });
-                return correctRequest;
-            }
-        }
-        throw error;
     },
 );
 

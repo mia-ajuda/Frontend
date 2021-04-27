@@ -10,6 +10,8 @@ import History from '../../../pages/ActivitiesPages/History';
 import myCampaigns from '../../../pages/ActivitiesPages/MyCampaigns';
 // import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
+import CampaignDescription from '../../../pages/HelpPages/CampaignDescription';
+
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -42,6 +44,11 @@ const ActivitiesNavigator = () => (
             name="listPossibleHelpers"
             component={ListPossibleHelpers}
             options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="campaignDescription"
+            options={{ title: 'Contato' }}
+            component={CampaignDescription}
         />
     </Stack.Navigator>
 );
