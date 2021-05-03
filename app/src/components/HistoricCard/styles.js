@@ -15,6 +15,7 @@ const cardContainerStyle = {
     paddingRight: 20,
     paddingBottom: 15,
     paddingTop: 10,
+    overflow: 'hidden',
 };
 
 export default StyleSheet.create({

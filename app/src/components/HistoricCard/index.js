@@ -37,6 +37,12 @@ export default function HistoricCard({ object, isRiskGroup, children }) {
                 </View>
             </View>
             {children}
+            {/* {console.log('/////////////')} */}
+            {/* {console.log(object._id)}
+            {console.log(object.title)}
+            {console.log(object.description)} */}
+            {/* {console.log(object)}
+            {console.log('/////////////')} */}
         </View>
     );
 }

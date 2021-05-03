@@ -64,9 +64,13 @@ export default function HelpsFinished({ navigation }) {
                                     }>
                                     {/* Tirar isEntityUser depois assim que colocar o possiblehelpers*/}
                                     <MyRequestHelpCard
-                                        help={helpOffer}
+                                        // help={helpOffer}
+                                        object={helpOffer}
                                         isEntityUser={true}
                                     />
+                                    {console.log('*-*-**-*-*-*')}
+                                    {console.log(helpOffer)}
+                                    {console.log('*-*-**-*-*-*')}
                                 </TouchableOpacity>
                             );
                         })}
