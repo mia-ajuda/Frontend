@@ -9,8 +9,8 @@ import {
     Platform,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import Button from '../../../../components/UI/button';
+import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../../services/Help';
@@ -20,25 +20,25 @@ import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 
 export default function OfferHelpDescription({ route, navigation }) {
-    const { helpOffer } = route.params;
+    const { help } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
-    const helpOwnerPhoto = helpOffer.user.photo || user.photo;
+    const helpOwnerPhoto = help.user.photo || user.photo;
 
     function openGoogleMaps() {
         const scheme = Platform.select({
             ios: 'maps:0,0?q=',
             android: 'geo:0,0?q=',
         });
-        const helpLatitude = helpOffer.user.location.coordinates[1];
-        const helpLongitude = helpOffer.user.location.coordinates[0];
+        const helpLatitude = help.user.location.coordinates[1];
+        const helpLongitude = help.user.location.coordinates[0];
 
         const helpCoordinates = `${helpLatitude},${helpLongitude}`;
-        const helpLabel = 'Pedido de Ajuda de ' + helpOffer.user.name;
+        const helpLabel = 'Pedido de Ajuda de ' + help.user.name;
         const url = Platform.select({
             ios: `${scheme}${helpLabel}@${helpCoordinates}`,
             android: `${scheme}${helpCoordinates}(${helpLabel})`,
@@ -49,7 +49,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     function openWhatsapp() {
         Linking.openURL(
             `whatsapp://send?phone=${
-                helpOffer.user.phone
+                help.user.phone
             }&text=${'Olá, precisa de ajuda?'}`,
         );
     }
@@ -59,7 +59,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByHelper',
-            [helpOffer._id, user._id],
+            [help._id, user._id],
         );
         if (!finishHelpRequest.error) {
             alertSuccess(
@@ -70,7 +70,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     }
 
     const renderOnGoingHelpButtons = () => {
-        if (helpOffer.status != 'finished' && user._id != helpOffer.ownerId) {
+        if (help.status != 'finished' && user._id != help.ownerId) {
             return (
                 <View style={styles.ViewLink}>
                     <View style={styles.ViewLinkBox}>
@@ -104,7 +104,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderWaitingHelpOwnerMessage = () => {
-        if (helpOffer.status == 'waiting') {
+        if (help.status == 'waiting') {
             return (
                 <Text style={styles.waitingText}>
                     Aguarde o dono da ajuda escolher seu ajudante.
@@ -114,7 +114,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderHelpOwnerInformation = () => {
-        const ownerNameFormated = shortenName(helpOffer.user.name);
+        const ownerNameFormated = shortenName(help.user.name);
 
         return (
             <View style={styles.userInfo}>
@@ -130,11 +130,11 @@ export default function OfferHelpDescription({ route, navigation }) {
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Idade: </Text>
-                        {getYearsSince(helpOffer.user.birthday)}
+                        {getYearsSince(help.user.birthday)}
                     </Text>
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
-                        {helpOffer.user.address.city}
+                        {help.user.address.city}
                     </Text>
                 </View>
             </View>
@@ -144,9 +144,9 @@ export default function OfferHelpDescription({ route, navigation }) {
     const renderHelpInformation = () => (
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
-                <Text style={styles.titleFont}>{helpOffer.title}</Text>
+                <Text style={styles.titleFont}>{help.title}</Text>
                 <View style={styles.categoryContainer}>
-                    {helpOffer.categories.map((category) => (
+                    {help.categories.map((category) => (
                         <View key={category._id} style={styles.categoryWarning}>
                             <Text style={styles.categoryName}>
                                 {category.name}
@@ -155,7 +155,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                     ))}
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
-                    {helpOffer.description}
+                    {help.description}
                 </Text>
             </View>
         </View>
@@ -176,7 +176,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 {renderHelpOwnerInformation()}
                 {renderHelpInformation()}
 
-                {helpOffer.status == 'waiting'
+                {help.status == 'waiting'
                     ? renderWaitingHelpOwnerMessage()
                     : renderOnGoingHelpButtons()}
             </View>
