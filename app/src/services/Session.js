@@ -1,5 +1,5 @@
 import firebaseService from './Firebase';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserService from './User';
 import EntityService from './Entity';
 
