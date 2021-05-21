@@ -20,7 +20,7 @@ import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 
 export default function OfferHelpDescription({ route, navigation }) {
-    const help = route.params.helpOffer;
+    const { help } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
