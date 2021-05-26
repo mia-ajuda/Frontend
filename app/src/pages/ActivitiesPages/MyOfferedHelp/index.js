@@ -50,21 +50,21 @@ export default function HelpsFinished({ navigation }) {
             return (
                 <ScrollView>
                     <View style={styles.helpList}>
-                        {finishedHelpList.map((helpOffer) => {
+                        {finishedHelpList.map((help) => {
                             return (
                                 <TouchableOpacity
-                                    key={helpOffer._id}
+                                    key={help._id}
                                     onPress={() =>
                                         navigation.navigate(
                                             'MyOfferHelpDescription',
                                             {
-                                                helpOffer,
+                                                help,
                                             },
                                         )
                                     }>
                                     {/* Tirar isEntityUser depois assim que colocar o possiblehelpers*/}
                                     <MyRequestHelpCard
-                                        help={helpOffer}
+                                        object={help}
                                         isEntityUser={true}
                                     />
                                 </TouchableOpacity>
