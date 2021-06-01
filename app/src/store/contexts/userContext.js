@@ -18,12 +18,7 @@ export const UserContextProvider = (props) => {
     const [user, dispatch] = useReducer(userReducer, {
         showSplash: true,
     });
-    const [userPosition, setUserPosition] = useState({
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.025,
-        longitudeDelta: 0.025,
-    });
+    const [userPosition, setUserPosition] = useState(null);
 
     useEffect(() => {
         setFirebaseTokenListener();
@@ -31,7 +26,7 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         async function getLocation() {
-            await AsyncStorage.clear();
+            //await AsyncStorage.clear();
             const { granted } = await requestPermissionsAsync();
             if (granted) {
                 const { coords } = await getCurrentPositionAsync({
