@@ -20,7 +20,11 @@ export default function HistoricCard({ object, isRiskGroup, children }) {
                 </Text>
 
                 <Image
-                    source={require('../../../assets/images/home.png')}
+                    source={
+                        isRiskGroup
+                            ? require('../../../assets/images/exclamationRed.png')
+                            : require('../../../assets/images/exclamation.png')
+                    }
                     style={styles.imageBackground}></Image>
                 <View style={styles.bottomItens}>
                     <View style={styles.categoryContainer}>

@@ -75,6 +75,10 @@ export default StyleSheet.create({
     imageBackground: {
         alignSelf: 'flex-end',
         position: 'absolute',
+        height: 100,
+        width: 50,
+        opacity: 0.5,
+        transform: [{ rotate: '20deg' }],
     },
     bottomItens: {
         width: '100%',
