@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ENV from '../config/envVariables';
 import firebaseService from './Firebase';
 import jwt_decode from 'jwt-decode';

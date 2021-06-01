@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userReducer } from '../reducers/userReducer';
 import UserService from '../../services/User';
 import EntityService from '../../services/Entity';
@@ -26,7 +26,6 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         async function getLocation() {
-            //await AsyncStorage.clear();
             const { granted } = await requestPermissionsAsync();
             if (granted) {
                 const { coords } = await getCurrentPositionAsync({
