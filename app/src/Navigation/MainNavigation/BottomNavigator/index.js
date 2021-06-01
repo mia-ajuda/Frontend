@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
-import { HelpContext } from '../../../store/contexts/helpContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapNavigation from '../MapStackNavigator';
 import ProfileNavigation from '../ProfileNavigator';
 import OngActivitiesNavigator from '../OngActivitiesNavigator';
-import Splash from '../../../pages/Splash';
 import navigationIconsConfig from './navigationIcons.options';
 import navigationOptions from './BottomNavigator.options';
 import FAQNavigator from '../FAQNavigator';
@@ -14,10 +12,8 @@ import ActivitiesNavigator from '../ActivitiesNavigator';
 
 const BottomNavigation = createBottomTabNavigator();
 const BottomTab = () => {
-    const { loadingHelps } = useContext(HelpContext);
     const { user } = useContext(UserContext);
     const isEntity = !!user.cnpj;
-    if (loadingHelps) return <Splash />;
 
     return (
         <BottomNavigation.Navigator
