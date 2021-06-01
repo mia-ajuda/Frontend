@@ -30,11 +30,11 @@ export default function NotificationCard({
 
         const thisUserIsHelper = user._id != help.ownerId ? true : false;
         if (thisUserIsHelper) {
-            navigation.navigate('myOfferHelpDescription', {
+            navigation.navigate('MyRequestHelpDescrition', {
                 help,
             });
         } else {
-            navigation.navigate('MyRequestHelpDescrition', {
+            navigation.navigate('myOfferHelpDescription', {
                 help,
             });
         }
