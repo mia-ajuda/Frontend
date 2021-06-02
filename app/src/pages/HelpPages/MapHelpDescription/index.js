@@ -12,6 +12,7 @@ import { HelpContext } from '../../../store/contexts/helpContext';
 import actions from '../../../store/actions';
 import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
+import messageOperation from '../../../utils/messageOperation';
 
 import colors from '../../../../assets/styles/colorVariables';
 
@@ -28,6 +29,10 @@ export default function MapHelpDescription({ route, navigation }) {
     const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
         false,
     );
+
+    const [titleMessage, setTitleMessage] = useState(false);
+    const [modalMessage, setModalMessage] = useState(false);
+
     const goBackToMapPage = () => navigation.goBack();
 
     useEffect(() => {
@@ -36,6 +41,13 @@ export default function MapHelpDescription({ route, navigation }) {
 
     async function getOwnerInfo() {
         setOwnerRequestLoading(true);
+        if (helpType == 'offer') {
+            setTitleMessage('Se candidatar para essa oferta');
+            setModalMessage('Você deseja confirmar a sua candidatura?');
+        } else {
+            setTitleMessage('Oferecer Ajuda');
+            setModalMessage('Você deseja confirmar a sua ajuda?');
+        }
         const result = await useService(UserService, 'requestUserData', [
             help.ownerId,
         ]);
@@ -60,22 +72,19 @@ export default function MapHelpDescription({ route, navigation }) {
         dispatch({ type: actions.help.storeList, helps: filteredHelpList });
     }
 
-    async function offerHelp() {
+    async function modalAction() {
         setChooseHelpRequestLoading(true);
-        const offerHelpRequest = await useService(HelpService, 'offerHelp', [
+        const functionName = messageOperation[helpType](false);
+        const request = await useService(HelpService, functionName, [
             help._id,
             user._id,
         ]);
-        if (!offerHelpRequest.error) {
-            removeHelpFromMap();
-            goBackToMapPage();
-            alertSuccess(
-                'Oferta enviada com sucesso e estará no aguardo para ser aceita',
-            );
-        } else {
-            goBackToMapPage();
+        goBackToMapPage();
+        if (!request.error) {
+            alertSuccess(messageOperation[helpType](true, removeHelpFromMap));
         }
     }
+
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(help.user.name);
         return (
@@ -122,15 +131,12 @@ export default function MapHelpDescription({ route, navigation }) {
         </View>
     );
 
-    const renderHelpButton = () => (
+    const renderButton = () => (
         <Button
-            title="Oferecer Ajuda"
+            title={titleMessage}
             large
             press={() => setConfirmationModalVisible(true)}
         />
-    );
-    const renderOfferButton = () => (
-        <Button title="Se candidatar para essa oferta" large press={() => {}} />
     );
 
     return (
@@ -142,19 +148,15 @@ export default function MapHelpDescription({ route, navigation }) {
                     <ConfirmationModal
                         visible={confirmationModalVisible}
                         setVisible={setConfirmationModalVisible}
-                        action={offerHelp}
-                        message={'Você deseja confirmar a sua ajuda?'}
+                        action={modalAction}
+                        message={modalMessage}
                         isLoading={isChooseHelpRequestLoading}
                     />
 
                     {renderHelpOwnerInformation()}
                     {renderHelpInformation()}
 
-                    <View style={styles.helpButtons}>
-                        {helpType == 'offer'
-                            ? renderOfferButton()
-                            : renderHelpButton()}
-                    </View>
+                    <View style={styles.helpButtons}>{renderButton()}</View>
                 </View>
             )}
         </ScrollView>

@@ -31,11 +31,12 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 iconType={'exclamation'}
             />
             <Callout
-                onPress={() =>
+                onPress={() => {
                     navigation.navigate('mapHelpDescription', {
-                        help,
-                    })
-                }
+                        help: help,
+                        helpType: 'help',
+                    });
+                }}
                 style={styles.callout}>
                 {renderCalloutTitleRiskGroup()}
                 <Text style={styles.calloutPersonName} numberOfLines={1}>

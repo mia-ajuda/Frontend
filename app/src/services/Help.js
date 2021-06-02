@@ -101,6 +101,12 @@ class HelpService {
         const result = await api.get(url);
         return result.data;
     }
+
+    async participateHelpOffer(helpOfferId, helpedId) {
+        const url = `/helpOffer/possibleHelpedUsers/${helpedId}/${helpOfferId}`;
+        await api.put(url);
+        return true;
+    }
 }
 
 const helpService = new HelpService();
