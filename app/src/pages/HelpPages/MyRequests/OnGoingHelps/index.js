@@ -17,9 +17,8 @@ import useService from '../../../../services/useService';
 
 export default function OnGoingHelps({ navigation }) {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
@@ -48,6 +47,7 @@ export default function OnGoingHelps({ navigation }) {
     async function excludeHelp() {
         setHelpDeletionLoading(true);
         const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            'help',
             helpToDelete,
         ]);
         if (!validDeleteRequest.error) {
