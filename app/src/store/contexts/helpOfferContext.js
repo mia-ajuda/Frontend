@@ -36,7 +36,7 @@ export default function HelpOfferContextProvider({ children }) {
             'listHelpOffer',
             [user._id],
         );
-        if (!helpOfferListResponse.error) {
+        if (!helpOfferListResponse.error && helpOfferListResponse) {
             setHelpOfferList(helpOfferListResponse);
         }
     }
