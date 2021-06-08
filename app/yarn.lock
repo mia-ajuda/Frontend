@@ -1438,6 +1438,13 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@react-native-async-storage/async-storage@^1.14.1":
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.5.tgz#0d221a5ef1cd7a6494a42fcaad43136d68379afb"
+  integrity sha512-4AYehLH39B9a8UXCMf3ieOK+G61wGMP72ikx6/XSMA0DUnvx0PgaeaT2Wyt06kTrDTy8edewKnbrbeqwaM50TQ==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.9.0.tgz#4177764ba69243c97aa26829d59d9501acb2bd71"
@@ -5477,9 +5484,9 @@ mdurl@^1.0.1:
   integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
 
 merge-deep@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/merge-deep/-/merge-deep-3.0.2.tgz#f39fa100a4f1bd34ff29f7d2bf4508fbb8d83ad2"
-  integrity sha512-T7qC8kg4Zoti1cFd8Cr0M+qaZfOwjlPDEdZIIPPB2JZctjaPM4fX+i7HOId69tAti2fvO6X5ldfYUONDODsrkA==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/merge-deep/-/merge-deep-3.0.3.tgz#1a2b2ae926da8b2ae93a0ac15d90cd1922766003"
+  integrity sha512-qtmzAS6t6grwEkNrunqTBdn0qKwFgNWvlxUbAV8es9M7Ot1EbyApytCnvE0jALPa46ZpKDUo527kKiaWplmlFA==
   dependencies:
     arr-union "^3.1.0"
     clone-deep "^0.2.4"
