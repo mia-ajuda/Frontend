@@ -21,6 +21,7 @@ export default StyleSheet.create({
     cardContainer: {
         borderColor: 'rgba(0,0,0,0.1)',
         ...cardContainerStyle,
+        overflow: 'hidden',
     },
     cardContainerRiskGroup: {
         borderRightWidth: 10,
@@ -29,6 +30,7 @@ export default StyleSheet.create({
         borderBottomColor: 'rgba(0,0,0,0.1)',
         borderTopColor: 'rgba(0,0,0,0.1)',
         ...cardContainerStyle,
+        overflow: 'hidden',
     },
 
     titleContent: {
