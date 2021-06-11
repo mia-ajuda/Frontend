@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -7,7 +7,6 @@ import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import helpService from '../../services/Help';
 import useService from '../../services/useService';
-import { UserContext } from '../../store/contexts/userContext';
 
 export default function NotificationCard({
     notification,
@@ -15,25 +14,22 @@ export default function NotificationCard({
     navigation,
 }) {
     const [notificationTime, setNotificationTime] = useState('');
-    const { user } = useContext(UserContext);
     useEffect(() => {
         const notificationPastTime = getPastimeFrom(notification.registerDate);
         setNotificationTime(notificationPastTime);
     }, [dateNow]);
 
     async function navigateToHelpPage() {
-        const help = await useService(
-            helpService,
-            'getHelpWithAggregationById',
-            [notification.helpId],
-        );
-
-        const thisUserIsHelper = user._id != help.ownerId ? true : false;
-        if (thisUserIsHelper) {
+        if (notification.isOffer) {
             navigation.navigate('myOfferHelpDescription', {
-                help,
+                helpId: notification.helpId,
             });
         } else {
+            const help = await useService(
+                helpService,
+                'getHelpWithAggregationById',
+                [notification.helpId],
+            );
             navigation.navigate('MyRequestHelpDescrition', {
                 help,
             });

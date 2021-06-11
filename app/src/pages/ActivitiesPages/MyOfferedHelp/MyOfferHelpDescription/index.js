@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Image,
@@ -18,16 +18,30 @@ import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
+import helpService from '../../../../services/Help';
 
 export default function OfferHelpDescription({ route, navigation }) {
-    const { help } = route.params;
+    const { helpId } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
+    const [help, setHelp] = useState(null);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
-    const helpOwnerPhoto = help.user.photo || user.photo;
+
+    useEffect(() => {
+        async function setupPage() {
+            const helpTemp = await useService(
+                helpService,
+                'getHelpOfferWithAggregationById',
+                [helpId],
+            );
+
+            setHelp(helpTemp);
+        }
+        setupPage();
+    }, []);
 
     function openGoogleMaps() {
         const scheme = Platform.select({
@@ -104,23 +118,22 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderWaitingHelpOwnerMessage = () => {
-        if (help.status == 'waiting') {
-            return (
-                <Text style={styles.waitingText}>
-                    Aguarde o dono da ajuda escolher seu ajudante.
-                </Text>
-            );
-        }
+        return (
+            <Text style={styles.waitingText}>
+                Aguarde o dono da ajuda escolher seu ajudante.
+            </Text>
+        );
     };
 
     const renderHelpOwnerInformation = () => {
         const ownerNameFormated = shortenName(help.user.name);
+        const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
 
         return (
             <View style={styles.userInfo}>
                 <Image
                     source={{
-                        uri: `data:image/png;base64,${helpOwnerPhoto}`,
+                        uri: `data:image/png;base64,${ownerPhoto}`,
                     }}
                     style={styles.profileImage}
                 />
@@ -173,12 +186,15 @@ export default function OfferHelpDescription({ route, navigation }) {
                     }
                     isLoading={isFinishRequestLoading}
                 />
-                {renderHelpOwnerInformation()}
-                {renderHelpInformation()}
-
-                {help.status == 'waiting'
-                    ? renderWaitingHelpOwnerMessage()
-                    : renderOnGoingHelpButtons()}
+                {help && (
+                    <>
+                        {renderHelpOwnerInformation()}
+                        {renderHelpInformation()}
+                        {help.status == 'waiting'
+                            ? renderWaitingHelpOwnerMessage()
+                            : renderOnGoingHelpButtons()}
+                    </>
+                )}
             </View>
         </ScrollView>
     );

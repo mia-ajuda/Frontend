@@ -58,7 +58,7 @@ export default function HelpsFinished({ navigation }) {
                                         navigation.navigate(
                                             'MyOfferHelpDescription',
                                             {
-                                                help,
+                                                helpId: help._id,
                                             },
                                         )
                                     }>
