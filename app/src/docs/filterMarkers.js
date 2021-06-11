@@ -1,3 +1,5 @@
+import { TURN_OFF_OFFER } from 'react-native-dotenv';
+
 const filterButtonTypes = [
     {
         id: 1,
@@ -18,5 +20,10 @@ const filterButtonTypes = [
         iconName: 'home',
     },
 ];
+
+if (TURN_OFF_OFFER) {
+    // Turn Off Feature of Offer
+    filterButtonTypes.splice(1, 1);
+}
 
 export default filterButtonTypes;
