@@ -14,10 +14,15 @@ import colors from '../../../../assets/styles/colorVariables';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
+import ConfirmationModal from '../../../components/modals/confirmationModal';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
+    const [helpToDelete, setHelpToDelete] = useState(null);
+    const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
 
     const { user } = useContext(UserContext);
     useFocusEffect(
@@ -37,6 +42,22 @@ export default function HelpsFinished({ navigation }) {
             setFinishedHelpList(resFinished);
         }
         setLoadingHelpRequests(false);
+    }
+
+    async function excludeHelp() {
+        setHelpDeletionLoading(true);
+        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            'helpOffer',
+            helpToDelete,
+        ]);
+        if (!validDeleteRequest.error) {
+            const updatedArray = finishedHelpList.filter((help) => {
+                return help._id !== helpToDelete;
+            });
+            setFinishedHelpList(updatedArray);
+        }
+        setHelpDeletionLoading(false);
+        setConfirmationModalVisible(false);
     }
 
     const renderLoadingIndicator = () => (
@@ -66,6 +87,10 @@ export default function HelpsFinished({ navigation }) {
                                     <MyRequestHelpCard
                                         object={help}
                                         isEntityUser={true}
+                                        setConfirmationModalVisible={
+                                            setConfirmationModalVisible
+                                        }
+                                        setSelectedHelp={setHelpToDelete}
                                     />
                                 </TouchableOpacity>
                             );
@@ -79,6 +104,14 @@ export default function HelpsFinished({ navigation }) {
     };
     return (
         <View>
+            <ConfirmationModal
+                attention={true}
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
+                action={() => excludeHelp()}
+                message={'Você deseja deletar essa oferta de ajuda?'}
+                isLoading={isHelpDeletionLoading}
+            />
             {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
         </View>
     );

@@ -17,9 +17,8 @@ import styles from '../styles';
 
 const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
     const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
@@ -48,6 +47,7 @@ const MyRequestedHelp = ({ navigation }) => {
     async function excludeHelp() {
         setHelpDeletionLoading(true);
         const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            'help',
             helpToDelete,
         ]);
         if (!validDeleteRequest.error) {

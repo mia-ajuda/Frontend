@@ -67,8 +67,8 @@ class HelpService {
         return helpOfferList.data;
     }
 
-    async deleteHelp(helpId) {
-        await api.delete(`/help/${helpId}`);
+    async deleteHelp(helpRoute, helpId) {
+        await api.delete(`/${helpRoute}/${helpId}`);
         return true;
     }
 
