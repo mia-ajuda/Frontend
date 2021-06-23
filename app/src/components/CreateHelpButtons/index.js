@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
+import { TURN_OFF_OFFER } from 'react-native-dotenv';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -79,38 +80,45 @@ export default function CreateHelpButtons() {
         </Animated.View>
     );
 
-    const renderOfferButton = () => (
-        <HelpButtonAnimated
-            onPress={navigateToCreateHelpOfferPage}
-            style={[
-                {
-                    transform: [
+    const renderOfferButton = () => {
+        if (!TURN_OFF_OFFER) {
+            // Turn Off Feature of Offer
+            return (
+                <HelpButtonAnimated
+                    onPress={navigateToCreateHelpOfferPage}
+                    style={[
                         {
-                            translateY: buttonsTransleY.interpolate({
-                                inputRange: [
-                                    BUTTON_MIN_HEIGHT,
-                                    BUTTON_MAX_HEIGHT,
-                                ],
-                                outputRange: [0, -BUTTON_MAX_HEIGHT],
-                            }),
+                            transform: [
+                                {
+                                    translateY: buttonsTransleY.interpolate({
+                                        inputRange: [
+                                            BUTTON_MIN_HEIGHT,
+                                            BUTTON_MAX_HEIGHT,
+                                        ],
+                                        outputRange: [0, -BUTTON_MAX_HEIGHT],
+                                    }),
+                                },
+                            ],
                         },
-                    ],
-                },
-                styles.helpButtonView,
-            ]}>
-            {isButtonsVisible && (
-                <Text style={styles.helpButtonText}>Oferecer ajuda</Text>
-            )}
+                        styles.helpButtonView,
+                    ]}>
+                    {isButtonsVisible && (
+                        <Text style={styles.helpButtonText}>
+                            Oferecer ajuda
+                        </Text>
+                    )}
 
-            <View style={styles.helpButton}>
-                <FontAwesome5
-                    name="hand-holding-heart"
-                    size={30}
-                    color={colors.primary}
-                />
-            </View>
-        </HelpButtonAnimated>
-    );
+                    <View style={styles.helpButton}>
+                        <FontAwesome5
+                            name="hand-holding-heart"
+                            size={30}
+                            color={colors.primary}
+                        />
+                    </View>
+                </HelpButtonAnimated>
+            );
+        }
+    };
 
     const renderRequestHelpButton = () => (
         <HelpButtonAnimated

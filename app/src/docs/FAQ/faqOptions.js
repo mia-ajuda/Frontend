@@ -1,3 +1,5 @@
+import { TURN_OFF_OFFER } from 'react-native-dotenv';
+
 const faqOptions = [
     {
         id: 1,
@@ -16,5 +18,10 @@ const faqOptions = [
         description: 'Contatos Importantes',
     },
 ];
+
+if (TURN_OFF_OFFER) {
+    // Turn Off Feature of Offer
+    faqOptions.splice(2, 1);
+}
 
 export default faqOptions;

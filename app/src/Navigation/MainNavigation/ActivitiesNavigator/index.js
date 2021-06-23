@@ -9,16 +9,26 @@ import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
+import { TURN_OFF_OFFER } from 'react-native-dotenv';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
+
+const navigateToMyOffers = () => {
+    if (!TURN_OFF_OFFER) {
+        // Turn Off Feature of Offer
+        return (
+            <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
+        );
+    }
+};
 
 const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="Atividades"
         tabBarOptions={tabTopBarOptions}>
         {/* Minhas ofertas de ajuda, diferente de interação com outros usuários */}
-        <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
+        {navigateToMyOffers()}
         {/* Meus pedidos de ajuda */}
         <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
         {/* Interação com outros usuários */}
