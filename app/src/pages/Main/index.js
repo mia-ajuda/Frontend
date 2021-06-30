@@ -12,6 +12,7 @@ import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
+import { TURN_OFF_OFFER } from 'react-native-dotenv';
 import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
@@ -52,11 +53,16 @@ export default function Main({ navigation }) {
     };
 
     const renderHelpOfferMakers = () => {
-        return helpOfferList.map((helpOffer) => {
-            return (
-                <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
-            );
-        });
+        if (!TURN_OFF_OFFER) {
+            return helpOfferList.map((helpOffer) => {
+                return (
+                    <HelpOfferMarker
+                        key={helpOffer._id}
+                        helpOffer={helpOffer}
+                    />
+                );
+            });
+        }
     };
 
     const markersStrategy = {
