@@ -12,11 +12,11 @@ import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
-import { TURN_OFF_OFFER } from 'react-native-dotenv';
 import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
+import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -53,7 +53,7 @@ export default function Main({ navigation }) {
     };
 
     const renderHelpOfferMakers = () => {
-        if (!TURN_OFF_OFFER) {
+        if (!isOffersTurnedOff()) {
             return helpOfferList.map((helpOffer) => {
                 return (
                     <HelpOfferMarker

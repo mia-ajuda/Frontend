@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
-import { TURN_OFF_OFFER } from 'react-native-dotenv';
+import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -81,7 +81,7 @@ export default function CreateHelpButtons() {
     );
 
     const renderOfferButton = () => {
-        if (!TURN_OFF_OFFER) {
+        if (!isOffersTurnedOff()) {
             // Turn Off Feature of Offer
             return (
                 <HelpButtonAnimated
