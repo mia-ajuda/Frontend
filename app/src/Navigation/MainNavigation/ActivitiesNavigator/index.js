@@ -9,13 +9,13 @@ import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
-import { TURN_OFF_OFFER } from 'react-native-dotenv';
+import isOffersTurnedOff from '../../../utils/isOffersTurnedOff';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const navigateToMyOffers = () => {
-    if (!TURN_OFF_OFFER) {
+    if (!isOffersTurnedOff()) {
         // Turn Off Feature of Offer
         return (
             <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />

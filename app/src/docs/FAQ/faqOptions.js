@@ -1,4 +1,4 @@
-import { TURN_OFF_OFFER } from 'react-native-dotenv';
+import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
 
 const faqOptions = [
     {
@@ -19,7 +19,7 @@ const faqOptions = [
     },
 ];
 
-if (TURN_OFF_OFFER) {
+if (isOffersTurnedOff()) {
     // Turn Off Feature of Offer
     faqOptions.splice(2, 1);
 }

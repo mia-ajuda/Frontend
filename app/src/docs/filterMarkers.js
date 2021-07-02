@@ -1,4 +1,4 @@
-import { TURN_OFF_OFFER } from 'react-native-dotenv';
+import isOffersTurnedOff from '../utils/isOffersTurnedOff';
 
 const filterButtonTypes = [
     {
@@ -21,7 +21,7 @@ const filterButtonTypes = [
     },
 ];
 
-if (TURN_OFF_OFFER) {
+if (isOffersTurnedOff()) {
     // Turn Off Feature of Offer
     filterButtonTypes.splice(1, 1);
 }

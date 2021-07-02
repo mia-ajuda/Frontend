@@ -16,6 +16,7 @@ import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
+import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -52,11 +53,16 @@ export default function Main({ navigation }) {
     };
 
     const renderHelpOfferMakers = () => {
-        return helpOfferList.map((helpOffer) => {
-            return (
-                <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
-            );
-        });
+        if (!isOffersTurnedOff()) {
+            return helpOfferList.map((helpOffer) => {
+                return (
+                    <HelpOfferMarker
+                        key={helpOffer._id}
+                        helpOffer={helpOffer}
+                    />
+                );
+            });
+        }
     };
 
     const markersStrategy = {
