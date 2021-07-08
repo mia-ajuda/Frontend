@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
 import getYearsSince from '../../../../../utils/getYearsSince';
 import ConfirmationModal from '../../../../../components/modals/confirmationModal';
@@ -8,16 +8,20 @@ import NoPossibleHelpers from '../../../../../components/NoHelps';
 import useService from '../../../../../services/useService';
 import styles from './styles';
 import shortenName from '../../../../../utils/shortenName';
+import helpService from '../../../../../services/Help';
 
-export default function ListPossibleHelpers({ navigation, route }) {
-    const { help } = route.params;
+export default function ListPossibleHelpers({ route, navigation }) {
+    const { helpId } = route.params;
+    const [help, setHelp] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
     );
     const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
     const [selectedHelperId, setSelectedHelperId] = useState(false);
 
-    const goBackToMyRequestsPage = () => navigation.navigate('Atividades');
+    useEffect(() => {
+        getHelpData();
+    }, []);
 
     async function chooseHelper() {
         setChooseRequestLoading(true);
@@ -31,6 +35,17 @@ export default function ListPossibleHelpers({ navigation, route }) {
         }
         goBackToMyRequestsPage();
     }
+
+    const getHelpData = async () => {
+        const helpData = await useService(
+            helpService,
+            'getHelpWithAggregationById',
+            [helpId],
+        );
+        setHelp(helpData);
+    };
+
+    const goBackToMyRequestsPage = () => navigation.navigate('Atividades');
 
     const renderPossibleHelpersList = () => {
         const possibleHelpers = help.possibleHelpers.concat(
@@ -87,7 +102,9 @@ export default function ListPossibleHelpers({ navigation, route }) {
     );
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {help.possibleHelpers.length > 0 || help.possibleEntities.length > 0
+            {help &&
+            (help.possibleHelpers.length > 0 ||
+                help.possibleEntities.length > 0)
                 ? renderPossibleHelpersList()
                 : renderNoPossibleHelpersMessage()}
             <ConfirmationModal
