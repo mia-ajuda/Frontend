@@ -59,6 +59,7 @@ export default function HelpsFinished({ navigation }) {
                                             'MyOfferHelpDescription',
                                             {
                                                 helpId: help._id,
+                                                routeId: 'HelpOffer',
                                             },
                                         )
                                     }>

@@ -23,6 +23,7 @@ export default function NotificationCard({
         if (notification.isOffer) {
             navigation.navigate('myOfferHelpDescription', {
                 helpId: notification.helpId,
+                routeId: 'HelpOffer',
             });
         } else {
             const help = await useService(

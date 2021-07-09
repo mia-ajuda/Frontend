@@ -21,7 +21,7 @@ import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 
 export default function OfferHelpDescription({ route, navigation }) {
-    const { helpId } = route.params;
+    const { helpId, routeId } = route.params;
     const { user } = useContext(UserContext);
     const [confirmationModalVisible, setConfirmationModalVisible] = useState(
         false,
@@ -34,7 +34,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         async function setupPage() {
             const helpTemp = await useService(
                 helpService,
-                'getHelpOfferWithAggregationById',
+                `get${routeId}WithAggregationById`,
                 [helpId],
             );
 
