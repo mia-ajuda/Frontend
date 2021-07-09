@@ -50,7 +50,7 @@ const ActivitiesNavigator = () => (
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="listPossibleHelpers"
+            name="ListHelpPossibleHelpers"
             component={ListPossibleHelpers}
             options={{ title: 'Detalhes' }}
         />
