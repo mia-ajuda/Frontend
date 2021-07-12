@@ -11,13 +11,14 @@ export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
     const { help } = route.params;
     const userProfilephoto = help.user.photo || user.photo;
+    const navigateToHelpersList = () => {
+        navigation.navigate('ListHelpPossibleHelpers', { helpId: help._id });
+    };
 
     const renderPossibleHelpersButton = () => (
         <TouchableOpacity
             style={styles.buttonHelpers}
-            onPress={() =>
-                navigation.navigate('listPossibleHelpers', { help })
-            }>
+            onPress={navigateToHelpersList}>
             <Text style={styles.textBtn}>Possíveis Ajudantes</Text>
             <Badge
                 value={

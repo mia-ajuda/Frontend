@@ -53,6 +53,11 @@ class HelpService {
         return help.data;
     }
 
+    async getHelpOfferWithAggregationById(offerId) {
+        const help = await api.get(`/helpOffer/aggregation/${offerId}`);
+        return help.data;
+    }
+
     async listHelpOffer(userId, getOtherUsers) {
         const helpOfferList = await api.get(
             `/helpOffer/list/?userId=${userId}&getOtherUsers=${getOtherUsers}`,

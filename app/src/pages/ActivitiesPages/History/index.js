@@ -52,7 +52,8 @@ const OfferHelpPage = ({ navigation }) => {
                                     navigation.navigate(
                                         'MyOfferHelpDescription',
                                         {
-                                            help,
+                                            helpId: help._id,
+                                            routeId: 'Help',
                                         },
                                     )
                                 }>
