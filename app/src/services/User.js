@@ -1,6 +1,5 @@
 import api from '../services/Api';
-import { Notifications } from 'expo';
-import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
 class UserService {
@@ -38,15 +37,13 @@ class UserService {
 
     async setUserDeviceId() {
         if (Constants.isDevice) {
-            const { status: existingStatus } = await Permissions.getAsync(
-                Permissions.NOTIFICATIONS,
-            );
+            const { status: existingStatus } =
+                await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
 
             if (existingStatus !== 'granted') {
-                const { status } = await Permissions.askAsync(
-                    Permissions.NOTIFICATIONS,
-                );
+                const { status } =
+                    await Notifications.requestPermissionsAsync();
                 finalStatus = status;
             }
             if (finalStatus !== 'granted') {

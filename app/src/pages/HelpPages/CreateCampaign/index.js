@@ -18,9 +18,8 @@ export default function CreateCampaign({ navigation }) {
     const [category, setCategory] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
-        false,
-    );
+    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] =
+        useState(false);
     const [createCampaignLoading, setCreateCampaignLoading] = useState(false);
 
     const { user } = useContext(UserContext);
@@ -48,7 +47,7 @@ export default function CreateCampaign({ navigation }) {
         if (!createCampaign.error) {
             setModalSuccessMoldalVisible(true);
         } else {
-            navigation.navigate('main');
+            navigation.navigate('home');
         }
         setCreateCampaignLoading(false);
     }
@@ -99,7 +98,7 @@ export default function CreateCampaign({ navigation }) {
             </Container>
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('main')}
+                onOkPressed={() => navigation.navigate('home')}
             />
         </ScrollView>
     );

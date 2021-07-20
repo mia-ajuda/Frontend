@@ -11,9 +11,9 @@ import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 const Stack = createStackNavigator();
 
 const MainNavigation = () => (
-    <Stack.Navigator initialRouteName="main" screenOptions={headerStyle}>
+    <Stack.Navigator initialRouteName="home" screenOptions={headerStyle}>
         <Stack.Screen
-            name="main"
+            name="home"
             component={Main}
             options={{ headerShown: false }}
         />

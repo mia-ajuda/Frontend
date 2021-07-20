@@ -2,10 +2,10 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import Root from './src/index';
 import loadFonts from './assets/fonts/loadFonts';
-import { View, YellowBox } from 'react-native';
+import { View, LogBox } from 'react-native';
 import { AppRegistry } from 'react-native';
 
-YellowBox.ignoreWarnings(['Unrecognized WebSocket']);
+LogBox.ignoreLogs(['Unrecognized WebSocket']);
 
 AppRegistry.registerComponent('main', () => App);
 

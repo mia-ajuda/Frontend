@@ -26,9 +26,8 @@ export default function CreateHelp({ navigation }) {
     const [categoryIds, setCategoryIds] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
-        false,
-    );
+    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] =
+        useState(false);
     const [createHelpLoading, setCreateHelpLoading] = useState(false);
     const { user } = useContext(UserContext);
 
@@ -55,7 +54,7 @@ export default function CreateHelp({ navigation }) {
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
         } else {
-            navigation.navigate('main');
+            navigation.navigate('home');
         }
         setCreateHelpLoading(false);
     }
@@ -107,7 +106,7 @@ export default function CreateHelp({ navigation }) {
                 </Container>
                 <NewHelpModalSuccess
                     visible={modalSuccessModalVisible}
-                    onOkPressed={() => navigation.navigate('main')}
+                    onOkPressed={() => navigation.navigate('home')}
                 />
             </KeyboardAvoidingView>
         </ScrollView>
