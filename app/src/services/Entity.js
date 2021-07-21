@@ -45,15 +45,15 @@ class EntityService {
                     throw 'Failed to get push token for push notification!';
                 }
             }
-
-            Notifications.getExpoPushTokenAsync()
-                .then(async (pushToken) => {
-                    await api.put('/entity', { deviceId: pushToken });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    console.log('Tente rodar "expo login"');
-                });
+            try {
+                const token = await (
+                    await Notifications.getExpoPushTokenAsync()
+                ).data;
+                await api.put('/entity', { deviceId: token });
+            } catch (error) {
+                console.log(error);
+                console.log('Tente rodar "expo login"');
+            }
         } catch {
             throw { error: 'Não foi possível recuperar Push Token!' };
         }

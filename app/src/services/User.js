@@ -53,9 +53,15 @@ class UserService {
             }
         }
 
-        await Notifications.getExpoPushTokenAsync().then(async (pushToken) => {
-            await api.put('/user', { deviceId: pushToken });
-        });
+        try {
+            const token = await (
+                await Notifications.getExpoPushTokenAsync()
+            ).data;
+            await api.put('/user', { deviceId: token });
+        } catch (error) {
+            console.log(error);
+            console.log('Tente rodar "expo login"');
+        }
     }
 }
 

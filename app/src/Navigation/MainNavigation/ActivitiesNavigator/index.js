@@ -57,4 +57,5 @@ const ActivitiesNavigator = () => (
     </Stack.Navigator>
 );
 
+export { NavigationGivenHelps };
 export default ActivitiesNavigator;
