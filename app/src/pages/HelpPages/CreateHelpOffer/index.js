@@ -18,9 +18,8 @@ export default function CreateHelp({ navigation }) {
     const [helpOfferCategoryIds, setHelpOfferCategoryIds] = useState([]);
     const [helpOfferDescription, setHelpOfferDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] = useState(
-        false,
-    );
+    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] =
+        useState(false);
     const [createHelpOfferLoading, setCreateHelpOfferLoading] = useState(false);
 
     const { user } = useContext(UserContext);
@@ -57,7 +56,7 @@ export default function CreateHelp({ navigation }) {
         if (!createHelpRequest.error) {
             setModalSuccessMoldalVisible(true);
         } else {
-            navigation.navigate('main');
+            navigation.navigate('home');
         }
         setCreateHelpOfferLoading(false);
     }
@@ -112,7 +111,7 @@ export default function CreateHelp({ navigation }) {
             </Container>
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('main')}
+                onOkPressed={() => navigation.navigate('home')}
             />
         </ScrollView>
     );

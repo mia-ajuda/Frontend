@@ -7,8 +7,8 @@ import actions from '../actions';
 import env from '../../config/envVariables';
 
 import {
-    requestPermissionsAsync,
     getCurrentPositionAsync,
+    requestForegroundPermissionsAsync,
 } from 'expo-location';
 import useService from '../../services/useService';
 import firebaseService from '../../services/Firebase';
@@ -26,7 +26,7 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         async function getLocation() {
-            const { granted } = await requestPermissionsAsync();
+            const { granted } = await requestForegroundPermissionsAsync();
             if (granted) {
                 const { coords } = await getCurrentPositionAsync({
                     enableHighAccuracy: true,

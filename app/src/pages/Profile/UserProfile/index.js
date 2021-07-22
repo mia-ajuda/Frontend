@@ -44,7 +44,8 @@ export default function Profile({ navigation }) {
     }
 
     async function changeImgeProfile() {
-        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+        const permissionResult =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted === false) {
             // eslint-disable-next-line no-undef

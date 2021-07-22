@@ -11,7 +11,8 @@ export default function Photo({ route, navigation }) {
     const goBackToAdressPage = () => navigation.goBack();
 
     async function requestPermission() {
-        const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+        const permissionResult =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (permissionResult.granted === false) {
             alertMessage('É preciso permissão para colocar uma foto.');
             return;
