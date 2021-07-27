@@ -99,6 +99,7 @@ export default function CreateCampaign({ navigation }) {
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
                 onOkPressed={() => navigation.navigate('home')}
+                message="Você criou a sua campanha com sucesso!"
             />
         </ScrollView>
     );

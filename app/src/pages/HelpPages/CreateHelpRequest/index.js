@@ -107,6 +107,7 @@ export default function CreateHelp({ navigation }) {
                 <NewHelpModalSuccess
                     visible={modalSuccessModalVisible}
                     onOkPressed={() => navigation.navigate('home')}
+                    message="Sua solicitação de ajuda foi criada com sucesso!"
                 />
             </KeyboardAvoidingView>
         </ScrollView>
