@@ -24,7 +24,7 @@ Caso você queira contribuir para o código do Mia Ajuda, basta seguir os próxi
 
 * Busque a _issue_ na qual você se identifica, se marque e comente nessa _issue_. Atenção: Certifique-se antes, de que a _issue_ não está sendo resolvida por alguém, antes;
 * Faça um _fork_ dos nossos repositórios, se você for um contribuidor externo;
-* Crie uma _branch_ a partir da develop, seguindo nossas políticas de _branch_;
+* Crie uma _branch_ a partir da develop, seguindo nossas políticas de _branch_ abaixo;
 * Crie um _Pull Request_ com o status _WIP_, no repositório para nos certificarmos que você está trabalhando na sua _issue_;
 * Ao gerar _commits_, siga a nossa política de _commits_;
 * Ao concluir o desenvolvimento da _issue_, troque o status do seu _Pull Request_ de _WIP_ para _Solve_, seguindo o nosso [template de Pull Request](https://github.com/mia-ajuda/Backend/blob/develop/.github/pull_request_template.md);
