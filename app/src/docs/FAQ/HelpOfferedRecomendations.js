@@ -1,17 +1,17 @@
 const acceptHelpRequestRecomendationsDescription = `
-##1 Lembre-se que você está lidando com pessoas que precisam de ajuda, logo, tenha paciência, seja prestativo e gentil;
+1. Lembre-se que você está lidando com pessoas que precisam de ajuda, logo, tenha paciência, seja prestativo e gentil;
 
-##2 Ao entrar em contato com o ajudado, considere que o mesmo pode estar em alguma situação de risco, por isso, não peça, e nem ofereça, informações adicionais além das apresentadas no app;
+2. Ao entrar em contato com o ajudado, considere que o mesmo pode estar em alguma situação de risco, por isso, não peça, e nem ofereça, informações adicionais além das apresentadas no app;
 
-##3 Recomendamos, caso seja necessário um encontro, que este ocorra em um local público, e de forma segura.
+3. Recomendamos, caso seja necessário um encontro, que este ocorra em um local público, e de forma segura.
 `;
 
 const createHelpOfferedRecomendationsDescriptions = `
-##1 Se um objeto for ofertado, certifique-se de que o mesmo está em boas condições de uso;
+1. Se um objeto for ofertado, certifique-se de que o mesmo está em boas condições de uso;
 
-##2 Certifique-se, ao escolher um ajudado, de que este realmente precisa da ajuda;
+2. Certifique-se, ao escolher um ajudado, de que este realmente precisa da ajuda;
 
-##3 Caso seja ofertado um serviço (apoio social, psicológico ou físico, transporte de emergência e pequenos serviços), lembre-se de realizá-lo da melhor forma possível, e sempre com paciência e prestatividade.
+3. Caso seja ofertado um serviço (apoio social, psicológico ou físico, transporte de emergência e pequenos serviços), lembre-se de realizá-lo da melhor forma possível, e sempre com paciência e prestatividade.
 `;
 
 const helpOfferedRecomendations = [
