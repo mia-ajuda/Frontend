@@ -15,6 +15,11 @@ function subscribeToDeleteHelp(subscribeFunction) {
     socket.on('delete-help', subscribeFunction);
 }
 
+function subscribeToDeleteHelpOffer(subscribeFunction) {
+    socket.off('delete-help-offer');
+    socket.on('delete-help-offer', subscribeFunction);
+}
+
 function connect(userPosition, userId) {
     socket.io.opts.query = {
         userPosition,
@@ -38,5 +43,6 @@ export {
     disconnect,
     subscribeToNewHelps,
     subscribeToDeleteHelp,
+    subscribeToDeleteHelpOffer,
     changeCategories,
 };
