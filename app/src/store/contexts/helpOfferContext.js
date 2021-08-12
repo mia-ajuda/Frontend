@@ -32,8 +32,8 @@ export default function HelpOfferContextProvider({ children }) {
 
     useEffect(() => {
         subscribeToDeleteHelpOffer((helpOfferId) =>
-            setHelpOfferList((helpOfferList) =>
-                helpOfferList.filter(
+            setHelpOfferList((currentValue) =>
+                currentValue.filter(
                     (helpOffer) => helpOffer._id != helpOfferId,
                 ),
             ),
