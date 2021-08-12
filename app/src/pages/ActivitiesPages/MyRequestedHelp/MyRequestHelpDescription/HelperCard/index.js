@@ -14,12 +14,10 @@ export default function HelperCard({ help }) {
     const navigation = useNavigation();
     const { user } = useContext(UserContext);
     const [helper, setHelper] = useState({});
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
-    const [isFinishHelpRequestLoading, setFinishHelpRequestLoading] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
+    const [isFinishHelpRequestLoading, setFinishHelpRequestLoading] =
+        useState(false);
     const goBackToMyResquestsPage = () => navigation.goBack();
 
     useEffect(() => {
@@ -46,7 +44,7 @@ export default function HelperCard({ help }) {
         );
         if (!finishHelpRequest.error) {
             alertSuccess(
-                'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudante!',
+                'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudado!',
             );
         }
         goBackToMyResquestsPage();

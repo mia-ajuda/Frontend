@@ -8,8 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
-import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
 import isOffersTurnedOff from '../../../utils/isOffersTurnedOff';
+import ListPossibleInteresteds from '../../../components/InterestedList';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -50,8 +50,8 @@ const ActivitiesNavigator = () => (
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="ListHelpPossibleHelpers"
-            component={ListPossibleHelpers}
+            name="ListHelpInteresteds"
+            component={ListPossibleInteresteds}
             options={{ title: 'Detalhes' }}
         />
     </Stack.Navigator>

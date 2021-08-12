@@ -84,10 +84,11 @@ export default function HelpsFinished({ navigation }) {
                                             },
                                         )
                                     }>
-                                    {/* Tirar isEntityUser depois assim que colocar o possiblehelpers*/}
                                     <MyRequestHelpCard
                                         object={help}
-                                        isEntityUser={true}
+                                        possibleInterestedList={
+                                            help.possibleHelpedUsers
+                                        }
                                         setConfirmationModalVisible={
                                             setConfirmationModalVisible
                                         }

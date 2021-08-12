@@ -12,12 +12,17 @@ export default function HelpDescription({ route, navigation }) {
     const { help } = route.params;
     const userProfilephoto = help.user.photo || user.photo;
     const navigateToHelpersList = () => {
-        navigation.navigate('ListHelpPossibleHelpers', { helpId: help._id });
+        navigation.navigate('ListHelpInteresteds', {
+            helpId: help._id,
+            routeId: 'Help',
+            message:
+                'Você tem certeza que deseja este usuário como seu ajudante?',
+        });
     };
 
     const renderPossibleHelpersButton = () => (
         <TouchableOpacity
-            style={styles.buttonHelpers}
+            style={styles.buttonInteresteds}
             onPress={navigateToHelpersList}>
             <Text style={styles.textBtn}>Possíveis Ajudantes</Text>
             <Badge

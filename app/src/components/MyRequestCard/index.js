@@ -11,6 +11,7 @@ export default function MyRequestCard({
     object,
     setConfirmationModalVisible,
     setSelectedHelp,
+    possibleInterestedList,
     isEntityUser,
 }) {
     function handleDelete() {
@@ -19,17 +20,15 @@ export default function MyRequestCard({
     }
 
     const renderBadgeIcon = () => {
-        if (
-            object.possibleHelpers.length > 0 ||
-            object.possibleEntities.length > 0
-        ) {
+        const possibleInterestedSize =
+            possibleInterestedList.length + object.possibleEntities.length;
+        if (possibleInterestedSize > 0) {
             return (
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>
                             {' '}
-                            {object.possibleHelpers.length +
-                                object.possibleEntities.length}{' '}
+                            {possibleInterestedSize}{' '}
                         </Text>
                     }
                     badgeStyle={styles.badgeStyle}
