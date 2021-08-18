@@ -73,6 +73,27 @@ export default function OfferHelpDescription({ route, navigation }) {
         });
     };
 
+    const Button = (props) => {
+        const buttonStyle = { ...styles.buttonInteresteds };
+
+        if (props.marginBottom) {
+            buttonStyle.marginBottom = 15;
+        }
+
+        return (
+            <TouchableOpacity style={buttonStyle} onPress={props.onPress}>
+                <Text style={styles.textBtn}>{props.text}</Text>
+                <Badge
+                    value={
+                        <Text style={styles.labelBadge}>{props.badgeText}</Text>
+                    }
+                    badgeStyle={styles.badgeStyle}
+                    containerStyle={styles.containerBadge}
+                />
+            </TouchableOpacity>
+        );
+    };
+
     const renderWaitingHelpOwnerMessage = () => {
         if (user._id != help.ownerId) {
             return (
@@ -82,21 +103,22 @@ export default function OfferHelpDescription({ route, navigation }) {
             );
         } else {
             return (
-                <TouchableOpacity
-                    style={styles.buttonInteresteds}
-                    onPress={navigateToHelpedUsersList}>
-                    <Text style={styles.textBtn}>Possíveis Necessitados</Text>
-                    <Badge
-                        value={
-                            <Text style={styles.labelBadge}>
-                                {help.possibleHelpedUsers.length +
-                                    help.possibleEntities.length}
-                            </Text>
+                <>
+                    <Button
+                        text="Interessados"
+                        marginBottom
+                        onPress={navigateToHelpedUsersList}
+                        badgeText={
+                            help.possibleHelpedUsers.length +
+                            help.possibleEntities.length
                         }
-                        badgeStyle={styles.badgeStyle}
-                        containerStyle={styles.containerBadge}
                     />
-                </TouchableOpacity>
+                    <Button
+                        text="Ajudados Escolhidos"
+                        onPress={() => console.log('showing off')}
+                        badgeText={help.helpedUsers.length}
+                    />
+                </>
             );
         }
     };
