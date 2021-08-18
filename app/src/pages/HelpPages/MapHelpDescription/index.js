@@ -23,7 +23,7 @@ export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
     const [isOwnerRequestLoading, setOwnerRequestLoading] = useState(true);
     const [ownerInfo, setOwnerInfo] = useState({});
-    const { helpOfferList, setHelpOfferList } = useContext(HelpOfferContext);
+    const { setHelpOfferList } = useContext(HelpOfferContext);
 
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
@@ -67,10 +67,9 @@ export default function MapHelpDescription({ route, navigation }) {
 
     function removeElementFromMap() {
         if (helpType == 'offer') {
-            let filteredOfferList = helpOfferList.filter((OfferFromMap) => {
-                return OfferFromMap._id != help._id;
-            });
-            setHelpOfferList(filteredOfferList);
+            setHelpOfferList((currentValue) =>
+                currentValue.filter((helpOffer) => helpOffer._id != help._id),
+            );
         } else {
             let filteredHelpList = helpList.filter((helpFromMap) => {
                 return helpFromMap._id != help._id;
