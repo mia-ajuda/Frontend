@@ -7,7 +7,7 @@ import {
     ScrollView,
     ActivityIndicator,
 } from 'react-native';
-import { Badge } from 'react-native-elements';
+import { Badge, Icon } from 'react-native-elements';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
@@ -82,15 +82,21 @@ export default function OfferHelpDescription({ route, navigation }) {
             buttonStyle.marginBottom = 15;
         }
 
+        const iconName = props.activated ? 'chevron-down' : 'chevron-right';
+
         return (
             <TouchableOpacity
                 style={[buttonStyle, styles.inline]}
                 onPress={props.onPress}>
                 <Text style={styles.textBtn}>{props.text}</Text>
                 {props.showArrow && (
-                    <Text style={[styles.textBtn, styles.btnArrow]}>
-                        {props.activated ? '>' : '<'}
-                    </Text>
+                    <View style={[styles.textBtn, styles.btnArrow]}>
+                        <Icon
+                            color="#FFF"
+                            name={iconName}
+                            type="font-awesome"
+                        />
+                    </View>
                 )}
                 <Badge
                     value={
