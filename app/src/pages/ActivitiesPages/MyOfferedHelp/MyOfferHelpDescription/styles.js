@@ -31,6 +31,17 @@ const styles = StyleSheet.create({
     helpedUsers: {
         marginTop: 20,
     },
+    inline: {
+        flexDirection: 'row',
+    },
+    btnArrow: {
+        position: 'absolute',
+        right: 5,
+    },
+    smallBadge: {
+        height: 25,
+        width: 25,
+    },
 });
 
 export default styles;

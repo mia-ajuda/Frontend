@@ -28,6 +28,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
     const [isHelpOfferLoading, setIsHelpOfferLoading] = useState(true);
     const [help, setHelp] = useState(null);
+    const [showHelpedUsers, setShowHelpedUsers] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
 
     useEffect(() => {
@@ -82,13 +83,20 @@ export default function OfferHelpDescription({ route, navigation }) {
         }
 
         return (
-            <TouchableOpacity style={buttonStyle} onPress={props.onPress}>
+            <TouchableOpacity
+                style={[buttonStyle, styles.inline]}
+                onPress={props.onPress}>
                 <Text style={styles.textBtn}>{props.text}</Text>
+                {props.showArrow && (
+                    <Text style={[styles.textBtn, styles.btnArrow]}>
+                        {props.activated ? '>' : '<'}
+                    </Text>
+                )}
                 <Badge
                     value={
                         <Text style={styles.labelBadge}>{props.badgeText}</Text>
                     }
-                    badgeStyle={styles.badgeStyle}
+                    badgeStyle={[styles.badgeStyle, styles.smallBadge]}
                     containerStyle={styles.containerBadge}
                 />
             </TouchableOpacity>
@@ -116,7 +124,9 @@ export default function OfferHelpDescription({ route, navigation }) {
                     />
                     <Button
                         text="Ajudados Escolhidos"
-                        onPress={() => console.log('showing off')}
+                        showArrow
+                        onPress={() => setShowHelpedUsers(!showHelpedUsers)}
+                        activated={showHelpedUsers}
                         badgeText={help.helpedUsers.length}
                     />
                 </>
@@ -172,6 +182,21 @@ export default function OfferHelpDescription({ route, navigation }) {
             </View>
         </View>
     );
+
+    const renderHelpedUsers = () => {
+        return (
+            <View style={styles.helpedUsers}>
+                {help.helpedUsers.map((user) => (
+                    <UserCard
+                        key={user._id}
+                        user={user}
+                        handleClick={() => null}
+                    />
+                ))}
+            </View>
+        );
+    };
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
@@ -192,15 +217,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                         {renderHelpInformation()}
                         <View style={styles.helpButtons}>
                             {renderWaitingHelpOwnerMessage()}
-                            <View style={styles.helpedUsers}>
-                                {help.helpedUsers.map((user) => (
-                                    <UserCard
-                                        key={user._id}
-                                        user={user}
-                                        handleClick={() => null}
-                                    />
-                                ))}
-                            </View>
+                            {showHelpedUsers && renderHelpedUsers()}
                         </View>
                     </>
                 )}
