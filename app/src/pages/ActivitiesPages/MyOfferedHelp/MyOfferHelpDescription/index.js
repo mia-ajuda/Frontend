@@ -18,6 +18,7 @@ import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
+import UserCard from '../../../../components/InterestedList/UserCard';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -191,6 +192,15 @@ export default function OfferHelpDescription({ route, navigation }) {
                         {renderHelpInformation()}
                         <View style={styles.helpButtons}>
                             {renderWaitingHelpOwnerMessage()}
+                            <View style={styles.helpedUsers}>
+                                {help.helpedUsers.map((user) => (
+                                    <UserCard
+                                        key={user._id}
+                                        user={user}
+                                        handleClick={() => null}
+                                    />
+                                ))}
+                            </View>
                         </View>
                     </>
                 )}

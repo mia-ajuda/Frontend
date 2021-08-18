@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
     },
+    helpedUsers: {
+        marginTop: 20,
+    },
 });
 
 export default styles;
