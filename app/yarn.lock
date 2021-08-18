@@ -3903,6 +3903,14 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
+did-you-mean@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/did-you-mean/-/did-you-mean-0.0.1.tgz#8851ce82407903cb62c12cb6ad4f676921ccdec3"
+  integrity sha1-iFHOgkB5A8tiwSy2rU9naSHM3sM=
+  dependencies:
+    levenshtein "*"
+    underscore "*"
+
 doctrine@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
@@ -5072,6 +5080,14 @@ getenv@^1.0.0:
   resolved "https://registry.yarnpkg.com/getenv/-/getenv-1.0.0.tgz#874f2e7544fbca53c7a4738f37de8605c3fcfc31"
   integrity sha512-7yetJWqbS9sbn0vIfliPsFgoXMKn/YMF+Wuiog97x+urnSRRRZ7xB+uVkwGKzRgq9CDFfMQnE9ruL5DHv9c6Xg==
 
+git-commit-msg-linter@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/git-commit-msg-linter/-/git-commit-msg-linter-3.2.6.tgz#e2894fc21d3b69635433e1c5b161e25e6b6068d1"
+  integrity sha512-u9LolsJjHFLm12FWCnZhrhMJmHzDBP4Uz31F+OLpTSGvZW9ms6/+0hscJA9nisFU0HK0tJJ991ISomc5ajoO6A==
+  dependencies:
+    chalk "^2.4.2"
+    did-you-mean "^0.0.1"
+
 glob-parent@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -6006,6 +6022,11 @@ leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
   integrity sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==
+
+levenshtein@*:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/levenshtein/-/levenshtein-1.0.5.tgz#3911737a9cb56da345d008f55782c6f138979ba3"
+  integrity sha1-ORFzepy1baNF0Aj1V4LG8TiXm6M=
 
 levn@^0.4.1:
   version "0.4.1"
@@ -9011,6 +9032,11 @@ unbox-primitive@^1.0.1:
     has-bigints "^1.0.1"
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
+
+underscore@*:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
+  integrity sha512-hzSoAVtJF+3ZtiFX0VgfFPHEDRm7Y/QPjGyNo4TVdnDTdft3tr8hEkD25a1jC+TjTuE7tkHGKkhwCgs9dgBB2g==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
-import colors from '../../../../assets/styles/colorVariables';
+import helpDescription from '../../../../assets/styles/helpDescription';
+
 const styles = StyleSheet.create({
+    ...helpDescription,
     container: {
         flex: 1,
         padding: 20,
@@ -42,42 +44,6 @@ const styles = StyleSheet.create({
     helpInfo: {
         flex: 3,
         paddingTop: 5,
-    },
-
-    helpButtons: {
-        flex: 1,
-    },
-    titleFont: {
-        fontFamily: 'montserrat-semibold',
-        fontSize: 18,
-        textAlign: 'center',
-        paddingBottom: 10,
-    },
-    categoryWarning: {
-        backgroundColor: colors.secondary,
-        borderRadius: 8,
-
-        maxHeight: 30,
-
-        paddingHorizontal: 15,
-        alignSelf: 'center',
-        marginLeft: 5,
-        marginTop: 5,
-    },
-
-    categoryName: {
-        ...fonts.body,
-        fontFamily: 'montserrat-semibold',
-        lineHeight: 30,
-        textAlign: 'center',
-        alignSelf: 'center',
-    },
-    categoryContainer: {
-        flexDirection: 'row',
-        width: '100%',
-        marginVertical: 15,
-        justifyContent: 'center',
-        flexWrap: 'wrap',
     },
     loadingContainer: {
         height: '100%',

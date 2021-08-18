@@ -5,11 +5,9 @@ import {
     Text,
     TouchableOpacity,
     ScrollView,
-    Linking,
-    Platform,
+    ActivityIndicator,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import Button from '../../../../components/UI/button';
+import { Badge } from 'react-native-elements';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
@@ -19,19 +17,21 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
+import colors from '../../../../../assets/styles/colorVariables';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
     const { user } = useContext(UserContext);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
+    const [isHelpOfferLoading, setIsHelpOfferLoading] = useState(true);
     const [help, setHelp] = useState(null);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
 
     useEffect(() => {
         async function setupPage() {
+            setIsHelpOfferLoading(true);
             const helpTemp = await useService(
                 helpService,
                 `get${routeId}WithAggregationById`,
@@ -39,34 +39,10 @@ export default function OfferHelpDescription({ route, navigation }) {
             );
 
             setHelp(helpTemp);
+            setIsHelpOfferLoading(false);
         }
         setupPage();
     }, []);
-
-    function openGoogleMaps() {
-        const scheme = Platform.select({
-            ios: 'maps:0,0?q=',
-            android: 'geo:0,0?q=',
-        });
-        const helpLatitude = help.user.location.coordinates[1];
-        const helpLongitude = help.user.location.coordinates[0];
-
-        const helpCoordinates = `${helpLatitude},${helpLongitude}`;
-        const helpLabel = 'Pedido de Ajuda de ' + help.user.name;
-        const url = Platform.select({
-            ios: `${scheme}${helpLabel}@${helpCoordinates}`,
-            android: `${scheme}${helpCoordinates}(${helpLabel})`,
-        });
-        Linking.openURL(url);
-    }
-
-    function openWhatsapp() {
-        Linking.openURL(
-            `whatsapp://send?phone=${
-                help.user.phone
-            }&text=${'Olá, precisa de ajuda?'}`,
-        );
-    }
 
     async function finishHelp() {
         setFinishRequestLoading(true);
@@ -83,46 +59,46 @@ export default function OfferHelpDescription({ route, navigation }) {
         goBackToMyOfferedHelpPage();
     }
 
-    const renderOnGoingHelpButtons = () => {
-        if (help.status != 'finished' && user._id != help.ownerId) {
-            return (
-                <View style={styles.ViewLink}>
-                    <View style={styles.ViewLinkBox}>
-                        <TouchableOpacity onPress={openWhatsapp}>
-                            <Icon
-                                name="whatsapp"
-                                type="font-awesome"
-                                size={50}
-                                color="#25d366"
-                            />
-                        </TouchableOpacity>
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+    );
 
-                        <TouchableOpacity onPress={openGoogleMaps}>
-                            <Icon
-                                name="directions"
-                                type="font-awesome-5"
-                                size={50}
-                                color="#4285F4"
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <Button
-                        title="Finalizar ajuda"
-                        large
-                        press={() => setConfirmationModalVisible(true)}
-                    />
-                </View>
-            );
-        }
+    const navigateToHelpedUsersList = () => {
+        navigation.navigate('ListHelpInteresteds', {
+            helpId: help._id,
+            routeId: 'HelpOffer',
+            message: '',
+        });
     };
 
     const renderWaitingHelpOwnerMessage = () => {
-        return (
-            <Text style={styles.waitingText}>
-                Aguarde o dono da ajuda escolher seu ajudante.
-            </Text>
-        );
+        if (user._id != help.ownerId) {
+            return (
+                <Text style={styles.waitingText}>
+                    Aguarde a confirmação do dono da ajuda.
+                </Text>
+            );
+        } else {
+            return (
+                <TouchableOpacity
+                    style={styles.buttonInteresteds}
+                    onPress={navigateToHelpedUsersList}>
+                    <Text style={styles.textBtn}>Possíveis Necessitados</Text>
+                    <Badge
+                        value={
+                            <Text style={styles.labelBadge}>
+                                {help.possibleHelpedUsers.length +
+                                    help.possibleEntities.length}
+                            </Text>
+                        }
+                        badgeStyle={styles.badgeStyle}
+                        containerStyle={styles.containerBadge}
+                    />
+                </TouchableOpacity>
+            );
+        }
     };
 
     const renderHelpOwnerInformation = () => {
@@ -173,7 +149,6 @@ export default function OfferHelpDescription({ route, navigation }) {
             </View>
         </View>
     );
-
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
@@ -186,13 +161,15 @@ export default function OfferHelpDescription({ route, navigation }) {
                     }
                     isLoading={isFinishRequestLoading}
                 />
-                {help && (
+                {isHelpOfferLoading ? (
+                    renderLoadingIndicator()
+                ) : (
                     <>
                         {renderHelpOwnerInformation()}
                         {renderHelpInformation()}
-                        {help.status == 'waiting'
-                            ? renderWaitingHelpOwnerMessage()
-                            : renderOnGoingHelpButtons()}
+                        <View style={styles.helpButtons}>
+                            {renderWaitingHelpOwnerMessage()}
+                        </View>
                     </>
                 )}
             </View>

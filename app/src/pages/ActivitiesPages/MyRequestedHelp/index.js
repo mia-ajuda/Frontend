@@ -85,6 +85,9 @@ const MyRequestedHelp = ({ navigation }) => {
                                 <MyRequestCard
                                     object={help}
                                     deleteVisible={true}
+                                    possibleInterestedList={
+                                        help.possibleHelpers
+                                    }
                                     setConfirmationModalVisible={
                                         setConfirmationModalVisible
                                     }

@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../../../../assets/styles/colorVariables';
+import colors from '../../../assets/styles/colorVariables';
 
 export default StyleSheet.create({
     container: {
         padding: 15,
     },
-    helper: {
+    interested: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#FFF',
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     infoTextFont: {
         fontFamily: 'montserrat-semibold',
     },
-    noPossibleHelpers: {
+    noPossibleInteresteds: {
         flex: 1,
         height: '100%',
         marginTop: '30%',

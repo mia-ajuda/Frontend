@@ -6,10 +6,8 @@ import tabTopBarOptions from './tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
-// import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myCampaigns from '../../../pages/ActivitiesPages/MyCampaigns';
-// import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
-import ListPossibleHelpers from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription/ListPossibleHelpers';
+import ListPossibleInteresteds from '../../../components/InterestedList';
 import CampaignDescription from '../../../pages/HelpPages/CampaignDescription';
 
 const TopTab = createMaterialTopTabNavigator();
@@ -40,8 +38,8 @@ const ActivitiesNavigator = () => (
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="ListHelpPossibleHelpers"
-            component={ListPossibleHelpers}
+            name="ListHelpPossibleInteresteds"
+            component={ListPossibleInteresteds}
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
