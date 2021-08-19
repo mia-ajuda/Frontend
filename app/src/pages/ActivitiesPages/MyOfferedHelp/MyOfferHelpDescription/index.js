@@ -27,6 +27,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
     const [isHelpOfferLoading, setIsHelpOfferLoading] = useState(true);
     const [help, setHelp] = useState(null);
+
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
 
     useEffect(() => {
@@ -67,9 +68,12 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const navigateToHelpedUsersList = () => {
         navigation.navigate('ListHelpInteresteds', {
+            possibleInteresteds: help.possibleHelpedUsers.concat(
+                help.possibleEntities,
+            ),
+            message: 'Você deseja ajudar esse usuário?',
+            method: 'chooseHelpedUsers',
             helpId: help._id,
-            routeId: 'HelpOffer',
-            message: '',
         });
     };
 
@@ -149,6 +153,7 @@ export default function OfferHelpDescription({ route, navigation }) {
             </View>
         </View>
     );
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>

@@ -95,6 +95,12 @@ class HelpService {
         return true;
     }
 
+    async chooseHelpedUsers(idHelpOffer, idHelped) {
+        const url = `/helpOffer/chooseHelpedUsers/${idHelped}/${idHelpOffer}`;
+        await api.put(url);
+        return true;
+    }
+
     async finishHelpByOwner(helpId, ownerId) {
         const url = `/help/ownerConfirmation/${helpId}/${ownerId}`;
         await api.put(url);

@@ -11,12 +11,16 @@ export default function HelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
     const { help } = route.params;
     const userProfilephoto = help.user.photo || user.photo;
+
     const navigateToHelpersList = () => {
         navigation.navigate('ListHelpInteresteds', {
-            helpId: help._id,
-            routeId: 'Help',
+            possibleInteresteds: help.possibleHelpers.concat(
+                help.possibleEntities,
+            ),
             message:
                 'Você tem certeza que deseja este usuário como seu ajudante?',
+            method: 'chooseHelper',
+            helpId: help._id,
         });
     };
 
