@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
-import getYearsSince from '../../utils/getYearsSince';
+import { ScrollView, View } from 'react-native';
 import NoPossibleInteresteds from '../../components/NoHelps';
 import styles from './styles';
-import shortenName from '../../utils/shortenName';
-import ConfirmationModal from '../modals/confirmationModal';
 import helpService from '../../services/Help';
+import ConfirmationModal from '../modals/confirmationModal';
 import useService from '../../services/useService';
 import { alertSuccess } from '../../utils/Alert';
+import UserCard from './UserCard';
 
 export default function ListPossibleInteresteds({ route, navigation }) {
     const { possibleInteresteds, message, method, helpId } = route.params;
@@ -37,42 +36,11 @@ export default function ListPossibleInteresteds({ route, navigation }) {
         };
 
         return possibleInteresteds.map((interested) => (
-            <TouchableOpacity
+            <UserCard
                 key={interested._id}
-                onPress={() => renderClickAction(interested._id)}>
-                <View style={styles.interested}>
-                    <Image
-                        style={styles.imageProfile}
-                        source={{
-                            uri: `data:image/png;base64,${interested.photo}`,
-                        }}
-                    />
-                    <View>
-                        <Text style={[styles.infoText, styles.infoTextFont]}>
-                            {shortenName(interested.name)}
-                        </Text>
-                        {getYearsSince(interested.birthday) != 0 && (
-                            <Text>
-                                <Text
-                                    style={[
-                                        styles.infoText,
-                                        styles.infoTextFont,
-                                    ]}>
-                                    Idade:{' '}
-                                </Text>
-                                {getYearsSince(interested.birthday)}
-                            </Text>
-                        )}
-                        <Text>
-                            <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
-                                Cidade:{' '}
-                            </Text>
-                            {interested.address.city}
-                        </Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
+                handleClick={renderClickAction}
+                user={interested}
+            />
         ));
     };
 
