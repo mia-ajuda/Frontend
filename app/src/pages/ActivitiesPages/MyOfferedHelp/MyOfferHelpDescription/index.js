@@ -114,34 +114,34 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderWaitingHelpOwnerMessage = () => {
-        if (user._id != help.ownerId) {
-            return (
-                <Text style={styles.waitingText}>
-                    Aguarde a confirmação do dono da ajuda.
-                </Text>
-            );
-        } else {
-            return (
-                <>
-                    <Button
-                        text="Interessados"
-                        marginBottom
-                        onPress={navigateToHelpedUsersList}
-                        badgeText={
-                            help.possibleHelpedUsers.length +
-                            help.possibleEntities.length
-                        }
-                    />
-                    <Button
-                        text="Ajudados Escolhidos"
-                        showArrow
-                        onPress={() => setShowHelpedUsers(!showHelpedUsers)}
-                        activated={showHelpedUsers}
-                        badgeText={help.helpedUsers.length}
-                    />
-                </>
-            );
-        }
+        return (
+            <Text style={styles.waitingText}>
+                Aguarde o dono da ajuda entrar em contato.
+            </Text>
+        );
+    };
+
+    const renderHelpedUsersButtons = () => {
+        return (
+            <>
+                <Button
+                    text="Interessados"
+                    marginBottom
+                    onPress={navigateToHelpedUsersList}
+                    badgeText={
+                        help.possibleHelpedUsers.length +
+                        help.possibleEntities.length
+                    }
+                />
+                <Button
+                    text="Ajudados Escolhidos"
+                    showArrow
+                    onPress={() => setShowHelpedUsers(!showHelpedUsers)}
+                    activated={showHelpedUsers}
+                    badgeText={help.helpedUsers.length}
+                />
+            </>
+        );
     };
 
     const renderHelpOwnerInformation = () => {
@@ -149,7 +149,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
 
         return (
-            <View style={styles.userInfo}>
+            <View style={[styles.userInfo, styles.noFlex]}>
                 <Image
                     source={{
                         uri: `data:image/png;base64,${ownerPhoto}`,
@@ -174,9 +174,11 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const renderHelpInformation = () => (
-        <View style={styles.helpInfo}>
+        <View>
             <View style={styles.helpInfoText}>
-                <Text style={styles.titleFont}>{help.title}</Text>
+                <Text style={[styles.titleFont, styles.noPaddingBottom]}>
+                    {help.title}
+                </Text>
                 <View style={styles.categoryContainer}>
                     {help.categories.map((category) => (
                         <View key={category._id} style={styles.categoryWarning}>
@@ -186,7 +188,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                         </View>
                     ))}
                 </View>
-                <Text style={[styles.infoText, styles.infoTextBottom]}>
+                <Text style={[styles.infoText, styles.smallMargin]}>
                     {help.description}
                 </Text>
             </View>
@@ -195,20 +197,23 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const renderHelpedUsers = () => {
         return (
-            <View style={styles.helpedUsers}>
+            <ScrollView
+                style={styles.helpedUsers}
+                contentContainerStyle={{ flexGrow: 1 }}>
                 {help.helpedUsers.map((user) => (
                     <UserCard
                         key={user._id}
                         user={user}
+                        showPhone
                         handleClick={() => null}
                     />
                 ))}
-            </View>
+            </ScrollView>
         );
     };
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1 }}>
             <View style={styles.container}>
                 <ConfirmationModal
                     visible={confirmationModalVisible}
@@ -226,12 +231,14 @@ export default function OfferHelpDescription({ route, navigation }) {
                         {renderHelpOwnerInformation()}
                         {renderHelpInformation()}
                         <View style={styles.helpButtons}>
-                            {renderWaitingHelpOwnerMessage()}
+                            {user._id == help.ownerId
+                                ? renderHelpedUsersButtons()
+                                : renderWaitingHelpOwnerMessage()}
                             {showHelpedUsers && renderHelpedUsers()}
                         </View>
                     </>
                 )}
             </View>
-        </ScrollView>
+        </View>
     );
 }

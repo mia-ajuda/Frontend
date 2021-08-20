@@ -42,6 +42,15 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
     },
+    smallMargin: {
+        marginBottom: 10,
+    },
+    noPaddingBottom: {
+        paddingBottom: 0,
+    },
+    noFlex: {
+        flex: 0,
+    },
 });
 
 export default styles;
