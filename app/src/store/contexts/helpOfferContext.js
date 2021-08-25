@@ -55,7 +55,7 @@ export default function HelpOfferContextProvider({ children }) {
     }
 
     return (
-        <HelpOfferContext.Provider value={{ helpOfferList }}>
+        <HelpOfferContext.Provider value={{ helpOfferList, setHelpOfferList }}>
             {children}
         </HelpOfferContext.Provider>
     );
