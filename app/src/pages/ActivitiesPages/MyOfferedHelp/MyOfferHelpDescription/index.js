@@ -213,7 +213,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     return (
-        <View style={{ flexGrow: 1 }}>
+        <ScrollView style={{ flexGrow: 1 }}>
             <View style={styles.container}>
                 <ConfirmationModal
                     visible={confirmationModalVisible}
@@ -239,6 +239,6 @@ export default function OfferHelpDescription({ route, navigation }) {
                     </>
                 )}
             </View>
-        </View>
+        </ScrollView>
     );
 }
