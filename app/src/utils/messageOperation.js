@@ -1,6 +1,7 @@
 class MessageOperation {
-    offer(isMessage) {
+    offer(isMessage, callBackRemoveOffer) {
         if (isMessage) {
+            callBackRemoveOffer();
             return 'Sua candidatura foi enviada com sucesso e estará no aguardo para ser aceita';
         }
         return 'participateHelpOffer';

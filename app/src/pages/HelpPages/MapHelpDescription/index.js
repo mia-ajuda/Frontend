@@ -9,6 +9,7 @@ import UserService from '../../../services/User';
 import { alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
+import { HelpOfferContext } from '../../../store/contexts/helpOfferContext';
 import actions from '../../../store/actions';
 import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
@@ -22,13 +23,12 @@ export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
     const [isOwnerRequestLoading, setOwnerRequestLoading] = useState(true);
     const [ownerInfo, setOwnerInfo] = useState({});
+    const { setHelpOfferList } = useContext(HelpOfferContext);
 
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
-    const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
+    const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] =
+        useState(false);
 
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
@@ -65,11 +65,17 @@ export default function MapHelpDescription({ route, navigation }) {
         </View>
     );
 
-    function removeHelpFromMap() {
-        let filteredHelpList = helpList.filter((helpFromMap) => {
-            return helpFromMap._id != help._id;
-        });
-        dispatch({ type: actions.help.storeList, helps: filteredHelpList });
+    function removeElementFromMap() {
+        if (helpType == 'offer') {
+            setHelpOfferList((currentValue) =>
+                currentValue.filter((helpOffer) => helpOffer._id != help._id),
+            );
+        } else {
+            let filteredHelpList = helpList.filter((helpFromMap) => {
+                return helpFromMap._id != help._id;
+            });
+            dispatch({ type: actions.help.storeList, helps: filteredHelpList });
+        }
     }
 
     async function modalAction() {
@@ -81,7 +87,9 @@ export default function MapHelpDescription({ route, navigation }) {
         ]);
         goBackToMapPage();
         if (!request.error) {
-            alertSuccess(messageOperation[helpType](true, removeHelpFromMap));
+            alertSuccess(
+                messageOperation[helpType](true, removeElementFromMap),
+            );
         }
     }
 
