@@ -5,7 +5,9 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        env_file: 
+        stdin_open: true
+        tty: true
+        env_file:
             - '.env'
         ports:
             - '19000:19000'
