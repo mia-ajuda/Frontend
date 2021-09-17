@@ -55,9 +55,7 @@ export default function OfferHelpDescription({ route, navigation }) {
             [help._id, user._id],
         );
         if (!finishHelpRequest.error) {
-            alertSuccess(
-                'Você finalizou sua ajuda! Aguarde o dono do pedido finalizar para concluí-la',
-            );
+            alertSuccess('Você finalizou sua oferta!');
         }
         goBackToMyOfferedHelpPage();
     }
@@ -68,7 +66,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         </View>
     );
 
-    const navigateToHelpedUsersList = () => {
+    const navigateToPossibleHelpedUsersList = () => {
         navigation.navigate('ListHelpInteresteds', {
             possibleInteresteds: help.possibleHelpedUsers.concat(
                 help.possibleEntities,
@@ -116,7 +114,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     const renderWaitingHelpOwnerMessage = () => {
         return (
             <Text style={styles.waitingText}>
-                Aguarde o dono da ajuda entrar em contato.
+                Aguarde o dono da oferta entrar em contato.
             </Text>
         );
     };
@@ -125,9 +123,9 @@ export default function OfferHelpDescription({ route, navigation }) {
         return (
             <>
                 <Button
-                    text="Interessados"
+                    text="Possíveis ajudados"
                     marginBottom
-                    onPress={navigateToHelpedUsersList}
+                    onPress={navigateToPossibleHelpedUsersList}
                     badgeText={
                         help.possibleHelpedUsers.length +
                         help.possibleEntities.length
@@ -200,16 +198,21 @@ export default function OfferHelpDescription({ route, navigation }) {
             <ScrollView
                 style={styles.helpedUsers}
                 contentContainerStyle={{ flexGrow: 1 }}>
-                {help.helpedUsers.map((user) => (
+                {help.helpedUsers.map((helpedUser) => (
                     <UserCard
-                        key={user._id}
-                        user={user}
+                        key={helpedUser._id}
+                        user={helpedUser}
                         showPhone
                         handleClick={() => null}
                     />
                 ))}
             </ScrollView>
         );
+    };
+
+    const showUserOrOwnerView = () => {
+        if (user._id == help.ownerId) return renderHelpedUsersButtons();
+        else return renderWaitingHelpOwnerMessage();
     };
 
     return (
@@ -220,7 +223,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                     setVisible={setConfirmationModalVisible}
                     action={finishHelp}
                     message={
-                        'Você tem certeza que deseja finalizar essa ajuda?'
+                        'Você tem certeza que deseja finalizar essa oferta de ajuda?'
                     }
                     isLoading={isFinishRequestLoading}
                 />
@@ -231,9 +234,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                         {renderHelpOwnerInformation()}
                         {renderHelpInformation()}
                         <View style={styles.helpButtons}>
-                            {user._id == help.ownerId
-                                ? renderHelpedUsersButtons()
-                                : renderWaitingHelpOwnerMessage()}
+                            {showUserOrOwnerView()}
                             {showHelpedUsers && renderHelpedUsers()}
                         </View>
                     </>
