@@ -16,9 +16,13 @@ RUN yarn install
 # Copiar todo o diretório para o diretório de trabalho do Docker
 # Definir a porta 19000 como porta de trabalho
 # Definir o comando yarn start para quando executarmos o comando "run" no container
+
 COPY . /app/
 
 EXPOSE 19000
-CMD ["yarn", "start"]
 
-# docker container run -ti --env-file .env -p 19000:19000 -p 19002:19002 -v $(pwd):/app -v notused:/app/node_modules mia-ajuda:2.0
+
+ENV EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+
+
+CMD REACT_NATIVE_PACKAGER_HOSTNAME=$IP_ADDRESS yarn start
