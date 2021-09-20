@@ -86,9 +86,10 @@ export default function HelpsFinished({ navigation }) {
                                     }>
                                     <MyRequestHelpCard
                                         object={help}
-                                        possibleInterestedList={
-                                            help.possibleHelpedUsers
-                                        }
+                                        possibleInterestedList={[
+                                            ...help.possibleHelpedUsers,
+                                            ...help.helpedUserId,
+                                        ]}
                                         setConfirmationModalVisible={
                                             setConfirmationModalVisible
                                         }

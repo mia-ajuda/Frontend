@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import {
-    ActivityIndicator,
-    ScrollView,
-    TouchableOpacity,
-    View,
-    Image,
-    Text,
-} from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
 import getYearsSince from '../../utils/getYearsSince';
 import NoPossibleInteresteds from '../../components/NoHelps';
 import useService from '../../services/useService';
 import styles from './styles';
 import shortenName from '../../utils/shortenName';
 import helpService from '../../services/Help';
-import colors from '../../../assets/styles/colorVariables';
 import ConfirmationModal from '../modals/confirmationModal';
 import { alertSuccess } from '../../utils/Alert';
 
 export default function ListPossibleInteresteds({ route, navigation }) {
-    const { helpId, routeId, message } = route.params;
-    const [help, setHelp] = useState(null);
-    const [isHelpLoading, setIsHelpLoading] = useState(false);
+    const { possibleInteresteds, message, method, helpId } = route.params;
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
@@ -28,59 +18,22 @@ export default function ListPossibleInteresteds({ route, navigation }) {
 
     const goBackToMyRequestsPage = () => navigation.navigate('Atividades');
 
-    useEffect(() => {
-        getHelpData();
-    }, []);
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
-
-    const getHelpData = async () => {
-        setIsHelpLoading(true);
-        const helpData = await useService(
-            helpService,
-            `get${routeId}WithAggregationById`,
-            [helpId],
-        );
-        setHelp(helpData);
-        setIsHelpLoading(false);
-    };
-
-    const chooseHelper = async () => {
+    const chooseInterested = async () => {
         setChooseRequestLoading(true);
-        const chooseHelperRequest = await useService(
-            helpService,
-            'chooseHelper',
-            [helpId, selectedInterestedId],
-        );
+        const chooseHelperRequest = await useService(helpService, method, [
+            helpId,
+            selectedInterestedId,
+        ]);
         if (!chooseHelperRequest.error) {
-            alertSuccess('Ajudante escolhido com sucesso!');
+            alertSuccess('Interessado escolhido com sucesso!');
         }
         goBackToMyRequestsPage();
     };
 
     const renderPossibleInterestedsList = () => {
-        let possibleInteresteds;
-        if (routeId == 'Help') {
-            possibleInteresteds = help.possibleHelpers.concat(
-                help.possibleEntities,
-            );
-        } else {
-            possibleInteresteds = help.possibleHelpedUsers.concat(
-                help.possibleEntities,
-            );
-        }
-
         const renderClickAction = (interestedId) => {
-            if (routeId == 'Help') {
-                {
-                    setSelectedInterestedId(interestedId);
-                    setConfirmationModalVisible(true);
-                }
-            }
+            setSelectedInterestedId(interestedId);
+            setConfirmationModalVisible(true);
         };
 
         return possibleInteresteds.map((interested) => (
@@ -133,25 +86,22 @@ export default function ListPossibleInteresteds({ route, navigation }) {
         );
     };
 
-    const renderList = () => {
-        return (
-            <ScrollView contentContainerStyle={styles.container}>
-                {help &&
-                (help.possibleHelpedUsers?.length > 0 ||
-                    help.possibleHelpers?.length > 0 ||
-                    help.possibleEntities.length > 0)
-                    ? renderPossibleInterestedsList()
-                    : renderNoPossibleInterestedsMessage()}
-                <ConfirmationModal
-                    visible={confirmationModalVisible}
-                    setVisible={setConfirmationModalVisible}
-                    action={chooseHelper}
-                    message={message}
-                    isLoading={isChooseRequestLoading}
-                />
-            </ScrollView>
-        );
+    const renderView = () => {
+        if (possibleInteresteds.length > 0)
+            return renderPossibleInterestedsList();
+        else return renderNoPossibleInterestedsMessage();
     };
 
-    return isHelpLoading ? renderLoadingIndicator() : renderList();
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            {renderView()}
+            <ConfirmationModal
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
+                action={chooseInterested}
+                message={message}
+                isLoading={isChooseRequestLoading}
+            />
+        </ScrollView>
+    );
 }

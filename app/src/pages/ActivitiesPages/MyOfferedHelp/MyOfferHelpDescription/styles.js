@@ -28,6 +28,29 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
     },
+    helpedUsers: {
+        marginTop: 20,
+    },
+    inline: {
+        flexDirection: 'row',
+    },
+    btnArrow: {
+        position: 'absolute',
+        right: 5,
+    },
+    smallBadge: {
+        height: 25,
+        width: 25,
+    },
+    smallMargin: {
+        marginBottom: 10,
+    },
+    noPaddingBottom: {
+        paddingBottom: 0,
+    },
+    noFlex: {
+        flex: 0,
+    },
 });
 
 export default styles;
