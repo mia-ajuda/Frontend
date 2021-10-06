@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+    miajuda-expo:
+        container_name: miajuda_FrontEnd
+        build:
+            context: .
+            dockerfile: Dockerfile
+        stdin_open: true
+        tty: true
+        env_file:
+            - '.env'
+        ports:
+            - '19000:19000'
+            - '19001:19001'
+            - '19002:19002'
+        volumes:
+            - '.:/app'
+            - './package.json:/app/package.json'
+            - './package-lock.json:/app/package-lock.json'
+            - 'notused:/app/node_modules'
+        environment:
+            - NODE_ENV=development
+volumes:
+    notused:
