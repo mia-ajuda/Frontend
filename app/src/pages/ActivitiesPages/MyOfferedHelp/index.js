@@ -15,6 +15,7 @@ import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
+import PlusIconTextButton from '../../../components/PlusIconTextButton';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -83,7 +84,8 @@ export default function HelpsFinished({ navigation }) {
                                                 routeId: 'HelpOffer',
                                             },
                                         )
-                                    }>
+                                    }
+                                >
                                     <MyRequestHelpCard
                                         object={help}
                                         possibleInterestedList={[
@@ -106,7 +108,8 @@ export default function HelpsFinished({ navigation }) {
         }
     };
     return (
-        <View>
+        <View style={styles.container}>
+            <PlusIconTextButton text="Nova oferta" onPress={() => {}} />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}
