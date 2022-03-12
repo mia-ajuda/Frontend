@@ -18,6 +18,15 @@ export default StyleSheet.create({
 
     buttonStyle: {
         padding: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    iconDescription: {
+        paddingHorizontal: 16,
+        color: '#fff',
+        fontWeight: '700',
     },
     scrollStyle: {
         paddingBottom: 15,
