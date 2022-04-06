@@ -109,7 +109,10 @@ export default function HelpsFinished({ navigation }) {
     };
     return (
         <View style={styles.container}>
-            <PlusIconTextButton text="Nova oferta" onPress={() => {}} />
+            <PlusIconTextButton
+                text="Nova oferta"
+                onPress={() => navigation.navigate('createHelpOffer')}
+            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}

@@ -107,7 +107,10 @@ const MyRequestedHelp = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <PlusIconTextButton text="Novo pedido" onPress={() => {}} />
+            <PlusIconTextButton
+                text="Novo pedido"
+                onPress={() => navigation.navigate('createHelpRequest')}
+            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}
