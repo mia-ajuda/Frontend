@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     categoriesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginTop: 10,
+        marginTop: 0,
     },
 });
 

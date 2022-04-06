@@ -79,7 +79,7 @@ export default function CreateHelp({ navigation }) {
 
     const createHelpBtn = () => (
         <Button
-            title="Preciso de ajuda"
+            title="Criar pedido"
             large
             disabled={buttonDisabled}
             press={createHelp}
@@ -93,6 +93,9 @@ export default function CreateHelp({ navigation }) {
                     <View style={styles.view}>
                         {renderInputTitleForm()}
                         {renderInputDescriptionForm()}
+                        <Text style={styles.label}>
+                            Selecione no mínimo 1 categoria:
+                        </Text>
                         <SelectCategoryForm
                             helpCategoryIds={categoryIds}
                             setHelpCategoryIds={setCategoryIds}
