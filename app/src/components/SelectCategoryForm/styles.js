@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.primary,
         padding: 5,
-        marginTop: 20,
+        marginTop: 8,
         alignSelf: 'flex-start',
         borderRadius: 5,
         justifyContent: 'center',

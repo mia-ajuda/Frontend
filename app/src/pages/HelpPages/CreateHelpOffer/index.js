@@ -97,6 +97,9 @@ export default function CreateHelp({ navigation }) {
                 <View style={styles.view}>
                     {renderInputTitleForm()}
                     {renderInputDescriptionForm()}
+                    <Text style={styles.label}>
+                        Selecione no mínimo 1 categoria:
+                    </Text>
                     <SelectCategoryForm
                         helpCategoryIds={helpOfferCategoryIds}
                         setHelpCategoryIds={setHelpOfferCategoryIds}
