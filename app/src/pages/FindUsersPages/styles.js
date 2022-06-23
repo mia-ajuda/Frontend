@@ -1,0 +1,61 @@
+import { StyleSheet } from 'react-native';
+import fonts from '../../../assets/styles/fontVariable';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+    },
+    loadingContainer: {
+        height: '100%',
+        justifyContent: 'center',
+    },
+
+    profileImage: {
+        width: 100,
+        height: 100,
+        resizeMode: 'cover',
+        borderRadius: 50,
+        marginHorizontal: 10,
+        alignSelf: 'center',
+    },
+
+    // card:{
+    //     flex: 1,
+    //     padding:20,
+    //     flexDirection: "row",
+    //     borderWidth: 2,
+    //     borderRadius:4,
+    //     borderColor:'#ddd',
+    //     marginTop:10,
+    // },
+    card: {
+        flex: 1,
+        padding: 20,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingVertical: 25,
+        paddingHorizontal: 25,
+        width: '100%',
+        marginVertical: 10,
+        textAlign: 'center',
+    },
+
+    elevation: {
+        elevation: 5,
+        shadowColor: '#4B8AB9',
+    },
+
+    textContainer: {
+        marginLeft: 20,
+        alignItems: 'center',
+    },
+
+    text: {
+        ...fonts.body,
+        color: '#4B8AB9',
+    },
+});
+
+export default styles;

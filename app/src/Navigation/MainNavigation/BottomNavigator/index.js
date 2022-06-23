@@ -9,6 +9,7 @@ import FAQNavigator from '../FAQNavigator';
 import NotificationNavigation from '../NotificationNavigator';
 import { UserContext } from '../../../store/contexts/userContext';
 import ActivitiesNavigator from '../ActivitiesNavigator';
+import FindUsersNavigation from '../FindUsersNavigator';
 
 const BottomNavigation = createBottomTabNavigator();
 const BottomTab = () => {
@@ -36,6 +37,12 @@ const BottomTab = () => {
                     isEntity ? OngActivitiesNavigator : ActivitiesNavigator
                 }
             />
+
+            <BottomNavigation.Screen
+                name="findUsers"
+                component={FindUsersNavigation}
+            />
+
             <BottomNavigation.Screen
                 name="profile"
                 component={ProfileNavigation}
