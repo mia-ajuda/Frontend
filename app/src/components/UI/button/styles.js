@@ -5,7 +5,7 @@ import colors from '../../../../assets/styles/colorVariables';
 const text = {
     ...fonts.subtitle,
     textAlign: 'center',
-    fontFamily: 'montserrat-medium',
+    fontFamily: 'montserrat-semibold',
 };
 
 const btn = {
@@ -18,7 +18,7 @@ const btn = {
 };
 
 const styles = StyleSheet.create({
-    textWhite: { ...text, color: colors.dark },
+    textWhite: { ...text, color: colors.primary },
     btnWhite: { ...btn, backgroundColor: colors.light },
     textDanger: { ...text, color: colors.light },
     btnDanger: { ...btn, backgroundColor: colors.danger },
@@ -50,6 +50,15 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         borderColor: colors.primary,
+    },
+    textOutlined: { ...text, color: colors.light },
+    btnOutlined: {
+        ...btn,
+        elevation: 0,
+        borderBottomColor: colors.light,
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: colors.light,
     },
 });
 
