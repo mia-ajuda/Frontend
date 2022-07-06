@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 
+    loading: {
+        marginVertical: 20,
+    },
+
     // card:{
     //     flex: 1,
     //     padding:20,
@@ -49,12 +53,14 @@ const styles = StyleSheet.create({
 
     textContainer: {
         marginLeft: 20,
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
 
     text: {
         ...fonts.body,
         color: '#4B8AB9',
+        flex: 1,
+        justifyContent: 'space-evenly',
     },
 });
 

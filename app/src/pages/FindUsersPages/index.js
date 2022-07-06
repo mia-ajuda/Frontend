@@ -30,7 +30,7 @@ const findUsers = () => {
                 'findUsersProfiles',
                 [user._id, findName],
             );
-            // console.log(findUserTemp);
+            console.log(findUserTemp);
             setUsersProfile(findUserTemp);
             setFindUserLoading(false);
         }
@@ -44,9 +44,13 @@ const findUsers = () => {
     }, [findName]);
 
     const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
+        // <View style={styles.loadingContainer}>
+        <ActivityIndicator
+            style={styles.loading}
+            size="large"
+            color={colors.primary}
+        />
+        // </View>
     );
 
     return (
@@ -95,14 +99,12 @@ const findUsers = () => {
                                                     {profile.username}
                                                 </Text>
                                                 <Text style={styles.text}>
-                                                    {
-                                                        profile.number_of_followers
-                                                    }
+                                                    Seguidores:{' '}
+                                                    {profile.numberOfFollowers}
                                                 </Text>
                                                 <Text style={styles.text}>
-                                                    {
-                                                        profile.number_of_following
-                                                    }
+                                                    Seguindo:{' '}
+                                                    {profile.numberOfFollowing}
                                                 </Text>
                                             </View>
                                         </View>
