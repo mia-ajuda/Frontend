@@ -25,7 +25,8 @@ import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import useService from '../../../services/useService';
-import { alertError } from '../../../utils/Alert';
+import { alertError, alertSuccess } from '../../../utils/Alert';
+import SessionService from '../../../services/Session';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -36,14 +37,13 @@ export default function PersonalData({ route, navigation }) {
     const [cpf, setCPF] = useState('');
     const [cnpj, setCNPJ] = useState('');
     const [cellPhone, setCellPhone] = useState('');
-    const [ismentalHealthProfessional, setMentalHealthProfessional] = useState(
-        false,
-    );
+    const [ismentalHealthProfessional, setMentalHealthProfessional] =
+        useState(false);
     const [isEntityUser, setIsEntityUser] = useState(false);
-    const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const verifyIdExistence = async () => {
-        setloadingCpfVerification(true);
+        setIsLoading(true);
         const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
         const idOnlyNumbers = isEntityUser
             ? removeSpecialCharsFrom(cnpj)
@@ -54,13 +54,13 @@ export default function PersonalData({ route, navigation }) {
               ])
             : await useService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
 
-        setloadingCpfVerification(false);
         if (!idExist.error) {
             if (idExist) {
                 alertError(
                     null,
                     `Esse ${idLabel} já está sendo utilizado por outro usuário`,
                 );
+                setIsLoading(false);
             } else {
                 continueHandler();
             }
@@ -77,7 +77,18 @@ export default function PersonalData({ route, navigation }) {
                 phone,
                 ...userDatafromRegistrationPage,
             };
+
+            const signUpRequest = await useService(SessionService, 'signUp', [
+                userDataFromPersonalPage,
+            ]);
+            setIsLoading(false);
+
+            if (!signUpRequest.error) {
+                alertSuccess('Seu cadastro foi realizado com sucesso');
+            }
+            navigation.navigate('login');
         } else {
+            setIsLoading(false);
             const birthdayFormated = formatDate(birthday);
             userDataFromPersonalPage = {
                 name,
@@ -87,8 +98,8 @@ export default function PersonalData({ route, navigation }) {
                 ismentalHealthProfessional,
                 ...userDatafromRegistrationPage,
             };
+            navigation.navigate('riskGroup', { userDataFromPersonalPage });
         }
-        navigation.navigate('address', { userDataFromPersonalPage });
     };
 
     const renderPageHeader = () => {
@@ -98,7 +109,8 @@ export default function PersonalData({ route, navigation }) {
                     <View style={styles.backIcon}>
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
-                            style={styles.button}>
+                            style={styles.button}
+                        >
                             <Icon name="arrow-back" color="black" />
                         </TouchableOpacity>
                     </View>
@@ -291,7 +303,8 @@ export default function PersonalData({ route, navigation }) {
                             ? styles.scrollContainerOnTyping
                             : styles.scrollContainer
                     }
-                    showsVerticalScrollIndicator={false}>
+                    showsVerticalScrollIndicator={false}
+                >
                     <View style={styles.inputView}>
                         {renderEntityButton()}
                         {renderNameInputForm()}
@@ -302,9 +315,7 @@ export default function PersonalData({ route, navigation }) {
                     </View>
                 </ScrollView>
 
-                {loadingCpfVerification
-                    ? renderLoadingIdicator()
-                    : renderContinueButton()}
+                {isLoading ? renderLoadingIdicator() : renderContinueButton()}
             </KeyboardAvoidingView>
         </>
     );

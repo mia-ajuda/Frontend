@@ -24,18 +24,19 @@ export default function EditCepField({ route, navigation }) {
     const isEntityUser = route.params.user.cnpj;
 
     const { keyboard } = useContext(DeviceInformationContext);
-    const [newCep, setNewCep] = useState(address.cep);
+    const [newCep, setNewCep] = useState(address?.cep || '');
     const [isCepValid, setCepValid] = useState(true);
-    const [newNumber, setNewNumber] = useState(String(address.number));
-    const [newState, setNewState] = useState(address.state);
-    const [newCity, setNewCity] = useState(address.city);
-    const [newComplement, setNewComplement] = useState(address.complement);
+    const [newNumber, setNewNumber] = useState(String(address?.number || ''));
+    const [newState, setNewState] = useState(address?.state || '');
+    const [newCity, setNewCity] = useState(address?.city || '');
+    const [newComplement, setNewComplement] = useState(
+        address?.complement || '',
+    );
     const [isCepRequestLoading, setCepRequestLoading] = useState('');
     const { dispatch } = useContext(UserContext);
     const [isEditRequestLoading, setEditRequestLoading] = useState(false);
-    const [confiramtionModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confiramtionModalVisible, setConfirmationModalVisible] =
+        useState(false);
 
     const goBackToUserProfilePage = () => navigation.goBack();
 
@@ -167,7 +168,8 @@ export default function EditCepField({ route, navigation }) {
             />
             <ScrollView
                 style={styles.cep}
-                contentContainerStyle={styles.scroll}>
+                contentContainerStyle={styles.scroll}
+            >
                 {isCepRequestLoading
                     ? renderLoadingIndicator()
                     : renderEditionForm()}

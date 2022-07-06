@@ -10,10 +10,9 @@ import { alertSuccess } from '../../../utils/Alert';
 import useService from '../../../services/useService';
 
 export default function RiskGroup({ route, navigation }) {
-    const { userDataFromPhotoPage } = route.params;
-    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
-        false,
-    );
+    const { userDataFromPersonalPage } = route.params;
+    const [loadingUserRegistration, setLoadingUserRegistration] =
+        useState(false);
     const [disease, setDisease] = useState({
         dc: false,
         hiv: false,
@@ -38,7 +37,7 @@ export default function RiskGroup({ route, navigation }) {
         }
 
         const completeRegistragionData = {
-            ...userDataFromPhotoPage,
+            ...userDataFromPersonalPage,
             riskGroup: newDisease,
         };
 
@@ -61,7 +60,8 @@ export default function RiskGroup({ route, navigation }) {
             <View style={styles.backIcon}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={styles.button}>
+                    style={styles.button}
+                >
                     <Icon name={'arrow-back'} color={'black'} />
                 </TouchableOpacity>
             </View>

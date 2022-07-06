@@ -143,7 +143,8 @@ export default function Profile({ navigation }) {
                         navigation.navigate(`Edit${navigateToPage}Field`, {
                             user,
                         })
-                    }>
+                    }
+                >
                     <View style={styles.inputWrapper}>
                         <Text style={styles.textInput}>{data}</Text>
                         <Icon size={25} name="edit" color="#000" />
@@ -167,7 +168,8 @@ export default function Profile({ navigation }) {
                     <ImageBackground
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
-                        imageStyle={styles.profileImage}>
+                        imageStyle={styles.profileImage}
+                    >
                         <Icon size={45} name={'camera-alt'} color="black" />
                     </ImageBackground>
                 </TouchableOpacity>
@@ -179,7 +181,7 @@ export default function Profile({ navigation }) {
                 {renderUserInfo('E-mail', user.email)}
                 {renderUserInfo(idLabel, idFormated)}
                 {renderEditableUserInfo('Telefone', phone, 'Phone')}
-                {renderEditableUserInfo('CEP', user.address.cep, 'CEP')}
+                {renderEditableUserInfo('CEP', user.address?.cep || '', 'CEP')}
                 <View style={styles.buttonWrapper}>
                     <Button
                         style={styles.buttonExit}

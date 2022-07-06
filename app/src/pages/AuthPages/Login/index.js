@@ -105,7 +105,8 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={styles.forgotPasswordButton}>
+                    style={styles.forgotPasswordButton}
+                >
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>
@@ -118,8 +119,9 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.signUP}
                     onPress={() => {
-                        navigation.navigate('location');
-                    }}>
+                        navigation.navigate('registrationData');
+                    }}
+                >
                     <Text style={styles.signupText}>Criar Conta</Text>
                 </TouchableOpacity>
             </View>

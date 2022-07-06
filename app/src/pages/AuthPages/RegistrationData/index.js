@@ -20,8 +20,7 @@ import { Icon } from 'react-native-elements';
 import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
-export default function RegistrationData({ route, navigation }) {
-    const { userDataFromLocationPage } = route.params;
+export default function RegistrationData({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -33,7 +32,6 @@ export default function RegistrationData({ route, navigation }) {
         const userDatafromRegistrationPage = {
             email,
             password,
-            ...userDataFromLocationPage,
         };
         navigation.navigate('personalData', { userDatafromRegistrationPage });
     };
