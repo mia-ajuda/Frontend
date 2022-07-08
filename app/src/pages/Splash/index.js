@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Image, StatusBar } from 'react-native';
+import { View, Image, StatusBar, ActivityIndicator } from 'react-native';
+import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 
-export default function Splash() {
+export default function Splash({ showLoading = false }) {
     return (
         <>
             <StatusBar barStyle="light-content" />
@@ -11,6 +12,11 @@ export default function Splash() {
                     source={require('../../../assets/images/splash.png')}
                     style={styles.image}
                 />
+                {showLoading && (
+                    <View style={styles.footer}>
+                        <ActivityIndicator size="large" color={colors.light} />
+                    </View>
+                )}
             </View>
         </>
     );
