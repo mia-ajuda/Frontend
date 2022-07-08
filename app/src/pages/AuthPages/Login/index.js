@@ -43,7 +43,6 @@ export default function Login({ navigation }) {
         setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        setLoadingLoginRequest(true);
         await useService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };

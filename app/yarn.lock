@@ -4496,10 +4496,10 @@ expo-font@~9.2.1:
     expo-modules-core "~0.2.0"
     fontfaceobserver "^2.1.0"
 
-expo-google-app-auth@^8.1.0:
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-8.2.2.tgz#a4922cae6e3227994e12399d9c505cc4e7608c73"
-  integrity sha512-7z2/RQoF9VVyX+X4/JSrciKa6CifeNi7saHPLUg5lWVUL08ze7TdQlznP5GFlfah00ZK6KUxqhYSwS2+ZqP83w==
+expo-google-app-auth@~8.2.5:
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-8.2.5.tgz#b47d45d171706ffd627df547885496d802159cc3"
+  integrity sha512-q+6ZWjSneywmyB7aqOYRNJKG43573h+f5//EZrUfSVqSiV8qpg4LNsNvvSfhOOR12kDLgRfZpi3MG36xj58kdA==
   dependencies:
     expo-app-auth "~10.2.2"
 
