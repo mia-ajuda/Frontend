@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Animated, { Easing, timing } from 'react-native-reanimated';
+import Animated, { EasingNode, timing } from 'react-native-reanimated';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
@@ -37,7 +37,7 @@ export default function CreateHelpButtons() {
         const showButtonsConfig = {
             duration: 150,
             toValue: BUTTON_MAX_HEIGHT,
-            easing: Easing.inOut(Easing.ease),
+            easing: EasingNode.inOut(EasingNode.ease),
         };
         timing(buttonsTransleY, showButtonsConfig).start();
         setButtonsVisible(true);
@@ -47,7 +47,7 @@ export default function CreateHelpButtons() {
         const hideButtonsConfig = {
             duration: 150,
             toValue: BUTTON_MIN_HEIGHT,
-            easing: Easing.inOut(Easing.ease),
+            easing: EasingNode.inOut(EasingNode.ease),
         };
         timing(buttonsTransleY, hideButtonsConfig).start();
         setButtonsVisible(false);
@@ -70,11 +70,13 @@ export default function CreateHelpButtons() {
                     ],
                 },
                 styles.plusButtonView,
-            ]}>
+            ]}
+        >
             <TouchableOpacity
                 style={styles.plusButton}
                 activeOpacity={1}
-                onPress={toggleButtonsVisibility}>
+                onPress={toggleButtonsVisibility}
+            >
                 <FontAwesome name="plus" size={30} color="#fff" />
             </TouchableOpacity>
         </Animated.View>
@@ -101,7 +103,8 @@ export default function CreateHelpButtons() {
                             ],
                         },
                         styles.helpButtonView,
-                    ]}>
+                    ]}
+                >
                     {isButtonsVisible && (
                         <Text style={styles.helpButtonText}>
                             Oferecer ajuda
@@ -138,7 +141,8 @@ export default function CreateHelpButtons() {
                     ],
                 },
                 styles.helpButtonView,
-            ]}>
+            ]}
+        >
             {isButtonsVisible && (
                 <Text style={styles.helpButtonText}>Pedir ajuda</Text>
             )}
@@ -146,7 +150,8 @@ export default function CreateHelpButtons() {
                 style={[
                     { transform: [{ rotate: '-15deg' }] },
                     styles.helpButton,
-                ]}>
+                ]}
+            >
                 <FontAwesome
                     name="exclamation"
                     size={50}
