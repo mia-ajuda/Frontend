@@ -17,15 +17,15 @@ import useService from '../../../services/useService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
+import getBRDateFromString from '../../../utils/getBRDateFromString';
 
 export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
     const { user } = useContext(UserContext);
     const campaignOwnerPhoto = campaign.entity.photo;
     const [finishCampaignLoading, setFinishCampaignLoading] = useState(false);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
     const isTheSameUser = user._id === campaign.ownerId;
     const goBackToMyResquestsPage = () => navigation.goBack();
 
@@ -113,6 +113,12 @@ export default function CampaignDescription({ route, navigation }) {
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Telefone: </Text>
                         {campaign.entity.phone}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>
+                            Data de criação:{' '}
+                        </Text>
+                        {getBRDateFromString(campaign.creationDate)}
                     </Text>
                 </View>
             </View>
