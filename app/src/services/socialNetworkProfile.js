@@ -5,7 +5,6 @@ class SocialNetworkProfileService {
 
     async findUsersProfiles(userId, username = null) {
         const url = `/socialNetworkProfile/findUsers/${userId}/${username}`;
-        console.log(url);
         const usersProfiles = await api.get(url);
         return usersProfiles.data;
     }

@@ -52,8 +52,10 @@ const styles = StyleSheet.create({
     },
 
     textContainer: {
+        flex: 1,
         marginLeft: 20,
         alignItems: 'flex-start',
+        flexWrap: 'wrap',
     },
 
     text: {

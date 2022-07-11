@@ -14,7 +14,7 @@ import { UserContext } from '../../store/contexts/userContext';
 import Input from '../../components/UI/input';
 import colors from '../../../assets/styles/colorVariables';
 
-const findUsers = () => {
+const findUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
 
     const [isFindUserLoading, setFindUserLoading] = useState(false);
@@ -23,14 +23,12 @@ const findUsers = () => {
 
     useEffect(() => {
         async function setupPage() {
-            console.log('aqui haha');
             setFindUserLoading(true);
             const findUserTemp = await useService(
                 socialNetworkProfileservice,
                 'findUsersProfiles',
                 [user._id, findName],
             );
-            console.log(findUserTemp);
             setUsersProfile(findUserTemp);
             setFindUserLoading(false);
         }
@@ -41,7 +39,7 @@ const findUsers = () => {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [findName]);
+    }, [findName, navigation]);
 
     const renderLoadingIndicator = () => (
         // <View style={styles.loadingContainer}>
@@ -54,7 +52,7 @@ const findUsers = () => {
     );
 
     return (
-        <ScrollView style={{ flexGrow: 1 }}>
+        <ScrollView style={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
             <View style={styles.container}>
                 <Input
                     change={(name) => setFindName(name)}
@@ -73,15 +71,21 @@ const findUsers = () => {
                                 return (
                                     <TouchableOpacity
                                         key={profile._id}
-                                        onPress={
-                                            () => console.log('cliquei')
-                                            // navigation.navigate(
-                                            //     'MyOfferHelpDescription',
-                                            //     {
-                                            //         helpId: help._id,
-                                            //         routeId: 'HelpOffer',
-                                            //     },
-                                            // )
+                                        onPress={() =>
+                                            navigation.navigate(
+                                                'Perfil social dos Usuários',
+                                                {
+                                                    profileId: profile._id,
+                                                    profileUsername:
+                                                        profile.username,
+                                                    profileNumberOfFollowers:
+                                                        profile.numberOfFollowers,
+                                                    profileNumberOfFollowing:
+                                                        profile.numberOfFollowing,
+                                                    profilePhoto:
+                                                        profile.user.photo,
+                                                },
+                                            )
                                         }>
                                         <View
                                             style={[
