@@ -43,7 +43,6 @@ export default function Login({ navigation }) {
         setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        setLoadingLoginRequest(true);
         await useService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };
@@ -105,7 +104,8 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={styles.forgotPasswordButton}>
+                    style={styles.forgotPasswordButton}
+                >
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>
@@ -119,7 +119,8 @@ export default function Login({ navigation }) {
                     style={styles.signUP}
                     onPress={() => {
                         navigation.navigate('location');
-                    }}>
+                    }}
+                >
                     <Text style={styles.signupText}>Criar Conta</Text>
                 </TouchableOpacity>
             </View>

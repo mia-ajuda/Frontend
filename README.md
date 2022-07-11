@@ -24,9 +24,23 @@ https://docs.expo.io/versions/latest/get-started/installation/
 É necessário, também,  a instalação do expo em seu smartphone, ou um emulador configurado.
 
 # Executar o projeto no celular
+## Configurações necessárias
+### Firebase
+Parar rodar o projeto é necessário criar um projeto no [firebase](https://console.firebase.google.com/u/0/?hl=pt-br), não sendo necessário ativar o analytics, após criar o projeto você deve ir em adicionar um app (Imagem 1) e selecionar a opção android(o robôzinho), feito isso na tela que abrirá em seguida no campo "Nome do pacote Android" você deve digitar: br.com.miaajuda, e após isso clicar em "Registrar app" você deve fazer o download do arquivo *google-services.json* e colocar na pasta "src/"
 
-diriga-se para a pasta /app e execute o comando:
-### yarn start
+Além disso você deve criar um outro app dentro do projeto, porém dessa vez um app web, você pode usar o *Apelido* do app como MiaAjuda, após preencher basta  clicar em Registrar o app, após isso será mostrado várias informações para você, você deve pegar as informações mostradas que estão dentro da variável *firebaseConfig* e, seguindo o exemplo do arquivo *app/src/config/authmiaajuda-firebase-example.json* criar os arquivos *authmiaajuda-firebase-dev* e *authmiaajuda-firebase.json*, preenchendo os dados a partir dos dados mostrados no firebase.
+
+### Variáveis de ambiente
+Dentro da pasta app, existe um arquivo chamado *.env-example*, você deve criar um arquivo chamado *.env* a partir dele, na mesma pasta, e precisa apenas adicionar seu IPV4 no campo *IP_ADDRESS*, os outros campos não precisam ser preenchidos/alterados.
+
+
+### Rodar o projeto
+Após ter configurado o ambiente basta rodar os seguintes comandos para rodar o aplicativo
+
+```
+yarn install
+yarn start
+```
 
 Após a inicialização, se bem sucedida, aparecerá o qrcode de conexão. Certifique-se de estar na mesma rede de seu computador, abra o app no seu smartphone e leia o qrcode;
 
@@ -38,7 +52,7 @@ Após a inicialização, pode-se seguir as instruções acima.
 
 # Executar o projeto no emulador
 
-diriga-se para a pasta /app e execute o comando:
+Dentro da pasta /app e execute o comando:
 ### yarn start
 
 Após a inicialização, se bem sucedida, aparecerá o qrcode de conexão. Abra o seu emulador e, no terminal onde está o qrcode, pressione o teclado 'a'. O app deve começar a carregar dentro do emulador a partir desse momento.
