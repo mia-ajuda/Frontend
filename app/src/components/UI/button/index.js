@@ -18,7 +18,8 @@ export default function Button({
                 <TouchableOpacity
                     disabled={disabled}
                     style={[isLarge, styles.btnWhite]}
-                    onPress={press}>
+                    onPress={press}
+                >
                     <Text style={styles.textWhite}>{title}</Text>
                 </TouchableOpacity>
             );
@@ -28,7 +29,8 @@ export default function Button({
                 <TouchableOpacity
                     disabled={disabled}
                     style={[isLarge, styles.btnDanger]}
-                    onPress={press}>
+                    onPress={press}
+                >
                     <Text style={styles.textDanger}>{title}</Text>
                 </TouchableOpacity>
             );
@@ -38,7 +40,8 @@ export default function Button({
                 <TouchableOpacity
                     disabled={disabled}
                     style={[isLarge, styles.btnWarning]}
-                    onPress={press}>
+                    onPress={press}
+                >
                     <Text style={styles.textWarning}>{title}</Text>
                 </TouchableOpacity>
             );
@@ -48,8 +51,20 @@ export default function Button({
                 <TouchableOpacity
                     disabled={disabled}
                     style={[isLarge, styles.btnNotSelected]}
-                    onPress={press}>
+                    onPress={press}
+                >
                     <Text style={styles.textNotSelected}>{title}</Text>
+                </TouchableOpacity>
+            );
+            break;
+        case 'outlined':
+            btn = (
+                <TouchableOpacity
+                    disabled={disabled}
+                    style={[isLarge, styles.btnOutlined]}
+                    onPress={press}
+                >
+                    <Text style={styles.textOutlined}>{title}</Text>
                 </TouchableOpacity>
             );
             break;
@@ -59,7 +74,8 @@ export default function Button({
                 <TouchableOpacity
                     disabled={disabled}
                     style={[isLarge, styles.btnDefault]}
-                    onPress={press}>
+                    onPress={press}
+                >
                     <Text style={styles.textDefault}>{title}</Text>
                 </TouchableOpacity>
             );
@@ -70,7 +86,8 @@ export default function Button({
         btn = (
             <TouchableOpacity
                 activeOpacity={1.0}
-                style={[isLarge, styles.btnDisabled]}>
+                style={[isLarge, styles.btnDisabled]}
+            >
                 <Text style={styles.textDisabled}>{title}</Text>
             </TouchableOpacity>
         );

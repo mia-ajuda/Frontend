@@ -2,10 +2,13 @@ import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
 import colors from '../../../../assets/styles/colorVariables';
 
+import { RFValue } from 'react-native-responsive-fontsize';
+
 const text = {
     ...fonts.subtitle,
     textAlign: 'center',
-    fontFamily: 'montserrat-medium',
+    fontFamily: 'montserrat-semibold',
+    fontSize: RFValue(16, 640),
 };
 
 const btn = {
@@ -18,7 +21,7 @@ const btn = {
 };
 
 const styles = StyleSheet.create({
-    textWhite: { ...text, color: colors.dark },
+    textWhite: { ...text, color: colors.primary },
     btnWhite: { ...btn, backgroundColor: colors.light },
     textDanger: { ...text, color: colors.light },
     btnDanger: { ...btn, backgroundColor: colors.danger },
@@ -50,6 +53,15 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 5,
         borderColor: colors.primary,
+    },
+    textOutlined: { ...text, color: colors.light },
+    btnOutlined: {
+        ...btn,
+        elevation: 0,
+        borderBottomColor: colors.light,
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: colors.light,
     },
 });
 

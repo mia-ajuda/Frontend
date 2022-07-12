@@ -14,6 +14,7 @@ import NoHelps from '../../../components/NoHelps';
 import colors from '../../../../assets/styles/colorVariables';
 import useService from '../../../services/useService';
 import styles from '../styles';
+import PlusIconTextButton from '../../../components/PlusIconTextButton';
 
 const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
@@ -81,7 +82,8 @@ const MyRequestedHelp = ({ navigation }) => {
                                             help,
                                         },
                                     )
-                                }>
+                                }
+                            >
                                 <MyRequestCard
                                     object={help}
                                     deleteVisible={true}
@@ -104,7 +106,11 @@ const MyRequestedHelp = ({ navigation }) => {
     };
 
     return (
-        <View>
+        <View style={styles.container}>
+            <PlusIconTextButton
+                text="Novo pedido"
+                onPress={() => navigation.navigate('createHelpRequest')}
+            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}

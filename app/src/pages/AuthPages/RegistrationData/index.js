@@ -25,10 +25,8 @@ export default function RegistrationData({ route, navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [
-        loadingEmailAdressVerification,
-        setLoadingEmailVerification,
-    ] = useState(false);
+    const [loadingEmailAdressVerification, setLoadingEmailVerification] =
+        useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
 
     const continueHandler = () => {
@@ -73,7 +71,8 @@ export default function RegistrationData({ route, navigation }) {
                     <View style={styles.backIcon}>
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
-                            style={styles.button}>
+                            style={styles.button}
+                        >
                             <Icon name="arrow-back" color="black" />
                         </TouchableOpacity>
                     </View>
@@ -94,8 +93,9 @@ export default function RegistrationData({ route, navigation }) {
         return (
             <Input
                 style={styles.firstInput}
-                change={(email) => setEmail(email)}
+                change={(value) => setEmail(value.trim())}
                 label="Email"
+                value={email}
                 placeholder="email@exemplo.com"
                 valid={isEmailValid}
                 autoComplete={'off'}
@@ -165,7 +165,8 @@ export default function RegistrationData({ route, navigation }) {
                 style={
                     keyboard.visible ? styles.scrollOnUserTyping : styles.scroll
                 }
-                contentContainerStyle={styles.scrollContainerStyle}>
+                contentContainerStyle={styles.scrollContainerStyle}
+            >
                 <View style={styles.form}>
                     {renderInputEmailForm()}
                     {renderInputPasswordForm()}

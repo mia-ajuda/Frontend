@@ -20,7 +20,7 @@ import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
-    const [helpListVisible, setHelpListVisible] = useState(false);
+    const [helpListVisible, setHelpListVisible] = useState(true);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
@@ -90,7 +90,8 @@ export default function Main({ navigation }) {
             style={styles.filter}
             onPress={() => {
                 setFilterModalVisible(!filterModalVisible);
-            }}>
+            }}
+        >
             <Icon
                 name="filter"
                 type="font-awesome"
@@ -108,7 +109,8 @@ export default function Main({ navigation }) {
                     style={styles.campaignButton}
                     onPress={() => {
                         navigation.navigate('createCampaign');
-                    }}>
+                    }}
+                >
                     <Icon
                         name="plus"
                         type="font-awesome"
@@ -139,7 +141,8 @@ export default function Main({ navigation }) {
                     style={styles.recenter}
                     onPress={() => {
                         setRegion(userPosition);
-                    }}>
+                    }}
+                >
                     <Icon
                         name="target-two"
                         type="foundation"
@@ -152,11 +155,12 @@ export default function Main({ navigation }) {
                     initialRegion={userPosition}
                     style={styles.map}
                     region={region}
-                    onRegionChange={() => setHelpListVisible(false)}
+                    // onRegionChange={() => setHelpListVisible(false)}
                     onPress={() => {
                         setHelpListVisible(false);
                     }}
-                    customMapStyle={mapStyle.day.map}>
+                    customMapStyle={mapStyle.day.map}
+                >
                     <UserMarker userPosition={userPosition} />
                     {renderMarkers()}
                 </MapView>
