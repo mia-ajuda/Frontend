@@ -12,8 +12,10 @@ const Routes = () => {
     const isLoadingUserInformation = user && user.showSplash;
     const isUserAuthenticated = user._id;
 
-    if (isLoadingUserInformation || (isUserAuthenticated && loadingHelps)) {
+    if (isLoadingUserInformation) {
         return <Splash />;
+    } else if (isUserAuthenticated && loadingHelps) {
+        return <Splash showLoading={true} />;
     }
 
     return (

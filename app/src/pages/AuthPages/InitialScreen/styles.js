@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../../../assets/styles/colorVariables';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 const styles = StyleSheet.create({
     initialScreenContainer: {
@@ -15,10 +16,10 @@ const styles = StyleSheet.create({
         marginTop: 80,
         height: '20%',
         resizeMode: 'contain',
-        marginBottom: 64,
+        marginBottom: 32,
     },
     title: {
-        fontSize: 22,
+        fontSize: RFValue(22, 640),
         textAlign: 'center',
         color: 'white',
         fontWeight: '600',
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
     description: {
-        fontSize: 18,
+        fontSize: RFValue(18, 640),
         textAlign: 'center',
         color: 'white',
         fontFamily: 'montserrat-regular',

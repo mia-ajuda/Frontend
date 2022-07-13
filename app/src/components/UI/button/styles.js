@@ -2,10 +2,13 @@ import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
 import colors from '../../../../assets/styles/colorVariables';
 
+import { RFValue } from 'react-native-responsive-fontsize';
+
 const text = {
     ...fonts.subtitle,
     textAlign: 'center',
     fontFamily: 'montserrat-semibold',
+    fontSize: RFValue(16, 640),
 };
 
 const btn = {

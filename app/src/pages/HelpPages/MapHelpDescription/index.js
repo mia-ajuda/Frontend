@@ -16,6 +16,7 @@ import shortenName from '../../../utils/shortenName';
 import messageOperation from '../../../utils/messageOperation';
 
 import colors from '../../../../assets/styles/colorVariables';
+import formatDate from '../../../utils/formatDate';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { help, helpType } = route.params;
@@ -114,6 +115,10 @@ export default function MapHelpDescription({ route, navigation }) {
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
                         {ownerInfo.address.city}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Criada em: </Text>
+                        {formatDate(help.creationDate, '-')}
                     </Text>
                 </View>
             </View>
