@@ -4,21 +4,18 @@ import {
     KeyboardAvoidingView,
     Text,
     ScrollView,
-    TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
-import { Icon } from 'react-native-elements';
 import useService from '../../../services/useService';
 import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
-export default function Address({ route, navigation }) {
+export default function Address({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
-    const { userDataFromPersonalPage } = route.params;
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
@@ -140,30 +137,24 @@ export default function Address({ route, navigation }) {
         };
         const userDataFromAddressPage = {
             address,
-            ...userDataFromPersonalPage,
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };
 
     return (
-        <KeyboardAvoidingView style={styles.container}>
-            <ScrollView
-                style={styles.scroll}
-                contentContainerStyle={styles.scrollContainer}>
-                <View style={styles.backIcon}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Icon name={'arrow-back'} color={'black'} />
-                    </TouchableOpacity>
-                </View>
-
+        <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContainer}
+        >
+            <KeyboardAvoidingView style={styles.container}>
                 {renderPageDescription()}
 
                 {isCepRequestLoading
                     ? renderLoadingIndicator()
                     : renderRegistrationForm()}
-            </ScrollView>
 
-            {renderContinueButton()}
-        </KeyboardAvoidingView>
-    ) ;
+                {renderContinueButton()}
+            </KeyboardAvoidingView>
+        </ScrollView>
+    );
 }
