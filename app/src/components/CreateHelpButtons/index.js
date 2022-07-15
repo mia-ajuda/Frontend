@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Animated, { EasingNode, timing } from 'react-native-reanimated';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -6,6 +6,8 @@ import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
 import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
+import verifyUserInfo from '../../utils/verifyUserInfo';
+import { UserContext } from '../../store/contexts/userContext';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -16,6 +18,7 @@ const HelpButtonAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
     const [isButtonsVisible, setButtonsVisible] = useState(false);
+    const { user } = useContext(UserContext);
     const toggleButtonsVisibility = () => {
         if (isButtonsVisible) {
             hideButtons();
@@ -24,12 +27,14 @@ export default function CreateHelpButtons() {
         }
     };
 
-    const navigateToCreateHelpPage = () => {
-        navigation.navigate('createHelpRequest');
-        hideButtons();
-    };
-    const navigateToCreateHelpOfferPage = () => {
-        navigation.navigate('createHelpOffer');
+    const navigateToCreatePage = (page) => {
+        const creationPage =
+            page == 'help' ? 'createHelpRequest' : 'createHelpOffer';
+        if (verifyUserInfo(user)) {
+            navigation.navigate(creationPage);
+        } else {
+            navigation.navigate('address');
+        }
         hideButtons();
     };
 
@@ -87,7 +92,7 @@ export default function CreateHelpButtons() {
             // Turn Off Feature of Offer
             return (
                 <HelpButtonAnimated
-                    onPress={navigateToCreateHelpOfferPage}
+                    onPress={() => navigateToCreatePage('offer')}
                     style={[
                         {
                             transform: [
@@ -125,7 +130,7 @@ export default function CreateHelpButtons() {
 
     const renderRequestHelpButton = () => (
         <HelpButtonAnimated
-            onPress={navigateToCreateHelpPage}
+            onPress={() => navigateToCreatePage('help')}
             style={[
                 {
                     transform: [
