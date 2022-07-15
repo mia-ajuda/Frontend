@@ -3,7 +3,6 @@ import { TouchableOpacity, View, Image, Text } from 'react-native';
 import styles from './styles';
 import shortenName from '../../utils/shortenName';
 import getYearsSince from '../../utils/getYearsSince';
-import formatPhone from '../../utils/formatPhone';
 
 const UserCard = (props) => {
     const { user, handleClick } = props;
@@ -26,7 +25,8 @@ const UserCard = (props) => {
                     {userAge != 0 && (
                         <Text>
                             <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
+                                style={[styles.infoText, styles.infoTextFont]}
+                            >
                                 Idade:{' '}
                             </Text>
                             {userAge}
@@ -38,15 +38,6 @@ const UserCard = (props) => {
                         </Text>
                         {user.address.city}
                     </Text>
-                    {props.showPhone && (
-                        <Text>
-                            <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
-                                Telefone:{' '}
-                            </Text>
-                            {formatPhone(user.phone)}
-                        </Text>
-                    )}
                 </View>
             </View>
         </TouchableOpacity>

@@ -19,6 +19,7 @@ import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
+import ChosenHelpersInfo from '../../../HelpPages/ChosenHelpersInfo';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -31,6 +32,8 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const [showHelpedUsers, setShowHelpedUsers] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({});
 
     useEffect(() => {
         async function setupPage() {
@@ -89,7 +92,8 @@ export default function OfferHelpDescription({ route, navigation }) {
         return (
             <TouchableOpacity
                 style={[buttonStyle, styles.inline]}
-                onPress={props.onPress}>
+                onPress={props.onPress}
+            >
                 <Text style={styles.textBtn}>{props.text}</Text>
                 {props.showArrow && (
                     <View style={[styles.textBtn, styles.btnArrow]}>
@@ -197,13 +201,17 @@ export default function OfferHelpDescription({ route, navigation }) {
         return (
             <ScrollView
                 style={styles.helpedUsers}
-                contentContainerStyle={{ flexGrow: 1 }}>
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
                 {help.helpedUsers.map((helpedUser) => (
                     <UserCard
                         key={helpedUser._id}
                         user={helpedUser}
                         showPhone
-                        handleClick={() => null}
+                        handleClick={() => {
+                            setSelectedUser(helpedUser);
+                            setShowModal(true);
+                        }}
                     />
                 ))}
             </ScrollView>
@@ -216,30 +224,39 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     return (
-        <ScrollView style={{ flexGrow: 1 }}>
-            <View style={styles.container}>
-                <ConfirmationModal
-                    visible={confirmationModalVisible}
-                    setVisible={setConfirmationModalVisible}
-                    action={finishHelp}
-                    message={
-                        'Você tem certeza que deseja finalizar essa oferta de ajuda?'
-                    }
-                    isLoading={isFinishRequestLoading}
+        <View style={{ height: '100%' }}>
+            <ScrollView style={{ flexGrow: 1 }}>
+                <View style={styles.container}>
+                    <ConfirmationModal
+                        visible={confirmationModalVisible}
+                        setVisible={setConfirmationModalVisible}
+                        action={finishHelp}
+                        message={
+                            'Você tem certeza que deseja finalizar essa oferta de ajuda?'
+                        }
+                        isLoading={isFinishRequestLoading}
+                    />
+                    {isHelpOfferLoading ? (
+                        renderLoadingIndicator()
+                    ) : (
+                        <>
+                            {renderHelpOwnerInformation()}
+                            {renderHelpInformation()}
+                            <View style={styles.helpButtons}>
+                                {showUserOrOwnerView()}
+                                {showHelpedUsers && renderHelpedUsers()}
+                            </View>
+                        </>
+                    )}
+                </View>
+            </ScrollView>
+            {showModal && (
+                <ChosenHelpersInfo
+                    user={selectedUser}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
                 />
-                {isHelpOfferLoading ? (
-                    renderLoadingIndicator()
-                ) : (
-                    <>
-                        {renderHelpOwnerInformation()}
-                        {renderHelpInformation()}
-                        <View style={styles.helpButtons}>
-                            {showUserOrOwnerView()}
-                            {showHelpedUsers && renderHelpedUsers()}
-                        </View>
-                    </>
-                )}
-            </View>
-        </ScrollView>
+            )}
+        </View>
     );
 }

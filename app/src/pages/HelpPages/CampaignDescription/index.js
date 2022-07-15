@@ -18,6 +18,7 @@ import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
 import getBRDateFromString from '../../../utils/getBRDateFromString';
+import openWhatsapp from '../../../utils/openWhatsapp';
 
 export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
@@ -60,18 +61,12 @@ export default function CampaignDescription({ route, navigation }) {
         goBackToMyResquestsPage();
     }
 
-    function openWhatsapp() {
-        Linking.openURL(
-            `whatsapp://send?phone=${
-                campaign.entity.phone
-            }&text=${'Olá, precisa de ajuda?'}`,
-        );
-    }
-
     const renderContactEntityButtons = () => (
         <View style={styles.ViewLink}>
             <View style={styles.ViewLinkBox}>
-                <TouchableOpacity onPress={openWhatsapp}>
+                <TouchableOpacity
+                    onPress={() => openWhatsapp(campaign.entity.phone)}
+                >
                     <Icon
                         name="whatsapp"
                         type="font-awesome"
