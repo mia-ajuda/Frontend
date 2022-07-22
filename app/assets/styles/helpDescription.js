@@ -5,6 +5,7 @@ const helpDescription = {
     container: {
         flex: 1,
         padding: 20,
+        zIndex: -1,
     },
     userInfo: {
         flex: 1,
