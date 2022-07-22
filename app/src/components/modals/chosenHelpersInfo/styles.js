@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         marginTop: 12,
         ...font.title,
+        textAlign: 'center',
     },
     userSubtitle: {
         fontSize: RFValue(18, 640),
