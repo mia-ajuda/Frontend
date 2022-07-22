@@ -17,8 +17,8 @@ import useService from '../../../services/useService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
-import getBRDateFromString from '../../../utils/getBRDateFromString';
 import openWhatsapp from '../../../utils/openWhatsapp';
+import formatDate from '../../../utils/formatDate';
 
 export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
@@ -113,7 +113,7 @@ export default function CampaignDescription({ route, navigation }) {
                         <Text style={styles.infoTextFont}>
                             Data de criação:{' '}
                         </Text>
-                        {getBRDateFromString(campaign.creationDate)}
+                        {formatDate(campaign.creationDate, '-')}
                     </Text>
                 </View>
             </View>

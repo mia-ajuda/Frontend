@@ -9,7 +9,7 @@
             "color": "#4b8ab9",
             "androidMode": "default"
         },
-        "version": "2.0.0 Mutt",
+        "version": "2.1.0 Mutt",
         "orientation": "portrait",
         "icon": "./assets/images/logo.png",
         "splash": {

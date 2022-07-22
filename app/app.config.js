@@ -20,7 +20,7 @@ export default ({ config }) => {
                     apiKey: MAPS_API_KEY,
                 },
             },
-            versionCode: 201,
+            versionCode: 211,
         },
     };
 };
