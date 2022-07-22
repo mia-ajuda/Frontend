@@ -224,9 +224,9 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     return (
-        <View style={{ height: '100%' }}>
-            <ScrollView style={{ flexGrow: 1 }}>
-                {showModal && <View style={styles.ViewBackdrop} />}
+        <View style={styles.viewOffer}>
+            <ScrollView style={styles.scrollViewOffer}>
+                {showModal && <View style={styles.viewBackdrop} />}
                 <View style={styles.container}>
                     <ConfirmationModal
                         visible={confirmationModalVisible}

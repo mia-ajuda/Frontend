@@ -4,18 +4,13 @@ import helpDescription from '../../../../../assets/styles/helpDescription';
 
 const styles = StyleSheet.create({
     ...helpDescription,
-    ViewLink: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+    viewOffer: {
+        height: '100%',
     },
-    ViewLinkBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginBottom: 20,
+    scrollViewOffer: {
+        flexGrow: 1,
     },
-    ViewBackdrop: {
+    viewBackdrop: {
         position: 'absolute',
         width: '100%',
         height: '100%',
