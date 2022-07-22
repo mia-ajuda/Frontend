@@ -1,16 +1,18 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../../../assets/styles/colorVariables';
 import font from '../../../../assets/styles/fontVariable';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 const styles = StyleSheet.create({
     contentContainer: {
+        height: '100%',
         position: 'relative',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     imageContainer: {
         width: 125,
         height: 125,
-        marginTop: 30,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 12,
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
         ...font.title,
     },
     userSubtitle: {
-        fontSize: 18,
+        fontSize: RFValue(18, 640),
         fontFamily: 'montserrat-light',
         color: colors.dark,
         marginBottom: 20,
@@ -63,13 +65,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     phoneNumber: {
-        fontSize: 16,
+        fontSize: RFValue(16, 640),
         fontWeight: '600',
-    },
-    closeButton: {
-        alignSelf: 'flex-start',
-        position: 'absolute',
-        left: '10%',
     },
 });
 

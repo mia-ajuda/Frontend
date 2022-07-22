@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../../assets/styles/colorVariables';
 
 export default StyleSheet.create({
@@ -25,7 +26,7 @@ export default StyleSheet.create({
         borderWidth: 3,
     },
     infoText: {
-        fontSize: 16,
+        fontSize: RFValue(16, 640),
     },
     infoTextFont: {
         fontFamily: 'montserrat-semibold',

@@ -8,7 +8,6 @@ import styles from './styles';
 import getYearsSince from '../../../utils/getYearsSince';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import colors from '../../../../assets/styles/colorVariables';
 import openWhatsapp from '../../../utils/openWhatsapp';
 import callNumber from '../../../utils/callNumber';
 
@@ -26,15 +25,11 @@ export default function ChosenHelpersInfo({ user, showModal, setShowModal }) {
             <BottomSheetModal
                 ref={bottomSheetRef}
                 index={0}
-                snapPoints={['70%']}
+                snapPoints={[380]}
                 onDismiss={() => setShowModal(false)}
                 enablePanDownToClose
-                style={{ borderRadius: 12 }}
             >
                 <View style={styles.contentContainer}>
-                    <TouchableOpacity style={styles.closeButton}>
-                        <Icon name="close" color={colors.dark} />
-                    </TouchableOpacity>
                     <Image
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
