@@ -1,13 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, View, Image, Text } from 'react-native';
 import styles from './styles';
-import shortenName from '../../utils/shortenName';
-import getYearsSince from '../../utils/getYearsSince';
+import { untilTwoLastNames } from '../../utils/shortenName';
 
 const UserCard = (props) => {
     const { user, handleClick } = props;
-
-    const userAge = getYearsSince(user.birthday);
 
     return (
         <TouchableOpacity onPress={() => handleClick(user._id)}>
@@ -18,27 +15,9 @@ const UserCard = (props) => {
                         uri: `data:image/png;base64,${user.photo}`,
                     }}
                 />
-                <View>
-                    <Text style={[styles.infoText, styles.infoTextFont]}>
-                        {shortenName(user.name)}
-                    </Text>
-                    {userAge != 0 && (
-                        <Text>
-                            <Text
-                                style={[styles.infoText, styles.infoTextFont]}
-                            >
-                                Idade:{' '}
-                            </Text>
-                            {userAge}
-                        </Text>
-                    )}
-                    <Text>
-                        <Text style={[styles.infoText, styles.infoTextFont]}>
-                            Cidade:{' '}
-                        </Text>
-                        {user.address.city}
-                    </Text>
-                </View>
+                <Text style={[styles.infoText, styles.infoTextFont]}>
+                    {untilTwoLastNames(user.name)}
+                </Text>
             </View>
         </TouchableOpacity>
     );

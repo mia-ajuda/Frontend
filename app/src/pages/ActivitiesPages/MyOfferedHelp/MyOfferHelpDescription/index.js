@@ -19,7 +19,7 @@ import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
-import ChosenHelpersInfo from '../../../HelpPages/ChosenHelpersInfo';
+import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -226,6 +226,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     return (
         <View style={{ height: '100%' }}>
             <ScrollView style={{ flexGrow: 1 }}>
+                {showModal && <View style={styles.ViewBackdrop} />}
                 <View style={styles.container}>
                     <ConfirmationModal
                         visible={confirmationModalVisible}

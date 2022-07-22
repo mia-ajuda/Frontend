@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import {
     BottomSheetModal,
     BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import { ImageBackground } from 'react-native';
 import styles from './styles';
 import getYearsSince from '../../../utils/getYearsSince';
 import { Icon } from 'react-native-elements';
@@ -14,8 +13,6 @@ import openWhatsapp from '../../../utils/openWhatsapp';
 import callNumber from '../../../utils/callNumber';
 
 export default function ChosenHelpersInfo({ user, showModal, setShowModal }) {
-    console.log(user);
-    // ref
     const bottomSheetRef = useRef(null);
 
     useEffect(() => {
@@ -24,7 +21,6 @@ export default function ChosenHelpersInfo({ user, showModal, setShowModal }) {
         }
     }, [showModal]);
 
-    // renders
     return (
         <BottomSheetModalProvider>
             <BottomSheetModal
@@ -33,21 +29,22 @@ export default function ChosenHelpersInfo({ user, showModal, setShowModal }) {
                 snapPoints={['70%']}
                 onDismiss={() => setShowModal(false)}
                 enablePanDownToClose
+                style={{ borderRadius: 12 }}
             >
                 <View style={styles.contentContainer}>
                     <TouchableOpacity style={styles.closeButton}>
                         <Icon name="close" color={colors.dark} />
                     </TouchableOpacity>
-                    <ImageBackground
+                    <Image
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
-                        imageStyle={styles.profileImage}
                     />
                     <Text style={styles.userName}>{user.name}</Text>
                     <Text style={styles.userSubtitle}>
                         {getYearsSince(user.birthday)} anos -{' '}
                         {user.address.city}
                     </Text>
+                    <Text style={styles.phoneNumber}>Número: {user.phone}</Text>
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity
                             color="#34A853"
@@ -75,7 +72,6 @@ export default function ChosenHelpersInfo({ user, showModal, setShowModal }) {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.phoneNumber}>Número: {user.phone}</Text>
                 </View>
             </BottomSheetModal>
         </BottomSheetModalProvider>

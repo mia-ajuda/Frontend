@@ -25,7 +25,7 @@ export default StyleSheet.create({
         borderWidth: 3,
     },
     infoText: {
-        fontSize: 15,
+        fontSize: 16,
     },
     infoTextFont: {
         fontFamily: 'montserrat-semibold',
