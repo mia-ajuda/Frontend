@@ -9,7 +9,6 @@ import CampaignDescription from '../../../pages/HelpPages/CampaignDescription';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import Location from '../../../pages/AuthPages/Location';
 import Photo from '../../../pages/AuthPages/Photo';
-import PhotoPreview from '../../../pages/AuthPages/Photo/PhotoPreview';
 import Address from '../../../pages/AuthPages/Address';
 
 const Stack = createStackNavigator();
@@ -63,7 +62,6 @@ const MainNavigation = () => (
             options={{ title: 'Foto' }}
             component={Photo}
         />
-        <Stack.Screen name="photoPreview" component={PhotoPreview} />
     </Stack.Navigator>
 );
 

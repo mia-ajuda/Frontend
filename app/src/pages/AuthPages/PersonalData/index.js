@@ -25,8 +25,7 @@ import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import useService from '../../../services/useService';
-import { alertError, alertSuccess } from '../../../utils/Alert';
-import SessionService from '../../../services/Session';
+import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -68,29 +67,21 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const continueHandler = async () => {
-        let userDataFromPersonalPage;
         const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
+        const completeRegistragionData = {
+            name,
+            cnpj,
+            phone,
+            ...userDatafromRegistrationPage,
+        };
         if (isEntityUser) {
-            userDataFromPersonalPage = {
-                name,
-                cnpj,
-                phone,
-                ...userDatafromRegistrationPage,
-            };
-
-            const signUpRequest = await useService(SessionService, 'signUp', [
-                userDataFromPersonalPage,
-            ]);
-            setIsLoading(false);
-
-            if (!signUpRequest.error) {
-                alertSuccess('Seu cadastro foi realizado com sucesso');
-            }
-            navigation.navigate('login');
+            navigation.navigate('confirmRegister', {
+                completeRegistragionData,
+            });
         } else {
             setIsLoading(false);
             const birthdayFormated = formatDate(birthday);
-            userDataFromPersonalPage = {
+            const userDataFromPersonalPage = {
                 name,
                 birthday: birthdayFormated,
                 cpf,

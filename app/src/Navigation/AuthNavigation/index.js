@@ -7,6 +7,7 @@ import RiskGroup from '../../pages/AuthPages/RiskGroup';
 import ForgotPassword from '../../pages/AuthPages/ForgotPassword';
 import InitialScreen from '../../pages/AuthPages/InitialScreen';
 import Location from '../../pages/AuthPages/Location';
+import ConfirmRegister from '../../pages/AuthPages/ConfirmRegister';
 
 const Stack = createStackNavigator();
 const AuthRoutes = () => {
@@ -27,6 +28,7 @@ const AuthRoutes = () => {
             <Stack.Screen name="personalData" component={PersonalData} />
             <Stack.Screen name="riskGroup" component={RiskGroup} />
             <Stack.Screen name="forgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="confirmRegister" component={ConfirmRegister} />
         </Stack.Navigator>
     );
 };
