@@ -50,8 +50,6 @@ export default function RiskGroup({ route, navigation }) {
         if (!completeRegistration.error) {
             navigation.navigate('login');
             alertSuccess('Seu cadastro foi realizado com sucesso');
-        } else {
-            navigation.navigate('login');
         }
     };
 

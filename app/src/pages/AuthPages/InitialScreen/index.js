@@ -28,7 +28,7 @@ export default function InitialScreen({ navigation }) {
                 <Button
                     title={'CRIAR CONTA'}
                     press={() => {
-                        navigation.navigate('registrationData');
+                        navigation.navigate('location');
                     }}
                     type="outlined"
                     large

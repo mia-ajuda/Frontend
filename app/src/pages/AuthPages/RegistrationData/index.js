@@ -20,20 +20,25 @@ import { Icon } from 'react-native-elements';
 import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
-export default function RegistrationData({ navigation }) {
+export default function RegistrationData({ navigation, route }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { userDataFromLocationPage } = route.params;
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loadingEmailAdressVerification, setLoadingEmailVerification] =
         useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-
     const continueHandler = () => {
         const userDatafromRegistrationPage = {
             email,
             password,
         };
-        navigation.navigate('personalData', { userDatafromRegistrationPage });
+        navigation.navigate('personalData', {
+            userDatafromRegistrationPage: {
+                ...userDataFromLocationPage,
+                ...userDatafromRegistrationPage,
+            },
+        });
     };
 
     const verifyEmailAdress = async () => {

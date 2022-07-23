@@ -6,6 +6,7 @@ import PersonalData from '../../pages/AuthPages/PersonalData';
 import RiskGroup from '../../pages/AuthPages/RiskGroup';
 import ForgotPassword from '../../pages/AuthPages/ForgotPassword';
 import InitialScreen from '../../pages/AuthPages/InitialScreen';
+import Location from '../../pages/AuthPages/Location';
 
 const Stack = createStackNavigator();
 const AuthRoutes = () => {
@@ -18,6 +19,7 @@ const AuthRoutes = () => {
         >
             <Stack.Screen name="initial" component={InitialScreen} />
             <Stack.Screen name="login" component={Login} />
+            <Stack.Screen name="location" component={Location} />
             <Stack.Screen
                 name="registrationData"
                 component={RegistrationData}
