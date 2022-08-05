@@ -14,19 +14,18 @@ import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
 import campaignService from '../../../services/Campaign';
+import PlusIconTextButton from '../../../components/PlusIconTextButton';
+import createInteraction from '../../../utils/createInteraction';
 
 export default function CampaignsFinished({ navigation }) {
     const [finishedCampaignList, setFinishedCampaignList] = useState([]);
-    const [loadingCampaignRequests, setLoadingCampaignRequests] = useState(
-        false,
-    );
-    const [campaignDeletionLoading, setCampaignDeletionLoading] = useState(
-        false,
-    );
+    const [loadingCampaignRequests, setLoadingCampaignRequests] =
+        useState(false);
+    const [campaignDeletionLoading, setCampaignDeletionLoading] =
+        useState(false);
     const [campaignToDelete, setCampaignToDelete] = useState(null);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
 
     const { user } = useContext(UserContext);
     useFocusEffect(
@@ -90,7 +89,8 @@ export default function CampaignsFinished({ navigation }) {
                                                     campaign,
                                                 },
                                             )
-                                        }>
+                                        }
+                                    >
                                         {/* Tirar isEntityUser depois */}
                                         <MyRequestCard
                                             object={campaign}
@@ -126,6 +126,12 @@ export default function CampaignsFinished({ navigation }) {
     };
     return (
         <View>
+            <PlusIconTextButton
+                text="Criar campanha"
+                onPress={() =>
+                    createInteraction(user, navigation, 'createCampaign')
+                }
+            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}

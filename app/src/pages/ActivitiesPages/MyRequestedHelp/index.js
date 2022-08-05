@@ -109,7 +109,7 @@ const MyRequestedHelp = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <PlusIconTextButton
-                text="Novo pedido"
+                text="Criar pedido"
                 onPress={() =>
                     createInteraction(user, navigation, 'createHelpRequest')
                 }

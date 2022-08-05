@@ -111,7 +111,7 @@ export default function HelpsFinished({ navigation }) {
     return (
         <View style={styles.container}>
             <PlusIconTextButton
-                text="Nova oferta"
+                text="Criar oferta"
                 onPress={() =>
                     createInteraction(user, navigation, 'createHelpOffer')
                 }
