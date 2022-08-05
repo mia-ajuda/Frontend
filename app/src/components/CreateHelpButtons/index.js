@@ -5,8 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
-import verifyUserInfo from '../../utils/verifyUserInfo';
 import { UserContext } from '../../store/contexts/userContext';
+import createInteraction from '../../utils/createInteraction';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -29,11 +29,7 @@ export default function CreateHelpButtons() {
     const navigateToCreatePage = (page) => {
         const creationPage =
             page == 'help' ? 'createHelpRequest' : 'createHelpOffer';
-        if (verifyUserInfo(user)) {
-            navigation.navigate(creationPage);
-        } else {
-            navigation.navigate('address');
-        }
+        createInteraction(user, navigation, creationPage);
         hideButtons();
     };
 

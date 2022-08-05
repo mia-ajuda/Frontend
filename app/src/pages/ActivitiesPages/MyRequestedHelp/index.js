@@ -15,6 +15,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import useService from '../../../services/useService';
 import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
+import createInteraction from '../../../utils/createInteraction';
 
 const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
@@ -109,7 +110,9 @@ const MyRequestedHelp = ({ navigation }) => {
         <View style={styles.container}>
             <PlusIconTextButton
                 text="Novo pedido"
-                onPress={() => navigation.navigate('createHelpRequest')}
+                onPress={() =>
+                    createInteraction(user, navigation, 'createHelpRequest')
+                }
             />
             <ConfirmationModal
                 attention={true}

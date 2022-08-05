@@ -16,6 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import useService from '../../../services/useService';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
+import createInteraction from '../../../utils/createInteraction';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -111,7 +112,9 @@ export default function HelpsFinished({ navigation }) {
         <View style={styles.container}>
             <PlusIconTextButton
                 text="Nova oferta"
-                onPress={() => navigation.navigate('createHelpOffer')}
+                onPress={() =>
+                    createInteraction(user, navigation, 'createHelpOffer')
+                }
             />
             <ConfirmationModal
                 attention={true}

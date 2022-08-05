@@ -14,7 +14,7 @@ import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
-export default function Address({ navigation }) {
+export default function Address({ navigation, route }) {
     const { keyboard } = useContext(DeviceInformationContext);
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
@@ -23,7 +23,7 @@ export default function Address({ navigation }) {
     const [complement, setComplement] = useState('');
     const [numberPlace, setNumberPlace] = useState('');
     const [isCepRequestLoading, setCepRequestLoading] = useState(false);
-
+    const { nextPage } = route.params;
     useEffect(() => {
         const shouldResquestCepInformation = cep.length === 8;
         if (shouldResquestCepInformation) {
@@ -137,6 +137,7 @@ export default function Address({ navigation }) {
         };
         const userDataFromAddressPage = {
             address,
+            nextPage,
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };

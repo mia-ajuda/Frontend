@@ -16,7 +16,7 @@ import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
-import verifyUserInfo from '../../utils/verifyUserInfo';
+import createInteraction from '../../utils/createInteraction';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -103,11 +103,7 @@ export default function Main({ navigation }) {
                 <TouchableOpacity
                     style={styles.campaignButton}
                     onPress={() => {
-                        if (verifyUserInfo(user)) {
-                            navigation.navigate('createCampaign');
-                        } else {
-                            navigation.navigate('address');
-                        }
+                        createInteraction(user, navigation, 'createCampaign');
                     }}
                 >
                     <Icon

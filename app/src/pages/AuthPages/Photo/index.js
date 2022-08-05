@@ -30,7 +30,7 @@ export default function Photo({ route, navigation }) {
             photo: pickerResult.base64,
         };
         let newUserInfo;
-        const nextPage = user.cnpj ? 'createCampaign' : '';
+        const { nextPage } = userDataFromAddressPage;
         if (user.cnpj) {
             newUserInfo = await useService(entityService, 'editEntity', [
                 userInfo,
