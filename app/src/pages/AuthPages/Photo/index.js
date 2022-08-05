@@ -30,7 +30,7 @@ export default function Photo({ route, navigation }) {
             photo: pickerResult.base64,
         };
         let newUserInfo;
-        const { nextPage } = userDataFromAddressPage;
+        const { nextPage, nextPageParams } = userDataFromAddressPage;
         if (user.cnpj) {
             newUserInfo = await useService(entityService, 'editEntity', [
                 userInfo,
@@ -43,7 +43,7 @@ export default function Photo({ route, navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: newUserInfo });
             alertSuccess('Alteração feita com sucesso!');
         }
-        navigation.navigate(nextPage);
+        navigation.navigate(nextPage, { ...nextPageParams });
     };
 
     async function openImagePickerAsync() {

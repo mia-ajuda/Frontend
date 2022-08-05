@@ -17,7 +17,7 @@ export default function CampaignMarker({ campaign }) {
                 campaign,
             });
         } else {
-            navigation.navigate('address');
+            navigation.navigate('address', { nextPage: 'campaignDescription' });
         }
     };
     return (

@@ -35,9 +35,9 @@ export default function HelpsMarker({ help, isRiskGroup }) {
                 iconType={'exclamation'}
             />
             <Callout
-                onPress={() => {
-                    navigateToDescription('help', user, navigation, help);
-                }}
+                onPress={() =>
+                    navigateToDescription('help', user, navigation, help)
+                }
                 style={styles.callout}
             >
                 {renderCalloutTitleRiskGroup()}

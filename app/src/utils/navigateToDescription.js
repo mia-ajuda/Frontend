@@ -6,5 +6,11 @@ export default function navigateToDescription(type, user, navigation, help) {
               help: help,
               helpType: type,
           })
-        : navigation.navigate('address');
+        : navigation.navigate('address', {
+              nextPage: 'mapHelpDescription',
+              nextPageParams: {
+                  help: help,
+                  helpType: type,
+              },
+          });
 }

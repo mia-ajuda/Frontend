@@ -135,9 +135,11 @@ export default function Address({ navigation, route }) {
             number: numberPlace,
             complement,
         };
+        const nextPageParams = route.params.nextPageParams ?? {};
         const userDataFromAddressPage = {
             address,
             nextPage,
+            nextPageParams,
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };
