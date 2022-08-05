@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, createContext, useState } from 'react';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
-import useService from '../../services/useService';
+import callService from '../../services/callService';
 import HelpService from '../../services/Help';
 import { subscribeToDeleteHelpOffer } from '../../services/socket';
 
@@ -41,7 +41,7 @@ export default function HelpOfferContextProvider({ children }) {
     }, []);
 
     async function getHelpOfferList() {
-        const helpOfferListResponse = await useService(
+        const helpOfferListResponse = await callService(
             HelpService,
             'listHelpOffer',
             [user._id],
@@ -53,7 +53,7 @@ export default function HelpOfferContextProvider({ children }) {
 
     async function getHelpOfferListWithCategories() {
         if (selectedCategories.length) {
-            const helpOfferListResponse = await useService(
+            const helpOfferListResponse = await callService(
                 HelpService,
                 'listHelpOfferWithCategories',
                 [user._id, selectedCategories],

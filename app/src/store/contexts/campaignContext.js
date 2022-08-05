@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { UserContext } from './userContext';
-import useService from '../../services/useService';
+import callService from '../../services/callService';
 import CampaignService from '../../services/Campaign';
 
 export const CampaignContext = createContext();
@@ -19,7 +19,7 @@ export default function CampaignContextProvider(props) {
     async function getEntityList(coords) {
         if (coords) {
             const { _id: userId } = user;
-            const campaigns = await useService(
+            const campaigns = await callService(
                 CampaignService,
                 'getNearCampaign',
                 [coords, userId],

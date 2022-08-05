@@ -13,7 +13,7 @@ import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
@@ -49,7 +49,7 @@ export default function CampaignDescription({ route, navigation }) {
 
     async function finishCampaign() {
         setFinishCampaignLoading(true);
-        const finishHelpRequest = await useService(
+        const finishHelpRequest = await callService(
             CampaignService,
             'finishCampaign',
             [campaign._id],

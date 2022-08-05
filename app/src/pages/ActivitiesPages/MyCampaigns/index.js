@@ -12,7 +12,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import campaignService from '../../../services/Campaign';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
@@ -37,7 +37,7 @@ export default function CampaignsFinished({ navigation }) {
     async function loadOnGoingCampaigns() {
         setLoadingCampaignRequests(true);
         const { _id: userId } = user;
-        const resFinished = await useService(
+        const resFinished = await callService(
             campaignService,
             'getCampaignMultipleStatus',
             [userId, 'waiting'],
@@ -56,7 +56,7 @@ export default function CampaignsFinished({ navigation }) {
 
     async function excludeCampaign() {
         setCampaignDeletionLoading(true);
-        const validDeleteRequest = await useService(
+        const validDeleteRequest = await callService(
             campaignService,
             'deleteCampaign',
             [campaignToDelete],

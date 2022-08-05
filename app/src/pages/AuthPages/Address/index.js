@@ -9,7 +9,7 @@ import {
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
@@ -34,7 +34,7 @@ export default function Address({ navigation, route }) {
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
         setCepRequestLoading(true);
-        const cepInformation = await useService(ViaCep, 'getCepInformation', [
+        const cepInformation = await callService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
         if (!cepInformation.error) {

@@ -17,7 +17,7 @@ import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { alertSuccess } from '../../../../utils/Alert';
 import { DeviceInformationContext } from '../../../../store/contexts/deviceInformationContext';
-import useService from '../../../../services/useService';
+import callService from '../../../../services/callService';
 
 export default function EditCepField({ route, navigation }) {
     const address = route.params.user?.address;
@@ -51,7 +51,7 @@ export default function EditCepField({ route, navigation }) {
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
         setCepRequestLoading(true);
-        const cepInformation = await useService(ViaCep, 'getCepInformation', [
+        const cepInformation = await callService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
         if (!cepInformation.error) {
@@ -78,8 +78,8 @@ export default function EditCepField({ route, navigation }) {
 
         setEditRequestLoading(true);
         const resp = isEntityUser
-            ? await useService(EntityService, 'editEntityAdress', [data])
-            : await useService(UserService, 'editUserAdress', [data]);
+            ? await callService(EntityService, 'editEntityAdress', [data])
+            : await callService(UserService, 'editUserAdress', [data]);
         if (!resp.error) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');

@@ -24,7 +24,7 @@ import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
@@ -48,10 +48,10 @@ export default function PersonalData({ route, navigation }) {
             ? removeSpecialCharsFrom(cnpj)
             : removeSpecialCharsFrom(cpf);
         const idExist = isEntityUser
-            ? await useService(EntityService, 'verifyEntityInfo', [
+            ? await callService(EntityService, 'verifyEntityInfo', [
                   idOnlyNumbers,
               ])
-            : await useService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
+            : await callService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
 
         if (!idExist.error) {
             if (idExist) {

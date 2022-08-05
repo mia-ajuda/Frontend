@@ -7,7 +7,7 @@ import SessionService from '../../../services/Session';
 import TermsModal from '../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../components/UI/button';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
@@ -25,7 +25,7 @@ export default function ConfirmRegister({ route, navigation }) {
     async function continueHandler() {
         setLoadingUserRegistration(true);
 
-        const signUpRequest = await useService(SessionService, 'signUp', [
+        const signUpRequest = await callService(SessionService, 'signUp', [
             completeRegistragionData,
         ]);
         if (!signUpRequest.error) {

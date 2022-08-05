@@ -17,7 +17,7 @@ import emailValidator from '../../../utils/emailValidator';
 import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import { alertError } from '../../../utils/Alert';
 
 export default function RegistrationData({ navigation, route }) {
@@ -45,11 +45,11 @@ export default function RegistrationData({ navigation, route }) {
         setLoadingEmailVerification(true);
         keyboard.dismiss();
 
-        let isARegularUser = await useService(UserService, 'verifyUserInfo', [
+        let isARegularUser = await callService(UserService, 'verifyUserInfo', [
             email.toLowerCase(),
         ]);
         if (!isARegularUser)
-            isARegularUser = await useService(
+            isARegularUser = await callService(
                 EntityService,
                 'verifyEntityInfo',
                 [email.toLowerCase()],

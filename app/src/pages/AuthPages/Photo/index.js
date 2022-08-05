@@ -9,7 +9,7 @@ import { alertMessage, alertSuccess } from '../../../utils/Alert';
 import { UserContext } from '../../../store/contexts/userContext';
 import entityService from '../../../services/Entity';
 import userService from '../../../services/User';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import actions from '../../../store/actions';
 export default function Photo({ route, navigation }) {
     const { userDataFromAddressPage } = route.params;
@@ -32,11 +32,13 @@ export default function Photo({ route, navigation }) {
         let newUserInfo;
         const { nextPage, nextPageParams } = userDataFromAddressPage;
         if (user.cnpj) {
-            newUserInfo = await useService(entityService, 'editEntity', [
+            newUserInfo = await callService(entityService, 'editEntity', [
                 userInfo,
             ]);
         } else {
-            newUserInfo = await useService(userService, 'editUser', [userInfo]);
+            newUserInfo = await callService(userService, 'editUser', [
+                userInfo,
+            ]);
         }
 
         if (!newUserInfo.error) {

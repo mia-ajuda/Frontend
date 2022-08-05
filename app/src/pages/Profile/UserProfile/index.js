@@ -22,7 +22,7 @@ import formatCNPJ from '../../../utils/formatCNPJ';
 import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
@@ -40,7 +40,7 @@ export default function Profile({ navigation }) {
     const birthday = parseDate(user.birthday);
 
     async function logout() {
-        await useService(SessionService, 'signOut');
+        await callService(SessionService, 'signOut');
     }
 
     async function changeImgeProfile() {
@@ -110,8 +110,8 @@ export default function Profile({ navigation }) {
         };
 
         const validEditPhoto = isEntityUser
-            ? await useService(EntityService, 'editEntity', [data])
-            : await useService(UserService, 'editUser', [data]);
+            ? await callService(EntityService, 'editEntity', [data])
+            : await callService(UserService, 'editUser', [data]);
         if (!validEditPhoto.error) {
             dispatch({
                 type: actions.user.storeUserInfo,
