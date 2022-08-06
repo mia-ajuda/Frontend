@@ -26,8 +26,12 @@ export default function CampaignMarker({ campaign }) {
             key={campaign._id}
             tracksViewChanges={false}
             coordinate={{
-                latitude: campaign.entity.location.coordinates[1],
-                longitude: campaign.entity.location.coordinates[0],
+                latitude:
+                    campaign.location?.coordinates[1] ??
+                    campaign.entity.location.coordinates[1],
+                longitude:
+                    campaign.location?.coordinates[0] ??
+                    campaign.entity.location.coordinates[0],
             }}
         >
             <Avatar iconType={'home'} />

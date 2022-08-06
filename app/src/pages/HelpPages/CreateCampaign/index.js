@@ -1,28 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
-import colors from '../../../../assets/styles/colorVariables';
-import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-import campaignService from '../../../services/Campaign';
-import { UserContext } from '../../../store/contexts/userContext';
-import callService from '../../../services/callService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 import SelectCategoryForm from '../../../components/SelectCategoryForm';
+import navigateToCreateFlow from '../../../utils/navigateToCreateFlow';
 
 export default function CreateCampaign({ navigation }) {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] =
-        useState(false);
-    const [createCampaignLoading, setCreateCampaignLoading] = useState(false);
-
-    const { user } = useContext(UserContext);
 
     useEffect(() => {
         showWarningFor('createCampaign', requestHelpWarningMessage);
@@ -37,19 +28,13 @@ export default function CreateCampaign({ navigation }) {
     }, [title, description, category]);
 
     async function createCampaign() {
-        const { _id: userId } = user;
-        setCreateCampaignLoading(true);
-        const createCampaign = await callService(
-            campaignService,
-            'createCampaign',
-            [title, category, description, userId],
+        navigateToCreateFlow(
+            navigation,
+            title,
+            category,
+            description,
+            'Campaign',
         );
-        if (!createCampaign.error) {
-            setModalSuccessMoldalVisible(true);
-        } else {
-            navigation.navigate('home');
-        }
-        setCreateCampaignLoading(false);
     }
 
     const renderInputDescriptionForm = () => (
@@ -66,13 +51,10 @@ export default function CreateCampaign({ navigation }) {
     const renderInputTitleForm = () => (
         <Input label="Título da campanha" change={(text) => setTitle(text)} />
     );
-    const renderLoadingIdicator = () => (
-        <ActivityIndicator size="large" color={colors.primary} />
-    );
 
     const createCampaignBtn = () => (
         <Button
-            title="Criar uma campanha"
+            title="Criar campanha"
             large
             disabled={buttonDisabled}
             press={createCampaign}
@@ -90,17 +72,10 @@ export default function CreateCampaign({ navigation }) {
                         setHelpCategoryIds={setCategory}
                     />
                     <View style={styles.btnContainer}>
-                        {createCampaignLoading
-                            ? renderLoadingIdicator()
-                            : createCampaignBtn()}
+                        {createCampaignBtn()}
                     </View>
                 </View>
             </Container>
-            <NewHelpModalSuccess
-                visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('home')}
-                message="Você criou a sua campanha com sucesso!"
-            />
         </ScrollView>
     );
 }

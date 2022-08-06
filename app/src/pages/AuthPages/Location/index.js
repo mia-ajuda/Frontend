@@ -48,7 +48,7 @@ export default function Location({ route }) {
             userId,
             markLocation,
         ];
-        if (requestType === 'campaign') {
+        if (requestType === 'Campaign') {
             response = await callService(
                 campaignService,
                 'createCampaign',
@@ -127,7 +127,7 @@ export default function Location({ route }) {
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
                 onOkPressed={() => navigation.navigate('home')}
-                message="Sua oferta de ajuda foi criada com sucesso!"
+                message={texts[requestType].successText}
             />
         </>
     );

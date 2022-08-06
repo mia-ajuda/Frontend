@@ -7,6 +7,7 @@ import Button from '../../../components/UI/button';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 import SelectCategoryForm from '../../../components/SelectCategoryForm';
+import navigateToCreateFlow from '../../../utils/navigateToCreateFlow';
 
 export default function CreateHelp({ navigation }) {
     const [helpOfferTitle, setHelpOfferTitle] = useState('');
@@ -31,14 +32,13 @@ export default function CreateHelp({ navigation }) {
     }, [helpOfferTitle, helpOfferDescription, helpOfferCategoryIds]);
 
     const naviteToLocation = () => {
-        navigation.navigate('location', {
-            requestInfo: {
-                title: helpOfferTitle,
-                category: helpOfferCategoryIds,
-                description: helpOfferDescription,
-            },
-            requestType: 'HelpOffer',
-        });
+        navigateToCreateFlow(
+            navigation,
+            helpOfferTitle,
+            helpOfferCategoryIds,
+            helpOfferDescription,
+            'HelpOffer',
+        );
     };
 
     const renderInputDescriptionForm = () => (
