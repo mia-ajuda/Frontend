@@ -49,7 +49,7 @@ const MainNavigation = () => (
         />
         <Stack.Screen
             name="location"
-            options={{ title: 'Localização' }}
+            options={{ headerShown: false }}
             component={Location}
         />
         <Stack.Screen

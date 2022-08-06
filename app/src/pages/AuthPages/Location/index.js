@@ -1,90 +1,77 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
+import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 
 import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
-import { Icon } from 'react-native-elements';
 import showWarningFor from '../../../utils/warningPopUp';
 import { userPositionWarningMessage } from '../../../docs/warning';
+import texts from './texts.json';
+import { useNavigation } from '@react-navigation/native';
+import campaignService from '../../../services/Campaign';
+import helpService from '../../../services/Help';
+import callService from '../../../services/callService';
+import { colors } from 'react-native-elements';
+export default function Location({ route }) {
+    const { requestInfo, requestType } = route.params;
 
-export default function Location({ navigation }) {
-    const { userPosition, setUserPosition } = useContext(UserContext);
-    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
-        false,
-    );
-    const [
-        resquestPositionCardVisible,
-        setResquestPositionCardVisible,
-    ] = useState(true);
-
+    const { userPosition, user } = useContext(UserContext);
+    const [markLocation, setMarkerLocation] = useState({
+        type: 'Point',
+        coordinates: [],
+    });
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
+    const [modalSuccessModalVisible, setModalSuccessModalVisible] =
+        useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation();
     useEffect(() => {
         showWarningFor('userPosition', userPositionWarningMessage);
     }, []);
 
-    const renderPositionRequestCard = () => {
-        let iconName;
-        let explanationText;
+    const renderLoadingIdicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
+    );
 
-        if (resquestPositionCardVisible) {
-            iconName = 'sort-down';
-            explanationText = (
-                <Text style={styles.descriptionText}>
-                    A posição escolhida será usada para definir a localização
-                    das ajudas criadas por você. Por isso, preste bastante
-                    atenção ao escolhê-la, pois ela{' '}
-                    <Text style={styles.descriptionTextAlert}>
-                        não poderá ser alterada.
-                    </Text>
-                </Text>
+    async function confirmPosition() {
+        setIsLoading(true);
+        const { _id: userId } = user;
+        let response;
+        const params = [
+            requestInfo.title,
+            requestInfo.category,
+            requestInfo.description,
+            userId,
+            markLocation,
+        ];
+        if (requestType === 'campaign') {
+            response = await callService(
+                campaignService,
+                'createCampaign',
+                params,
             );
         } else {
-            iconName = 'sort-up';
-            explanationText = null;
+            response = await callService(
+                helpService,
+                `create${requestType}`,
+                params,
+            );
         }
-        return (
-            <View style={styles.description}>
-                <TouchableOpacity
-                    onPress={() => {
-                        setResquestPositionCardVisible(
-                            !resquestPositionCardVisible,
-                        );
-                    }}>
-                    <Icon name={iconName} type="font-awesome" />
-                    <Text style={styles.descriptionTextTitle}>
-                        Por que precisamos de sua posição?
-                    </Text>
-                    {explanationText}
-                </TouchableOpacity>
-            </View>
-        );
-    };
-    function continueRegistration() {
-        const { latitude, longitude } = userPosition;
-        const userDataFromLocationPage = {
-            latitude,
-            longitude,
-        };
-        setConfirmationModalVisible(false);
-        navigation.navigate('registrationData', { userDataFromLocationPage });
+        if (!response.error) {
+            setModalSuccessModalVisible(true);
+        }
+        setIsLoading(false);
     }
 
     return (
         <>
-            <StatusBar
-                translucent
-                backgroundColor={
-                    confirmationModalVisible ? 'rgba(0,0,0,0.4)' : 'transparent'
-                }
-                barStyle={
-                    confirmationModalVisible ? 'light-content' : 'dark-content'
-                }
-            />
             <View style={styles.adjustPositionBox}>
                 <Text style={styles.adjustPositionText}>
-                    Arraste para ajustar sua posição
+                    {texts[requestType].instruction}
                 </Text>
             </View>
             <View style={styles.positionBlueCat}>
@@ -100,10 +87,13 @@ export default function Location({ navigation }) {
                     longitudeDelta: 0.005,
                 }}
                 style={styles.map}
-                onRegionChangeComplete={(region) => setUserPosition(region)}
+                onRegionChangeComplete={(region) =>
+                    setMarkerLocation({
+                        ...markLocation,
+                        coordinates: [region.longitude, region.latitude],
+                    })
+                }
             />
-
-            {renderPositionRequestCard()}
 
             <View style={styles.buttons}>
                 <Button
@@ -113,20 +103,31 @@ export default function Location({ navigation }) {
                         navigation.goBack();
                     }}
                 />
-                <Button
-                    title="Confirmar"
-                    type="primary"
-                    press={() =>
-                        setConfirmationModalVisible(!confirmationModalVisible)
-                    }
-                />
+                {isLoading ? (
+                    renderLoadingIdicator()
+                ) : (
+                    <Button
+                        title="Confirmar"
+                        type="primary"
+                        press={() =>
+                            setConfirmationModalVisible(
+                                !confirmationModalVisible,
+                            )
+                        }
+                    />
+                )}
             </View>
 
             <ConfirmationModal
-                message="Podemos confirmar sua posição atual?"
+                message={texts[requestType].confirmPosition}
                 visible={confirmationModalVisible}
                 setVisible={setConfirmationModalVisible}
-                action={continueRegistration}
+                action={confirmPosition}
+            />
+            <NewHelpModalSuccess
+                visible={modalSuccessModalVisible}
+                onOkPressed={() => navigation.navigate('home')}
+                message="Sua oferta de ajuda foi criada com sucesso!"
             />
         </>
     );

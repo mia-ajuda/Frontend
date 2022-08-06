@@ -19,8 +19,12 @@ export default function HelpsMarker({ helpOffer }) {
             key={helpOffer._id}
             tracksViewChanges={false}
             coordinate={{
-                latitude: helpOffer.user.location.coordinates[1],
-                longitude: helpOffer.user.location.coordinates[0],
+                latitude:
+                    helpOffer.location?.coordinates[1] ??
+                    helpOffer.user.location.coordinates[1],
+                longitude:
+                    helpOffer.location?.coordinates[0] ??
+                    helpOffer.user.location.coordinates[0],
             }}
         >
             <View style={styles.helpOfferMarker}>
