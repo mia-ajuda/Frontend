@@ -48,10 +48,11 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install --pure-lockfile --non-interactive
 
-      - name: Retrieve last build url version
-        run: echo "BUILD_URL=$(expo url:apk)" >> $GITHUB_ENV
+      - name: 📦 Build prod aab by expo build
+        run: expo build:android -t app-bundle --release-channel=prod --non-interactive
 
-      - name: Print the last build url version
-        run: echo "${{ env.BUILD_URL }}"
-      # - name: 📦 Build prod aab by expo build
-      #   run: expo build:android -t app-bundle --release-channel=prod --non-interactive
+      - name: 📦 Retrieve last build url version
+        run: echo "BUILD_URL=$(expo url:apk)" >> $GITHUB_ENV
+      
+      - name: 📦 Submit latest aab build to play store as production app
+        run: eas submit -p android --profile alpha_test --url ${{ env.BUILD_URL }}
