@@ -3,7 +3,7 @@ name: submit app to play store
 
 on :
   push :
-    branches : [ master,  215-EntregaContínua ]
+    branches : [ master ]
 
 jobs:
   submit:
@@ -55,4 +55,4 @@ jobs:
         run: echo "BUILD_URL=$(expo url:apk)" >> $GITHUB_ENV
       
       - name: 📦 Submit latest aab build to play store as production app
-        run: eas submit -p android --profile alpha_test --url ${{ env.BUILD_URL }}
+        run: eas submit -p android --url ${{ env.BUILD_URL }}
