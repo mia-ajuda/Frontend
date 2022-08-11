@@ -25,6 +25,17 @@ function dateValidator(date) {
 
 test("Teste validação de data", () => {
 
-    expect(dateValidator("99/01/2001")).toBe(true);
+    expect(dateValidator("00/01/2001")).toBe(false);
 
 });
+
+test("Teste validação de data", () => {
+expect(dateValidator("99/01/2001")).toBe(false);});
+test("Teste validação de data", () => {
+    expect(dateValidator("/10/2001")).toBe(false);});
+    test("Teste validação de data", () => {
+    expect(dateValidator("10/00/2001")).toBe(false);});
+    test("Teste validação de data", () => {
+    expect(dateValidator("10/38/2001")).toBe(false);});
+    test("Teste validação de data", () => {
+    expect(dateValidator("99//2001")).toBe(false);});
