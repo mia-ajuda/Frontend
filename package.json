@@ -1,0 +1,34 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">   <img src=\"https://i.imgur.com/5wtqEys.png\" alt=\"Logo Mia Ajuda\" width=\"50%\"/> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mia-ajuda/Frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mia-ajuda/Frontend/issues"
+  },
+  "homepage": "https://github.com/mia-ajuda/Frontend#readme",
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.21",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-jest": "^28.1.3",
+    "ts-jest": "^28.0.7"
+  }
+}

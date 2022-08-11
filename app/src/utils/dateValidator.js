@@ -22,3 +22,4 @@ export default function dateValidator(date) {
 
     return true;
 }
+module.exports = dateValidator;
