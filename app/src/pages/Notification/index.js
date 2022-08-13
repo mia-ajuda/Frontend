@@ -6,7 +6,7 @@ import { UserContext } from '../../store/contexts/userContext';
 import NotificationService from '../../services/Notification';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
-import callService from '../../services/callService';
+import useService from '../../services/useService';
 
 export default function Notification({ navigation }) {
     const [loadingNotifications, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export default function Notification({ navigation }) {
     async function loadNotifications() {
         const { _id: userId } = user;
         setLoading(true);
-        const notificationsResponse = await callService(
+        const notificationsResponse = await useService(
             NotificationService,
             'getAllNotifications',
             [userId],

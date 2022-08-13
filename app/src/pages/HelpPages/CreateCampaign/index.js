@@ -8,7 +8,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 import campaignService from '../../../services/Campaign';
 import { UserContext } from '../../../store/contexts/userContext';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 import SelectCategoryForm from '../../../components/SelectCategoryForm';
@@ -39,7 +39,7 @@ export default function CreateCampaign({ navigation }) {
     async function createCampaign() {
         const { _id: userId } = user;
         setCreateCampaignLoading(true);
-        const createCampaign = await callService(
+        const createCampaign = await useService(
             campaignService,
             'createCampaign',
             [title, category, description, userId],

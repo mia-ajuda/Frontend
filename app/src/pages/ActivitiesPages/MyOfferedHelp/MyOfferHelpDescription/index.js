@@ -14,7 +14,7 @@ import styles from './styles';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
-import callService from '../../../../services/callService';
+import useService from '../../../../services/useService';
 import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
@@ -38,7 +38,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     useEffect(() => {
         async function setupPage() {
             setIsHelpOfferLoading(true);
-            const helpTemp = await callService(
+            const helpTemp = await useService(
                 helpService,
                 `get${routeId}WithAggregationById`,
                 [helpId],
@@ -52,7 +52,7 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     async function finishHelp() {
         setFinishRequestLoading(true);
-        const finishHelpRequest = await callService(
+        const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByHelper',
             [help._id, user._id],

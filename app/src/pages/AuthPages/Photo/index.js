@@ -1,19 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Icon } from 'react-native-elements';
 import styles from './styles';
 import Container from '../../../components/Container';
 
-import { alertMessage, alertSuccess } from '../../../utils/Alert';
-import { UserContext } from '../../../store/contexts/userContext';
-import entityService from '../../../services/Entity';
-import userService from '../../../services/User';
-import callService from '../../../services/callService';
-import actions from '../../../store/actions';
+import { alertMessage } from '../../../utils/Alert';
 export default function Photo({ route, navigation }) {
     const { userDataFromAddressPage } = route.params;
-    const { user, dispatch } = useContext(UserContext);
+    const goBackToAdressPage = () => navigation.goBack();
 
     async function requestPermission() {
         const permissionResult =
@@ -23,30 +18,6 @@ export default function Photo({ route, navigation }) {
             return;
         }
     }
-
-    const handleSaveInfo = async (pickerResult) => {
-        const userInfo = {
-            ...userDataFromAddressPage,
-            photo: pickerResult.base64,
-        };
-        let newUserInfo;
-        const { nextPage, nextPageParams } = userDataFromAddressPage;
-        if (user.cnpj) {
-            newUserInfo = await callService(entityService, 'editEntity', [
-                userInfo,
-            ]);
-        } else {
-            newUserInfo = await callService(userService, 'editUser', [
-                userInfo,
-            ]);
-        }
-
-        if (!newUserInfo.error) {
-            dispatch({ type: actions.user.storeUserInfo, data: newUserInfo });
-            alertSuccess('Alteração feita com sucesso!');
-        }
-        navigation.navigate(nextPage, { ...nextPageParams });
-    };
 
     async function openImagePickerAsync() {
         requestPermission();
@@ -59,9 +30,12 @@ export default function Photo({ route, navigation }) {
         if (pickerResult.cancelled === true) {
             return;
         }
-        handleSaveInfo(pickerResult);
-    }
 
+        navigation.navigate('photoPreview', {
+            selectedPhoto: pickerResult.base64,
+            userDataFromAddressPage,
+        });
+    }
     async function pickImageFromGallery() {
         requestPermission();
 
@@ -75,13 +49,16 @@ export default function Photo({ route, navigation }) {
         if (pickerResult.cancelled === true) {
             return;
         }
-        handleSaveInfo(pickerResult);
+
+        navigation.navigate('photoPreview', {
+            selectedPhoto: pickerResult.base64,
+            userDataFromAddressPage,
+        });
     }
     const renderCameraButton = () => (
         <TouchableOpacity
             onPress={openImagePickerAsync}
-            style={styles.pickPhotoButton}
-        >
+            style={styles.pickPhotoButton}>
             <View style={styles.button}>
                 <Icon name={'camera-alt'} color="gray" />
             </View>
@@ -89,12 +66,11 @@ export default function Photo({ route, navigation }) {
         </TouchableOpacity>
     );
     const renderGalleryButton = () => {
-        if (user.cnpj) {
+        if (userDataFromAddressPage.cnpj) {
             return (
                 <TouchableOpacity
                     onPress={pickImageFromGallery}
-                    style={styles.pickPhotoButton}
-                >
+                    style={styles.pickPhotoButton}>
                     <View style={styles.button}>
                         <Icon name={'photo-library'} color="gray" />
                     </View>
@@ -108,9 +84,13 @@ export default function Photo({ route, navigation }) {
         <View style={styles.container}>
             <ImageBackground
                 source={require('../../../images/catPhoto.png')}
-                style={styles.logo}
-            >
+                style={styles.logo}>
                 <Container>
+                    <View style={styles.backIcon}>
+                        <TouchableOpacity onPress={() => goBackToAdressPage()}>
+                            <Icon name={'arrow-back'} color={'black'} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.textView}>
                         <Text style={styles.text}>
                             Também precisamos de uma foto sua, é só clicar na

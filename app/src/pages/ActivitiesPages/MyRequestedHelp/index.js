@@ -12,10 +12,9 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../components/NoHelps';
 import colors from '../../../../assets/styles/colorVariables';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
-import createInteraction from '../../../utils/createInteraction';
 
 const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
@@ -35,7 +34,7 @@ const MyRequestedHelp = ({ navigation }) => {
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
         setLoadingMyHelpRequests(true);
-        const filteredHelps = await callService(
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
@@ -48,11 +47,10 @@ const MyRequestedHelp = ({ navigation }) => {
 
     async function excludeHelp() {
         setHelpDeletionLoading(true);
-        const validDeleteRequest = await callService(
-            helpService,
-            'deleteHelp',
-            ['help', helpToDelete],
-        );
+        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
+            'help',
+            helpToDelete,
+        ]);
         if (!validDeleteRequest.error) {
             const updatedArray = myRequestedHelps.filter((help) => {
                 return help._id !== helpToDelete;
@@ -110,10 +108,8 @@ const MyRequestedHelp = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <PlusIconTextButton
-                text="Criar pedido"
-                onPress={() =>
-                    createInteraction(user, navigation, 'createHelpRequest')
-                }
+                text="Novo pedido"
+                onPress={() => navigation.navigate('createHelpRequest')}
             />
             <ConfirmationModal
                 attention={true}

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, ActivityIndicator, ScrollView } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import helpService from '../../../services/Help';
 import colors from '../../../../assets/styles/colorVariables';
 import NoHelps from '../../../components/NoHelps';
@@ -23,7 +23,7 @@ const OfferHelpPage = ({ navigation }) => {
 
     async function getHelps() {
         setLoadingOfferedHelps(true);
-        const filteredHelps = await callService(
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
@@ -56,8 +56,7 @@ const OfferHelpPage = ({ navigation }) => {
                                             routeId: 'Help',
                                         },
                                     )
-                                }
-                            >
+                                }>
                                 <HistoricCard object={help} />
                             </TouchableOpacity>
                         );

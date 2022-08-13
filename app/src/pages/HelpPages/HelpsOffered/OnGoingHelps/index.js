@@ -6,7 +6,7 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import NoHelps from '../../../../components/NoHelps';
 import colors from '../../../../../assets/styles/colorVariables';
 import helpService from '../../../../services/Help';
-import callService from '../../../../services/callService';
+import useService from '../../../../services/useService';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function AskedHelps({ navigation }) {
@@ -23,7 +23,7 @@ export default function AskedHelps({ navigation }) {
 
     async function getHelps() {
         setLoadingOfferdHelps(true);
-        const filteredHelps = await callService(
+        const filteredHelps = await useService(
             helpService,
             'getHelpMultipleStatus',
             [user._id, ['on_going', 'owner_finished', 'waiting'], true],
@@ -52,8 +52,7 @@ export default function AskedHelps({ navigation }) {
                                     navigation.navigate('OfferDescription', {
                                         help,
                                     })
-                                }
-                            >
+                                }>
                                 <HistoricCard object={help} />
                             </TouchableOpacity>
                         );

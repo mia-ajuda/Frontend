@@ -4,18 +4,21 @@ import {
     KeyboardAvoidingView,
     Text,
     ScrollView,
+    TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
-import callService from '../../../services/callService';
+import { Icon } from 'react-native-elements';
+import useService from '../../../services/useService';
 import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 
-export default function Address({ navigation, route }) {
+export default function Address({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
+    const { userDataFromPersonalPage } = route.params;
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
@@ -23,7 +26,7 @@ export default function Address({ navigation, route }) {
     const [complement, setComplement] = useState('');
     const [numberPlace, setNumberPlace] = useState('');
     const [isCepRequestLoading, setCepRequestLoading] = useState(false);
-    const { nextPage } = route.params;
+
     useEffect(() => {
         const shouldResquestCepInformation = cep.length === 8;
         if (shouldResquestCepInformation) {
@@ -34,7 +37,7 @@ export default function Address({ navigation, route }) {
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
         setCepRequestLoading(true);
-        const cepInformation = await callService(ViaCep, 'getCepInformation', [
+        const cepInformation = await useService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
         if (!cepInformation.error) {
@@ -135,29 +138,32 @@ export default function Address({ navigation, route }) {
             number: numberPlace,
             complement,
         };
-        const nextPageParams = route.params.nextPageParams ?? {};
         const userDataFromAddressPage = {
             address,
-            nextPage,
-            nextPageParams,
+            ...userDataFromPersonalPage,
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };
 
     return (
-        <ScrollView
-            style={styles.scroll}
-            contentContainerStyle={styles.scrollContainer}
-        >
-            <KeyboardAvoidingView style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.backIcon}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Icon name={'arrow-back'} color={'black'} />
+                    </TouchableOpacity>
+                </View>
+
                 {renderPageDescription()}
 
                 {isCepRequestLoading
                     ? renderLoadingIndicator()
                     : renderRegistrationForm()}
+            </ScrollView>
 
-                {renderContinueButton()}
-            </KeyboardAvoidingView>
-        </ScrollView>
-    );
+            {renderContinueButton()}
+        </KeyboardAvoidingView>
+    ) ;
 }

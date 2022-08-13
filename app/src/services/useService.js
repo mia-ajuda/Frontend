@@ -1,6 +1,6 @@
 import { alertError, alertMessageEmailVerification } from '../utils/Alert';
 
-export default async function callService(service, functionName, params = []) {
+export default async function useService(service, functionName, params = []) {
     try {
         let functionReturn = await service[functionName](...params);
         return functionReturn;

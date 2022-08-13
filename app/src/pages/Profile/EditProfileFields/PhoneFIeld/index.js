@@ -10,7 +10,7 @@ import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../../utils/removeSpecialChars';
 import { alertSuccess } from '../../../../utils/Alert';
-import callService from '../../../../services/callService';
+import useService from '../../../../services/useService';
 export default function EditPhoneField({ route, navigation }) {
     const phone = route.params.user?.phone.slice(3, 14);
     const isEntityUser = route.params.user.cnpj;
@@ -18,8 +18,9 @@ export default function EditPhoneField({ route, navigation }) {
     const [isNewPhoneValid, setNewPhoneValid] = useState(true);
     const { dispatch } = useContext(UserContext);
     const [loadingModal, setLoadingModal] = useState(false);
-    const [isConfirmationModalVisible, setConfirmationModalVisible] =
-        useState(false);
+    const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
     const goBackToUserProfilePage = () => navigation.goBack();
 
     const formatPhone = () => {
@@ -35,8 +36,8 @@ export default function EditPhoneField({ route, navigation }) {
         setLoadingModal(true);
 
         const user = isEntityUser
-            ? await callService(EntityService, 'editEntity', [data])
-            : await callService(UserService, 'editUser', [data]);
+            ? await useService(EntityService, 'editEntity', [data])
+            : await useService(UserService, 'editUser', [data]);
         if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');

@@ -24,7 +24,7 @@ import phoneValidator from '../../../utils/phoneValidator';
 import removeSpecialCharsFrom from '../../../utils/removeSpecialChars';
 import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
 export default function PersonalData({ route, navigation }) {
@@ -36,30 +36,31 @@ export default function PersonalData({ route, navigation }) {
     const [cpf, setCPF] = useState('');
     const [cnpj, setCNPJ] = useState('');
     const [cellPhone, setCellPhone] = useState('');
-    const [ismentalHealthProfessional, setMentalHealthProfessional] =
-        useState(false);
+    const [ismentalHealthProfessional, setMentalHealthProfessional] = useState(
+        false,
+    );
     const [isEntityUser, setIsEntityUser] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [loadingCpfVerification, setloadingCpfVerification] = useState(false);
 
     const verifyIdExistence = async () => {
-        setIsLoading(true);
+        setloadingCpfVerification(true);
         const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
         const idOnlyNumbers = isEntityUser
             ? removeSpecialCharsFrom(cnpj)
             : removeSpecialCharsFrom(cpf);
         const idExist = isEntityUser
-            ? await callService(EntityService, 'verifyEntityInfo', [
+            ? await useService(EntityService, 'verifyEntityInfo', [
                   idOnlyNumbers,
               ])
-            : await callService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
+            : await useService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
 
+        setloadingCpfVerification(false);
         if (!idExist.error) {
             if (idExist) {
                 alertError(
                     null,
                     `Esse ${idLabel} já está sendo utilizado por outro usuário`,
                 );
-                setIsLoading(false);
             } else {
                 continueHandler();
             }
@@ -67,21 +68,18 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const continueHandler = async () => {
+        let userDataFromPersonalPage;
         const phone = `+55${removeSpecialCharsFrom(cellPhone)}`;
-        const completeRegistragionData = {
-            name,
-            cnpj,
-            phone,
-            ...userDatafromRegistrationPage,
-        };
         if (isEntityUser) {
-            navigation.navigate('confirmRegister', {
-                completeRegistragionData,
-            });
+            userDataFromPersonalPage = {
+                name,
+                cnpj,
+                phone,
+                ...userDatafromRegistrationPage,
+            };
         } else {
-            setIsLoading(false);
             const birthdayFormated = formatDate(birthday);
-            const userDataFromPersonalPage = {
+            userDataFromPersonalPage = {
                 name,
                 birthday: birthdayFormated,
                 cpf,
@@ -89,8 +87,8 @@ export default function PersonalData({ route, navigation }) {
                 ismentalHealthProfessional,
                 ...userDatafromRegistrationPage,
             };
-            navigation.navigate('riskGroup', { userDataFromPersonalPage });
         }
+        navigation.navigate('address', { userDataFromPersonalPage });
     };
 
     const renderPageHeader = () => {
@@ -100,8 +98,7 @@ export default function PersonalData({ route, navigation }) {
                     <View style={styles.backIcon}>
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
-                            style={styles.button}
-                        >
+                            style={styles.button}>
                             <Icon name="arrow-back" color="black" />
                         </TouchableOpacity>
                     </View>
@@ -294,8 +291,7 @@ export default function PersonalData({ route, navigation }) {
                             ? styles.scrollContainerOnTyping
                             : styles.scrollContainer
                     }
-                    showsVerticalScrollIndicator={false}
-                >
+                    showsVerticalScrollIndicator={false}>
                     <View style={styles.inputView}>
                         {renderEntityButton()}
                         {renderNameInputForm()}
@@ -306,7 +302,9 @@ export default function PersonalData({ route, navigation }) {
                     </View>
                 </ScrollView>
 
-                {isLoading ? renderLoadingIdicator() : renderContinueButton()}
+                {loadingCpfVerification
+                    ? renderLoadingIdicator()
+                    : renderContinueButton()}
             </KeyboardAvoidingView>
         </>
     );

@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Button from '../../../components/UI/button';
 import styles from './styles';
+import SessionService from '../../../services/Session';
 import { Icon } from 'react-native-elements';
+import colors from '../../../../assets/styles/colorVariables';
 import riskGroups from '../../../utils/riskGroupsObject';
+import { alertSuccess } from '../../../utils/Alert';
+import useService from '../../../services/useService';
 
 export default function RiskGroup({ route, navigation }) {
-    const { userDataFromPersonalPage } = route.params;
+    const { userDataFromPhotoPage } = route.params;
+    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
+        false,
+    );
     const [disease, setDisease] = useState({
         dc: false,
         hiv: false,
@@ -31,10 +38,22 @@ export default function RiskGroup({ route, navigation }) {
         }
 
         const completeRegistragionData = {
-            ...userDataFromPersonalPage,
+            ...userDataFromPhotoPage,
             riskGroup: newDisease,
         };
-        navigation.navigate('confirmRegister', { completeRegistragionData });
+
+        setLoadingUserRegistration(true);
+        const completeRegistration = await useService(
+            SessionService,
+            'signUp',
+            [completeRegistragionData],
+        );
+        if (!completeRegistration.error) {
+            navigation.navigate('login');
+            alertSuccess('Seu cadastro foi realizado com sucesso');
+        } else {
+            navigation.navigate('login');
+        }
     };
 
     const renderPageHeader = () => (
@@ -42,8 +61,7 @@ export default function RiskGroup({ route, navigation }) {
             <View style={styles.backIcon}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={styles.button}
-                >
+                    style={styles.button}>
                     <Icon name={'arrow-back'} color={'black'} />
                 </TouchableOpacity>
             </View>
@@ -55,6 +73,10 @@ export default function RiskGroup({ route, navigation }) {
                 </Text>
             </View>
         </>
+    );
+
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator size="large" color={colors.primary} />
     );
 
     const renderRiskGroupSelection = () => {
@@ -87,12 +109,16 @@ export default function RiskGroup({ route, navigation }) {
             {renderPageHeader()}
             {renderRiskGroupSelection()}
             <View style={styles.btnView}>
-                <Button
-                    disabled={false}
-                    title="Continuar"
-                    large
-                    press={confirmSignUp}
-                />
+                {loadingUserRegistration ? (
+                    renderLoadingIndicator()
+                ) : (
+                    <Button
+                        disabled={false}
+                        title="Concluir"
+                        large
+                        press={confirmSignUp}
+                    />
+                )}
             </View>
         </View>
     );

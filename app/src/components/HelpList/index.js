@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     View,
     ScrollView,
@@ -12,15 +12,12 @@ import NoHelps from '../../components/NoHelps';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { UserContext } from '../../store/contexts/userContext';
-import navigateToDescription from '../../utils/navigateToDescription';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
     const [iconDescription, setIconDescription] = useState(
         'Visualizar pedidos e ofertas',
     );
-    const { user } = useContext(UserContext);
     const listHeight = useRef(new Animated.Value(40)).current;
 
     useEffect(() => {
@@ -61,12 +58,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                         <TouchableOpacity
                             key={help._id}
                             onPress={() =>
-                                navigateToDescription(
-                                    'help',
-                                    user,
-                                    navigation,
-                                    help,
-                                )
+                                navigation.navigate('mapHelpDescription', {
+                                    help: help,
+                                    helpType: 'help',
+                                })
                             }
                         >
                             <HistoricCard

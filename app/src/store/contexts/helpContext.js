@@ -8,7 +8,7 @@ import React, {
 import helpReducer from '../reducers/helpReducer';
 import { UserContext } from './userContext';
 import { CategoryContext } from './categoryContext';
-import callService from '../../services/callService';
+import useService from '../../services/useService';
 import actions from '../actions';
 import HelpService from '../../services/Help';
 import {
@@ -21,8 +21,11 @@ import {
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
-    const { selectedCategories, filterCategories, setFilterCategories } =
-        useContext(CategoryContext);
+    const {
+        selectedCategories,
+        filterCategories,
+        setFilterCategories,
+    } = useContext(CategoryContext);
     const { user, userPosition } = useContext(UserContext);
     const [helpList, dispatch] = useReducer(helpReducer, []);
     const [loadingHelps, setLoadingHelps] = useState(false);
@@ -79,11 +82,10 @@ export default function HelpContextProvider(props) {
     async function getHelpList(coords) {
         if (coords) {
             const { _id: userId } = user;
-            const helpListArray = await callService(
-                HelpService,
-                'getNearHelp',
-                [coords, userId],
-            );
+            const helpListArray = await useService(HelpService, 'getNearHelp', [
+                coords,
+                userId,
+            ]);
 
             if (!helpListArray.error) {
                 dispatch({
@@ -98,7 +100,7 @@ export default function HelpContextProvider(props) {
     async function getHelpListWithCategories(coords) {
         if (coords && selectedCategories.length && filterCategories) {
             const { _id: userId } = user;
-            const helpListFiltered = await callService(
+            const helpListFiltered = await useService(
                 HelpService,
                 'getAllHelpForCategory',
                 [coords, selectedCategories, userId],

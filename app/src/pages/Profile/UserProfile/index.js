@@ -22,7 +22,7 @@ import formatCNPJ from '../../../utils/formatCNPJ';
 import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
@@ -40,7 +40,7 @@ export default function Profile({ navigation }) {
     const birthday = parseDate(user.birthday);
 
     async function logout() {
-        await callService(SessionService, 'signOut');
+        await useService(SessionService, 'signOut');
     }
 
     async function changeImgeProfile() {
@@ -110,8 +110,8 @@ export default function Profile({ navigation }) {
         };
 
         const validEditPhoto = isEntityUser
-            ? await callService(EntityService, 'editEntity', [data])
-            : await callService(UserService, 'editUser', [data]);
+            ? await useService(EntityService, 'editEntity', [data])
+            : await useService(UserService, 'editUser', [data]);
         if (!validEditPhoto.error) {
             dispatch({
                 type: actions.user.storeUserInfo,
@@ -143,8 +143,7 @@ export default function Profile({ navigation }) {
                         navigation.navigate(`Edit${navigateToPage}Field`, {
                             user,
                         })
-                    }
-                >
+                    }>
                     <View style={styles.inputWrapper}>
                         <Text style={styles.textInput}>{data}</Text>
                         <Icon size={25} name="edit" color="#000" />
@@ -168,8 +167,7 @@ export default function Profile({ navigation }) {
                     <ImageBackground
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
-                        imageStyle={styles.profileImage}
-                    >
+                        imageStyle={styles.profileImage}>
                         <Icon size={45} name={'camera-alt'} color="black" />
                     </ImageBackground>
                 </TouchableOpacity>
@@ -181,7 +179,7 @@ export default function Profile({ navigation }) {
                 {renderUserInfo('E-mail', user.email)}
                 {renderUserInfo(idLabel, idFormated)}
                 {renderEditableUserInfo('Telefone', phone, 'Phone')}
-                {renderEditableUserInfo('CEP', user.address?.cep || '', 'CEP')}
+                {renderEditableUserInfo('CEP', user.address.cep, 'CEP')}
                 <View style={styles.buttonWrapper}>
                     <Button
                         style={styles.buttonExit}

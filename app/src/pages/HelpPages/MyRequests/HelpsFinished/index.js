@@ -13,7 +13,7 @@ import colors from '../../../../../assets/styles/colorVariables';
 
 import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
-import callService from '../../../../services/callService';
+import useService from '../../../../services/useService';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -29,7 +29,7 @@ export default function HelpsFinished({ navigation }) {
     async function loadFinishedHelps() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
-        const resFinished = await callService(
+        const resFinished = await useService(
             helpService,
             'getHelpMultipleStatus',
             [userId, 'finished'],
@@ -61,8 +61,7 @@ export default function HelpsFinished({ navigation }) {
                                             help,
                                         },
                                     )
-                                }
-                            >
+                                }>
                                 <HistoricCard object={help} />
                             </TouchableOpacity>
                         ))}

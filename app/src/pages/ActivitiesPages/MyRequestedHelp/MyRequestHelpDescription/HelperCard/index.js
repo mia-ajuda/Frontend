@@ -8,7 +8,7 @@ import HelpService from '../../../../../services/Help';
 import ConfirmationModal from '../../../../../components/modals/confirmationModal';
 import { UserContext } from '../../../../../store/contexts/userContext';
 import { alertSuccess } from '../../../../../utils/Alert';
-import callService from '../../../../../services/callService';
+import useService from '../../../../../services/useService';
 
 export default function HelperCard({ help }) {
     const navigation = useNavigation();
@@ -25,7 +25,7 @@ export default function HelperCard({ help }) {
     }, []);
 
     async function getHelperInformation() {
-        const helperResponse = await callService(
+        const helperResponse = await useService(
             UserService,
             'requestAnyTypeUserData',
             [help.helperId],
@@ -37,7 +37,7 @@ export default function HelperCard({ help }) {
 
     async function finishHelpByOwner() {
         setFinishHelpRequestLoading(true);
-        const finishHelpRequest = await callService(
+        const finishHelpRequest = await useService(
             HelpService,
             'finishHelpByOwner',
             [help._id, user._id],

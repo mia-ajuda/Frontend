@@ -6,7 +6,7 @@ import getPastimeFrom from '../../utils/getPastTime';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import helpService from '../../services/Help';
-import callService from '../../services/callService';
+import useService from '../../services/useService';
 
 export default function NotificationCard({
     notification,
@@ -26,7 +26,7 @@ export default function NotificationCard({
                 routeId: 'HelpOffer',
             });
         } else {
-            const help = await callService(
+            const help = await useService(
                 helpService,
                 'getHelpWithAggregationById',
                 [notification.helpId],
@@ -68,8 +68,7 @@ export default function NotificationCard({
                 style={[
                     styles.iconContent,
                     { backgroundColor: iconBackground },
-                ]}
-            >
+                ]}>
                 <Icon
                     size={15}
                     name={iconName}
@@ -84,8 +83,7 @@ export default function NotificationCard({
         <TouchableOpacity
             style={styles.cardContainer}
             key={notification.helpId}
-            onPress={navigateToHelpPage}
-        >
+            onPress={navigateToHelpPage}>
             <View style={styles.info}>
                 <Text style={styles.title} numberOfLines={2}>
                     {notification.title}

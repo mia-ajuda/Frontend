@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
@@ -6,13 +6,11 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import ShortenName from '../../../utils/shortenName';
-import navigateToDescription from '../../../utils/navigateToDescription';
-import { UserContext } from '../../../store/contexts/userContext';
 
 export default function HelpsMarker({ helpOffer }) {
     const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(helpOffer.user.name);
-    const { user } = useContext(UserContext);
+
     return (
         <Marker
             title={helpOffer.distance}
@@ -21,8 +19,7 @@ export default function HelpsMarker({ helpOffer }) {
             coordinate={{
                 latitude: helpOffer.user.location.coordinates[1],
                 longitude: helpOffer.user.location.coordinates[0],
-            }}
-        >
+            }}>
             <View style={styles.helpOfferMarker}>
                 <FontAwesome5
                     name="hand-holding-heart"
@@ -32,10 +29,12 @@ export default function HelpsMarker({ helpOffer }) {
             </View>
             <Callout
                 onPress={() =>
-                    navigateToDescription('offer', user, navigation, helpOffer)
+                    navigation.navigate('mapHelpDescription', {
+                        help: helpOffer,
+                        helpType: 'offer',
+                    })
                 }
-                style={styles.callout}
-            >
+                style={styles.callout}>
                 <Text style={styles.calloutTitle} numberOfLines={1}>
                     Oferta de ajuda
                 </Text>
