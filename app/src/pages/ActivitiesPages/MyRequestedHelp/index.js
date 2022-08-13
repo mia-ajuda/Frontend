@@ -80,6 +80,7 @@ const MyRequestedHelp = ({ navigation }) => {
                                         'MyRequestHelpDescription',
                                         {
                                             help,
+                                            screen: 'InfosPedido',
                                         },
                                     )
                                 }
