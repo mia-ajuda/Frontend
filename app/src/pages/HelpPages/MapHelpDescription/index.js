@@ -34,7 +34,11 @@ export default function MapHelpDescription({ route, navigation }) {
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
 
-    const goBackToMapPage = () => navigation.goBack();
+    const goBackToMapPage = () =>
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'home' }],
+        });
 
     useEffect(() => {
         getOwnerInfo();
