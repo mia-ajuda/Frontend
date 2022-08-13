@@ -1,14 +1,23 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../../assets/styles/colorVariables';
-import font from '../../../../assets/styles/fontVariable';
+import colors from '../../../assets/styles/colorVariables';
+import font from '../../../assets/styles/fontVariable';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 const styles = StyleSheet.create({
+    helpersContainer: {
+        flexDirection: 'row',
+        height: '100%',
+    },
     contentContainer: {
         height: '100%',
         position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    containerTitle: {
+        fontSize: 28,
+        marginBottom: 36,
+        fontWeight: '700',
     },
     imageContainer: {
         width: 125,
@@ -18,7 +27,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     userName: {
-        fontWeight: '900',
+        fontWeight: '700',
         marginTop: 12,
         ...font.title,
         textAlign: 'center',
@@ -55,7 +64,8 @@ const styles = StyleSheet.create({
         width: 120,
         paddingHorizontal: 26,
         paddingVertical: 8,
-        backgroundColor: '#f0f0f0',
+        borderWidth: 0.5,
+        borderColor: '#BFBFBF',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
@@ -68,6 +78,11 @@ const styles = StyleSheet.create({
     phoneNumber: {
         fontSize: RFValue(16, 640),
         fontWeight: '600',
+    },
+    loadingUserInfo: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
