@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
 import getYearsSince from '../../utils/getYearsSince';
 import NoPossibleInteresteds from '../../components/NoHelps';
-import useService from '../../services/useService';
+import callService from '../../services/callService';
 import styles from './styles';
 import shortenName from '../../utils/shortenName';
 import helpService from '../../services/Help';
@@ -20,7 +20,7 @@ export default function ListPossibleInteresteds({ route, navigation }) {
 
     const chooseInterested = async () => {
         setChooseRequestLoading(true);
-        const chooseHelperRequest = await useService(helpService, method, [
+        const chooseHelperRequest = await callService(helpService, method, [
             helpId,
             selectedInterestedId,
         ]);
@@ -39,7 +39,8 @@ export default function ListPossibleInteresteds({ route, navigation }) {
         return possibleInteresteds.map((interested) => (
             <TouchableOpacity
                 key={interested._id}
-                onPress={() => renderClickAction(interested._id)}>
+                onPress={() => renderClickAction(interested._id)}
+            >
                 <View style={styles.interested}>
                     <Image
                         style={styles.imageProfile}
@@ -57,7 +58,8 @@ export default function ListPossibleInteresteds({ route, navigation }) {
                                     style={[
                                         styles.infoText,
                                         styles.infoTextFont,
-                                    ]}>
+                                    ]}
+                                >
                                     Idade:{' '}
                                 </Text>
                                 {getYearsSince(interested.birthday)}
@@ -65,7 +67,8 @@ export default function ListPossibleInteresteds({ route, navigation }) {
                         )}
                         <Text>
                             <Text
-                                style={[styles.infoText, styles.infoTextFont]}>
+                                style={[styles.infoText, styles.infoTextFont]}
+                            >
                                 Cidade:{' '}
                             </Text>
                             {interested.address.city}

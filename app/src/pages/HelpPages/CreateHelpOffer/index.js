@@ -8,7 +8,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 import SelectCategoryForm from '../../../components/SelectCategoryForm';
@@ -43,7 +43,7 @@ export default function CreateHelp({ navigation }) {
     async function createHelpOffer() {
         const { _id: userId } = user;
         setCreateHelpOfferLoading(true);
-        const createHelpRequest = await useService(
+        const createHelpRequest = await callService(
             helpService,
             'createHelpOffer',
             [

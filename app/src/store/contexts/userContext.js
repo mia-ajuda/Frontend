@@ -10,7 +10,7 @@ import {
     getCurrentPositionAsync,
     requestForegroundPermissionsAsync,
 } from 'expo-location';
-import useService from '../../services/useService';
+import callService from '../../services/callService';
 import firebaseService from '../../services/Firebase';
 export const UserContext = createContext();
 
@@ -49,7 +49,7 @@ export const UserContextProvider = (props) => {
             const developmentEnviroment = user && env.development;
 
             if (userEmailVerified || developmentEnviroment) {
-                const acesstoken = await useService(
+                const acesstoken = await callService(
                     firebaseService,
                     'getUserId',
                 );
@@ -66,12 +66,12 @@ export const UserContextProvider = (props) => {
         if (userPreviouslyLogged) {
             let userRequest;
             if (userType == 'PJ') {
-                userRequest = await useService(
+                userRequest = await callService(
                     EntityService,
                     'requestEntityData',
                 );
             } else {
-                userRequest = await useService(UserService, 'requestUserData');
+                userRequest = await callService(UserService, 'requestUserData');
             }
 
             if (!userRequest.error) {
@@ -89,7 +89,8 @@ export const UserContextProvider = (props) => {
 
     return (
         <UserContext.Provider
-            value={{ user, dispatch, userPosition, setUserPosition }}>
+            value={{ user, dispatch, userPosition, setUserPosition }}
+        >
             {props.children}
         </UserContext.Provider>
     );
