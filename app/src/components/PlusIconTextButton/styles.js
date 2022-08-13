@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../../assets/styles/colorVariables';
 
 export default StyleSheet.create({
@@ -20,6 +21,7 @@ export default StyleSheet.create({
     plusButtonText: {
         color: '#fff',
         fontWeight: '700',
+        fontSize: RFValue(14, 640),
         padding: 8,
     },
 });
