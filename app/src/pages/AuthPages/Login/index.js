@@ -15,7 +15,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import IntroSlide from '../../../pages/IntroSlides';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 
 export default function Login({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -43,7 +43,7 @@ export default function Login({ navigation }) {
         setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        await callService(SessionService, 'signIn', [data]);
+        await useService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };
 

@@ -11,7 +11,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { HelpOfferContext } from '../../../store/contexts/helpOfferContext';
 import actions from '../../../store/actions';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import shortenName from '../../../utils/shortenName';
 import messageOperation from '../../../utils/messageOperation';
 
@@ -34,11 +34,7 @@ export default function MapHelpDescription({ route, navigation }) {
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
 
-    const goBackToMapPage = () =>
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'home' }],
-        });
+    const goBackToMapPage = () => navigation.goBack();
 
     useEffect(() => {
         getOwnerInfo();
@@ -53,7 +49,7 @@ export default function MapHelpDescription({ route, navigation }) {
             setTitleMessage('Oferecer Ajuda');
             setModalMessage('Você deseja confirmar a sua ajuda?');
         }
-        const result = await callService(UserService, 'requestUserData', [
+        const result = await useService(UserService, 'requestUserData', [
             help.ownerId,
         ]);
         if (!result.error) {
@@ -86,7 +82,7 @@ export default function MapHelpDescription({ route, navigation }) {
     async function modalAction() {
         setChooseHelpRequestLoading(true);
         const functionName = messageOperation[helpType](false);
-        const request = await callService(HelpService, functionName, [
+        const request = await useService(HelpService, functionName, [
             help._id,
             user._id,
         ]);

@@ -1,37 +1,52 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import {
+    Image,
+    Text,
+    TouchableOpacity,
+    View,
+    ActivityIndicator,
+} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
-import { alertSuccess } from '../../../utils/Alert';
-import SessionService from '../../../services/Session';
-import TermsModal from '../../../components/modals/conditionTermsModal';
-import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
-import Buttom from '../../../components/UI/button';
-import callService from '../../../services/callService';
-import colors from '../../../../assets/styles/colorVariables';
+import { alertSuccess } from '../../../../utils/Alert';
+import SessionService from '../../../../services/Session';
+import TermsModal from '../../../../components/modals/conditionTermsModal';
+import PrivacyPolicyModal from '../../../../components/modals/privacyPolicyModal';
+import Buttom from '../../../../components/UI/button';
+import useService from '../../../../services/useService';
+import colors from '../../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 
-export default function ConfirmRegister({ route, navigation }) {
-    const { completeRegistragionData } = route.params;
-    const isEntityUser = completeRegistragionData.cnpj;
+export default function PhotoPreview({ route, navigation }) {
+    const { userDataFromAddressPage, selectedPhoto } = route.params;
+    const isEntityUser = userDataFromAddressPage.cnpj;
     const [termsModalVisible, setTermsModalVisible] = useState(false);
     const [checked, setChecked] = useState(false);
     const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-    const [loadingUserRegistration, setLoadingUserRegistration] =
-        useState(false);
+    const [loadingUserRegistration, setLoadingUserRegistration] = useState(
+        false,
+    );
     const navigateBackToPhotoPage = () => navigation.goBack();
 
     async function continueHandler() {
-        setLoadingUserRegistration(true);
+        const userDataFromPhotoPage = {
+            photo: selectedPhoto,
+            ...userDataFromAddressPage,
+        };
+        if (isEntityUser) {
+            setLoadingUserRegistration(true);
 
-        const signUpRequest = await callService(SessionService, 'signUp', [
-            completeRegistragionData,
-        ]);
-        if (!signUpRequest.error) {
-            alertSuccess('Seu cadastro foi realizado com sucesso');
+            const signUpRequest = await useService(SessionService, 'signUp', [
+                userDataFromPhotoPage,
+            ]);
+            if (!signUpRequest.error) {
+                alertSuccess('Seu cadastro foi realizado com sucesso');
+            }
+            navigation.navigate('login');
+        } else {
+            navigation.navigate('riskGroup', { userDataFromPhotoPage });
         }
-        navigation.navigate('login');
     }
 
     const titleCheckBox = (
@@ -58,9 +73,14 @@ export default function ConfirmRegister({ route, navigation }) {
     );
     return (
         <View style={styles.container}>
+            <Image
+                source={{ uri: `data:image/png;base64,${selectedPhoto}` }}
+                style={styles.thumbnail}
+            />
             <View style={styles.selectText}>
                 <Text style={styles.text}>
-                    Clique em continuar para prosseguir com o cadastro.
+                    Clique em continuar para prosseguir com o cadastro, ou
+                    voltar para escolher outra foto.
                 </Text>
             </View>
             <View style={styles.checkBox}>

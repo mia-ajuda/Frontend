@@ -17,7 +17,7 @@ import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success
 
 import helpService from '../../../services/Help';
 import { UserContext } from '../../../store/contexts/userContext';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
 
@@ -46,7 +46,7 @@ export default function CreateHelp({ navigation }) {
     async function createHelp() {
         const { _id: userId } = user;
         setCreateHelpLoading(true);
-        const createHelpRequest = await callService(
+        const createHelpRequest = await useService(
             helpService,
             'createHelpRequest',
             [title, categoryIds, description, userId],

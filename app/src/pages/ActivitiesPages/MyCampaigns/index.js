@@ -12,20 +12,21 @@ import colors from '../../../../assets/styles/colorVariables';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import campaignService from '../../../services/Campaign';
-import PlusIconTextButton from '../../../components/PlusIconTextButton';
-import createInteraction from '../../../utils/createInteraction';
 
 export default function CampaignsFinished({ navigation }) {
     const [finishedCampaignList, setFinishedCampaignList] = useState([]);
-    const [loadingCampaignRequests, setLoadingCampaignRequests] =
-        useState(false);
-    const [campaignDeletionLoading, setCampaignDeletionLoading] =
-        useState(false);
+    const [loadingCampaignRequests, setLoadingCampaignRequests] = useState(
+        false,
+    );
+    const [campaignDeletionLoading, setCampaignDeletionLoading] = useState(
+        false,
+    );
     const [campaignToDelete, setCampaignToDelete] = useState(null);
-    const [confirmationModalVisible, setConfirmationModalVisible] =
-        useState(false);
+    const [confirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
 
     const { user } = useContext(UserContext);
     useFocusEffect(
@@ -37,7 +38,7 @@ export default function CampaignsFinished({ navigation }) {
     async function loadOnGoingCampaigns() {
         setLoadingCampaignRequests(true);
         const { _id: userId } = user;
-        const resFinished = await callService(
+        const resFinished = await useService(
             campaignService,
             'getCampaignMultipleStatus',
             [userId, 'waiting'],
@@ -56,7 +57,7 @@ export default function CampaignsFinished({ navigation }) {
 
     async function excludeCampaign() {
         setCampaignDeletionLoading(true);
-        const validDeleteRequest = await callService(
+        const validDeleteRequest = await useService(
             campaignService,
             'deleteCampaign',
             [campaignToDelete],
@@ -89,8 +90,7 @@ export default function CampaignsFinished({ navigation }) {
                                                     campaign,
                                                 },
                                             )
-                                        }
-                                    >
+                                        }>
                                         {/* Tirar isEntityUser depois */}
                                         <MyRequestCard
                                             object={campaign}
@@ -126,12 +126,6 @@ export default function CampaignsFinished({ navigation }) {
     };
     return (
         <View>
-            <PlusIconTextButton
-                text="Criar campanha"
-                onPress={() =>
-                    createInteraction(user, navigation, 'createCampaign')
-                }
-            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}

@@ -9,7 +9,7 @@ import styles from './styles';
 import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { alertSuccess } from '../../../../utils/Alert';
-import callService from '../../../../services/callService';
+import useService from '../../../../services/useService';
 
 export default function EditNameField({ route, navigation }) {
     const userName = route.params.user.name;
@@ -17,8 +17,9 @@ export default function EditNameField({ route, navigation }) {
     const { dispatch } = useContext(UserContext);
     const [newName, setNewName] = useState(userName);
     const [editRequestLoading, setEditRequestLoading] = useState(false);
-    const [isConfirmationModalVisible, setConfirmationModalVisible] =
-        useState(false);
+    const [isConfirmationModalVisible, setConfirmationModalVisible] = useState(
+        false,
+    );
     const goBackToUserProfilePage = () => navigation.goBack();
 
     const handleEditRequest = async () => {
@@ -28,8 +29,8 @@ export default function EditNameField({ route, navigation }) {
         };
         setEditRequestLoading(true);
         const user = isEntityUser
-            ? await callService(EntityService, 'editEntity', [data])
-            : await callService(UserService, 'editUser', [data]);
+            ? await useService(EntityService, 'editEntity', [data])
+            : await useService(UserService, 'editUser', [data]);
         if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');

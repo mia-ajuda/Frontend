@@ -17,39 +17,36 @@ import emailValidator from '../../../utils/emailValidator';
 import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
-import callService from '../../../services/callService';
+import useService from '../../../services/useService';
 import { alertError } from '../../../utils/Alert';
 
-export default function RegistrationData({ navigation, route }) {
+export default function RegistrationData({ route, navigation }) {
+    const { userDataFromLocationPage } = route.params;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { userDataFromLocationPage } = route.params;
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loadingEmailAdressVerification, setLoadingEmailVerification] =
         useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
+
     const continueHandler = () => {
         const userDatafromRegistrationPage = {
             email,
             password,
+            ...userDataFromLocationPage,
         };
-        navigation.navigate('personalData', {
-            userDatafromRegistrationPage: {
-                ...userDataFromLocationPage,
-                ...userDatafromRegistrationPage,
-            },
-        });
+        navigation.navigate('personalData', { userDatafromRegistrationPage });
     };
 
     const verifyEmailAdress = async () => {
         setLoadingEmailVerification(true);
         keyboard.dismiss();
 
-        let isARegularUser = await callService(UserService, 'verifyUserInfo', [
+        let isARegularUser = await useService(UserService, 'verifyUserInfo', [
             email.toLowerCase(),
         ]);
         if (!isARegularUser)
-            isARegularUser = await callService(
+            isARegularUser = await useService(
                 EntityService,
                 'verifyEntityInfo',
                 [email.toLowerCase()],
