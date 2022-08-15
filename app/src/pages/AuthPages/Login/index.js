@@ -118,7 +118,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.signUP}
                     onPress={() => {
-                        navigation.navigate('location');
+                        navigation.navigate('registrationData');
                     }}
                 >
                     <Text style={styles.signupText}>Criar Conta</Text>

@@ -35,8 +35,12 @@ export default function CampaignDescription({ route, navigation }) {
             ios: 'maps:0,0?q=',
             android: 'geo:0,0?q=',
         });
-        const campaignLatitude = campaign.entity.location.coordinates[1];
-        const campaignLongitude = campaign.entity.location.coordinates[0];
+        const campaignLatitude =
+            campaign.location?.coordinates[1] ??
+            campaign.entity.location.coordinates[1];
+        const campaignLongitude =
+            campaign.location?.coordinates[0] ??
+            campaign.entity.location.coordinates[0];
 
         const campaignCoordinates = `${campaignLatitude},${campaignLongitude}`;
         const campaignLabel = 'Pedido de Ajuda de ' + campaign.entity.name;

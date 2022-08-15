@@ -12,7 +12,6 @@ export default function HelpsMarker({ help, isRiskGroup }) {
     const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(help.user.name);
     const { user } = useContext(UserContext);
-
     const renderCalloutTitleRiskGroup = () => {
         if (isRiskGroup) {
             return (
@@ -26,8 +25,12 @@ export default function HelpsMarker({ help, isRiskGroup }) {
             key={help._id}
             tracksViewChanges={false}
             coordinate={{
-                latitude: help.user.location.coordinates[1],
-                longitude: help.user.location.coordinates[0],
+                latitude:
+                    help.location?.coordinates[1] ??
+                    help.user.location.coordinates[1],
+                longitude:
+                    help.location?.coordinates[0] ??
+                    help.user.location.coordinates[0],
             }}
         >
             <Avatar

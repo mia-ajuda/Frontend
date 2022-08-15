@@ -17,12 +17,13 @@ class CampaignService {
         return campaign.data;
     }
 
-    async createCampaign(title, categoryId, description, ownerId) {
+    async createCampaign(title, categoryId, description, ownerId, location) {
         const data = {
             title,
             categoryId,
             description,
             ownerId,
+            location,
         };
         const createdCampaignResponse = await api.post('/campaign', data);
         return createdCampaignResponse.data;
