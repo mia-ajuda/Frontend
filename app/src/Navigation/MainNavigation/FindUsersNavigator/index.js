@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import findUsers from '../../../pages/FindUsersPages';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import socialNetworkProfilePage from '../../../pages/SocialNetworkProfile';
+import socialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetworkProfile';
 
 const Stack = createStackNavigator();
 

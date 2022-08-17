@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import fonts from '../../../assets/styles/fontVariable';
+import fonts from '../../../../assets/styles/fontVariable';
 
 const styles = StyleSheet.create({
     container: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
 
     nameAndFollowButtonContainer: {
-        flex: 1,
+        flex: 2,
         flexDirection: 'row',
         //backgroundColor:"yellow",
         justifyContent: 'space-around',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         //backgroundColor:"white",
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
     },
 
@@ -68,40 +68,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 
-    textContainer: {
-        marginLeft: 5,
-        flexDirection: 'row',
-        paddingBottom: 10,
-    },
-
-    textName: {
-        ...fonts.body,
-        color: '#4B8AB9',
-        fontSize: 20,
-        paddingRight: 60,
-        paddingTop: 20,
-    },
-
-    profileInfo2: {
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-    },
-
     text: {
         ...fonts.body,
         color: '#4B8AB9',
         paddingRight: 10,
-    },
-
-    followerFollowing: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        alignContent: 'space-around',
-    },
-
-    buttonView: {
-        width: '60%',
-        height: '35%',
     },
 });
 
