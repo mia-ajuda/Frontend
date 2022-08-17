@@ -8,32 +8,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
-import isOffersTurnedOff from '../../../utils/isOffersTurnedOff';
 import ListPossibleInteresteds from '../../../components/InterestedList';
 import HelpersInfo from '../../../components/HelpersInfo';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
-const navigateToMyOffers = () => {
-    if (!isOffersTurnedOff()) {
-        // Turn Off Feature of Offer
-        return (
-            <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
-        );
-    }
-};
-
 const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="Atividades"
         tabBarOptions={tabTopBarOptions}
     >
-        {/* Minhas ofertas de ajuda, diferente de interação com outros usuários */}
-        {navigateToMyOffers()}
-        {/* Meus pedidos de ajuda */}
+        <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
         <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
-        {/* Interação com outros usuários */}
         <TopTab.Screen name="Interações" component={History} />
     </TopTab.Navigator>
 );

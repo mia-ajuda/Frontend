@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginVertical: 20,
-        marginHorizontal: 30,
+        marginHorizontal: 16,
     },
     scrollContainer: {
         justifyContent: 'center',

@@ -16,7 +16,7 @@ import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
-import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
+import createInteraction from '../../utils/createInteraction';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -53,16 +53,11 @@ export default function Main({ navigation }) {
     };
 
     const renderHelpOfferMakers = () => {
-        if (!isOffersTurnedOff()) {
-            return helpOfferList.map((helpOffer) => {
-                return (
-                    <HelpOfferMarker
-                        key={helpOffer._id}
-                        helpOffer={helpOffer}
-                    />
-                );
-            });
-        }
+        return helpOfferList.map((helpOffer) => {
+            return (
+                <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
+            );
+        });
     };
 
     const markersStrategy = {
@@ -108,7 +103,7 @@ export default function Main({ navigation }) {
                 <TouchableOpacity
                     style={styles.campaignButton}
                     onPress={() => {
-                        navigation.navigate('createCampaign');
+                        createInteraction(user, navigation, 'createCampaign');
                     }}
                 >
                     <Icon

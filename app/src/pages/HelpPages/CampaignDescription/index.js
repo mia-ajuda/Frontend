@@ -13,7 +13,7 @@ import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
@@ -35,8 +35,12 @@ export default function CampaignDescription({ route, navigation }) {
             ios: 'maps:0,0?q=',
             android: 'geo:0,0?q=',
         });
-        const campaignLatitude = campaign.entity.location.coordinates[1];
-        const campaignLongitude = campaign.entity.location.coordinates[0];
+        const campaignLatitude =
+            campaign.location?.coordinates[1] ??
+            campaign.entity.location.coordinates[1];
+        const campaignLongitude =
+            campaign.location?.coordinates[0] ??
+            campaign.entity.location.coordinates[0];
 
         const campaignCoordinates = `${campaignLatitude},${campaignLongitude}`;
         const campaignLabel = 'Pedido de Ajuda de ' + campaign.entity.name;
@@ -49,7 +53,7 @@ export default function CampaignDescription({ route, navigation }) {
 
     async function finishCampaign() {
         setFinishCampaignLoading(true);
-        const finishHelpRequest = await useService(
+        const finishHelpRequest = await callService(
             CampaignService,
             'finishCampaign',
             [campaign._id],

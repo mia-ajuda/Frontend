@@ -12,9 +12,10 @@ import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../components/NoHelps';
 import colors from '../../../../assets/styles/colorVariables';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
+import createInteraction from '../../../utils/createInteraction';
 
 const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
@@ -34,7 +35,7 @@ const MyRequestedHelp = ({ navigation }) => {
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
         setLoadingMyHelpRequests(true);
-        const filteredHelps = await useService(
+        const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
             [userId, ['waiting', 'on_going', 'helper_finished']],
@@ -47,10 +48,11 @@ const MyRequestedHelp = ({ navigation }) => {
 
     async function excludeHelp() {
         setHelpDeletionLoading(true);
-        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
-            'help',
-            helpToDelete,
-        ]);
+        const validDeleteRequest = await callService(
+            helpService,
+            'deleteHelp',
+            ['help', helpToDelete],
+        );
         if (!validDeleteRequest.error) {
             const updatedArray = myRequestedHelps.filter((help) => {
                 return help._id !== helpToDelete;
@@ -109,8 +111,10 @@ const MyRequestedHelp = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <PlusIconTextButton
-                text="Novo pedido"
-                onPress={() => navigation.navigate('createHelpRequest')}
+                text="Criar pedido"
+                onPress={() =>
+                    createInteraction(user, navigation, 'createHelpRequest')
+                }
             />
             <ConfirmationModal
                 attention={true}

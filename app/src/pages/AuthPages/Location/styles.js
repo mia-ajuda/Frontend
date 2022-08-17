@@ -5,14 +5,14 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     map: {
-        width: '100%',
-        height: '100%',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     },
     adjustPositionBox: {
         position: 'absolute',
         backgroundColor: '#fff',
         alignSelf: 'center',
-        top: 50,
+        top: 32,
         width: '90%',
         zIndex: 5,
         padding: 20,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     adjustPositionText: {
         ...fonts.subtitle,
-        alignSelf: 'center',
+        textAlign: 'center',
     },
     buttons: {
         position: 'absolute',

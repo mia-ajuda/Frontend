@@ -1,35 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    Text,
-    ActivityIndicator,
-    ScrollView,
-    KeyboardAvoidingView,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import Container from '../../../components/Container';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
-import colors from '../../../../assets/styles/colorVariables';
 import SelectCategoryForm from '../../../components/SelectCategoryForm';
 
-import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
-
-import helpService from '../../../services/Help';
-import { UserContext } from '../../../store/contexts/userContext';
-import useService from '../../../services/useService';
 import showWarningFor from '../../../utils/warningPopUp';
 import { requestHelpWarningMessage } from '../../../docs/warning';
+import navigateToCreateFlow from '../../../utils/navigateToCreateFlow';
 
 export default function CreateHelp({ navigation }) {
     const [title, setTitle] = useState('');
     const [categoryIds, setCategoryIds] = useState([]);
     const [description, setDescription] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [modalSuccessModalVisible, setModalSuccessMoldalVisible] =
-        useState(false);
-    const [createHelpLoading, setCreateHelpLoading] = useState(false);
-    const { user } = useContext(UserContext);
 
     useEffect(() => {
         showWarningFor('createHelp', requestHelpWarningMessage);
@@ -43,21 +28,15 @@ export default function CreateHelp({ navigation }) {
         }
     }, [title, description, categoryIds]);
 
-    async function createHelp() {
-        const { _id: userId } = user;
-        setCreateHelpLoading(true);
-        const createHelpRequest = await useService(
-            helpService,
-            'createHelpRequest',
-            [title, categoryIds, description, userId],
+    const naviteToLocation = () => {
+        navigateToCreateFlow(
+            navigation,
+            title,
+            categoryIds,
+            description,
+            'HelpRequest',
         );
-        if (!createHelpRequest.error) {
-            setModalSuccessMoldalVisible(true);
-        } else {
-            navigation.navigate('home');
-        }
-        setCreateHelpLoading(false);
-    }
+    };
 
     const renderInputDescriptionForm = () => (
         <View style={styles.descriptionInput}>
@@ -73,16 +52,13 @@ export default function CreateHelp({ navigation }) {
     const renderInputTitleForm = () => (
         <Input label="Título do pedido" change={(text) => setTitle(text)} />
     );
-    const renderLoadingIdicator = () => (
-        <ActivityIndicator size="large" color={colors.primary} />
-    );
 
     const createHelpBtn = () => (
         <Button
-            title="Criar pedido"
+            title="Continuar"
             large
             disabled={buttonDisabled}
-            press={createHelp}
+            press={naviteToLocation}
         />
     );
 
@@ -101,17 +77,10 @@ export default function CreateHelp({ navigation }) {
                             setHelpCategoryIds={setCategoryIds}
                         />
                         <View style={styles.btnContainer}>
-                            {createHelpLoading
-                                ? renderLoadingIdicator()
-                                : createHelpBtn()}
+                            {createHelpBtn()}
                         </View>
                     </View>
                 </Container>
-                <NewHelpModalSuccess
-                    visible={modalSuccessModalVisible}
-                    onOkPressed={() => navigation.navigate('home')}
-                    message="Sua solicitação de ajuda foi criada com sucesso!"
-                />
             </KeyboardAvoidingView>
         </ScrollView>
     );
