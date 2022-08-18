@@ -44,7 +44,7 @@ const NavigationMyRequestHelpDescription = ({ route, navigation }) => {
                 initialParams={{
                     help: help,
                 }}
-                name="InfosPedido"
+                name="Informação do Pedido"
                 component={MyRequestDescription}
             />
         </TopTab.Navigator>
