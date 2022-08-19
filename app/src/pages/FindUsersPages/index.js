@@ -14,8 +14,7 @@ import { UserContext } from '../../store/contexts/userContext';
 import Input from '../../components/UI/input';
 import colors from '../../../assets/styles/colorVariables';
 //import { useIsFocused } from '@react-navigation/native';
-
-const findUsers = ({ navigation }) => {
+const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
 
     const [isFindUserLoading, setFindUserLoading] = useState(false);
@@ -32,6 +31,7 @@ const findUsers = ({ navigation }) => {
             'findUsersProfiles',
             [user._id, findName],
         );
+
         setUsersProfile(findUserTemp);
         setFindUserLoading(false);
     }
@@ -87,8 +87,11 @@ const findUsers = ({ navigation }) => {
                         profilePhoto: profile.photo,
                         profileIsFollowing: profile.isFollowing,
                         userId: user._id,
+                        profileUserId: profile.userId,
+                        navigation
                     })
-                }>
+                }
+            >
                 <View style={[styles.card, styles.elevation]}>
                     <Image
                         style={styles.profileImage}
@@ -132,4 +135,4 @@ const findUsers = ({ navigation }) => {
     );
 };
 
-export default findUsers;
+export default FindUsers;

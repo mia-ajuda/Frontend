@@ -73,6 +73,14 @@ const styles = StyleSheet.create({
         color: '#4B8AB9',
         paddingRight: 10,
     },
+
+    cardContainer:{
+        flex: 5,
+        //backgroundColor: "red",
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 15,
+    }
 });
 
 export default styles;

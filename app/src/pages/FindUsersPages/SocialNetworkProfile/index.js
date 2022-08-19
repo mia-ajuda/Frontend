@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    ActivityIndicator,
+} from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
 import useService from '../../../services/useService';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
-
-const socialNetworkProfilePage = ({ route }) => {
+import MyRequestCard from '../../../components/MyRequestCard';
+import findUserPageStyles from '../styles';
+import colors from '../../../../assets/styles/colorVariables';
+const SocialNetworkProfilePage = ({ navigation, route }) => {
     const [isFollowing, setIsFollowing] = useState(null);
     const [followButtonName, setFollowButtonName] = useState(null);
+    const [activities, setActivities] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const {
         profileId,
@@ -17,12 +28,27 @@ const socialNetworkProfilePage = ({ route }) => {
         profilePhoto,
         profileIsFollowing,
         userId,
+        profileUserId,
     } = route.params;
 
     useEffect(() => {
+        console.log('to no profile');
         let button_name = profileIsFollowing ? 'Seguindo' : 'Seguir';
         setIsFollowing(profileIsFollowing);
         setFollowButtonName(button_name);
+        setIsLoading(true);
+
+        const getActivities = async () => {
+            let temp_activities;
+            temp_activities = await useService(
+                socialNetworkProfileservice,
+                'getUserActivities',
+                [profileUserId],
+            );
+            setActivities(temp_activities);
+            setIsLoading(false);
+        };
+        getActivities();
     }, []);
 
     const followButton = () => {
@@ -56,9 +82,11 @@ const socialNetworkProfilePage = ({ route }) => {
     const followFollowing = (text, number, profileId) => {
         return (
             <TouchableOpacity
-                onPress={() => console.log(text + ' ' + profileId)}>
+                onPress={() => console.log(text + ' ' + profileId)}
+            >
                 <Text style={styles.text}>
-                    {number} {text}
+                    {' '}
+                    {number} {text}{' '}
                 </Text>
             </TouchableOpacity>
         );
@@ -74,6 +102,66 @@ const socialNetworkProfilePage = ({ route }) => {
             />
         );
     };
+
+    const helpCards = () => {
+        return (
+            <View>
+                {activities.helps.map((help) => (
+                    <TouchableOpacity
+                        key={help._id}
+                        onPress={() =>
+                            navigation.navigate('MyRequestHelpDescription', {
+                                help,
+                            })}>
+                        <MyRequestCard
+                            object={help}
+                            deleteVisible={false}
+                            possibleInterestedList={help.possibleHelpers}
+                        />
+                    </TouchableOpacity>
+                ))}
+            </View>
+        );
+    };
+
+    const offerCards = () => {
+        return (
+            <View>
+                {activities.offers.map((help) => {
+                    return (
+                        <TouchableOpacity
+                            key={help._id}
+                            onPress={() =>
+                                navigation.navigate('MyOfferHelpDescription', {
+                                    helpId: help._id,
+                                    routeId: 'HelpOffer',
+                                })
+                            }
+                        >
+                            <MyRequestCard
+                                object={help}
+                                possibleInterestedList={[
+                                    ...help.possibleHelpedUsers,
+                                    ...help.helpedUserId,
+                                ]}
+                                deleteVisible={false}
+                            />
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
+        );
+    };
+
+    const renderLoadingIndicator = () => (
+        <View style={styles.loadingContainer}>
+            <ActivityIndicator
+                style={findUserPageStyles.loading}
+                size="large"
+                color={colors.primary}
+            />
+        </View>
+    );
 
     return (
         <View style={styles.container}>
@@ -98,9 +186,18 @@ const socialNetworkProfilePage = ({ route }) => {
                     </View>
                 </View>
             </View>
-            <View style={styles.profileCardContainer}>{profileImage()}</View>
+            <View style={styles.cardContainer}>
+                {isLoading ? (
+                    renderLoadingIndicator()
+                ) : (
+                    <ScrollView>
+                        {helpCards()}
+                        {offerCards()}
+                    </ScrollView>
+                )}
+            </View>
         </View>
     );
 };
 
-export default socialNetworkProfilePage;
+export default SocialNetworkProfilePage;

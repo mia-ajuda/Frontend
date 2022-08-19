@@ -25,6 +25,14 @@ class SocialNetworkProfileService {
         const unfollowUser = await api.put(url);
         return unfollowUser.data;
     }
+
+    async getUserActivities(userId) {
+        const url = `/socialNetworkProfile/getUserActivities/${userId}`;
+        console.log(url);
+        const usersActivities = await api.get(url);
+        console.log("passei da data");
+        return usersActivities.data;
+    }
 }
 
 const socialNetworkProfileservice = new SocialNetworkProfileService();
