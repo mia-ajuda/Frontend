@@ -11,9 +11,10 @@ import styles from './styles';
 import Button from '../../../components/UI/button';
 import useService from '../../../services/useService';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
-import MyRequestCard from '../../../components/MyRequestCard';
 import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
+import HistoricCard from '../../../components/HistoricCard';
+
 const SocialNetworkProfilePage = ({ navigation, route }) => {
     const [isFollowing, setIsFollowing] = useState(null);
     const [followButtonName, setFollowButtonName] = useState(null);
@@ -81,13 +82,8 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
 
     const followFollowing = (text, number, profileId) => {
         return (
-            <TouchableOpacity
-                onPress={() => console.log(text + ' ' + profileId)}
-            >
-                <Text style={styles.text}>
-                    {' '}
-                    {number} {text}{' '}
-                </Text>
+            <TouchableOpacity onPress={() => console.log(text + ' ' + profileId)}>
+                <Text style={styles.text}>{' '}{number}{text}{' '}</Text>
             </TouchableOpacity>
         );
     };
@@ -110,13 +106,16 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                     <TouchableOpacity
                         key={help._id}
                         onPress={() =>
-                            navigation.navigate('MyRequestHelpDescription', {
-                                help,
-                            })}>
-                        <MyRequestCard
-                            object={help}
-                            deleteVisible={false}
-                            possibleInterestedList={help.possibleHelpers}
+                            navigation.navigate(
+                                'OfferHelpDescription',
+                                {
+                                    helpId: help._id,
+                                    routeId: 'Help',
+                                },
+                            )
+                        }>
+                        <HistoricCard object={help} 
+                            isRiskGroup={false}
                         />
                     </TouchableOpacity>
                 ))}
@@ -132,20 +131,12 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                         <TouchableOpacity
                             key={help._id}
                             onPress={() =>
-                                navigation.navigate('MyOfferHelpDescription', {
-                                    helpId: help._id,
-                                    routeId: 'HelpOffer',
+                                navigation.navigate('mapHelpDescription', {
+                                    help: help,
+                                    helpType: 'offer',
                                 })
-                            }
-                        >
-                            <MyRequestCard
-                                object={help}
-                                possibleInterestedList={[
-                                    ...help.possibleHelpedUsers,
-                                    ...help.helpedUserId,
-                                ]}
-                                deleteVisible={false}
-                            />
+                            }>
+                        <HistoricCard  object={help} isRiskGroup={false}/>
                         </TouchableOpacity>
                     );
                 })}

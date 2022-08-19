@@ -32,7 +32,7 @@ export default function MapHelpDescription({ route, navigation }) {
 
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
-
+    const [userParticipating, setUserParticipating] = useState(false);
     const goBackToMapPage = () => navigation.goBack();
 
     useEffect(() => {
@@ -44,6 +44,13 @@ export default function MapHelpDescription({ route, navigation }) {
         if (helpType == 'offer') {
             setTitleMessage('Se candidatar para essa oferta');
             setModalMessage('Você deseja confirmar a sua candidatura?');
+            
+            const found = help.possibleHelpedUsers.some(it => it._id === user._id);
+            const found2 = help.helpedUserId.some(it => it._id === user._id);
+            if(found || found2)
+            {
+                setUserParticipating(true);
+            }
         } else {
             setTitleMessage('Oferecer Ajuda');
             setModalMessage('Você deseja confirmar a sua ajuda?');
@@ -57,6 +64,8 @@ export default function MapHelpDescription({ route, navigation }) {
         } else {
             goBackToMapPage();
         }
+
+        
     }
 
     const renderLoadingIndicator = () => (
@@ -164,7 +173,10 @@ export default function MapHelpDescription({ route, navigation }) {
                     {renderHelpOwnerInformation()}
                     {renderHelpInformation()}
 
-                    <View style={styles.helpButtons}>{renderButton()}</View>
+                    {userParticipating? (<></>): (
+                        <View style={styles.helpButtons}>{renderButton()}</View>
+                    )}
+                    
                 </View>
             )}
         </ScrollView>
