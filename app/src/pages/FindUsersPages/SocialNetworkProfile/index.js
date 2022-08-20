@@ -80,10 +80,22 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
         );
     };
 
-    const followFollowing = (text, number, profileId) => {
+    const followFollowing = (text, number) => {
+        console.log(profileId);
         return (
-            <TouchableOpacity onPress={() => console.log(text + ' ' + profileId)}>
-                <Text style={styles.text}>{' '}{number}{text}{' '}</Text>
+            <TouchableOpacity
+            key={text}
+            onPress={() =>
+                navigation.navigate(
+                    'FollowersFollowingPage',
+                    {
+                        profileId: profileId,
+                        isFollowersPage: true,
+                        
+                    },
+                )
+            }>
+            <Text style={styles.text}>{' '}{number}{' '}{text}</Text>
             </TouchableOpacity>
         );
     };
@@ -167,12 +179,10 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                         {followFollowing(
                             'Seguidores',
                             profileNumberOfFollowers,
-                            profileId,
                         )}
                         {followFollowing(
                             'Seguindo',
                             profileNumberOfFollowing,
-                            profileId,
                         )}
                     </View>
                 </View>

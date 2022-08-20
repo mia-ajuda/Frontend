@@ -33,6 +33,13 @@ class SocialNetworkProfileService {
         console.log("passei da data");
         return usersActivities.data;
     }
+
+    async getFollowers(userId)
+    {
+        const url = `/socialNetworkProfile/getFollowers/${userId}`;
+        const followers = await api.get(url);
+        return followers.data;
+    }
 }
 
 const socialNetworkProfileservice = new SocialNetworkProfileService();

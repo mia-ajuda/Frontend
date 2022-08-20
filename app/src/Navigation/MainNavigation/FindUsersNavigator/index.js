@@ -5,6 +5,7 @@ import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetworkProfile';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import OfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
+import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
 const Stack = createStackNavigator();
 
 const FindUsersNavigation = () => (
@@ -25,6 +26,14 @@ const FindUsersNavigation = () => (
             component={MapHelpDescription}
             options={{ title: 'Detalhes' }}   
         />
+
+        <Stack.Screen
+            name="FollowersFollowingPage"
+            component={FollowersFollowingPage}
+            options={{ title: 'Usuários' }}   
+        />
+
+
     </Stack.Navigator>
 );
 
