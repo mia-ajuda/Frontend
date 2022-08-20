@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerTitle: {
-        fontSize: 28,
+        fontSize: RFValue(28, 640),
         marginBottom: 36,
         fontWeight: '700',
     },

@@ -56,7 +56,7 @@ const helpDescription = {
     },
     textBtn: {
         color: '#FFF',
-        fontSize: 16,
+        fontSize: RFValue(16, 640),
         fontWeight: 'bold',
     },
     containerBadge: {
@@ -76,7 +76,7 @@ const helpDescription = {
     },
     titleFont: {
         fontFamily: 'montserrat-semibold',
-        fontSize: 30,
+        fontSize: RFValue(30, 640),
         textAlign: 'center',
         paddingBottom: 8,
     },
