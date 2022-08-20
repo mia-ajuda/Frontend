@@ -9,6 +9,7 @@ import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleInteresteds from '../../../components/InterestedList';
+import HelpersInfo from '../../../components/HelpersInfo';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +25,34 @@ const NavigationGivenHelps = () => (
     </TopTab.Navigator>
 );
 
+const NavigationMyRequestHelpDescription = ({ route, navigation }) => {
+    const { help } = route.params;
+    return help.helperId ? (
+        <TopTab.Navigator
+            initialRouteName="InfosPedido"
+            tabBarOptions={tabTopBarOptions}
+        >
+            <TopTab.Screen name="Ajudante">
+                {() => (
+                    <HelpersInfo
+                        userId={help.helperId}
+                        title="Ajudante escolhido"
+                    />
+                )}
+            </TopTab.Screen>
+            <TopTab.Screen
+                initialParams={{
+                    help: help,
+                }}
+                name="Informação do Pedido"
+                component={MyRequestDescription}
+            />
+        </TopTab.Navigator>
+    ) : (
+        <MyRequestDescription route={route} navigation={navigation} />
+    );
+};
+
 const ActivitiesNavigator = () => (
     <Stack.Navigator screenOptions={headerStyle}>
         <Stack.Screen name="Atividades" component={NavigationGivenHelps} />
@@ -34,7 +63,7 @@ const ActivitiesNavigator = () => (
         />
         <Stack.Screen
             name="MyRequestHelpDescription"
-            component={MyRequestDescription}
+            component={NavigationMyRequestHelpDescription}
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
