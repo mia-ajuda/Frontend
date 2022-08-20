@@ -10,17 +10,17 @@ import styles from './styles';
 
 export default function HelpersInfo({ userId, title }) {
     const [user, setUser] = useState();
-    const [loadUserInfo, setLoadUserInfo] = useState(true);
+    const [isLoadingUserInfo, setIsLoadingUserInfo] = useState(true);
     useEffect(() => {
         async function fetchUserData() {
-            setLoadUserInfo(true);
-            const userData = await api.get(`user/getUser/${userId}`);
+            setIsLoadingUserInfo(true);
+            const userData = await api.get(`user/getAnyUser/${userId}`);
             setUser(userData.data);
-            setLoadUserInfo(false);
+            setIsLoadingUserInfo(false);
         }
         fetchUserData();
     }, []);
-    return !loadUserInfo ? (
+    return !isLoadingUserInfo ? (
         <View style={styles.helpersContainer}>
             <View style={styles.contentContainer}>
                 {title && <Text style={styles.containerTitle}>{title}</Text>}
@@ -30,7 +30,8 @@ export default function HelpersInfo({ userId, title }) {
                 />
                 <Text style={styles.userName}>{user.name}</Text>
                 <Text style={styles.userSubtitle}>
-                    {getYearsSince(user.birthday)} anos - {user.address.city}
+                    {user.cpf && <>{getYearsSince(user.birthday)} anos -</>}
+                    {user.address.city}
                 </Text>
                 <Text style={styles.phoneNumber}>Número: {user.phone}</Text>
                 <View style={styles.buttonsContainer}>
