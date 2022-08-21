@@ -15,6 +15,7 @@ import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
 import HistoricCard from '../../../components/HistoricCard';
 import { UserContext } from '../../../store/contexts/userContext';
+import FollowFollowingText from '../../../components/follow_followingText';
 
 const SocialNetworkProfilePage = ({ navigation, route }) => {
     const [isFollowing, setIsFollowing] = useState(null);
@@ -53,48 +54,32 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
 
     const followButton = () => {
         return (
-            <Button
-                title={followButtonName}
-                type="default"
-                press={async () => {
-                    let tempIsFollowing;
-                    if (isFollowing) {
-                        tempIsFollowing = await useService(
-                            socialNetworkProfileservice,
-                            'unfollowUser',
-                            [selectedProfileId, user._id],
-                        );
-                    } else {
-                        tempIsFollowing = await useService(
-                            socialNetworkProfileservice,
-                            'followUser',
-                            [selectedProfileId, user._id],
-                        );
-                    }
-                    let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
-                    setIsFollowing(tempIsFollowing);
-                    setFollowButtonName(button_name);
-                }}
-            />
-        );
-    };
-
-    const followFollowing = (text, number) => {
-        return (
-            <TouchableOpacity
-                key={text}
-                onPress={() =>
-                    navigation.navigate('FollowersFollowingPage', {
-                        selectedProfileId: selectedProfileId,
-                        isFollowersPage: text == 'Seguidores',
-                    })
-                }
-            >
-                <Text style={styles.text}>
-                    {' '}
-                    {number} {text}
-                </Text>
-            </TouchableOpacity>
+            (selectedProfileUserId == user._id)? (
+                <></>
+            ) : (
+                <Button
+                    title={followButtonName}
+                    type="default"
+                    press={async () => {
+                        let tempIsFollowing;
+                        if (isFollowing) {
+                            tempIsFollowing = await useService(
+                                socialNetworkProfileservice,
+                                'unfollowUser',
+                                [selectedProfileId, user._id],
+                            );
+                        } else {
+                            tempIsFollowing = await useService(
+                                socialNetworkProfileservice,
+                                'followUser',
+                                [selectedProfileId, user._id],
+                            );
+                        }
+                        let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
+                        setIsFollowing(tempIsFollowing);
+                        setFollowButtonName(button_name);
+                    }}
+                />)
         );
     };
 
@@ -173,14 +158,18 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                         {followButton()}
                     </View>
                     <View style={styles.followerFollowingContainer}>
-                        {followFollowing(
-                            'Seguidores',
-                            selectedProfileNumberOfFollowers,
-                        )}
-                        {followFollowing(
-                            'Seguindo',
-                            selectedProfileNumberOfFollowing,
-                        )}
+                        <FollowFollowingText 
+                            text="Seguidores" 
+                            number={selectedProfileNumberOfFollowers}
+                            selectedProfileId={selectedProfileId}
+                            navigation={navigation}
+                        />
+                        <FollowFollowingText 
+                            text="Seguindo" 
+                            number={selectedProfileNumberOfFollowing}
+                            selectedProfileId={selectedProfileId}
+                            navigation={navigation}
+                        />
                     </View>
                 </View>
             </View>

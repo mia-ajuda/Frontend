@@ -4,9 +4,6 @@ import styles from './styles';
 export default function ProfileList( {
     usersProfile, navigation }) {
 
-    if(!usersProfile){
-        return (<></>);
-    }
     const profileCard = (profile) => {
         return (
             <TouchableOpacity
@@ -20,7 +17,8 @@ export default function ProfileList( {
                         selectedProfilePhoto: profile.photo,
                         selectedProfileIsFollowing: profile.isFollowing,
                         selectedProfileUserId: profile.userId,
-                    })}
+                    })
+                }
             >
                 <View style={[styles.card, styles.elevation]}>
                     <Image
