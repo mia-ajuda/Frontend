@@ -9,36 +9,40 @@ class SocialNetworkProfileService {
         }
 
         const url = `/socialNetworkProfile/findUsers/${userId}/${username}`;
-        console.log(url);
         const usersProfiles = await api.get(url);
         return usersProfiles.data;
     }
 
-    async followUser(followerId, userId = null) {
-        const url = `/socialNetworkProfile/followUser/${followerId}/${userId}`;
+    async followUser(selectedProfileId, userId = null) {
+        const url = `/socialNetworkProfile/followUser/${selectedProfileId}/${userId}`;
         const followUser = await api.put(url);
         return followUser.data;
     }
 
-    async unfollowUser(followerId, userId = null) {
-        const url = `/socialNetworkProfile/unfollowUser/${followerId}/${userId}`;
+    async unfollowUser(selectedProfileId, userId = null) {
+        const url = `/socialNetworkProfile/unfollowUser/${selectedProfileId}/${userId}`;
         const unfollowUser = await api.put(url);
         return unfollowUser.data;
     }
 
     async getUserActivities(userId) {
         const url = `/socialNetworkProfile/getUserActivities/${userId}`;
-        console.log(url);
         const usersActivities = await api.get(url);
-        console.log("passei da data");
         return usersActivities.data;
     }
 
-    async getFollowers(userId)
+    async getFollowers(userId,selectedProfileId)
     {
-        const url = `/socialNetworkProfile/getFollowers/${userId}`;
+        const url = `/socialNetworkProfile/getFollowers/${userId}/${selectedProfileId}`;
         const followers = await api.get(url);
         return followers.data;
+    }
+
+    async getFollowing(userId,selectedProfileId)
+    {
+        const url = `/socialNetworkProfile/getFollowing/${userId}/${selectedProfileId}`;
+        const following = await api.get(url);
+        return following.data;
     }
 }
 

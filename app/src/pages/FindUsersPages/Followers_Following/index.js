@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import {
     View,
     ScrollView,
@@ -10,26 +10,28 @@ import socialNetworkProfileservice from '../../../services/socialNetworkProfile'
 import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
 import ProfileList from '../../../components/profileList';
-
+import { UserContext } from '../../../store/contexts/userContext';
 const FollowersFollowingPage = ({ navigation, route }) => {
     
+    const { user } = useContext(UserContext);
+
     // podem ser usuários seguidores ou seguindo
     const [usersProfile, setUsersProfile] = useState(null);
     
     const [isLoading, setIsLoading] = useState(true);
 
-    const { profileId,isFollowersPage } = route.params;
+    const { selectedProfileId,isFollowersPage } = route.params;
 
     async function getUsersProfile () {
         let temp_usersProfile;
-        let functionName = 'getFollowers';
+        let functionName = 'getFollowing';
         if(isFollowersPage){    
             functionName = 'getFollowers';
         }
         temp_usersProfile = await useService(
             socialNetworkProfileservice,
             functionName,
-            [profileId],
+            [user._id, selectedProfileId],
         );
         setUsersProfile(temp_usersProfile);
         setIsLoading(false);

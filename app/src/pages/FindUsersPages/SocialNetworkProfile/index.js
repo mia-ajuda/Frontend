@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Image,
@@ -14,28 +14,27 @@ import socialNetworkProfileservice from '../../../services/socialNetworkProfile'
 import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
 import HistoricCard from '../../../components/HistoricCard';
+import { UserContext } from '../../../store/contexts/userContext';
 
 const SocialNetworkProfilePage = ({ navigation, route }) => {
     const [isFollowing, setIsFollowing] = useState(null);
     const [followButtonName, setFollowButtonName] = useState(null);
     const [activities, setActivities] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const { user } = useContext(UserContext);
     const {
-        profileId,
-        profileUsername,
-        profileNumberOfFollowers,
-        profileNumberOfFollowing,
-        profilePhoto,
-        profileIsFollowing,
-        userId,
-        profileUserId,
+        selectedProfileId,
+        selectedProfileUsername,
+        selectedProfileNumberOfFollowers,
+        selectedProfileNumberOfFollowing,
+        selectedProfilePhoto,
+        selectedProfileIsFollowing,
+        selectedProfileUserId,
     } = route.params;
 
     useEffect(() => {
-        console.log('to no profile');
-        let button_name = profileIsFollowing ? 'Seguindo' : 'Seguir';
-        setIsFollowing(profileIsFollowing);
+        let button_name = selectedProfileIsFollowing ? 'Seguindo' : 'Seguir';
+        setIsFollowing(selectedProfileIsFollowing);
         setFollowButtonName(button_name);
         setIsLoading(true);
 
@@ -44,7 +43,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
             temp_activities = await useService(
                 socialNetworkProfileservice,
                 'getUserActivities',
-                [profileUserId],
+                [selectedProfileUserId],
             );
             setActivities(temp_activities);
             setIsLoading(false);
@@ -63,13 +62,13 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                         tempIsFollowing = await useService(
                             socialNetworkProfileservice,
                             'unfollowUser',
-                            [userId, profileId],
+                            [selectedProfileId, user._id],
                         );
                     } else {
                         tempIsFollowing = await useService(
                             socialNetworkProfileservice,
                             'followUser',
-                            [userId, profileId],
+                            [selectedProfileId, user._id],
                         );
                     }
                     let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
@@ -81,21 +80,20 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
     };
 
     const followFollowing = (text, number) => {
-        console.log(profileId);
         return (
             <TouchableOpacity
-            key={text}
-            onPress={() =>
-                navigation.navigate(
-                    'FollowersFollowingPage',
-                    {
-                        profileId: profileId,
-                        isFollowersPage: true,
-                        
-                    },
-                )
-            }>
-            <Text style={styles.text}>{' '}{number}{' '}{text}</Text>
+                key={text}
+                onPress={() =>
+                    navigation.navigate('FollowersFollowingPage', {
+                        selectedProfileId: selectedProfileId,
+                        isFollowersPage: text == 'Seguidores',
+                    })
+                }
+            >
+                <Text style={styles.text}>
+                    {' '}
+                    {number} {text}
+                </Text>
             </TouchableOpacity>
         );
     };
@@ -105,7 +103,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
             <Image
                 style={styles.profileImage}
                 source={{
-                    uri: `data:image/png;base64,${profilePhoto}`,
+                    uri: `data:image/png;base64,${selectedProfilePhoto}`,
                 }}
             />
         );
@@ -118,17 +116,13 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                     <TouchableOpacity
                         key={help._id}
                         onPress={() =>
-                            navigation.navigate(
-                                'OfferHelpDescription',
-                                {
-                                    helpId: help._id,
-                                    routeId: 'Help',
-                                },
-                            )
-                        }>
-                        <HistoricCard object={help} 
-                            isRiskGroup={false}
-                        />
+                            navigation.navigate('OfferHelpDescription', {
+                                helpId: help._id,
+                                routeId: 'Help',
+                            })
+                        }
+                    >
+                        <HistoricCard object={help} isRiskGroup={false} />
                     </TouchableOpacity>
                 ))}
             </View>
@@ -147,8 +141,9 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                                     help: help,
                                     helpType: 'offer',
                                 })
-                            }>
-                        <HistoricCard  object={help} isRiskGroup={false}/>
+                            }
+                        >
+                            <HistoricCard object={help} isRiskGroup={false} />
                         </TouchableOpacity>
                     );
                 })}
@@ -172,17 +167,19 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                 {profileImage()}
                 <View style={styles.smallerInfoContainer}>
                     <View style={styles.nameAndFollowButtonContainer}>
-                        <Text style={styles.name}>{profileUsername}</Text>
+                        <Text style={styles.name}>
+                            {selectedProfileUsername}
+                        </Text>
                         {followButton()}
                     </View>
                     <View style={styles.followerFollowingContainer}>
                         {followFollowing(
                             'Seguidores',
-                            profileNumberOfFollowers,
+                            selectedProfileNumberOfFollowers,
                         )}
                         {followFollowing(
                             'Seguindo',
-                            profileNumberOfFollowing,
+                            selectedProfileNumberOfFollowing,
                         )}
                     </View>
                 </View>

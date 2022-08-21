@@ -23,7 +23,6 @@ const FindUsers = ({ navigation }) => {
 
     async function setupPage() {
         setFindUserLoading(true);
-        console.log('aqui');
         const findUserTemp = await useService(
             socialNetworkProfileservice,
             'findUsersProfiles',

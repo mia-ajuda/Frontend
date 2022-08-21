@@ -1,36 +1,26 @@
-import React, {useContext } from 'react';
-import {
-    View,
-    Image,
-    Text,
-    TouchableOpacity,    
-} from 'react-native';
+import React from 'react';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import { UserContext } from '../../store/contexts/userContext';
-export default function ProfileList({usersProfile, navigation}) {
+export default function ProfileList( {
+    usersProfile, navigation }) {
 
     if(!usersProfile){
-        console.log("Erro");
         return (<></>);
     }
-
-    const { user } = useContext(UserContext);
     const profileCard = (profile) => {
         return (
             <TouchableOpacity
                 key={profile._id}
                 onPress={() =>
                     navigation.navigate('Perfil social dos Usuários', {
-                        profileId: profile._id,
-                        profileUsername: profile.username,
-                        profileNumberOfFollowers: profile.numberOfFollowers,
-                        profileNumberOfFollowing: profile.numberOfFollowing,
-                        profilePhoto: profile.photo,
-                        profileIsFollowing: profile.isFollowing,
-                        userId: user._id,
-                        profileUserId: profile.userId,
-                    })
-                }
+                        selectedProfileId: profile._id,
+                        selectedProfileUsername: profile.username,
+                        selectedProfileNumberOfFollowers: profile.numberOfFollowers,
+                        selectedProfileNumberOfFollowing: profile.numberOfFollowing,
+                        selectedProfilePhoto: profile.photo,
+                        selectedProfileIsFollowing: profile.isFollowing,
+                        selectedProfileUserId: profile.userId,
+                    })}
             >
                 <View style={[styles.card, styles.elevation]}>
                     <Image
