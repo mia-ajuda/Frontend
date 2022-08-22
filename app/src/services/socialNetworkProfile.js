@@ -44,6 +44,13 @@ class SocialNetworkProfileService {
         const following = await api.get(url);
         return following.data;
     }
+
+    async getUserProfile(userId)
+    {
+        const url = `/socialNetworkProfile/getUserProfile/${userId}`;
+        const userProfile = await api.get(url);
+        return userProfile.data;
+    }
 }
 
 const socialNetworkProfileservice = new SocialNetworkProfileService();

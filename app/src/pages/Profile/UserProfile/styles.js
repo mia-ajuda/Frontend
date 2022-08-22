@@ -68,6 +68,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    followerFollowingContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        //backgroundColor:"white",
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+    },
+    loading:{
+        margin:10
+    }
 });
 
 export default styles;
