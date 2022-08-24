@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -50,6 +50,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: yarn install --pure-lockfile --non-interactive
+
+      - name: 📦 Run lint
+        run: yarn lint
 
       - name: 📦 Publish staging
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
