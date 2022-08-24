@@ -10,13 +10,12 @@ import ConfirmationModal from '../modals/confirmationModal';
 import { alertSuccess } from '../../utils/Alert';
 
 export default function ListPossibleInteresteds({ route, navigation }) {
-    const { possibleInteresteds, message, method, helpId } = route.params;
+    const { possibleInteresteds, message, method, helpId, setUpdateData } =
+        route.params;
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
     const [selectedInterestedId, setSelectedInterestedId] = useState(false);
-
-    const goBackToMyRequestsPage = () => navigation.navigate('Atividades');
 
     const chooseInterested = async () => {
         setChooseRequestLoading(true);
@@ -27,7 +26,8 @@ export default function ListPossibleInteresteds({ route, navigation }) {
         if (!chooseHelperRequest.error) {
             alertSuccess('Interessado escolhido com sucesso!');
         }
-        goBackToMyRequestsPage();
+        if (setUpdateData) setUpdateData(true);
+        navigation.goBack();
     };
 
     const renderPossibleInterestedsList = () => {
