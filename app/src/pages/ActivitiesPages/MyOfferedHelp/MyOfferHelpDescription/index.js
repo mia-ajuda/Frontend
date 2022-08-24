@@ -34,6 +34,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
+    const [updateData, setUpdateData] = useState(true);
 
     useEffect(() => {
         async function setupPage() {
@@ -47,8 +48,11 @@ export default function OfferHelpDescription({ route, navigation }) {
             setHelp(helpTemp);
             setIsHelpOfferLoading(false);
         }
-        setupPage();
-    }, []);
+        if (updateData) {
+            setupPage();
+            setUpdateData(false);
+        }
+    }, [updateData]);
 
     async function finishHelp() {
         setFinishRequestLoading(true);
@@ -77,6 +81,7 @@ export default function OfferHelpDescription({ route, navigation }) {
             message: 'Você deseja ajudar esse usuário?',
             method: 'chooseHelpedUsers',
             helpId: help._id,
+            setUpdateData: setUpdateData,
         });
     };
 
