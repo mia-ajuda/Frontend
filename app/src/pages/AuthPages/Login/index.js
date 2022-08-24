@@ -15,7 +15,7 @@ import colors from '../../../../assets/styles/colorVariables';
 import IntroSlide from '../../../pages/IntroSlides';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 
 export default function Login({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -43,7 +43,7 @@ export default function Login({ navigation }) {
         setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        await useService(SessionService, 'signIn', [data]);
+        await callService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };
 
@@ -118,7 +118,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.signUP}
                     onPress={() => {
-                        navigation.navigate('location');
+                        navigation.navigate('registrationData');
                     }}
                 >
                     <Text style={styles.signupText}>Criar Conta</Text>

@@ -1,5 +1,3 @@
-import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
-
 const faqOptions = [
     {
         id: 1,
@@ -18,10 +16,5 @@ const faqOptions = [
         description: 'Contatos Importantes',
     },
 ];
-
-if (isOffersTurnedOff()) {
-    // Turn Off Feature of Offer
-    faqOptions.splice(2, 1);
-}
 
 export default faqOptions;

@@ -17,36 +17,37 @@ import emailValidator from '../../../utils/emailValidator';
 import passwordValidator from '../../../utils/passwordValidator';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { Icon } from 'react-native-elements';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import { alertError } from '../../../utils/Alert';
 
-export default function RegistrationData({ route, navigation }) {
-    const { userDataFromLocationPage } = route.params;
+export default function RegistrationData({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loadingEmailAdressVerification, setLoadingEmailVerification] =
         useState(false);
     const { keyboard } = useContext(DeviceInformationContext);
-
     const continueHandler = () => {
         const userDatafromRegistrationPage = {
             email,
             password,
-            ...userDataFromLocationPage,
         };
-        navigation.navigate('personalData', { userDatafromRegistrationPage });
+        navigation.navigate('personalData', {
+            userDatafromRegistrationPage: {
+                ...userDatafromRegistrationPage,
+            },
+        });
     };
 
     const verifyEmailAdress = async () => {
         setLoadingEmailVerification(true);
         keyboard.dismiss();
 
-        let isARegularUser = await useService(UserService, 'verifyUserInfo', [
+        let isARegularUser = await callService(UserService, 'verifyUserInfo', [
             email.toLowerCase(),
         ]);
         if (!isARegularUser)
-            isARegularUser = await useService(
+            isARegularUser = await callService(
                 EntityService,
                 'verifyEntityInfo',
                 [email.toLowerCase()],

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Animated, { EasingNode, timing } from 'react-native-reanimated';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
 import colors from '../../../assets/styles/colorVariables';
-import isOffersTurnedOff from '../../utils/isOffersTurnedOff';
+import { UserContext } from '../../store/contexts/userContext';
+import createInteraction from '../../utils/createInteraction';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -16,6 +17,7 @@ const HelpButtonAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 export default function CreateHelpButtons() {
     const navigation = useNavigation();
     const [isButtonsVisible, setButtonsVisible] = useState(false);
+    const { user } = useContext(UserContext);
     const toggleButtonsVisibility = () => {
         if (isButtonsVisible) {
             hideButtons();
@@ -24,12 +26,10 @@ export default function CreateHelpButtons() {
         }
     };
 
-    const navigateToCreateHelpPage = () => {
-        navigation.navigate('createHelpRequest');
-        hideButtons();
-    };
-    const navigateToCreateHelpOfferPage = () => {
-        navigation.navigate('createHelpOffer');
+    const navigateToCreatePage = (page) => {
+        const creationPage =
+            page == 'help' ? 'createHelpRequest' : 'createHelpOffer';
+        createInteraction(user, navigation, creationPage);
         hideButtons();
     };
 
@@ -83,49 +83,44 @@ export default function CreateHelpButtons() {
     );
 
     const renderOfferButton = () => {
-        if (!isOffersTurnedOff()) {
-            // Turn Off Feature of Offer
-            return (
-                <HelpButtonAnimated
-                    onPress={navigateToCreateHelpOfferPage}
-                    style={[
-                        {
-                            transform: [
-                                {
-                                    translateY: buttonsTransleY.interpolate({
-                                        inputRange: [
-                                            BUTTON_MIN_HEIGHT,
-                                            BUTTON_MAX_HEIGHT,
-                                        ],
-                                        outputRange: [0, -BUTTON_MAX_HEIGHT],
-                                    }),
-                                },
-                            ],
-                        },
-                        styles.helpButtonView,
-                    ]}
-                >
-                    {isButtonsVisible && (
-                        <Text style={styles.helpButtonText}>
-                            Oferecer ajuda
-                        </Text>
-                    )}
+        return (
+            <HelpButtonAnimated
+                onPress={() => navigateToCreatePage('offer')}
+                style={[
+                    {
+                        transform: [
+                            {
+                                translateY: buttonsTransleY.interpolate({
+                                    inputRange: [
+                                        BUTTON_MIN_HEIGHT,
+                                        BUTTON_MAX_HEIGHT,
+                                    ],
+                                    outputRange: [0, -BUTTON_MAX_HEIGHT],
+                                }),
+                            },
+                        ],
+                    },
+                    styles.helpButtonView,
+                ]}
+            >
+                {isButtonsVisible && (
+                    <Text style={styles.helpButtonText}>Oferecer ajuda</Text>
+                )}
 
-                    <View style={styles.helpButton}>
-                        <FontAwesome5
-                            name="hand-holding-heart"
-                            size={30}
-                            color={colors.primary}
-                        />
-                    </View>
-                </HelpButtonAnimated>
-            );
-        }
+                <View style={styles.helpButton}>
+                    <FontAwesome5
+                        name="hand-holding-heart"
+                        size={30}
+                        color={colors.primary}
+                    />
+                </View>
+            </HelpButtonAnimated>
+        );
     };
 
     const renderRequestHelpButton = () => (
         <HelpButtonAnimated
-            onPress={navigateToCreateHelpPage}
+            onPress={() => navigateToCreatePage('help')}
             style={[
                 {
                     transform: [

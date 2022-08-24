@@ -16,10 +16,9 @@ const Stack = createStackNavigator();
 const NavigationGivenHelps = () => (
     <TopTab.Navigator
         initialRouteName="Atividades"
-        tabBarOptions={tabTopBarOptions}>
-        {/* Minhas ofertas de ajuda, diferente de interação com outros usuários */}
+        tabBarOptions={tabTopBarOptions}
+    >
         <TopTab.Screen name="Campanhas" component={myCampaigns} />
-        {/* Interação com outros usuários */}
         <TopTab.Screen name="Interações" component={History} />
     </TopTab.Navigator>
 );
