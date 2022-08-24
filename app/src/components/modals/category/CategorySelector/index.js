@@ -114,7 +114,8 @@ export default function CategorySelector({
                         key={category._id}
                         onPress={() => {
                             selectCategory(category._id);
-                        }}>
+                        }}
+                    >
                         <Text style={getCategoryStyle(category._id)}>
                             {category.name}
                         </Text>
@@ -129,11 +130,13 @@ export default function CategorySelector({
             visible={modalVisible}
             transparent
             onRequestClose={hideModal}
-            animationType="fade">
+            animationType="fade"
+        >
             <TouchableOpacity
                 style={styles.container}
                 activeOpacity={1}
-                onPress={hideModal}>
+                onPress={hideModal}
+            >
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
                         {renderCloseButton()}

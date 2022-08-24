@@ -14,7 +14,8 @@ export default function NoHelps({ title, color }) {
                     color == 'light'
                         ? styles.emptyListTextLight
                         : styles.emptyListTextPrimary
-                }>
+                }
+            >
                 {title}
             </Text>
         </View>

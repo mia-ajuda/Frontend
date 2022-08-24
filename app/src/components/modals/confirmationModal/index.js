@@ -46,7 +46,8 @@ export default function ConfirmationModal({
             <TouchableOpacity
                 style={styles.container}
                 onPress={() => setVisible(false)}
-                activeOpacity={1}>
+                activeOpacity={1}
+            >
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
                         {isLoading

@@ -17,7 +17,8 @@ export default function SelectCategoryForm({
     const renderPickerCategoryForm = () => (
         <TouchableOpacity
             style={styles.addCategory}
-            onPress={openCategoryModal}>
+            onPress={openCategoryModal}
+        >
             <Text style={styles.addCategoryText}>Categorias +</Text>
         </TouchableOpacity>
     );
@@ -30,7 +31,8 @@ export default function SelectCategoryForm({
                         return (
                             <Text
                                 key={category.name}
-                                style={styles.categoryName}>
+                                style={styles.categoryName}
+                            >
                                 {category.name}
                             </Text>
                         );

@@ -11,10 +11,12 @@ export default function TermsModal({ visible, setVisible }) {
         <Modal
             visible={visible}
             onRequestClose={() => setVisible(false)}
-            animationType="slide">
+            animationType="slide"
+        >
             <TouchableOpacity
                 style={styles.closeButton}
-                onPress={() => setVisible(false)}>
+                onPress={() => setVisible(false)}
+            >
                 <Icon
                     name="times-circle"
                     type="font-awesome"
@@ -24,7 +26,8 @@ export default function TermsModal({ visible, setVisible }) {
             </TouchableOpacity>
             <ScrollView
                 contentContainerStyle={{ margin: 20, paddingBottom: 20 }}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={{ marginTop: 15 }}>
                     <Markdown>{terms}</Markdown>
                 </View>

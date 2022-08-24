@@ -22,7 +22,8 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
             {...props}
             onPress={() => {
                 completeIntroSlide();
-            }}>
+            }}
+        >
             <Text style={styles.buttonText}>Concluir</Text>
         </TouchableOpacity>
     );
@@ -32,7 +33,8 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
             style={styles.buttonBox}
             onPress={() => {
                 completeIntroSlide();
-            }}>
+            }}
+        >
             <Text style={styles.buttonText}>Pular</Text>
         </TouchableOpacity>
     );
@@ -98,8 +100,7 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
                                 style={styles.image}
                             />
                         ),
-                        title:
-                            'Ajude pessoas perto de você é espalhe amor pelo mundo',
+                        title: 'Ajude pessoas perto de você é espalhe amor pelo mundo',
                         subtitle: '',
                     },
                 ]}

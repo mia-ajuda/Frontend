@@ -27,14 +27,16 @@ export default function HelpRequestModal({ visible, setVisible }) {
             visible={visible}
             transparent
             onRequestClose={() => setVisible(false)}
-            animationType="fade">
+            animationType="fade"
+        >
             <View style={styles.modalContainer}>
                 <Container>
                     <TouchableOpacity
                         onPress={() => {
                             setVisible(false);
                         }}
-                        style={styles.icon}>
+                        style={styles.icon}
+                    >
                         <Icon
                             name="times-circle"
                             type="font-awesome"
