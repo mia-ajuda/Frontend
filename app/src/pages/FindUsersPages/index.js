@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -11,7 +11,7 @@ import { UserContext } from '../../store/contexts/userContext';
 import Input from '../../components/UI/input';
 import colors from '../../../assets/styles/colorVariables';
 import ProfileList from '../../components/profileList';
-
+import { useFocusEffect } from '@react-navigation/native';
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
 
@@ -33,13 +33,11 @@ const FindUsers = ({ navigation }) => {
         setFindUserLoading(false);
     }
 
-    useEffect(() => {
-        const willFocus = navigation.addListener('focus', () => {
+    useFocusEffect(
+        useCallback(() => {
             setupPage();
-        });
-
-        return willFocus;
-    }, [navigation]);
+        }, [navigation]),
+    );
 
     useEffect(() => {
         const timer = setTimeout(() => {

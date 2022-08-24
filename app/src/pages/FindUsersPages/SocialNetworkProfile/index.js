@@ -33,23 +33,23 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
         selectedProfileUserId,
     } = route.params;
 
-    useEffect(() => {
+    async function setupPage() {
         let button_name = selectedProfileIsFollowing ? 'Seguindo' : 'Seguir';
         setIsFollowing(selectedProfileIsFollowing);
         setFollowButtonName(button_name);
         setIsLoading(true);
+        let temp_activities;
+        temp_activities = await useService(
+            socialNetworkProfileservice,
+            'getUserActivities',
+            [selectedProfileUserId],
+        );
+        setActivities(temp_activities);
+        setIsLoading(false);
+    }
 
-        const getActivities = async () => {
-            let temp_activities;
-            temp_activities = await useService(
-                socialNetworkProfileservice,
-                'getUserActivities',
-                [selectedProfileUserId],
-            );
-            setActivities(temp_activities);
-            setIsLoading(false);
-        };
-        getActivities();
+    useEffect(() => {        
+        setupPage();
     }, []);
 
     const followButton = () => {
