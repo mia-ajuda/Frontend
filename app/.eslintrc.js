@@ -25,7 +25,6 @@ module.exports = {
         'react/display-name': 'off',
         'react/prop-types': 'off',
         'prettier/prettier': 'error',
-        'no-control-regex': 0,
     },
     settings: {
         react: {
