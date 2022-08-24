@@ -1,6 +1,6 @@
 import api from '../services/Api';
 import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
 class EntityService {
     async requestEntityData(userId = null) {
@@ -31,7 +31,7 @@ class EntityService {
 
     async setEntityDeviceId() {
         try {
-            if (Constants.isDevice) {
+            if (Device.isDevice) {
                 const { status: existingStatus } =
                     await Notifications.getPermissionsAsync();
                 let finalStatus = existingStatus;
