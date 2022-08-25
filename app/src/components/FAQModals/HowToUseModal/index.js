@@ -3,10 +3,10 @@ import { View, Modal, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import colors from '../../../../assets/styles/colorVariables';
 import { Icon } from 'react-native-elements';
-import renderHowToChoseHelpOfferStepsList from '../HowToUseModal/HowToChoseHelpOfferModal';
-import renderHowToCreateHelpRequestStepsList from '../HowToUseModal/HowToCreateHelpModal';
-import renderHowToOfferHelpStepsList from '../HowToUseModal/HowToOfferHelpModal';
-import renderHowToVolunteerStepsList from '../HowToUseModal/HowToVolunteerModal';
+import createHelpRecomendations from '../../../docs/FAQ/HowToCreateHelp';
+import offerHelpRecomendations from '../../../docs/FAQ/HowToOfferHelp';
+import howToChoseHelpOfferRecomendations from '../../../docs/FAQ/HowToChooseHelpOffered';
+import howToVolunteerRecomendations from '../../../docs/FAQ/HowToBeVolunteer';
 import { ModalComponent } from '../modal';
 
 export default function HowToUseModal({ visible, setVisible }) {
@@ -113,27 +113,23 @@ export default function HowToUseModal({ visible, setVisible }) {
             <ModalComponent
                 visible={howToCreateHelpModalVisible}
                 setVisible={setHowToCreateHelpModalVisible}
-            >
-                {renderHowToCreateHelpRequestStepsList()}
-            </ModalComponent>
+                list={createHelpRecomendations}
+            />
             <ModalComponent
                 visible={howToOfferHelpModalVisible}
                 setVisible={setHowToOfferHelpModalVisible}
-            >
-                {renderHowToOfferHelpStepsList()}
-            </ModalComponent>
+                list={offerHelpRecomendations}
+            />
             <ModalComponent
                 visible={howToChoseHelpOfferModalVisible}
                 setVisible={setHowToChoseHelpOfferModalVisible}
-            >
-                {renderHowToChoseHelpOfferStepsList()}
-            </ModalComponent>
+                list={howToChoseHelpOfferRecomendations}
+            />
             <ModalComponent
                 visible={howToVolunteerModalVisible}
                 setVisible={setHowToVolunteerModalVisible}
-            >
-                {renderHowToVolunteerStepsList()}
-            </ModalComponent>
+                list={howToVolunteerRecomendations}
+            />
         </Modal>
     );
 }

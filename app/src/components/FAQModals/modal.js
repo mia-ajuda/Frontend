@@ -1,11 +1,29 @@
 import React from 'react';
-import { Modal, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../../../assets/styles/colorVariables';
 import Container from '../Container';
 import styles from './styles';
 
 export const ModalComponent = (props) => {
+    const renderModalList = (list) => (
+        <View style={styles.modalContent}>
+            <ScrollView indicatorStyle="white">
+                {list.map((numbers) => {
+                    return (
+                        <View key={numbers.id}>
+                            <Text style={styles.title}> {numbers.number} </Text>
+                            <Text style={styles.description}>
+                                {' '}
+                                {numbers.description}{' '}
+                            </Text>
+                        </View>
+                    );
+                })}
+            </ScrollView>
+        </View>
+    );
+
     return (
         <Modal
             visible={props.visible}
@@ -28,7 +46,7 @@ export const ModalComponent = (props) => {
                             size={35}
                         />
                     </TouchableOpacity>
-                    {props.children}
+                    {props.list ? renderModalList(props.list) : props.children}
                 </Container>
             </View>
         </Modal>

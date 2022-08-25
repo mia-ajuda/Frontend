@@ -14,7 +14,7 @@ const createHelpRequestRecomendationsDescriptions = `
 3. Recomendamos, caso seja necessário um encontro, que este ocorra em um local público, e de forma segura.
 `;
 
-const helpOfferedRecomendations = [
+const helpRequestRecomendations = [
     {
         id: '1',
         title: 'Recomendações importantes para se interessar por alguma oferta de ajuda',
@@ -27,4 +27,4 @@ const helpOfferedRecomendations = [
     },
 ];
 
-export default helpOfferedRecomendations;
+export default helpRequestRecomendations;
