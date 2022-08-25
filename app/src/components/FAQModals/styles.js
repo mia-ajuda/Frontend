@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../../../assets/styles/colorVariables';
+import colors from '../../../assets/styles/colorVariables';
 
 const minimumTextSize = 16;
 
@@ -28,10 +28,18 @@ const styles = StyleSheet.create({
     },
 
     description: {
+        alignSelf: 'center',
         marginBottom: 10,
         fontFamily: 'montserrat-semibold',
         color: colors.primary,
         fontSize: minimumTextSize,
+    },
+
+    icon: {
+        top: '5.5%',
+        right: 20,
+        position: 'absolute',
+        zIndex: 5,
     },
 });
 

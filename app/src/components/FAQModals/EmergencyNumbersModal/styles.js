@@ -34,13 +34,6 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: minimumTextSize * 1.2,
     },
-
-    icon: {
-        top: '5.5%',
-        right: 20,
-        position: 'absolute',
-        zIndex: 5,
-    },
 });
 
 export default styles;

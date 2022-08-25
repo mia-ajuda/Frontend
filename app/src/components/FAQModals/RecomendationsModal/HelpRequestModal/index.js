@@ -1,10 +1,8 @@
 import React from 'react';
-import { Modal, ScrollView, TouchableOpacity, View, Text } from 'react-native';
-import { Icon } from 'react-native-elements';
-import Container from '../../../Container';
+import { ScrollView, View, Text } from 'react-native';
 import helpOfferedRecomendations from '../../../../docs/FAQ/HelpRequestRecomendations';
-import colors from '../../../../../assets/styles/colorVariables';
 import styles from './styles';
+import { ModalComponent } from '../../modal';
 
 export default function HelpRequestModal({ visible, setVisible }) {
     const renderImportantRecomendations = () => (
@@ -23,30 +21,8 @@ export default function HelpRequestModal({ visible, setVisible }) {
     );
 
     return (
-        <Modal
-            visible={visible}
-            transparent
-            onRequestClose={() => setVisible(false)}
-            animationType="fade"
-        >
-            <View style={styles.modalContainer}>
-                <Container>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setVisible(false);
-                        }}
-                        style={styles.icon}
-                    >
-                        <Icon
-                            name="times-circle"
-                            type="font-awesome"
-                            color={colors.primary}
-                            size={35}
-                        />
-                    </TouchableOpacity>
-                    {renderImportantRecomendations()}
-                </Container>
-            </View>
-        </Modal>
+        <ModalComponent visible={visible} setVisible={setVisible}>
+            {renderImportantRecomendations()}
+        </ModalComponent>
     );
 }
