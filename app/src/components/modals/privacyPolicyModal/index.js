@@ -11,10 +11,12 @@ export default function PrivacyPolicyModal({ visible, setVisible }) {
         <Modal
             visible={visible}
             onRequestClose={() => setVisible(false)}
-            animationType="slide">
+            animationType="slide"
+        >
             <TouchableOpacity
                 style={styles.closeButton}
-                onPress={() => setVisible(false)}>
+                onPress={() => setVisible(false)}
+            >
                 <Icon
                     name="times-circle"
                     type="font-awesome"
@@ -28,7 +30,8 @@ export default function PrivacyPolicyModal({ visible, setVisible }) {
                     marginVertical: 45,
                     paddingBottom: 40,
                 }}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+            >
                 <Markdown>{privacy}</Markdown>
             </ScrollView>
         </Modal>

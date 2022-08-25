@@ -1,7 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../../../../assets/styles/colorVariables';
 import fonts from '../../../../../assets/styles/fontVariable';
-import { Dimensions } from 'react-native';
 const { height: screen_height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

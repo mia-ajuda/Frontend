@@ -33,7 +33,8 @@ export default function DeviceInfoProvider({ children }) {
             value={{
                 operationalSystem,
                 keyboard: keyboardInformation,
-            }}>
+            }}
+        >
             {children}
         </DeviceInformationContext.Provider>
     );

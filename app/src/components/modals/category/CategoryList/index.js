@@ -22,9 +22,8 @@ export default function CategoryList({
     setSelectedMarker,
     selectedMarker,
 }) {
-    const [descriptionModalVisible, setDescriptionModalVisible] = useState(
-        false,
-    );
+    const [descriptionModalVisible, setDescriptionModalVisible] =
+        useState(false);
     const {
         categories,
         setSelectedCategories,
@@ -85,7 +84,8 @@ export default function CategoryList({
     const renderCategories = () => (
         <ScrollView
             style={styles.modalBody}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}
+        >
             {categories.map((category) => {
                 return (
                     <TouchableOpacity
@@ -93,7 +93,8 @@ export default function CategoryList({
                         key={category._id}
                         onPress={() => {
                             selectCategory(category._id);
-                        }}>
+                        }}
+                    >
                         <Text style={getCategoryStyle(category._id)}>
                             {category.name}
                         </Text>
@@ -143,7 +144,8 @@ export default function CategoryList({
                         style={[
                             styles.onGoingFinishedButtons,
                             { marginRight: 10 },
-                        ]}>
+                        ]}
+                    >
                         <TouchableOpacity>
                             <Text style={styles.infoText}>EM ANDAMENTO</Text>
                         </TouchableOpacity>
@@ -163,13 +165,15 @@ export default function CategoryList({
             visible={visible}
             animationType="fade"
             transparent
-            onRequestClose={() => setVisible(false)}>
+            onRequestClose={() => setVisible(false)}
+        >
             <TouchableOpacity
                 style={styles.modalContainer}
                 activeOpacity={1}
                 onPress={() => {
                     setVisible(false);
-                }}>
+                }}
+            >
                 <TouchableWithoutFeedback>
                     <View style={styles.modalContent}>
                         <Text style={styles.filterTitle}>FILTRO</Text>
@@ -177,7 +181,8 @@ export default function CategoryList({
                             onPress={() => {
                                 setVisible(false);
                             }}
-                            style={styles.closeIcon}>
+                            style={styles.closeIcon}
+                        >
                             <Icon
                                 name="times-circle"
                                 type="font-awesome"
@@ -201,7 +206,8 @@ export default function CategoryList({
                                         setDescriptionModalVisible(
                                             !descriptionModalVisible,
                                         );
-                                    }}>
+                                    }}
+                                >
                                     <Icon
                                         name="question-circle"
                                         type="font-awesome"

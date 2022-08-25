@@ -12,7 +12,7 @@ const HowToCreateHelpRequestModal = `
 6. Depois que você recebeu a sua ajuda, é só entrar no app e finalizar o seu pedido.
 `;
 
-const createHelpRecomendations = [
+const createHelpRecommendations = [
     {
         id: '1',
         title: 'Como criar um pedido de ajuda?',
@@ -20,4 +20,4 @@ const createHelpRecomendations = [
     },
 ];
 
-export default createHelpRecomendations;
+export default createHelpRecommendations;

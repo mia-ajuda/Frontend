@@ -27,7 +27,7 @@ export default function ConfirmationModal({
         const attentionWarning = <Text style={styles.warning}>Atenção!</Text>;
         return (
             <>
-                {attention == true ? attentionWarning : null}
+                {attention ? attentionWarning : null}
                 <Text style={styles.title}>{message}</Text>
                 <View style={styles.buttons}>
                     <Button
@@ -46,7 +46,8 @@ export default function ConfirmationModal({
             <TouchableOpacity
                 style={styles.container}
                 onPress={() => setVisible(false)}
-                activeOpacity={1}>
+                activeOpacity={1}
+            >
                 <TouchableWithoutFeedback>
                     <View style={styles.content}>
                         {isLoading

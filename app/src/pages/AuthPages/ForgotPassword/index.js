@@ -52,7 +52,7 @@ export default function ForgotPassword({ navigation }) {
         let buttonDisabled;
         let isEmailInputValid;
 
-        if (email.length == 0 || isEmailFormatValid == false) {
+        if (email.length == 0 || !isEmailFormatValid) {
             buttonDisabled = true;
         } else {
             buttonDisabled = false;

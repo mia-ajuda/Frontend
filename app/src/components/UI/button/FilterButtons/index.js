@@ -44,13 +44,15 @@ export default function FilterButtons({
                     style={styles.helpFilterButton}
                     onPress={() => {
                         selectionFilter(filterButton.id);
-                    }}>
+                    }}
+                >
                     <View
                         style={
                             selectedFilters.includes(filterButton.id)
                                 ? styles.infoPress
                                 : styles.info
-                        }>
+                        }
+                    >
                         <FontAwesome5
                             name={filterButton.iconName}
                             size={45}
@@ -65,7 +67,8 @@ export default function FilterButtons({
                                 selectedFilters.includes(filterButton.id)
                                     ? styles.infoPressText
                                     : styles.infoText
-                            }>
+                            }
+                        >
                             {filterButton.name}
                         </Text>
                     </View>

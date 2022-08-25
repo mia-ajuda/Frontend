@@ -12,7 +12,8 @@ export default function UserMarker({ userPosition }) {
                 coordinate={{
                     latitude: userPosition.latitude,
                     longitude: userPosition.longitude,
-                }}>
+                }}
+            >
                 <Image source={mapStyle.day.cat} style={styles.catAvatar} />
             </Marker>
             <Circle

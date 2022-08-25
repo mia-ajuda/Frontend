@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Badge } from 'react-native-elements';
 import colors from '../../../assets/styles/colorVariables';
-import { Badge } from 'react-native-elements';
 import HistoricCard from '../HistoricCard';
 
 import styles from './styles';

@@ -23,7 +23,7 @@ class SessionService {
         const shouldVerifyEmail = env.production || env.staging;
 
         if (isEmailVerified == false && shouldVerifyEmail) {
-            throw { code: 'auth/email-not-verified' };
+            throw new Error('auth/email-not-verified');
         }
 
         await this.setDeviceId();

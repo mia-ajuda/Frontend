@@ -1,4 +1,4 @@
-const howToVolunteerRecomendations = [
+const howToVolunteerRecommendations = [
     {
         id: '1',
         title: 'Como ser voluntário?',
@@ -7,4 +7,4 @@ const howToVolunteerRecomendations = [
     },
 ];
 
-export default howToVolunteerRecomendations;
+export default howToVolunteerRecommendations;
