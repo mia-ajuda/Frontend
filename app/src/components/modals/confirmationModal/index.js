@@ -27,7 +27,7 @@ export default function ConfirmationModal({
         const attentionWarning = <Text style={styles.warning}>Atenção!</Text>;
         return (
             <>
-                {attention == true ? attentionWarning : null}
+                {attention ? attentionWarning : null}
                 <Text style={styles.title}>{message}</Text>
                 <View style={styles.buttons}>
                     <Button

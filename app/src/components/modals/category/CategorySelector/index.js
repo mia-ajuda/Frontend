@@ -94,10 +94,7 @@ export default function CategorySelector({
     };
     const filterCategoriesByUser = () => {
         let categoriesToList;
-        if (
-            helpCreationType == 'offer' &&
-            user.ismentalHealthProfessional == false
-        ) {
+        if (helpCreationType == 'offer' && !user.ismentalHealthProfessional) {
             categoriesToList = removePsychologicalSupportFromCategories();
         } else {
             categoriesToList = categories;

@@ -94,7 +94,7 @@ export default function PersonalData({ route, navigation }) {
     };
 
     const renderPageHeader = () => {
-        if (keyboard.visible == false) {
+        if (!keyboard.visible) {
             return (
                 <View>
                     <View style={styles.backIcon}>
@@ -275,7 +275,7 @@ export default function PersonalData({ route, navigation }) {
         return (
             <Button
                 title="Continuar"
-                disabled={fieldsValid == false}
+                disabled={!fieldsValid}
                 large
                 press={verifyIdExistence}
             />

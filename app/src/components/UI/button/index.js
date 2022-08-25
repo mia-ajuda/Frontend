@@ -69,7 +69,6 @@ export default function Button({
             );
             break;
         default:
-        case 'default':
             btn = (
                 <TouchableOpacity
                     disabled={disabled}
