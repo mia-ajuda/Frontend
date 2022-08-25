@@ -1,5 +1,5 @@
 import React from 'react';
-import helpOfferedRecomendations from '../../../../docs/FAQ/HelpOfferedRecomendations';
+import helpOfferedRecommendations from '../../../../docs/FAQ/HelpOfferedRecommendations';
 import { ModalComponent } from '../../modal';
 
 export default function HelpOfferedModal({ visible, setVisible }) {
@@ -7,7 +7,7 @@ export default function HelpOfferedModal({ visible, setVisible }) {
         <ModalComponent
             visible={visible}
             setVisible={setVisible}
-            list={helpOfferedRecomendations}
+            list={helpOfferedRecommendations}
         />
     );
 }

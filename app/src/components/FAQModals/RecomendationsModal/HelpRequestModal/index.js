@@ -1,5 +1,5 @@
 import React from 'react';
-import helpRequestRecomendations from '../../../../docs/FAQ/HelpRequestRecomendations';
+import helpRequestRecommendations from '../../../../docs/FAQ/HelpRequestRecommendations';
 import { ModalComponent } from '../../modal';
 
 export default function HelpRequestModal({ visible, setVisible }) {
@@ -7,7 +7,7 @@ export default function HelpRequestModal({ visible, setVisible }) {
         <ModalComponent
             visible={visible}
             setVisible={setVisible}
-            list={helpRequestRecomendations}
+            list={helpRequestRecommendations}
         />
     );
 }

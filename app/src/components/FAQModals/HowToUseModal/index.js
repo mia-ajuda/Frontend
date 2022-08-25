@@ -3,10 +3,10 @@ import { View, Modal, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import colors from '../../../../assets/styles/colorVariables';
 import { Icon } from 'react-native-elements';
-import createHelpRecomendations from '../../../docs/FAQ/HowToCreateHelp';
-import offerHelpRecomendations from '../../../docs/FAQ/HowToOfferHelp';
-import howToChoseHelpOfferRecomendations from '../../../docs/FAQ/HowToChooseHelpOffered';
-import howToVolunteerRecomendations from '../../../docs/FAQ/HowToBeVolunteer';
+import createHelpRecommendations from '../../../docs/FAQ/HowToCreateHelp';
+import offerHelpRecommendations from '../../../docs/FAQ/HowToOfferHelp';
+import howToChoseHelpOfferRecommendations from '../../../docs/FAQ/HowToChooseHelpOffered';
+import howToVolunteerRecommendations from '../../../docs/FAQ/HowToBeVolunteer';
 import { ModalComponent } from '../modal';
 
 export default function HowToUseModal({ visible, setVisible }) {
@@ -113,22 +113,22 @@ export default function HowToUseModal({ visible, setVisible }) {
             <ModalComponent
                 visible={howToCreateHelpModalVisible}
                 setVisible={setHowToCreateHelpModalVisible}
-                list={createHelpRecomendations}
+                list={createHelpRecommendations}
             />
             <ModalComponent
                 visible={howToOfferHelpModalVisible}
                 setVisible={setHowToOfferHelpModalVisible}
-                list={offerHelpRecomendations}
+                list={offerHelpRecommendations}
             />
             <ModalComponent
                 visible={howToChoseHelpOfferModalVisible}
                 setVisible={setHowToChoseHelpOfferModalVisible}
-                list={howToChoseHelpOfferRecomendations}
+                list={howToChoseHelpOfferRecommendations}
             />
             <ModalComponent
                 visible={howToVolunteerModalVisible}
                 setVisible={setHowToVolunteerModalVisible}
-                list={howToVolunteerRecomendations}
+                list={howToVolunteerRecommendations}
             />
         </Modal>
     );
