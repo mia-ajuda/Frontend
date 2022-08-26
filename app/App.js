@@ -1,5 +1,24 @@
-import React from "react";
-import Root from "./src/index";
+import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import Root from './src/index';
+import loadFonts from './assets/fonts/loadFonts';
+import { View, LogBox, AppRegistry } from 'react-native';
+
+LogBox.ignoreLogs(['Unrecognized WebSocket']);
+
+AppRegistry.registerComponent('main', () => App);
+
 export default function App() {
-  return <Root />;
+    const [fontsLoaded, setFonts] = useState(false);
+    useEffect(() => {
+        async function loadFontsAsync() {
+            await loadFonts();
+            setFonts(true);
+        }
+        loadFontsAsync();
+    }, []);
+
+    if (!fontsLoaded) return <View />;
+
+    return <Root />;
 }

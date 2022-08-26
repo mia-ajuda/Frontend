@@ -1,30 +1,44 @@
 {
-  "expo": {
-    "name": "app",
-    "slug": "app",
-    "privacy": "public",
-    "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
+    "expo": {
+        "name": "Mia Ajuda",
+        "slug": "miaajuda",
+        "privacy": "public",
+        "platforms": ["android"],
+        "notification": {
+            "icon": "./assets/images/logo.png",
+            "color": "#4b8ab9",
+            "androidMode": "default"
+        },
+        "version": "2.2.0 Mutt",
+        "orientation": "portrait",
+        "icon": "./assets/images/logo.png",
+        "splash": {
+            "image": "./assets/images/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#4b8ab9"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "expo.ts",
+                "expo.tsx",
+                "expo.js",
+                "expo.jsx",
+                "ts",
+                "tsx",
+                "js",
+                "jsx",
+                "json",
+                "wasm",
+                "svg"
+            ]
+        }
     }
-  }
 }

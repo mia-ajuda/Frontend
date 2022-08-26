@@ -1,0 +1,71 @@
+import api from '../services/Api';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
+class UserService {
+    async requestUserData(userId = null) {
+        let url;
+        if (userId) {
+            url = `user/getUser/${userId}`;
+        } else {
+            url = 'user/getUser';
+        }
+        const user = await api.get(url);
+        return user.data;
+    }
+
+    async requestAnyTypeUserData(id) {
+        const user = await api.get(`user/getAnyUser/${id}`);
+        return user.data;
+    }
+
+    async editUserAdress(data) {
+        const user = await api.put('user/address', data);
+        return user.data;
+    }
+
+    async verifyUserInfo(value) {
+        const response = await api.get(`checkUserExistence/${value}`);
+
+        return !!response.data;
+    }
+
+    async editUser(data, complement = '') {
+        const user = await api.put(`user${complement}`, data);
+        return user.data;
+    }
+
+    async setUserDeviceId() {
+        if (Device.isDevice) {
+            const { status: existingStatus } =
+                await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+
+            if (existingStatus !== 'granted') {
+                const { status } =
+                    await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                throw new Error(
+                    'Failed to get push token for push notification!',
+                );
+            }
+        }
+
+        try {
+            const token = await (
+                await Notifications.getExpoPushTokenAsync()
+            ).data;
+            await api.put('/user', { deviceId: token });
+        } catch (error) {
+            console.log(error);
+            console.log('Tente rodar "expo login"');
+        }
+    }
+}
+
+const userService = new UserService();
+Object.freeze(userService);
+
+export default userService;

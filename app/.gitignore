@@ -12,3 +12,12 @@ web-report/
 
 # macOS
 .DS_Store
+.env
+
+#webstorm
+.idea
+
+#auth json
+authmiaajuda-firebase.json
+authmiaajuda-firebase-dev.json
+google-services.json
