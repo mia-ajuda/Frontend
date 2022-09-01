@@ -147,7 +147,8 @@ export default function RegistrationData({ navigation }) {
         const fieldsValid =
             emailValidator(email) &&
             passwordValidator(password) &&
-            passwordValidator(confirmPassword);
+            passwordValidator(confirmPassword) &&
+            password == confirmPassword;
 
         return (
             <Button
