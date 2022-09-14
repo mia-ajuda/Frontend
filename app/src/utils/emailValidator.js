@@ -1,5 +1,5 @@
 const validationEmail = (email) => {
-    const expression = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
+    const expression = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     return expression.test(String(email).toLowerCase());
 };
