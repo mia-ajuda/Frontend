@@ -13,7 +13,6 @@ export default function InitialScreen({ navigation }) {
 
     const checkIfIsNewUser = async () => {
         const oldUser = await AsyncStorage.getItem('firstTimeUsingApp');
-        console.log(oldUser);
         if (oldUser) setFinishSlide(true);
     };
 
