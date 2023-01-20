@@ -1,10 +1,28 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import Button from '../../../components/UI/button';
+import IntroSlides from '../../IntroSlides';
 import styles from './styles';
 export default function InitialScreen({ navigation }) {
+    const [finishSlide, setFinishSlide] = useState(false);
+
+    useEffect(() => {
+        checkIfIsNewUser();
+    }, []);
+
+    const checkIfIsNewUser = async () => {
+        const oldUser = await AsyncStorage.getItem('firstTimeUsingApp');
+        console.log(oldUser);
+        if (oldUser) setFinishSlide(true);
+    };
+
     return (
         <View style={styles.initialScreenContainer}>
+            <IntroSlides
+                finishSlide={finishSlide}
+                setFinishSlide={setFinishSlide}
+            />
             <Image
                 style={styles.logo}
                 source={require('../../../../assets/images/whileLogo.png')}
