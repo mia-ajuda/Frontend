@@ -107,6 +107,7 @@ export default function CampaignsFinished({ navigation }) {
                             } else {
                                 return (
                                     <NoHelps
+                                        key={campaign._id}
                                         title={
                                             'Você não possui nenhuma campanha criada'
                                         }
