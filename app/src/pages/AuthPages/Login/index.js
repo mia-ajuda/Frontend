@@ -8,11 +8,9 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import IntroSlide from '../../../pages/IntroSlides';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import callService from '../../../services/callService';
@@ -24,20 +22,14 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
-    const [finishSlide, setFinishSlide] = useState(false);
 
     useEffect(() => {
-        checkIfIsNewUser();
         if (email && password) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
     }, [email, password]);
-
-    const checkIfIsNewUser = async () => {
-        return await AsyncStorage.getItem('firstTimeUsingApp');
-    };
 
     const loginHandler = async () => {
         setLoadingLoginRequest(true);
@@ -47,15 +39,6 @@ export default function Login({ navigation }) {
         setLoadingLoginRequest(false);
     };
 
-    const renderIntroSlides = () => {
-        if (checkIfIsNewUser() === null)
-            return (
-                <IntroSlide
-                    finishSlide={finishSlide}
-                    setFinishSlide={setFinishSlide}
-                />
-            );
-    };
     const renderLoadingIndicator = () => (
         <ActivityIndicator size="large" color={colors.light} />
     );
@@ -71,7 +54,6 @@ export default function Login({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="height">
-            {renderIntroSlides()}
             <View style={styles.logo}>
                 <Image
                     style={styles.logoImage}
