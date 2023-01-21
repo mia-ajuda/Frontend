@@ -16,6 +16,10 @@ export default function InitialScreen({ navigation }) {
         if (oldUser) setFinishSlide(true);
     };
 
+    const handleNavigateToLogin = () => navigation.navigate('login');
+
+    const handleNavigateToRegister = () =>
+        navigation.navigate('registrationData');
     return (
         <View style={styles.initialScreenContainer}>
             <IntroSlides
@@ -36,17 +40,13 @@ export default function InitialScreen({ navigation }) {
             <View style={styles.buttonsContainer}>
                 <Button
                     title={'ACESSAR CONTA'}
-                    press={() => {
-                        navigation.navigate('login');
-                    }}
+                    press={handleNavigateToLogin}
                     type="white"
                     large
                 />
                 <Button
                     title={'CRIAR CONTA'}
-                    press={() => {
-                        navigation.navigate('registrationData');
-                    }}
+                    press={handleNavigateToRegister}
                     type="outlined"
                     large
                 />

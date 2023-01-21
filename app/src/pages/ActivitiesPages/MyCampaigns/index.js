@@ -54,6 +54,8 @@ export default function CampaignsFinished({ navigation }) {
         </View>
     );
 
+    const onPressPlusButton = () =>
+        createInteraction(user, navigation, 'createCampaign');
     async function excludeCampaign() {
         setCampaignDeletionLoading(true);
         const validDeleteRequest = await callService(
@@ -129,15 +131,13 @@ export default function CampaignsFinished({ navigation }) {
         <View>
             <PlusIconTextButton
                 text="Criar campanha"
-                onPress={() =>
-                    createInteraction(user, navigation, 'createCampaign')
-                }
+                onPress={onPressPlusButton}
             />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}
                 setVisible={setConfirmationModalVisible}
-                action={() => excludeCampaign()}
+                action={excludeCampaign}
                 message={'Você deseja deletar essa campanha?'}
                 isLoading={campaignDeletionLoading}
             />
