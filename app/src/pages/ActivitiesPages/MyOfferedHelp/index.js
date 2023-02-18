@@ -13,8 +13,10 @@ import colors from '../../../../assets/styles/colorVariables';
 
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
+import PlusIconTextButton from '../../../components/PlusIconTextButton';
+import createInteraction from '../../../utils/createInteraction';
 
 export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -34,7 +36,7 @@ export default function HelpsFinished({ navigation }) {
     async function loadOnGoingOffers() {
         setLoadingHelpRequests(true);
         const { _id: userId } = user;
-        const resFinished = await useService(helpService, 'listHelpOffer', [
+        const resFinished = await callService(helpService, 'listHelpOffer', [
             userId,
             true,
         ]);
@@ -46,10 +48,11 @@ export default function HelpsFinished({ navigation }) {
 
     async function excludeHelp() {
         setHelpDeletionLoading(true);
-        const validDeleteRequest = await useService(helpService, 'deleteHelp', [
-            'helpOffer',
-            helpToDelete,
-        ]);
+        const validDeleteRequest = await callService(
+            helpService,
+            'deleteHelp',
+            ['helpOffer', helpToDelete],
+        );
         if (!validDeleteRequest.error) {
             const updatedArray = finishedHelpList.filter((help) => {
                 return help._id !== helpToDelete;
@@ -83,7 +86,8 @@ export default function HelpsFinished({ navigation }) {
                                                 routeId: 'HelpOffer',
                                             },
                                         )
-                                    }>
+                                    }
+                                >
                                     <MyRequestHelpCard
                                         object={help}
                                         possibleInterestedList={[
@@ -106,7 +110,13 @@ export default function HelpsFinished({ navigation }) {
         }
     };
     return (
-        <View>
+        <View style={styles.container}>
+            <PlusIconTextButton
+                text="Criar oferta"
+                onPress={() =>
+                    createInteraction(user, navigation, 'createHelpOffer')
+                }
+            />
             <ConfirmationModal
                 attention={true}
                 visible={confirmationModalVisible}

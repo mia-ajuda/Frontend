@@ -1,10 +1,12 @@
 import fonts from './fontVariable';
 import colors from './colorVariables';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 const helpDescription = {
     container: {
         flex: 1,
         padding: 20,
+        zIndex: -1,
     },
     userInfo: {
         flex: 1,
@@ -23,15 +25,17 @@ const helpDescription = {
         marginLeft: 40,
         paddingRight: 100,
     },
+    infoTitle: {
+        fontSize: RFValue(20, 640),
+        fontFamily: 'montserrat-semibold',
+    },
     infoText: {
         ...fonts.body,
-        marginBottom: 3,
+        textAlign: 'justify',
+        marginBottom: 24,
     },
     infoTextFont: {
         fontFamily: 'montserrat-semibold',
-    },
-    infoTextBottom: {
-        marginBottom: 50,
     },
     infoTextDescription: {
         fontFamily: 'montserrat-semibold',
@@ -39,12 +43,8 @@ const helpDescription = {
         marginBottom: 10,
     },
     helpInfo: {
-        flex: 3,
-        justifyContent: 'space-between',
-        padding: 20,
-    },
-    helpButtons: {
         flex: 1,
+        paddingHorizontal: 16,
     },
     buttonInteresteds: {
         width: '100%',
@@ -56,7 +56,7 @@ const helpDescription = {
     },
     textBtn: {
         color: '#FFF',
-        fontSize: 16,
+        fontSize: RFValue(16, 640),
         fontWeight: 'bold',
     },
     containerBadge: {
@@ -76,9 +76,9 @@ const helpDescription = {
     },
     titleFont: {
         fontFamily: 'montserrat-semibold',
-        fontSize: 18,
+        fontSize: RFValue(30, 640),
         textAlign: 'center',
-        paddingBottom: 10,
+        paddingBottom: 8,
     },
     categoryWarning: {
         backgroundColor: colors.secondary,
@@ -100,7 +100,7 @@ const helpDescription = {
     categoryContainer: {
         flexDirection: 'row',
         width: '100%',
-        marginVertical: 15,
+        marginBottom: 32,
         justifyContent: 'center',
         flexWrap: 'wrap',
     },

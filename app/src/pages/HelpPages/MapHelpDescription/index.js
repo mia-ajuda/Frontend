@@ -11,11 +11,12 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { HelpContext } from '../../../store/contexts/helpContext';
 import { HelpOfferContext } from '../../../store/contexts/helpOfferContext';
 import actions from '../../../store/actions';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import shortenName from '../../../utils/shortenName';
 import messageOperation from '../../../utils/messageOperation';
 
 import colors from '../../../../assets/styles/colorVariables';
+import formatDate from '../../../utils/formatDate';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { help, helpType } = route.params;
@@ -33,7 +34,12 @@ export default function MapHelpDescription({ route, navigation }) {
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
     const [userParticipating, setUserParticipating] = useState(false);
-    const goBackToMapPage = () => navigation.goBack();
+
+    const goBackToMapPage = () =>
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'home' }],
+        });
 
     useEffect(() => {
         getOwnerInfo();
@@ -44,18 +50,19 @@ export default function MapHelpDescription({ route, navigation }) {
         if (helpType == 'offer') {
             setTitleMessage('Se candidatar para essa oferta');
             setModalMessage('Você deseja confirmar a sua candidatura?');
-            
-            const found = help.possibleHelpedUsers.some(it => it._id === user._id);
-            const found2 = help.helpedUserId.some(it => it._id === user._id);
-            if(found || found2)
-            {
+
+            const found = help.possibleHelpedUsers.some(
+                (it) => it._id === user._id,
+            );
+            const found2 = help.helpedUserId.some((it) => it._id === user._id);
+            if (found || found2) {
                 setUserParticipating(true);
             }
         } else {
             setTitleMessage('Oferecer Ajuda');
             setModalMessage('Você deseja confirmar a sua ajuda?');
         }
-        const result = await useService(UserService, 'requestUserData', [
+        const result = await callService(UserService, 'requestUserData', [
             help.ownerId,
         ]);
         if (!result.error) {
@@ -64,8 +71,6 @@ export default function MapHelpDescription({ route, navigation }) {
         } else {
             goBackToMapPage();
         }
-
-        
     }
 
     const renderLoadingIndicator = () => (
@@ -90,7 +95,7 @@ export default function MapHelpDescription({ route, navigation }) {
     async function modalAction() {
         setChooseHelpRequestLoading(true);
         const functionName = messageOperation[helpType](false);
-        const request = await useService(HelpService, functionName, [
+        const request = await callService(HelpService, functionName, [
             help._id,
             user._id,
         ]);
@@ -123,6 +128,10 @@ export default function MapHelpDescription({ route, navigation }) {
                     <Text style={styles.infoText}>
                         <Text style={styles.infoTextFont}>Cidade: </Text>
                         {ownerInfo.address.city}
+                    </Text>
+                    <Text style={styles.infoText}>
+                        <Text style={styles.infoTextFont}>Criada em: </Text>
+                        {formatDate(help.creationDate, '-')}
                     </Text>
                 </View>
             </View>
@@ -173,10 +182,11 @@ export default function MapHelpDescription({ route, navigation }) {
                     {renderHelpOwnerInformation()}
                     {renderHelpInformation()}
 
-                    {userParticipating? (<></>): (
+                    {userParticipating ? (
+                        <></>
+                    ) : (
                         <View style={styles.helpButtons}>{renderButton()}</View>
                     )}
-                    
                 </View>
             )}
         </ScrollView>

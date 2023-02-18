@@ -1,4 +1,4 @@
-const howToChoseHelpOfferRecomendations = [
+const howToChoseHelpOfferRecommendations = [
     {
         id: '1',
         title: 'Como escolher uma oferta de ajuda?',
@@ -7,4 +7,4 @@ const howToChoseHelpOfferRecomendations = [
     },
 ];
 
-export default howToChoseHelpOfferRecomendations;
+export default howToChoseHelpOfferRecommendations;

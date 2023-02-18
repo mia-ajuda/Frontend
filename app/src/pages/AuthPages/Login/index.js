@@ -8,14 +8,12 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
 import colors from '../../../../assets/styles/colorVariables';
-import IntroSlide from '../../../pages/IntroSlides';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 
 export default function Login({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
@@ -24,10 +22,8 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
-    const [finishSlide, setFinishSlide] = useState(false);
 
     useEffect(() => {
-        checkIfIsNewUser();
         if (email && password) {
             setButtonDisabled(false);
         } else {
@@ -35,28 +31,14 @@ export default function Login({ navigation }) {
         }
     }, [email, password]);
 
-    const checkIfIsNewUser = async () => {
-        return await AsyncStorage.getItem('firstTimeUsingApp');
-    };
-
     const loginHandler = async () => {
         setLoadingLoginRequest(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
-        setLoadingLoginRequest(true);
-        await useService(SessionService, 'signIn', [data]);
+        await callService(SessionService, 'signIn', [data]);
         setLoadingLoginRequest(false);
     };
 
-    const renderIntroSlides = () => {
-        if (checkIfIsNewUser() === null)
-            return (
-                <IntroSlide
-                    finishSlide={finishSlide}
-                    setFinishSlide={setFinishSlide}
-                />
-            );
-    };
     const renderLoadingIndicator = () => (
         <ActivityIndicator size="large" color={colors.light} />
     );
@@ -72,7 +54,6 @@ export default function Login({ navigation }) {
 
     return (
         <KeyboardAvoidingView style={styles.container} behavior="height">
-            {renderIntroSlides()}
             <View style={styles.logo}>
                 <Image
                     style={styles.logoImage}
@@ -105,7 +86,8 @@ export default function Login({ navigation }) {
                     onPress={() => {
                         navigation.navigate('forgotPassword');
                     }}
-                    style={styles.forgotPasswordButton}>
+                    style={styles.forgotPasswordButton}
+                >
                     <Text style={styles.forgotPasswordtext}>
                         Esqueceu a senha?
                     </Text>
@@ -118,8 +100,9 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.signUP}
                     onPress={() => {
-                        navigation.navigate('location');
-                    }}>
+                        navigation.navigate('registrationData');
+                    }}
+                >
                     <Text style={styles.signupText}>Criar Conta</Text>
                 </TouchableOpacity>
             </View>

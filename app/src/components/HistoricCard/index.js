@@ -8,7 +8,8 @@ export default function HistoricCard({ object, isRiskGroup, children }) {
                 isRiskGroup
                     ? styles.cardContainerRiskGroup
                     : styles.cardContainer
-            }>
+            }
+        >
             <View style={styles.cardTitle}>
                 <Text numberOfLines={1} style={styles.titleContent}>
                     {object.title}
@@ -21,13 +22,15 @@ export default function HistoricCard({ object, isRiskGroup, children }) {
 
                 <Image
                     source={require('../../../assets/images/home.png')}
-                    style={styles.imageBackground}></Image>
+                    style={styles.imageBackground}
+                ></Image>
                 <View style={styles.bottomItens}>
                     <View style={styles.categoryContainer}>
                         {object.categories.map((category) => (
                             <View
                                 key={category._id}
-                                style={styles.categoryWarning}>
+                                style={styles.categoryWarning}
+                            >
                                 <Text style={styles.categoryName}>
                                     {category.name}
                                 </Text>

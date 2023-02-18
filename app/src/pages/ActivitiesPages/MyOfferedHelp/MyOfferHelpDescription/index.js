@@ -14,11 +14,12 @@ import styles from './styles';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
-import useService from '../../../../services/useService';
+import callService from '../../../../services/callService';
 import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
+import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -31,11 +32,14 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const [showHelpedUsers, setShowHelpedUsers] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({});
+    const [updateData, setUpdateData] = useState(true);
 
     useEffect(() => {
         async function setupPage() {
             setIsHelpOfferLoading(true);
-            const helpTemp = await useService(
+            const helpTemp = await callService(
                 helpService,
                 `get${routeId}WithAggregationById`,
                 [helpId],
@@ -44,12 +48,15 @@ export default function OfferHelpDescription({ route, navigation }) {
             setHelp(helpTemp);
             setIsHelpOfferLoading(false);
         }
-        setupPage();
-    }, []);
+        if (updateData) {
+            setupPage();
+            setUpdateData(false);
+        }
+    }, [updateData]);
 
     async function finishHelp() {
         setFinishRequestLoading(true);
-        const finishHelpRequest = await useService(
+        const finishHelpRequest = await callService(
             HelpService,
             'finishHelpByHelper',
             [help._id, user._id],
@@ -74,6 +81,7 @@ export default function OfferHelpDescription({ route, navigation }) {
             message: 'Você deseja ajudar esse usuário?',
             method: 'chooseHelpedUsers',
             helpId: help._id,
+            setUpdateData: setUpdateData,
         });
     };
 
@@ -89,7 +97,8 @@ export default function OfferHelpDescription({ route, navigation }) {
         return (
             <TouchableOpacity
                 style={[buttonStyle, styles.inline]}
-                onPress={props.onPress}>
+                onPress={props.onPress}
+            >
                 <Text style={styles.textBtn}>{props.text}</Text>
                 {props.showArrow && (
                     <View style={[styles.textBtn, styles.btnArrow]}>
@@ -197,13 +206,17 @@ export default function OfferHelpDescription({ route, navigation }) {
         return (
             <ScrollView
                 style={styles.helpedUsers}
-                contentContainerStyle={{ flexGrow: 1 }}>
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
                 {help.helpedUsers.map((helpedUser) => (
                     <UserCard
                         key={helpedUser._id}
                         user={helpedUser}
                         showPhone
-                        handleClick={() => null}
+                        handleClick={() => {
+                            setSelectedUser(helpedUser);
+                            setShowModal(true);
+                        }}
                     />
                 ))}
             </ScrollView>
@@ -216,30 +229,40 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     return (
-        <ScrollView style={{ flexGrow: 1 }}>
-            <View style={styles.container}>
-                <ConfirmationModal
-                    visible={confirmationModalVisible}
-                    setVisible={setConfirmationModalVisible}
-                    action={finishHelp}
-                    message={
-                        'Você tem certeza que deseja finalizar essa oferta de ajuda?'
-                    }
-                    isLoading={isFinishRequestLoading}
+        <View style={styles.viewOffer}>
+            <ScrollView style={styles.scrollViewOffer}>
+                {showModal && <View style={styles.viewBackdrop} />}
+                <View style={styles.container}>
+                    <ConfirmationModal
+                        visible={confirmationModalVisible}
+                        setVisible={setConfirmationModalVisible}
+                        action={finishHelp}
+                        message={
+                            'Você tem certeza que deseja finalizar essa oferta de ajuda?'
+                        }
+                        isLoading={isFinishRequestLoading}
+                    />
+                    {isHelpOfferLoading ? (
+                        renderLoadingIndicator()
+                    ) : (
+                        <>
+                            {renderHelpOwnerInformation()}
+                            {renderHelpInformation()}
+                            <View style={styles.helpButtons}>
+                                {showUserOrOwnerView()}
+                                {showHelpedUsers && renderHelpedUsers()}
+                            </View>
+                        </>
+                    )}
+                </View>
+            </ScrollView>
+            {showModal && (
+                <ChosenHelpersInfo
+                    user={selectedUser}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
                 />
-                {isHelpOfferLoading ? (
-                    renderLoadingIndicator()
-                ) : (
-                    <>
-                        {renderHelpOwnerInformation()}
-                        {renderHelpInformation()}
-                        <View style={styles.helpButtons}>
-                            {showUserOrOwnerView()}
-                            {showHelpedUsers && renderHelpedUsers()}
-                        </View>
-                    </>
-                )}
-            </View>
-        </ScrollView>
+            )}
+        </View>
     );
 }

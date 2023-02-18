@@ -6,6 +6,7 @@ import MyOfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import MyRequestDescription from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription';
 import { NavigationGivenHelps } from '../ActivitiesNavigator';
+import ListPossibleInteresteds from '../../../components/InterestedList';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ const NavigationNotifications = () => (
         <Stack.Screen
             name="MyRequestHelpDescrition"
             component={MyRequestDescription}
+            options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="ListHelpInteresteds"
+            component={ListPossibleInteresteds}
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen name="Atividades" component={NavigationGivenHelps} />

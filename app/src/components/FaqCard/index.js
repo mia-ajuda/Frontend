@@ -63,7 +63,8 @@ export default function FaqCard({ faq }) {
             <TouchableOpacity
                 onPress={() => {
                     setModalVisible(!modalVisible);
-                }}>
+                }}
+            >
                 <View style={styles.info}>
                     {renderSVGIcon(faq.id)}
                     <Text style={styles.title} numberOfLines={2}>

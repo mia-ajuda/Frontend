@@ -24,7 +24,8 @@ const BottomTab = () => {
                     navigationIconsConfig(focused, route),
             })}
             initialRouteName="main"
-            backBehavior="initialRoute">
+            backBehavior="initialRoute"
+        >
             <BottomNavigation.Screen
                 name="notification"
                 component={NotificationNavigation}

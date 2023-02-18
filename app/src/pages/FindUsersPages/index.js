@@ -1,11 +1,7 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import {
-    View,
-    ScrollView,
-    ActivityIndicator,
-} from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import useService from '../../services/useService';
+import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from '../../store/contexts/userContext';
 import Input from '../../components/UI/input';
@@ -23,7 +19,7 @@ const FindUsers = ({ navigation }) => {
 
     async function setupPage() {
         setFindUserLoading(true);
-        const findUserTemp = await useService(
+        const findUserTemp = await callService(
             socialNetworkProfileservice,
             'findUsersProfiles',
             [user._id, findName],
@@ -75,12 +71,12 @@ const FindUsers = ({ navigation }) => {
                 {findUserinput()}
                 {isFindUserLoading ? (
                     renderLoadingIndicator()
-                ) : ( <ProfileList 
-                        usersProfile={usersProfile} 
+                ) : (
+                    <ProfileList
+                        usersProfile={usersProfile}
                         navigation={navigation}
                     />
-                )
-                }
+                )}
             </View>
         </ScrollView>
     );

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../../../assets/styles/colorVariables';
+import colors from '../../../assets/styles/colorVariables';
 
 const minimumTextSize = 16;
 

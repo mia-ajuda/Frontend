@@ -16,20 +16,18 @@ import styles from './styles';
 import checkEmailFormat from '../../../utils/emailValidator';
 import firebaseService from '../../../services/Firebase';
 import { alertSuccess } from '../../../utils/Alert';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 
 export default function ForgotPassword({ navigation }) {
     const navigateBackToLoginPage = () => navigation.goBack();
     const [email, setEmail] = useState('');
     const [isEmailFormatValid, setIsEmailFormatValid] = useState(false);
-    const [
-        forgotPasswordRequestLoading,
-        setForgotPasswordRequestLoading,
-    ] = useState(false);
+    const [forgotPasswordRequestLoading, setForgotPasswordRequestLoading] =
+        useState(false);
 
     const handlerSubmit = async () => {
         setForgotPasswordRequestLoading(true);
-        const resetPasswordRequest = await useService(
+        const resetPasswordRequest = await callService(
             firebaseService,
             'resetUserPassword',
             [email.trim().toLowerCase()],
@@ -54,7 +52,7 @@ export default function ForgotPassword({ navigation }) {
         let buttonDisabled;
         let isEmailInputValid;
 
-        if (email.length == 0 || isEmailFormatValid == false) {
+        if (email.length == 0 || !isEmailFormatValid) {
             buttonDisabled = true;
         } else {
             buttonDisabled = false;
@@ -106,7 +104,8 @@ export default function ForgotPassword({ navigation }) {
         <KeyboardAvoidingView style={styles.container} behavior={'height'}>
             <ScrollView
                 contentContainerStyle={styles.scrollContainer}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon name="arrow-back" color="black" />

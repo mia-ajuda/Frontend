@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Badge } from 'react-native-elements';
 import colors from '../../../assets/styles/colorVariables';
-import { Badge } from 'react-native-elements';
 import HistoricCard from '../HistoricCard';
 
 import styles from './styles';
@@ -56,18 +55,19 @@ export default function MyRequestCard({
     return (
         <HistoricCard {...{ object }}>
             {!isEntityUser && renderBadgeIcon()}
-            {deleteVisible? (
-                 <View style={styles.deleteIcon}>
-                 <Icon
-                     size={25}
-                     name="trash"
-                     type="font-awesome"
-                     color={colors.danger}
-                     onPress={() => handleDelete()}
-                 />
-             </View>
-            ):<></>}
-           
+            {deleteVisible ? (
+                <View style={styles.deleteIcon}>
+                    <Icon
+                        size={25}
+                        name="trash"
+                        type="font-awesome"
+                        color={colors.danger}
+                        onPress={() => handleDelete()}
+                    />
+                </View>
+            ) : (
+                <></>
+            )}
         </HistoricCard>
     );
 }

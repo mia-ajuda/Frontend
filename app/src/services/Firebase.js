@@ -1,13 +1,13 @@
 import firebase from 'firebase';
 import Constants from 'expo-constants';
 import authConfig from '../config/authmiaajuda-firebase';
-import authConfigDEv from '../config/authmiaajuda-firebase-dev';
+import authConfigDev from '../config/authmiaajuda-firebase-dev';
 
 class FirebaseService {
     constructor() {
         const env = Constants.manifest.releaseChannel;
         const { apiKey, authDomain, projectId } =
-            env == 'prod' ? authConfig : authConfigDEv;
+            env == 'prod' ? authConfig : authConfigDev;
         this.firebase = firebase.initializeApp({
             apiKey,
             authDomain,

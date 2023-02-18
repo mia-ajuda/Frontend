@@ -10,7 +10,8 @@ export default function NewHelpModal({ visible, onOkPressed, message }) {
                 transparent={true}
                 style={styles.modal}
                 animationType="fade"
-                visible={visible}>
+                visible={visible}
+            >
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>{message}</Text>
                     <Button large press={onOkPressed} title="OK" />

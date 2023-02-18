@@ -1,0 +1,20 @@
+{
+    "HelpRequest": {
+        "instruction": "Arraste para ajustar a posição do seu pedido",
+        "positionUse": "A posição escolhida será usada para definir a localização do seu pedido",
+        "confirmPosition": "Podemos confirmar a localização do seu pedido?",
+        "successText": "Seu pedido foi criada com sucesso"
+    },
+    "HelpOffer": {
+        "instruction": "Arraste para ajustar a posição da sua oferta",
+        "positionUse": "A posição escolhida será usada para definir a localização da sua oferta",
+        "confirmPosition": "Podemos confirmar a localização da sua oferta?",
+        "successText": "Sua oferta foi criada com sucesso"
+    },
+    "Campaign": {
+        "instruction": "Arraste para ajustar a posição da sua campanha",
+        "positionUse": "A posição escolhida será usada para definir a localização da sua campanha",
+        "confirmPosition": "Podemos confirmar a localização da sua campanhas?",
+        "successText": "Sua campanha foi criada com sucesso"
+    }
+}

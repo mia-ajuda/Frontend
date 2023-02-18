@@ -1,0 +1,19 @@
+{
+    "cli": {
+        "version": ">= 0.57.0"
+    },
+    "submit": {
+        "production": {
+            "android": {
+                "serviceAccountKeyPath": "./serviceAccountKey.json",
+                "track": "production"
+            }
+        },
+        "alpha_test": {
+            "android": {
+                "serviceAccountKeyPath": "./serviceAccountKey.json",
+                "track": "alpha"
+            }
+        }
+    }
+}

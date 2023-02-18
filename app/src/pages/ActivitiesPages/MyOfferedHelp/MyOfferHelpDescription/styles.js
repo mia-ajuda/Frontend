@@ -4,16 +4,17 @@ import helpDescription from '../../../../../assets/styles/helpDescription';
 
 const styles = StyleSheet.create({
     ...helpDescription,
-    ViewLink: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+    viewOffer: {
+        height: '100%',
     },
-    ViewLinkBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+    scrollViewOffer: {
+        flexGrow: 1,
+    },
+    viewBackdrop: {
+        position: 'absolute',
         width: '100%',
-        marginBottom: 20,
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,.6)',
     },
     waitingText: {
         ...fonts.subtitle,

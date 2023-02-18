@@ -6,7 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
@@ -23,7 +23,7 @@ import formatCNPJ from '../../../utils/formatCNPJ';
 import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import FollowFollowingText from '../../../components/follow_followingText';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
@@ -32,13 +32,15 @@ import colors from '../../../../assets/styles/colorVariables';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
-    const { userSocialNetworkProfile, setUserSocialNetworkProfile } = useContext(SocialNetworkProfileContext);
+    const { userSocialNetworkProfile, setUserSocialNetworkProfile } =
+        useContext(SocialNetworkProfileContext);
     const isEntityUser = user.cnpj;
     const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
-    const [loadingSocialNetworkProfile, setLoadingSocialNetworkProfile] = useState(false);
+    const [loadingSocialNetworkProfile, setLoadingSocialNetworkProfile] =
+        useState(false);
 
     const phone = formatPhone(user.phone);
     const idFormated = isEntityUser
@@ -53,21 +55,20 @@ export default function Profile({ navigation }) {
             getUserProfile(user._id);
         }, [navigation]),
     );
-    
 
     async function getUserProfile(userId) {
-        const temp_userProfile = await useService(
+        const temp_userProfile = await callService(
             socialNetworkProfileservice,
             'getUserProfile',
             [userId],
         );
         setUserSocialNetworkProfile(temp_userProfile);
-        console.log("passei aqui");
+        console.log('passei aqui');
         setLoadingSocialNetworkProfile(false);
     }
 
     async function logout() {
-        await useService(SessionService, 'signOut');
+        await callService(SessionService, 'signOut');
     }
 
     async function changeImgeProfile() {
@@ -137,8 +138,8 @@ export default function Profile({ navigation }) {
         };
 
         const validEditPhoto = isEntityUser
-            ? await useService(EntityService, 'editEntity', [data])
-            : await useService(UserService, 'editUser', [data]);
+            ? await callService(EntityService, 'editEntity', [data])
+            : await callService(UserService, 'editUser', [data]);
         if (!validEditPhoto.error) {
             dispatch({
                 type: actions.user.storeUserInfo,
@@ -170,7 +171,8 @@ export default function Profile({ navigation }) {
                         navigation.navigate(`Edit${navigateToPage}Field`, {
                             user,
                         })
-                    }>
+                    }
+                >
                     <View style={styles.inputWrapper}>
                         <Text style={styles.textInput}>{data}</Text>
                         <Icon size={25} name="edit" color="#000" />
@@ -181,15 +183,12 @@ export default function Profile({ navigation }) {
     }
 
     const renderLoadingIndicator = () => (
-       
         <ActivityIndicator
             style={styles.loading}
             size="large"
             color={colors.primary}
         />
-        
     );
-
 
     return (
         <ScrollView style={styles.container}>
@@ -205,29 +204,32 @@ export default function Profile({ navigation }) {
                     <ImageBackground
                         source={{ uri: `data:image/png;base64,${user.photo}` }}
                         style={styles.imageContainer}
-                        imageStyle={styles.profileImage}>
+                        imageStyle={styles.profileImage}
+                    >
                         <Icon size={45} name={'camera-alt'} color="black" />
                     </ImageBackground>
                 </TouchableOpacity>
             </View>
-           
-            {loadingSocialNetworkProfile? (renderLoadingIndicator())
-            :( <View style={styles.followerFollowingContainer}>
-                    <FollowFollowingText 
-                        text="Seguidores" 
+
+            {loadingSocialNetworkProfile ? (
+                renderLoadingIndicator()
+            ) : (
+                <View style={styles.followerFollowingContainer}>
+                    <FollowFollowingText
+                        text="Seguidores"
                         number={userSocialNetworkProfile.numberOfFollowers}
                         selectedProfileId={userSocialNetworkProfile._id}
                         navigation={navigation}
                     />
-                    <FollowFollowingText 
-                        text="Seguindo" 
+                    <FollowFollowingText
+                        text="Seguindo"
                         number={userSocialNetworkProfile.numberOfFollowing}
                         selectedProfileId={userSocialNetworkProfile._id}
                         navigation={navigation}
                     />
                 </View>
             )}
-           
+
             <View style={styles.viewContent}>
                 {renderEditableUserInfo('Nome Completo', user.name, 'Name')}
                 {isRegularUser &&
@@ -235,7 +237,7 @@ export default function Profile({ navigation }) {
                 {renderUserInfo('E-mail', user.email)}
                 {renderUserInfo(idLabel, idFormated)}
                 {renderEditableUserInfo('Telefone', phone, 'Phone')}
-                {renderEditableUserInfo('CEP', user.address.cep, 'CEP')}
+                {renderEditableUserInfo('CEP', user.address?.cep || '', 'CEP')}
                 <View style={styles.buttonWrapper}>
                     <Button
                         style={styles.buttonExit}

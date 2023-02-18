@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
-import useService from '../../../services/useService';
+import callService from '../../../services/callService';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
 import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
@@ -39,7 +39,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
         setFollowButtonName(button_name);
         setIsLoading(true);
         let temp_activities;
-        temp_activities = await useService(
+        temp_activities = await callService(
             socialNetworkProfileservice,
             'getUserActivities',
             [selectedProfileUserId],
@@ -48,38 +48,37 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
         setIsLoading(false);
     }
 
-    useEffect(() => {        
+    useEffect(() => {
         setupPage();
     }, []);
 
     const followButton = () => {
-        return (
-            (selectedProfileUserId == user._id)? (
-                <></>
-            ) : (
-                <Button
-                    title={followButtonName}
-                    type="default"
-                    press={async () => {
-                        let tempIsFollowing;
-                        if (isFollowing) {
-                            tempIsFollowing = await useService(
-                                socialNetworkProfileservice,
-                                'unfollowUser',
-                                [selectedProfileId, user._id],
-                            );
-                        } else {
-                            tempIsFollowing = await useService(
-                                socialNetworkProfileservice,
-                                'followUser',
-                                [selectedProfileId, user._id],
-                            );
-                        }
-                        let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
-                        setIsFollowing(tempIsFollowing);
-                        setFollowButtonName(button_name);
-                    }}
-                />)
+        return selectedProfileUserId == user._id ? (
+            <></>
+        ) : (
+            <Button
+                title={followButtonName}
+                type="default"
+                press={async () => {
+                    let tempIsFollowing;
+                    if (isFollowing) {
+                        tempIsFollowing = await callService(
+                            socialNetworkProfileservice,
+                            'unfollowUser',
+                            [selectedProfileId, user._id],
+                        );
+                    } else {
+                        tempIsFollowing = await callService(
+                            socialNetworkProfileservice,
+                            'followUser',
+                            [selectedProfileId, user._id],
+                        );
+                    }
+                    let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
+                    setIsFollowing(tempIsFollowing);
+                    setFollowButtonName(button_name);
+                }}
+            />
         );
     };
 
@@ -158,14 +157,14 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                         {followButton()}
                     </View>
                     <View style={styles.followerFollowingContainer}>
-                        <FollowFollowingText 
-                            text="Seguidores" 
+                        <FollowFollowingText
+                            text="Seguidores"
                             number={selectedProfileNumberOfFollowers}
                             selectedProfileId={selectedProfileId}
                             navigation={navigation}
                         />
-                        <FollowFollowingText 
-                            text="Seguindo" 
+                        <FollowFollowingText
+                            text="Seguindo"
                             number={selectedProfileNumberOfFollowing}
                             selectedProfileId={selectedProfileId}
                             navigation={navigation}

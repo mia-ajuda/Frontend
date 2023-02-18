@@ -14,14 +14,16 @@ export default function CategoryDescriptionModal({ visible, setVisible }) {
             visible={visible}
             transparent
             animationType="fade"
-            onRequestClose={() => setVisible(false)}>
+            onRequestClose={() => setVisible(false)}
+        >
             <View style={styles.modalContainer}>
                 <Container>
                     <TouchableOpacity
                         onPress={() => {
                             setVisible(false);
                         }}
-                        style={styles.icon}>
+                        style={styles.icon}
+                    >
                         <Icon
                             name="times-circle"
                             type="font-awesome"

@@ -1,4 +1,4 @@
-const HowToOfferHelpRecomendations = `
+const HowToOfferHelpRecommendations = `
 1. Para ofertar uma ajuda clique no ícone de criar oferta ;
 
 2. Preencha os dados da página de pedidos: título, categoria e descrição;
@@ -13,12 +13,12 @@ const HowToOfferHelpRecomendations = `
 
 7. Depois de ajudar os interessados, é só entrar no app e finalizar a sua oferta.`;
 
-const offerHelpRecomendations = [
+const offerHelpRecommendations = [
     {
         id: '1',
         title: 'Como criar uma oferta de ajuda?',
-        description: HowToOfferHelpRecomendations,
+        description: HowToOfferHelpRecommendations,
     },
 ];
 
-export default offerHelpRecomendations;
+export default offerHelpRecommendations;
