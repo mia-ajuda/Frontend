@@ -4,10 +4,6 @@ class SocialNetworkProfileService {
     constructor() {}
 
     async findUsersProfiles(userId, username = null) {
-        if (!username) {
-            username = null;
-        }
-
         const url = `/socialNetworkProfile/findUsers/${userId}/${username}`;
         const usersProfiles = await api.get(url);
         return usersProfiles.data;
@@ -31,22 +27,19 @@ class SocialNetworkProfileService {
         return usersActivities.data;
     }
 
-    async getFollowers(userId,selectedProfileId)
-    {
+    async getFollowers(userId, selectedProfileId) {
         const url = `/socialNetworkProfile/getFollowers/${userId}/${selectedProfileId}`;
         const followers = await api.get(url);
         return followers.data;
     }
 
-    async getFollowing(userId,selectedProfileId)
-    {
+    async getFollowing(userId, selectedProfileId) {
         const url = `/socialNetworkProfile/getFollowing/${userId}/${selectedProfileId}`;
         const following = await api.get(url);
         return following.data;
     }
 
-    async getUserProfile(userId)
-    {
+    async getUserProfile(userId) {
         const url = `/socialNetworkProfile/getUserProfile/${userId}`;
         const userProfile = await api.get(url);
         return userProfile.data;
