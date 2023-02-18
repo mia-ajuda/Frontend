@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         elevation: 6,
         width: '100%',
-        zIndex: 2,
+        zIndex: 5,
     },
 });
 
