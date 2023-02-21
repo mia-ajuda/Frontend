@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../assets/styles/fontVariable';
 const styles = StyleSheet.create({
-
     profileImage: {
         width: 100,
         height: 100,

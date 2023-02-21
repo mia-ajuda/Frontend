@@ -1,10 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
-export default function FollowFollowingText( {
-    text, number, selectedProfileId, navigation }) {
-   
-
+export default function FollowFollowingText({
+    text,
+    number,
+    selectedProfileId,
+    navigation,
+}) {
     return (
         <TouchableOpacity
             key={text}
@@ -21,5 +23,4 @@ export default function FollowFollowingText( {
             </Text>
         </TouchableOpacity>
     );
-
 }

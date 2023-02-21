@@ -24,16 +24,14 @@ const FindUsersNavigation = () => (
         <Stack.Screen
             name="mapHelpDescription"
             component={MapHelpDescription}
-            options={{ title: 'Detalhes' }}   
+            options={{ title: 'Detalhes' }}
         />
 
         <Stack.Screen
             name="FollowersFollowingPage"
             component={FollowersFollowingPage}
-            options={{ title: 'Usuários' }}   
+            options={{ title: 'Usuários' }}
         />
-
-
     </Stack.Navigator>
 );
 
