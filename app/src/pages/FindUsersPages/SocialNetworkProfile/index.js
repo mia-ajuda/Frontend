@@ -53,32 +53,34 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
     }, []);
 
     const followButton = () => {
-        return selectedProfileUserId == user._id ? (
-            <></>
-        ) : (
-            <Button
-                title={followButtonName}
-                type="default"
-                press={async () => {
-                    let tempIsFollowing;
-                    if (isFollowing) {
-                        tempIsFollowing = await callService(
-                            socialNetworkProfileservice,
-                            'unfollowUser',
-                            [selectedProfileId, user._id],
-                        );
-                    } else {
-                        tempIsFollowing = await callService(
-                            socialNetworkProfileservice,
-                            'followUser',
-                            [selectedProfileId, user._id],
-                        );
-                    }
-                    let button_name = tempIsFollowing ? 'Seguindo' : 'Seguir';
-                    setIsFollowing(tempIsFollowing);
-                    setFollowButtonName(button_name);
-                }}
-            />
+        return (
+            selectedProfileUserId !== user._id && (
+                <Button
+                    title={followButtonName}
+                    type="default"
+                    press={async () => {
+                        let tempIsFollowing;
+                        if (isFollowing) {
+                            tempIsFollowing = await callService(
+                                socialNetworkProfileservice,
+                                'unfollowUser',
+                                [selectedProfileId, user._id],
+                            );
+                        } else {
+                            tempIsFollowing = await callService(
+                                socialNetworkProfileservice,
+                                'followUser',
+                                [selectedProfileId, user._id],
+                            );
+                        }
+                        let button_name = tempIsFollowing
+                            ? 'Seguindo'
+                            : 'Seguir';
+                        setIsFollowing(tempIsFollowing);
+                        setFollowButtonName(button_name);
+                    }}
+                />
+            )
         );
     };
 

@@ -55,7 +55,7 @@ export default function MyRequestCard({
     return (
         <HistoricCard {...{ object }}>
             {!isEntityUser && renderBadgeIcon()}
-            {deleteVisible ? (
+            {deleteVisible && (
                 <View style={styles.deleteIcon}>
                     <Icon
                         size={25}
@@ -65,8 +65,6 @@ export default function MyRequestCard({
                         onPress={() => handleDelete()}
                     />
                 </View>
-            ) : (
-                <></>
             )}
         </HistoricCard>
     );

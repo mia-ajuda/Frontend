@@ -15,8 +15,6 @@ const FindUsers = ({ navigation }) => {
     const [usersProfile, setUsersProfile] = useState(null);
     const [findName, setFindName] = useState(null);
 
-    //const isFocused = useIsFocused();
-
     async function setupPage() {
         setFindUserLoading(true);
         const findUserTemp = await callService(
@@ -44,13 +42,11 @@ const FindUsers = ({ navigation }) => {
     }, [findName]);
 
     const renderLoadingIndicator = () => (
-        // <View style={styles.loadingContainer}>
         <ActivityIndicator
             style={styles.loading}
             size="large"
             color={colors.primary}
         />
-        // </View>
     );
 
     const findUserinput = () => {

@@ -63,7 +63,6 @@ export default function Profile({ navigation }) {
             [userId],
         );
         setUserSocialNetworkProfile(temp_userProfile);
-        console.log('passei aqui');
         setLoadingSocialNetworkProfile(false);
     }
 

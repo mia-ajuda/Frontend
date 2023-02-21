@@ -24,15 +24,6 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
 
-    // card:{
-    //     flex: 1,
-    //     padding:20,
-    //     flexDirection: "row",
-    //     borderWidth: 2,
-    //     borderRadius:4,
-    //     borderColor:'#ddd',
-    //     marginTop:10,
-    // },
     card: {
         flex: 1,
         padding: 20,

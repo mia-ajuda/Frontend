@@ -11,12 +11,10 @@ const styles = StyleSheet.create({
 
     profileInfoContainer: {
         flex: 2,
-        //backgroundColor: "red",
         flexDirection: 'row',
     },
     profileCardContainer: {
         flex: 5,
-        //backgroundColor: "darkorange"
     },
 
     smallerInfoContainer: {
@@ -28,7 +26,6 @@ const styles = StyleSheet.create({
     nameAndFollowButtonContainer: {
         flex: 2,
         flexDirection: 'row',
-        //backgroundColor:"yellow",
         justifyContent: 'space-around',
         alignItems: 'center',
     },
@@ -36,7 +33,6 @@ const styles = StyleSheet.create({
     followerFollowingContainer: {
         flex: 1,
         flexDirection: 'row',
-        //backgroundColor:"white",
         alignItems: 'flex-start',
         justifyContent: 'space-between',
     },
@@ -74,13 +70,12 @@ const styles = StyleSheet.create({
         paddingRight: 10,
     },
 
-    cardContainer:{
+    cardContainer: {
         flex: 5,
-        //backgroundColor: "red",
         marginLeft: 15,
         marginRight: 15,
         marginBottom: 15,
-    }
+    },
 });
 
 export default styles;
