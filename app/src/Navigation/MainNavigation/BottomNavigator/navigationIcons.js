@@ -60,6 +60,18 @@ const navigationIcons = {
             raised: false,
         },
     },
+
+    findUsers: {
+        icon: 'search',
+        active: {
+            color: colors.primary,
+            raised: true,
+        },
+        inactive: {
+            color: colors.light,
+            raised: false,
+        },
+    },
 };
 
 export default navigationIcons;

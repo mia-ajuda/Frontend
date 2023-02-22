@@ -20,7 +20,7 @@ import createInteraction from '../../utils/createInteraction';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
-    const [helpListVisible, setHelpListVisible] = useState(true);
+    const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);

@@ -1,43 +1,16 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Profile from '../../../pages/Profile/UserProfile';
+import FindUsers from '../../../pages/FindUsersPages';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import EditNameField from '../../../pages/Profile/EditProfileFields/NameField';
-import EditCEPField from '../../../pages/Profile/EditProfileFields/CEPField';
-import EditPhoneField from '../../../pages/Profile/EditProfileFields/PhoneFIeld';
-
 import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetworkProfile';
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import OfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
 import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
-
 const Stack = createStackNavigator();
 
-const ProfileNavigation = () => (
+const FindUsersNavigation = () => (
     <Stack.Navigator screenOptions={headerStyle}>
-        <Stack.Screen name="Perfil" component={Profile} />
-        <Stack.Screen
-            name="EditNameField"
-            component={EditNameField}
-            options={{
-                title: 'Editar Nome',
-            }}
-        />
-        <Stack.Screen
-            name="EditCEPField"
-            component={EditCEPField}
-            options={{
-                title: 'Editar CEP',
-            }}
-        />
-        <Stack.Screen
-            name="EditPhoneField"
-            component={EditPhoneField}
-            options={{
-                title: 'Editar Telefone',
-            }}
-        />
-
+        <Stack.Screen name="Procurar Usuários" component={FindUsers} />
         <Stack.Screen
             name="Perfil social dos Usuários"
             component={SocialNetworkProfilePage}
@@ -62,4 +35,4 @@ const ProfileNavigation = () => (
     </Stack.Navigator>
 );
 
-export default ProfileNavigation;
+export default FindUsersNavigation;

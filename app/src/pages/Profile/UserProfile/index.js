@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import {
     View,
     ScrollView,
@@ -6,6 +6,7 @@ import {
     ImageBackground,
     TouchableOpacity,
     Alert,
+    ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
@@ -23,14 +24,23 @@ import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
 import callService from '../../../services/callService';
+import FollowFollowingText from '../../../components/follow_followingText';
+import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
+import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
+import { useFocusEffect } from '@react-navigation/native';
+import colors from '../../../../assets/styles/colorVariables';
 
 export default function Profile({ navigation }) {
     const { user, dispatch } = useContext(UserContext);
+    const { userSocialNetworkProfile, setUserSocialNetworkProfile } =
+        useContext(SocialNetworkProfileContext);
     const isEntityUser = user.cnpj;
     const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
+    const [loadingSocialNetworkProfile, setLoadingSocialNetworkProfile] =
+        useState(false);
 
     const phone = formatPhone(user.phone);
     const idFormated = isEntityUser
@@ -38,6 +48,23 @@ export default function Profile({ navigation }) {
         : formatCPF(user.cpf);
     const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
     const birthday = parseDate(user.birthday);
+
+    useFocusEffect(
+        useCallback(() => {
+            setLoadingSocialNetworkProfile(true);
+            getUserProfile(user._id);
+        }, [navigation]),
+    );
+
+    async function getUserProfile(userId) {
+        const temp_userProfile = await callService(
+            socialNetworkProfileservice,
+            'getUserProfile',
+            [userId],
+        );
+        setUserSocialNetworkProfile(temp_userProfile);
+        setLoadingSocialNetworkProfile(false);
+    }
 
     async function logout() {
         await callService(SessionService, 'signOut');
@@ -154,6 +181,14 @@ export default function Profile({ navigation }) {
         );
     }
 
+    const renderLoadingIndicator = () => (
+        <ActivityIndicator
+            style={styles.loading}
+            size="large"
+            color={colors.primary}
+        />
+    );
+
     return (
         <ScrollView style={styles.container}>
             <ConfirmationModal
@@ -174,6 +209,26 @@ export default function Profile({ navigation }) {
                     </ImageBackground>
                 </TouchableOpacity>
             </View>
+
+            {loadingSocialNetworkProfile ? (
+                renderLoadingIndicator()
+            ) : (
+                <View style={styles.followerFollowingContainer}>
+                    <FollowFollowingText
+                        text="Seguidores"
+                        number={userSocialNetworkProfile.numberOfFollowers}
+                        selectedProfileId={userSocialNetworkProfile._id}
+                        navigation={navigation}
+                    />
+                    <FollowFollowingText
+                        text="Seguindo"
+                        number={userSocialNetworkProfile.numberOfFollowing}
+                        selectedProfileId={userSocialNetworkProfile._id}
+                        navigation={navigation}
+                    />
+                </View>
+            )}
+
             <View style={styles.viewContent}>
                 {renderEditableUserInfo('Nome Completo', user.name, 'Name')}
                 {isRegularUser &&

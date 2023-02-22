@@ -12,6 +12,7 @@ export default function MyRequestCard({
     setSelectedHelp,
     possibleInterestedList,
     isEntityUser,
+    deleteVisible = true,
 }) {
     function handleDelete() {
         setConfirmationModalVisible(true);
@@ -54,15 +55,17 @@ export default function MyRequestCard({
     return (
         <HistoricCard {...{ object }}>
             {!isEntityUser && renderBadgeIcon()}
-            <View style={styles.deleteIcon}>
-                <Icon
-                    size={25}
-                    name="trash"
-                    type="font-awesome"
-                    color={colors.danger}
-                    onPress={() => handleDelete()}
-                />
-            </View>
+            {deleteVisible && (
+                <View style={styles.deleteIcon}>
+                    <Icon
+                        size={25}
+                        name="trash"
+                        type="font-awesome"
+                        color={colors.danger}
+                        onPress={() => handleDelete()}
+                    />
+                </View>
+            )}
         </HistoricCard>
     );
 }
