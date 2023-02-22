@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import { View, TouchableOpacity, SafeAreaView } from 'react-native';
 import styles from './styles';
 import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
@@ -119,11 +119,6 @@ export default function Main({ navigation }) {
 
     return (
         <>
-            <StatusBar
-                backgroundColor="transparent"
-                translucent
-                barStyle="default"
-            />
             <SafeAreaView style={styles.container}>
                 <CategoryListModal
                     visible={filterModalVisible}
