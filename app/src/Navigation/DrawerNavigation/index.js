@@ -30,13 +30,14 @@ export const DrawerNavigation = () => {
                 options={drawerScreenOptions(
                     'Pedidos e Ofertas',
                     'hand-heart',
+                    false,
                     'material-community',
                 )}
             />
             <Drawer.Screen
                 name="Profile"
                 component={ProfileNavigation}
-                options={drawerScreenOptions('Perfil', 'person')}
+                options={drawerScreenOptions('Perfil', 'person', false)}
             />
             <Drawer.Screen
                 name="Help"

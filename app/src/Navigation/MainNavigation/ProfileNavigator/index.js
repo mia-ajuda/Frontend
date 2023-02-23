@@ -10,12 +10,17 @@ import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetwor
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import OfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
 import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
+import { showDrawerButtonInStackOption } from '../../DrawerNavigation/options';
 
 const Stack = createStackNavigator();
 
 const ProfileNavigation = () => (
     <Stack.Navigator screenOptions={headerStyle}>
-        <Stack.Screen name="Perfil" component={Profile} />
+        <Stack.Screen
+            name="Perfil"
+            component={Profile}
+            options={showDrawerButtonInStackOption}
+        />
         <Stack.Screen
             name="EditNameField"
             component={EditNameField}
