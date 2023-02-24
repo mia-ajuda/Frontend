@@ -17,7 +17,6 @@ export const drawerNavigationOptions = {
         fontSize: RFValue(16, 640),
     },
     drawerActiveBackgroundColor: colors.primaryLowOpacity,
-    drawerType: 'back',
 };
 
 export const drawerScreenOptions = (

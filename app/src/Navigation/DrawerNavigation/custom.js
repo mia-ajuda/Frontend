@@ -5,9 +5,10 @@ import { Image, Text, View } from 'react-native';
 import { UserContext } from '../../store/contexts/userContext';
 import CustomDrawerItemList from './CustomDrawerList';
 import styles from './styles';
+import { UserCard } from '../../components/UserCard';
+import { Divider } from '../../components/Divider';
 export function CustomDrawerContent(props) {
     const { user } = useContext(UserContext);
-    console.log(user);
     return (
         <DrawerContentScrollView {...props} style={styles.drawer}>
             <View style={styles.drawerContainer}>
@@ -18,7 +19,10 @@ export function CustomDrawerContent(props) {
                     <Text style={styles.headerText}>Mia Ajuda</Text>
                 </View>
                 <CustomDrawerItemList {...props} />
-                <Text> sdajiosdjios</Text>
+                <View style={styles.footer}>
+                    <Divider />
+                    <UserCard {...user} />
+                </View>
             </View>
         </DrawerContentScrollView>
     );
