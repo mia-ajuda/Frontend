@@ -6,6 +6,7 @@ import { drawerNavigationOptions, drawerScreenOptions } from './options';
 import FAQNavigator from '../MainNavigation/FAQNavigator';
 import ActivitiesNavigator from '../MainNavigation/ActivitiesNavigator';
 import ProfileNavigation from '../MainNavigation/ProfileNavigator';
+import { CustomDrawerContent } from './custom';
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation = () => {
@@ -13,6 +14,7 @@ export const DrawerNavigation = () => {
         <Drawer.Navigator
             initialRouteName="Home"
             screenOptions={drawerNavigationOptions}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Drawer.Screen
                 name="Notifications"
