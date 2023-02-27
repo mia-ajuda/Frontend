@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../../assets/styles/colorVariables';
@@ -19,29 +18,13 @@ export const drawerNavigationOptions = {
     drawerActiveBackgroundColor: colors.primaryLowOpacity,
 };
 
-export const drawerScreenOptions = (
-    screenName,
-    icon,
-    headerShown = true,
-    family = 'material',
-) => {
+export const drawerScreenOptions = (screenName, icon, family = 'material') => {
     return {
         headerTitle: screenName,
         title: screenName,
-        headerShown: headerShown,
+        headerShown: false,
         drawerIcon: () => (
             <Icon name={icon} color={colors.dark} type={family} />
         ),
     };
 };
-
-export const showDrawerButtonInStackOption = ({ navigation }) => ({
-    headerLeft: () => (
-        <TouchableOpacity
-            style={{ padding: 14 }}
-            onPress={() => navigation.openDrawer()}
-        >
-            <Icon name="menu" color={colors.light} />
-        </TouchableOpacity>
-    ),
-});

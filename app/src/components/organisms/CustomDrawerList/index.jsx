@@ -10,6 +10,19 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { Divider } from '../../atoms/Divider';
 import { styles } from './styles';
 
+
+const sections = [["Notifications", "Home", "Activities"], ["Profile", "Help"], ["FindUser"]]
+
+const setSectionsRoutes = (routes) => {
+    let sectionsRoutes = [];
+    let initialPosition = 0;
+    sections.forEach((sectionList) => {
+        sectionsRoutes.push({ routes: routes.filter(route => sectionList.includes(route.name)), initialPosition })
+        initialPosition += sectionsRoutes.slice(-1)[0].routes.length
+    })
+    return sectionsRoutes;
+}
+
 export default function CustomDrawerItemList({
     state,
     navigation,
@@ -28,16 +41,11 @@ export default function CustomDrawerItemList({
         drawerInactiveBackgroundColor,
     } = focusedOptions;
 
-    const firstSectionScreens = ["Notifications", "Home", "Activities"]
-    const secondSectionScreens = ["Profile", "Help"]
 
-
-    const firstSectionRoutes = state.routes.filter(route => firstSectionScreens.includes(route.name))
-    const secondSectionRoutes = state.routes.filter(route => secondSectionScreens.includes(route.name))
+    const sectionsRoutes = setSectionsRoutes(state.routes)
 
     const mapRoutes = (route, i) => {
         const focused = i === state.index;
-
         const onPress = () => {
             const event = navigation.emit({
                 type: 'drawerItemPress',
@@ -91,9 +99,14 @@ export default function CustomDrawerItemList({
 
     return (
         <View style={styles.drawerListContainer}>
-            {firstSectionRoutes.map(mapRoutes)}
-            <Divider marginHorizontal={RFValue(16, 640)} />
-            {secondSectionRoutes.map((route, i) => mapRoutes(route, i + firstSectionRoutes.length))}
+            {sectionsRoutes.map((routeList, i) => {
+                return (
+                    <View key={i}>
+                        {routeList.routes.map((route, index) => mapRoutes(route, routeList.initialPosition + index))}
+                        {i < sectionsRoutes.length - 1 && <Divider marginHorizontal={RFValue(16, 640)} />}
+                    </View>
+                )
+            })}
         </View>
     );
 }
