@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Switch,
-    StatusBar,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text';
@@ -284,7 +283,6 @@ export default function PersonalData({ route, navigation }) {
 
     return (
         <>
-            <StatusBar backgroundColor={colors.light} />
             <KeyboardAvoidingView style={styles.container} behavior="height">
                 {renderPageHeader()}
                 <ScrollView

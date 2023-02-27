@@ -6,5 +6,6 @@ export default async function loadFonts() {
         'montserrat-regular': require('../fonts/Montserrat/Montserrat-Regular.ttf'),
         'montserrat-medium': require('../fonts/Montserrat/Montserrat-Medium.ttf'),
         'montserrat-semibold': require('../fonts/Montserrat/Montserrat-SemiBold.ttf'),
+        'montserrat-bold': require('../fonts/Montserrat/Montserrat-Bold.ttf'),
     });
 }
