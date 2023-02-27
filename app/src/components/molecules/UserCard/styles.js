@@ -4,17 +4,17 @@ import fonts from '../../../../assets/styles/fontVariable';
 
 export const styles = StyleSheet.create({
     userCardContainer: {
-        marginBottom: 16,
+        marginBottom: RFValue(16, 640),
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 12,
+        paddingHorizontal: RFValue(12, 640),
     },
     userPhoto: {
         width: RFValue(40, 640),
         height: RFValue(40, 640),
         borderRadius: RFValue(20, 640),
-        marginRight: 8,
+        marginRight: RFValue(8, 640),
     },
     userInfo: {
         flexDirection: 'row',

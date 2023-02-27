@@ -7,7 +7,7 @@ export const drawerNavigationOptions = {
     headerStyle: {
         backgroundColor: colors.primary,
     },
-    headerTintColor: '#fff',
+    headerTintColor: colors.light,
 
     drawerActiveTintColor: colors.dark,
     drawerInactiveTintColor: colors.dark,
