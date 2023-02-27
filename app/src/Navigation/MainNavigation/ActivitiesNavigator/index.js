@@ -10,7 +10,7 @@ import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleInteresteds from '../../../components/InterestedList';
 import HelpersInfo from '../../../components/HelpersInfo';
-import { showDrawerButtonInStackOption } from '../../DrawerNavigation/options';
+import { showDrawerButton } from '../../../utils/showDrawerButton';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -59,7 +59,7 @@ const ActivitiesNavigator = () => (
         <Stack.Screen
             name="Atividades"
             component={NavigationGivenHelps}
-            options={showDrawerButtonInStackOption}
+            options={showDrawerButton}
         />
         <Stack.Screen
             name="MyOfferHelpDescription"

@@ -10,6 +10,7 @@ import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import Location from '../../../pages/AuthPages/Location';
 import Photo from '../../../pages/AuthPages/Photo';
 import Address from '../../../pages/AuthPages/Address';
+import { showDrawerButton } from '../../../utils/showDrawerButton';
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,10 @@ const MainNavigation = () => (
         <Stack.Screen
             name="home"
             component={Main}
-            options={{ headerShown: false }}
+            options={({ navigation }) => ({
+                ...showDrawerButton({ navigation }),
+                title: 'Mapa',
+            })}
         />
         <Stack.Screen
             name="createHelpRequest"
