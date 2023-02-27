@@ -5,9 +5,10 @@ import {
     useLinkBuilder,
 } from '@react-navigation/native';
 import * as React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Divider } from '../../components/Divider';
+import { Divider } from '../../atoms/Divider';
+import { styles } from './styles';
 
 export default function CustomDrawerItemList({
     state,
@@ -91,15 +92,8 @@ export default function CustomDrawerItemList({
     return (
         <View style={styles.drawerListContainer}>
             {firstSectionRoutes.map(mapRoutes)}
-            <Divider marginHorizontal={RFValue(16, 640)}/>
-            <View style={styles.divider}/>
+            <Divider marginHorizontal={RFValue(16, 640)} />
             {secondSectionRoutes.map((route, i) => mapRoutes(route, i + firstSectionRoutes.length))}
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    drawerListContainer: {
-        height: Dimensions.get('screen').height * 0.5
-    },
-})

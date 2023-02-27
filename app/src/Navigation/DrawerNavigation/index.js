@@ -1,12 +1,12 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Main from '../../pages/Main';
 import Notification from '../../pages/Notification';
 import { drawerNavigationOptions, drawerScreenOptions } from './options';
 import FAQNavigator from '../MainNavigation/FAQNavigator';
 import ActivitiesNavigator from '../MainNavigation/ActivitiesNavigator';
 import ProfileNavigation from '../MainNavigation/ProfileNavigator';
-import { CustomDrawerContent } from './custom';
+import MainNavigation from '../MainNavigation/MapStackNavigator';
+import { CustomDrawerContent } from '../../components/templates/CustomDrawerContent';
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation = () => {
@@ -23,7 +23,7 @@ export const DrawerNavigation = () => {
             />
             <Drawer.Screen
                 name="Home"
-                component={Main}
+                component={MainNavigation}
                 options={drawerScreenOptions('Mapa', 'map')}
             />
             <Drawer.Screen

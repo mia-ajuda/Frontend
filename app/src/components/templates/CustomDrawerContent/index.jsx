@@ -2,11 +2,12 @@ import React from 'react';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useContext } from 'react';
 import { Image, Text, View } from 'react-native';
-import { UserContext } from '../../store/contexts/userContext';
-import CustomDrawerItemList from './CustomDrawerList';
+import { UserContext } from '../../../store/contexts/userContext';
+import CustomDrawerItemList from '../../organisms/CustomDrawerList/';
 import styles from './styles';
-import { UserCard } from '../../components/UserCard';
-import { Divider } from '../../components/Divider';
+import { UserCard } from '../../UserCard';
+import { Divider } from '../../atoms/Divider';
+
 export function CustomDrawerContent(props) {
     const { user } = useContext(UserContext);
     return (
@@ -14,7 +15,7 @@ export function CustomDrawerContent(props) {
             <View style={styles.drawerContainer}>
                 <View style={styles.header}>
                     <Image
-                        source={require('../../../assets/images/logo.png')}
+                        source={require('../../../../assets/images/logo.png')}
                     />
                     <Text style={styles.headerText}>Mia Ajuda</Text>
                 </View>
