@@ -5,7 +5,7 @@ import { Image, Text, View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import CustomDrawerItemList from '../../organisms/CustomDrawerList/';
 import styles from './styles';
-import { UserCard } from '../../UserCard';
+import { UserCard } from '../../molecules/UserCard';
 import { Divider } from '../../atoms/Divider';
 
 export function CustomDrawerContent(props) {

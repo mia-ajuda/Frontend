@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import fonts from '../../../assets/styles/fontVariable';
+import fonts from '../../../../assets/styles/fontVariable';
 
 export const styles = StyleSheet.create({
     userCardContainer: {
