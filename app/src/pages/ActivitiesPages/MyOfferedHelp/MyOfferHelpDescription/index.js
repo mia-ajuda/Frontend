@@ -9,17 +9,16 @@ import {
 } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import getYearsSince from '../../../../utils/getYearsSince';
 import styles from './styles';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
-import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
 import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
+import MapView from 'react-native-maps';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -151,56 +150,44 @@ export default function OfferHelpDescription({ route, navigation }) {
         );
     };
 
-    const renderHelpOwnerInformation = () => {
-        const ownerNameFormated = shortenName(help.user.name);
-        const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
+    const renderHelpInformation = () => (
+        <View className="mt-[16]">
+            <Text className="text-xl text-center font-[montserrat-semibold]">
+                {help.title}
+            </Text>
+            <View className="flex flex-row w-full mb-[32] justify-center flex-wrap mt-[16]">
+                {help.categories.map((category) => (
+                    <View key={category._id} style={styles.categoryWarning}>
+                        <Text style={styles.categoryName}>{category.name}</Text>
+                    </View>
+                ))}
+            </View>
+            <View className="border border-[#D2D2D2] py-[16] px-[10] relative rounded-lg">
+                <Text className="absolute -top-4 text-lg bg-white px-1 font-[montserrat-semibold]">
+                    Descrição
+                </Text>
+                <Text style={[styles.infoText]}>{help.description}</Text>
+            </View>
+        </View>
+    );
 
+    const renderOfferLocation = () => {
         return (
-            <View style={[styles.userInfo, styles.noFlex]}>
-                <Image
-                    source={{
-                        uri: `data:image/png;base64,${ownerPhoto}`,
-                    }}
-                    style={styles.profileImage}
-                />
-                <View style={styles.infoTextView}>
-                    <Text style={[styles.infoText, styles.infoTextFont]}>
-                        {ownerNameFormated}
-                    </Text>
-                    <Text style={styles.infoText}>
-                        <Text style={styles.infoTextFont}>Idade: </Text>
-                        {getYearsSince(help.user.birthday)}
-                    </Text>
-                    <Text style={styles.infoText}>
-                        <Text style={styles.infoTextFont}>Cidade: </Text>
-                        {help.user.address.city}
-                    </Text>
+            <View className="mt-[16]">
+                <Text className="text-lg font-[montserrat-semibold]">
+                    Localização
+                </Text>
+                <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
+                    <MapView className="w-full h-full" />
+                    <TouchableOpacity
+                        className={`absolute bottom-2 left-2 bg-[${colors.secondary}] rounded-full p-1`}
+                    >
+                        <Icon name="fullscreen" type="material-icons" />
+                    </TouchableOpacity>
                 </View>
             </View>
         );
     };
-
-    const renderHelpInformation = () => (
-        <View>
-            <View style={styles.helpInfoText}>
-                <Text style={[styles.titleFont, styles.noPaddingBottom]}>
-                    {help.title}
-                </Text>
-                <View style={styles.categoryContainer}>
-                    {help.categories.map((category) => (
-                        <View key={category._id} style={styles.categoryWarning}>
-                            <Text style={styles.categoryName}>
-                                {category.name}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
-                <Text style={[styles.infoText, styles.smallMargin]}>
-                    {help.description}
-                </Text>
-            </View>
-        </View>
-    );
 
     const renderHelpedUsers = () => {
         return (
@@ -228,8 +215,9 @@ export default function OfferHelpDescription({ route, navigation }) {
         else return renderWaitingHelpOwnerMessage();
     };
 
+    const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
     return (
-        <View style={styles.viewOffer}>
+        <View className="h-full">
             <ScrollView style={styles.scrollViewOffer}>
                 {showModal && <View style={styles.viewBackdrop} />}
                 <View style={styles.container}>
@@ -245,14 +233,20 @@ export default function OfferHelpDescription({ route, navigation }) {
                     {isHelpOfferLoading ? (
                         renderLoadingIndicator()
                     ) : (
-                        <>
-                            {renderHelpOwnerInformation()}
+                        <View className="bg-white h-screen w-screen rounded-t-3xl p-[26] mt-14">
+                            <Image
+                                className="w-[70] h-[70] object-cover rounded-full self-center absolute -top-9"
+                                source={{
+                                    uri: `data:image/png;base64,${ownerPhoto}`,
+                                }}
+                            />
                             {renderHelpInformation()}
-                            <View style={styles.helpButtons}>
+                            {renderOfferLocation()}
+                            <View className="mt-[16]">
                                 {showUserOrOwnerView()}
                                 {showHelpedUsers && renderHelpedUsers()}
                             </View>
-                        </>
+                        </View>
                     )}
                 </View>
             </ScrollView>

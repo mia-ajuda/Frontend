@@ -4,11 +4,11 @@ import helpDescription from '../../../../../assets/styles/helpDescription';
 
 const styles = StyleSheet.create({
     ...helpDescription,
-    viewOffer: {
-        height: '100%',
-    },
     scrollViewOffer: {
         flexGrow: 1,
+    },
+    container: {
+        padding: 0,
     },
     viewBackdrop: {
         position: 'absolute',
