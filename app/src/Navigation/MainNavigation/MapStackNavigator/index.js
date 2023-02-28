@@ -11,6 +11,7 @@ import Location from '../../../pages/AuthPages/Location';
 import Photo from '../../../pages/AuthPages/Photo';
 import Address from '../../../pages/AuthPages/Address';
 import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { CustomHeader } from '../../../components/molecules/CustomHeader';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,9 @@ const MainNavigation = () => (
             options={({ navigation }) => ({
                 ...showDrawerButton({ navigation }),
                 title: 'Mapa',
+                header: (props) => (
+                    <CustomHeader title="Mapa" navigation={props.navigation} />
+                ),
             })}
         />
         <Stack.Screen
