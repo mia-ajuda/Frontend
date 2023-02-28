@@ -1,8 +1,7 @@
-import { Image, Modal, TouchableOpacity, Text, StatusBar } from 'react-native';
+import { Image, Modal, TouchableOpacity, Text } from 'react-native';
 import React from 'react';
 import Onboarding from 'react-native-onboarding-swiper';
 import styles from './styles';
-import colors from '../../../assets/styles/colorVariables';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const imageFirstSlide = require('../../../assets/images/TutorialImages/tela01.png');
@@ -46,7 +45,6 @@ export default function IntroSlides({ finishSlide, setFinishSlide }) {
     );
     return (
         <Modal visible={!finishSlide} animationType="fade">
-            <StatusBar barStyle="default" backgroundColor={colors.primary} />
             <Onboarding
                 titleStyles={styles.titles}
                 subTitleStyles={styles.subtitle}
