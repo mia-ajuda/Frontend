@@ -6,7 +6,7 @@ import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetwor
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import OfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
 import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
-import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { showCustomHeader } from '../../../utils/showCustomHeader';
 const Stack = createStackNavigator();
 
 const FindUsersNavigation = () => (
@@ -14,7 +14,9 @@ const FindUsersNavigation = () => (
         <Stack.Screen
             name="Procurar Usuários"
             component={FindUsers}
-            options={showDrawerButton}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Procurar Usuários', navigation),
+            })}
         />
         <Stack.Screen
             name="Perfil social dos Usuários"

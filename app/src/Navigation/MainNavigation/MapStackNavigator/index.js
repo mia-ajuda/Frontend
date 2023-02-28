@@ -10,7 +10,7 @@ import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import Location from '../../../pages/AuthPages/Location';
 import Photo from '../../../pages/AuthPages/Photo';
 import Address from '../../../pages/AuthPages/Address';
-import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { showCustomHeader } from '../../../utils/showCustomHeader';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +20,7 @@ const MainNavigation = () => (
             name="home"
             component={Main}
             options={({ navigation }) => ({
-                ...showDrawerButton({ navigation }),
+                ...showCustomHeader('Mapa', navigation),
                 title: 'Mapa',
             })}
         />
