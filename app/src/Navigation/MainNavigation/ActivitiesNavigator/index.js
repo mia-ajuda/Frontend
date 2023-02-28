@@ -10,7 +10,7 @@ import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import ListPossibleInteresteds from '../../../components/InterestedList';
 import HelpersInfo from '../../../components/HelpersInfo';
-import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { showCustomHeader } from '../../../utils/showCustomHeader';
 
 const TopTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -59,7 +59,9 @@ const ActivitiesNavigator = () => (
         <Stack.Screen
             name="Atividades"
             component={NavigationGivenHelps}
-            options={showDrawerButton}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Atividades', navigation),
+            })}
         />
         <Stack.Screen
             name="MyOfferHelpDescription"

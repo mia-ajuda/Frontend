@@ -7,7 +7,7 @@ import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
 import MyRequestDescription from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription';
 import { NavigationGivenHelps } from '../ActivitiesNavigator';
 import ListPossibleInteresteds from '../../../components/InterestedList';
-import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { showCustomHeader } from '../../../utils/showCustomHeader';
 
 const Stack = createStackNavigator();
 
@@ -17,8 +17,8 @@ const NavigationNotifications = () => (
             name="notifications"
             component={NotificationPage}
             options={({ navigation }) => ({
-                ...showDrawerButton({ navigation }),
                 title: 'Notificações',
+                ...showCustomHeader('Notificações', navigation),
             })}
         />
         <Stack.Screen

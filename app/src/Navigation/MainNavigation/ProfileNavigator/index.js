@@ -10,7 +10,7 @@ import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetwor
 import MapHelpDescription from '../../../pages/HelpPages/MapHelpDescription';
 import OfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
 import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
-import { showDrawerButton } from '../../../utils/showDrawerButton';
+import { showCustomHeader } from '../../../utils/showCustomHeader';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +19,9 @@ const ProfileNavigation = () => (
         <Stack.Screen
             name="Perfil"
             component={Profile}
-            options={showDrawerButton}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Perfil', navigation),
+            })}
         />
         <Stack.Screen
             name="EditNameField"
