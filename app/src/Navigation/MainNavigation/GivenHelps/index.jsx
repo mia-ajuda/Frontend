@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import tabTopBarOptions from '../OngActivitiesNavigator/tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import History from '../../../pages/ActivitiesPages/History';
 import myOfferedHelp from '../../../pages/ActivitiesPages/MyOfferedHelp';
 import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import { UserContext } from '../../../store/contexts/userContext';
 import myCampaigns from '../../../pages/ActivitiesPages/MyCampaigns';
+import tabTopBarOptions from '../../tabTopBarOptions';
 
 const TopTab = createMaterialTopTabNavigator();
 export const NavigationGivenHelps = () => {

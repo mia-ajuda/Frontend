@@ -1,8 +1,8 @@
 import React from 'react';
 import MyRequestDescription from '../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription';
-import tabTopBarOptions from '../OngActivitiesNavigator/tabTopBarMyOffered.options';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import HelpersInfo from '../../../components/HelpersInfo';
+import tabTopBarOptions from '../../tabTopBarOptions';
 
 
 const TopTab = createMaterialTopTabNavigator();
