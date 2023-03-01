@@ -16,9 +16,10 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
 import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
-import UserCard from '../../../../components/InterestedList/UserCard';
-import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
-import MapView from 'react-native-maps';
+import UserCard from '../../../../components/UserItem';
+import Map from '../../../../components/Map';
+import HelpOfferMarker from '../../../Main/HelpOfferMarker';
+import { ExpandedModal } from '../../../../components/modals/expandedModal';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -32,7 +33,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     const [showHelpedUsers, setShowHelpedUsers] = useState(false);
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
     const [showModal, setShowModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState({});
+    // const [selectedUser, setSelectedUser] = useState({});
     const [updateData, setUpdateData] = useState(true);
 
     useEffect(() => {
@@ -72,17 +73,17 @@ export default function OfferHelpDescription({ route, navigation }) {
         </View>
     );
 
-    const navigateToPossibleHelpedUsersList = () => {
-        navigation.navigate('ListHelpInteresteds', {
-            possibleInteresteds: help.possibleHelpedUsers.concat(
-                help.possibleEntities,
-            ),
-            message: 'Você deseja ajudar esse usuário?',
-            method: 'chooseHelpedUsers',
-            helpId: help._id,
-            setUpdateData: setUpdateData,
-        });
-    };
+    // const navigateToPossibleHelpedUsersList = () => {
+    //     navigation.navigate('ListHelpInteresteds', {
+    //         possibleInteresteds: help.possibleHelpedUsers.concat(
+    //             help.possibleEntities,
+    //         ),
+    //         message: 'Você deseja ajudar esse usuário?',
+    //         method: 'chooseHelpedUsers',
+    //         helpId: help._id,
+    //         setUpdateData: setUpdateData,
+    //     });
+    // };
 
     const Button = (props) => {
         const buttonStyle = { ...styles.buttonInteresteds };
@@ -133,7 +134,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 <Button
                     text="Possíveis ajudados"
                     marginBottom
-                    onPress={navigateToPossibleHelpedUsersList}
+                    onPress={() => setShowModal(true)}
                     badgeText={
                         help.possibleHelpedUsers.length +
                         help.possibleEntities.length
@@ -171,17 +172,30 @@ export default function OfferHelpDescription({ route, navigation }) {
         </View>
     );
 
+    const renderOfferHelpMarkerLocation = () => {
+        return <HelpOfferMarker key={help._id} helpOffer={help} />;
+    };
+
     const renderOfferLocation = () => {
+        const helpLocationCoordinates = {
+            latitude: help.location.coordinates[1],
+            latitudeDelta: 0.025,
+            longitude: help.location.coordinates[0],
+            longitudeDelta: 0.025,
+        };
         return (
             <View className="mt-[16]">
                 <Text className="text-lg font-[montserrat-semibold]">
                     Localização
                 </Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
-                    <MapView className="w-full h-full" />
-                    <TouchableOpacity
-                        className={`absolute bottom-2 left-2 bg-[${colors.secondary}] rounded-full p-1`}
+                    <Map
+                        className="w-full h-full"
+                        initialRegion={helpLocationCoordinates}
                     >
+                        {renderOfferHelpMarkerLocation()}
+                    </Map>
+                    <TouchableOpacity className="absolute bottom-2 left-2 bg-secondary rounded-full p-1">
                         <Icon name="fullscreen" type="material-icons" />
                     </TouchableOpacity>
                 </View>
@@ -201,7 +215,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                         user={helpedUser}
                         showPhone
                         handleClick={() => {
-                            setSelectedUser(helpedUser);
+                            // setSelectedUser(helpedUser);
                             setShowModal(true);
                         }}
                     />
@@ -251,10 +265,10 @@ export default function OfferHelpDescription({ route, navigation }) {
                 </View>
             </ScrollView>
             {showModal && (
-                <ChosenHelpersInfo
-                    user={selectedUser}
+                <ExpandedModal
                     setShowModal={setShowModal}
-                    showModal={showModal}
+                    userList={help.possibleHelpedUsers}
+                    title="Possíveis ajudados"
                 />
             )}
         </View>
