@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from '../store/contexts/userContext';
 import { HelpContext } from '../store/contexts/helpContext';
 import Splash from '../pages/Splash';
-import { DrawerNavigation } from './DrawerNavigation';
+import { DrawerNavigation } from './MainNavigation';
 
 const Routes = () => {
     const { user } = useContext(UserContext);

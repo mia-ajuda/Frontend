@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { drawerNavigationOptions, drawerScreenOptions } from './options';
-import FAQNavigator from '../MainNavigation/FAQNavigator';
-// import ActivitiesNavigator from '../MainNavigation/ActivitiesNavigator';
-import ProfileNavigation from '../MainNavigation/ProfileNavigator';
-import MainNavigation from '../MainNavigation/MapStackNavigator';
+import FAQNavigator from './FAQNavigator';
+import ProfileNavigation from './ProfileNavigator';
+import MainNavigation from './MapStackNavigator';
 import { CustomDrawerContent } from '../../components/templates/CustomDrawerContent';
-import FindUsersNavigation from '../MainNavigation/FindUsersNavigator';
+import FindUsersNavigation from './FindUsersNavigator';
 import { UserContext } from '../../store/contexts/userContext';
-// import NavigationNotifications from '../MainNavigation/NotificationNavigator';
 const Drawer = createDrawerNavigator();
 
 const mainNavigation = (routeName) => () =>
