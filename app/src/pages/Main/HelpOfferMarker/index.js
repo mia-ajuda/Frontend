@@ -36,17 +36,29 @@ export default function HelpsMarker({ helpOffer }) {
             </View>
             <Callout
                 onPress={() =>
+                    user._id !== helpOffer.ownerId &&
                     navigateToDescription('offer', user, navigation, helpOffer)
                 }
                 style={styles.callout}
             >
-                <Text style={styles.calloutTitle} numberOfLines={1}>
-                    Oferta de ajuda
-                </Text>
-                <Text style={styles.calloutPersonName} numberOfLines={1}>
-                    {helpOwnerNameFormated}
-                </Text>
-                <Text style={styles.calloutPress}>Toque para ver</Text>
+                {user._id === helpOffer.ownerId ? (
+                    <Text style={styles.calloutTitle} numberOfLines={1}>
+                        Sua oferta
+                    </Text>
+                ) : (
+                    <>
+                        <Text style={styles.calloutTitle} numberOfLines={1}>
+                            Oferta de ajuda
+                        </Text>
+                        <Text
+                            style={styles.calloutPersonName}
+                            numberOfLines={1}
+                        >
+                            {helpOwnerNameFormated}
+                        </Text>
+                        <Text style={styles.calloutPress}>Toque para ver</Text>
+                    </>
+                )}
             </Callout>
         </Marker>
     );

@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, TouchableOpacity, SafeAreaView } from 'react-native';
 import styles from './styles';
-import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
-import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
@@ -17,6 +15,7 @@ import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
 import createInteraction from '../../utils/createInteraction';
+import Map from '../../components/Map';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -141,19 +140,15 @@ export default function Main({ navigation }) {
                     />
                 </TouchableOpacity>
 
-                <MapView
+                <Map
                     initialRegion={userPosition}
-                    style={styles.map}
                     region={region}
-                    // onRegionChange={() => setHelpListVisible(false)}
-                    onPress={() => {
-                        setHelpListVisible(false);
-                    }}
-                    customMapStyle={mapStyle.day.map}
+                    setHelpListVisible={setHelpListVisible}
                 >
                     <UserMarker userPosition={userPosition} />
                     {renderMarkers()}
-                </MapView>
+                </Map>
+
                 {renderCreateRequestButton()}
                 {renderFilterButton()}
 
