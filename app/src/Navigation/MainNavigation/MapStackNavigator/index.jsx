@@ -101,7 +101,7 @@ const MainNavigation = ({ initialRouteName }) => (
             options={{ title: 'Detalhes' }}
         />
         <Stack.Screen
-            name="ListHelpInteresteds"
+            name="listHelpInteresteds"
             component={ListPossibleInteresteds}
             options={{ title: 'Detalhes' }}
         />

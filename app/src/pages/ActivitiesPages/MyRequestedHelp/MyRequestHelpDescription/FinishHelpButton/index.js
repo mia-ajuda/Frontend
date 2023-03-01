@@ -18,7 +18,7 @@ export default function FinishHelpButton({ help }) {
     const goBackToMyResquestsPage = () =>
         navigation.reset({
             index: 0,
-            routes: [{ name: 'Atividades' }],
+            routes: [{ name: 'activities' }],
         });
     async function finishHelpByOwner() {
         setFinishHelpRequestLoading(true);

@@ -9,11 +9,11 @@ const TopTab = createMaterialTopTabNavigator();
 export const MyRequestHelpDescription = ({ route, navigation }) => {
     const { help } = route.params;
     const hasHelper = help.helperId;
-    return hasHelper ? RequestWithHelpScreen() :
+    return hasHelper ? RequestWithHelpScreen(help) :
         <MyRequestDescription route={route} navigation={navigation} />;
 };
 
-const RequestWithHelpScreen = () => (
+const RequestWithHelpScreen = (help) => (
     <TopTab.Navigator
         initialRouteName="InfosPedido"
         tabBarOptions={tabTopBarOptions}
