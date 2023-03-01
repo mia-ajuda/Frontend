@@ -19,7 +19,7 @@ export const UserContextProvider = (props) => {
         showSplash: true,
     });
     const [userPosition, setUserPosition] = useState(null);
-    const isEntityUser = user.cnpj;
+    const isEntity = user.cnpj;
 
     useEffect(() => {
         setFirebaseTokenListener();
@@ -95,7 +95,7 @@ export const UserContextProvider = (props) => {
                 dispatch,
                 userPosition,
                 setUserPosition,
-                isEntityUser,
+                isEntity,
             }}
         >
             {props.children}

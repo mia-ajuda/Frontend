@@ -31,10 +31,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import colors from '../../../../assets/styles/colorVariables';
 
 export default function Profile({ navigation }) {
-    const { user, dispatch } = useContext(UserContext);
+    const { user, dispatch, isEntity } = useContext(UserContext);
     const { userSocialNetworkProfile, setUserSocialNetworkProfile } =
         useContext(SocialNetworkProfileContext);
-    const isEntityUser = user.cnpj;
     const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
@@ -43,10 +42,8 @@ export default function Profile({ navigation }) {
         useState(false);
 
     const phone = formatPhone(user.phone);
-    const idFormated = isEntityUser
-        ? formatCNPJ(user.cnpj)
-        : formatCPF(user.cpf);
-    const idLabel = isEntityUser ? 'CNPJ' : 'CPF';
+    const idFormated = isEntity ? formatCNPJ(user.cnpj) : formatCPF(user.cpf);
+    const idLabel = isEntity ? 'CNPJ' : 'CPF';
     const birthday = parseDate(user.birthday);
 
     useFocusEffect(
@@ -79,7 +76,7 @@ export default function Profile({ navigation }) {
             alertMessage('É preciso permissão para ter acesso as mídias!');
             return;
         }
-        if (isEntityUser) {
+        if (isEntity) {
             Alert.alert(
                 null,
                 'Como deseja atualizar a foto?',
@@ -136,7 +133,7 @@ export default function Profile({ navigation }) {
             photo: photo,
         };
 
-        const validEditPhoto = isEntityUser
+        const validEditPhoto = isEntity
             ? await callService(EntityService, 'editEntity', [data])
             : await callService(UserService, 'editUser', [data]);
         if (!validEditPhoto.error) {

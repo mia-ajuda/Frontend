@@ -13,7 +13,7 @@ import callService from '../../../services/callService';
 import actions from '../../../store/actions';
 export default function Photo({ route, navigation }) {
     const { userDataFromAddressPage } = route.params;
-    const { user, dispatch } = useContext(UserContext);
+    const { dispatch, isEntity } = useContext(UserContext);
 
     async function requestPermission() {
         const permissionResult =
@@ -31,7 +31,7 @@ export default function Photo({ route, navigation }) {
         };
         let newUserInfo;
         const { nextPage, nextPageParams } = userDataFromAddressPage;
-        if (user.cnpj) {
+        if (isEntity) {
             newUserInfo = await callService(entityService, 'editEntity', [
                 userInfo,
             ]);
@@ -89,7 +89,7 @@ export default function Photo({ route, navigation }) {
         </TouchableOpacity>
     );
     const renderGalleryButton = () => {
-        if (user.cnpj) {
+        if (isEntity) {
             return (
                 <TouchableOpacity
                     onPress={pickImageFromGallery}
