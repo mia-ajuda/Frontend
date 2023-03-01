@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { drawerNavigationOptions, drawerScreenOptions } from './options';
 import FAQNavigator from '../MainNavigation/FAQNavigator';
-import ActivitiesNavigator from '../MainNavigation/ActivitiesNavigator';
+// import ActivitiesNavigator from '../MainNavigation/ActivitiesNavigator';
 import ProfileNavigation from '../MainNavigation/ProfileNavigator';
 import MainNavigation from '../MainNavigation/MapStackNavigator';
 import { CustomDrawerContent } from '../../components/templates/CustomDrawerContent';
 import FindUsersNavigation from '../MainNavigation/FindUsersNavigator';
-import NavigationNotifications from '../MainNavigation/NotificationNavigator';
+import { UserContext } from '../../store/contexts/userContext';
+// import NavigationNotifications from '../MainNavigation/NotificationNavigator';
 const Drawer = createDrawerNavigator();
 
+const mainNavigation = (routeName) => () =>
+    <MainNavigation initialRouteName={routeName} />;
+
 export const DrawerNavigation = () => {
+    const { isEntity } = useContext(UserContext);
+    const activitiveScreenLabel = isEntity
+        ? 'Minhas Campanhas'
+        : 'Meus Pedidos e Ofertas';
     return (
         <Drawer.Navigator
             initialRouteName="Home"
@@ -19,23 +27,26 @@ export const DrawerNavigation = () => {
         >
             <Drawer.Screen
                 name="Notifications"
-                component={NavigationNotifications}
                 options={drawerScreenOptions('Notificações', 'notifications')}
-            />
+            >
+                {mainNavigation('notifications')}
+            </Drawer.Screen>
             <Drawer.Screen
                 name="Home"
-                component={MainNavigation}
                 options={drawerScreenOptions('Mapa', 'map')}
-            />
+            >
+                {mainNavigation('home')}
+            </Drawer.Screen>
             <Drawer.Screen
                 name="Activities"
-                component={ActivitiesNavigator}
                 options={drawerScreenOptions(
-                    'Pedidos e Ofertas',
+                    activitiveScreenLabel,
                     'hand-heart',
                     'material-community',
                 )}
-            />
+            >
+                {mainNavigation('activities')}
+            </Drawer.Screen>
             <Drawer.Screen
                 name="Profile"
                 component={ProfileNavigation}

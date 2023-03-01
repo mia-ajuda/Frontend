@@ -11,17 +11,34 @@ import Location from '../../../pages/AuthPages/Location';
 import Photo from '../../../pages/AuthPages/Photo';
 import Address from '../../../pages/AuthPages/Address';
 import { showCustomHeader } from '../../../utils/showCustomHeader';
+import { NavigationGivenHelps } from '../GivenHelps';
+import MyOfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
+import ListPossibleInteresteds from '../../../components/InterestedList';
+import NotificationPage from '../../../pages/Notification/index';
+import { MyRequestHelpDescription } from '../MyRequestHelpDescription';
 
 const Stack = createStackNavigator();
 
-const MainNavigation = () => (
-    <Stack.Navigator initialRouteName="home" screenOptions={headerStyle}>
+const MainNavigation = ({ initialRouteName }) => (
+    <Stack.Navigator
+        initialRouteName={initialRouteName}
+        screenOptions={headerStyle}
+    >
         <Stack.Screen
             name="home"
             component={Main}
             options={({ navigation }) => ({
                 ...showCustomHeader('Mapa', navigation),
                 title: 'Mapa',
+            })}
+        />
+
+        <Stack.Screen
+            name="notifications"
+            component={NotificationPage}
+            options={({ navigation }) => ({
+                title: 'Notificações',
+                ...showCustomHeader('Notificações', navigation),
             })}
         />
         <Stack.Screen
@@ -65,6 +82,28 @@ const MainNavigation = () => (
             name="photo"
             options={{ title: 'Foto' }}
             component={Photo}
+        />
+        <Stack.Screen
+            name="activities"
+            component={NavigationGivenHelps}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Atividades', navigation),
+            })}
+        />
+        <Stack.Screen
+            name="myOfferHelpDescription"
+            component={MyOfferHelpDescription}
+            options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="myRequestHelpDescription"
+            component={MyRequestHelpDescription}
+            options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="ListHelpInteresteds"
+            component={ListPossibleInteresteds}
+            options={{ title: 'Detalhes' }}
         />
     </Stack.Navigator>
 );

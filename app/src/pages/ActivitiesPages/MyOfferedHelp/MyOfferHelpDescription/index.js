@@ -74,7 +74,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     );
 
     const navigateToPossibleHelpedUsersList = () => {
-        navigation.navigate('ListHelpInteresteds', {
+        navigation.navigate('listHelpInteresteds', {
             possibleInteresteds: help.possibleHelpedUsers.concat(
                 help.possibleEntities,
             ),
