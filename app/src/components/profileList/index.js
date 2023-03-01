@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 export default function ProfileList({ usersProfile, navigation }) {
+    console.log(usersProfile);
     return (
         <View>
             {usersProfile &&
@@ -9,7 +10,7 @@ export default function ProfileList({ usersProfile, navigation }) {
                     <TouchableOpacity
                         key={profile._id}
                         onPress={() =>
-                            navigation.navigate('Perfil social dos Usuários', {
+                            navigation.navigate('socialUserProfile', {
                                 selectedProfileId: profile._id,
                                 selectedProfileUsername: profile.username,
                                 selectedProfileNumberOfFollowers:

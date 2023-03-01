@@ -16,6 +16,13 @@ import MyOfferHelpDescription from '../../../pages/ActivitiesPages/MyOfferedHelp
 import ListPossibleInteresteds from '../../../components/InterestedList';
 import NotificationPage from '../../../pages/Notification/index';
 import { MyRequestHelpDescription } from '../MyRequestHelpDescription';
+import Profile from '../../../pages/Profile/UserProfile';
+import EditNameField from '../../../pages/Profile/EditProfileFields/NameField';
+import EditCepField from '../../../pages/Profile/EditProfileFields/CEPField';
+import EditPhoneField from '../../../pages/Profile/EditProfileFields/PhoneFIeld';
+import SocialNetworkProfilePage from '../../../pages/FindUsersPages/SocialNetworkProfile';
+import FollowersFollowingPage from '../../../pages/FindUsersPages/Followers_Following';
+import FindUsers from '../../../pages/FindUsersPages';
 
 const Stack = createStackNavigator();
 
@@ -104,6 +111,53 @@ const MainNavigation = ({ initialRouteName }) => (
             name="listHelpInteresteds"
             component={ListPossibleInteresteds}
             options={{ title: 'Detalhes' }}
+        />
+
+        <Stack.Screen
+            name="profile"
+            component={Profile}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Perfil', navigation),
+            })}
+        />
+        <Stack.Screen
+            name="editNameField"
+            component={EditNameField}
+            options={{
+                title: 'Editar Nome',
+            }}
+        />
+        <Stack.Screen
+            name="editCEPField"
+            component={EditCepField}
+            options={{
+                title: 'Editar CEP',
+            }}
+        />
+        <Stack.Screen
+            name="editPhoneField"
+            component={EditPhoneField}
+            options={{
+                title: 'Editar Telefone',
+            }}
+        />
+        <Stack.Screen
+            name="socialUserProfile"
+            component={SocialNetworkProfilePage}
+            options={{ title: 'Detalhes' }}
+        />
+        <Stack.Screen
+            name="followersFollowingPage"
+            component={FollowersFollowingPage}
+            options={{ title: 'Usuários' }}
+        />
+
+        <Stack.Screen
+            name="searchUsers"
+            component={FindUsers}
+            options={({ navigation }) => ({
+                ...showCustomHeader('Procurar Usuários', navigation),
+            })}
         />
     </Stack.Navigator>
 );

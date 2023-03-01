@@ -102,7 +102,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                     <TouchableOpacity
                         key={help._id}
                         onPress={() =>
-                            navigation.navigate('OfferHelpDescription', {
+                            navigation.navigate('myOfferHelpDescription', {
                                 helpId: help._id,
                                 routeId: 'Help',
                             })

@@ -47,9 +47,10 @@ export const DrawerNavigation = () => {
             </Drawer.Screen>
             <Drawer.Screen
                 name="Profile"
-                component={ProfileNavigation}
                 options={drawerScreenOptions('Perfil', 'person')}
-            />
+            >
+                {mainNavigation('profile')}
+            </Drawer.Screen>
             <Drawer.Screen
                 name="Help"
                 component={FAQNavigator}
@@ -57,9 +58,10 @@ export const DrawerNavigation = () => {
             />
             <Drawer.Screen
                 name="FindUser"
-                component={FindUsersNavigation}
                 options={drawerScreenOptions('Procurar Usuários', 'search')}
-            />
+            >
+                {mainNavigation('searchUsers')}
+            </Drawer.Screen>
         </Drawer.Navigator>
     );
 };
