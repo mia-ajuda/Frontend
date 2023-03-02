@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import backImage from '../../../../assets/images/back.png';
 import colors from '../../../../assets/styles/colorVariables';
@@ -18,15 +18,14 @@ const headerStyle = {
         />
     ),
     headerStyle: {
-        height: 90,
+        height: StatusBar.currentHeight + RFValue(36, 640),
         backgroundColor: colors.primary,
         elevation: 0,
     },
     headerTitleStyle: {
-        ...fonts.title,
+        ...fonts.subtitle,
         color: colors.light,
-        fontFamily: 'montserrat-bold',
-        fontSize: RFValue(20, 640),
+        fontFamily: 'montserrat-bold'
     },
     headerTintColor: colors.light,
     headerTitleAlign: 'left',
