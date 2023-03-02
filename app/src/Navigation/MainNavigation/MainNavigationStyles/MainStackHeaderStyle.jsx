@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../../../assets/styles/colorVariables';
