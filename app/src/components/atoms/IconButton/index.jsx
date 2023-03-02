@@ -4,13 +4,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import colors from '../../../../assets/styles/colorVariables'
 import { styles } from './styles'
 
-export const DrawerButton = ({ navigation }) => {
+export const IconButton = ({ icon, onPress }) => {
     return (
         <TouchableOpacity
             style={styles.drawerButtonContainer}
-            onPress={() => navigation.openDrawer()}
+            onPress={onPress}
         >
-            <Icon name="menu" color={colors.light} />
+            <Icon name={icon} color={colors.light} />
         </TouchableOpacity>
     )
 }

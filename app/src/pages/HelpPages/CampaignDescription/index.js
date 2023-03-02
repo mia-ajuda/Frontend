@@ -58,7 +58,6 @@ export default function CampaignDescription({ route, navigation }) {
             'finishCampaign',
             [campaign._id],
         );
-        console.log(finishHelpRequest);
         if (!finishHelpRequest.error) {
             alertSuccess('Campanha finalizada com sucesso!');
         }

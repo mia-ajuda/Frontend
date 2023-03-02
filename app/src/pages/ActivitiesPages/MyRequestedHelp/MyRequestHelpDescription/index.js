@@ -8,7 +8,7 @@ export default function HelpDescription({ route, navigation }) {
     const { help } = route.params;
 
     const navigateToHelpersList = () => {
-        navigation.navigate('ListHelpInteresteds', {
+        navigation.navigate('listHelpInteresteds', {
             possibleInteresteds: help.possibleHelpers.concat(
                 help.possibleEntities,
             ),

@@ -31,7 +31,7 @@ export default function NotificationCard({
                 'getHelpWithAggregationById',
                 [notification.helpId],
             );
-            navigation.navigate('MyRequestHelpDescrition', {
+            navigation.navigate('myRequestHelpDescription', {
                 help,
             });
         }

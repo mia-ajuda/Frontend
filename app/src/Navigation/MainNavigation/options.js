@@ -24,7 +24,12 @@ export const drawerScreenOptions = (screenName, icon, family = 'material') => {
         title: screenName,
         headerShown: false,
         drawerIcon: () => (
-            <Icon name={icon} color={colors.dark} type={family} />
+            <Icon
+                name={icon}
+                color={colors.dark}
+                type={family}
+                size={RFValue(20, 640)}
+            />
         ),
     };
 };

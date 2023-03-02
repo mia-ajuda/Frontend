@@ -30,7 +30,6 @@ const FollowersFollowingPage = ({ navigation, route }) => {
         );
         setUsersProfile(temp_usersProfile);
         setIsLoading(false);
-        console.log('users = ' + temp_usersProfile);
     }
 
     useEffect(() => {
