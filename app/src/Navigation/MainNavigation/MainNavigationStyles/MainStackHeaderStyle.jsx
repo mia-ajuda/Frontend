@@ -1,21 +1,13 @@
 import React from 'react';
 import { Image, StatusBar } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { RFValue } from 'react-native-responsive-fontsize';
-import backImage from '../../../../assets/images/back.png';
 import colors from '../../../../assets/styles/colorVariables';
 import fonts from '../../../../assets/styles/fontVariable';
 
 const headerStyle = {
     headerBackImage: () => (
-        <Image
-            source={backImage}
-            style={{
-                flex: 1,
-                resizeMode: 'contain',
-                width: 10,
-                marginLeft: 5,
-            }}
-        />
+        <Icon name='arrow-back' color={colors.light} size={RFValue(20, 640)}/>
     ),
     headerStyle: {
         height: StatusBar.currentHeight + RFValue(36, 640),
