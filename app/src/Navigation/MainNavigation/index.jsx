@@ -1,18 +1,17 @@
 import React, { useContext } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { drawerNavigationOptions, drawerScreenOptions } from './options';
-import FAQNavigator from './FAQNavigator';
-import ProfileNavigation from './ProfileNavigator';
-import MainNavigation from './MapStackNavigator';
+import Routes from './Routes';
 import { CustomDrawerContent } from '../../components/templates/CustomDrawerContent';
-import FindUsersNavigation from './FindUsersNavigator';
 import { UserContext } from '../../store/contexts/userContext';
+import InformationsCenter from '../../pages/InformationsCenter';
+import { showCustomHeader } from '../../utils/showCustomHeader';
 const Drawer = createDrawerNavigator();
 
-const mainNavigation = (routeName) => () =>
-    <MainNavigation initialRouteName={routeName} />;
+const renderRoute = (routeName) => () =>
+    <Routes initialRouteName={routeName} />;
 
-export const DrawerNavigation = () => {
+export const MainNavigation = () => {
     const { isEntity } = useContext(UserContext);
     const activitiveScreenLabel = isEntity
         ? 'Minhas Campanhas'
@@ -27,13 +26,13 @@ export const DrawerNavigation = () => {
                 name="Notifications"
                 options={drawerScreenOptions('Notificações', 'notifications')}
             >
-                {mainNavigation('notifications')}
+                {renderRoute('notifications')}
             </Drawer.Screen>
             <Drawer.Screen
                 name="Home"
                 options={drawerScreenOptions('Mapa', 'map')}
             >
-                {mainNavigation('home')}
+                {renderRoute('home')}
             </Drawer.Screen>
             <Drawer.Screen
                 name="Activities"
@@ -43,24 +42,28 @@ export const DrawerNavigation = () => {
                     'material-community',
                 )}
             >
-                {mainNavigation('activities')}
+                {renderRoute('activities')}
             </Drawer.Screen>
             <Drawer.Screen
                 name="Profile"
                 options={drawerScreenOptions('Perfil', 'person')}
             >
-                {mainNavigation('profile')}
+                {renderRoute('profile')}
             </Drawer.Screen>
             <Drawer.Screen
                 name="Help"
-                component={FAQNavigator}
-                options={drawerScreenOptions('Ajuda', 'help')}
+                component={InformationsCenter}
+                options={({ navigation }) => ({
+                    ...drawerScreenOptions('Ajuda', 'help'),
+                    ...showCustomHeader('Central de Informações', navigation),
+                    headerShown: true
+                })}
             />
             <Drawer.Screen
                 name="FindUser"
                 options={drawerScreenOptions('Procurar Usuários', 'search')}
             >
-                {mainNavigation('searchUsers')}
+                {renderRoute('searchUsers')}
             </Drawer.Screen>
         </Drawer.Navigator>
     );
