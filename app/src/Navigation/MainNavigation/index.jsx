@@ -51,6 +51,12 @@ export const MainNavigation = () => {
                 {renderRoute('profile')}
             </Drawer.Screen>
             <Drawer.Screen
+                name="findUserDrawer"
+                options={drawerScreenOptions('Procurar Usuários', 'search')}
+            >
+                {renderRoute('searchUsers')}
+            </Drawer.Screen>
+            <Drawer.Screen
                 name="helpDrawer"
                 component={InformationsCenter}
                 options={{
@@ -58,12 +64,6 @@ export const MainNavigation = () => {
                     headerShown: true
                 }}
             />
-            <Drawer.Screen
-                name="findUserDrawer"
-                options={drawerScreenOptions('Procurar Usuários', 'search')}
-            >
-                {renderRoute('searchUsers')}
-            </Drawer.Screen>
         </Drawer.Navigator>
     );
 };
