@@ -59,7 +59,7 @@ export default function CustomDrawerItemList({
                 ? title
                 : route.name
         return (
-            <CustomDrawerItem onPress={onPress} icon={drawerIcon} label={label} isSelected={focused} />
+            <CustomDrawerItem key={i} onPress={onPress} icon={drawerIcon} label={label} isSelected={focused} />
         );
     }
 
