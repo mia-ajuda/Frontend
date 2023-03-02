@@ -10,7 +10,7 @@ import { CustomDrawerItem } from '../../molecules/CustomDrawerItem';
 import { styles } from './styles';
 
 
-const sections = [["Notifications", "Home", "Activities"], ["Profile", "Help"], ["FindUser"]]
+const sections = [["notificationsDrawer", "homeDrawer", "activitiesDrawer"], ["profileDrawer", "helpDrawer"], ["findUserDrawer"]]
 
 const setSectionsRoutes = (routes) => {
     let sectionsRoutes = [];

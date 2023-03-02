@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import headerStyle from '../MainNavigationStyles/MainStackHeaderStyle';
-import { showCustomHeader } from '../../../utils/showCustomHeader';
 import NotificationPage from '../../../pages/Notification/index';
 import { ProfileRoutes } from './ProfileRoutes';
 import { SocialNetworkRoutes } from './SocialNetworkRoutes';
@@ -11,24 +10,23 @@ import { MapRoutes } from './MapRoutes';
 
 const Stack = createStackNavigator();
 
-const othersRoutes = [MapRoutes,
+const othersRoutes = [
+    MapRoutes,
     MoreInfoRoutes,
     ActivitiesRoutes,
     ProfileRoutes,
-    SocialNetworkRoutes,]
+    SocialNetworkRoutes,
+]
 
 const Routes = ({ initialRouteName }) => (
     <Stack.Navigator
         initialRouteName={initialRouteName}
-        screenOptions={headerStyle}
+        screenOptions={(props) => headerStyle({...props, iconType: 'back'})}
     >
         <Stack.Screen
             name="notifications"
             component={NotificationPage}
-            options={({ navigation }) => ({
-                title: 'Notificações',
-                ...showCustomHeader('Notificações', navigation),
-            })}
+            options={headerStyle}
         />
         {othersRoutes.map((routes, i) => <Fragment key={i}>
             {routes()}

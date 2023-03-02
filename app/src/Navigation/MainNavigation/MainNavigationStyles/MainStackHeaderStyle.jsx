@@ -1,26 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
-import { Icon } from 'react-native-elements';
-import { RFValue } from 'react-native-responsive-fontsize';
-import colors from '../../../../assets/styles/colorVariables';
-import fonts from '../../../../assets/styles/fontVariable';
+import { CustomHeader } from '../../../components/molecules/CustomHeader';
+import { getScreenTtile } from '../../../utils/getScreenTitle';
 
-const headerStyle = {
-    headerBackImage: () => (
-        <Icon name='arrow-back' color={colors.light} size={RFValue(20, 640)}/>
-    ),
-    headerStyle: {
-        height: StatusBar.currentHeight + RFValue(36, 640),
-        backgroundColor: colors.primary,
-        elevation: 0,
-    },
-    headerTitleStyle: {
-        ...fonts.subtitle,
-        color: colors.light,
-        fontFamily: 'montserrat-bold'
-    },
-    headerTintColor: colors.light,
-    headerTitleAlign: 'left',
+const headerStyle = ({navigation, route, iconType='drawer'}) => {
+    return {
+        header: () => <CustomHeader navigation={navigation} title={getScreenTtile(route.name)} iconType={iconType} />
+    }
 };
 
 export default headerStyle;

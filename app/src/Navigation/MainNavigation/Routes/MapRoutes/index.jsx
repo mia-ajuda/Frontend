@@ -1,8 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import { showCustomHeader } from '../../../../utils/showCustomHeader';
 import Main from '../../../../pages/Main';
 import MapHelpDescription from '../../../../pages/HelpPages/MapHelpDescription';
+import headerStyle from '../../MainNavigationStyles/MainStackHeaderStyle';
 
 const Stack = createStackNavigator();
 
@@ -12,14 +12,10 @@ export const MapRoutes = () => {
             <Stack.Screen
                 name="home"
                 component={Main}
-                options={({ navigation }) => ({
-                    ...showCustomHeader('Mapa', navigation),
-                    title: 'Mapa',
-                })}
+                options={headerStyle}
             />
             <Stack.Screen
                 name="mapHelpDescription"
-                options={{ title: 'Detalhes' }}
                 component={MapHelpDescription}
             />
         </>
