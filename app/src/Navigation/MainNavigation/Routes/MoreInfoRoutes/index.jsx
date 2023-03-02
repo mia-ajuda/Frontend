@@ -15,12 +15,10 @@ export const MoreInfoRoutes = () => {
             />
             <Stack.Screen
                 name="address"
-                options={{ title: 'Endereço' }}
                 component={Address}
             />
             <Stack.Screen
                 name="photo"
-                options={{ title: 'Foto' }}
                 component={Photo}
             />
         </>

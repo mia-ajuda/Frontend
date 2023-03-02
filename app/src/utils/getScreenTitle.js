@@ -16,6 +16,8 @@ export const getScreenTtile = (screenName) => {
         editCEPField: 'Editar Endereço',
         editPhoneField: 'Editar Telefone',
         searchUsers: 'Buscar Usuários',
+        address: 'Endereço',
+        photo: 'Foto',
     };
     return screenTitles[screenName] || 'Detalhes';
 };
