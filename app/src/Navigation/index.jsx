@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { UserContext } from '../store/contexts/userContext';
 import { HelpContext } from '../store/contexts/helpContext';
 import Splash from '../pages/Splash';
-import { DrawerNavigation } from './MainNavigation';
+import { MainNavigation } from './MainNavigation';
 
 const Routes = () => {
     const { user } = useContext(UserContext);
@@ -20,7 +20,7 @@ const Routes = () => {
 
     return (
         <NavigationContainer>
-            {isUserAuthenticated ? <DrawerNavigation /> : <AuthRoutes />}
+            {isUserAuthenticated ? <MainNavigation /> : <AuthRoutes />}
         </NavigationContainer>
     );
 };
