@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 export default function ProfileList({ usersProfile, navigation }) {
-    console.log(usersProfile);
     return (
         <View>
             {usersProfile &&
