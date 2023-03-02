@@ -23,7 +23,7 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
-    const { userPosition, user } = useContext(UserContext);
+    const { userPosition, user, isEntity } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
 
@@ -96,8 +96,7 @@ export default function Main({ navigation }) {
     );
 
     const renderCreateRequestButton = () => {
-        const isEntityUser = user.cnpj;
-        if (isEntityUser) {
+        if (isEntity) {
             return (
                 <TouchableOpacity
                     style={styles.campaignButton}

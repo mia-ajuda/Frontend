@@ -1,11 +1,9 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import colors from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
     },
 
     helpList: {

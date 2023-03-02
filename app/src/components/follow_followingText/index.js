@@ -11,7 +11,7 @@ export default function FollowFollowingText({
         <TouchableOpacity
             key={text}
             onPress={() =>
-                navigation.navigate('FollowersFollowingPage', {
+                navigation.navigate('followersFollowingPage', {
                     selectedProfileId: selectedProfileId,
                     isFollowersPage: text == 'Seguidores',
                 })

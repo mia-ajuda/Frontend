@@ -50,7 +50,7 @@ const OfferHelpPage = ({ navigation }) => {
                                 key={help._id}
                                 onPress={() =>
                                     navigation.navigate(
-                                        'MyOfferHelpDescription',
+                                        'myOfferHelpDescription',
                                         {
                                             helpId: help._id,
                                             routeId: 'Help',

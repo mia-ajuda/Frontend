@@ -98,11 +98,11 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
     const helpCards = () => {
         return (
             <View>
-                {activities.helps.map((help) => (
+                {activities?.helps?.map((help) => (
                     <TouchableOpacity
                         key={help._id}
                         onPress={() =>
-                            navigation.navigate('OfferHelpDescription', {
+                            navigation.navigate('myOfferHelpDescription', {
                                 helpId: help._id,
                                 routeId: 'Help',
                             })
@@ -118,7 +118,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
     const offerCards = () => {
         return (
             <View>
-                {activities.offers.map((help) => {
+                {activities?.offers?.map((help) => {
                     return (
                         <TouchableOpacity
                             key={help._id}

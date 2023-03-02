@@ -1,5 +1,5 @@
-import colors from '../../../../assets/styles/colorVariables';
-import fonts from '../../../../assets/styles/fontVariable';
+import colors from '../../assets/styles/colorVariables';
+import fonts from '../../assets/styles/fontVariable';
 
 const tabTopBarOptions = {
     style: {

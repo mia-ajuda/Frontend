@@ -56,7 +56,7 @@ export default function HelpsFinished({ navigation }) {
                                 key={help._id}
                                 onPress={() =>
                                     navigation.navigate(
-                                        'MyRequestHelpDescrition',
+                                        'myRequestHelpDescription',
                                         {
                                             help,
                                         },
