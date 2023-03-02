@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import colors from '../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
@@ -9,7 +8,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
     },
 
     helpList: {

@@ -164,7 +164,7 @@ export default function Profile({ navigation }) {
                 <Text style={styles.labelInput}>{label}</Text>
                 <TouchableOpacity
                     onPress={() =>
-                        navigation.navigate(`Edit${navigateToPage}Field`, {
+                        navigation.navigate(`edit${navigateToPage}Field`, {
                             user,
                         })
                     }
