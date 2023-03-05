@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     },
     userInfo: {
         flexDirection: 'row',
+        maxWidth: RFValue(160, 640),
     },
     userName: {
         ...fonts.body,
