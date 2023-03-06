@@ -10,6 +10,7 @@ module.exports = {
         'prettier',
         'eslint-config-prettier',
     ],
+
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
