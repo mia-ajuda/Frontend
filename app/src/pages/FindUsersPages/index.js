@@ -4,10 +4,10 @@ import styles from './styles';
 import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from '../../store/contexts/userContext';
-import Input from '../../components/UI/input';
 import colors from '../../../assets/styles/colorVariables';
 import ProfileList from '../../components/profileList';
 import { useFocusEffect } from '@react-navigation/native';
+import { SearchBar } from '../../components/atoms/SearchBar';
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
 
@@ -49,22 +49,14 @@ const FindUsers = ({ navigation }) => {
         />
     );
 
-    const findUserinput = () => {
-        return (
-            <Input
-                change={(name) => setFindName(name)}
-                label={'Pesquisar'}
-                placeholder={'Digite o nome do usuário'}
-                value={findName}
-                keyboard={'default'}
-            />
-        );
-    };
-
     return (
         <ScrollView style={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
             <View style={styles.container}>
-                {findUserinput()}
+                <SearchBar
+                    value={findName}
+                    setValue={setFindName}
+                    placeholder="Ex: Maria"
+                />
                 {isFindUserLoading ? (
                     renderLoadingIndicator()
                 ) : (
