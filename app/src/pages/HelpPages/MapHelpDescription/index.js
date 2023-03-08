@@ -52,7 +52,7 @@ export default function MapHelpDescription({ route, navigation }) {
             setModalMessage('Você deseja confirmar a sua candidatura?');
 
             const isPossibleHelpedUser = help.possibleHelpedUsers.some(
-                (it) => it === user._id,
+                (it) => it._id === user._id,
             );
 
             const isHelpedUser = help.helpedUserId.some(
