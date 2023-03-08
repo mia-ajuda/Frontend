@@ -51,11 +51,15 @@ export default function MapHelpDescription({ route, navigation }) {
             setTitleMessage('Se candidatar para essa oferta');
             setModalMessage('Você deseja confirmar a sua candidatura?');
 
-            const found = help.possibleHelpedUsers.some(
+            const isPossibleHelpedUser = help.possibleHelpedUsers.some(
                 (it) => it._id === user._id,
             );
-            const found2 = help.helpedUserId.some((it) => it._id === user._id);
-            if (found || found2) {
+
+            const isHelpedUser = help.helpedUserId.some(
+                (it) => it === user._id,
+            );
+
+            if (isPossibleHelpedUser || isHelpedUser) {
                 setUserParticipating(true);
             }
         } else {
