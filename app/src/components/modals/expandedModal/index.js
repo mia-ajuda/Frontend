@@ -33,6 +33,7 @@ export const ExpandedModal = ({
     }, []);
 
     const renderBackdrop = useCallback(
+        // This is throwing a memory leak error, but according to the community, it's a problem with React 16.x.
         (props) => (
             <BottomSheetBackdrop
                 {...props}
