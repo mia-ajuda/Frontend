@@ -17,16 +17,17 @@ import checkEmailFormat from '../../../utils/emailValidator';
 import firebaseService from '../../../services/Firebase';
 import { alertSuccess } from '../../../utils/Alert';
 import callService from '../../../services/callService';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function ForgotPassword({ navigation }) {
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const navigateBackToLoginPage = () => navigation.goBack();
+
     const [email, setEmail] = useState('');
     const [isEmailFormatValid, setIsEmailFormatValid] = useState(false);
-    const [forgotPasswordRequestLoading, setForgotPasswordRequestLoading] =
-        useState(false);
-
     const handlerSubmit = async () => {
-        setForgotPasswordRequestLoading(true);
+        setIsLoading(true);
         const resetPasswordRequest = await callService(
             firebaseService,
             'resetUserPassword',
@@ -38,15 +39,9 @@ export default function ForgotPassword({ navigation }) {
                 'Email enviado com sucesso! Por favor, verifique sua a caixa de entrada com as instruções de mudança de senha!',
             );
         } else {
-            setForgotPasswordRequestLoading(false);
+            setIsLoading(false);
         }
     };
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loading}>
-            <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-    );
 
     const forgotPasswordForm = () => {
         let buttonDisabled;
@@ -111,9 +106,7 @@ export default function ForgotPassword({ navigation }) {
                         <Icon name="arrow-back" color="black" />
                     </TouchableOpacity>
                 </View>
-                {forgotPasswordRequestLoading
-                    ? renderLoadingIndicator()
-                    : forgotPasswordForm()}
+                {!isLoading && forgotPasswordForm()}
             </ScrollView>
         </KeyboardAvoidingView>
     );

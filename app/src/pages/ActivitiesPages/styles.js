@@ -28,11 +28,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.light,
         padding: 2,
     },
-
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
 });
 
 export default styles;

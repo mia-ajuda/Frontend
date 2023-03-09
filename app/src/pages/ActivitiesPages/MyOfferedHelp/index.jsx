@@ -17,16 +17,18 @@ import callService from '../../../services/callService';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function HelpsFinished({ navigation }) {
+    const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [finishedHelpList, setFinishedHelpList] = useState([]);
-    const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
     const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
 
-    const { user } = useContext(UserContext);
     useFocusEffect(
         useCallback(() => {
             loadOnGoingOffers();
@@ -34,7 +36,7 @@ export default function HelpsFinished({ navigation }) {
     );
 
     async function loadOnGoingOffers() {
-        setLoadingHelpRequests(true);
+        setIsLoading(true);
         const { _id: userId } = user;
         const resFinished = await callService(helpService, 'listHelpOffer', [
             userId,
@@ -43,7 +45,7 @@ export default function HelpsFinished({ navigation }) {
         if (!resFinished.error) {
             setFinishedHelpList(resFinished);
         }
-        setLoadingHelpRequests(false);
+        setIsLoading(false);
     }
 
     async function excludeHelp() {
@@ -62,12 +64,6 @@ export default function HelpsFinished({ navigation }) {
         setHelpDeletionLoading(false);
         setConfirmationModalVisible(false);
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const renderHelpList = () => {
         if (finishedHelpList.length > 0) {
@@ -125,7 +121,7 @@ export default function HelpsFinished({ navigation }) {
                 message={'Você deseja deletar essa oferta de ajuda?'}
                 isLoading={isHelpDeletionLoading}
             />
-            {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
+            {!isLoading && renderHelpList()}
         </View>
     );
 }

@@ -10,13 +10,16 @@ import actions from '../../../../store/actions';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { alertSuccess } from '../../../../utils/Alert';
 import callService from '../../../../services/callService';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 
 export default function EditNameField({ route, navigation }) {
     const userName = route.params.user.name;
     const isEntityUser = route.params.user.cnpj;
+
     const { dispatch } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [newName, setNewName] = useState(userName);
-    const [editRequestLoading, setEditRequestLoading] = useState(false);
     const [isConfirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const goBackToUserProfilePage = () => navigation.goBack();
@@ -26,10 +29,11 @@ export default function EditNameField({ route, navigation }) {
             ...route.params.user,
             name: newName,
         };
-        setEditRequestLoading(true);
+        setIsLoading(true);
         const user = isEntityUser
             ? await callService(EntityService, 'editEntity', [data])
             : await callService(UserService, 'editUser', [data]);
+        setIsLoading(false);
         if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
@@ -45,7 +49,7 @@ export default function EditNameField({ route, navigation }) {
                 setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={editRequestLoading}
+                isLoading={isLoading}
             />
             <View style={styles.content}>
                 <View style={styles.nameInput}>

@@ -9,10 +9,12 @@ import colors from '../../../../../assets/styles/colorVariables';
 import callService from '../../../../services/callService';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 export default function AskedHelps({ navigation }) {
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [myFinishedHelps, setMyFinishedHelps] = useState([]);
-    const [loadingFinishedHelps, setLoadingFinishedHelps] = useState(true);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -22,7 +24,7 @@ export default function AskedHelps({ navigation }) {
     }, [navigation]);
 
     async function getHelps() {
-        setLoadingFinishedHelps(true);
+        setIsLoading(true);
         const helps = await callService(helpService, 'getHelpMultipleStatus', [
             user._id,
             'finished',
@@ -31,14 +33,9 @@ export default function AskedHelps({ navigation }) {
         if (!helps.error) {
             setMyFinishedHelps(helps);
         }
-        setLoadingFinishedHelps(false);
+        setIsLoading(false);
     }
 
-    const renderLoadigIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
     const renderHelpList = () => {
         if (myFinishedHelps.length > 0) {
             return (
@@ -64,8 +61,6 @@ export default function AskedHelps({ navigation }) {
         }
     };
     return (
-        <View style={styles.helpList}>
-            {loadingFinishedHelps ? renderLoadigIndicator() : renderHelpList()}
-        </View>
+        <View style={styles.helpList}>{!isLoading && renderHelpList()}</View>
     );
 }

@@ -7,21 +7,25 @@ import ConfirmationModal from '../../../../../components/modals/confirmationModa
 import { UserContext } from '../../../../../store/contexts/userContext';
 import { alertSuccess } from '../../../../../utils/Alert';
 import callService from '../../../../../services/callService';
+import { LoadingContext } from '../../../../../store/contexts/loadingContext';
 
 export default function FinishHelpButton({ help }) {
     const navigation = useNavigation();
+
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [isFinishHelpRequestLoading, setFinishHelpRequestLoading] =
-        useState(false);
+
     const goBackToMyResquestsPage = () =>
         navigation.reset({
             index: 0,
             routes: [{ name: 'activities' }],
         });
+
     async function finishHelpByOwner() {
-        setFinishHelpRequestLoading(true);
+        setIsLoading(true);
         const finishHelpRequest = await callService(
             HelpService,
             'finishHelpByOwner',
@@ -32,10 +36,11 @@ export default function FinishHelpButton({ help }) {
                 'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudado!',
             );
         }
-        setFinishHelpRequestLoading(false);
+        setIsLoading(false);
         setConfirmationModalVisible(false);
         goBackToMyResquestsPage();
     }
+
     return (
         <View>
             <Button
@@ -50,7 +55,7 @@ export default function FinishHelpButton({ help }) {
                 message={
                     'Você tem certeza que deseja finalizar este pedido de ajuda?'
                 }
-                isLoading={isFinishHelpRequestLoading}
+                isLoading={isLoading}
             />
         </View>
     );

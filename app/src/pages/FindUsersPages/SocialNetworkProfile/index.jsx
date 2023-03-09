@@ -16,12 +16,14 @@ import colors from '../../../../assets/styles/colorVariables';
 import HistoricCard from '../../../components/HistoricCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import FollowFollowingText from '../../../components/follow_followingText';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 const SocialNetworkProfilePage = ({ navigation, route }) => {
+    const { isLoading, setIsLoading } = useState(LoadingContext);
+
     const [isFollowing, setIsFollowing] = useState(null);
     const [followButtonName, setFollowButtonName] = useState(null);
     const [activities, setActivities] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
     const { user } = useContext(UserContext);
     const {
         selectedProfileId,
@@ -175,9 +177,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                 </View>
             </View>
             <View style={styles.cardContainer}>
-                {isLoading ? (
-                    renderLoadingIndicator()
-                ) : (
+                {!isLoading && (
                     <ScrollView>
                         {helpCards()}
                         {offerCards()}

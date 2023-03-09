@@ -19,10 +19,14 @@ import CampaignService from '../../../services/Campaign';
 import Button from '../../../components/UI/button';
 import openWhatsapp from '../../../utils/openWhatsapp';
 import formatDate from '../../../utils/formatDate';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
+
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const campaignOwnerPhoto = campaign.entity.photo;
     const [finishCampaignLoading, setFinishCampaignLoading] = useState(false);
     const [confirmationModalVisible, setConfirmationModalVisible] =

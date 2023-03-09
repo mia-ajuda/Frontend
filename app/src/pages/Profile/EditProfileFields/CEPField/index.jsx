@@ -18,12 +18,16 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { alertSuccess } from '../../../../utils/Alert';
 import { DeviceInformationContext } from '../../../../store/contexts/deviceInformationContext';
 import callService from '../../../../services/callService';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 
 export default function EditCepField({ route, navigation }) {
     const address = route.params.user?.address;
     const isEntityUser = route.params.user.cnpj;
 
     const { keyboard } = useContext(DeviceInformationContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { dispatch } = useContext(UserContext);
+
     const [newCep, setNewCep] = useState(address?.cep || '');
     const [isCepValid, setCepValid] = useState(true);
     const [newNumber, setNewNumber] = useState(String(address?.number || ''));
@@ -32,9 +36,6 @@ export default function EditCepField({ route, navigation }) {
     const [newComplement, setNewComplement] = useState(
         address?.complement || '',
     );
-    const [isCepRequestLoading, setCepRequestLoading] = useState('');
-    const { dispatch } = useContext(UserContext);
-    const [isEditRequestLoading, setEditRequestLoading] = useState(false);
     const [confiramtionModalVisible, setConfirmationModalVisible] =
         useState(false);
 
@@ -50,7 +51,7 @@ export default function EditCepField({ route, navigation }) {
 
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
-        setCepRequestLoading(true);
+        setIsLoading(true);
         const cepInformation = await callService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
@@ -64,7 +65,7 @@ export default function EditCepField({ route, navigation }) {
         } else {
             setCepValid(false);
         }
-        setCepRequestLoading(false);
+        setIsLoading(false);
     }
 
     const handleEditRequest = async () => {
@@ -76,7 +77,7 @@ export default function EditCepField({ route, navigation }) {
             state: newState,
         };
 
-        setEditRequestLoading(true);
+        setIsLoading(true);
         const resp = isEntityUser
             ? await callService(EntityService, 'editEntityAdress', [data])
             : await callService(UserService, 'editUserAdress', [data]);
@@ -87,11 +88,6 @@ export default function EditCepField({ route, navigation }) {
         goBackToUserProfilePage();
     };
 
-    const renderLoadingIndicator = () => (
-        <View style={styles.scrollLoading}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
     const renderEditionForm = () => (
         <View style={styles.content}>
             <View style={styles.cep}>
@@ -164,15 +160,13 @@ export default function EditCepField({ route, navigation }) {
                 setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={isEditRequestLoading}
+                isLoading={isLoading}
             />
             <ScrollView
                 style={styles.cep}
                 contentContainerStyle={styles.scroll}
             >
-                {isCepRequestLoading
-                    ? renderLoadingIndicator()
-                    : renderEditionForm()}
+                {!isLoading && renderEditionForm()}
             </ScrollView>
             {renderEditButton()}
         </KeyboardAvoidingView>

@@ -13,17 +13,21 @@ import callService from '../../../services/callService';
 import ViaCep from '../../../ExternalServices/ViaCep';
 import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function Address({ navigation, route }) {
     const { keyboard } = useContext(DeviceInformationContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
+    const { nextPage } = route.params;
+
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
     const [complement, setComplement] = useState('');
     const [numberPlace, setNumberPlace] = useState('');
-    const [isCepRequestLoading, setCepRequestLoading] = useState(false);
-    const { nextPage } = route.params;
+
     useEffect(() => {
         const shouldResquestCepInformation = cep.length === 8;
         if (shouldResquestCepInformation) {
@@ -33,7 +37,7 @@ export default function Address({ navigation, route }) {
 
     async function getCepInformation(currentCep) {
         keyboard.dismiss();
-        setCepRequestLoading(true);
+        setIsLoading(true);
         const cepInformation = await callService(ViaCep, 'getCepInformation', [
             currentCep,
         ]);
@@ -44,7 +48,7 @@ export default function Address({ navigation, route }) {
             setComplement(`${logradouro}/${bairro}`);
             setCepValid(true);
         }
-        setCepRequestLoading(false);
+        setIsLoading(false);
     }
 
     const renderPageDescription = () => {
@@ -57,11 +61,6 @@ export default function Address({ navigation, route }) {
             );
         }
     };
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingIndicator}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const renderRegistrationForm = () => (
         <View style={styles.inputView}>
@@ -152,9 +151,7 @@ export default function Address({ navigation, route }) {
             <KeyboardAvoidingView style={styles.container}>
                 {renderPageDescription()}
 
-                {isCepRequestLoading
-                    ? renderLoadingIndicator()
-                    : renderRegistrationForm()}
+                {!isLoading && renderRegistrationForm()}
 
                 {renderContinueButton()}
             </KeyboardAvoidingView>

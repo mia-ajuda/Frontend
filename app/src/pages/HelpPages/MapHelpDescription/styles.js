@@ -45,10 +45,6 @@ const styles = StyleSheet.create({
         flex: 3,
         paddingTop: 5,
     },
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
 });
 
 export default styles;

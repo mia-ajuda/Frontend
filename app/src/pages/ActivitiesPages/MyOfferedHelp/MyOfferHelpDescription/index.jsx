@@ -20,14 +20,16 @@ import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
 import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
+
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [isFinishRequestLoading, setFinishRequestLoading] = useState(false);
-    const [isHelpOfferLoading, setIsHelpOfferLoading] = useState(true);
     const [help, setHelp] = useState(null);
 
     const [showHelpedUsers, setShowHelpedUsers] = useState(false);
@@ -38,7 +40,7 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     useEffect(() => {
         async function setupPage() {
-            setIsHelpOfferLoading(true);
+            setIsLoading(true);
             const helpTemp = await callService(
                 helpService,
                 `get${routeId}WithAggregationById`,
@@ -46,7 +48,7 @@ export default function OfferHelpDescription({ route, navigation }) {
             );
 
             setHelp(helpTemp);
-            setIsHelpOfferLoading(false);
+            setIsLoading(false);
         }
         if (updateData) {
             setupPage();
@@ -55,7 +57,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     }, [updateData]);
 
     async function finishHelp() {
-        setFinishRequestLoading(true);
+        setIsLoading(true);
         const finishHelpRequest = await callService(
             HelpService,
             'finishHelpByHelper',
@@ -240,11 +242,9 @@ export default function OfferHelpDescription({ route, navigation }) {
                         message={
                             'Você tem certeza que deseja finalizar essa oferta de ajuda?'
                         }
-                        isLoading={isFinishRequestLoading}
+                        isLoading={isLoading}
                     />
-                    {isHelpOfferLoading ? (
-                        renderLoadingIndicator()
-                    ) : (
+                    {!isLoading && (
                         <>
                             {renderHelpOwnerInformation()}
                             {renderHelpInformation()}

@@ -14,14 +14,15 @@ import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import callService from '../../../services/callService';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function Login({ navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [loadingLoginRequest, setLoadingLoginRequest] = useState(false);
 
     useEffect(() => {
         if (email && password) {
@@ -32,16 +33,13 @@ export default function Login({ navigation }) {
     }, [email, password]);
 
     const loginHandler = async () => {
-        setLoadingLoginRequest(true);
+        setIsLoading(true);
         const data = { email: email.trim(), password };
         keyboard.dismiss();
         await callService(SessionService, 'signIn', [data]);
-        setLoadingLoginRequest(false);
+        setIsLoading(false);
     };
 
-    const renderLoadingIndicator = () => (
-        <ActivityIndicator size="large" color={colors.light} />
-    );
     const renderLoginButton = () => (
         <Button
             large
@@ -93,9 +91,7 @@ export default function Login({ navigation }) {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.login}>
-                    {loadingLoginRequest
-                        ? renderLoadingIndicator()
-                        : renderLoginButton()}
+                    {!isLoading && renderLoginButton()}
                 </View>
                 <TouchableOpacity
                     style={styles.signUP}

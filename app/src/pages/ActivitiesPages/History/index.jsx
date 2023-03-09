@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
-import styles from '../../MyRequests/styles';
-import HistoricCard from '../../../../components/HistoricCard';
-import { UserContext } from '../../../../store/contexts/userContext';
-import NoHelps from '../../../../components/NoHelps';
-import colors from '../../../../../assets/styles/colorVariables';
-import helpService from '../../../../services/Help';
-import callService from '../../../../services/callService';
-
+import { View, ActivityIndicator, ScrollView } from 'react-native';
+import { UserContext } from '../../../store/contexts/userContext';
+import styles from '../styles';
+import callService from '../../../services/callService';
+import helpService from '../../../services/Help';
+import colors from '../../../../assets/styles/colorVariables';
+import NoHelps from '../../../components/NoHelps';
+import HistoricCard from '../../../components/HistoricCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-export default function AskedHelps({ navigation }) {
+import { LoadingContext } from '../../../store/contexts/loadingContext';
+
+const OfferHelpPage = ({ navigation }) => {
     const { user } = useContext(UserContext);
-    const [myOfferedHelps, setMyOfferedHelps] = useState([]);
-    const [loadingOfferdHelps, setLoadingOfferdHelps] = useState(true);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
+    const [myOfferedHelp, setMyOfferedHelps] = useState([]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -22,7 +24,7 @@ export default function AskedHelps({ navigation }) {
     }, [navigation]);
 
     async function getHelps() {
-        setLoadingOfferdHelps(true);
+        setIsLoading(true);
         const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
@@ -31,27 +33,25 @@ export default function AskedHelps({ navigation }) {
         if (!filteredHelps.error) {
             setMyOfferedHelps(filteredHelps);
         }
-        setLoadingOfferdHelps(false);
+        setIsLoading(false);
     }
 
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
-
     const renderHelpRequestsList = () => {
-        if (myOfferedHelps.length > 0) {
+        if (myOfferedHelp.length > 0) {
             return (
                 <ScrollView>
-                    {myOfferedHelps.map((help) => {
+                    {myOfferedHelp.map((help) => {
                         return (
                             <TouchableOpacity
                                 key={help._id}
                                 onPress={() =>
-                                    navigation.navigate('OfferDescription', {
-                                        help,
-                                    })
+                                    navigation.navigate(
+                                        'myOfferHelpDescription',
+                                        {
+                                            helpId: help._id,
+                                            routeId: 'Help',
+                                        },
+                                    )
                                 }
                             >
                                 <HistoricCard object={help} />
@@ -69,9 +69,9 @@ export default function AskedHelps({ navigation }) {
 
     return (
         <View style={styles.helpList}>
-            {loadingOfferdHelps
-                ? renderLoadingIndicator()
-                : renderHelpRequestsList()}
+            {!isLoading && renderHelpRequestsList()}
         </View>
     );
-}
+};
+
+export default OfferHelpPage;

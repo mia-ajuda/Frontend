@@ -11,19 +11,23 @@ import callService from '../../../services/callService';
 import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function ConfirmRegister({ route, navigation }) {
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const { completeRegistragionData } = route.params;
+
     const isEntityUser = completeRegistragionData.cnpj;
+
     const [termsModalVisible, setTermsModalVisible] = useState(false);
     const [checked, setChecked] = useState(false);
     const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-    const [loadingUserRegistration, setLoadingUserRegistration] =
-        useState(false);
+
     const navigateBackToPhotoPage = () => navigation.goBack();
 
     async function continueHandler() {
-        setLoadingUserRegistration(true);
+        setIsLoading(true);
 
         const signUpRequest = await callService(SessionService, 'signUp', [
             completeRegistragionData,
@@ -31,6 +35,8 @@ export default function ConfirmRegister({ route, navigation }) {
         if (!signUpRequest.error) {
             alertSuccess('Seu cadastro foi realizado com sucesso');
         }
+
+        setIsLoading(false);
         navigation.navigate('login');
     }
 
@@ -75,9 +81,7 @@ export default function ConfirmRegister({ route, navigation }) {
                 />
             </View>
             <View style={styles.buttonPreview}>
-                {loadingUserRegistration ? (
-                    renderLoadingIndicator()
-                ) : (
+                {!isLoading && (
                     <>
                         <Buttom
                             title="Voltar"

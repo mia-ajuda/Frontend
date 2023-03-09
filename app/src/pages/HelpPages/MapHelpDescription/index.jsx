@@ -17,20 +17,19 @@ import messageOperation from '../../../utils/messageOperation';
 
 import colors from '../../../../assets/styles/colorVariables';
 import formatDate from '../../../utils/formatDate';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function MapHelpDescription({ route, navigation }) {
-    const { help, helpType } = route.params;
-    const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
-    const [isOwnerRequestLoading, setOwnerRequestLoading] = useState(true);
-    const [ownerInfo, setOwnerInfo] = useState({});
     const { setHelpOfferList } = useContext(HelpOfferContext);
+    const { helpList, dispatch } = useContext(HelpContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
+    const { help, helpType } = route.params;
+
+    const [ownerInfo, setOwnerInfo] = useState({});
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [isChooseHelpRequestLoading, setChooseHelpRequestLoading] =
-        useState(false);
-
     const [titleMessage, setTitleMessage] = useState(false);
     const [modalMessage, setModalMessage] = useState(false);
     const [userParticipating, setUserParticipating] = useState(false);
@@ -46,7 +45,7 @@ export default function MapHelpDescription({ route, navigation }) {
     }, []);
 
     async function getOwnerInfo() {
-        setOwnerRequestLoading(true);
+        setIsLoading(true);
         if (helpType == 'offer') {
             setTitleMessage('Se candidatar para essa oferta');
             setModalMessage('Você deseja confirmar a sua candidatura?');
@@ -71,17 +70,11 @@ export default function MapHelpDescription({ route, navigation }) {
         ]);
         if (!result.error) {
             setOwnerInfo(result);
-            setOwnerRequestLoading(false);
+            setIsLoading(false);
         } else {
             goBackToMapPage();
         }
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     function removeElementFromMap() {
         if (helpType == 'offer') {
@@ -97,12 +90,13 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     async function modalAction() {
-        setChooseHelpRequestLoading(true);
+        setIsLoading(true);
         const functionName = messageOperation[helpType](false);
         const request = await callService(HelpService, functionName, [
             help._id,
             user._id,
         ]);
+        setIsLoading(false);
         goBackToMapPage();
         if (!request.error) {
             alertSuccess(
@@ -171,16 +165,14 @@ export default function MapHelpDescription({ route, navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {isOwnerRequestLoading ? (
-                renderLoadingIndicator()
-            ) : (
+            {!isLoading && (
                 <View style={styles.container}>
                     <ConfirmationModal
                         visible={confirmationModalVisible}
                         setVisible={setConfirmationModalVisible}
                         action={modalAction}
                         message={modalMessage}
-                        isLoading={isChooseHelpRequestLoading}
+                        isLoading={isLoading}
                     />
 
                     {renderHelpOwnerInformation()}

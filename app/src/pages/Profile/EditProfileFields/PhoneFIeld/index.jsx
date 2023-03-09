@@ -11,13 +11,15 @@ import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import removeSpecialCharsFrom from '../../../../utils/removeSpecialChars';
 import { alertSuccess } from '../../../../utils/Alert';
 import callService from '../../../../services/callService';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 export default function EditPhoneField({ route, navigation }) {
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { dispatch } = useContext(UserContext);
+
     const phone = route.params.user?.phone.slice(3, 14);
     const isEntityUser = route.params.user.cnpj;
     const [newPhone, setNewPhone] = useState(phone);
     const [isNewPhoneValid, setNewPhoneValid] = useState(true);
-    const { dispatch } = useContext(UserContext);
-    const [loadingModal, setLoadingModal] = useState(false);
     const [isConfirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const goBackToUserProfilePage = () => navigation.goBack();
@@ -32,11 +34,12 @@ export default function EditPhoneField({ route, navigation }) {
             ...route.params.user,
             phone: formatPhone(),
         };
-        setLoadingModal(true);
+        setIsLoading(true);
 
         const user = isEntityUser
             ? await callService(EntityService, 'editEntity', [data])
             : await callService(UserService, 'editUser', [data]);
+        setIsLoading(false);
         if (!user.error) {
             dispatch({ type: actions.user.storeUserInfo, data: user });
             alertSuccess('Alteração feita com sucesso!');
@@ -51,7 +54,7 @@ export default function EditPhoneField({ route, navigation }) {
                 setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={loadingModal}
+                isLoading={isLoading}
             />
 
             <View style={styles.content}>

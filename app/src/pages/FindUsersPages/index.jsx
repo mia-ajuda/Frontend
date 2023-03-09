@@ -8,15 +8,16 @@ import Input from '../../components/UI/input';
 import colors from '../../../assets/styles/colorVariables';
 import ProfileList from '../../components/profileList';
 import { useFocusEffect } from '@react-navigation/native';
+import { LoadingContext } from '../../store/contexts/loadingContext';
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
-    const [isFindUserLoading, setFindUserLoading] = useState(false);
     const [usersProfile, setUsersProfile] = useState(null);
     const [findName, setFindName] = useState(null);
 
     async function setupPage() {
-        setFindUserLoading(true);
+        setIsLoading(true);
         const findUserTemp = await callService(
             socialNetworkProfileservice,
             'findUsersProfiles',
@@ -24,7 +25,7 @@ const FindUsers = ({ navigation }) => {
         );
 
         setUsersProfile(findUserTemp);
-        setFindUserLoading(false);
+        setIsLoading(false);
     }
 
     useFocusEffect(
@@ -65,9 +66,7 @@ const FindUsers = ({ navigation }) => {
         <ScrollView style={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
             <View style={styles.container}>
                 {findUserinput()}
-                {isFindUserLoading ? (
-                    renderLoadingIndicator()
-                ) : (
+                {!isLoading && (
                     <ProfileList
                         usersProfile={usersProfile}
                         navigation={navigation}

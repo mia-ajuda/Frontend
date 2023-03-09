@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Text, View } from 'react-native';
 import { colors, Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../../services/Api';
+import { LoadingContext } from '../../store/contexts/loadingContext';
 import callNumber from '../../utils/callNumber';
 import getYearsSince from '../../utils/getYearsSince';
 import openWhatsapp from '../../utils/openWhatsapp';
@@ -10,17 +11,17 @@ import styles from './styles';
 
 export default function HelpersInfo({ userId, title }) {
     const [user, setUser] = useState();
-    const [isLoadingUserInfo, setIsLoadingUserInfo] = useState(true);
+    const { setIsLoading } = useContext(LoadingContext);
     useEffect(() => {
         async function fetchUserData() {
-            setIsLoadingUserInfo(true);
+            setIsLoading(true);
             const userData = await api.get(`user/getAnyUser/${userId}`);
             setUser(userData.data);
-            setIsLoadingUserInfo(false);
+            setIsLoading(false);
         }
         fetchUserData();
     }, []);
-    return !isLoadingUserInfo ? (
+    return (
         <View style={styles.helpersContainer}>
             <View style={styles.contentContainer}>
                 {title && <Text style={styles.containerTitle}>{title}</Text>}
@@ -58,10 +59,6 @@ export default function HelpersInfo({ userId, title }) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
-    ) : (
-        <View style={styles.loadingUserInfo}>
-            <ActivityIndicator size="large" color={colors.primary} />
         </View>
     );
 }

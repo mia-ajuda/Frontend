@@ -15,10 +15,13 @@ import campaignService from '../../../services/Campaign';
 import helpService from '../../../services/Help';
 import callService from '../../../services/callService';
 import { colors } from 'react-native-elements';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
 
     const { userPosition, user } = useContext(UserContext);
+    const { setIsLoading } = useContext(LoadingContext);
+
     const [markLocation, setMarkerLocation] = useState({
         type: 'Point',
         coordinates: [],
@@ -27,7 +30,6 @@ export default function Location({ route }) {
         useState(false);
     const [modalSuccessModalVisible, setModalSuccessModalVisible] =
         useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
     useEffect(() => {
         showWarningFor('userPosition', userPositionWarningMessage);
@@ -103,19 +105,13 @@ export default function Location({ route }) {
                         navigation.goBack();
                     }}
                 />
-                {isLoading ? (
-                    renderLoadingIdicator()
-                ) : (
-                    <Button
-                        title="Confirmar"
-                        type="primary"
-                        press={() =>
-                            setConfirmationModalVisible(
-                                !confirmationModalVisible,
-                            )
-                        }
-                    />
-                )}
+                <Button
+                    title="Confirmar"
+                    type="primary"
+                    press={() =>
+                        setConfirmationModalVisible(!confirmationModalVisible)
+                    }
+                />
             </View>
 
             <ConfirmationModal

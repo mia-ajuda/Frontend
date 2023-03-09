@@ -29,17 +29,17 @@ import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetwo
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
 import { useFocusEffect } from '@react-navigation/native';
 import colors from '../../../../assets/styles/colorVariables';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function Profile({ navigation }) {
     const { user, dispatch, isEntity } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { userSocialNetworkProfile, setUserSocialNetworkProfile } =
         useContext(SocialNetworkProfileContext);
+
     const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
-    const [loadingModal, setLoadingModal] = useState(false);
     const [photo, setPhoto] = useState('');
-    const [loadingSocialNetworkProfile, setLoadingSocialNetworkProfile] =
-        useState(false);
 
     const phone = formatPhone(user.phone);
     const idFormated = isEntity ? formatCNPJ(user.cnpj) : formatCPF(user.cpf);
@@ -48,7 +48,7 @@ export default function Profile({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            setLoadingSocialNetworkProfile(true);
+            setIsLoading(true);
             getUserProfile(user._id);
         }, [navigation]),
     );
@@ -60,7 +60,7 @@ export default function Profile({ navigation }) {
             [userId],
         );
         setUserSocialNetworkProfile(temp_userProfile);
-        setLoadingSocialNetworkProfile(false);
+        setIsLoading(false);
     }
 
     async function logout() {
@@ -127,7 +127,7 @@ export default function Profile({ navigation }) {
     }
 
     async function sendPhoto() {
-        setLoadingModal(true);
+        setIsLoading(true);
         const data = {
             ...user,
             photo: photo,
@@ -143,7 +143,7 @@ export default function Profile({ navigation }) {
             });
             alertSuccess('Foto atualizada com sucesso!');
         }
-        setLoadingModal(false);
+        setIsLoading(false);
         setModalVisible(false);
     }
 
@@ -178,14 +178,6 @@ export default function Profile({ navigation }) {
         );
     }
 
-    const renderLoadingIndicator = () => (
-        <ActivityIndicator
-            style={styles.loading}
-            size="large"
-            color={colors.primary}
-        />
-    );
-
     return (
         <ScrollView style={styles.container}>
             <ConfirmationModal
@@ -193,7 +185,7 @@ export default function Profile({ navigation }) {
                 setVisible={setModalVisible}
                 action={sendPhoto}
                 message={'Tem certeza que deseja trocar sua foto?'}
-                isLoading={loadingModal}
+                isLoading={isLoading}
             />
             <View style={styles.imageView}>
                 <TouchableOpacity onPress={changeImgeProfile}>
@@ -207,9 +199,7 @@ export default function Profile({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            {loadingSocialNetworkProfile ? (
-                renderLoadingIndicator()
-            ) : (
+            {!isLoading && (
                 <View style={styles.followerFollowingContainer}>
                     <FollowFollowingText
                         text="Seguidores"

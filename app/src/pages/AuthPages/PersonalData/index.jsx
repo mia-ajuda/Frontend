@@ -25,9 +25,11 @@ import formatDate from '../../../utils/formatDate';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import callService from '../../../services/callService';
 import { alertError } from '../../../utils/Alert';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function PersonalData({ route, navigation }) {
     const { keyboard } = useContext(DeviceInformationContext);
+    const { setIsLoading } = useContext(LoadingContext);
     const { userDatafromRegistrationPage } = route.params;
 
     const [name, setName] = useState('');
@@ -38,7 +40,6 @@ export default function PersonalData({ route, navigation }) {
     const [ismentalHealthProfessional, setMentalHealthProfessional] =
         useState(false);
     const [isEntityUser, setIsEntityUser] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     const verifyIdExistence = async () => {
         setIsLoading(true);
@@ -114,12 +115,6 @@ export default function PersonalData({ route, navigation }) {
             );
         }
     };
-
-    const renderLoadingIdicator = () => (
-        <View style={styles.btnView}>
-            <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-    );
 
     const renderPhoneInputForm = () => {
         const isPhoneValid = phoneValidator(cellPhone) || cellPhone == '';
@@ -304,7 +299,7 @@ export default function PersonalData({ route, navigation }) {
                     </View>
                 </ScrollView>
 
-                {isLoading ? renderLoadingIdicator() : renderContinueButton()}
+                {renderContinueButton()}
             </KeyboardAvoidingView>
         </>
     );

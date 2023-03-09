@@ -7,11 +7,13 @@ import NotificationService from '../../services/Notification';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
 import callService from '../../services/callService';
+import { LoadingContext } from '../../store/contexts/loadingContext';
 
 export default function Notification({ navigation }) {
-    const [loadingNotifications, setLoading] = useState(false);
-    const [helpNotifications, setNotifications] = useState([]);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
+
+    const [helpNotifications, setNotifications] = useState([]);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             loadNotifications();
@@ -21,7 +23,7 @@ export default function Notification({ navigation }) {
 
     async function loadNotifications() {
         const { _id: userId } = user;
-        setLoading(true);
+        setIsLoading(true);
         const notificationsResponse = await callService(
             NotificationService,
             'getAllNotifications',
@@ -30,14 +32,9 @@ export default function Notification({ navigation }) {
         if (!notificationsResponse.error) {
             setNotifications(notificationsResponse);
         }
-        setLoading(false);
+        setIsLoading(false);
     }
 
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
     const renderNotificationList = () => {
         if (helpNotifications.length == 0) {
             return (
@@ -71,9 +68,7 @@ export default function Notification({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {loadingNotifications
-                ? renderLoadingIndicator()
-                : renderNotificationList()}
+            {!isLoading && renderNotificationList()}
         </View>
     );
 }

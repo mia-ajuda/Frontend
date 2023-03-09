@@ -7,13 +7,13 @@ import findUserPageStyles from '../styles';
 import colors from '../../../../assets/styles/colorVariables';
 import ProfileList from '../../../components/profileList';
 import { UserContext } from '../../../store/contexts/userContext';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 const FollowersFollowingPage = ({ navigation, route }) => {
     const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     // podem ser usuários seguidores ou seguindo
     const [usersProfile, setUsersProfile] = useState(null);
-
-    const [isLoading, setIsLoading] = useState(true);
 
     const { selectedProfileId, isFollowersPage } = route.params;
 
@@ -49,9 +49,7 @@ const FollowersFollowingPage = ({ navigation, route }) => {
 
     return (
         <View style={styles.cardContainer}>
-            {isLoading ? (
-                renderLoadingIndicator()
-            ) : (
+            {!isLoading && (
                 <ScrollView>
                     <ProfileList
                         usersProfile={usersProfile}

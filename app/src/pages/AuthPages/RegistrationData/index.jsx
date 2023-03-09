@@ -5,11 +5,9 @@ import {
     ScrollView,
     View,
     TouchableOpacity,
-    ActivityIndicator,
 } from 'react-native';
 import UserService from '../../../services/User';
 import EntityService from '../../../services/Entity';
-import colors from '../../../../assets/styles/colorVariables';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
@@ -19,14 +17,16 @@ import { DeviceInformationContext } from '../../../store/contexts/deviceInformat
 import { Icon } from 'react-native-elements';
 import callService from '../../../services/callService';
 import { alertError } from '../../../utils/Alert';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function RegistrationData({ navigation }) {
+    const { keyboard } = useContext(DeviceInformationContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [loadingEmailAdressVerification, setLoadingEmailVerification] =
-        useState(false);
-    const { keyboard } = useContext(DeviceInformationContext);
+
     const continueHandler = () => {
         const userDatafromRegistrationPage = {
             email,
@@ -40,7 +40,7 @@ export default function RegistrationData({ navigation }) {
     };
 
     const verifyEmailAdress = async () => {
-        setLoadingEmailVerification(true);
+        setIsLoading(true);
         keyboard.dismiss();
 
         let isARegularUser = await callService(UserService, 'verifyUserInfo', [
@@ -62,7 +62,7 @@ export default function RegistrationData({ navigation }) {
                 continueHandler();
             }
         }
-        setLoadingEmailVerification(false);
+        setIsLoading(false);
     };
 
     const renderPageHeader = () => {
@@ -137,12 +137,6 @@ export default function RegistrationData({ navigation }) {
         );
     };
 
-    const renderLoadingIndicator = () => (
-        <View style={styles.btnView}>
-            <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-    );
-
     const renderContinueButton = () => {
         const fieldsValid =
             emailValidator(email) &&
@@ -175,9 +169,7 @@ export default function RegistrationData({ navigation }) {
                     {renderInputConfirmationPasswordForm()}
                 </View>
             </ScrollView>
-            {loadingEmailAdressVerification
-                ? renderLoadingIndicator()
-                : renderContinueButton()}
+            {!isLoading && renderContinueButton()}
         </KeyboardAvoidingView>
     );
 }

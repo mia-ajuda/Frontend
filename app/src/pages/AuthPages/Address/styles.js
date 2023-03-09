@@ -61,11 +61,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         marginVertical: 10,
     },
-    loadingIndicator: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     scroll: { width: '100%' },
 });
 

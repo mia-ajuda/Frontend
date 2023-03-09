@@ -14,12 +14,14 @@ import colors from '../../../../../assets/styles/colorVariables';
 import NoHelps from '../../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import callService from '../../../../services/callService';
+import { LoadingContext } from '../../../../store/contexts/loadingContext';
 
 export default function HelpsFinished({ navigation }) {
-    const [finishedHelpList, setFinishedHelpList] = useState([]);
-    const [loadingHelpRequests, setLoadingHelpRequests] = useState(false);
-
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
+
+    const [finishedHelpList, setFinishedHelpList] = useState([]);
+
     useFocusEffect(
         useCallback(() => {
             loadFinishedHelps();
@@ -27,7 +29,7 @@ export default function HelpsFinished({ navigation }) {
     );
 
     async function loadFinishedHelps() {
-        setLoadingHelpRequests(true);
+        setIsLoading(true);
         const { _id: userId } = user;
         const resFinished = await callService(
             helpService,
@@ -37,14 +39,8 @@ export default function HelpsFinished({ navigation }) {
         if (!resFinished.error) {
             setFinishedHelpList(resFinished);
         }
-        setLoadingHelpRequests(false);
+        setIsLoading(false);
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const renderHelpList = () => {
         if (finishedHelpList.length > 0) {
@@ -73,9 +69,5 @@ export default function HelpsFinished({ navigation }) {
             return <NoHelps title={'Você não possui ajudas finalizadas'} />;
         }
     };
-    return (
-        <View>
-            {loadingHelpRequests ? renderLoadingIndicator() : renderHelpList()}
-        </View>
-    );
+    return <View>{!isLoading && renderHelpList()}</View>;
 }

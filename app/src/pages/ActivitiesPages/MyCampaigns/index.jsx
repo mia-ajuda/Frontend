@@ -16,18 +16,19 @@ import callService from '../../../services/callService';
 import campaignService from '../../../services/Campaign';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function CampaignsFinished({ navigation }) {
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { user } = useContext(UserContext);
+
     const [finishedCampaignList, setFinishedCampaignList] = useState([]);
-    const [loadingCampaignRequests, setLoadingCampaignRequests] =
-        useState(false);
     const [campaignDeletionLoading, setCampaignDeletionLoading] =
         useState(false);
     const [campaignToDelete, setCampaignToDelete] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
 
-    const { user } = useContext(UserContext);
     useFocusEffect(
         useCallback(() => {
             loadOnGoingCampaigns();
@@ -35,7 +36,7 @@ export default function CampaignsFinished({ navigation }) {
     );
 
     async function loadOnGoingCampaigns() {
-        setLoadingCampaignRequests(true);
+        setIsLoading(true);
         const { _id: userId } = user;
         const resFinished = await callService(
             campaignService,
@@ -45,14 +46,8 @@ export default function CampaignsFinished({ navigation }) {
         if (!resFinished.error) {
             setFinishedCampaignList(resFinished);
         }
-        setLoadingCampaignRequests(false);
+        setIsLoading(false);
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const onPressPlusButton = () =>
         createInteraction(user, navigation, 'createCampaign');
@@ -141,9 +136,7 @@ export default function CampaignsFinished({ navigation }) {
                 message={'Você deseja deletar essa campanha?'}
                 isLoading={campaignDeletionLoading}
             />
-            {loadingCampaignRequests
-                ? renderLoadingIndicator()
-                : renderCampaignList()}
+            {!isLoading && renderCampaignList()}
         </View>
     );
 }

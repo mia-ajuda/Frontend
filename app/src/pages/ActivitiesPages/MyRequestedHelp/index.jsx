@@ -16,15 +16,16 @@ import callService from '../../../services/callService';
 import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 const MyRequestedHelp = ({ navigation }) => {
+    const { user } = useContext(UserContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
-    const [loadingMyHelpRequests, setLoadingMyHelpRequests] = useState(false);
-    const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
-    const { user } = useContext(UserContext);
 
     useFocusEffect(
         useCallback(() => {
@@ -34,7 +35,7 @@ const MyRequestedHelp = ({ navigation }) => {
 
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
-        setLoadingMyHelpRequests(true);
+        setIsLoading(true);
         const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
@@ -43,11 +44,11 @@ const MyRequestedHelp = ({ navigation }) => {
         if (!filteredHelps.error) {
             setMyRequestedHelps(filteredHelps);
         }
-        setLoadingMyHelpRequests(false);
+        setIsLoading(false);
     }
 
     async function excludeHelp() {
-        setHelpDeletionLoading(true);
+        setIsLoading(true);
         const validDeleteRequest = await callService(
             helpService,
             'deleteHelp',
@@ -59,15 +60,9 @@ const MyRequestedHelp = ({ navigation }) => {
             });
             setMyRequestedHelps(updatedArray);
         }
-        setHelpDeletionLoading(false);
+        setIsLoading(false);
         setConfirmationModalVisible(false);
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const renderMyRequestsHelpList = () => {
         if (myRequestedHelps.length > 0) {
@@ -122,11 +117,9 @@ const MyRequestedHelp = ({ navigation }) => {
                 setVisible={setConfirmationModalVisible}
                 action={() => excludeHelp()}
                 message={'Você deseja deletar esse pedido de ajuda?'}
-                isLoading={isHelpDeletionLoading}
+                isLoading={isLoading}
             />
-            {loadingMyHelpRequests
-                ? renderLoadingIndicator()
-                : renderMyRequestsHelpList()}
+            {!isLoading && renderMyRequestsHelpList()}
         </View>
     );
 };
