@@ -34,7 +34,6 @@ export default function OfferHelpDescription({ route, navigation }) {
     const goBackToMyOfferedHelpPage = () => navigation.goBack();
     const [showPossibleHelpedUsers, setShowPossibleHelpedUsers] =
         useState(false);
-    // const [selectedUser, setSelectedUser] = useState({});
     const [updateData, setUpdateData] = useState(true);
 
     useEffect(() => {
@@ -140,13 +139,15 @@ export default function OfferHelpDescription({ route, navigation }) {
                     Localização
                 </Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
-                    <Map
-                        className="w-full h-full"
-                        initialRegion={helpLocationCoordinates}
-                    >
+                    <Map initialRegion={helpLocationCoordinates}>
                         <HelpOfferMarker key={help._id} helpOffer={help} />
                     </Map>
-                    <TouchableOpacity className="absolute bottom-2 left-2 bg-secondary rounded-full p-1">
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigateToSelectedHelpOnMap(helpLocationCoordinates)
+                        }
+                        className="absolute bottom-2 bg-secondary left-2 rounded-full p-1"
+                    >
                         <Icon name="fullscreen" type="material-icons" />
                     </TouchableOpacity>
                 </View>
@@ -154,26 +155,12 @@ export default function OfferHelpDescription({ route, navigation }) {
         );
     };
 
-    // const renderHelpedUsers = () => {
-    //     return (
-    //         <ScrollView
-    //             style={styles.helpedUsers}
-    //             contentContainerStyle={{ flexGrow: 1 }}
-    //         >
-    //             {help.helpedUsers.map((helpedUser) => (
-    //                 <UserCard
-    //                     key={helpedUser._id}
-    //                     user={helpedUser}
-    //                     showPhone
-    //                     handleClick={() => {
-    //                         // setSelectedUser(helpedUser);
-    //                         setShowPossibleHelpedUsers(true);
-    //                     }}
-    //                 />
-    //             ))}
-    //         </ScrollView>
-    //     );
-    // };
+    const navigateToSelectedHelpOnMap = (helpLocationCoordinates) => {
+        navigation.navigate('selectedHelpOnMap', {
+            help: help,
+            helpLocationCoordinates: helpLocationCoordinates,
+        });
+    };
 
     const showUserOrOwnerView = () => {
         if (user._id == help.ownerId) return renderHelpedUsersButtons();
@@ -182,37 +169,32 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
     return (
-        <View className="h-full">
-            <ScrollView style={styles.scrollViewOffer}>
-                {showPossibleHelpedUsers && (
-                    <View style={styles.viewBackdrop} />
+        <View className="h-full flex-1">
+            <ConfirmationModal
+                visible={confirmationModalVisible}
+                setVisible={setConfirmationModalVisible}
+                action={finishHelp}
+                message={
+                    'Você tem certeza que deseja finalizar essa oferta de ajuda?'
+                }
+                isLoading={isFinishRequestLoading}
+            />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                {isHelpOfferLoading ? (
+                    renderLoadingIndicator()
+                ) : (
+                    <View className="bg-white rounded-t-3xl p-[26] mt-14 flex-1">
+                        <Image
+                            className="w-[70] h-[70] object-cover rounded-full self-center absolute -top-9"
+                            source={{
+                                uri: `data:image/png;base64,${ownerPhoto}`,
+                            }}
+                        />
+                        {renderHelpInformation()}
+                        {renderOfferLocation()}
+                        {showUserOrOwnerView()}
+                    </View>
                 )}
-                <View style={styles.container}>
-                    <ConfirmationModal
-                        visible={confirmationModalVisible}
-                        setVisible={setConfirmationModalVisible}
-                        action={finishHelp}
-                        message={
-                            'Você tem certeza que deseja finalizar essa oferta de ajuda?'
-                        }
-                        isLoading={isFinishRequestLoading}
-                    />
-                    {isHelpOfferLoading ? (
-                        renderLoadingIndicator()
-                    ) : (
-                        <View className="bg-white h-screen w-screen rounded-t-3xl p-[26] mt-14">
-                            <Image
-                                className="w-[70] h-[70] object-cover rounded-full self-center absolute -top-9"
-                                source={{
-                                    uri: `data:image/png;base64,${ownerPhoto}`,
-                                }}
-                            />
-                            {renderHelpInformation()}
-                            {renderOfferLocation()}
-                            {showUserOrOwnerView()}
-                        </View>
-                    )}
-                </View>
             </ScrollView>
             {showPossibleHelpedUsers && (
                 <ExpandedModal
@@ -220,6 +202,15 @@ export default function OfferHelpDescription({ route, navigation }) {
                     userList={help.possibleHelpedUsers}
                     title="Possíveis ajudados"
                     method="chooseHelpedUsers"
+                    helpId={helpId}
+                    setUpdateData={setUpdateData}
+                />
+            )}
+            {showHelpedUsers && (
+                <ExpandedModal
+                    setShowModal={setShowHelpedUsers}
+                    userList={help.helpedUsers}
+                    title="Ajudados escolhidos"
                     helpId={helpId}
                     setUpdateData={setUpdateData}
                 />
