@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-    View,
-    KeyboardAvoidingView,
-    Text,
-    ScrollView,
-    ActivityIndicator,
-} from 'react-native';
+import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import Input from '../../../components/UI/input';
 import Button from '../../../components/UI/button';
 import styles from './styles';
 import callService from '../../../services/callService';
 import ViaCep from '../../../ExternalServices/ViaCep';
-import colors from '../../../../assets/styles/colorVariables';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 

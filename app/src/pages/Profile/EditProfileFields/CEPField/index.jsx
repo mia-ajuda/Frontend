@@ -1,14 +1,8 @@
 import React, { useState, useContext } from 'react';
-import {
-    View,
-    ScrollView,
-    KeyboardAvoidingView,
-    ActivityIndicator,
-} from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { UserContext } from '../../../../store/contexts/userContext';
 import Button from '../../../../components/UI/button';
 import Input from '../../../../components/UI/input';
-import colors from '../../../../../assets/styles/colorVariables';
 import UserService from '../../../../services/User';
 import EntityService from '../../../../services/Entity';
 import ViaCep from '../../../../ExternalServices/ViaCep';

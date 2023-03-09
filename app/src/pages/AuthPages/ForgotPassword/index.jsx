@@ -5,7 +5,6 @@ import {
     ScrollView,
     Text,
     TouchableOpacity,
-    ActivityIndicator,
     KeyboardAvoidingView,
 } from 'react-native';
 import Input from '../../../components/UI/input';

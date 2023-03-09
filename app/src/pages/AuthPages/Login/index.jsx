@@ -6,11 +6,9 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
-    ActivityIndicator,
 } from 'react-native';
 import SessionService from '../../../services/Session';
 import Button from '../../../components/UI/button';
-import colors from '../../../../assets/styles/colorVariables';
 import styles from './styles';
 import { DeviceInformationContext } from '../../../store/contexts/deviceInformationContext';
 import callService from '../../../services/callService';
@@ -46,7 +44,7 @@ export default function Login({ navigation }) {
             type="white"
             title="ENTRAR"
             press={loginHandler}
-            disabled={buttonDisabled || loadingLoginRequest}
+            disabled={buttonDisabled || isLoading}
         />
     );
 

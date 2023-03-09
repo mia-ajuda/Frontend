@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import styles from '../SocialNetworkProfile/styles';
 import callService from '../../../services/callService';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
-import findUserPageStyles from '../styles';
-import colors from '../../../../assets/styles/colorVariables';
 import ProfileList from '../../../components/profileList';
 import { UserContext } from '../../../store/contexts/userContext';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
@@ -36,16 +34,6 @@ const FollowersFollowingPage = ({ navigation, route }) => {
         setIsLoading(true);
         getUsersProfile();
     }, []);
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator
-                style={findUserPageStyles.loading}
-                size="large"
-                color={colors.primary}
-            />
-        </View>
-    );
 
     return (
         <View style={styles.cardContainer}>

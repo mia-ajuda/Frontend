@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ActivityIndicator, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
 import callService from '../../../services/callService';
 import helpService from '../../../services/Help';
-import colors from '../../../../assets/styles/colorVariables';
 import NoHelps from '../../../components/NoHelps';
 import HistoricCard from '../../../components/HistoricCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Image, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Image, Text, ScrollView } from 'react-native';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';

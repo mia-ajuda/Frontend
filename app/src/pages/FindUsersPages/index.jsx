@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import styles from './styles';
 import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from '../../store/contexts/userContext';
 import Input from '../../components/UI/input';
-import colors from '../../../assets/styles/colorVariables';
 import ProfileList from '../../components/profileList';
 import { useFocusEffect } from '@react-navigation/native';
 import { LoadingContext } from '../../store/contexts/loadingContext';
@@ -41,14 +40,6 @@ const FindUsers = ({ navigation }) => {
 
         return () => clearTimeout(timer);
     }, [findName]);
-
-    const renderLoadingIndicator = () => (
-        <ActivityIndicator
-            style={styles.loading}
-            size="large"
-            color={colors.primary}
-        />
-    );
 
     const findUserinput = () => {
         return (

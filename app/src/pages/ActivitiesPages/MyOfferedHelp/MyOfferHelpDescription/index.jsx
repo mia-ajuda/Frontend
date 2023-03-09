@@ -1,12 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-    View,
-    Image,
-    Text,
-    TouchableOpacity,
-    ScrollView,
-    ActivityIndicator,
-} from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import getYearsSince from '../../../../utils/getYearsSince';
@@ -17,7 +10,6 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
 import shortenName from '../../../../utils/shortenName';
 import helpService from '../../../../services/Help';
-import colors from '../../../../../assets/styles/colorVariables';
 import UserCard from '../../../../components/InterestedList/UserCard';
 import ChosenHelpersInfo from '../../../../components/modals/chosenHelpersInfo';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
@@ -68,12 +60,6 @@ export default function OfferHelpDescription({ route, navigation }) {
         }
         goBackToMyOfferedHelpPage();
     }
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-    );
 
     const navigateToPossibleHelpedUsersList = () => {
         navigation.navigate('listHelpInteresteds', {

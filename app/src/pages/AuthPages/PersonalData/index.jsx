@@ -5,7 +5,6 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    ActivityIndicator,
     Switch,
 } from 'react-native';
 import { Icon } from 'react-native-elements';

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Text, View } from 'react-native';
-import { colors, Icon } from 'react-native-elements';
+import { Image, Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../../services/Api';
 import { LoadingContext } from '../../store/contexts/loadingContext';

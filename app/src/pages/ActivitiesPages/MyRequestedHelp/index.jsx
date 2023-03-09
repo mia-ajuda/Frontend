@@ -1,17 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
-import {
-    View,
-    ScrollView,
-    ActivityIndicator,
-    TouchableOpacity,
-} from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../components/NoHelps';
-import colors from '../../../../assets/styles/colorVariables';
 import callService from '../../../services/callService';
 import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';

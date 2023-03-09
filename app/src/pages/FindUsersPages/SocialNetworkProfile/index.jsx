@@ -1,18 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-    View,
-    Image,
-    Text,
-    TouchableOpacity,
-    ScrollView,
-    ActivityIndicator,
-} from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
 import callService from '../../../services/callService';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
-import findUserPageStyles from '../styles';
-import colors from '../../../../assets/styles/colorVariables';
 import HistoricCard from '../../../components/HistoricCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import FollowFollowingText from '../../../components/follow_followingText';
@@ -138,16 +129,6 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
             </View>
         );
     };
-
-    const renderLoadingIndicator = () => (
-        <View style={styles.loadingContainer}>
-            <ActivityIndicator
-                style={findUserPageStyles.loading}
-                size="large"
-                color={colors.primary}
-            />
-        </View>
-    );
 
     return (
         <View style={styles.container}>

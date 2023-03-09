@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
 import { alertSuccess } from '../../../utils/Alert';
@@ -8,7 +8,6 @@ import TermsModal from '../../../components/modals/conditionTermsModal';
 import PrivacyPolicyModal from '../../../components/modals/privacyPolicyModal';
 import Buttom from '../../../components/UI/button';
 import callService from '../../../services/callService';
-import colors from '../../../../assets/styles/colorVariables';
 
 import styles from './styles';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
@@ -59,9 +58,7 @@ export default function ConfirmRegister({ route, navigation }) {
             </View>
         </View>
     );
-    const renderLoadingIndicator = () => (
-        <ActivityIndicator size="large" color={colors.primary} />
-    );
+
     return (
         <View style={styles.container}>
             <View style={styles.selectText}>

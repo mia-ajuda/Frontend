@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -14,7 +14,6 @@ import { useNavigation } from '@react-navigation/native';
 import campaignService from '../../../services/Campaign';
 import helpService from '../../../services/Help';
 import callService from '../../../services/callService';
-import { colors } from 'react-native-elements';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
@@ -34,10 +33,6 @@ export default function Location({ route }) {
     useEffect(() => {
         showWarningFor('userPosition', userPositionWarningMessage);
     }, []);
-
-    const renderLoadingIdicator = () => (
-        <ActivityIndicator size="large" color={colors.primary} />
-    );
 
     async function confirmPosition() {
         setIsLoading(true);
