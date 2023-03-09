@@ -11,7 +11,7 @@ import styles from './styles';
 
 export default function HelpersInfo({ userId, title }) {
     const [user, setUser] = useState();
-    const { setIsLoading } = useContext(LoadingContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
     useEffect(() => {
         async function fetchUserData() {
             setIsLoading(true);
@@ -25,39 +25,53 @@ export default function HelpersInfo({ userId, title }) {
         <View style={styles.helpersContainer}>
             <View style={styles.contentContainer}>
                 {title && <Text style={styles.containerTitle}>{title}</Text>}
-                <Image
-                    source={{ uri: `data:image/png;base64,${user.photo}` }}
-                    style={styles.imageContainer}
-                />
-                <Text style={styles.userName}>{user.name}</Text>
-                <Text style={styles.userSubtitle}>
-                    {user.cpf && <>{getYearsSince(user.birthday)} anos -</>}
-                    {user.address.city}
-                </Text>
-                <Text style={styles.phoneNumber}>Número: {user.phone}</Text>
-                <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                        color="#34A853"
-                        style={styles.wppButton}
-                        onPress={() => openWhatsapp(user.phone)}
-                    >
-                        <Icon
-                            name="whatsapp"
-                            type="font-awesome"
-                            size={30}
-                            color="#FAFAFA"
+                {!isLoading && (
+                    <>
+                        <Image
+                            source={{
+                                uri: `data:image/png;base64,${user.photo}`,
+                            }}
+                            style={styles.imageContainer}
                         />
-                        <Text style={styles.wppText}>Inicie uma conversa</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        color="#FAFAFA"
-                        style={styles.callButton}
-                        onPress={() => callNumber(user.phone)}
-                    >
-                        <Icon name="phone" size={30} />
-                        <Text style={styles.callText}>Faça uma ligação</Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.userName}>{user.name}</Text>
+                        <Text style={styles.userSubtitle}>
+                            {user.cpf && (
+                                <>{getYearsSince(user.birthday)} anos -</>
+                            )}
+                            {user.address.city}
+                        </Text>
+                        <Text style={styles.phoneNumber}>
+                            Número: {user.phone}
+                        </Text>
+                        <View style={styles.buttonsContainer}>
+                            <TouchableOpacity
+                                color="#34A853"
+                                style={styles.wppButton}
+                                onPress={() => openWhatsapp(user.phone)}
+                            >
+                                <Icon
+                                    name="whatsapp"
+                                    type="font-awesome"
+                                    size={30}
+                                    color="#FAFAFA"
+                                />
+                                <Text style={styles.wppText}>
+                                    Inicie uma conversa
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                color="#FAFAFA"
+                                style={styles.callButton}
+                                onPress={() => callNumber(user.phone)}
+                            >
+                                <Icon name="phone" size={30} />
+                                <Text style={styles.callText}>
+                                    Faça uma ligação
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                )}
             </View>
         </View>
     );

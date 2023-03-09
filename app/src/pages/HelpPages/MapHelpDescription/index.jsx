@@ -165,26 +165,30 @@ export default function MapHelpDescription({ route, navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {!isLoading && (
-                <View style={styles.container}>
-                    <ConfirmationModal
-                        visible={confirmationModalVisible}
-                        setVisible={setConfirmationModalVisible}
-                        action={modalAction}
-                        message={modalMessage}
-                        isLoading={isLoading}
-                    />
+            <View style={styles.container}>
+                <ConfirmationModal
+                    visible={confirmationModalVisible}
+                    setVisible={setConfirmationModalVisible}
+                    action={modalAction}
+                    message={modalMessage}
+                    isLoading={isLoading}
+                />
 
-                    {renderHelpOwnerInformation()}
-                    {renderHelpInformation()}
+                {!isLoading && (
+                    <>
+                        {renderHelpOwnerInformation()}
+                        {renderHelpInformation()}
 
-                    {userParticipating ? (
-                        <></>
-                    ) : (
-                        <View style={styles.helpButtons}>{renderButton()}</View>
-                    )}
-                </View>
-            )}
+                        {userParticipating ? (
+                            <></>
+                        ) : (
+                            <View style={styles.helpButtons}>
+                                {renderButton()}
+                            </View>
+                        )}
+                    </>
+                )}
+            </View>
         </ScrollView>
     );
 }

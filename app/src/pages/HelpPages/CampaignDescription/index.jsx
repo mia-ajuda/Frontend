@@ -28,7 +28,6 @@ export default function CampaignDescription({ route, navigation }) {
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const campaignOwnerPhoto = campaign.entity.photo;
-    const [finishCampaignLoading, setFinishCampaignLoading] = useState(false);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const isTheSameUser = user._id === campaign.ownerId;
@@ -56,12 +55,13 @@ export default function CampaignDescription({ route, navigation }) {
     }
 
     async function finishCampaign() {
-        setFinishCampaignLoading(true);
+        setIsLoading(true);
         const finishHelpRequest = await callService(
             CampaignService,
             'finishCampaign',
             [campaign._id],
         );
+        setIsLoading(false);
         if (!finishHelpRequest.error) {
             alertSuccess('Campanha finalizada com sucesso!');
         }
@@ -166,7 +166,7 @@ export default function CampaignDescription({ route, navigation }) {
                 setVisible={setConfirmationModalVisible}
                 action={finishCampaign}
                 message={'Você tem certeza que deseja finalizar esta campanha?'}
-                isLoading={finishCampaignLoading}
+                isLoading={isLoading}
             />
         </ScrollView>
     );

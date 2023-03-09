@@ -85,6 +85,7 @@ export default function EditCepField({ route, navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: resp });
             alertSuccess('Alteração feita com sucesso!');
         }
+        setIsLoading(false);
         goBackToUserProfilePage();
     };
 
