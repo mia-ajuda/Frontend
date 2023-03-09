@@ -1,9 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { TouchableOpacity, View, Image, Text } from 'react-native';
+import { View, Image, Text, Pressable } from 'react-native';
 import { untilTwoLastNames } from '../../utils/shortenName';
 import { RoundedFullButton } from '../atoms/RoundedFullButton';
 
 const UserItem = ({ user, shouldRenderRoundedFullButton = false, onPress }) => {
+    const navigation = useNavigation();
     const renderRoundedFullButton = () => {
         return (
             shouldRenderRoundedFullButton && (
@@ -14,10 +16,21 @@ const UserItem = ({ user, shouldRenderRoundedFullButton = false, onPress }) => {
         );
     };
 
+    const navigateToUserProfile = () => {
+        navigation.navigate('socialUserProfile', {
+            userId: user._id,
+            userName: user.name,
+        });
+    };
+
     return (
         <View className="border-[#D2D2D2] border-b-[0.5px] justify-center py-2">
             {renderRoundedFullButton()}
-            <TouchableOpacity className="flex-row space-x-3 h-16 w-full items-center">
+            <Pressable
+                className="flex-row space-x-3 h-16 w-full items-center"
+                android_ripple={{ color: '#F2F2F2' }}
+                onPress={() => navigateToUserProfile()}
+            >
                 <Image
                     className="w-[48] h-[48] rounded-full"
                     source={{
@@ -32,7 +45,7 @@ const UserItem = ({ user, shouldRenderRoundedFullButton = false, onPress }) => {
                         {user.address.city}, {user.address.state}
                     </Text>
                 </View>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 };
