@@ -13,6 +13,12 @@ export default function HelpsMarker({ helpOffer }) {
     const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(helpOffer.user.name);
     const { user } = useContext(UserContext);
+
+    const userIsOwner = user._id === helpOffer.ownerId;
+    const userIsParticipating =
+        helpOffer.helpedUserId?.includes(user._id) ||
+        helpOffer.possibleHelpedUsers?.some((obj) => obj._id === user._id);
+
     return (
         <Marker
             title={helpOffer.distance}
@@ -36,14 +42,16 @@ export default function HelpsMarker({ helpOffer }) {
             </View>
             <Callout
                 onPress={() =>
-                    user._id !== helpOffer.ownerId &&
+                    !userIsOwner &&
+                    !userIsParticipating &&
                     navigateToDescription('offer', user, navigation, helpOffer)
                 }
                 style={styles.callout}
             >
-                {user._id === helpOffer.ownerId ? (
+                {userIsOwner || userIsParticipating ? (
                     <Text style={styles.calloutTitle} numberOfLines={1}>
-                        Sua oferta
+                        {userIsOwner && 'Sua oferta'}
+                        {userIsParticipating && 'Participando'}
                     </Text>
                 ) : (
                     <>
