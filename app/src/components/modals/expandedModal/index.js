@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import {
     BottomSheetBackdrop,
     BottomSheetModal,
@@ -8,7 +8,6 @@ import {
 import UserItem from '../../UserItem';
 import { Text, View } from 'react-native';
 import { FloatingIconButton } from '../../molecules/FloatingIconButton';
-import { useCallback } from 'react';
 import ConfirmationModal from '../confirmationModal';
 import callService from '../../../services/callService';
 import helpService from '../../../services/Help';
@@ -47,7 +46,7 @@ export const ExpandedModal = ({
     );
 
     const snapPoints = userList.length >= 4 ? ['50%', '95%'] : ['50%'];
-    const closeModalWhenUserListIsEmpty = userList.length >= 0 && true;
+    const closeModalWhenUserListIsEmpty = userList.length >= 0;
 
     const handleCloseModal = () => setShowModal(false);
 
@@ -97,12 +96,12 @@ export const ExpandedModal = ({
                         <Text className="text-lg mb-4 font-[montserrat-bold] text-center">
                             {title}
                         </Text>
-                        {userList.map((user, index) => (
+                        {userList.map((user) => (
                             <UserItem
-                                key={index}
+                                key={user._id}
                                 user={user}
                                 shouldRenderRoundedFullButton={
-                                    title === 'Possíveis ajudados' && true
+                                    title === 'Possíveis ajudados'
                                 }
                                 onPress={() => renderClickAction(user._id)}
                             />
