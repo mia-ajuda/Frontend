@@ -157,11 +157,10 @@ export default function EditCepField({ route, navigation }) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={'height'}>
             <ConfirmationModal
-                visible={confiramtionModalVisible}
+                visible={confiramtionModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={isLoading}
             />
             <ScrollView
                 style={styles.cep}

@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         marginTop: 'auto',
+        marginBottom: 16,
     },
 });
 

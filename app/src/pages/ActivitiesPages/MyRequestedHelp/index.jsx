@@ -113,11 +113,10 @@ const MyRequestedHelp = ({ navigation }) => {
             />
             <ConfirmationModal
                 attention={true}
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={() => excludeHelp()}
                 message={'Você deseja deletar esse pedido de ajuda?'}
-                isLoading={isLoading}
             />
             {!isLoading && renderMyRequestsHelpList()}
         </View>

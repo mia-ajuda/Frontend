@@ -20,7 +20,7 @@ export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
 
     const { userPosition, user } = useContext(UserContext);
-    const { setIsLoading } = useContext(LoadingContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const [markLocation, setMarkerLocation] = useState({
         type: 'Point',
@@ -116,7 +116,7 @@ export default function Location({ route }) {
 
             <ConfirmationModal
                 message={texts[requestType].confirmPosition}
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={confirmPosition}
             />

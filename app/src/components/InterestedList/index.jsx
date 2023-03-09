@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
 import getYearsSince from '../../utils/getYearsSince';
-import NoPossibleInteresteds from '../../components/NoHelps';
+import NoPossibleInteresteds from '../NoHelps';
 import callService from '../../services/callService';
 import styles from './styles';
 import shortenName from '../../utils/shortenName';
 import helpService from '../../services/Help';
 import ConfirmationModal from '../modals/confirmationModal';
 import { alertSuccess } from '../../utils/Alert';
+import { LoadingContext } from '../../store/contexts/loadingContext';
 
 export default function ListPossibleInteresteds({ route, navigation }) {
     const { possibleInteresteds, message, method, helpId, setUpdateData } =
         route.params;
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
     const [selectedInterestedId, setSelectedInterestedId] = useState(false);
 
     const chooseInterested = async () => {
-        setChooseRequestLoading(true);
+        setIsLoading(true);
         const chooseHelperRequest = await callService(helpService, method, [
             helpId,
             selectedInterestedId,
         ]);
+        setIsLoading(false);
         if (!chooseHelperRequest.error) {
             alertSuccess('Interessado escolhido com sucesso!');
         }
@@ -99,11 +100,10 @@ export default function ListPossibleInteresteds({ route, navigation }) {
         <ScrollView contentContainerStyle={styles.container}>
             {renderView()}
             <ConfirmationModal
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={chooseInterested}
                 message={message}
-                isLoading={isChooseRequestLoading}
             />
         </ScrollView>
     );

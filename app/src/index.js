@@ -9,6 +9,7 @@ import HelpOfferContextProvider from './store/contexts/helpOfferContext';
 import SocialNetworkProfileContextProvider from './store/contexts/socialNetworkProfileContext';
 import { LoadingContextProvider } from './store/contexts/loadingContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ScreenTemplate } from './templates/ScreenTemplate';
 
 export default function Root() {
     return (
@@ -22,7 +23,9 @@ export default function Root() {
                                     <HelpOfferContextProvider>
                                         <CampaignContextProvider>
                                             <HelpContextProvider>
-                                                <Routes />
+                                                <ScreenTemplate>
+                                                    <Routes />
+                                                </ScreenTemplate>
                                             </HelpContextProvider>
                                         </CampaignContextProvider>
                                     </HelpOfferContextProvider>

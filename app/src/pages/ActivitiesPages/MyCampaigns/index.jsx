@@ -23,8 +23,6 @@ export default function CampaignsFinished({ navigation }) {
     const { user } = useContext(UserContext);
 
     const [finishedCampaignList, setFinishedCampaignList] = useState([]);
-    const [campaignDeletionLoading, setCampaignDeletionLoading] =
-        useState(false);
     const [campaignToDelete, setCampaignToDelete] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
@@ -52,7 +50,7 @@ export default function CampaignsFinished({ navigation }) {
     const onPressPlusButton = () =>
         createInteraction(user, navigation, 'createCampaign');
     async function excludeCampaign() {
-        setCampaignDeletionLoading(true);
+        setIsLoading(true);
         const validDeleteRequest = await callService(
             campaignService,
             'deleteCampaign',
@@ -64,7 +62,7 @@ export default function CampaignsFinished({ navigation }) {
             });
             setFinishedCampaignList(updatedArray);
         }
-        setCampaignDeletionLoading(false);
+        setIsLoading(false);
         setConfirmationModalVisible(false);
     }
 
@@ -130,11 +128,10 @@ export default function CampaignsFinished({ navigation }) {
             />
             <ConfirmationModal
                 attention={true}
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={excludeCampaign}
                 message={'Você deseja deletar essa campanha?'}
-                isLoading={campaignDeletionLoading}
             />
             {!isLoading && renderCampaignList()}
         </View>

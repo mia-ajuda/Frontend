@@ -6,7 +6,6 @@ import {
     ImageBackground,
     TouchableOpacity,
     Alert,
-    ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
 import Button from '../../../components/UI/button';
@@ -28,7 +27,6 @@ import FollowFollowingText from '../../../components/follow_followingText';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
 import { useFocusEffect } from '@react-navigation/native';
-import colors from '../../../../assets/styles/colorVariables';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function Profile({ navigation }) {
@@ -181,11 +179,10 @@ export default function Profile({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <ConfirmationModal
-                visible={isModalVisible}
+                visible={isModalVisible && !isLoading}
                 setVisible={setModalVisible}
                 action={sendPhoto}
                 message={'Tem certeza que deseja trocar sua foto?'}
-                isLoading={isLoading}
             />
             <View style={styles.imageView}>
                 <TouchableOpacity onPress={changeImgeProfile}>

@@ -162,11 +162,10 @@ export default function CampaignDescription({ route, navigation }) {
                 {!isTheSameUser && renderContactEntityButtons()}
             </View>
             <ConfirmationModal
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={finishCampaign}
                 message={'Você tem certeza que deseja finalizar esta campanha?'}
-                isLoading={isLoading}
             />
         </ScrollView>
     );

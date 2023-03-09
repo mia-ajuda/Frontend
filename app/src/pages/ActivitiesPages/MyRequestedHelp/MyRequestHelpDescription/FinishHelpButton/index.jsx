@@ -49,13 +49,12 @@ export default function FinishHelpButton({ help }) {
                 large
             />
             <ConfirmationModal
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={finishHelpByOwner}
                 message={
                     'Você tem certeza que deseja finalizar este pedido de ajuda?'
                 }
-                isLoading={isLoading}
             />
         </View>
     );

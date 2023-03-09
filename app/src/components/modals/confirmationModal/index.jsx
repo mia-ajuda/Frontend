@@ -5,24 +5,17 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Modal,
-    ActivityIndicator,
 } from 'react-native';
 import Button from '../../UI/button';
 import styles from './styles';
-import colors from '../../../../assets/styles/colorVariables';
 
 export default function ConfirmationModal({
     visible,
     setVisible,
     action,
     message,
-    isLoading,
     attention,
 }) {
-    const renderLoadingIndicator = () => (
-        <ActivityIndicator size="large" color={colors.primary} />
-    );
-
     function renderModalContent() {
         const attentionWarning = <Text style={styles.warning}>Atenção!</Text>;
         return (
@@ -49,11 +42,7 @@ export default function ConfirmationModal({
                 activeOpacity={1}
             >
                 <TouchableWithoutFeedback>
-                    <View style={styles.content}>
-                        {isLoading
-                            ? renderLoadingIndicator()
-                            : renderModalContent()}
-                    </View>
+                    <View style={styles.content}>{renderModalContent()}</View>
                 </TouchableWithoutFeedback>
             </TouchableOpacity>
         </Modal>

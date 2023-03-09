@@ -45,11 +45,10 @@ export default function EditNameField({ route, navigation }) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={'padding'}>
             <ConfirmationModal
-                visible={isConfirmationModalVisible}
+                visible={isConfirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={handleEditRequest}
                 message={'Tem certeza que deseja modificar esta informação?'}
-                isLoading={isLoading}
             />
             <View style={styles.content}>
                 <View style={styles.nameInput}>

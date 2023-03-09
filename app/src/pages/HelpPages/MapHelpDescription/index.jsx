@@ -167,11 +167,10 @@ export default function MapHelpDescription({ route, navigation }) {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
                 <ConfirmationModal
-                    visible={confirmationModalVisible}
+                    visible={confirmationModalVisible && !isLoading}
                     setVisible={setConfirmationModalVisible}
                     action={modalAction}
                     message={modalMessage}
-                    isLoading={isLoading}
                 />
 
                 {!isLoading && (

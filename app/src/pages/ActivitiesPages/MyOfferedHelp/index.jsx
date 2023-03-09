@@ -27,7 +27,6 @@ export default function HelpsFinished({ navigation }) {
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
-    const [isHelpDeletionLoading, setHelpDeletionLoading] = useState(false);
 
     useFocusEffect(
         useCallback(() => {
@@ -49,7 +48,7 @@ export default function HelpsFinished({ navigation }) {
     }
 
     async function excludeHelp() {
-        setHelpDeletionLoading(true);
+        setIsLoading(true);
         const validDeleteRequest = await callService(
             helpService,
             'deleteHelp',
@@ -61,7 +60,7 @@ export default function HelpsFinished({ navigation }) {
             });
             setFinishedHelpList(updatedArray);
         }
-        setHelpDeletionLoading(false);
+        setIsLoading(false);
         setConfirmationModalVisible(false);
     }
 
@@ -115,11 +114,10 @@ export default function HelpsFinished({ navigation }) {
             />
             <ConfirmationModal
                 attention={true}
-                visible={confirmationModalVisible}
+                visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={() => excludeHelp()}
                 message={'Você deseja deletar essa oferta de ajuda?'}
-                isLoading={isHelpDeletionLoading}
             />
             {!isLoading && renderHelpList()}
         </View>

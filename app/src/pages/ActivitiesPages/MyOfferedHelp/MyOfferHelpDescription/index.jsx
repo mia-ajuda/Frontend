@@ -236,13 +236,12 @@ export default function OfferHelpDescription({ route, navigation }) {
                 {showModal && <View style={styles.viewBackdrop} />}
                 <View style={styles.container}>
                     <ConfirmationModal
-                        visible={confirmationModalVisible}
+                        visible={confirmationModalVisible && !isLoading}
                         setVisible={setConfirmationModalVisible}
                         action={finishHelp}
                         message={
                             'Você tem certeza que deseja finalizar essa oferta de ajuda?'
                         }
-                        isLoading={isLoading}
                     />
                     {!isLoading && (
                         <>
