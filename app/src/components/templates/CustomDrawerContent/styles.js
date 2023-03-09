@@ -5,14 +5,13 @@ import fonts from '../../../../assets/styles/fontVariable';
 
 const { height } = Dimensions.get('window');
 
-const DEFAULT_DRAWER_MARGIN = 32;
 const styles = StyleSheet.create({
     drawer: {
         flex: 1,
     },
     drawerContainer: {
         flex: 1,
-        height: height - DEFAULT_DRAWER_MARGIN,
+        height: height,
         justifyContent: 'space-between',
     },
     header: {
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         marginTop: 'auto',
-        marginBottom: 16,
+        marginBottom: 24,
     },
 });
 
