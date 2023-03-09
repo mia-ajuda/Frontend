@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import colors from '../../../assets/styles/colorVariables';
@@ -10,7 +10,6 @@ import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
-import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
@@ -117,49 +116,32 @@ export default function Main({ navigation }) {
 
     return (
         <>
-            <SafeAreaView style={styles.container}>
-                <CategoryListModal
-                    visible={filterModalVisible}
-                    setVisible={setFilterModalVisible}
-                    isHistoryPage={false}
-                    setSelectedMarker={setSelectedMarker}
-                    selectedMarker={selectedMarker}
+            <CategoryListModal
+                visible={filterModalVisible}
+                setVisible={setFilterModalVisible}
+                isHistoryPage={false}
+                setSelectedMarker={setSelectedMarker}
+                selectedMarker={selectedMarker}
+            />
+            <Map
+                initialRegion={userPosition}
+                region={region}
+                setHelpListVisible={setHelpListVisible}
+            >
+                {renderMarkers()}
+            </Map>
+
+            {renderCreateRequestButton()}
+            {renderFilterButton()}
+
+            <View style={styles.helpList}>
+                <HelpList
+                    helps={helpList}
+                    visible={helpListVisible}
+                    setVisible={setHelpListVisible}
+                    navigation={navigation}
                 />
-                <TouchableOpacity
-                    style={styles.recenter}
-                    onPress={() => {
-                        setRegion(userPosition);
-                    }}
-                >
-                    <Icon
-                        name="target-two"
-                        type="foundation"
-                        color={colors.light}
-                        size={35}
-                    />
-                </TouchableOpacity>
-
-                <Map
-                    initialRegion={userPosition}
-                    region={region}
-                    setHelpListVisible={setHelpListVisible}
-                >
-                    <UserMarker userPosition={userPosition} />
-                    {renderMarkers()}
-                </Map>
-
-                {renderCreateRequestButton()}
-                {renderFilterButton()}
-
-                <View style={styles.helpList}>
-                    <HelpList
-                        helps={helpList}
-                        visible={helpListVisible}
-                        setVisible={setHelpListVisible}
-                        navigation={navigation}
-                    />
-                </View>
-            </SafeAreaView>
+            </View>
         </>
     );
 }
