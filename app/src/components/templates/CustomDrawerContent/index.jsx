@@ -11,19 +11,18 @@ import { Divider } from '../../atoms/Divider';
 export function CustomDrawerContent(props) {
     const { user } = useContext(UserContext);
     return (
-        <DrawerContentScrollView {...props} style={styles.drawer}>
-            <View style={styles.drawerContainer}>
-                <View style={styles.header}>
-                    <Image
-                        source={require('../../../../assets/images/logo.png')}
-                    />
-                    <Text style={styles.headerText}>Mia Ajuda</Text>
-                </View>
-                <CustomDrawerItemList {...props} />
-                <View style={styles.footer}>
-                    <Divider />
-                    <UserCard {...user} />
-                </View>
+        <DrawerContentScrollView
+            {...props}
+            contentContainerStyle={styles.drawer}
+        >
+            <View style={styles.header}>
+                <Image source={require('../../../../assets/images/logo.png')} />
+                <Text style={styles.headerText}>Mia Ajuda</Text>
+            </View>
+            <CustomDrawerItemList {...props} />
+            <View style={styles.footer}>
+                <Divider />
+                <UserCard {...user} />
             </View>
         </DrawerContentScrollView>
     );
