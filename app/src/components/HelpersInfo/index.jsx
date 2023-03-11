@@ -25,7 +25,7 @@ export default function HelpersInfo({ userId, title }) {
         <View style={styles.helpersContainer}>
             <View style={styles.contentContainer}>
                 {title && <Text style={styles.containerTitle}>{title}</Text>}
-                {!isLoading && (
+                {user && (
                     <>
                         <Image
                             source={{

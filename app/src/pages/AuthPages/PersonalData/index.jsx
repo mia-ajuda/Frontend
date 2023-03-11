@@ -53,12 +53,12 @@ export default function PersonalData({ route, navigation }) {
             : await callService(UserService, 'verifyUserInfo', [idOnlyNumbers]);
 
         if (!idExist.error) {
+            setIsLoading(false);
             if (idExist) {
                 alertError(
                     null,
                     `Esse ${idLabel} já está sendo utilizado por outro usuário`,
                 );
-                setIsLoading(false);
             } else {
                 continueHandler();
             }

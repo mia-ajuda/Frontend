@@ -15,7 +15,6 @@ import callService from '../../../services/callService';
 import shortenName from '../../../utils/shortenName';
 import messageOperation from '../../../utils/messageOperation';
 
-import colors from '../../../../assets/styles/colorVariables';
 import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 
@@ -27,7 +26,7 @@ export default function MapHelpDescription({ route, navigation }) {
 
     const { help, helpType } = route.params;
 
-    const [ownerInfo, setOwnerInfo] = useState({});
+    const [ownerInfo, setOwnerInfo] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [titleMessage, setTitleMessage] = useState(false);
@@ -173,7 +172,7 @@ export default function MapHelpDescription({ route, navigation }) {
                     message={modalMessage}
                 />
 
-                {!isLoading && (
+                {ownerInfo && (
                     <>
                         {renderHelpOwnerInformation()}
                         {renderHelpInformation()}

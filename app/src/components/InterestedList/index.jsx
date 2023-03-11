@@ -11,6 +11,8 @@ import { alertSuccess } from '../../utils/Alert';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 
 export default function ListPossibleInteresteds({ route, navigation }) {
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+
     const { possibleInteresteds, message, method, helpId, setUpdateData } =
         route.params;
     const [confirmationModalVisible, setConfirmationModalVisible] =

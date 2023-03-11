@@ -58,9 +58,12 @@ export default function Location({ route }) {
                 params,
             );
         }
+        setConfirmationModalVisible(false);
+
         if (!response.error) {
             setModalSuccessModalVisible(true);
         }
+
         setIsLoading(false);
     }
 

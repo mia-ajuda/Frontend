@@ -114,8 +114,9 @@ export default function CampaignsFinished({ navigation }) {
             );
         }
     };
+
     return (
-        <View>
+        <View style={styles.container}>
             <PlusIconTextButton
                 text="Criar campanha"
                 onPress={onPressPlusButton}

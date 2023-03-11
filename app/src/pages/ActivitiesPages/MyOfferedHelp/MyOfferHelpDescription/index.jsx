@@ -229,7 +229,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                             'Você tem certeza que deseja finalizar essa oferta de ajuda?'
                         }
                     />
-                    {!isLoading && (
+                    {help && (
                         <>
                             {renderHelpOwnerInformation()}
                             {renderHelpInformation()}

@@ -158,7 +158,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                 </View>
             </View>
             <View style={styles.cardContainer}>
-                {!isLoading && (
+                {!isLoading && activities && (
                     <ScrollView>
                         {helpCards()}
                         {offerCards()}
