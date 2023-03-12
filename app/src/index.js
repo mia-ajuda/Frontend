@@ -7,24 +7,33 @@ import CategoryContextProvider from './store/contexts/categoryContext';
 import DeviceInfoProvider from './store/contexts/deviceInformationContext';
 import HelpOfferContextProvider from './store/contexts/helpOfferContext';
 import SocialNetworkProfileContextProvider from './store/contexts/socialNetworkProfileContext';
+import { LoadingContextProvider } from './store/contexts/loadingContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ScreenTemplate } from './templates/ScreenTemplate';
 
 export default function Root() {
     return (
         <>
             <DeviceInfoProvider>
-                <UserContextProvider>
-                    <SocialNetworkProfileContextProvider>
-                        <CategoryContextProvider>
-                            <HelpOfferContextProvider>
-                                <CampaignContextProvider>
-                                    <HelpContextProvider>
-                                        <Routes />
-                                    </HelpContextProvider>
-                                </CampaignContextProvider>
-                            </HelpOfferContextProvider>
-                        </CategoryContextProvider>
-                    </SocialNetworkProfileContextProvider>
-                </UserContextProvider>
+                <SafeAreaProvider>
+                    <LoadingContextProvider>
+                        <UserContextProvider>
+                            <SocialNetworkProfileContextProvider>
+                                <CategoryContextProvider>
+                                    <HelpOfferContextProvider>
+                                        <CampaignContextProvider>
+                                            <HelpContextProvider>
+                                                <ScreenTemplate>
+                                                    <Routes />
+                                                </ScreenTemplate>
+                                            </HelpContextProvider>
+                                        </CampaignContextProvider>
+                                    </HelpOfferContextProvider>
+                                </CategoryContextProvider>
+                            </SocialNetworkProfileContextProvider>
+                        </UserContextProvider>
+                    </LoadingContextProvider>
+                </SafeAreaProvider>
             </DeviceInfoProvider>
         </>
     );

@@ -25,10 +25,6 @@ const styles = StyleSheet.create({
         padding: 5,
         color: 'white',
     },
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
     helpedUsers: {
         marginTop: 20,
     },

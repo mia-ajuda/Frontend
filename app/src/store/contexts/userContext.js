@@ -23,26 +23,24 @@ export const UserContextProvider = (props) => {
 
     useEffect(() => {
         setFirebaseTokenListener();
-    }, []);
-
-    useEffect(() => {
-        async function getLocation() {
-            const { granted } = await requestForegroundPermissionsAsync();
-            if (granted) {
-                const { coords } = await getCurrentPositionAsync({
-                    enableHighAccuracy: true,
-                });
-                const { latitude, longitude } = coords;
-                setUserPosition({
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.025,
-                    longitudeDelta: 0.025,
-                });
-            }
-        }
         getLocation();
     }, []);
+
+    async function getLocation() {
+        const { granted } = await requestForegroundPermissionsAsync();
+        if (granted) {
+            const { coords } = await getCurrentPositionAsync({
+                enableHighAccuracy: true,
+            });
+            const { latitude, longitude } = coords;
+            setUserPosition({
+                latitude,
+                longitude,
+                latitudeDelta: 0.025,
+                longitudeDelta: 0.025,
+            });
+        }
+    }
 
     function setFirebaseTokenListener() {
         firebaseService.onAuthStateChanged(async function (user) {

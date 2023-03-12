@@ -41,14 +41,6 @@ const styles = StyleSheet.create({
         fontFamily: 'montserrat-semibold',
         color: colors.primary,
     },
-
-    loading: {
-        flex: 1,
-        height: '100%',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        padding: 10,
-    },
     descriptionInput: {
         marginTop: 20,
     },

@@ -45,11 +45,6 @@ export default StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
     },
-    scrollLoading: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     viewMargin: {
         marginVertical: 6,
     },

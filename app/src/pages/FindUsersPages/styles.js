@@ -7,10 +7,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 24,
     },
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
 
     profileImage: {
         width: 100,
@@ -19,10 +15,6 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginHorizontal: 10,
         alignSelf: 'center',
-    },
-
-    loading: {
-        marginVertical: 20,
     },
 
     card: {
