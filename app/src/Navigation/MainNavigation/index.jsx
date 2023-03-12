@@ -61,7 +61,7 @@ export const MainNavigation = () => {
                 component={InformationsCenter}
                 options={{
                     ...drawerScreenOptions('Ajuda', 'help'),
-                    headerShown: true
+                    headerShown: true,
                 }}
             />
         </Drawer.Navigator>
