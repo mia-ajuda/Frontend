@@ -4,11 +4,11 @@ import { View, Image, Text, Pressable } from 'react-native';
 import { untilTwoLastNames } from '../../utils/shortenName';
 import { RoundedFullButton } from '../atoms/RoundedFullButton';
 
-const UserItem = ({ user, shouldRenderRoundedFullButton = false, onPress }) => {
+const UserItem = ({ user, showButton = false, onPress }) => {
     const navigation = useNavigation();
     const renderRoundedFullButton = () => {
         return (
-            shouldRenderRoundedFullButton && (
+            showButton && (
                 <View className="absolute right-0 z-10 transform -translate-x-1/2 -translate-y-1/2">
                     <RoundedFullButton text="Aceitar" onPress={onPress} />
                 </View>

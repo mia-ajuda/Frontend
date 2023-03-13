@@ -19,6 +19,25 @@ export default function HelpsMarker({ helpOffer }) {
         helpOffer.helpedUserId?.includes(user._id) ||
         helpOffer.possibleHelpedUsers?.some((obj) => obj._id === user._id);
 
+    const renderMarkerText = () => {
+        return userIsOwner || userIsParticipating ? (
+            <Text style={styles.calloutTitle} numberOfLines={1}>
+                {userIsOwner && 'Sua oferta'}
+                {userIsParticipating && 'Participando'}
+            </Text>
+        ) : (
+            <>
+                <Text style={styles.calloutTitle} numberOfLines={1}>
+                    Oferta de ajuda
+                </Text>
+                <Text style={styles.calloutPersonName} numberOfLines={1}>
+                    {helpOwnerNameFormated}
+                </Text>
+                <Text style={styles.calloutPress}>Toque para ver</Text>
+            </>
+        );
+    };
+
     return (
         <Marker
             title={helpOffer.distance}
@@ -48,25 +67,7 @@ export default function HelpsMarker({ helpOffer }) {
                 }
                 style={styles.callout}
             >
-                {userIsOwner || userIsParticipating ? (
-                    <Text style={styles.calloutTitle} numberOfLines={1}>
-                        {userIsOwner && 'Sua oferta'}
-                        {userIsParticipating && 'Participando'}
-                    </Text>
-                ) : (
-                    <>
-                        <Text style={styles.calloutTitle} numberOfLines={1}>
-                            Oferta de ajuda
-                        </Text>
-                        <Text
-                            style={styles.calloutPersonName}
-                            numberOfLines={1}
-                        >
-                            {helpOwnerNameFormated}
-                        </Text>
-                        <Text style={styles.calloutPress}>Toque para ver</Text>
-                    </>
-                )}
+                {renderMarkerText()}
             </Callout>
         </Marker>
     );

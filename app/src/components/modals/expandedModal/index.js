@@ -45,8 +45,11 @@ export const ExpandedModal = ({
         [],
     );
 
-    const snapPoints = userList.length >= 4 ? ['50%', '95%'] : ['50%'];
-    const closeModalWhenUserListIsEmpty = userList.length >= 0;
+    const snapPoints = userList.length >= 4 ? ['55%', '95%'] : ['50%'];
+
+    useEffect(() => {
+        if (userList.length <= 0) handleCloseModal();
+    }, [userList]);
 
     const handleCloseModal = () => setShowModal(false);
 
@@ -59,7 +62,7 @@ export const ExpandedModal = ({
         if (!chooseHelperRequest.error) {
             alertSuccess('Interessado escolhido com sucesso!');
         }
-        if (setUpdateData) setUpdateData(true);
+        setUpdateData(true);
         setConfirmationModalVisible(false);
     };
 
@@ -74,7 +77,7 @@ export const ExpandedModal = ({
                 ref={bottomSheetRef}
                 index={0}
                 snapPoints={snapPoints}
-                onDismiss={handleCloseModal || closeModalWhenUserListIsEmpty}
+                onDismiss={handleCloseModal}
                 backdropComponent={renderBackdrop}
                 enablePanDownToClose
                 handleComponent={null}
@@ -87,7 +90,7 @@ export const ExpandedModal = ({
                     message={'Você deseja ajudar esse usuário?'}
                     isLoading={isChooseRequestLoading}
                 />
-                <BottomSheetScrollView>
+                <BottomSheetScrollView scrollEnabled={userList.length >= 4}>
                     <FloatingIconButton
                         iconName={'close'}
                         onPress={handleCloseModal}
@@ -100,9 +103,7 @@ export const ExpandedModal = ({
                             <UserItem
                                 key={user._id}
                                 user={user}
-                                shouldRenderRoundedFullButton={
-                                    title === 'Possíveis ajudados'
-                                }
+                                showButton={title === 'Possíveis ajudados'}
                                 onPress={() => renderClickAction(user._id)}
                             />
                         ))}
