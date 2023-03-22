@@ -74,9 +74,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'space-between',
     },
-    loading: {
-        margin: 10,
-    },
 });
 
 export default styles;

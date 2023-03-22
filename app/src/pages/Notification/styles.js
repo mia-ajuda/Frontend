@@ -49,11 +49,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 22,
     },
-
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
 });
 
 export default styles;

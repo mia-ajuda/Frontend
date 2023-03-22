@@ -36,10 +36,6 @@ export default StyleSheet.create({
         textAlign: 'justify',
         marginTop: 10,
     },
-    loading: {
-        flex: 9,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     scrollContainer: { flexGrow: 1 },
 });

@@ -17,10 +17,6 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 24,
     },
-    loadingContainer: {
-        height: '100%',
-        justifyContent: 'center',
-    },
     helpedUsers: {
         marginTop: 20,
     },

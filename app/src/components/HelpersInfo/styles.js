@@ -79,11 +79,6 @@ const styles = StyleSheet.create({
         fontSize: RFValue(16, 640),
         fontWeight: '600',
     },
-    loadingUserInfo: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
 });
 
 export default styles;
