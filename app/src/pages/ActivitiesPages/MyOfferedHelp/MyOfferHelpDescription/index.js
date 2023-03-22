@@ -167,6 +167,14 @@ export default function OfferHelpDescription({ route, navigation }) {
         else return renderWaitingHelpOwnerMessage();
     };
 
+    const getAllPossibleHelpedUsers = () => {
+        const fakePossibleHelpedUsers = help.possibleHelpedUsers;
+        const fakePossibleEntities = help.possibleEntities;
+        fakePossibleEntities.push(...fakePossibleHelpedUsers);
+
+        return fakePossibleEntities;
+    };
+
     const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
     return (
         <View className="h-full flex-1">
@@ -199,10 +207,11 @@ export default function OfferHelpDescription({ route, navigation }) {
             {showPossibleHelpedUsers && (
                 <ExpandedModal
                     setShowModal={setShowPossibleHelpedUsers}
-                    userList={help.possibleHelpedUsers}
+                    userList={getAllPossibleHelpedUsers()}
                     title="Possíveis ajudados"
                     method="chooseHelpedUsers"
                     helpId={helpId}
+                    showButton={true}
                     setUpdateData={setUpdateData}
                 />
             )}

@@ -20,6 +20,7 @@ export const ExpandedModal = ({
     method,
     helpId,
     setUpdateData,
+    showButton = false,
 }) => {
     const bottomSheetRef = useRef(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
@@ -103,7 +104,7 @@ export const ExpandedModal = ({
                             <UserItem
                                 key={user._id}
                                 user={user}
-                                showButton={title === 'Possíveis ajudados'}
+                                showButton={showButton}
                                 onPress={() => renderClickAction(user._id)}
                             />
                         ))}

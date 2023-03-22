@@ -22,8 +22,7 @@ export default function HelpsMarker({ helpOffer }) {
     const renderMarkerText = () => {
         return userIsOwner || userIsParticipating ? (
             <Text style={styles.calloutTitle} numberOfLines={1}>
-                {userIsOwner && 'Sua oferta'}
-                {userIsParticipating && 'Participando'}
+                {userIsOwner ? 'Sua oferta' : 'Participando'}
             </Text>
         ) : (
             <>
