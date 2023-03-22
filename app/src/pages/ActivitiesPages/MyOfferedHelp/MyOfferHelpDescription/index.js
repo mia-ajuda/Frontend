@@ -14,7 +14,6 @@ import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
-import helpService from '../../../../services/Help';
 import colors from '../../../../../assets/styles/colorVariables';
 import Map from '../../../../components/Map';
 import HelpOfferMarker from '../../../Main/HelpOfferMarker';
@@ -40,7 +39,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         async function setupPage() {
             setIsHelpOfferLoading(true);
             const helpTemp = await callService(
-                helpService,
+                HelpService,
                 `get${routeId}WithAggregationById`,
                 [helpId],
             );
