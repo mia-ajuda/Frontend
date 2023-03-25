@@ -4,24 +4,24 @@ module.exports = {
         extend: {
             colors: {
                 primary: {
-                    default: '#4b8ab9',
+                    DEFAULT: '#4b8ab9',
                     contrast: '#81b0ff',
                     lowOpacity: '#E4F4FF',
                 },
                 secondary: {
-                    default: '#f7ef6e',
+                    DEFAULT: '#f7ef6e',
                 },
                 danger: {
-                    default: '#e47171',
+                    DEFAULT: '#e47171',
                 },
                 dark: {
-                    default: '#353535',
+                    DEFAULT: '#353535',
                 },
                 light: {
-                    default: '#f7f7f7',
+                    DEFAULT: '#f7f7f7',
                 },
                 success: {
-                    default: '#77dd77',
+                    DEFAULT: '#77dd77',
                 },
             },
             screens: {
