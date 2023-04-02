@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         maxHeight: RFValue(40, 640),
+        marginBottom: RFValue(24, 640),
     },
     input: {
         marginLeft: 4,
