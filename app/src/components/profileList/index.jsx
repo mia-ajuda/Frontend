@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
+import { UserListItem } from '../molecules/UserListItem';
 export default function ProfileList({ usersProfile, navigation }) {
     return (
-        <View>
+        <View style={styles.userList}>
             {usersProfile &&
                 usersProfile.map((profile) => (
                     <TouchableOpacity
@@ -22,25 +23,7 @@ export default function ProfileList({ usersProfile, navigation }) {
                             })
                         }
                     >
-                        <View style={[styles.card, styles.elevation]}>
-                            <Image
-                                style={styles.profileImage}
-                                source={{
-                                    uri: `data:image/png;base64,${profile.photo}`,
-                                }}
-                            />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.text}>
-                                    {profile.username}
-                                </Text>
-                                <Text style={styles.text}>
-                                    Seguidores: {profile.numberOfFollowers}
-                                </Text>
-                                <Text style={styles.text}>
-                                    Seguindo: {profile.numberOfFollowing}
-                                </Text>
-                            </View>
-                        </View>
+                        <UserListItem user={profile} />
                     </TouchableOpacity>
                 ))}
         </View>

@@ -1,22 +1,24 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import styles from './styles';
 import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from '../../store/contexts/userContext';
-import colors from '../../../assets/styles/colorVariables';
 import ProfileList from '../../components/profileList';
 import { useFocusEffect } from '@react-navigation/native';
 import { SearchBar } from '../../components/atoms/SearchBar';
 import { LoadingContext } from '../../store/contexts/loadingContext';
+import { NotFound } from '../../components/organisms/NotFound';
 
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
-    const [usersProfile, setUsersProfile] = useState(null);
-    const [findName, setFindName] = useState(null);
+    const [usersProfile, setUsersProfile] = useState([]);
+    const hasUsers = usersProfile.length > 0;
+    const [findName, setFindName] = useState('');
 
+    console.log(findName);
     async function setupPage() {
         setIsLoading(true);
         const findUserTemp = await callService(
@@ -24,8 +26,8 @@ const FindUsers = ({ navigation }) => {
             'findUsersProfiles',
             [user._id, findName],
         );
-
-        setUsersProfile(findUserTemp);
+        if (findUserTemp) setUsersProfile(findUserTemp);
+        else setUsersProfile([]);
         setIsLoading(false);
     }
 
@@ -37,7 +39,7 @@ const FindUsers = ({ navigation }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            findName ? setupPage() : setUsersProfile(null);
+            setupPage();
         }, 500);
 
         return () => clearTimeout(timer);
@@ -55,6 +57,14 @@ const FindUsers = ({ navigation }) => {
                     <ProfileList
                         usersProfile={usersProfile}
                         navigation={navigation}
+                    />
+                )}
+
+                {!hasUsers && (
+                    <NotFound
+                        body={
+                            'Nenhum usuário com o nome digitado foi encontrado'
+                        }
                     />
                 )}
             </View>
