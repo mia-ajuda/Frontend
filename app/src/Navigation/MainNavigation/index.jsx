@@ -50,12 +50,14 @@ export const MainNavigation = () => {
             >
                 {renderRoute('profile')}
             </Drawer.Screen>
-            <Drawer.Screen
-                name="findUserDrawer"
-                options={drawerScreenOptions('Procurar Usuários', 'search')}
-            >
-                {renderRoute('searchUsers')}
-            </Drawer.Screen>
+            {!isEntity && (
+                <Drawer.Screen
+                    name="findUserDrawer"
+                    options={drawerScreenOptions('Procurar Usuários', 'search')}
+                >
+                    {renderRoute('searchUsers')}
+                </Drawer.Screen>
+            )}
             <Drawer.Screen
                 name="helpDrawer"
                 component={InformationsCenter}

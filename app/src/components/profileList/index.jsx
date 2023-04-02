@@ -4,7 +4,7 @@ import styles from './styles';
 import { UserListItem } from '../molecules/UserListItem';
 import { Divider } from '../atoms/Divider';
 export default function ProfileList({ usersProfile, navigation }) {
-    //This code will be removed in next PR with the new profile page
+    //This is an old code and will be removed in next PR with the new profile page
     const handlenavigate = (profile) =>
         navigation.navigate('socialUserProfile', {
             selectedProfileId: profile._id,
