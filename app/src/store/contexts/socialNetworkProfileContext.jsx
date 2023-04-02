@@ -25,9 +25,28 @@ export default function SocialNetworkProfileContextProvider({ children }) {
         setUserSocialNetworkProfile(temp_userProfile);
     }
 
+    async function followUser(selectedProfileId) {
+        return await callService(socialNetworkProfileservice, 'unfollowUser', [
+            selectedProfileId,
+            user._id,
+        ]);
+    }
+
+    async function unfollowUser(selectedProfileId) {
+        return await callService(socialNetworkProfileservice, 'followUser', [
+            selectedProfileId,
+            user._id,
+        ]);
+    }
+
     return (
         <SocialNetworkProfileContext.Provider
-            value={{ userSocialNetworkProfile, setUserSocialNetworkProfile }}
+            value={{
+                userSocialNetworkProfile,
+                setUserSocialNetworkProfile,
+                followUser,
+                unfollowUser,
+            }}
         >
             {children}
         </SocialNetworkProfileContext.Provider>

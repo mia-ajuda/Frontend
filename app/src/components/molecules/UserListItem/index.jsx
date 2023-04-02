@@ -1,15 +1,31 @@
 import { Image, Text, View } from 'react-native';
 import Button from '../../UI/button';
 import { styles } from './styles';
+import { useContext } from 'react';
+import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { UpdaterContext } from '../../../store/contexts/updaterContext';
 
 export const UserListItem = ({ user }) => {
-    console.log({ ...user, photo: 123 });
-    const buttonInfo = {
-        action: user.isFollowing
-            ? console.log('seguindo')
-            : console.log('seguir'),
-        text: user.isFollowing ? 'Seguindo' : 'Seguir',
+    const { followUser, unfollowUser } = useContext(
+        SocialNetworkProfileContext,
+    );
+    const { setIsLoading } = useContext(LoadingContext);
+    const { setShouldUpdate } = useContext(UpdaterContext);
+
+    const { isFollowing } = user;
+
+    const handleClickButton = async () => {
+        setIsLoading(true);
+        isFollowing ? await followUser(user._id) : await unfollowUser(user._id);
+        setShouldUpdate(true);
     };
+
+    const buttonInfo = {
+        text: isFollowing ? 'Seguindo' : 'Seguir',
+        type: isFollowing ? 'white' : '',
+    };
+
     return (
         <View style={styles.container}>
             <Image
@@ -21,7 +37,11 @@ export const UserListItem = ({ user }) => {
             <View style={styles.userInfo}>
                 <Text style={styles.userName}>{user.username}</Text>
             </View>
-            <Button title={buttonInfo.text} />
+            <Button
+                title={buttonInfo.text}
+                press={handleClickButton}
+                type={buttonInfo.type}
+            />
         </View>
     );
 };

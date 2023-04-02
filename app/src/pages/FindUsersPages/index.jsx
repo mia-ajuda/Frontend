@@ -9,16 +9,17 @@ import { useFocusEffect } from '@react-navigation/native';
 import { SearchBar } from '../../components/atoms/SearchBar';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import { NotFound } from '../../components/organisms/NotFound';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
 
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
 
     const [usersProfile, setUsersProfile] = useState([]);
     const hasUsers = usersProfile.length > 0;
     const [findName, setFindName] = useState('');
 
-    console.log(findName);
     async function setupPage() {
         setIsLoading(true);
         const findUserTemp = await callService(
@@ -29,6 +30,7 @@ const FindUsers = ({ navigation }) => {
         if (findUserTemp) setUsersProfile(findUserTemp);
         else setUsersProfile([]);
         setIsLoading(false);
+        setShouldUpdate(false);
     }
 
     useFocusEffect(
@@ -43,7 +45,7 @@ const FindUsers = ({ navigation }) => {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [findName]);
+    }, [findName, shouldUpdate]);
 
     return (
         <ScrollView style={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
