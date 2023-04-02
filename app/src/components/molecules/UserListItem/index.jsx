@@ -21,6 +21,7 @@ export const UserListItem = ({ user }) => {
         setShouldUpdate(true);
     };
 
+    // Button will be replaced to the new one, when the new one become avaliable
     const buttonInfo = {
         text: isFollowing ? 'Seguindo' : 'Seguir',
         type: isFollowing ? 'white' : '',
