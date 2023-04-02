@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import colors from '../../../../assets/styles/colorVariables';
 import fonts from '../../../../assets/styles/fontVariable';
 
 export const styles = StyleSheet.create({
@@ -11,7 +10,7 @@ export const styles = StyleSheet.create({
         borderColor: '#3535354d',
         paddingHorizontal: 12,
         paddingVertical: 8,
-        backgroundColor: colors.light,
+        backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
         maxHeight: RFValue(40, 640),
