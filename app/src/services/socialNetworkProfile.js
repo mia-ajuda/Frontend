@@ -4,7 +4,7 @@ class SocialNetworkProfileService {
     constructor() {}
 
     async findUsersProfiles(userId, username = null) {
-        const url = `/socialNetworkProfile/findUsers/${userId}/${username}`;
+        const url = `/socialNetworkProfile/findUsers/${userId}?name=${username}`;
         const usersProfiles = await api.get(url);
         return usersProfiles.data;
     }
