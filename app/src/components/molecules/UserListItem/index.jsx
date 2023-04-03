@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { UpdaterContext } from '../../../store/contexts/updaterContext';
+import shortenName from '../../../utils/shortenName';
 
 export const UserListItem = ({ user }) => {
     const { followUser, unfollowUser } = useContext(
@@ -36,7 +37,9 @@ export const UserListItem = ({ user }) => {
                 style={styles.image}
             />
             <View style={styles.userInfo}>
-                <Text style={styles.userName}>{user.username}</Text>
+                <Text style={styles.userName} numberOfLines={1}>
+                    {shortenName(user.username)}
+                </Text>
             </View>
             <Button
                 title={buttonInfo.text}
