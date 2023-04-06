@@ -13,7 +13,7 @@ import callService from '../../../services/callService';
 import helpService from '../../../services/Help';
 import { alertSuccess } from '../../../utils/Alert';
 
-export const ExpandedModal = ({
+export const ExpansiveModal = ({
     setShowModal,
     userList,
     title,
