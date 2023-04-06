@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../../../assets/styles/colorVariables';
 import fonts from '../../../../assets/styles/fontVariable';
 
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
         width: '80%',
         backgroundColor: '#fff',
         alignSelf: 'center',
-        marginTop: Dimensions.get('window').height / 3.5,
+        marginTop: Dimensions.get('window').height / RFValue(3, 640),
         borderRadius: 15,
     },
     buttons: {

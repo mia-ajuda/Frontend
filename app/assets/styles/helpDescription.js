@@ -1,4 +1,3 @@
-import fonts from './fontVariable';
 import colors from './colorVariables';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -13,12 +12,13 @@ const helpDescription = {
         flexDirection: 'row',
     },
     profileImage: {
-        width: 100,
-        height: 100,
+        width: 70,
+        height: 70,
         resizeMode: 'cover',
         borderRadius: 50,
         marginHorizontal: 10,
         alignSelf: 'center',
+        position: 'absolute',
     },
     infoTextView: {
         alignSelf: 'center',
@@ -26,13 +26,13 @@ const helpDescription = {
         paddingRight: 100,
     },
     infoTitle: {
-        fontSize: RFValue(20, 640),
+        fontSize: RFValue(16, 640),
         fontFamily: 'montserrat-semibold',
     },
     infoText: {
-        ...fonts.body,
+        fontSize: RFValue(14, 640),
+        fontFamily: 'montserrat-regular',
         textAlign: 'justify',
-        marginBottom: 24,
     },
     infoTextFont: {
         fontFamily: 'montserrat-semibold',
@@ -76,9 +76,6 @@ const helpDescription = {
     },
     titleFont: {
         fontFamily: 'montserrat-semibold',
-        fontSize: RFValue(30, 640),
-        textAlign: 'center',
-        paddingBottom: 8,
     },
     categoryWarning: {
         backgroundColor: colors.secondary,
@@ -91,7 +88,7 @@ const helpDescription = {
     },
 
     categoryName: {
-        ...fonts.body,
+        fontSize: RFValue(12, 640),
         fontFamily: 'montserrat-semibold',
         lineHeight: 30,
         textAlign: 'center',

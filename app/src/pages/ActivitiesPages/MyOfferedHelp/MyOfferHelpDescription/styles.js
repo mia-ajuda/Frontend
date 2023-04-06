@@ -4,17 +4,8 @@ import helpDescription from '../../../../../assets/styles/helpDescription';
 
 const styles = StyleSheet.create({
     ...helpDescription,
-    viewOffer: {
-        height: '100%',
-    },
     scrollViewOffer: {
         flexGrow: 1,
-    },
-    viewBackdrop: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,.6)',
     },
     waitingText: {
         ...fonts.subtitle,
@@ -24,6 +15,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 5,
         color: 'white',
+        marginTop: 24,
     },
     helpedUsers: {
         marginTop: 20,
