@@ -19,20 +19,31 @@ export default function HelpsMarker({ helpOffer }) {
         helpOffer.helpedUserId?.includes(user._id) ||
         helpOffer.possibleHelpedUsers?.some((obj) => obj._id === user._id);
 
+    const getTitle = () => {
+        if (userIsParticipating) return 'Participando';
+        else if (userIsOwner) return 'Sua oferta';
+        return 'Oferta de ajuda';
+    };
+
     const renderMarkerText = () => {
-        return userIsOwner || userIsParticipating ? (
-            <Text style={styles.calloutTitle} numberOfLines={1}>
-                {userIsOwner ? 'Sua oferta' : 'Participando'}
-            </Text>
-        ) : (
+        const title = getTitle();
+        const showBody = !userIsOwner && !userIsParticipating;
+        return (
             <>
                 <Text style={styles.calloutTitle} numberOfLines={1}>
-                    Oferta de ajuda
+                    {title}
                 </Text>
-                <Text style={styles.calloutPersonName} numberOfLines={1}>
-                    {helpOwnerNameFormated}
-                </Text>
-                <Text style={styles.calloutPress}>Toque para ver</Text>
+                {showBody && (
+                    <>
+                        <Text
+                            style={styles.calloutPersonName}
+                            numberOfLines={1}
+                        >
+                            {helpOwnerNameFormated}
+                        </Text>
+                        <Text style={styles.calloutPress}>Toque para ver</Text>
+                    </>
+                )}
             </>
         );
     };

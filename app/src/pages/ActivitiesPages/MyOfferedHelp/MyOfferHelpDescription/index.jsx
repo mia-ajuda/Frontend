@@ -9,7 +9,7 @@ import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
 import Map from '../../../../components/Map';
 import HelpOfferMarker from '../../../Main/HelpOfferMarker';
-import { ExpandedModal } from '../../../../components/modals/expandedModal';
+import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 
@@ -155,11 +155,8 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const getAllPossibleHelpedUsers = () => {
-        const fakePossibleHelpedUsers = help.possibleHelpedUsers;
-        const fakePossibleEntities = help.possibleEntities;
-        fakePossibleEntities.push(...fakePossibleHelpedUsers);
-
-        return fakePossibleEntities;
+        const { possibleHelpedUsers, possibleEntities } = help;
+        return [...possibleHelpedUsers, ...possibleEntities];
     };
 
     const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
@@ -189,7 +186,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 </ScrollView>
             )}
             {showPossibleHelpedUsers && (
-                <ExpandedModal
+                <ExpansiveModal
                     setShowModal={setShowPossibleHelpedUsers}
                     userList={getAllPossibleHelpedUsers()}
                     title="Possíveis ajudados"
@@ -200,7 +197,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 />
             )}
             {showHelpedUsers && (
-                <ExpandedModal
+                <ExpansiveModal
                     setShowModal={setShowHelpedUsers}
                     userList={help.helpedUsers}
                     title="Ajudados escolhidos"
