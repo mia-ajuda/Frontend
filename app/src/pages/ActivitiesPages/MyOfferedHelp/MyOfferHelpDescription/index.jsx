@@ -7,7 +7,7 @@ import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
-import Map from '../../../../components/Map';
+import CustomMap from '../../../../components/CustomMap';
 import HelpOfferMarker from '../../../Main/HelpOfferMarker';
 import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
@@ -126,9 +126,9 @@ export default function OfferHelpDescription({ route, navigation }) {
                     Localização
                 </Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
-                    <Map initialRegion={helpLocationCoordinates}>
+                    <CustomMap initialRegion={helpLocationCoordinates}>
                         <HelpOfferMarker key={help._id} helpOffer={help} />
-                    </Map>
+                    </CustomMap>
                     <TouchableOpacity
                         onPress={() =>
                             navigateToSelectedHelpOnMap(helpLocationCoordinates)

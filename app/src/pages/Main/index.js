@@ -14,7 +14,7 @@ import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
 import createInteraction from '../../utils/createInteraction';
-import Map from '../../components/Map';
+import CustomMap from '../../components/CustomMap';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -123,13 +123,13 @@ export default function Main({ navigation }) {
                 setSelectedMarker={setSelectedMarker}
                 selectedMarker={selectedMarker}
             />
-            <Map
+            <CustomMap
                 initialRegion={userPosition}
                 region={region}
                 setHelpListVisible={setHelpListVisible}
             >
                 {renderMarkers()}
-            </Map>
+            </CustomMap>
 
             {renderCreateRequestButton()}
             {renderFilterButton()}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import Map from '../../../components/Map';
+import CustomMap from '../../../components/CustomMap';
 import HelpOfferMarker from '../../Main/HelpOfferMarker';
 
 export const SelectedHelpOnMap = ({ route }) => {
@@ -8,9 +8,9 @@ export const SelectedHelpOnMap = ({ route }) => {
 
     return (
         <View>
-            <Map region={helpLocationCoordinates}>
+            <CustomMap region={helpLocationCoordinates}>
                 <HelpOfferMarker key={help._id} helpOffer={help} />
-            </Map>
+            </CustomMap>
             {/* the feature that change offer location will be developed in another issue
             <View className="items-center px-3">
                 <DefaultButton
