@@ -28,14 +28,15 @@ export const UserListItem = ({ user }) => {
         type: isFollowing ? 'white' : '',
     };
 
+    const imageSource = user.photo
+        ? {
+              uri: `data:image/png;base64,${user.photo}`,
+          }
+        : require('../../../../assets/images/noImage.jpg');
+
     return (
         <View style={styles.container}>
-            <Image
-                source={{
-                    uri: `data:image/png;base64,${user.photo}`,
-                }}
-                style={styles.image}
-            />
+            <Image source={imageSource} style={styles.image} />
             <View style={styles.userInfo}>
                 <Text style={styles.userName} numberOfLines={1}>
                     {shortenName(user.username)}

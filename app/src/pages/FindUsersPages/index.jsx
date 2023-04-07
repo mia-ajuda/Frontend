@@ -27,6 +27,7 @@ const FindUsers = ({ navigation }) => {
             'findUsersProfiles',
             [user._id, findName],
         );
+        console.log(findUserTemp);
         if (findUserTemp) setUsersProfile(findUserTemp);
         else setUsersProfile([]);
         setIsLoading(false);
