@@ -1,5 +1,4 @@
 import { Image, Text, View } from 'react-native';
-import Button from '../../UI/button';
 import { styles } from './styles';
 import { useContext } from 'react';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';

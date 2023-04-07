@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import styles from './styles';
 import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
