@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import MapView from 'react-native-maps';
 import { Icon } from 'react-native-elements';
-import mapStyle from '../../../assets/styles/mapstyle';
 import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
@@ -12,11 +10,11 @@ import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
-import UserMarker from './UserMarker';
 import CampaignMarker from './CampaignMarker';
 import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
 import createInteraction from '../../utils/createInteraction';
+import CustomMap from '../../components/CustomMap';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -118,53 +116,32 @@ export default function Main({ navigation }) {
 
     return (
         <>
-            <SafeAreaView style={styles.container}>
-                <CategoryListModal
-                    visible={filterModalVisible}
-                    setVisible={setFilterModalVisible}
-                    isHistoryPage={false}
-                    setSelectedMarker={setSelectedMarker}
-                    selectedMarker={selectedMarker}
+            <CategoryListModal
+                visible={filterModalVisible}
+                setVisible={setFilterModalVisible}
+                isHistoryPage={false}
+                setSelectedMarker={setSelectedMarker}
+                selectedMarker={selectedMarker}
+            />
+            <CustomMap
+                initialRegion={userPosition}
+                region={region}
+                setHelpListVisible={setHelpListVisible}
+            >
+                {renderMarkers()}
+            </CustomMap>
+
+            {renderCreateRequestButton()}
+            {renderFilterButton()}
+
+            <View style={styles.helpList}>
+                <HelpList
+                    helps={helpList}
+                    visible={helpListVisible}
+                    setVisible={setHelpListVisible}
+                    navigation={navigation}
                 />
-                <TouchableOpacity
-                    style={styles.recenter}
-                    onPress={() => {
-                        setRegion(userPosition);
-                    }}
-                >
-                    <Icon
-                        name="target-two"
-                        type="foundation"
-                        color={colors.light}
-                        size={35}
-                    />
-                </TouchableOpacity>
-
-                <MapView
-                    initialRegion={userPosition}
-                    style={styles.map}
-                    region={region}
-                    // onRegionChange={() => setHelpListVisible(false)}
-                    onPress={() => {
-                        setHelpListVisible(false);
-                    }}
-                    customMapStyle={mapStyle.day.map}
-                >
-                    <UserMarker userPosition={userPosition} />
-                    {renderMarkers()}
-                </MapView>
-                {renderCreateRequestButton()}
-                {renderFilterButton()}
-
-                <View style={styles.helpList}>
-                    <HelpList
-                        helps={helpList}
-                        visible={helpListVisible}
-                        setVisible={setHelpListVisible}
-                        navigation={navigation}
-                    />
-                </View>
-            </SafeAreaView>
+            </View>
         </>
     );
 }

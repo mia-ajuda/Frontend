@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationGivenHelps } from '../../GivenHelps';
 import MyOfferHelpDescription from '../../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
@@ -9,6 +9,7 @@ import CreateHelpOffer from '../../../../pages/HelpPages/CreateHelpOffer';
 import CreateCampaign from '../../../../pages/HelpPages/CreateCampaign';
 import CampaignDescription from '../../../../pages/HelpPages/CampaignDescription';
 import headerStyle from '../../MainNavigationStyles/MainStackHeaderStyle';
+import { SelectedHelpOnMap } from '../../../../pages/ActivitiesPages/SelectedHelpOnMap';
 
 const Stack = createStackNavigator();
 
@@ -37,18 +38,16 @@ export const ActivitiesRoutes = () => {
                 name="createHelpRequest"
                 component={CreateHelpRequest}
             />
-            <Stack.Screen
-                name="createHelpOffer"
-                component={CreateHelpOffer}
-            />
-            <Stack.Screen
-                name="createCampaign"
-                component={CreateCampaign}
-            />
+            <Stack.Screen name="createHelpOffer" component={CreateHelpOffer} />
+            <Stack.Screen name="createCampaign" component={CreateCampaign} />
             <Stack.Screen
                 name="campaignDescription"
                 component={CampaignDescription}
             />
+            <Stack.Screen
+                name="selectedHelpOnMap"
+                component={SelectedHelpOnMap}
+            />
         </>
-    )
-}
+    );
+};

@@ -42,6 +42,7 @@
         "moment": "^2.24.0",
         "moment-timezone": "^0.5.28",
         "native-base": "^2.13.12",
+        "nativewind": "^2.0.11",
         "punycode": "^2.1.1",
         "react": "17.0.2",
         "react-dom": "17.0.2",
@@ -84,7 +85,8 @@
         "husky": "^4.2.5",
         "lint-staged": "^10.2.11",
         "prettier": "^2.0.5",
-        "react-native-dotenv": "^0.2.0"
+        "react-native-dotenv": "^0.2.0",
+        "tailwindcss": "^3.2.7"
     },
     "private": true
 }

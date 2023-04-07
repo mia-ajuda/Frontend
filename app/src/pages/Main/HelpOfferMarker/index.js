@@ -13,6 +13,41 @@ export default function HelpsMarker({ helpOffer }) {
     const navigation = useNavigation();
     const helpOwnerNameFormated = ShortenName(helpOffer.user.name);
     const { user } = useContext(UserContext);
+
+    const userIsOwner = user._id === helpOffer.ownerId;
+    const userIsParticipating =
+        helpOffer.helpedUserId?.includes(user._id) ||
+        helpOffer.possibleHelpedUsers?.some((obj) => obj._id === user._id);
+
+    const getTitle = () => {
+        if (userIsParticipating) return 'Participando';
+        else if (userIsOwner) return 'Sua oferta';
+        return 'Oferta de ajuda';
+    };
+
+    const renderMarkerText = () => {
+        const title = getTitle();
+        const showBody = !userIsOwner && !userIsParticipating;
+        return (
+            <>
+                <Text style={styles.calloutTitle} numberOfLines={1}>
+                    {title}
+                </Text>
+                {showBody && (
+                    <>
+                        <Text
+                            style={styles.calloutPersonName}
+                            numberOfLines={1}
+                        >
+                            {helpOwnerNameFormated}
+                        </Text>
+                        <Text style={styles.calloutPress}>Toque para ver</Text>
+                    </>
+                )}
+            </>
+        );
+    };
+
     return (
         <Marker
             title={helpOffer.distance}
@@ -36,17 +71,13 @@ export default function HelpsMarker({ helpOffer }) {
             </View>
             <Callout
                 onPress={() =>
+                    !userIsOwner &&
+                    !userIsParticipating &&
                     navigateToDescription('offer', user, navigation, helpOffer)
                 }
                 style={styles.callout}
             >
-                <Text style={styles.calloutTitle} numberOfLines={1}>
-                    Oferta de ajuda
-                </Text>
-                <Text style={styles.calloutPersonName} numberOfLines={1}>
-                    {helpOwnerNameFormated}
-                </Text>
-                <Text style={styles.calloutPress}>Toque para ver</Text>
+                {renderMarkerText()}
             </Callout>
         </Marker>
     );
