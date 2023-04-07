@@ -32,7 +32,7 @@ export const UserListItem = ({ user }) => {
         ? {
               uri: `data:image/png;base64,${user.photo}`,
           }
-        : require('../../../../assets/images/noImage.jpg');
+        : require('../../../../assets/images/noImage.png');
 
     return (
         <View style={styles.container}>
