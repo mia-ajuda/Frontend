@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, Pressable } from 'react-native';
 import styles from './styles';
 import { UserListItem } from '../molecules/UserListItem';
 import { Divider } from '../atoms/Divider';
@@ -19,13 +19,13 @@ export default function ProfileList({ usersProfile, navigation }) {
         <View style={styles.userList}>
             {usersProfile &&
                 usersProfile.map((profile, i) => (
-                    <TouchableOpacity
+                    <Pressable
                         key={profile._id}
                         onPress={() => handlenavigate(profile)}
                     >
                         <UserListItem user={profile} />
                         {i != usersProfile.length - 1 && <Divider />}
-                    </TouchableOpacity>
+                    </Pressable>
                 ))}
         </View>
     );
