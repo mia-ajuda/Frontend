@@ -39,7 +39,11 @@ export const UserListItem = ({ user }) => {
         <View style={styles.container}>
             <Image source={imageSource} style={styles.image} />
             <View style={styles.userInfo}>
-                <Text style={styles.userName} numberOfLines={1}>
+                <Text
+                    style={styles.userName}
+                    numberOfLines={1}
+                    className={'w-36'}
+                >
                     {shortenName(user.username)}
                 </Text>
             </View>
