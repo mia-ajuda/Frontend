@@ -6,6 +6,7 @@ import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetwo
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { UpdaterContext } from '../../../store/contexts/updaterContext';
 import shortenName from '../../../utils/shortenName';
+import { RoundedFullButton } from '../../atoms/RoundedFullButton';
 
 export const UserListItem = ({ user }) => {
     const { followUser, unfollowUser } = useContext(
@@ -25,7 +26,7 @@ export const UserListItem = ({ user }) => {
     // Button will be replaced to the new one, when the new one become avaliable
     const buttonInfo = {
         text: isFollowing ? 'Seguindo' : 'Seguir',
-        type: isFollowing ? 'white' : '',
+        type: isFollowing ? 'secondary' : 'primary',
     };
 
     const imageSource = user.photo
@@ -42,10 +43,11 @@ export const UserListItem = ({ user }) => {
                     {shortenName(user.username)}
                 </Text>
             </View>
-            <Button
-                title={buttonInfo.text}
-                press={handleClickButton}
-                type={buttonInfo.type}
+            <RoundedFullButton
+                text={buttonInfo.text}
+                onPress={handleClickButton}
+                variant={buttonInfo.type}
+                width={'min-w-[35%]'}
             />
         </View>
     );
