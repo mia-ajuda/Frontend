@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
@@ -22,8 +22,7 @@ export const UserProfile = ({ navigation, route }) => {
     const isFollowing = true || userInfo?.following.includes(user._id);
     const showActivities = selectedOption == 1;
     const activitiesTypes = Object.keys(activities);
-    const showConquers = selectedOption == 0;
-
+    const activeSwicth = false; //Will be enable when we have the conquers
     const handleLoadScreenData = async () => {
         setIsLoading(true);
 
@@ -107,13 +106,23 @@ export const UserProfile = ({ navigation, route }) => {
                     <FollowCount type="followers" count={1} />
                     <FollowCount type="following" count={2} />
                 </View>
-                <TextSwitch
-                    option1="Conquistas"
-                    option2="Atividades"
-                    selectedOption={selectedOption}
-                    setSelectedOption={setSelectedOption}
-                />
-                {showActivities && renderActivies()}
+                {activeSwicth && (
+                    <TextSwitch
+                        option1="Conquistas"
+                        option2="Atividades"
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                    />
+                )}
+                <View className="flex-1 w-full">
+                    {!activeSwicth && (
+                        <Text className="self-start text-base font-semibold mt-2 text-black">
+                            {' '}
+                            Atividades{' '}
+                        </Text>
+                    )}
+                    {showActivities && renderActivies()}
+                </View>
             </View>
         </View>
     );
