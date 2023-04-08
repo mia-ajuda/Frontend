@@ -9,7 +9,7 @@ export const TextSwitch = ({
     setSelectedOption,
 }) => {
     return (
-        <View className="p-1 m-2 flex-row bg-background2 rounded-full">
+        <View className="p-1 flex-row bg-background rounded-full">
             <TextSwitchButton
                 text={option1}
                 onPress={() => setSelectedOption(0)}

@@ -4,7 +4,7 @@ import { Text, TouchableOpacity } from 'react-native';
 export const TextSwitchButton = ({ text, isSelected, onPress }) => {
     const style = {
         container: isSelected ? 'bg-white' : 'bg-transparent',
-        text: isSelected ? ' text-primary font-semibold' : '',
+        text: isSelected ? ' text-primary font-semibold' : 'font-light',
     };
     return (
         <TouchableOpacity

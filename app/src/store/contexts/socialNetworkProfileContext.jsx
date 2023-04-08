@@ -23,12 +23,12 @@ export default function SocialNetworkProfileContextProvider({ children }) {
     }, [user._id]);
 
     async function getUserProfile(userId) {
-        const temp_userProfile = await callService(
+        const userProfileInfo = await callService(
             socialNetworkProfileservice,
             'getUserProfile',
             [userId],
         );
-        setUserSocialNetworkProfile(temp_userProfile);
+        return userProfileInfo;
     }
 
     async function followUser(selectedProfileId) {
@@ -47,6 +47,7 @@ export default function SocialNetworkProfileContextProvider({ children }) {
 
     const contextValue = useMemo(() => {
         return {
+            getUserProfile,
             userSocialNetworkProfile,
             setUserSocialNetworkProfile,
             followUser,
