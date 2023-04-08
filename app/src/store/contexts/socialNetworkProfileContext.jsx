@@ -41,12 +41,20 @@ export default function SocialNetworkProfileContextProvider({ children }) {
 
     return (
         <SocialNetworkProfileContext.Provider
-            value={{
-                userSocialNetworkProfile,
-                setUserSocialNetworkProfile,
-                followUser,
-                unfollowUser,
-            }}
+const contextValue = useMemo(() => {
+  return {
+     userSocialNetworkProfile,
+     setUserSocialNetworkProfile,
+     followUser,
+     unfollowUser,
+  };
+}, [userSocialNetworkProfile, followUser, unfollowUser]);
+
+return (
+  <SocialNetworkProfileContext.Provider value={contextValue}>
+    {children}
+  </SocialNetworkProfileContext.Provider>
+);
         >
             {children}
         </SocialNetworkProfileContext.Provider>
