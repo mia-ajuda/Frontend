@@ -3,15 +3,28 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#4b8ab9',
-                primaryContrast: '#81b0ff',
-                primaryLowOpacity: '#E4F4FF',
+                primary: {
+                    DEFAULT: 'rgba(75, 138, 185, 1)',
+                    100: 'rgba(75, 138, 185, 0.1)',
+                    200: 'rgba(75, 138, 185, 0.2)',
+                    300: 'rgba(75, 138, 185, 0.3)',
+                    400: 'rgba(75, 138, 185, 0.4)',
+                    500: 'rgba(75, 138, 185, 0.5)',
+                    600: 'rgba(75, 138, 185, 0.6)',
+                    700: 'rgba(75, 138, 185, 0.7)',
+                    800: 'rgba(75, 138, 185, 0.8)',
+                    900: 'rgba(75, 138, 185, 0.9)',
+                    contrast: '#81b0ff',
+                },
                 secondary: '#f7ef6e',
                 danger: '#e47171',
-                dark: '#353535',
+                black: '#353535',
                 light: '#f7f7f7',
                 success: '#77dd77',
                 background: '#f1f1f1',
+            },
+            spacing: {
+                38: '9.5rem',
             },
         },
     },
