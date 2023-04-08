@@ -1,4 +1,10 @@
-import React, { useContext, createContext, useState, useEffect } from 'react';
+import React, {
+    useContext,
+    createContext,
+    useState,
+    useEffect,
+    useMemo,
+} from 'react';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from './userContext';
 import callService from '../../services/callService';
@@ -39,23 +45,17 @@ export default function SocialNetworkProfileContextProvider({ children }) {
         ]);
     }
 
-    return (
-        <SocialNetworkProfileContext.Provider
-const contextValue = useMemo(() => {
-  return {
-     userSocialNetworkProfile,
-     setUserSocialNetworkProfile,
-     followUser,
-     unfollowUser,
-  };
-}, [userSocialNetworkProfile, followUser, unfollowUser]);
+    const contextValue = useMemo(() => {
+        return {
+            userSocialNetworkProfile,
+            setUserSocialNetworkProfile,
+            followUser,
+            unfollowUser,
+        };
+    }, [userSocialNetworkProfile, followUser, unfollowUser]);
 
-return (
-  <SocialNetworkProfileContext.Provider value={contextValue}>
-    {children}
-  </SocialNetworkProfileContext.Provider>
-);
-        >
+    return (
+        <SocialNetworkProfileContext.Provider value={contextValue}>
             {children}
         </SocialNetworkProfileContext.Provider>
     );
