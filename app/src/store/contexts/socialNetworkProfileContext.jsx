@@ -31,6 +31,15 @@ export default function SocialNetworkProfileContextProvider({ children }) {
         return userProfileInfo;
     }
 
+    async function getActivities(userId) {
+        let activities = await callService(
+            socialNetworkProfileservice,
+            'getUserActivities',
+            [userId],
+        );
+        return activities;
+    }
+
     async function followUser(selectedProfileId) {
         return await callService(socialNetworkProfileservice, 'unfollowUser', [
             selectedProfileId,
@@ -52,6 +61,7 @@ export default function SocialNetworkProfileContextProvider({ children }) {
             setUserSocialNetworkProfile,
             followUser,
             unfollowUser,
+            getActivities,
         };
     }, [userSocialNetworkProfile, followUser, unfollowUser]);
 
