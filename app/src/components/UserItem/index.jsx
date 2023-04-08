@@ -38,7 +38,10 @@ const UserItem = ({ user, showButton = false, onPress }) => {
                     }}
                 />
                 <View>
-                    <Text className="text-base font-[montserrat-bold]">
+                    <Text
+                        className="text-base font-[montserrat-bold] w-36"
+                        numberOfLines={1}
+                    >
                         {untilTwoLastNames(user.name)}
                     </Text>
                     <Text className="text-base font-[montserrat-light]">

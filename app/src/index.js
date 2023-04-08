@@ -10,29 +10,32 @@ import SocialNetworkProfileContextProvider from './store/contexts/socialNetworkP
 import { LoadingContextProvider } from './store/contexts/loadingContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenTemplate } from './templates/ScreenTemplate';
+import { UpdaterContextProvider } from './store/contexts/updaterContext';
 
 export default function Root() {
     return (
         <>
             <DeviceInfoProvider>
                 <SafeAreaProvider>
-                    <LoadingContextProvider>
-                        <UserContextProvider>
-                            <SocialNetworkProfileContextProvider>
-                                <CategoryContextProvider>
-                                    <HelpOfferContextProvider>
-                                        <CampaignContextProvider>
-                                            <HelpContextProvider>
-                                                <ScreenTemplate>
-                                                    <Routes />
-                                                </ScreenTemplate>
-                                            </HelpContextProvider>
-                                        </CampaignContextProvider>
-                                    </HelpOfferContextProvider>
-                                </CategoryContextProvider>
-                            </SocialNetworkProfileContextProvider>
-                        </UserContextProvider>
-                    </LoadingContextProvider>
+                    <UpdaterContextProvider>
+                        <LoadingContextProvider>
+                            <UserContextProvider>
+                                <SocialNetworkProfileContextProvider>
+                                    <CategoryContextProvider>
+                                        <HelpOfferContextProvider>
+                                            <CampaignContextProvider>
+                                                <HelpContextProvider>
+                                                    <ScreenTemplate>
+                                                        <Routes />
+                                                    </ScreenTemplate>
+                                                </HelpContextProvider>
+                                            </CampaignContextProvider>
+                                        </HelpOfferContextProvider>
+                                    </CategoryContextProvider>
+                                </SocialNetworkProfileContextProvider>
+                            </UserContextProvider>
+                        </LoadingContextProvider>
+                    </UpdaterContextProvider>
                 </SafeAreaProvider>
             </DeviceInfoProvider>
         </>

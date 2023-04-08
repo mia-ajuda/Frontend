@@ -4,16 +4,21 @@ import styles from './styles';
 import callService from '../../services/callService';
 import socialNetworkProfileservice from '../../services/socialNetworkProfile';
 import { UserContext } from '../../store/contexts/userContext';
-import Input from '../../components/UI/input';
 import ProfileList from '../../components/profileList';
 import { useFocusEffect } from '@react-navigation/native';
+import { SearchBar } from '../../components/atoms/SearchBar';
 import { LoadingContext } from '../../store/contexts/loadingContext';
+import { NotFound } from '../../components/organisms/NotFound';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
+
 const FindUsers = ({ navigation }) => {
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
 
-    const [usersProfile, setUsersProfile] = useState(null);
-    const [findName, setFindName] = useState(null);
+    const [usersProfile, setUsersProfile] = useState([]);
+    const hasUsers = usersProfile.length > 0;
+    const [findName, setFindName] = useState('');
 
     async function setupPage() {
         setIsLoading(true);
@@ -22,9 +27,10 @@ const FindUsers = ({ navigation }) => {
             'findUsersProfiles',
             [user._id, findName],
         );
-
-        setUsersProfile(findUserTemp);
+        if (findUserTemp) setUsersProfile(findUserTemp);
+        else setUsersProfile([]);
         setIsLoading(false);
+        setShouldUpdate(false);
     }
 
     useFocusEffect(
@@ -35,32 +41,32 @@ const FindUsers = ({ navigation }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            findName ? setupPage() : setUsersProfile(null);
+            setupPage();
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [findName]);
-
-    const findUserinput = () => {
-        return (
-            <Input
-                change={(name) => setFindName(name)}
-                label={'Pesquisar'}
-                placeholder={'Digite o nome do usuário'}
-                value={findName}
-                keyboard={'default'}
-            />
-        );
-    };
+    }, [findName, shouldUpdate]);
 
     return (
         <ScrollView style={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
             <View style={styles.container}>
-                {findUserinput()}
+                <SearchBar
+                    value={findName}
+                    setValue={setFindName}
+                    placeholder="Ex: Maria"
+                />
                 {!isLoading && (
                     <ProfileList
                         usersProfile={usersProfile}
                         navigation={navigation}
+                    />
+                )}
+
+                {!hasUsers && (
+                    <NotFound
+                        body={
+                            'Nenhum usuário com o nome digitado foi encontrado'
+                        }
                     />
                 )}
             </View>
