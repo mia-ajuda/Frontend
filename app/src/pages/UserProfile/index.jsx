@@ -37,6 +37,7 @@ export const UserProfile = ({ navigation, route }) => {
 
     const getUserInfo = async () => {
         const response = await getUserProfile(userId);
+        console.log({ ...response.user, photo: '' });
         setUserInfo(response);
     };
 
@@ -69,7 +70,8 @@ export const UserProfile = ({ navigation, route }) => {
                                 0,
                                 activitieName.length - 1,
                             )}
-                            id={i + 1}
+                            id={activitie._id}
+                            count={i + 1}
                             title={activitie.title}
                             description={activitie.description}
                             badges={activitie.categories}

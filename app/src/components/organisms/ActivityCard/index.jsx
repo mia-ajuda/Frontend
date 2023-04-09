@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
+import navigateToDescription from '../../../utils/navigateToDescription';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
+import { UserContext } from '../../../store/contexts/userContext';
+import { useNavigation } from '@react-navigation/native';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export const ActivityCard = ({
     variant,
@@ -11,8 +16,14 @@ export const ActivityCard = ({
     badges,
     isRiskGroup = false,
     distance,
+    count,
     id,
 }) => {
+    const { getActitivtieById } = useContext(ActivitiesContext);
+    const { setIsLoading } = useContext(LoadingContext);
+    const { user } = useContext(UserContext);
+    const navigation = useNavigation();
+
     const activitiesVariants = {
         help: {
             icon: {
@@ -23,7 +34,7 @@ export const ActivityCard = ({
         },
         offer: {
             icon: {
-                name: 'volunteer_activism',
+                name: 'volunteer-activism',
                 type: 'material',
             },
             translation: 'Oferta',
@@ -43,17 +54,28 @@ export const ActivityCard = ({
             ? tailwindConfig.theme.extend.colors.danger
             : tailwindConfig.theme.extend.colors.primary[400],
     };
+
+    const handleClick = async () => {
+        setIsLoading(true);
+        const activity = await getActitivtieById(variant, id);
+        setIsLoading(false);
+        if (!activity.error)
+            navigateToDescription(variant, user, navigation, activity);
+    };
     return (
-        <TouchableOpacity className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72">
+        <TouchableOpacity
+            className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72"
+            onPress={handleClick}
+        >
             <View className="flex-row items-center">
                 <Icon
                     name={selectedVariant.icon.name}
-                    size={16}
+                    size={18}
                     color={color.icon}
                     type={selectedVariant.icon.type}
                 />
                 <Text className={`${color.font} font-bold ml-1 text-base`}>
-                    {`${selectedVariant.translation} ${id}`}
+                    {`${selectedVariant.translation} ${count}`}
                 </Text>
             </View>
             <Text
@@ -68,7 +90,7 @@ export const ActivityCard = ({
             <View className="flex-row justify-between">
                 {badges && <Badge title={badges[0].name} />}
                 <Text className="font-bold">
-                    {distance.split(' ').join('')}
+                    {distance?.split(' ').join('')}
                 </Text>
             </View>
         </TouchableOpacity>
