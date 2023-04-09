@@ -4,21 +4,16 @@ import Avatar from '../../../components/Avatar';
 import { Text } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
-import verifyUserInfo from '../../../utils/verifyUserInfo';
 import { UserContext } from '../../../store/contexts/userContext';
+import navigateToDescription from '../../../utils/navigateToDescription';
 
 export default function CampaignMarker({ campaign }) {
     const navigation = useNavigation();
     const campaignOwnerName = campaign.entity.name;
     const { user } = useContext(UserContext);
-    const navigateToCampaign = () => {
-        if (verifyUserInfo(user)) {
-            navigation.navigate('campaignDescription', {
-                campaign,
-            });
-        } else {
-            navigation.navigate('address', { nextPage: 'campaignDescription' });
-        }
+
+    const handleClick = () => {
+        navigateToDescription('campaign', user, navigation, campaign);
     };
     return (
         <Marker
@@ -35,7 +30,7 @@ export default function CampaignMarker({ campaign }) {
             }}
         >
             <Avatar iconType={'home'} />
-            <Callout onPress={navigateToCampaign} style={styles.callout}>
+            <Callout onPress={handleClick} style={styles.callout}>
                 <Text style={styles.calloutPersonName} numberOfLines={1}>
                     {campaignOwnerName}
                 </Text>
