@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import { FollowCount } from '../../components/molecules/FollowCount';
-import { ActivityCard } from '../../components/organisms/ActivityCard';
-import { NotFound } from '../../components/organisms/NotFound';
 import { RoundedFullButton } from '../../components/atoms/RoundedFullButton';
 import { UpdaterContext } from '../../store/contexts/updaterContext';
+import { ActivitiesList } from '../../components/organisms/ActivitiesList';
+import { DescriptionBox } from '../../components/molecules/DescriptionBox';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
@@ -21,7 +21,6 @@ export const UserProfile = ({ route }) => {
     const { userId } = route.params;
 
     const showActivities = selectedOption == 1;
-    const activitiesTypes = Object.keys(activities);
     const activeSwicth = false; //Will be enable when we have the conquers
     const showBiography = false; //Will be enable when we have the biography
     const followButtonProps = {
@@ -60,44 +59,6 @@ export const UserProfile = ({ route }) => {
               uri: `data:image/png;base64,${userInfo?.photo}`,
           }
         : require('../../../assets//images/noImage.png');
-
-    const renderActivies = () => {
-        const activitiesCount = activitiesTypes.reduce(
-            (currentValue, newValue) => {
-                return currentValue + activities[newValue].length;
-            },
-            0,
-        );
-        return activitiesCount > 0 ? (
-            <ScrollView
-                className="w-full max-h-44"
-                horizontal
-                contentContainerStyle={{
-                    alignItems: 'center',
-                }}
-            >
-                {Object.keys(activities).map((activitieName) =>
-                    activities[activitieName].map((activitie, i) => (
-                        <ActivityCard
-                            key={activitie._id}
-                            variant={activitieName.slice(
-                                0,
-                                activitieName.length - 1,
-                            )}
-                            id={activitie._id}
-                            count={i + 1}
-                            title={activitie.title}
-                            description={activitie.description}
-                            badges={activitie.categories}
-                            distance={activitie.distance}
-                        />
-                    )),
-                )}
-            </ScrollView>
-        ) : (
-            <NotFound title="Usuário não possui atividades" size="small" />
-        );
-    };
 
     useEffect(() => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
@@ -142,21 +103,10 @@ export const UserProfile = ({ route }) => {
                 </View>
 
                 {showBiography && (
-                    <View className="w-full">
-                        <Text className="absolute text-regular bg-white mx-1 px-1 font-ms-bold z-10 my-2 text-black">
-                            Biografia
-                        </Text>
-                        <View className="border border-background py-4 px-2 relative rounded-lg w-full h-24 my-4 text-black">
-                            <Text
-                                className="text-xs font-ms-regular"
-                                numberOfLines={4}
-                            >
-                                Estou passando por necessidade e preciso de
-                                alguns suprimentos básicos como: Alimentos não
-                                perecíveis e kits de higiêne.
-                            </Text>
-                        </View>
-                    </View>
+                    <DescriptionBox
+                        title="Biografia"
+                        description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
+                    />
                 )}
                 {activeSwicth && (
                     <TextSwitch
@@ -172,7 +122,9 @@ export const UserProfile = ({ route }) => {
                             Atividades
                         </Text>
                     )}
-                    {showActivities && renderActivies()}
+                    {showActivities && (
+                        <ActivitiesList activities={activities} />
+                    )}
                 </View>
             </View>
         </View>
