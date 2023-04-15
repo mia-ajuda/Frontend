@@ -27,6 +27,13 @@ module.exports = {
                 38: '9.5rem',
             },
         },
+        fontFamily: {
+            'ms-bold': ['montserrat-bold'],
+            'ms-semibold': ['montserrat-semibold'],
+            'ms-medium': ['montserrat-medium'],
+            'ms-regular': ['montserrat-regular'],
+            'ms-light': ['montserrat-light'],
+        },
     },
     plugins: [],
 };

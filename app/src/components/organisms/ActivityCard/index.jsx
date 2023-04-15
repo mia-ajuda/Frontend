@@ -74,22 +74,25 @@ export const ActivityCard = ({
                     color={color.icon}
                     type={selectedVariant.icon.type}
                 />
-                <Text className={`${color.font} font-bold ml-1 text-base`}>
+                <Text className={`${color.font} font-ms-bold ml-1 text-base`}>
                     {`${selectedVariant.translation} ${count}`}
                 </Text>
             </View>
             <Text
-                className="max-w-sm text-primary font-semibold text-base"
+                className="max-w-sm text-primary font-ms-semibold text-base"
                 numberOfLines={1}
             >
                 {title}
             </Text>
-            <Text className="text-black text-xs mb-4" numberOfLines={2}>
+            <Text
+                className="text-black text-xs mb-4 font-ms-regular"
+                numberOfLines={2}
+            >
                 {description}
             </Text>
             <View className="flex-row justify-between">
                 {badges && <Badge title={badges[0].name} />}
-                <Text className="font-bold">
+                <Text className="font-ms-bold text-black">
                     {distance?.split(' ').join('')}
                 </Text>
             </View>
