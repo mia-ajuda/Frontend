@@ -15,7 +15,7 @@ export const DefaultButton = ({
             disabled={disabled}
             android_ripple={{ color: colors.primaryContrast }}
         >
-            <Text className="text-center text-light font-[montserrat-semibold] text-lg">
+            <Text className="text-center text-light font-ms-semibold text-lg">
                 {title}
             </Text>
         </Pressable>

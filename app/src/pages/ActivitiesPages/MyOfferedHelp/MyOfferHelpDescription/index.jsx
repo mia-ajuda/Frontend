@@ -94,7 +94,7 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const renderHelpInformation = () => (
         <View className="mt-[16]">
-            <Text className="text-xl text-center font-[montserrat-semibold]">
+            <Text className="text-xl text-center font-ms-semibold">
                 {help.title}
             </Text>
             <View className="flex flex-row w-full mb-[32] justify-center flex-wrap mt-[16]">
@@ -105,7 +105,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 ))}
             </View>
             <View className="border border-[#D2D2D2] py-[16] px-[10] relative rounded-lg">
-                <Text className="absolute -top-4 text-lg bg-white px-1 font-[montserrat-semibold]">
+                <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold">
                     Descrição
                 </Text>
                 <Text style={[styles.infoText]}>{help.description}</Text>
@@ -122,9 +122,7 @@ export default function OfferHelpDescription({ route, navigation }) {
         };
         return (
             <View className="mt-4">
-                <Text className="text-lg font-[montserrat-semibold]">
-                    Localização
-                </Text>
+                <Text className="text-lg font-ms-semibold">Localização</Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
                     <CustomMap initialRegion={helpLocationCoordinates}>
                         <HelpOfferMarker key={help._id} helpOffer={help} />
