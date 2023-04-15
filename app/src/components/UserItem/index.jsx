@@ -19,7 +19,6 @@ const UserItem = ({ user, showButton = false, onPress }) => {
     const navigateToUserProfile = () => {
         navigation.navigate('socialUserProfile', {
             userId: user._id,
-            userName: user.name,
         });
     };
 
