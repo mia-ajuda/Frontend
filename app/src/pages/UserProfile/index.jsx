@@ -10,7 +10,6 @@ import { NotFound } from '../../components/organisms/NotFound';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
-    const { userId } = route.params;
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
     const { getUserProfile, getActivities } = useContext(
@@ -19,6 +18,7 @@ export const UserProfile = ({ route }) => {
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
 
+    const { userId } = route.params;
     const isFollowing = true || userInfo?.following.includes(user._id);
     const showActivities = selectedOption == 1;
     const activitiesTypes = Object.keys(activities);
@@ -37,13 +37,12 @@ export const UserProfile = ({ route }) => {
 
     const getUserInfo = async () => {
         const response = await getUserProfile(userId);
-        console.log({ ...response.user, photo: '' });
         setUserInfo(response);
     };
 
-    const imageSource = user.photo
+    const imageSource = userInfo?.user?.photo
         ? {
-              uri: `data:image/png;base64,${user.photo}`,
+              uri: `data:image/png;base64,${userInfo?.user?.photo}`,
           }
         : require('../../../assets//images/noImage.png');
 
@@ -108,8 +107,16 @@ export const UserProfile = ({ route }) => {
                     </Text>
                 )}
                 <View className="flex-row items-center my-1">
-                    <FollowCount type="followers" count={1} userId={userId} />
-                    <FollowCount type="following" count={2} userId={userId} />
+                    <FollowCount
+                        type="followers"
+                        count={userInfo?.numberOfFollowers}
+                        userId={userInfo?.id}
+                    />
+                    <FollowCount
+                        type="following"
+                        count={userInfo?.numberOfFollowing}
+                        userId={userInfo?.id}
+                    />
                 </View>
 
                 <View className="w-full">

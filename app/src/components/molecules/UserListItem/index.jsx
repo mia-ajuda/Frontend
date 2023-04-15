@@ -13,6 +13,7 @@ export const UserListItem = ({ user }) => {
     );
     const { setIsLoading } = useContext(LoadingContext);
     const { setShouldUpdate } = useContext(UpdaterContext);
+    const userPhoto = user.photo || user.user?.photo;
 
     const { isFollowing } = user;
 
@@ -22,15 +23,14 @@ export const UserListItem = ({ user }) => {
         setShouldUpdate(true);
     };
 
-    // Button will be replaced to the new one, when the new one become avaliable
     const buttonInfo = {
         text: isFollowing ? 'Seguindo' : 'Seguir',
         type: isFollowing ? 'secondary' : 'primary',
     };
 
-    const imageSource = user.photo
+    const imageSource = userPhoto
         ? {
-              uri: `data:image/png;base64,${user.photo}`,
+              uri: `data:image/png;base64,${userPhoto}`,
           }
         : require('../../../../assets/images/noImage.png');
 

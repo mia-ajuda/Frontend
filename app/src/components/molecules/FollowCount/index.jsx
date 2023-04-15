@@ -10,10 +10,7 @@ export const FollowCount = ({ count, type, userId }) => {
     };
 
     const handlePress = () => {
-        navigation.navigate('followersFollowingPage', {
-            selectedProfileId: userId,
-            isFollowersPage: types[type] == 'seguidores',
-        });
+        navigation.navigate('userList', { userId: userId, followType: type });
     };
 
     return (

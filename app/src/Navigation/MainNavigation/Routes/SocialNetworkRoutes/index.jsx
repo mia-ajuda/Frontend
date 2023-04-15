@@ -4,6 +4,7 @@ import FollowersFollowingPage from '../../../../pages/FindUsersPages/Followers_F
 import FindUsers from '../../../../pages/FindUsersPages';
 import headerStyle from '../../MainNavigationStyles/MainStackHeaderStyle';
 import { UserProfile } from '../../../../pages/UserProfile';
+import { UserList } from '../../../../pages/UserList';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export const SocialNetworkRoutes = () => {
                 component={FindUsers}
                 options={headerStyle}
             />
+            <Stack.Screen name="userList" component={UserList} />
         </>
     );
 };
