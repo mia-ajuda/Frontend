@@ -3,12 +3,20 @@ import { View, Pressable } from 'react-native';
 import styles from './styles';
 import { UserListItem } from '../molecules/UserListItem';
 import { Divider } from '../atoms/Divider';
-export default function ProfileList({ usersProfile, navigation }) {
-    const filteredUsers = usersProfile?.filter((user) => user.cpf);
+import { useNavigation } from '@react-navigation/native';
+
+export default function ProfileList({ usersProfile, filterList = false }) {
+    const navigation = useNavigation();
+
+    const filteredUsers = filterList
+        ? usersProfile?.filter((user) => user.cpf)
+        : usersProfile;
+
     const handlenavigate = (profile) =>
         navigation.navigate('socialUserProfile', {
             userId: profile.userId,
         });
+
     return (
         <View style={styles.userList}>
             {filteredUsers &&
