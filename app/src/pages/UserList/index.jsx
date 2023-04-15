@@ -13,7 +13,6 @@ export const UserList = ({ route }) => {
 
     const [userList, setUserList] = useState([]);
 
-    console.log(followType);
     const getUserList = async () => {
         setIsLoading(true);
         const response = await getFollows(followType, userId);
@@ -25,7 +24,7 @@ export const UserList = ({ route }) => {
         getUserList();
     }, [shouldUpdate]);
     return (
-        <View className="flex-1 flex-col w-full bg-background">
+        <View className="flex-1 flex-col w-full bg-background px-4 py-6">
             <ProfileList usersProfile={userList || []} />
         </View>
     );

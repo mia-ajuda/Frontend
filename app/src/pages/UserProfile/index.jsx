@@ -3,33 +3,48 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
-import { UserContext } from '../../store/contexts/userContext';
 import { FollowCount } from '../../components/molecules/FollowCount';
 import { ActivityCard } from '../../components/organisms/ActivityCard';
 import { NotFound } from '../../components/organisms/NotFound';
+import { RoundedFullButton } from '../../components/atoms/RoundedFullButton';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
-    const { getUserProfile, getActivities } = useContext(
-        SocialNetworkProfileContext,
-    );
-    const { setIsLoading } = useContext(LoadingContext);
-    const { user } = useContext(UserContext);
+    const { getUserProfile, getActivities, followUser, unfollowUser } =
+        useContext(SocialNetworkProfileContext);
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
 
     const { userId } = route.params;
-    const isFollowing = true || userInfo?.following.includes(user._id);
+
     const showActivities = selectedOption == 1;
     const activitiesTypes = Object.keys(activities);
     const activeSwicth = false; //Will be enable when we have the conquers
+    const showBiography = false; //Will be enable when we have the biography
+    const followButtonProps = {
+        variant: userInfo?.isFollowing ? 'secondary' : 'primary',
+        text: userInfo?.isFollowing ? 'Seguindo' : 'Seguir',
+    };
+
+    const handleFollowButton = async () => {
+        setIsLoading(true);
+        userInfo?.isFollowing
+            ? await followUser(userInfo._id)
+            : await unfollowUser(userInfo._id);
+        setShouldUpdate(true);
+    };
+
     const handleLoadScreenData = async () => {
         setIsLoading(true);
-
-        Promise.all([getActivitiesInfo(), getUserInfo()]).then(() =>
-            setIsLoading(false),
-        );
+        Promise.all([getActivitiesInfo(), getUserInfo()]).then(() => {
+            setIsLoading(false);
+            setShouldUpdate(false);
+        });
     };
+
     const getActivitiesInfo = async () => {
         const response = await getActivities(userId);
         setActivities(response);
@@ -40,9 +55,9 @@ export const UserProfile = ({ route }) => {
         setUserInfo(response);
     };
 
-    const imageSource = userInfo?.user?.photo
+    const imageSource = userInfo?.photo
         ? {
-              uri: `data:image/png;base64,${userInfo?.user?.photo}`,
+              uri: `data:image/png;base64,${userInfo?.photo}`,
           }
         : require('../../../assets//images/noImage.png');
 
@@ -85,23 +100,30 @@ export const UserProfile = ({ route }) => {
     };
 
     useEffect(() => {
-        handleLoadScreenData();
-    }, []);
+        if (shouldUpdate || !userInfo) handleLoadScreenData();
+    }, [shouldUpdate]);
 
     return (
-        <View className="flex-1 items-center mt-10">
+        <View className="flex-1 items-center mt-8">
+            <View className="absolute right-2">
+                <RoundedFullButton
+                    variant={followButtonProps.variant}
+                    onPress={handleFollowButton}
+                    text={followButtonProps.text}
+                />
+            </View>
             <Image
                 source={imageSource}
-                className="w-16 h-16 rounded-full absolute z-50 "
+                className="w-16 h-16 rounded-full absolute z-50 mt-2"
             />
-            <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-10 w-full">
+            <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-12 w-full rounded-3xl">
                 <Text
                     className="font-ms-bold text-black text-lg"
                     numberOfLines={1}
                 >
                     {userInfo?.username}
                 </Text>
-                {isFollowing && (
+                {userInfo?.followsYou && (
                     <Text className="text-slate-400 font-ms-light">
                         Segue você
                     </Text>
@@ -119,18 +141,23 @@ export const UserProfile = ({ route }) => {
                     />
                 </View>
 
-                <View className="w-full">
-                    <Text className="absolute text-regular bg-white mx-1 px-1 font-ms-bold z-10 my-2 text-black">
-                        Biografia
-                    </Text>
-                    <View className="border border-background py-4 px-2 relative rounded-lg w-full h-24 my-4 text-black">
-                        <Text className="text-xs font-ms-regular">
-                            Estou passando por necessidade e preciso de alguns
-                            suprimentos básicos como: Alimentos não perecíveis e
-                            kits de higiêne.
+                {showBiography && (
+                    <View className="w-full">
+                        <Text className="absolute text-regular bg-white mx-1 px-1 font-ms-bold z-10 my-2 text-black">
+                            Biografia
                         </Text>
+                        <View className="border border-background py-4 px-2 relative rounded-lg w-full h-24 my-4 text-black">
+                            <Text
+                                className="text-xs font-ms-regular"
+                                numberOfLines={4}
+                            >
+                                Estou passando por necessidade e preciso de
+                                alguns suprimentos básicos como: Alimentos não
+                                perecíveis e kits de higiêne.
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                )}
                 {activeSwicth && (
                     <TextSwitch
                         option1="Conquistas"
