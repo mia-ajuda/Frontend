@@ -54,6 +54,18 @@ export default function SocialNetworkProfileContextProvider({ children }) {
         ]);
     }
 
+    async function getFollows(followType, selectedProfileId) {
+        const requestName = {
+            followers: 'getFollowers',
+            following: 'getFollowing',
+        };
+        return await callService(
+            socialNetworkProfileservice,
+            requestName[followType],
+            [selectedProfileId, user._id],
+        );
+    }
+
     const contextValue = useMemo(() => {
         return {
             getUserProfile,
@@ -62,6 +74,7 @@ export default function SocialNetworkProfileContextProvider({ children }) {
             followUser,
             unfollowUser,
             getActivities,
+            getFollows,
         };
     }, [userSocialNetworkProfile, followUser, unfollowUser]);
 
