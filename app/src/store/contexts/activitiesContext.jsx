@@ -29,8 +29,14 @@ export const ActivitiesContextProvider = ({ children }) => {
         return activityInfo;
     }
 
+    const contextValue = useMemo(() => {
+        return {
+            getActitivtieById,
+        };
+    }, [getActitivtieById]);
+
     return (
-        <ActivitiesContext.Provider value={{ getActitivtieById }}>
+        <ActivitiesContext.Provider value={contextValue}>
             {children}
         </ActivitiesContext.Provider>
     );

@@ -15,7 +15,7 @@ export const UserProfile = ({ route }) => {
     const [activities, setActivities] = useState({});
     const { getUserProfile, getActivities, followUser, unfollowUser } =
         useContext(SocialNetworkProfileContext);
-    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { setIsLoading } = useContext(LoadingContext);
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
 
     const { userId } = route.params;
