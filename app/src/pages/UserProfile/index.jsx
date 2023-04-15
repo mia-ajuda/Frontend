@@ -8,7 +8,7 @@ import { FollowCount } from '../../components/molecules/FollowCount';
 import { ActivityCard } from '../../components/organisms/ActivityCard';
 import { NotFound } from '../../components/organisms/NotFound';
 
-export const UserProfile = ({ navigation, route }) => {
+export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
     const { userId } = route.params;
     const [userInfo, setUserInfo] = useState();
@@ -96,17 +96,33 @@ export const UserProfile = ({ navigation, route }) => {
                 className="w-16 h-16 rounded-full absolute z-50 "
             />
             <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-10 w-full">
-                <Text className="font-bold text-lg" numberOfLines={1}>
+                <Text
+                    className="font-ms-bold text-black text-lg"
+                    numberOfLines={1}
+                >
                     {userInfo?.username}
                 </Text>
                 {isFollowing && (
-                    <Text className="text-slate-400 font-light">
+                    <Text className="text-slate-400 font-ms-light">
                         Segue você
                     </Text>
                 )}
                 <View className="flex-row items-center my-1">
-                    <FollowCount type="followers" count={1} />
-                    <FollowCount type="following" count={2} />
+                    <FollowCount type="followers" count={1} userId={userId} />
+                    <FollowCount type="following" count={2} userId={userId} />
+                </View>
+
+                <View className="w-full">
+                    <Text className="absolute text-regular bg-white mx-1 px-1 font-ms-bold z-10 my-2 text-black">
+                        Biografia
+                    </Text>
+                    <View className="border border-background py-4 px-2 relative rounded-lg w-full h-24 my-4 text-black">
+                        <Text className="text-xs font-ms-regular">
+                            Estou passando por necessidade e preciso de alguns
+                            suprimentos básicos como: Alimentos não perecíveis e
+                            kits de higiêne.
+                        </Text>
+                    </View>
                 </View>
                 {activeSwicth && (
                     <TextSwitch
@@ -118,9 +134,8 @@ export const UserProfile = ({ navigation, route }) => {
                 )}
                 <View className="flex-1 w-full">
                     {!activeSwicth && (
-                        <Text className="self-start text-base font-semibold mt-2 text-black">
-                            {' '}
-                            Atividades{' '}
+                        <Text className="self-start text-base font-ms-semibold text-black">
+                            Atividades
                         </Text>
                     )}
                     {showActivities && renderActivies()}
