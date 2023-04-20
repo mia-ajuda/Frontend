@@ -8,6 +8,7 @@ import { RoundedFullButton } from '../../components/atoms/RoundedFullButton';
 import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { ActivitiesList } from '../../components/organisms/ActivitiesList';
 import { DescriptionBox } from '../../components/molecules/DescriptionBox';
+import { UserContext } from '../../store/contexts/userContext';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
@@ -17,9 +18,11 @@ export const UserProfile = ({ route }) => {
         useContext(SocialNetworkProfileContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
+    const { user } = useContext(UserContext);
 
     const { userId } = route.params;
 
+    const isTheSameUser = user._id == userId;
     const showActivities = selectedOption == 1;
     const activeSwicth = false; //Will be enable when we have the conquers
     const showBiography = false; //Will be enable when we have the biography
@@ -66,13 +69,15 @@ export const UserProfile = ({ route }) => {
 
     return (
         <View className="flex-1 items-center mt-8">
-            <View className="absolute right-2">
-                <RoundedFullButton
-                    variant={followButtonProps.variant}
-                    onPress={handleFollowButton}
-                    text={followButtonProps.text}
-                />
-            </View>
+            {!isTheSameUser && (
+                <View className="absolute right-2">
+                    <RoundedFullButton
+                        variant={followButtonProps.variant}
+                        onPress={handleFollowButton}
+                        text={followButtonProps.text}
+                    />
+                </View>
+            )}
             <Image
                 source={imageSource}
                 className="w-16 h-16 rounded-full absolute z-50 mt-2"
