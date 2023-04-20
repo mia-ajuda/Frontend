@@ -27,6 +27,7 @@ export default function ProfileList({ usersProfile, filterList = false }) {
                 filteredUsers.map((profile, i) => (
                     <Pressable
                         key={profile._id}
+                        android_ripple={{ color: '#F2F2F2' }}
                         onPress={() => handlenavigate(profile)}
                     >
                         <UserListItem user={profile} />
