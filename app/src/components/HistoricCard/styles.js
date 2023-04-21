@@ -8,7 +8,7 @@ const cardContainerStyle = {
     maxHeight: 240,
     marginTop: 20,
     borderWidth: 1,
-    backgroundColor: colors.light,
+    backgroundColor: 'white',
     borderRadius: 8,
     alignItems: 'flex-start',
     paddingLeft: 20,

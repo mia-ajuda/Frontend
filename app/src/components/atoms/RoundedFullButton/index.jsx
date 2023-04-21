@@ -20,7 +20,7 @@ export const RoundedFullButton = ({
     return (
         <TouchableOpacity onPress={onPress} disabled={disabled}>
             <Text
-                className={`${selectedVariant} ${width} px-7 py-2 rounded-full text-sm font-semibold text-center`}
+                className={`${selectedVariant} ${width} px-7 py-2 rounded-full text-sm font-ms-semibold text-center`}
             >
                 {text}
             </Text>

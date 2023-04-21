@@ -6,6 +6,7 @@ import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { UpdaterContext } from '../../../store/contexts/updaterContext';
 import shortenName from '../../../utils/shortenName';
 import { RoundedFullButton } from '../../atoms/RoundedFullButton';
+import { UserContext } from '../../../store/contexts/userContext';
 
 export const UserListItem = ({ user }) => {
     const { followUser, unfollowUser } = useContext(
@@ -13,8 +14,12 @@ export const UserListItem = ({ user }) => {
     );
     const { setIsLoading } = useContext(LoadingContext);
     const { setShouldUpdate } = useContext(UpdaterContext);
+    const userContext = useContext(UserContext);
 
     const { isFollowing } = user;
+
+    const userPhoto = user.photo || user.user?.photo;
+    const isTheSameUser = userContext.user._id == user.userId;
 
     const handleClickButton = async () => {
         setIsLoading(true);
@@ -22,15 +27,14 @@ export const UserListItem = ({ user }) => {
         setShouldUpdate(true);
     };
 
-    // Button will be replaced to the new one, when the new one become avaliable
     const buttonInfo = {
         text: isFollowing ? 'Seguindo' : 'Seguir',
         type: isFollowing ? 'secondary' : 'primary',
     };
 
-    const imageSource = user.photo
+    const imageSource = userPhoto
         ? {
-              uri: `data:image/png;base64,${user.photo}`,
+              uri: `data:image/png;base64,${userPhoto}`,
           }
         : require('../../../../assets/images/noImage.png');
 
@@ -46,12 +50,14 @@ export const UserListItem = ({ user }) => {
                     {shortenName(user.username)}
                 </Text>
             </View>
-            <RoundedFullButton
-                text={buttonInfo.text}
-                onPress={handleClickButton}
-                variant={buttonInfo.type}
-                width={'min-w-[35%]'}
-            />
+            {!isTheSameUser && (
+                <RoundedFullButton
+                    text={buttonInfo.text}
+                    onPress={handleClickButton}
+                    variant={buttonInfo.type}
+                    width={'min-w-[35%]'}
+                />
+            )}
         </View>
     );
 };

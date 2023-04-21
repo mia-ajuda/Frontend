@@ -23,12 +23,21 @@ export default function SocialNetworkProfileContextProvider({ children }) {
     }, [user._id]);
 
     async function getUserProfile(userId) {
-        const temp_userProfile = await callService(
+        const userProfileInfo = await callService(
             socialNetworkProfileservice,
             'getUserProfile',
             [userId],
         );
-        setUserSocialNetworkProfile(temp_userProfile);
+        return userProfileInfo;
+    }
+
+    async function getActivities(userId) {
+        let activities = await callService(
+            socialNetworkProfileservice,
+            'getUserActivities',
+            [userId],
+        );
+        return activities;
     }
 
     async function followUser(selectedProfileId) {
@@ -45,12 +54,27 @@ export default function SocialNetworkProfileContextProvider({ children }) {
         ]);
     }
 
+    async function getFollows(followType, selectedProfileId) {
+        const requestName = {
+            followers: 'getFollowers',
+            following: 'getFollowing',
+        };
+        return await callService(
+            socialNetworkProfileservice,
+            requestName[followType],
+            [selectedProfileId, user._id],
+        );
+    }
+
     const contextValue = useMemo(() => {
         return {
+            getUserProfile,
             userSocialNetworkProfile,
             setUserSocialNetworkProfile,
             followUser,
             unfollowUser,
+            getActivities,
+            getFollows,
         };
     }, [userSocialNetworkProfile, followUser, unfollowUser]);
 

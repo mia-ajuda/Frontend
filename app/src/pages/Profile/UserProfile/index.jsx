@@ -23,17 +23,15 @@ import formatPhone from '../../../utils/formatPhone';
 import parseDate from '../../../utils/parseDate';
 import { alertMessage, alertSuccess } from '../../../utils/Alert';
 import callService from '../../../services/callService';
-import FollowFollowingText from '../../../components/follow_followingText';
-import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import socialNetworkProfileservice from '../../../services/socialNetworkProfile';
 import { useFocusEffect } from '@react-navigation/native';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { FollowCount } from '../../../components/molecules/FollowCount';
 
 export default function Profile({ navigation }) {
     const { user, dispatch, isEntity } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const { userSocialNetworkProfile, setUserSocialNetworkProfile } =
-        useContext(SocialNetworkProfileContext);
+    const [userSocialNetworkProfile, setUserSocialNetworkProfile] = useState();
 
     const isRegularUser = user.cpf;
     const [isModalVisible, setModalVisible] = useState(false);
@@ -198,17 +196,15 @@ export default function Profile({ navigation }) {
 
             {!isLoading && (
                 <View style={styles.followerFollowingContainer}>
-                    <FollowFollowingText
-                        text="Seguidores"
-                        number={userSocialNetworkProfile.numberOfFollowers}
-                        selectedProfileId={userSocialNetworkProfile._id}
-                        navigation={navigation}
+                    <FollowCount
+                        type="followers"
+                        count={userSocialNetworkProfile?.numberOfFollowers}
+                        userId={userSocialNetworkProfile?.id}
                     />
-                    <FollowFollowingText
-                        text="Seguindo"
-                        number={userSocialNetworkProfile.numberOfFollowing}
-                        selectedProfileId={userSocialNetworkProfile._id}
-                        navigation={navigation}
+                    <FollowCount
+                        type="following"
+                        count={userSocialNetworkProfile?.numberOfFollowing}
+                        userId={userSocialNetworkProfile?.id}
                     />
                 </View>
             )}

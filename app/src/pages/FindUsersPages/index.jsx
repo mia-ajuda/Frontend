@@ -56,10 +56,7 @@ const FindUsers = ({ navigation }) => {
                     placeholder="Ex: Maria"
                 />
                 {!isLoading && (
-                    <ProfileList
-                        usersProfile={usersProfile}
-                        navigation={navigation}
-                    />
+                    <ProfileList usersProfile={usersProfile} filterList />
                 )}
 
                 {!hasUsers && (

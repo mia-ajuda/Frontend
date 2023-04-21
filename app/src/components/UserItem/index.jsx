@@ -19,7 +19,6 @@ const UserItem = ({ user, showButton = false, onPress }) => {
     const navigateToUserProfile = () => {
         navigation.navigate('socialUserProfile', {
             userId: user._id,
-            userName: user.name,
         });
     };
 
@@ -39,12 +38,12 @@ const UserItem = ({ user, showButton = false, onPress }) => {
                 />
                 <View>
                     <Text
-                        className="text-base font-[montserrat-bold] w-36"
+                        className="text-base font-ms-bold w-36"
                         numberOfLines={1}
                     >
                         {untilTwoLastNames(user.name)}
                     </Text>
-                    <Text className="text-base font-[montserrat-light]">
+                    <Text className="text-base font-ms-light">
                         {user.address.city}, {user.address.state}
                     </Text>
                 </View>

@@ -27,13 +27,13 @@ class SocialNetworkProfileService {
         return usersActivities.data;
     }
 
-    async getFollowers(userId, selectedProfileId) {
+    async getFollowers(selectedProfileId, userId) {
         const url = `/socialNetworkProfile/getFollowers/${userId}/${selectedProfileId}`;
         const followers = await api.get(url);
         return followers.data;
     }
 
-    async getFollowing(userId, selectedProfileId) {
+    async getFollowing(selectedProfileId, userId) {
         const url = `/socialNetworkProfile/getFollowing/${userId}/${selectedProfileId}`;
         const following = await api.get(url);
         return following.data;

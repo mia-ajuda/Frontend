@@ -39,6 +39,12 @@ class CampaignService {
         const deleteCampaign = await api.delete(`/campaign/${campaignId}`);
         return deleteCampaign;
     }
+
+    async getCampaignById(campaignId) {
+        const url = `/campaign/${campaignId}`;
+        const campaign = await api.get(url);
+        return campaign.data;
+    }
 }
 
 const campaignService = new CampaignService();

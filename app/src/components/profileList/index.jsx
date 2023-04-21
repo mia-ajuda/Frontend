@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Pressable } from 'react-native';
 import styles from './styles';
 import { UserListItem } from '../molecules/UserListItem';
 import { Divider } from '../atoms/Divider';
-export default function ProfileList({ usersProfile, navigation }) {
-    //This is an old code and will be removed in next PR with the new profile page
-    const handlenavigate = (profile) =>
+import { useNavigation } from '@react-navigation/native';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
+
+export default function ProfileList({ usersProfile, filterList = false }) {
+    const navigation = useNavigation();
+    const { setShouldUpdate } = useContext(UpdaterContext);
+
+    const filteredUsers = filterList
+        ? usersProfile?.filter((user) => user.cpf)
+        : usersProfile;
+
+    const handlenavigate = (profile) => {
+        setShouldUpdate(true);
         navigation.navigate('socialUserProfile', {
-            selectedProfileId: profile._id,
-            selectedProfileUsername: profile.username,
-            selectedProfileNumberOfFollowers: profile.numberOfFollowers,
-            selectedProfileNumberOfFollowing: profile.numberOfFollowing,
-            selectedProfilePhoto: profile.photo,
-            selectedProfileIsFollowing: profile.isFollowing,
-            selectedProfileUserId: profile.userId,
+            userId: profile.userId,
         });
+    };
+
     return (
         <View style={styles.userList}>
-            {usersProfile &&
-                usersProfile.map((profile, i) => (
+            {filteredUsers &&
+                filteredUsers.map((profile, i) => (
                     <Pressable
                         key={profile._id}
+                        android_ripple={{ color: '#F2F2F2' }}
                         onPress={() => handlenavigate(profile)}
                     >
                         <UserListItem user={profile} />
-                        {i != usersProfile.length - 1 && <Divider />}
+                        {i != filteredUsers.length - 1 && <Divider />}
                     </Pressable>
                 ))}
         </View>

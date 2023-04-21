@@ -11,6 +11,7 @@ import { LoadingContextProvider } from './store/contexts/loadingContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenTemplate } from './templates/ScreenTemplate';
 import { UpdaterContextProvider } from './store/contexts/updaterContext';
+import { ActivitiesContextProvider } from './store/contexts/activitiesContext';
 
 export default function Root() {
     return (
@@ -21,17 +22,19 @@ export default function Root() {
                         <LoadingContextProvider>
                             <UserContextProvider>
                                 <SocialNetworkProfileContextProvider>
-                                    <CategoryContextProvider>
-                                        <HelpOfferContextProvider>
-                                            <CampaignContextProvider>
-                                                <HelpContextProvider>
-                                                    <ScreenTemplate>
-                                                        <Routes />
-                                                    </ScreenTemplate>
-                                                </HelpContextProvider>
-                                            </CampaignContextProvider>
-                                        </HelpOfferContextProvider>
-                                    </CategoryContextProvider>
+                                    <ActivitiesContextProvider>
+                                        <CategoryContextProvider>
+                                            <HelpOfferContextProvider>
+                                                <CampaignContextProvider>
+                                                    <HelpContextProvider>
+                                                        <ScreenTemplate>
+                                                            <Routes />
+                                                        </ScreenTemplate>
+                                                    </HelpContextProvider>
+                                                </CampaignContextProvider>
+                                            </HelpOfferContextProvider>
+                                        </CategoryContextProvider>
+                                    </ActivitiesContextProvider>
                                 </SocialNetworkProfileContextProvider>
                             </UserContextProvider>
                         </LoadingContextProvider>
