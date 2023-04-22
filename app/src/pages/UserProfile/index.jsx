@@ -9,22 +9,28 @@ import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { ActivitiesList } from '../../components/organisms/ActivitiesList';
 import { DescriptionBox } from '../../components/molecules/DescriptionBox';
 import { UserContext } from '../../store/contexts/userContext';
+import { BadgeContext } from '../../store/contexts/badgeContext';
+import { BadgeCard } from '../../components/molecules/BadgeCard';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(1);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
+    const [badges, setBadges] = useState([]);
     const { getUserProfile, getActivities, followUser, unfollowUser } =
         useContext(SocialNetworkProfileContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
     const { user } = useContext(UserContext);
+    const { getUserBadges } = useContext(BadgeContext);
 
     const { userId } = route.params;
+    console.log(user._id);
 
     const isTheSameUser = user._id == userId;
     const showActivities = selectedOption == 1;
-    const activeSwicth = false; //Will be enable when we have the conquers
+    const showBadges = selectedOption == 0;
     const showBiography = false; //Will be enable when we have the biography
     const followButtonProps = {
         variant: userInfo?.isFollowing ? 'secondary' : 'primary',
@@ -41,10 +47,12 @@ export const UserProfile = ({ route }) => {
 
     const handleLoadScreenData = async () => {
         setIsLoading(true);
-        Promise.all([getActivitiesInfo(), getUserInfo()]).then(() => {
-            setIsLoading(false);
-            setShouldUpdate(false);
-        });
+        Promise.all([getActivitiesInfo(), getUserInfo(), getBadges()]).then(
+            () => {
+                setIsLoading(false);
+                setShouldUpdate(false);
+            },
+        );
     };
 
     const getActivitiesInfo = async () => {
@@ -57,6 +65,11 @@ export const UserProfile = ({ route }) => {
         setUserInfo(response);
     };
 
+    const getBadges = async () => {
+        const response = await getUserBadges(userId);
+        setBadges(response);
+    };
+
     const imageSource = userInfo?.photo
         ? {
               uri: `data:image/png;base64,${userInfo?.photo}`,
@@ -66,6 +79,10 @@ export const UserProfile = ({ route }) => {
     useEffect(() => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
     }, [shouldUpdate]);
+
+    useEffect(() => {
+        console.log(selectedOption);
+    }, [selectedOption]);
 
     return (
         <View className="flex-1 items-center mt-8">
@@ -113,24 +130,24 @@ export const UserProfile = ({ route }) => {
                         description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
                     />
                 )}
-                {activeSwicth && (
-                    <TextSwitch
-                        option1="Conquistas"
-                        option2="Atividades"
-                        selectedOption={selectedOption}
-                        setSelectedOption={setSelectedOption}
-                    />
+                <TextSwitch
+                    option1="Conquistas"
+                    option2="Atividades"
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
+                />
+                {showActivities && <ActivitiesList activities={activities} />}
+                {showBadges && (
+                    <ScrollView
+                        horizontal
+                        className="w-full max-h-56"
+                        contentContainerStyle={{ alignItems: 'center' }}
+                    >
+                        {badges.map((badge, i) => (
+                            <BadgeCard badgeTemplate={badge.template} key={i} />
+                        ))}
+                    </ScrollView>
                 )}
-                <View className="flex-1 w-full">
-                    {!activeSwicth && (
-                        <Text className="self-start text-base font-ms-semibold text-black">
-                            Atividades
-                        </Text>
-                    )}
-                    {showActivities && (
-                        <ActivitiesList activities={activities} />
-                    )}
-                </View>
             </View>
         </View>
     );

@@ -22,6 +22,9 @@ module.exports = {
                 light: '#f7f7f7',
                 success: '#77dd77',
                 background: '#f1f1f1',
+                'first-rank': '#BF6159',
+                'second-rank': '#538D95',
+                'thirt-rank': '#D0A408',
             },
             spacing: {
                 38: '9.5rem',
