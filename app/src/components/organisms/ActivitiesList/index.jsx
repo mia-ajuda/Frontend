@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityCard } from '../ActivityCard';
 import { NotFound } from '../NotFound';
+import { HorizontalList } from '../HorizontalList';
 
 export const ActivitiesList = ({ activities }) => {
     const activitiesTypes = Object.keys(activities);
@@ -9,13 +9,7 @@ export const ActivitiesList = ({ activities }) => {
         return currentValue + activities[newValue].length;
     }, 0);
     return activitiesCount > 0 ? (
-        <ScrollView
-            className="w-full max-h-44"
-            horizontal
-            contentContainerStyle={{
-                alignItems: 'center',
-            }}
-        >
+        <HorizontalList className="max-h-44">
             {Object.keys(activities).map((activitieName) =>
                 activities[activitieName].map((activitie, i) => (
                     <ActivityCard
@@ -33,7 +27,7 @@ export const ActivitiesList = ({ activities }) => {
                     />
                 )),
             )}
-        </ScrollView>
+        </HorizontalList>
     ) : (
         <NotFound title="Usuário não possui atividades" size="small" />
     );
