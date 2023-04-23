@@ -25,16 +25,12 @@ export const UserProfile = ({ route }) => {
     const { user } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
 
-    const { userId } = route.params;
+    const userId = route?.params?.userId || user._id;
 
     const isTheSameUser = user._id == userId;
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
     const showBiography = true; //Will be enable when we have the biography
-    const followButtonProps = {
-        variant: userInfo?.isFollowing ? 'secondary' : 'primary',
-        text: userInfo?.isFollowing ? 'Seguindo' : 'Seguir',
-    };
 
     const handleFollowButton = async () => {
         setIsLoading(true);
@@ -42,6 +38,10 @@ export const UserProfile = ({ route }) => {
             ? await followUser(userInfo._id)
             : await unfollowUser(userInfo._id);
         setShouldUpdate(true);
+    };
+
+    const handleEditProfile = () => {
+        console.log('coming soon');
     };
 
     const handleLoadScreenData = async () => {
@@ -74,6 +74,22 @@ export const UserProfile = ({ route }) => {
           }
         : require('../../../assets//images/noImage.png');
 
+    const getButtonProps = () => {
+        if (isTheSameUser)
+            return {
+                variant: 'primary',
+                text: 'Editar perfil',
+                action: handleEditProfile,
+            };
+        return {
+            variant: userInfo?.isFollowing ? 'secondary' : 'primary',
+            text: userInfo?.isFollowing ? 'Seguindo' : 'Seguir',
+            action: handleFollowButton,
+        };
+    };
+
+    const followButtonProps = getButtonProps();
+
     useEffect(() => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
     }, [shouldUpdate]);
@@ -85,15 +101,13 @@ export const UserProfile = ({ route }) => {
     return (
         <ScrollView>
             <View className="flex-1 items-center mt-8">
-                {!isTheSameUser && (
-                    <View className="absolute right-2">
-                        <RoundedFullButton
-                            variant={followButtonProps.variant}
-                            onPress={handleFollowButton}
-                            text={followButtonProps.text}
-                        />
-                    </View>
-                )}
+                <View className="absolute right-2">
+                    <RoundedFullButton
+                        variant={followButtonProps.variant}
+                        onPress={followButtonProps.action}
+                        text={followButtonProps.text}
+                    />
+                </View>
                 <Image
                     source={imageSource}
                     className="w-16 h-16 rounded-full absolute z-50 mt-2"
