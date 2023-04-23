@@ -88,7 +88,7 @@ export const UserProfile = ({ route }) => {
         };
     };
 
-    const followButtonProps = getButtonProps();
+    const buttonProps = getButtonProps();
 
     useEffect(() => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
@@ -99,9 +99,9 @@ export const UserProfile = ({ route }) => {
             <View className="flex-1 items-center mt-8">
                 <View className="absolute right-2">
                     <RoundedFullButton
-                        variant={followButtonProps.variant}
-                        onPress={followButtonProps.action}
-                        text={followButtonProps.text}
+                        variant={buttonProps.variant}
+                        onPress={buttonProps.action}
+                        text={buttonProps.text}
                     />
                 </View>
                 <Image

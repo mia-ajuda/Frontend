@@ -14,9 +14,7 @@ export const BadgeCard = ({
     };
 
     const getTitle = () => {
-        return `${badgeTemplate.name.split(' ')[0]} ${badgeTemplate.name.slice(
-            -1,
-        )}`;
+        return `${badgeTemplate.name.split(' ')[0]} ${badgeTemplate.rank}`;
     };
 
     const title = showLevel ? `Nível ${badgeTemplate.rank}` : getTitle();
