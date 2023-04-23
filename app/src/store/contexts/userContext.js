@@ -94,6 +94,7 @@ export const UserContextProvider = (props) => {
                 userPosition,
                 setUserPosition,
                 isEntity,
+                env,
             }}
         >
             {props.children}
