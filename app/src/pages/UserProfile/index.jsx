@@ -94,10 +94,6 @@ export const UserProfile = ({ route }) => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
     }, [shouldUpdate]);
 
-    useEffect(() => {
-        console.log(selectedOption);
-    }, [selectedOption]);
-
     return (
         <ScrollView>
             <View className="flex-1 items-center mt-8">
