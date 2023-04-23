@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
@@ -19,10 +19,7 @@ export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
     const selectedIconBackground = iconBackgrounds[badgeTemplate.rank];
 
     return (
-        <TouchableOpacity
-            onPress={() => console.log('abc')}
-            className="rounded-md p-4 bg-white shadow-md shadow-black items-center w-36 mx-4 h-48 justify-around"
-        >
+        <View className="rounded-md p-4 bg-white shadow-md shadow-black items-center w-36 mx-2 h-48 justify-around">
             <View className={`rounded-full p-2 ${selectedIconBackground}`}>
                 <Icon
                     name={badgeTemplate.iconName}
@@ -48,6 +45,6 @@ export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
             <Text className="font-ms-bold text-sm text-primary">
                 {badgeTemplate.neededValue}/{badgeTemplate.neededValue}
             </Text>
-        </TouchableOpacity>
+        </View>
     );
 };

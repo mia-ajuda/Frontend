@@ -10,11 +10,11 @@ import { ActivitiesList } from '../../components/organisms/ActivitiesList';
 import { DescriptionBox } from '../../components/molecules/DescriptionBox';
 import { UserContext } from '../../store/contexts/userContext';
 import { BadgeContext } from '../../store/contexts/badgeContext';
-import { BadgeCard } from '../../components/molecules/BadgeCard';
 import { ScrollView } from 'react-native-gesture-handler';
+import { BadgesList } from '../../components/organisms/BadgesList';
 
 export const UserProfile = ({ route }) => {
-    const [selectedOption, setSelectedOption] = useState(1);
+    const [selectedOption, setSelectedOption] = useState(0);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
     const [badges, setBadges] = useState([]);
@@ -26,12 +26,11 @@ export const UserProfile = ({ route }) => {
     const { getUserBadges } = useContext(BadgeContext);
 
     const { userId } = route.params;
-    console.log(user._id);
 
     const isTheSameUser = user._id == userId;
-    const showActivities = selectedOption == 1;
-    const showBadges = selectedOption == 0;
-    const showBiography = false; //Will be enable when we have the biography
+    const showActivities = selectedOption == 0;
+    const showBadges = selectedOption == 1;
+    const showBiography = true; //Will be enable when we have the biography
     const followButtonProps = {
         variant: userInfo?.isFollowing ? 'secondary' : 'primary',
         text: userInfo?.isFollowing ? 'Seguindo' : 'Seguir',
@@ -69,7 +68,6 @@ export const UserProfile = ({ route }) => {
         const response = await getUserBadges(userId);
         setBadges(response);
     };
-
     const imageSource = userInfo?.photo
         ? {
               uri: `data:image/png;base64,${userInfo?.photo}`,
@@ -85,70 +83,64 @@ export const UserProfile = ({ route }) => {
     }, [selectedOption]);
 
     return (
-        <View className="flex-1 items-center mt-8">
-            {!isTheSameUser && (
-                <View className="absolute right-2">
-                    <RoundedFullButton
-                        variant={followButtonProps.variant}
-                        onPress={handleFollowButton}
-                        text={followButtonProps.text}
-                    />
-                </View>
-            )}
-            <Image
-                source={imageSource}
-                className="w-16 h-16 rounded-full absolute z-50 mt-2"
-            />
-            <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-12 w-full rounded-3xl">
-                <Text
-                    className="font-ms-bold text-black text-lg"
-                    numberOfLines={1}
-                >
-                    {userInfo?.username}
-                </Text>
-                {userInfo?.followsYou && (
-                    <Text className="text-slate-400 font-ms-light">
-                        Segue você
-                    </Text>
+        <ScrollView>
+            <View className="flex-1 items-center mt-8">
+                {!isTheSameUser && (
+                    <View className="absolute right-2">
+                        <RoundedFullButton
+                            variant={followButtonProps.variant}
+                            onPress={handleFollowButton}
+                            text={followButtonProps.text}
+                        />
+                    </View>
                 )}
-                <View className="flex-row items-center my-1">
-                    <FollowCount
-                        type="followers"
-                        count={userInfo?.numberOfFollowers}
-                        userId={userInfo?.id}
-                    />
-                    <FollowCount
-                        type="following"
-                        count={userInfo?.numberOfFollowing}
-                        userId={userInfo?.id}
-                    />
-                </View>
-
-                {showBiography && (
-                    <DescriptionBox
-                        title="Biografia"
-                        description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
-                    />
-                )}
-                <TextSwitch
-                    option1="Conquistas"
-                    option2="Atividades"
-                    selectedOption={selectedOption}
-                    setSelectedOption={setSelectedOption}
+                <Image
+                    source={imageSource}
+                    className="w-16 h-16 rounded-full absolute z-50 mt-2"
                 />
-                {showActivities && <ActivitiesList activities={activities} />}
-                {showBadges && (
-                    <ScrollView
-                        horizontal
-                        className="w-full max-h-56"
-                        contentContainerStyle={{ alignItems: 'center' }}
+                <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-12 w-full rounded-3xl">
+                    <Text
+                        className="font-ms-bold text-black text-lg"
+                        numberOfLines={1}
                     >
-                        {badges.map((badge, i) => (
-                            <BadgeCard badgeTemplate={badge.template} key={i} />
-                        ))}
-                    </ScrollView>
-                )}
+                        {userInfo?.username}
+                    </Text>
+                    {userInfo?.followsYou && (
+                        <Text className="text-slate-400 font-ms-light">
+                            Segue você
+                        </Text>
+                    )}
+                    <View className="flex-row items-center my-1">
+                        <FollowCount
+                            type="followers"
+                            count={userInfo?.numberOfFollowers}
+                            userId={userInfo?.id}
+                        />
+                        <FollowCount
+                            type="following"
+                            count={userInfo?.numberOfFollowing}
+                            userId={userInfo?.id}
+                        />
+                    </View>
+
+                    {showBiography && (
+                        <DescriptionBox
+                            title="Biografia"
+                            description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
+                        />
+                    )}
+                    <TextSwitch
+                        option1="Atividades"
+                        option2="Conquistas"
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                    />
+                    {showActivities && (
+                        <ActivitiesList activities={activities} />
+                    )}
+                    {showBadges && <BadgesList badges={badges} />}
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
