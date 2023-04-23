@@ -7,6 +7,7 @@ import { SocialNetworkRoutes } from './SocialNetworkRoutes';
 import { ActivitiesRoutes } from './ActivitiesRoutes';
 import { MoreInfoRoutes } from './MoreInfoRoutes';
 import { MapRoutes } from './MapRoutes';
+import { BadgeRoutes } from './BadgeRoutes';
 
 const Stack = createStackNavigator();
 
@@ -16,22 +17,22 @@ const othersRoutes = [
     ActivitiesRoutes,
     ProfileRoutes,
     SocialNetworkRoutes,
-]
+    BadgeRoutes,
+];
 
 const Routes = ({ initialRouteName }) => (
     <Stack.Navigator
         initialRouteName={initialRouteName}
-        screenOptions={(props) => headerStyle({...props, iconType: 'back'})}
+        screenOptions={(props) => headerStyle({ ...props, iconType: 'back' })}
     >
         <Stack.Screen
             name="notifications"
             component={NotificationPage}
             options={headerStyle}
         />
-        {othersRoutes.map((routes, i) => <Fragment key={i}>
-            {routes()}
-        </Fragment>)
-        }
+        {othersRoutes.map((routes, i) => (
+            <Fragment key={i}>{routes()}</Fragment>
+        ))}
     </Stack.Navigator>
 );
 
