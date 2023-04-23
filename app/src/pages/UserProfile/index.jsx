@@ -152,7 +152,9 @@ export const UserProfile = ({ route }) => {
                     {showActivities && (
                         <ActivitiesList activities={activities} />
                     )}
-                    {showBadges && <BadgesList badges={badges} />}
+                    {showBadges && (
+                        <BadgesList badges={badges} userId={userId} />
+                    )}
                 </View>
             </View>
         </ScrollView>

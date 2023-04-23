@@ -4,7 +4,7 @@ import { HorizontalList } from '../HorizontalList';
 import { useNavigation } from '@react-navigation/native';
 import { BadgeCard } from '../../molecules/BadgeCard';
 
-export const BadgesList = ({ badges }) => {
+export const BadgesList = ({ badges, userId }) => {
     const navigation = useNavigation();
 
     const handleOpenBadgeScreen = () => {
@@ -17,8 +17,8 @@ export const BadgesList = ({ badges }) => {
             showMoreButton
             onPressMoreButton={handleOpenBadgeScreen}
         >
-            {badges.map((badge, i) => (
-                <BadgeCard badgeTemplate={badge.template} key={i} />
+            {badges.map((badge) => (
+                <BadgeCard badgeTemplate={badge.template} key={badge._id} />
             ))}
         </HorizontalList>
     ) : (

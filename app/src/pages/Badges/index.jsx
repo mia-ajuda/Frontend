@@ -21,21 +21,27 @@ export const Badges = ({ route }) => {
     return (
         <ScrollView className="p-4 flex-1">
             {badges.allBadges &&
-                Object.values(badges.allBadges)?.map((badges, i) => (
-                    <View key={i}>
+                Object.keys(badges.allBadges)?.map((category) => (
+                    <View key={badges.allBadges[category].title}>
                         <View className="flex-row justify-between">
                             <Text className="font-ms-bold text-lg">
-                                {badges.title}
+                                {badges.allBadges[category].title}
                             </Text>
                         </View>
                         <HorizontalList className="max-h-52">
-                            {badges.badges.map((badge, j) => (
-                                <BadgeCard
-                                    badgeTemplate={badge}
-                                    key={j}
-                                    pressable
-                                />
-                            ))}
+                            {badges.allBadges[category].badges.map((badge) => {
+                                const currentLevel =
+                                    badges.userBadges[category]?.badge?.template
+                                        ?.rank || 0;
+                                return (
+                                    <BadgeCard
+                                        badgeTemplate={badge}
+                                        hidden={badge.rank > currentLevel}
+                                        key={badge._id}
+                                        showLevel
+                                    />
+                                );
+                            })}
                         </HorizontalList>
                     </View>
                 ))}

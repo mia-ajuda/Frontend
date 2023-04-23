@@ -2,7 +2,11 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
+export const BadgeCard = ({
+    badgeTemplate,
+    showLevel = false,
+    hidden = false,
+}) => {
     const iconBackgrounds = {
         1: 'bg-first-rank',
         2: 'bg-second-rank',
@@ -16,16 +20,26 @@ export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
     };
 
     const title = showLevel ? `Nível ${badgeTemplate.rank}` : getTitle();
-    const selectedIconBackground = iconBackgrounds[badgeTemplate.rank];
+    const selectedIconBackground = hidden
+        ? 'bg-gray'
+        : iconBackgrounds[badgeTemplate.rank];
+
+    const hiddenBadgeInfo = {
+        iconName: 'help',
+        description: '-',
+        neededValue: '?',
+        rank: badgeTemplate.rank,
+    };
+    const badgeInfo = hidden ? hiddenBadgeInfo : badgeTemplate;
 
     return (
         <View className="rounded-md p-4 bg-white shadow-md shadow-black items-center w-36 mx-2 h-48 justify-around">
             <View className={`rounded-full p-2 ${selectedIconBackground}`}>
                 <Icon
-                    name={badgeTemplate.iconName}
+                    name={badgeInfo.iconName}
                     color={'white'}
                     size={34}
-                    type="material"
+                    type={hidden ? 'material-community' : 'material'}
                 />
             </View>
             <View>
@@ -39,11 +53,11 @@ export const BadgeCard = ({ badgeTemplate, showLevel = false }) => {
                     className="font-ms-regular text-xs text-black text-center w-32"
                     numberOfLines={2}
                 >
-                    {badgeTemplate.description}
+                    {badgeInfo.description}
                 </Text>
             </View>
             <Text className="font-ms-bold text-sm text-primary">
-                {badgeTemplate.neededValue}/{badgeTemplate.neededValue}
+                {badgeInfo.neededValue}/{badgeInfo.neededValue}
             </Text>
         </View>
     );
