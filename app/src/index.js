@@ -12,6 +12,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenTemplate } from './templates/ScreenTemplate';
 import { UpdaterContextProvider } from './store/contexts/updaterContext';
 import { ActivitiesContextProvider } from './store/contexts/activitiesContext';
+import BadgeContextProvider from './store/contexts/badgeContext';
 
 export default function Root() {
     return (
@@ -27,9 +28,11 @@ export default function Root() {
                                             <HelpOfferContextProvider>
                                                 <CampaignContextProvider>
                                                     <HelpContextProvider>
-                                                        <ScreenTemplate>
-                                                            <Routes />
-                                                        </ScreenTemplate>
+                                                        <BadgeContextProvider>
+                                                            <ScreenTemplate>
+                                                                <Routes />
+                                                            </ScreenTemplate>
+                                                        </BadgeContextProvider>
                                                     </HelpContextProvider>
                                                 </CampaignContextProvider>
                                             </HelpOfferContextProvider>

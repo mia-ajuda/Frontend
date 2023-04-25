@@ -15,6 +15,7 @@ import HelpMarker from './HelpMarker';
 import HelpOfferMarker from './HelpOfferMarker';
 import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
+import { BadgeContext } from '../../store/contexts/badgeContext';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -22,13 +23,20 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
-    const { userPosition, user, isEntity } = useContext(UserContext);
+    const { userPosition, user, isEntity, env } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
+    const { increaseUserBadge } = useContext(BadgeContext);
 
     useEffect(() => {
         setRegion(null);
     }, [region]);
+
+    useEffect(() => {
+        if (!env.production) {
+            increaseUserBadge(user._id, 'tester');
+        }
+    }, []);
 
     const renderCampaignMarkers = () => {
         return campaignList.map((campaign) => {
