@@ -20,4 +20,11 @@ export const styles = StyleSheet.create({
         color: colors.dark,
         fontFamily: 'montserrat-bold',
     },
+    customMenuStyle: {
+        backgroundColor: colors.primary,
+        padding: RFValue(4, 640),
+        marginRight: RFValue(8, 640),
+        marginLeft: RFValue(8, 640),
+        borderRadius: 100,
+    },
 });
