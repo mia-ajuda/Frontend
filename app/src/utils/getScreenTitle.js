@@ -1,6 +1,7 @@
 export const getScreenTtile = (screenName) => {
     const screenTitles = {
         notificationsDrawer: 'Notificações',
+        notifications: 'Notificações',
         homeDrawer: 'Mapa',
         activitiesDrawer: 'Atividades',
         profileDrawer: 'Perfil',
