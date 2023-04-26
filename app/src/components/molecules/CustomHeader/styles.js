@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: RFValue(48, 640),
-        backgroundColor: colors.primary,
         justifyContent: 'center',
+        backgroundColor: 'transparent',
     },
     content: {
         flexDirection: 'row',
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     },
     title: {
         ...fonts.subtitle,
-        color: colors.light,
+        color: colors.dark,
         fontFamily: 'montserrat-bold',
     },
 });
