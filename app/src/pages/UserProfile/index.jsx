@@ -30,6 +30,7 @@ export const UserProfile = ({ route }) => {
     const userId = route?.params?.userId || user._id;
 
     const isTheSameUser = user._id == userId;
+    const displayName = isTheSameUser ? user?.name : userInfo?.username;
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
     const showBiography = true; //Will be enable when we have the biography
@@ -115,7 +116,7 @@ export const UserProfile = ({ route }) => {
                         className="font-ms-bold text-black text-lg"
                         numberOfLines={1}
                     >
-                        {userInfo?.username}
+                        {displayName}
                     </Text>
                     {userInfo?.followsYou && (
                         <Text className="text-slate-400 font-ms-light">
