@@ -43,7 +43,7 @@ export const Input = ({
 
     return (
         <View className={className}>
-            <Text className="text-sm font-ms-semibold text-black mb-2">
+            <Text className="text-sm font-ms-semibold text-black my-1">
                 {label}
             </Text>
             {mask && (

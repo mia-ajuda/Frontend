@@ -33,7 +33,7 @@ export default function Main({ navigation }) {
     }, [region]);
 
     useEffect(() => {
-        if (!env.production) {
+        if (!env.production && !isEntity) {
             increaseUserBadge(user._id, 'tester');
         }
     }, []);

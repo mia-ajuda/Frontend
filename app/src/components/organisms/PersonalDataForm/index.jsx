@@ -11,8 +11,6 @@ import formatDate from '../../../utils/formatDate';
 export const PersonalDataForm = ({ submissionFunction }) => {
     const { user, isEntity } = useContext(UserContext);
 
-    console.log(user.biography);
-
     const identifier = isEntity ? 'CNPJ' : 'CPF';
 
     const handleOnSubmit = (values) => {
@@ -26,8 +24,8 @@ export const PersonalDataForm = ({ submissionFunction }) => {
     };
 
     const { handleChange, handleSubmit, values, errors, touched } = useFormik({
-        initialValues: initialValues(user),
-        validationSchema: schema(identifier),
+        initialValues: initialValues(user, isEntity),
+        validationSchema: schema(identifier, isEntity),
         onSubmit: handleOnSubmit,
     });
     return (
@@ -50,15 +48,17 @@ export const PersonalDataForm = ({ submissionFunction }) => {
                 lines={3}
                 maxLength={100}
             />
-            <Input
-                label={'Data de Nascimento'}
-                placeholder={'Digite sua data de nascimento'}
-                mask={'datetime'}
-                value={values.birthday}
-                setValue={handleChange('birthday')}
-                error={errors.birthday && touched.birthday}
-                errorMessage={errors.birthday}
-            />
+            {!isEntity && (
+                <Input
+                    label={'Data de Nascimento'}
+                    placeholder={'Digite sua data de nascimento'}
+                    mask={'datetime'}
+                    value={values.birthday}
+                    setValue={handleChange('birthday')}
+                    error={errors.birthday && touched.birthday}
+                    errorMessage={errors.birthday}
+                />
+            )}
             <Input
                 label={'Telefone'}
                 placeholder={'Digite seu telefone'}

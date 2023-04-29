@@ -59,11 +59,12 @@ export const EditProfile = () => {
                 option2="Endereço"
                 selectedOption={option}
                 setSelectedOption={setOption}
+                darker
             />
             {showProfile && (
                 <>
                     <Image
-                        className="w-24 h-24 rounded-full self-center my-4"
+                        className="w-24 h-24 rounded-full self-center my-2"
                         source={{
                             uri: `data:image/png;base64,${photo}`,
                         }}

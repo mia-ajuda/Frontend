@@ -3,16 +3,34 @@ import cpfValidator from '../../../utils/cpfValidator';
 import parseDate from '../../../utils/parseDate';
 import * as Yup from 'yup';
 
-export const initialValues = (user) => ({
+export const initialValues = (user, isEntity) => ({
     name: user?.name || '',
     birthday: parseDate(user?.birthday) || '',
     phone: user?.phone?.slice(3, 14) || '',
     id: user?.cpf || user?.cnpj || '',
     biography: user?.biography || '',
+    isEntity: isEntity,
 });
 
-export const schema = (id_type) =>
-    Yup.object().shape({
+export const schema = (id_type, isEntity) => {
+    const additionalFields = isEntity
+        ? {}
+        : {
+              birthday: Yup.string()
+                  .required('Data de nascimento é obrigatória')
+                  .matches(
+                      /^(0?\d|[12]\d|3[01])\/(0?\d|1[012])\/\d{4}$/,
+                      'Data deve estar no formato dd/MM/yyyy',
+                  )
+                  .test('valid-date', 'Data deve ser no passado', (value) => {
+                      if (!value) return false;
+                      const [day, month, year] = value.split('/');
+                      const date = new Date(year, month - 1, day);
+                      const now = new Date();
+                      return date < now;
+                  }),
+          };
+    return Yup.object().shape({
         name: Yup.string()
             .trim()
             .required('Nome é obrigatório')
@@ -27,19 +45,6 @@ export const schema = (id_type) =>
                     return true;
                 }
             }),
-        birthday: Yup.string()
-            .required('Data de nascimento é obrigatória')
-            .matches(
-                /^(0?\d|[12]\d|3[01])\/(0?\d|1[012])\/\d{4}$/,
-                'Data deve estar no formato dd/MM/yyyy',
-            )
-            .test('valid-date', 'Data deve ser no passado', (value) => {
-                if (!value) return false;
-                const [day, month, year] = value.split('/');
-                const date = new Date(year, month - 1, day);
-                const now = new Date();
-                return date < now;
-            }),
         phone: Yup.string()
             .required('Telefone é obrigatório')
             .matches(
@@ -53,4 +58,6 @@ export const schema = (id_type) =>
                 return cnpjValidator(value);
             }),
         biography: Yup.string(),
+        ...additionalFields,
     });
+};
