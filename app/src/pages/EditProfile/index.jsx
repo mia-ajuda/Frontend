@@ -54,7 +54,7 @@ export const EditProfile = () => {
     };
 
     return (
-        <ScrollView className="p-4 bg-new_background">
+        <ScrollView className="px-4 bg-new_background">
             <TextSwitch
                 option1="Perfil"
                 option2="Endereço"

@@ -56,7 +56,7 @@ export const AddressForm = ({ submissionFunction }) => {
     };
 
     return (
-        <View>
+        <View className="mb-4">
             <Input
                 label={'CEP'}
                 placeholder={'Digite seu CEP'}

@@ -29,7 +29,7 @@ export const PersonalDataForm = ({ submissionFunction }) => {
         onSubmit: handleOnSubmit,
     });
     return (
-        <View>
+        <View className="mb-4">
             <Input
                 label={'Nome Completo'}
                 placeholder={'Digite seu nome'}

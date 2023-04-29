@@ -117,14 +117,14 @@ export const UserProfile = ({ route }) => {
 
     return (
         <ScrollView contentContainerStyle={{ height: '100%' }}>
+            <View className="absolute right-2">
+                <RoundedFullButton
+                    variant={buttonProps.variant}
+                    onPress={buttonProps.action}
+                    text={buttonProps.text}
+                />
+            </View>
             <View className="flex-1 items-center mt-8">
-                <View className="absolute right-2">
-                    <RoundedFullButton
-                        variant={buttonProps.variant}
-                        onPress={buttonProps.action}
-                        text={buttonProps.text}
-                    />
-                </View>
                 <ProfilePhoto
                     size={'md'}
                     base64={photo}
