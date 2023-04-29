@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
@@ -13,6 +13,7 @@ import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
 import { useNavigation } from '@react-navigation/native';
+import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(0);
@@ -76,11 +77,6 @@ export const UserProfile = ({ route }) => {
             setBadges(response);
         }
     };
-    const imageSource = photo
-        ? {
-              uri: `data:image/png;base64,${photo}`,
-          }
-        : require('../../../assets//images/noImage.png');
 
     const getButtonProps = () => {
         if (isTheSameUser)
@@ -129,9 +125,10 @@ export const UserProfile = ({ route }) => {
                         text={buttonProps.text}
                     />
                 </View>
-                <Image
-                    source={imageSource}
-                    className="w-16 h-16 rounded-full absolute z-50 mt-2"
+                <ProfilePhoto
+                    size={'md'}
+                    base64={photo}
+                    className={'absolute z-50 mt-2'}
                 />
                 <View className="flex-1 bg-white items-center px-8 py-7 gap-1 mt-12 w-full rounded-3xl">
                     <Text

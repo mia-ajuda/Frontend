@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Image, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { PersonalDataForm } from '../../components/organisms/PersonalDataForm';
 import { UserContext } from '../../store/contexts/userContext';
@@ -10,6 +10,7 @@ import { LoadingContext } from '../../store/contexts/loadingContext';
 import actions from '../../store/actions';
 import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { AddressForm } from '../../components/organisms/AddressForm';
+import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 
 export const EditProfile = () => {
     const [option, setOption] = useState(0);
@@ -63,11 +64,10 @@ export const EditProfile = () => {
             />
             {showProfile && (
                 <>
-                    <Image
-                        className="w-24 h-24 rounded-full self-center my-2"
-                        source={{
-                            uri: `data:image/png;base64,${photo}`,
-                        }}
+                    <ProfilePhoto
+                        base64={photo}
+                        size={'lg'}
+                        className={'self-center my-2'}
                     />
                     <TextButton
                         onPress={handleChangePhoto}
