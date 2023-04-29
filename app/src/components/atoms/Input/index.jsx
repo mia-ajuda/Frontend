@@ -10,6 +10,8 @@ export const Input = ({
     mask,
     label,
     disabled = false,
+    error,
+    errorMessage,
 }) => {
     const maskOptions = {
         datetime: {
@@ -52,6 +54,9 @@ export const Input = ({
                 />
             )}
             {!mask && <TextInput className={className} {...inputProps} />}
+            {error && (
+                <Text className="text-sm text-red-600">{errorMessage}</Text>
+            )}
         </View>
     );
 };
