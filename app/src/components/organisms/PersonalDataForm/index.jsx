@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import { Input } from '../../atoms/Input';
-import { Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { initialValues, schema } from './constructor';
 import Button from '../../UI/button';
+import extractNumbers from '../../../utils/removeSpecialChars';
 
 export const PersonalDataForm = ({ submissionFunction }) => {
     const { user, isEntity } = useContext(UserContext);
@@ -15,6 +16,7 @@ export const PersonalDataForm = ({ submissionFunction }) => {
         const submissionData = {
             ...values,
             [identifier]: values.id,
+            phone: `+55${extractNumbers(values.phone)}`,
         };
         submissionFunction(submissionData);
     };

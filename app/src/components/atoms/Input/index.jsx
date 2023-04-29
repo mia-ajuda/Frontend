@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { TextInput } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 export const Input = ({

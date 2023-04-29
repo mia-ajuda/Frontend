@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 export const initialValues = (user) => ({
     name: user?.name || '',
     birthday: parseDate(user?.birthday) || '',
-    phone: user?.phone || '',
+    phone: user?.phone?.slice(3, 14) || '',
     id: user?.cpf || user?.cnpj || '',
 });
 
@@ -15,10 +15,6 @@ export const schema = (id_type) =>
         name: Yup.string()
             .trim()
             .required('Nome é obrigatório')
-            .matches(
-                /^([a-zA-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/,
-                'Este nome é inválido',
-            )
             .test('nome', 'Insira nome e sobrenome', (value) => {
                 if (!value) {
                     return false;
@@ -32,11 +28,12 @@ export const schema = (id_type) =>
             }),
         birthday: Yup.date()
             .required('Data de nascimento é obrigatório')
+            .typeError('Data no formato errado, utilize o formato 30/09/2009')
             .min(1900, 'Data inválida'),
         phone: Yup.string()
             .required('Telefone é obrigatório')
             .matches(
-                /^(\([1-9]{2}\) )?([9]{1})?([1-9]{1})?([0-9]{3})-?([0-9]{4})$/,
+                /^\D*(\d{2})\D*\D*(\d{5}|\d{4})\D*(\d{4})$/,
                 'Digite um telefone válido',
             ),
         id: Yup.string()
