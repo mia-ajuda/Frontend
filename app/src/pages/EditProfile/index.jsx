@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { PersonalDataForm } from '../../components/organisms/PersonalDataForm';
 import { UserContext } from '../../store/contexts/userContext';
@@ -9,10 +9,12 @@ import { TextButton } from '../../components/atoms/TextButton';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import actions from '../../store/actions';
 import { UpdaterContext } from '../../store/contexts/updaterContext';
+import { AddressForm } from '../../components/organisms/AddressForm';
 
 export const EditProfile = () => {
     const [option, setOption] = useState(0);
-    const { user, editProfile, dispatch } = useContext(UserContext);
+    const { user, editProfile, editAddress, dispatch } =
+        useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
     const [photo, setPhoto] = useState(user?.photo || '');
     const { setShouldUpdate } = useContext(UpdaterContext);
@@ -36,10 +38,12 @@ export const EditProfile = () => {
         setPhoto(pickerResult.base64);
     };
 
-    const handleSubmit = async (data) => {
-        console.log(data);
+    const handleEditProfile = async (data, type) => {
+        const editingAddress = type === 'address';
         setIsLoading(true);
-        const response = await editProfile({ ...data, photo });
+        const response = editingAddress
+            ? await editAddress(data)
+            : await editProfile({ ...data, photo });
         setIsLoading(false);
         if (!response.error) {
             dispatch({ type: actions.user.storeUserInfo, data: response });
@@ -49,7 +53,7 @@ export const EditProfile = () => {
     };
 
     return (
-        <View className="p-4 bg-new_background">
+        <ScrollView className="p-4 bg-new_background">
             <TextSwitch
                 option1="Perfil"
                 option2="Endereço"
@@ -70,9 +74,20 @@ export const EditProfile = () => {
                         className="self-center"
                     />
 
-                    <PersonalDataForm submissionFunction={handleSubmit} />
+                    <PersonalDataForm
+                        submissionFunction={(data) =>
+                            handleEditProfile(data, 'personal')
+                        }
+                    />
                 </>
             )}
-        </View>
+            {showAddress && (
+                <AddressForm
+                    submissionFunction={(data) =>
+                        handleEditProfile(data, 'address')
+                    }
+                />
+            )}
+        </ScrollView>
     );
 };

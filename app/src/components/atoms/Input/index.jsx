@@ -12,6 +12,9 @@ export const Input = ({
     disabled = false,
     error,
     errorMessage,
+    type,
+    className,
+    lines = 1,
 }) => {
     const maskOptions = {
         datetime: {
@@ -26,13 +29,11 @@ export const Input = ({
 
     const selectedMaskOption = (mask && maskOptions[mask]) || {};
 
-    const disabledStyle =
-        'border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium';
+    const disabledStyle = `border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium`;
 
-    const enabledStyle =
-        'border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium';
+    const enabledStyle = `border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium`;
 
-    const className = disabled ? disabledStyle : enabledStyle;
+    const style = disabled ? disabledStyle : enabledStyle;
     const inputProps = {
         value: value,
         onChangeText: setValue,
@@ -41,19 +42,26 @@ export const Input = ({
     };
 
     return (
-        <View>
+        <View className={className}>
             <Text className="text-sm font-ms-semibold text-black mb-2">
                 {label}
             </Text>
             {mask && (
                 <TextInputMask
-                    className={className}
+                    className={style}
                     type={mask}
                     options={selectedMaskOption}
                     {...inputProps}
                 />
             )}
-            {!mask && <TextInput className={className} {...inputProps} />}
+            {!mask && (
+                <TextInput
+                    className={style}
+                    keyboardType={type}
+                    numberOfLines={lines}
+                    {...inputProps}
+                />
+            )}
             {error && (
                 <Text className="text-sm text-red-600">{errorMessage}</Text>
             )}
