@@ -142,6 +142,11 @@ export const UserProfile = ({ route }) => {
                             Segue você
                         </Text>
                     )}
+                    {isTheSameUser && (
+                        <Text className="font-ms-regular text-black">
+                            {user.email}
+                        </Text>
+                    )}
                     {!isEntity && (
                         <View className="flex-row items-center my-1">
                             <FollowCount
