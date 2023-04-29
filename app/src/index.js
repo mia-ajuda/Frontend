@@ -13,6 +13,7 @@ import { ScreenTemplate } from './templates/ScreenTemplate';
 import { UpdaterContextProvider } from './store/contexts/updaterContext';
 import { ActivitiesContextProvider } from './store/contexts/activitiesContext';
 import BadgeContextProvider from './store/contexts/badgeContext';
+import CepContextProvider from './store/contexts/cepContext';
 
 export default function Root() {
     return (
@@ -29,9 +30,11 @@ export default function Root() {
                                                 <CampaignContextProvider>
                                                     <HelpContextProvider>
                                                         <BadgeContextProvider>
-                                                            <ScreenTemplate>
-                                                                <Routes />
-                                                            </ScreenTemplate>
+                                                            <CepContextProvider>
+                                                                <ScreenTemplate>
+                                                                    <Routes />
+                                                                </ScreenTemplate>
+                                                            </CepContextProvider>
                                                         </BadgeContextProvider>
                                                     </HelpContextProvider>
                                                 </CampaignContextProvider>
