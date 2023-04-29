@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { initialValues, schema } from './constructor';
 import Button from '../../UI/button';
 import extractNumbers from '../../../utils/removeSpecialChars';
+import formatDate from '../../../utils/formatDate';
 
 export const PersonalDataForm = ({ submissionFunction }) => {
     const { user, isEntity } = useContext(UserContext);
@@ -17,6 +18,7 @@ export const PersonalDataForm = ({ submissionFunction }) => {
             ...values,
             [identifier]: values.id,
             phone: `+55${extractNumbers(values.phone)}`,
+            birthday: formatDate(values.birthday),
         };
         submissionFunction(submissionData);
     };
