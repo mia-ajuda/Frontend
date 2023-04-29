@@ -12,7 +12,12 @@ export const ProfileRoutes = () => {
             <Stack.Screen
                 name="profile"
                 component={UserProfile}
-                options={headerStyle}
+                options={(props) =>
+                    headerStyle({
+                        ...props,
+                        shouldRenderAuxiliarButton: true,
+                    })
+                }
             />
             <Stack.Screen name="editProfile" component={EditProfile} />
         </>
