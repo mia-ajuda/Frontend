@@ -11,6 +11,8 @@ import formatDate from '../../../utils/formatDate';
 export const PersonalDataForm = ({ submissionFunction }) => {
     const { user, isEntity } = useContext(UserContext);
 
+    console.log(user.biography);
+
     const identifier = isEntity ? 'CNPJ' : 'CPF';
 
     const handleOnSubmit = (values) => {
@@ -37,6 +39,16 @@ export const PersonalDataForm = ({ submissionFunction }) => {
                 setValue={handleChange('name')}
                 error={errors.name && touched.name}
                 errorMessage={errors.name}
+            />
+            <Input
+                label={'Biografia'}
+                placeholder={'Digite sua biografia'}
+                value={values.biography}
+                setValue={handleChange('biography')}
+                error={errors.biography && touched.biography}
+                errorMessage={errors.biography}
+                lines={3}
+                maxLength={100}
             />
             <Input
                 label={'Data de Nascimento'}

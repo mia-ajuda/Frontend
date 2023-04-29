@@ -31,9 +31,9 @@ export const UserProfile = ({ route }) => {
 
     const isTheSameUser = user._id == userId;
     const displayName = isTheSameUser ? user?.name : userInfo?.username;
+    const biography = isTheSameUser ? user?.biography : userInfo?.biography;
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
-    const showBiography = true; //Will be enable when we have the biography
 
     const handleFollowButton = async () => {
         setIsLoading(true);
@@ -136,12 +136,7 @@ export const UserProfile = ({ route }) => {
                         />
                     </View>
 
-                    {showBiography && (
-                        <DescriptionBox
-                            title="Biografia"
-                            description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
-                        />
-                    )}
+                    <DescriptionBox title="Biografia" description={biography} />
                     <TextSwitch
                         option1="Atividades"
                         option2="Conquistas"

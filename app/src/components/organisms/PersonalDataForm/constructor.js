@@ -8,6 +8,7 @@ export const initialValues = (user) => ({
     birthday: parseDate(user?.birthday) || '',
     phone: user?.phone?.slice(3, 14) || '',
     id: user?.cpf || user?.cnpj || '',
+    biography: user?.biography || '',
 });
 
 export const schema = (id_type) =>
@@ -51,4 +52,5 @@ export const schema = (id_type) =>
                 if (id_type === 'CPF') return cpfValidator(value);
                 return cnpjValidator(value);
             }),
+        biography: Yup.string(),
     });

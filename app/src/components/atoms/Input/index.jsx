@@ -14,6 +14,7 @@ export const Input = ({
     type,
     className,
     lines = 1,
+    maxLength,
 }) => {
     const maskOptions = {
         datetime: {
@@ -58,8 +59,15 @@ export const Input = ({
                     className={style}
                     keyboardType={type}
                     numberOfLines={lines}
+                    multiline={lines > 1}
+                    maxLength={maxLength}
                     {...inputProps}
                 />
+            )}
+            {!error && maxLength && (
+                <Text className="ml-auto font-ms-regular text-xs">
+                    {value.length}/{maxLength}
+                </Text>
             )}
             {error && (
                 <Text className="text-sm text-red-600">{errorMessage}</Text>
