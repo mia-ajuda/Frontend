@@ -12,6 +12,7 @@ import { UserContext } from '../../store/contexts/userContext';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
+import { useNavigation } from '@react-navigation/native';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(0);
@@ -24,6 +25,7 @@ export const UserProfile = ({ route }) => {
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
     const { user } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
+    const navigator = useNavigation();
 
     const userId = route?.params?.userId || user._id;
 
@@ -41,7 +43,7 @@ export const UserProfile = ({ route }) => {
     };
 
     const handleEditProfile = () => {
-        console.log('coming soon');
+        navigator.navigate('editProfile');
     };
 
     const handleLoadScreenData = async () => {
