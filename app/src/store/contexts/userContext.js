@@ -86,6 +86,18 @@ export const UserContextProvider = (props) => {
         }
     }
 
+    async function editProfile(data) {
+        const service = isEntity ? EntityService : UserService;
+        const functionName = isEntity ? 'editEntity' : 'editUser';
+        return await callService(service, functionName, [data]);
+    }
+
+    async function editAddress(data) {
+        const service = isEntity ? EntityService : UserService;
+        const functionName = isEntity ? 'editEntityAdress' : 'editUserAdress';
+        return await callService(service, functionName, [data]);
+    }
+
     return (
         <UserContext.Provider
             value={{
@@ -95,6 +107,8 @@ export const UserContextProvider = (props) => {
                 setUserPosition,
                 isEntity,
                 env,
+                editProfile,
+                editAddress,
             }}
         >
             {props.children}

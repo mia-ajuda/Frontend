@@ -10,12 +10,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: RFValue(12, 640),
     },
-    userPhoto: {
-        width: RFValue(40, 640),
-        height: RFValue(40, 640),
-        borderRadius: RFValue(20, 640),
-        marginRight: RFValue(8, 640),
-    },
     userInfo: {
         flexDirection: 'row',
         maxWidth: RFValue(160, 640),

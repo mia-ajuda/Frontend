@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
@@ -12,6 +12,8 @@ import { UserContext } from '../../store/contexts/userContext';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
+import { useNavigation } from '@react-navigation/native';
+import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(0);
@@ -22,15 +24,18 @@ export const UserProfile = ({ route }) => {
         useContext(SocialNetworkProfileContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
-    const { user } = useContext(UserContext);
+    const { user, isEntity } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
+    const navigator = useNavigation();
 
     const userId = route?.params?.userId || user._id;
 
     const isTheSameUser = user._id == userId;
+    const displayName = isTheSameUser ? user?.name : userInfo?.username;
+    const biography = isTheSameUser ? user?.biography : userInfo?.biography;
+    const photo = isTheSameUser ? user?.photo : userInfo?.photo;
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
-    const showBiography = true; //Will be enable when we have the biography
 
     const handleFollowButton = async () => {
         setIsLoading(true);
@@ -41,7 +46,7 @@ export const UserProfile = ({ route }) => {
     };
 
     const handleEditProfile = () => {
-        console.log('coming soon');
+        navigator.navigate('editProfile');
     };
 
     const handleLoadScreenData = async () => {
@@ -60,19 +65,18 @@ export const UserProfile = ({ route }) => {
     };
 
     const getUserInfo = async () => {
-        const response = await getUserProfile(userId);
-        setUserInfo(response);
+        if (!isEntity) {
+            const response = await getUserProfile(userId);
+            setUserInfo(response);
+        }
     };
 
     const getBadges = async () => {
-        const response = await getUserBadges(userId);
-        setBadges(response);
+        if (!isEntity) {
+            const response = await getUserBadges(userId);
+            setBadges(response);
+        }
     };
-    const imageSource = userInfo?.photo
-        ? {
-              uri: `data:image/png;base64,${userInfo?.photo}`,
-          }
-        : require('../../../assets//images/noImage.png');
 
     const getButtonProps = () => {
         if (isTheSameUser)
@@ -94,61 +98,75 @@ export const UserProfile = ({ route }) => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
     }, [shouldUpdate]);
 
+    const renderActivityTitle = () => {
+        if (isEntity)
+            return (
+                <Text className="font-ms-semibold text-base self-start">
+                    Atividades
+                </Text>
+            );
+        return (
+            <TextSwitch
+                option1="Atividades"
+                option2="Conquistas"
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+            />
+        );
+    };
+
     return (
-        <ScrollView>
-            <View className="flex-1 items-center mt-8">
-                <View className="absolute right-2">
-                    <RoundedFullButton
-                        variant={buttonProps.variant}
-                        onPress={buttonProps.action}
-                        text={buttonProps.text}
-                    />
-                </View>
-                <Image
-                    source={imageSource}
-                    className="w-16 h-16 rounded-full absolute z-50 mt-2"
+        <ScrollView contentContainerStyle={{ height: '100%' }}>
+            <View className="absolute right-2">
+                <RoundedFullButton
+                    variant={buttonProps.variant}
+                    onPress={buttonProps.action}
+                    text={buttonProps.text}
                 />
-                <View className="bg-white items-center px-8 py-7 gap-1 h-full mt-12 w-full rounded-3xl">
+            </View>
+            <View className="flex-1 items-center mt-8">
+                <ProfilePhoto
+                    size={'md'}
+                    base64={photo}
+                    className={'absolute z-50 mt-2'}
+                />
+                <View className="flex-1 bg-white items-center px-8 py-7 gap-1 mt-12 w-full rounded-3xl">
                     <Text
                         className="font-ms-bold text-black text-lg"
                         numberOfLines={1}
                     >
-                        {userInfo?.username}
+                        {displayName}
                     </Text>
                     {userInfo?.followsYou && (
                         <Text className="text-slate-400 font-ms-light">
                             Segue você
                         </Text>
                     )}
-                    <View className="flex-row items-center my-1">
-                        <FollowCount
-                            type="followers"
-                            count={userInfo?.numberOfFollowers}
-                            userId={userInfo?.id}
-                        />
-                        <FollowCount
-                            type="following"
-                            count={userInfo?.numberOfFollowing}
-                            userId={userInfo?.id}
-                        />
-                    </View>
-
-                    {showBiography && (
-                        <DescriptionBox
-                            title="Biografia"
-                            description="Sou a Ana Maria, e estou neste aplicativo pois quero ajudar pessoas."
-                        />
+                    {isTheSameUser && (
+                        <Text className="font-ms-regular text-black">
+                            {user.email}
+                        </Text>
                     )}
-                    <TextSwitch
-                        option1="Atividades"
-                        option2="Conquistas"
-                        selectedOption={selectedOption}
-                        setSelectedOption={setSelectedOption}
-                    />
+                    {!isEntity && (
+                        <View className="flex-row items-center my-1">
+                            <FollowCount
+                                type="followers"
+                                count={userInfo?.numberOfFollowers}
+                                userId={userInfo?.id}
+                            />
+                            <FollowCount
+                                type="following"
+                                count={userInfo?.numberOfFollowing}
+                                userId={userInfo?.id}
+                            />
+                        </View>
+                    )}
+                    <DescriptionBox title="Biografia" description={biography} />
+                    {renderActivityTitle()}
                     {showActivities && (
                         <ActivitiesList activities={activities} />
                     )}
-                    {showBadges && (
+                    {!isEntity && showBadges && (
                         <BadgesList badges={badges} userId={userId} />
                     )}
                 </View>

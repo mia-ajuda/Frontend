@@ -1,4 +1,4 @@
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from './styles';
 import { useContext } from 'react';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
@@ -7,6 +7,7 @@ import { UpdaterContext } from '../../../store/contexts/updaterContext';
 import shortenName from '../../../utils/shortenName';
 import { RoundedFullButton } from '../../atoms/RoundedFullButton';
 import { UserContext } from '../../../store/contexts/userContext';
+import { ProfilePhoto } from '../ProfilePhoto';
 
 export const UserListItem = ({ user }) => {
     const { followUser, unfollowUser } = useContext(
@@ -32,15 +33,9 @@ export const UserListItem = ({ user }) => {
         type: isFollowing ? 'secondary' : 'primary',
     };
 
-    const imageSource = userPhoto
-        ? {
-              uri: `data:image/png;base64,${userPhoto}`,
-          }
-        : require('../../../../assets/images/noImage.png');
-
     return (
         <View style={styles.container}>
-            <Image source={imageSource} style={styles.image} />
+            <ProfilePhoto base64={userPhoto} size={'sm'} />
             <View style={styles.userInfo}>
                 <Text
                     style={styles.userName}

@@ -6,7 +6,7 @@ export const TextSwitchButton = ({ text, isSelected, onPress }) => {
         container: isSelected ? 'bg-white' : 'bg-transparent',
         text: isSelected
             ? ' text-primary font-ms-semibold'
-            : 'text-black font-ms-light',
+            : 'text-black font-ms-regular',
     };
     return (
         <TouchableOpacity
