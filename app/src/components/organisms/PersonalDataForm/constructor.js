@@ -29,7 +29,7 @@ export const schema = (id_type) =>
         birthday: Yup.string()
             .required('Data de nascimento é obrigatória')
             .matches(
-                /^(0?[\d]|[12][0-9]|3[01])\/(0?[\d]|1[012])\/\d{4}$/,
+                /^(0?\d|[12]\d|3[01])\/(0?\d|1[012])\/\d{4}$/,
                 'Data deve estar no formato dd/MM/yyyy',
             )
             .test('valid-date', 'Data deve ser no passado', (value) => {
