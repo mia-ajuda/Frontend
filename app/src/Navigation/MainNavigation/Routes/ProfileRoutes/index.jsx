@@ -1,29 +1,20 @@
-import React, { useContext } from 'react';
-import Profile from '../../../../pages/Profile/UserProfile';
-import EditNameField from '../../../../pages/Profile/EditProfileFields/NameField';
-import EditCepField from '../../../../pages/Profile/EditProfileFields/CEPField';
-import EditPhoneField from '../../../../pages/Profile/EditProfileFields/PhoneFIeld';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import headerStyle from '../../MainNavigationStyles/MainStackHeaderStyle';
 import { UserProfile } from '../../../../pages/UserProfile';
-import { UserContext } from '../../../../store/contexts/userContext';
 import { EditProfile } from '../../../../pages/EditProfile';
 
 const Stack = createStackNavigator();
 
 export const ProfileRoutes = () => {
-    const { isEntity } = useContext(UserContext);
     return (
         <>
             <Stack.Screen
                 name="profile"
-                component={isEntity ? Profile : UserProfile}
+                component={UserProfile}
                 options={headerStyle}
             />
             <Stack.Screen name="editProfile" component={EditProfile} />
-            <Stack.Screen name="editNameField" component={EditNameField} />
-            <Stack.Screen name="editCEPField" component={EditCepField} />
-            <Stack.Screen name="editPhoneField" component={EditPhoneField} />
         </>
     );
 };
