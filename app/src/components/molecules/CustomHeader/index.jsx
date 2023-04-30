@@ -5,7 +5,7 @@ import { styles } from './styles';
 import { RoundedFullButton } from '../../atoms/RoundedFullButton';
 import { UserContext } from '../../../store/contexts/userContext';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { UpdaterContext } from '../../../store/contexts/updaterContext';
 
 export const CustomHeader = ({
     title,
@@ -19,7 +19,7 @@ export const CustomHeader = ({
     const { getUserProfile, followUser, unfollowUser } = useContext(
         SocialNetworkProfileContext,
     );
-    const { setShouldUpdateScreenContent } = useContext(LoadingContext);
+    const { setShouldUpdate } = useContext(UpdaterContext);
     const isDrawerButton = iconType == 'drawer';
     const userId = route?.params?.userId || user._id;
     const isTheSameUser = user._id == userId;
@@ -50,7 +50,7 @@ export const CustomHeader = ({
             ? await followUser(userInfo._id)
             : await unfollowUser(userInfo._id);
 
-        setShouldUpdateScreenContent(true);
+        setShouldUpdate(true);
     };
 
     const getButtonProps = () => {

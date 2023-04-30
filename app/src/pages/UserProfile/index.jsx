@@ -11,6 +11,7 @@ import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
 import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(0);
@@ -20,11 +21,8 @@ export const UserProfile = ({ route }) => {
     const { getUserProfile, getActivities } = useContext(
         SocialNetworkProfileContext,
     );
-    const {
-        setIsLoading,
-        shouldUpdateScreenContent,
-        setShouldUpdateScreenContent,
-    } = useContext(LoadingContext);
+    const { setIsLoading } = useContext(LoadingContext);
+    const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
     const { user, isEntity } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
 
@@ -42,7 +40,7 @@ export const UserProfile = ({ route }) => {
         Promise.all([getActivitiesInfo(), getUserInfo(), getBadges()]).then(
             () => {
                 setIsLoading(false);
-                setShouldUpdateScreenContent(false);
+                setShouldUpdate(false);
             },
         );
     };
@@ -67,8 +65,8 @@ export const UserProfile = ({ route }) => {
     };
 
     useEffect(() => {
-        if (shouldUpdateScreenContent || !userInfo) handleLoadScreenData();
-    }, [shouldUpdateScreenContent]);
+        if (shouldUpdate || !userInfo) handleLoadScreenData();
+    }, [shouldUpdate]);
 
     const renderActivityTitle = () => {
         if (isEntity)
