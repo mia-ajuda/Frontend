@@ -4,29 +4,27 @@ import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import { FollowCount } from '../../components/molecules/FollowCount';
-import { RoundedFullButton } from '../../components/atoms/RoundedFullButton';
-import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { ActivitiesList } from '../../components/organisms/ActivitiesList';
 import { DescriptionBox } from '../../components/molecules/DescriptionBox';
 import { UserContext } from '../../store/contexts/userContext';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
-import { useNavigation } from '@react-navigation/native';
 import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
+import { UpdaterContext } from '../../store/contexts/updaterContext';
 
 export const UserProfile = ({ route }) => {
     const [selectedOption, setSelectedOption] = useState(0);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
     const [badges, setBadges] = useState([]);
-    const { getUserProfile, getActivities, followUser, unfollowUser } =
-        useContext(SocialNetworkProfileContext);
+    const { getUserProfile, getActivities } = useContext(
+        SocialNetworkProfileContext,
+    );
     const { setIsLoading } = useContext(LoadingContext);
     const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
     const { user, isEntity } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
-    const navigator = useNavigation();
 
     const userId = route?.params?.userId || user._id;
 
@@ -36,18 +34,6 @@ export const UserProfile = ({ route }) => {
     const photo = isTheSameUser ? user?.photo : userInfo?.photo;
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
-
-    const handleFollowButton = async () => {
-        setIsLoading(true);
-        userInfo?.isFollowing
-            ? await followUser(userInfo._id)
-            : await unfollowUser(userInfo._id);
-        setShouldUpdate(true);
-    };
-
-    const handleEditProfile = () => {
-        navigator.navigate('editProfile');
-    };
 
     const handleLoadScreenData = async () => {
         setIsLoading(true);
@@ -78,22 +64,6 @@ export const UserProfile = ({ route }) => {
         }
     };
 
-    const getButtonProps = () => {
-        if (isTheSameUser)
-            return {
-                variant: 'primary',
-                text: 'Editar perfil',
-                action: handleEditProfile,
-            };
-        return {
-            variant: userInfo?.isFollowing ? 'secondary' : 'primary',
-            text: userInfo?.isFollowing ? 'Seguindo' : 'Seguir',
-            action: handleFollowButton,
-        };
-    };
-
-    const buttonProps = getButtonProps();
-
     useEffect(() => {
         if (shouldUpdate || !userInfo) handleLoadScreenData();
     }, [shouldUpdate]);
@@ -117,13 +87,6 @@ export const UserProfile = ({ route }) => {
 
     return (
         <ScrollView contentContainerStyle={{ height: '100%' }}>
-            <View className="absolute right-2">
-                <RoundedFullButton
-                    variant={buttonProps.variant}
-                    onPress={buttonProps.action}
-                    text={buttonProps.text}
-                />
-            </View>
             <View className="flex-1 items-center mt-8">
                 <ProfilePhoto
                     size={'md'}

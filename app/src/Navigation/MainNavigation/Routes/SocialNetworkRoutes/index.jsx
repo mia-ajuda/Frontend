@@ -10,7 +10,17 @@ const Stack = createStackNavigator();
 export const SocialNetworkRoutes = () => {
     return (
         <>
-            <Stack.Screen name="socialUserProfile" component={UserProfile} />
+            <Stack.Screen
+                name="socialUserProfile"
+                component={UserProfile}
+                options={(props) =>
+                    headerStyle({
+                        ...props,
+                        iconType: 'back',
+                        shouldRenderAuxiliarButton: true,
+                    })
+                }
+            />
 
             <Stack.Screen
                 name="searchUsers"
