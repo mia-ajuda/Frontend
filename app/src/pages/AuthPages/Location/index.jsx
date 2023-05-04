@@ -31,7 +31,9 @@ export default function Location({ route }) {
         useState(false);
     const navigation = useNavigation();
     useEffect(() => {
-        showWarningFor('userPosition', userPositionWarningMessage);
+        showWarningFor('userPosition', userPositionWarningMessage).catch(
+            console.error,
+        );
     }, []);
 
     async function confirmPosition() {

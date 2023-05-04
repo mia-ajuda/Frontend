@@ -42,7 +42,7 @@ export default function MapHelpDescription({ route, navigation }) {
         });
 
     useEffect(() => {
-        getOwnerInfo();
+        getOwnerInfo().catch(console.error);
     }, []);
 
     async function getOwnerInfo() {
