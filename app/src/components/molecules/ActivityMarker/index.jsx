@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Marker } from 'react-native-maps';
