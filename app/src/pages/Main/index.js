@@ -51,15 +51,12 @@ export default function Main({ navigation }) {
 
     const renderHelpMakers = () => {
         return helpList.map((help, i) => {
-            const isRiskGroup = !!help.user.riskGroup.length;
-
             return (
                 <ActivityMarker
                     key={help._id}
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
-                    isRiskGroup={isRiskGroup}
                 />
             );
         });

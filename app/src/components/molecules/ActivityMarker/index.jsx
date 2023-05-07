@@ -8,12 +8,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/core';
 import getActivityIcon from '../../../utils/getActivityIcon';
 
-export const ActivityMarker = ({
-    activity,
-    activityType,
-    index,
-    isRiskGroup = false,
-}) => {
+export const ActivityMarker = ({ activity, activityType, index }) => {
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
 
@@ -31,6 +26,7 @@ export const ActivityMarker = ({
 
     const selectedType = types[activityType];
     const icon = getActivityIcon(activityType);
+    const isRiskGroup = activity.user?.riskGroup?.length > 0;
 
     const handleNavigate = () => {
         navigateToDescription(activityType, user, navigation, activity);
