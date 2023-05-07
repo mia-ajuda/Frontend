@@ -48,7 +48,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
             <View className="bg-white py-1 px-2 w-32 rounded-full rounded-bl-none shadow-sm shadow-black flex-row items-center justify-center">
                 <Icon
                     name={icon.name}
-                    type={icon.family}
+                    type={icon.type}
                     size={18}
                     color={
                         isRiskGroup
