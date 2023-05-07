@@ -9,6 +9,8 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/native';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import getActivityIcon from '../../../utils/getActivityIcon';
+import SeedlingIcon from '../../../../assets/images/Seedling';
+import isRecentDate from '../../../utils/isRecentDate';
 
 export const ActivityCard = ({
     variant,
@@ -19,11 +21,13 @@ export const ActivityCard = ({
     distance,
     count,
     id,
+    creationDate,
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
+    const isNewActivity = isRecentDate(creationDate);
 
     const activitiesVariants = {
         help: {
@@ -68,6 +72,7 @@ export const ActivityCard = ({
                 <Text className={`${color.font} font-ms-bold ml-1 text-base`}>
                     {`${selectedVariant.translation} ${count}`}
                 </Text>
+                {isNewActivity && <SeedlingIcon className="ml-auto" />}
             </View>
             <Text
                 className="max-w-sm text-primary font-ms-semibold text-base"
