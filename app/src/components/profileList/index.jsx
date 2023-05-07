@@ -20,17 +20,16 @@ export default function ProfileList({ usersProfile, filterList = false }) {
 
     return (
         <View style={styles.userList}>
-            {filteredUsers &&
-                filteredUsers.map((profile, i) => (
-                    <Pressable
-                        key={profile._id}
-                        android_ripple={{ color: '#F2F2F2' }}
-                        onPress={() => handlenavigate(profile)}
-                    >
-                        <UserListItem user={profile} />
-                        {i != filteredUsers.length - 1 && <Divider />}
-                    </Pressable>
-                ))}
+            {filteredUsers?.map((profile, i) => (
+                <Pressable
+                    key={profile._id}
+                    android_ripple={{ color: '#F2F2F2' }}
+                    onPress={() => handlenavigate(profile)}
+                >
+                    <UserListItem user={profile} />
+                    {i != filteredUsers.length - 1 && <Divider />}
+                </Pressable>
+            ))}
         </View>
     );
 }

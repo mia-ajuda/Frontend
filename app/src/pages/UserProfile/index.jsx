@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
