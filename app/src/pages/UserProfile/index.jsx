@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
@@ -11,9 +11,9 @@ import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
 import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
-import { UpdaterContext } from '../../store/contexts/updaterContext';
+import { useFocusEffect } from '@react-navigation/core';
 
-export const UserProfile = ({ route }) => {
+export const UserProfile = ({ route, navigation }) => {
     const [selectedOption, setSelectedOption] = useState(0);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
@@ -22,7 +22,6 @@ export const UserProfile = ({ route }) => {
         SocialNetworkProfileContext,
     );
     const { setIsLoading } = useContext(LoadingContext);
-    const { shouldUpdate, setShouldUpdate } = useContext(UpdaterContext);
     const { user, isEntity } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
 
@@ -35,12 +34,17 @@ export const UserProfile = ({ route }) => {
     const showActivities = selectedOption == 0;
     const showBadges = selectedOption == 1;
 
+    useFocusEffect(
+        useCallback(() => {
+            handleLoadScreenData();
+        }, [navigation]),
+    );
+
     const handleLoadScreenData = async () => {
         setIsLoading(true);
         Promise.all([getActivitiesInfo(), getUserInfo(), getBadges()]).then(
             () => {
                 setIsLoading(false);
-                setShouldUpdate(false);
             },
         );
     };
@@ -63,10 +67,6 @@ export const UserProfile = ({ route }) => {
             setBadges(response);
         }
     };
-
-    useEffect(() => {
-        if (shouldUpdate || !userInfo) handleLoadScreenData();
-    }, [shouldUpdate]);
 
     const renderActivityTitle = () => {
         if (isEntity)
