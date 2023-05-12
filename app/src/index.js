@@ -10,7 +10,6 @@ import SocialNetworkProfileContextProvider from './store/contexts/socialNetworkP
 import { LoadingContextProvider } from './store/contexts/loadingContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenTemplate } from './templates/ScreenTemplate';
-import { UpdaterContextProvider } from './store/contexts/updaterContext';
 import { ActivitiesContextProvider } from './store/contexts/activitiesContext';
 import BadgeContextProvider from './store/contexts/badgeContext';
 import CepContextProvider from './store/contexts/cepContext';
@@ -20,31 +19,29 @@ export default function Root() {
         <>
             <DeviceInfoProvider>
                 <SafeAreaProvider>
-                    <UpdaterContextProvider>
-                        <LoadingContextProvider>
-                            <UserContextProvider>
-                                <SocialNetworkProfileContextProvider>
-                                    <ActivitiesContextProvider>
-                                        <CategoryContextProvider>
-                                            <HelpOfferContextProvider>
-                                                <CampaignContextProvider>
-                                                    <HelpContextProvider>
-                                                        <BadgeContextProvider>
-                                                            <CepContextProvider>
-                                                                <ScreenTemplate>
-                                                                    <Routes />
-                                                                </ScreenTemplate>
-                                                            </CepContextProvider>
-                                                        </BadgeContextProvider>
-                                                    </HelpContextProvider>
-                                                </CampaignContextProvider>
-                                            </HelpOfferContextProvider>
-                                        </CategoryContextProvider>
-                                    </ActivitiesContextProvider>
-                                </SocialNetworkProfileContextProvider>
-                            </UserContextProvider>
-                        </LoadingContextProvider>
-                    </UpdaterContextProvider>
+                    <LoadingContextProvider>
+                        <UserContextProvider>
+                            <SocialNetworkProfileContextProvider>
+                                <ActivitiesContextProvider>
+                                    <CategoryContextProvider>
+                                        <HelpOfferContextProvider>
+                                            <CampaignContextProvider>
+                                                <HelpContextProvider>
+                                                    <BadgeContextProvider>
+                                                        <CepContextProvider>
+                                                            <ScreenTemplate>
+                                                                <Routes />
+                                                            </ScreenTemplate>
+                                                        </CepContextProvider>
+                                                    </BadgeContextProvider>
+                                                </HelpContextProvider>
+                                            </CampaignContextProvider>
+                                        </HelpOfferContextProvider>
+                                    </CategoryContextProvider>
+                                </ActivitiesContextProvider>
+                            </SocialNetworkProfileContextProvider>
+                        </UserContextProvider>
+                    </LoadingContextProvider>
                 </SafeAreaProvider>
             </DeviceInfoProvider>
         </>
