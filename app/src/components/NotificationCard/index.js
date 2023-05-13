@@ -5,8 +5,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import getPastimeFrom from '../../utils/getPastTime';
 import colors from '../../../assets/styles/colorVariables';
 import styles from './styles';
-import helpService from '../../services/Help';
-import callService from '../../services/callService';
 
 export default function NotificationCard({
     notification,
@@ -26,13 +24,9 @@ export default function NotificationCard({
                 routeId: 'HelpOffer',
             });
         } else {
-            const help = await callService(
-                helpService,
-                'getHelpWithAggregationById',
-                [notification.helpId],
-            );
             navigation.navigate('myRequestHelpDescription', {
-                help,
+                helpId: notification.helpId,
+                routeId: 'Help',
             });
         }
     }

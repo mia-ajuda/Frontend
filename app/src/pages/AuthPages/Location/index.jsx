@@ -120,7 +120,12 @@ export default function Location({ route }) {
             />
             <NewHelpModalSuccess
                 visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('home')}
+                onOkPressed={() =>
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'homeDrawer' }],
+                    })
+                }
                 message={texts[requestType].successText}
             />
         </>
