@@ -63,6 +63,11 @@ class UserService {
             console.log('Tente rodar "expo login"');
         }
     }
+
+    async getAnyUser(id) {
+        const user = await api.get(`user/getAnyUser/${id}`);
+        return user.data;
+    }
 }
 
 const userService = new UserService();
