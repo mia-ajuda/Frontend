@@ -12,12 +12,18 @@ export const ProfileRoutes = () => {
             <Stack.Screen
                 name="profile"
                 component={UserProfile}
-                options={(props) =>
-                    headerStyle({
+                options={(props) => {
+                    return headerStyle({
                         ...props,
-                        shouldRenderAuxiliarButton: true,
-                    })
-                }
+                        iconType: 'drawer',
+                        buttonProps: {
+                            visible: true,
+                            text: 'Editar perfil',
+                            onPress: () =>
+                                props.navigation.navigate('editProfile'),
+                        },
+                    });
+                }}
             />
             <Stack.Screen name="editProfile" component={EditProfile} />
         </>
