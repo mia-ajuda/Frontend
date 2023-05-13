@@ -31,6 +31,9 @@ module.exports = {
             spacing: {
                 38: '9.5rem',
             },
+            fontSize: {
+                xss: '10px',
+            },
         },
         fontFamily: {
             'ms-bold': ['montserrat-bold'],
