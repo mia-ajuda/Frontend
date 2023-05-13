@@ -17,6 +17,7 @@ import messageOperation from '../../../utils/messageOperation';
 
 import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { CategoriesList } from '../../../components/molecules/CategoriesList';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -139,13 +140,7 @@ export default function MapHelpDescription({ route, navigation }) {
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
                 <View style={styles.categoryContainer}>
-                    {help.categories.map((category) => (
-                        <View key={category._id} style={styles.categoryWarning}>
-                            <Text style={styles.categoryName}>
-                                {category.name}
-                            </Text>
-                        </View>
-                    ))}
+                    <CategoriesList categories={help.categories} />
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
