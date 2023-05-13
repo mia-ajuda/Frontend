@@ -1,17 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { View, Text } from 'react-native';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import styles from './styles';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
-import CustomMap from '../../../../components/CustomMap';
-import HelpOfferMarker from '../../../Main/HelpOfferMarker';
 import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
+import { HelpScreenLayout } from '../../../../components/templates/HelpScreenLayout';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -92,61 +90,6 @@ export default function OfferHelpDescription({ route, navigation }) {
         );
     };
 
-    const renderHelpInformation = () => (
-        <View className="mt-[16]">
-            <Text className="text-xl text-center font-ms-semibold">
-                {help.title}
-            </Text>
-            <View className="flex flex-row w-full mb-[32] justify-center flex-wrap mt-[16]">
-                {help.categories.map((category) => (
-                    <View key={category._id} style={styles.categoryWarning}>
-                        <Text style={styles.categoryName}>{category.name}</Text>
-                    </View>
-                ))}
-            </View>
-            <View className="border border-[#D2D2D2] py-[16] px-[10] relative rounded-lg">
-                <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold">
-                    Descrição
-                </Text>
-                <Text style={[styles.infoText]}>{help.description}</Text>
-            </View>
-        </View>
-    );
-
-    const renderOfferLocation = () => {
-        const helpLocationCoordinates = {
-            latitude: help.location.coordinates[1],
-            latitudeDelta: 0.025,
-            longitude: help.location.coordinates[0],
-            longitudeDelta: 0.025,
-        };
-        return (
-            <View className="mt-4">
-                <Text className="text-lg font-ms-semibold">Localização</Text>
-                <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
-                    <CustomMap initialRegion={helpLocationCoordinates}>
-                        <HelpOfferMarker key={help._id} helpOffer={help} />
-                    </CustomMap>
-                    <TouchableOpacity
-                        onPress={() =>
-                            navigateToSelectedHelpOnMap(helpLocationCoordinates)
-                        }
-                        className="absolute bottom-2 bg-secondary left-2 rounded-full p-1"
-                    >
-                        <Icon name="fullscreen" type="material-icons" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
-
-    const navigateToSelectedHelpOnMap = (helpLocationCoordinates) => {
-        navigation.navigate('selectedHelpOnMap', {
-            help: help,
-            helpLocationCoordinates: helpLocationCoordinates,
-        });
-    };
-
     const showUserOrOwnerView = () => {
         if (user._id == help.ownerId) return renderHelpedUsersButtons();
         else return renderWaitingHelpOwnerMessage();
@@ -169,19 +112,13 @@ export default function OfferHelpDescription({ route, navigation }) {
                 }
             />
             {help && (
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View className="bg-white rounded-t-3xl p-[26] mt-14 flex-1">
-                        <Image
-                            className="w-[70] h-[70] object-cover rounded-full self-center absolute -top-9"
-                            source={{
-                                uri: `data:image/png;base64,${ownerPhoto}`,
-                            }}
-                        />
-                        {renderHelpInformation()}
-                        {renderOfferLocation()}
-                        {showUserOrOwnerView()}
-                    </View>
-                </ScrollView>
+                <HelpScreenLayout
+                    help={help}
+                    ownerPhoto={ownerPhoto}
+                    navigation={navigation}
+                >
+                    {showUserOrOwnerView()}
+                </HelpScreenLayout>
             )}
             {showPossibleHelpedUsers && (
                 <ExpansiveModal
