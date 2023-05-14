@@ -3,7 +3,6 @@ import { View, Text, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
-import NewHelpModalSuccess from '../../../components/modals/newHelpModal/success';
 
 import Button from '../../../components/UI/button';
 import ConfirmationModal from '../../../components/modals/confirmationModal';
@@ -15,11 +14,14 @@ import campaignService from '../../../services/Campaign';
 import helpService from '../../../services/Help';
 import callService from '../../../services/callService';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { BadgeContext } from '../../../store/contexts/badgeContext';
+import { alertSuccess } from '../../../utils/Alert';
 export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
 
     const { userPosition, user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { increaseUserBadge } = useContext(BadgeContext);
 
     const [markLocation, setMarkerLocation] = useState({
         type: 'Point',
@@ -27,11 +29,11 @@ export default function Location({ route }) {
     });
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [modalSuccessModalVisible, setModalSuccessModalVisible] =
-        useState(false);
     const navigation = useNavigation();
     useEffect(() => {
-        showWarningFor('userPosition', userPositionWarningMessage);
+        showWarningFor('userPosition', userPositionWarningMessage).catch(
+            console.error,
+        );
     }, []);
 
     async function confirmPosition() {
@@ -61,9 +63,16 @@ export default function Location({ route }) {
         setConfirmationModalVisible(false);
 
         if (!response.error) {
-            setModalSuccessModalVisible(true);
+            let badgeResponse;
+            if (requestType == 'HelpOffer')
+                badgeResponse = await increaseUserBadge(
+                    user._id,
+                    'offer',
+                    navigation,
+                );
+            alertSuccess(texts[requestType].successText);
+            if (!badgeResponse?.recentUpdated) navigation.navigate('home');
         }
-
         setIsLoading(false);
     }
 
@@ -117,11 +126,6 @@ export default function Location({ route }) {
                 visible={confirmationModalVisible && !isLoading}
                 setVisible={setConfirmationModalVisible}
                 action={confirmPosition}
-            />
-            <NewHelpModalSuccess
-                visible={modalSuccessModalVisible}
-                onOkPressed={() => navigation.navigate('home')}
-                message={texts[requestType].successText}
             />
         </>
     );

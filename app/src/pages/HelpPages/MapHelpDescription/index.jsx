@@ -17,12 +17,14 @@ import messageOperation from '../../../utils/messageOperation';
 
 import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { BadgeContext } from '../../../store/contexts/badgeContext';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
     const { setHelpOfferList } = useContext(HelpOfferContext);
     const { helpList, dispatch } = useContext(HelpContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { increaseUserBadge } = useContext(BadgeContext);
 
     const { help, helpType } = route.params;
 
@@ -40,7 +42,7 @@ export default function MapHelpDescription({ route, navigation }) {
         });
 
     useEffect(() => {
-        getOwnerInfo();
+        getOwnerInfo().catch(console.error);
     }, []);
 
     async function getOwnerInfo() {
@@ -95,13 +97,19 @@ export default function MapHelpDescription({ route, navigation }) {
             help._id,
             user._id,
         ]);
-        setIsLoading(false);
-        goBackToMapPage();
         if (!request.error) {
+            const badgeResponse = await increaseUserBadge(
+                user._id,
+                'offer',
+                navigation,
+            );
             alertSuccess(
                 messageOperation[helpType](true, removeElementFromMap),
             );
+            if (!badgeResponse.recentUpdated) goBackToMapPage();
         }
+        setIsLoading(false);
+        setConfirmationModalVisible(false);
     }
 
     const renderHelpOwnerInformation = () => {
