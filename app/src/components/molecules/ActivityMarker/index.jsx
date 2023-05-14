@@ -37,7 +37,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
             tracksViewChanges={false}
             coordinate={{
                 latitude:
-                    activity.location?.coordinates[1] + 0.005 ??
+                    activity.location?.coordinates[1] ??
                     activity.user.location.coordinates[1],
                 longitude:
                     activity.location?.coordinates[0] ??
