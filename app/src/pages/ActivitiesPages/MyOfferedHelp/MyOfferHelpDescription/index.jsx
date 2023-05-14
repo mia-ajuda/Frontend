@@ -68,9 +68,10 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const renderHelpedUsersButtons = () => {
         const possibleHelpedUsersBadgeValue =
-            help.possibleHelpedUsers.length + help.possibleEntities.length;
+            (help.possibleHelpers?.length || 0) +
+            (help.possibleEntities?.length || 0);
 
-        const helpedUsersBadgeValue = help.helpedUsers.length;
+        const helpedUsersBadgeValue = help.helpedUsers?.length || 0;
         return (
             <View className="mt-6">
                 <DefaultButtonWithBadges
@@ -101,6 +102,7 @@ export default function OfferHelpDescription({ route, navigation }) {
     };
 
     const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
+
     return (
         <View className="h-full flex-1">
             <ConfirmationModal
