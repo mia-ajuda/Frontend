@@ -68,7 +68,7 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     const renderHelpedUsersButtons = () => {
         const possibleHelpedUsersBadgeValue =
-            (help.possibleHelpers?.length || 0) +
+            (help.possibleHelpedUsers?.length || 0) +
             (help.possibleEntities?.length || 0);
 
         const helpedUsersBadgeValue = help.helpedUsers?.length || 0;
