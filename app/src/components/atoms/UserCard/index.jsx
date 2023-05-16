@@ -4,6 +4,7 @@ import { ProfilePhoto } from '../../molecules/ProfilePhoto';
 import formatPhone from '../../../utils/formatPhone';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import tailwindConfig from '../../../../tailwind.config';
 
 export const UserProfileCard = (props) => {
     const { userId, photo, phone, name, email } = props;
@@ -19,7 +20,9 @@ export const UserProfileCard = (props) => {
     return (
         <Pressable
             className="border border-gray-contrast px-4 py-4 rounded-xl flex-row items-center"
-            android_ripple={{ color: '#D2D2D2' }}
+            android_ripple={{
+                color: tailwindConfig.theme.extend.colors.gray.contrast,
+            }}
             onPress={() => handlenavigate()}
         >
             {props && (
