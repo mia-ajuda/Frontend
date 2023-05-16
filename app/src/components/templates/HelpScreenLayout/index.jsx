@@ -22,7 +22,7 @@ export function HelpScreenLayout({ help, children, navigation }) {
             <View className="flex flex-row w-full mb-[32] justify-center flex-wrap mt-[16]">
                 <CategoriesList categories={help.categories} />
             </View>
-            <View className="border border-[#D2D2D2] py-[16] px-[10] relative rounded-lg">
+            <View className="border border-gray-contrast py-[16] px-[10] relative rounded-lg">
                 <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold">
                     Descrição
                 </Text>

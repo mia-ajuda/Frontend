@@ -23,7 +23,7 @@ const UserItem = ({ user, showButton = false, onPress }) => {
     };
 
     return (
-        <View className="border-[#D2D2D2] border-b-[0.5px] justify-center py-2">
+        <View className="border-gray-contrast border-b-[0.5px] justify-center py-2">
             {renderRoundedFullButton()}
             <Pressable
                 className="flex-row space-x-3 h-16 w-full items-center"
