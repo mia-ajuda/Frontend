@@ -1,69 +1,48 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { ProfilePhoto } from '../../molecules/ProfilePhoto';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
-import callService from '../../../services/callService';
-import userService from '../../../services/User';
 import formatPhone from '../../../utils/formatPhone';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-export const UserCard = ({ userId }) => {
+export const UserProfileCard = (props) => {
+    const { userId, photo, phone, name, email } = props;
     const navigation = useNavigation();
-    const { setIsLoading } = useContext(LoadingContext);
-    const [user, setUser] = useState();
-    const [updateData, setUpdateData] = useState(true);
 
-    const handlenavigate = (userId) => {
+    const handlenavigate = () => {
         navigation.navigate('socialUserProfile', {
             userId,
         });
     };
 
-    useEffect(() => {
-        async function fetchUserInfo() {
-            setIsLoading(true);
-            const userTemp = await callService(userService, 'getAnyUser', [
-                userId,
-            ]);
-
-            setUser(userTemp);
-            setIsLoading(false);
-        }
-        if (updateData) {
-            fetchUserInfo();
-            setUpdateData(false);
-        }
-    }, [updateData]);
-
     const textPattern = 'text-black text-sm';
     return (
         <Pressable
-            className="border border-[#D2D2D2] px-4 py-4 rounded-xl flex-row items-center"
+            className="border border-gray-contrast px-4 py-4 rounded-xl flex-row items-center"
             android_ripple={{ color: '#D2D2D2' }}
-            onPress={() => handlenavigate(user._id)}
+            onPress={() => handlenavigate()}
         >
-            {user && (
+            {props && (
                 <Fragment>
-                    <ProfilePhoto size={'md'} base64={user.photo} />
+                    <ProfilePhoto size={'md'} base64={photo} />
                     <View className="ml-3">
                         <Text
                             className={`font-ms-bold ${textPattern}`}
                             numberOfLines={1}
                         >
-                            {user.name}
+                            {name}
                         </Text>
                         <Text
                             className={`font-ms-regular ${textPattern}`}
                             numberOfLines={1}
                         >
-                            {formatPhone(user.phone)}
+                            {formatPhone(phone)}
                         </Text>
                         <Text
                             className={`font-ms-regular ${textPattern}`}
                             numberOfLines={1}
                         >
-                            {user.email}
+                            {email}
                         </Text>
                     </View>
                     <View className="absolute right-0">

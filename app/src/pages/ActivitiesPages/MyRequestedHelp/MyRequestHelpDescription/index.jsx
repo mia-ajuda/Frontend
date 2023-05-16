@@ -7,7 +7,7 @@ import callService from '../../../../services/callService';
 import helpService from '../../../../services/Help';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
-import { UserCard } from '../../../../components/atoms/UserCard';
+import { UserProfileCard } from '../../../../components/atoms/UserCard';
 import { DefaultButton } from '../../../../components/atoms/DefaultButton';
 import openWhatsapp from '../../../../utils/openWhatsapp';
 import callNumber from '../../../../utils/callNumber';
@@ -27,7 +27,9 @@ export default function HelpDescription({
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const [updateData, setUpdateData] = useState(true);
     const [showPossibleHelpers, setShowPossibleHelpers] = useState(false);
+    const [helper, setHelper] = useState();
     const { finishHelpByOwner } = useContext(HelpContext);
+    const { fetchUserInfo } = useContext(UserContext);
 
     useEffect(() => {
         async function setupPage() {
@@ -47,6 +49,19 @@ export default function HelpDescription({
         }
     }, [updateData]);
 
+    useEffect(() => {
+        async function fetchHelperInfo() {
+            setIsLoading(true);
+            const helperTemp = await fetchUserInfo(help.helperId);
+            setHelper(helperTemp);
+            setIsLoading(false);
+        }
+
+        if (help?.helperId) {
+            fetchHelperInfo();
+        }
+    }, [help]);
+
     const renderButtons = () => {
         const possibleHelpersBadgeValue =
             (help.possibleHelpers?.length || 0) +
@@ -54,7 +69,7 @@ export default function HelpDescription({
 
         return (
             <View className="mt-6">
-                {help.helperId ? (
+                {helper ? (
                     renderMyHelper()
                 ) : (
                     <DefaultButtonWithBadges
@@ -72,7 +87,13 @@ export default function HelpDescription({
         return (
             <Fragment>
                 <Text className="text-lg font-ms-semibold mb-2">Ajudante</Text>
-                <UserCard userId={help.helperId} />
+                <UserProfileCard
+                    userId={helper.helperId}
+                    photo={helper.photo}
+                    phone={helper.phone}
+                    email={helper.email}
+                    name={helper.name}
+                />
             </Fragment>
         );
     };
@@ -86,8 +107,7 @@ export default function HelpDescription({
                 />
                 <DefaultButton
                     title="Faça uma ligação"
-                    customStyle="bg-white mt-2"
-                    textStyle="text-black"
+                    variant="transparent"
                     onPress={() => callNumber(user.phone)}
                 />
             </View>

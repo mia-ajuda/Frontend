@@ -98,6 +98,10 @@ export const UserContextProvider = (props) => {
         return await callService(service, functionName, [data]);
     }
 
+    async function fetchUserInfo(userId) {
+        return await callService(UserService, 'getAnyUser', [userId]);
+    }
+
     return (
         <UserContext.Provider
             value={{
@@ -109,6 +113,7 @@ export const UserContextProvider = (props) => {
                 env,
                 editProfile,
                 editAddress,
+                fetchUserInfo,
             }}
         >
             {props.children}
