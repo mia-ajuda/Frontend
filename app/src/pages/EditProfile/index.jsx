@@ -8,7 +8,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { TextButton } from '../../components/atoms/TextButton';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import actions from '../../store/actions';
-import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { AddressForm } from '../../components/organisms/AddressForm';
 import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 
@@ -18,7 +17,6 @@ export const EditProfile = () => {
         useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
     const [photo, setPhoto] = useState(user?.photo || '');
-    const { setShouldUpdate } = useContext(UpdaterContext);
 
     const showProfile = option == 0;
     const showAddress = option == 1;
@@ -50,7 +48,6 @@ export const EditProfile = () => {
             dispatch({ type: actions.user.storeUserInfo, data: response });
             alertSuccess('Alteração feita com sucesso!');
         }
-        setShouldUpdate(true);
     };
 
     return (

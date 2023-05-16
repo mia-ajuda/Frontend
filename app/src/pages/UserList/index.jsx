@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { View } from 'react-native';
 import ProfileList from '../../components/profileList';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
-import { UpdaterContext } from '../../store/contexts/updaterContext';
 import { NotFound } from '../../components/organisms/NotFound';
+import { useFocusEffect } from '@react-navigation/core';
 
-export const UserList = ({ route }) => {
+export const UserList = ({ route, navigation }) => {
     const { userId, followType } = route.params;
     const { getFollows } = useContext(SocialNetworkProfileContext);
-    const { shouldUpdate } = useContext(UpdaterContext);
     const { setIsLoading } = useContext(LoadingContext);
     const [userList, setUserList] = useState([]);
 
@@ -26,9 +25,12 @@ export const UserList = ({ route }) => {
         setUserList(response);
     };
 
-    useEffect(() => {
-        getUserList();
-    }, [shouldUpdate]);
+    useFocusEffect(
+        useCallback(() => {
+            getUserList();
+        }, [navigation]),
+    );
+
     return (
         <View className="flex-1 flex-col w-full bg-background px-4 py-6">
             {hasUsers && <ProfileList usersProfile={userList || []} />}

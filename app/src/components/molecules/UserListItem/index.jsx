@@ -3,7 +3,6 @@ import { styles } from './styles';
 import { useContext } from 'react';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
-import { UpdaterContext } from '../../../store/contexts/updaterContext';
 import shortenName from '../../../utils/shortenName';
 import { RoundedFullButton } from '../../atoms/RoundedFullButton';
 import { UserContext } from '../../../store/contexts/userContext';
@@ -14,7 +13,6 @@ export const UserListItem = ({ user }) => {
         SocialNetworkProfileContext,
     );
     const { setIsLoading } = useContext(LoadingContext);
-    const { setShouldUpdate } = useContext(UpdaterContext);
     const userContext = useContext(UserContext);
 
     const { isFollowing } = user;
@@ -25,7 +23,6 @@ export const UserListItem = ({ user }) => {
     const handleClickButton = async () => {
         setIsLoading(true);
         isFollowing ? await followUser(user._id) : await unfollowUser(user._id);
-        setShouldUpdate(true);
     };
 
     const buttonInfo = {
