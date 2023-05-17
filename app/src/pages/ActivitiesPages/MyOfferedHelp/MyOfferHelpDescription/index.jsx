@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
-import styles from './styles';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
@@ -58,14 +57,6 @@ export default function OfferHelpDescription({ route, navigation }) {
         goBackToMyOfferedHelpPage();
     }
 
-    const renderWaitingHelpOwnerMessage = () => {
-        return (
-            <Text style={styles.waitingText}>
-                Aguarde o dono da oferta entrar em contato.
-            </Text>
-        );
-    };
-
     const renderHelpedUsersButtons = () => {
         const possibleHelpedUsersBadgeValue =
             (help.possibleHelpedUsers?.length || 0) +
@@ -91,11 +82,6 @@ export default function OfferHelpDescription({ route, navigation }) {
         );
     };
 
-    const showUserOrOwnerView = () => {
-        if (user._id == help.ownerId) return renderHelpedUsersButtons();
-        else return renderWaitingHelpOwnerMessage();
-    };
-
     const getAllPossibleHelpedUsers = () => {
         const { possibleHelpedUsers, possibleEntities } = help;
         return [...possibleHelpedUsers, ...possibleEntities];
@@ -118,8 +104,10 @@ export default function OfferHelpDescription({ route, navigation }) {
                     help={help}
                     ownerPhoto={ownerPhoto}
                     navigation={navigation}
+                    userId={user._id}
+                    route={route}
                 >
-                    {showUserOrOwnerView()}
+                    {user._id == help.ownerId && renderHelpedUsersButtons()}
                 </HelpScreenLayout>
             )}
             {showPossibleHelpedUsers && (

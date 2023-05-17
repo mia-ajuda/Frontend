@@ -7,7 +7,7 @@ import callService from '../../../../services/callService';
 import helpService from '../../../../services/Help';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
-import { UserProfileCard } from '../../../../components/atoms/UserCard';
+import { UserProfileCard } from '../../../../components/atoms/UserProfileCard';
 import { DefaultButton } from '../../../../components/atoms/DefaultButton';
 import openWhatsapp from '../../../../utils/openWhatsapp';
 import callNumber from '../../../../utils/callNumber';
@@ -154,8 +154,10 @@ export default function HelpDescription({
                     help={help}
                     ownerPhoto={ownerPhoto}
                     navigation={navigation}
+                    userId={user._id}
+                    route={route}
                 >
-                    {renderButtons()}
+                    {user._id === help.ownerId && renderButtons()}
                 </HelpScreenLayout>
             )}
             {showPossibleHelpers && (

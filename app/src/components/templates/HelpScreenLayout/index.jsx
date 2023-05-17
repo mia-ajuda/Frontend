@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import CustomMap from '../../CustomMap';
 import { Icon } from 'react-native-elements';
 import { CategoriesList } from '../../molecules/CategoriesList';
 import HelpOfferMarker from '../../../pages/Main/HelpOfferMarker';
 import { BordedScreenLayout } from '../BordedScreenLayout';
+import { InformativeField } from '../../atoms/InformativeField';
 
-export function HelpScreenLayout({ help, children, navigation }) {
+export function HelpScreenLayout({
+    help,
+    children,
+    navigation,
+    userId,
+    route,
+}) {
     const navigateToSelectedHelpOnMap = (helpLocationCoordinates) => {
         navigation.navigate('selectedHelpOnMap', {
             help: help,
@@ -14,21 +21,33 @@ export function HelpScreenLayout({ help, children, navigation }) {
         });
     };
 
+    const informationFieldVariant = {
+        myOfferHelpDescription: 'offer',
+        myRequestHelpDescription: 'help',
+    };
+
     const renderHelpInformation = () => (
-        <View>
-            <Text className="text-2xl text-center font-ms-semibold">
+        <Fragment>
+            <Text className="text-2xl text-center font-ms-semibold text-black">
                 {help.title}
             </Text>
-            <View className="flex flex-row w-full mb-[32] justify-center flex-wrap mt-[16]">
+            <View className="flex flex-row w-full justify-center flex-wrap mt-4">
                 <CategoriesList categories={help.categories} />
             </View>
-            <View className="border border-gray-contrast py-[16] px-[10] relative rounded-lg">
-                <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold">
+            {userId !== help.ownerId && (
+                <InformativeField
+                    variant={informationFieldVariant[route.name]}
+                />
+            )}
+            <View className="border border-gray-contrast py-4 px-[10] relative rounded-lg mt-6">
+                <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold text-black">
                     Descrição
                 </Text>
-                <Text className="text-justify text-sm">{help.description}</Text>
+                <Text className="text-justify text-sm text-black">
+                    {help.description}
+                </Text>
             </View>
-        </View>
+        </Fragment>
     );
 
     const renderOfferLocation = () => {
@@ -40,7 +59,9 @@ export function HelpScreenLayout({ help, children, navigation }) {
         };
         return (
             <View className="mt-4">
-                <Text className="text-lg font-ms-semibold">Localização</Text>
+                <Text className="text-lg font-ms-semibold text-black">
+                    Localização
+                </Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
                     <CustomMap initialRegion={helpLocationCoordinates}>
                         <HelpOfferMarker key={help._id} helpOffer={help} />
