@@ -118,7 +118,7 @@ const SocialNetworkProfilePage = ({ navigation, route }) => {
                             onPress={() =>
                                 navigation.navigate('mapHelpDescription', {
                                     help: help,
-                                    helpType: 'offer',
+                                    routeId: 'offer',
                                 })
                             }
                         >
