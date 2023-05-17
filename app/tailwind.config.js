@@ -16,8 +16,14 @@ module.exports = {
                     900: 'rgba(75, 138, 185, 0.9)',
                     contrast: '#81b0ff',
                 },
-                secondary: '#f7ef6e',
-                danger: '#e47171',
+                secondary: {
+                    DEFAULT: '#f7ef6e',
+                    500: '#FAD980',
+                },
+                danger: {
+                    DEFAULT: '#e47171',
+                    200: '#FFB0AB',
+                },
                 black: '#353535',
                 light: '#f7f7f7',
                 success: '#77dd77',
