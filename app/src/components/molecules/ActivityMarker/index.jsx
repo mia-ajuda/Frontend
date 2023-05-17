@@ -45,7 +45,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
             }}
             onPress={handleNavigate}
         >
-            <View className="bg-white py-1 px-2 w-32 rounded-full rounded-bl-none shadow-sm shadow-black flex-row items-center justify-center">
+            <View className="bg-white py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black flex-row items-center justify-center">
                 <Icon
                     name={icon.name}
                     type={icon.type}
@@ -57,7 +57,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
                     }
                 />
                 <Text
-                    className="ml-2 text-xs font-ms-semibold text-black overflow-hidden "
+                    className="ml-2 text-sm font-ms-semibold text-black overflow-hidden "
                     numberOfLines={1}
                 >
                     {selectedType.text} {index}

@@ -18,7 +18,11 @@ module.exports = {
                 },
                 secondary: '#f7ef6e',
                 danger: '#e47171',
-                black: '#353535',
+                black: {
+                    DEFAULT: 'rgba(53,53,53,1)',
+                    100: 'rgba(53,53,53,0.1)',
+                    200: 'rgba(53,53,53,0.2)',
+                },
                 light: '#f7f7f7',
                 success: '#77dd77',
                 background: '#f1f1f1',
