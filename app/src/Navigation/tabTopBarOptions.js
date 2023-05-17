@@ -14,8 +14,8 @@ const tabTopBarOptions = {
     labelStyle: {
         ...fonts.body,
         color: colors.dark,
-        fontSize: RFValue(16, 640),
-        width: Dimensions.get('screen').width * 0.25,
+        fontSize: RFValue(14, 640),
+        width: Dimensions.get('screen').width * 0.3,
         textAlign: 'center',
     },
     indicatorStyle: {
