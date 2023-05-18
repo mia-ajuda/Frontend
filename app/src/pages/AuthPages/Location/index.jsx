@@ -127,16 +127,6 @@ export default function Location({ route }) {
                 setVisible={setConfirmationModalVisible}
                 action={confirmPosition}
             />
-            <NewHelpModalSuccess
-                visible={modalSuccessModalVisible}
-                onOkPressed={() =>
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'homeDrawer' }],
-                    })
-                }
-                message={texts[requestType].successText}
-            />
         </>
     );
 }

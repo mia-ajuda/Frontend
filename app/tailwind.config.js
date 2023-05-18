@@ -24,9 +24,6 @@ module.exports = {
                     DEFAULT: '#e47171',
                     200: '#FFB0AB',
                 },
-                black: '#353535',
-                secondary: '#f7ef6e',
-                danger: '#e47171',
                 black: {
                     DEFAULT: 'rgba(53,53,53,1)',
                     100: 'rgba(53,53,53,0.1)',
