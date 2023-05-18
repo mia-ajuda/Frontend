@@ -126,7 +126,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
                     <CustomMap initialRegion={helpLocationCoordinates}>
                         <ActivityMarker
-                            index={1}
+                            title={'Sua Oferta'}
                             activity={help}
                             activityType={'offer'}
                         />

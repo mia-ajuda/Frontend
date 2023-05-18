@@ -12,7 +12,8 @@ export const SelectedHelpOnMap = ({ route }) => {
                 <ActivityMarker
                     activity={help}
                     activityType="offer"
-                    index="1"
+                    title={'Sua Oferta'}
+                    disabled
                 />
             </CustomMap>
             {/* the feature that change offer location will be developed in another issue

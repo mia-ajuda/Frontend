@@ -8,7 +8,7 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/core';
 import getActivityIcon from '../../../utils/getActivityIcon';
 
-export const ActivityMarker = ({ activity, activityType, index }) => {
+export const ActivityMarker = ({ activity, activityType, index, title, disabled }) => {
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
 
@@ -29,7 +29,8 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
 
     const handleNavigate = () => {
-        navigateToDescription(activityType, user, navigation, activity);
+        if (!disabled)
+            navigateToDescription(activityType, user, navigation, activity);
     };
 
     return (
@@ -60,7 +61,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
                     className="ml-2 text-sm font-ms-semibold text-black overflow-hidden "
                     numberOfLines={1}
                 >
-                    {selectedType.text} {index}
+                    {title || `${selectedType.text} ${index}`}
                 </Text>
             </View>
         </Marker>
