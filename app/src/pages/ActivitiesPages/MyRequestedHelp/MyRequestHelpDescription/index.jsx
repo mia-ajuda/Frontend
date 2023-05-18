@@ -124,7 +124,7 @@ export default function HelpDescription({
             );
     };
 
-    const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
+    const ownerPhoto = (help?.user?.photo) || user.photo;
 
     const getAllPossibleHelpers = () => {
         const { possibleHelpers, possibleEntities } = help;
