@@ -8,6 +8,9 @@ import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/native';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import getActivityIcon from '../../../utils/getActivityIcon';
+import SeedlingIcon from '../../../../assets/images/Seedling';
+import isRecentDate from '../../../utils/isRecentDate';
 
 export const ActivityCard = ({
     variant,
@@ -18,36 +21,27 @@ export const ActivityCard = ({
     distance,
     count,
     id,
+    creationDate,
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
+    const isNewActivity = isRecentDate(creationDate);
 
     const activitiesVariants = {
         help: {
-            icon: {
-                name: 'exclamation',
-                type: 'font-awesome',
-            },
             translation: 'Pedido',
         },
         offer: {
-            icon: {
-                name: 'volunteer-activism',
-                type: 'material',
-            },
             translation: 'Oferta',
         },
         campaign: {
-            icon: {
-                name: 'home',
-                type: 'material',
-            },
             translation: 'Campanha',
         },
     };
     const selectedVariant = activitiesVariants[variant];
+    const icon = getActivityIcon(variant);
     const color = {
         font: isRiskGroup ? 'text-danger' : 'text-primary-400',
         icon: isRiskGroup
@@ -62,6 +56,7 @@ export const ActivityCard = ({
         if (!activity.error)
             navigateToDescription(variant, user, navigation, activity);
     };
+
     return (
         <TouchableOpacity
             className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72"
@@ -69,14 +64,15 @@ export const ActivityCard = ({
         >
             <View className="flex-row items-center">
                 <Icon
-                    name={selectedVariant.icon.name}
+                    name={icon.name}
                     size={18}
                     color={color.icon}
-                    type={selectedVariant.icon.type}
+                    type={icon.type}
                 />
                 <Text className={`${color.font} font-ms-bold ml-1 text-base`}>
                     {`${selectedVariant.translation} ${count}`}
                 </Text>
+                {isNewActivity && <SeedlingIcon className="ml-auto" />}
             </View>
             <Text
                 className="max-w-sm text-primary font-ms-semibold text-base"

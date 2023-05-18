@@ -8,10 +8,10 @@ import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
 import callService from '../../../../services/callService';
 import CustomMap from '../../../../components/CustomMap';
-import HelpOfferMarker from '../../../Main/HelpOfferMarker';
 import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
+import { ActivityMarker } from '../../../../components/molecules/ActivityMarker';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -125,7 +125,11 @@ export default function OfferHelpDescription({ route, navigation }) {
                 <Text className="text-lg font-ms-semibold">Localização</Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
                     <CustomMap initialRegion={helpLocationCoordinates}>
-                        <HelpOfferMarker key={help._id} helpOffer={help} />
+                        <ActivityMarker
+                            title={'Sua Oferta'}
+                            activity={help}
+                            activityType={'offer'}
+                        />
                     </CustomMap>
                     <TouchableOpacity
                         onPress={() =>
