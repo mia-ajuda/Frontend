@@ -87,8 +87,6 @@ export default function OfferHelpDescription({ route, navigation }) {
         return [...possibleHelpedUsers, ...possibleEntities];
     };
 
-    const ownerPhoto = (help && help.user && help.user.photo) || user.photo;
-
     return (
         <View className="h-full flex-1">
             <ConfirmationModal
@@ -102,12 +100,11 @@ export default function OfferHelpDescription({ route, navigation }) {
             {help && (
                 <HelpScreenLayout
                     help={help}
-                    ownerPhoto={ownerPhoto}
                     navigation={navigation}
-                    userId={user._id}
+                    isNotOwner={user._id !== help.ownerId}
                     route={route}
                 >
-                    {user._id == help.ownerId && renderHelpedUsersButtons()}
+                    {user._id === help.ownerId && renderHelpedUsersButtons()}
                 </HelpScreenLayout>
             )}
             {showPossibleHelpedUsers && (

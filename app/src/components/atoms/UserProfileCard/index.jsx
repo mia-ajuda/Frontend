@@ -6,13 +6,13 @@ import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import tailwindConfig from '../../../../tailwind.config';
 
-export const UserProfileCard = (props) => {
-    const { userId, photo, phone, name, email } = props;
+export const UserProfileCard = ({ user }) => {
+    const { _id, photo, phone, name, email } = user;
     const navigation = useNavigation();
 
     const handlenavigate = () => {
         navigation.navigate('socialUserProfile', {
-            userId,
+            userId: _id,
         });
     };
 
@@ -25,7 +25,7 @@ export const UserProfileCard = (props) => {
             }}
             onPress={() => handlenavigate()}
         >
-            {props && (
+            {user && (
                 <Fragment>
                     <ProfilePhoto size={'md'} base64={photo} />
                     <View className="ml-3">

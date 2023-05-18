@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useContext, useState } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
 import { HelpScreenLayout } from '../../../../components/templates/HelpScreenLayout';
@@ -13,6 +13,7 @@ import openWhatsapp from '../../../../utils/openWhatsapp';
 import callNumber from '../../../../utils/callNumber';
 import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { HelpContext } from '../../../../store/contexts/helpContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HelpDescription({
     route,
@@ -25,42 +26,46 @@ export default function HelpDescription({
     const { helpId, routeId } = route.params;
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const [updateData, setUpdateData] = useState(true);
+    const [updateData, setUpdateData] = useState(false);
     const [showPossibleHelpers, setShowPossibleHelpers] = useState(false);
-    const [helper, setHelper] = useState();
+    const [helper, setHelper] = useState(null);
     const { finishHelpByOwner } = useContext(HelpContext);
     const { fetchUserInfo } = useContext(UserContext);
 
-    useEffect(() => {
-        async function setupPage() {
-            setIsLoading(true);
-            const helpTemp = await callService(
-                helpService,
-                `get${routeId}WithAggregationById`,
-                [helpId],
-            );
+    const getHelp = async () => {
+        setIsLoading(true);
+        const helpTemp = await callService(
+            helpService,
+            `get${routeId}WithAggregationById`,
+            [helpId],
+        );
 
-            setHelp(helpTemp);
-            setIsLoading(false);
-        }
-        if (updateData) {
-            setupPage();
-            setUpdateData(false);
-        }
-    }, [updateData]);
+        setHelp(helpTemp);
+        setIsLoading(false);
+    };
 
-    useEffect(() => {
-        async function fetchHelperInfo() {
-            setIsLoading(true);
-            const helperTemp = await fetchUserInfo(help.helperId);
-            setHelper(helperTemp);
-            setIsLoading(false);
-        }
+    const fetchHelperInfo = async () => {
+        setIsLoading(true);
+        const helperTemp = await fetchUserInfo(help.helperId);
+        setHelper(helperTemp);
+        setIsLoading(false);
+    };
 
-        if (help?.helperId) {
-            fetchHelperInfo();
-        }
-    }, [help]);
+    useFocusEffect(
+        useCallback(() => {
+            getHelp();
+            return () => {
+                setHelp();
+                setHelper();
+            };
+        }, [updateData]),
+    );
+
+    useFocusEffect(
+        useCallback(() => {
+            help?.helperId && fetchHelperInfo();
+        }, [help]),
+    );
 
     const renderButtons = () => {
         const possibleHelpersBadgeValue =
@@ -87,13 +92,7 @@ export default function HelpDescription({
         return (
             <Fragment>
                 <Text className="text-lg font-ms-semibold mb-2">Ajudante</Text>
-                <UserProfileCard
-                    userId={helper.helperId}
-                    photo={helper.photo}
-                    phone={helper.phone}
-                    email={helper.email}
-                    name={helper.name}
-                />
+                <UserProfileCard user={helper} />
             </Fragment>
         );
     };
@@ -124,8 +123,6 @@ export default function HelpDescription({
             );
     };
 
-    const ownerPhoto = (help?.user?.photo) || user.photo;
-
     const getAllPossibleHelpers = () => {
         const { possibleHelpers, possibleEntities } = help;
         return [...possibleHelpers, ...possibleEntities];
@@ -152,10 +149,9 @@ export default function HelpDescription({
             {help && (
                 <HelpScreenLayout
                     help={help}
-                    ownerPhoto={ownerPhoto}
                     navigation={navigation}
-                    userId={user._id}
                     route={route}
+                    isNotOwner={user._id !== help.ownerId}
                 >
                     {user._id === help.ownerId && renderButtons()}
                 </HelpScreenLayout>
