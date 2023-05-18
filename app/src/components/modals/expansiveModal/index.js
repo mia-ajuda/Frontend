@@ -64,7 +64,7 @@ export const ExpansiveModal = ({
             alertSuccess('Interessado escolhido com sucesso!');
         }
         setConfirmationModalVisible(false);
-        handleCloseModal(true);
+        handleCloseModal();
         setUpdateData(true);
     };
 

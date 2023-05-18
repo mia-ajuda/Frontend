@@ -1,10 +1,10 @@
 import verifyUserInfo from './verifyUserInfo';
 
 export default function navigateToDescription(
-    type = 'default',
     user,
     navigation,
     help,
+    type = 'default',
 ) {
     const isUserVerified = verifyUserInfo(user);
     const isMyHelp = user?._id == help?.ownerId;

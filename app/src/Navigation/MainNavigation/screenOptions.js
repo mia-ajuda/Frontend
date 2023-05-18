@@ -7,13 +7,12 @@ export const screenOptions = ({ route }) => {
 
     return {
         tabBarLabel: ({ focused }) => {
-            let style;
-            focused
-                ? (style = {
+            const style = focused
+                ? {
                       ...tabTopBarOptions.labelStyle,
                       fontFamily: 'montserrat-bold',
-                  })
-                : (style = tabTopBarOptions.labelStyle);
+                  }
+                : tabTopBarOptions.labelStyle;
             return renderTabText(route.name, style);
         },
     };
