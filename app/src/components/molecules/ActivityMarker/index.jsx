@@ -45,7 +45,7 @@ export const ActivityMarker = ({ activity, activityType, index }) => {
             }}
             onPress={handleNavigate}
         >
-            <View className="bg-white py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black flex-row items-center justify-center">
+            <View className="bg-white py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center">
                 <Icon
                     name={icon.name}
                     type={icon.type}
