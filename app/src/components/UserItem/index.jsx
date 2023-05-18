@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
-import { untilTwoLastNames } from '../../utils/shortenName';
+import shortenName, { untilTwoLastNames } from '../../utils/shortenName';
 import { RoundedFullButton } from '../atoms/RoundedFullButton';
 
 const UserItem = ({ user, showButton = false, onPress }) => {
@@ -44,7 +44,7 @@ const UserItem = ({ user, showButton = false, onPress }) => {
                         {untilTwoLastNames(user.name)}
                     </Text>
                     <Text className="text-base font-ms-light">
-                        {user.address.city}, {user.address.state}
+                        {shortenName(user.address.city)}, {user.address.state}
                     </Text>
                 </View>
             </Pressable>

@@ -22,12 +22,12 @@ export function BordedScreenLayout({
                 <ProfilePhoto
                     size={'md'}
                     base64={photo}
-                    className={'absolute z-50 -top-10'}
+                    className={'absolute z-50 -top-10 right-1/2'}
                 />
             )}
             {displayName && (
                 <Text
-                    className="font-ms-bold text-black text-lg"
+                    className="font-ms-bold text-black text-lg text-center"
                     numberOfLines={1}
                 >
                     {displayName}
