@@ -24,6 +24,7 @@ export const ActivitiesList = ({ activities }) => {
                         description={activitie.description}
                         badges={activitie.categories}
                         distance={activitie.distance}
+                        creationDate={activitie.creationDate}
                     />
                 )),
             )}

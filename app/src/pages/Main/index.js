@@ -10,12 +10,10 @@ import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
-import CampaignMarker from './CampaignMarker';
-import HelpMarker from './HelpMarker';
-import HelpOfferMarker from './HelpOfferMarker';
 import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
+import { ActivityMarker } from '../../components/molecules/ActivityMarker';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -39,29 +37,40 @@ export default function Main({ navigation }) {
     }, []);
 
     const renderCampaignMarkers = () => {
-        return campaignList.map((campaign) => {
-            return <CampaignMarker key={campaign._id} campaign={campaign} />;
+        return campaignList.map((campaign, i) => {
+            return (
+                <ActivityMarker
+                    key={campaign._id}
+                    activity={campaign}
+                    activityType={'campaign'}
+                    index={i + 1}
+                />
+            );
         });
     };
 
     const renderHelpMakers = () => {
-        return helpList.map((help) => {
-            const isRiskGroup = !!help.user.riskGroup.length;
-
+        return helpList.map((help, i) => {
             return (
-                <HelpMarker
+                <ActivityMarker
                     key={help._id}
-                    isRiskGroup={isRiskGroup}
-                    help={help}
+                    activity={help}
+                    activityType={'help'}
+                    index={i + 1}
                 />
             );
         });
     };
 
     const renderHelpOfferMakers = () => {
-        return helpOfferList.map((helpOffer) => {
+        return helpOfferList.map((helpOffer, i) => {
             return (
-                <HelpOfferMarker key={helpOffer._id} helpOffer={helpOffer} />
+                <ActivityMarker
+                    key={helpOffer._id}
+                    activity={helpOffer}
+                    activityType={'offer'}
+                    index={i + 1}
+                />
             );
         });
     };
