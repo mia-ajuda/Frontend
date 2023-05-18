@@ -3,15 +3,15 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import CustomMap from '../../CustomMap';
 import { Icon } from 'react-native-elements';
 import { CategoriesList } from '../../molecules/CategoriesList';
-import HelpOfferMarker from '../../../pages/Main/HelpOfferMarker';
 import { BordedScreenLayout } from '../BordedScreenLayout';
 import { InformativeField } from '../../atoms/InformativeField';
+import { ActivityMarker } from '../../molecules/ActivityMarker';
 
 export function HelpScreenLayout({
     help,
     children,
     navigation,
-    userId,
+    isNotOwner,
     route,
 }) {
     const navigateToSelectedHelpOnMap = (helpLocationCoordinates) => {
@@ -22,8 +22,21 @@ export function HelpScreenLayout({
     };
 
     const informationFieldVariant = {
-        myOfferHelpDescription: 'offer',
-        myRequestHelpDescription: 'help',
+        myOfferHelpDescription:
+            'O dono da oferta aceitou seu pedido e logo entrará em contato',
+        myRequestHelpDescription:
+            'O dono do pedido aceitou sua oferta e logo entrará em contato',
+    };
+
+    const activityMarkerTitle = {
+        myOfferHelpDescription: isNotOwner ? 'Oferta' : 'Sua oferta',
+        myRequestHelpDescription: isNotOwner ? 'Pedido' : 'Seu pedido',
+    };
+
+    const isNotOwnerScreenLayout = {
+        photo: isNotOwner && help.user.photo,
+        displayName: isNotOwner && help.user.name,
+        additionalStyles: 'mt-12',
     };
 
     const renderHelpInformation = () => (
@@ -34,10 +47,8 @@ export function HelpScreenLayout({
             <View className="flex flex-row w-full justify-center flex-wrap mt-4">
                 <CategoriesList categories={help.categories} />
             </View>
-            {userId !== help.ownerId && (
-                <InformativeField
-                    variant={informationFieldVariant[route.name]}
-                />
+            {isNotOwner && (
+                <InformativeField text={informationFieldVariant[route.name]} />
             )}
             <View className="border border-gray-contrast py-4 px-[10] relative rounded-lg mt-6">
                 <Text className="absolute -top-4 text-lg bg-white px-1 font-ms-semibold text-black">
@@ -64,7 +75,12 @@ export function HelpScreenLayout({
                 </Text>
                 <View className="relative w-full h-28 rounded-xl overflow-hidden mt-2">
                     <CustomMap initialRegion={helpLocationCoordinates}>
-                        <HelpOfferMarker key={help._id} helpOffer={help} />
+                        <ActivityMarker
+                            title={activityMarkerTitle[route.name]}
+                            activity={help}
+                            activityType={'offer'}
+                            disabled={isNotOwner}
+                        />
                     </CustomMap>
                     <TouchableOpacity
                         onPress={() =>
@@ -81,7 +97,7 @@ export function HelpScreenLayout({
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <BordedScreenLayout size="sm">
+            <BordedScreenLayout size="sm" {...isNotOwnerScreenLayout}>
                 {renderHelpInformation()}
                 {renderOfferLocation()}
                 {children}
