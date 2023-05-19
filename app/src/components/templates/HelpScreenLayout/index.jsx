@@ -18,6 +18,7 @@ export function HelpScreenLayout({
         navigation.navigate('selectedHelpOnMap', {
             help: help,
             helpLocationCoordinates: helpLocationCoordinates,
+            title: activityMarkerTitle[route.name],
         });
     };
 
