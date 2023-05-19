@@ -4,7 +4,7 @@ import CustomMap from '../../../components/CustomMap';
 import { ActivityMarker } from '../../../components/molecules/ActivityMarker';
 
 export const SelectedHelpOnMap = ({ route }) => {
-    const { help, helpLocationCoordinates } = route.params;
+    const { help, helpLocationCoordinates, title } = route.params;
 
     return (
         <View>
@@ -12,7 +12,7 @@ export const SelectedHelpOnMap = ({ route }) => {
                 <ActivityMarker
                     activity={help}
                     activityType="offer"
-                    title={'Sua Oferta'}
+                    title={title}
                     disabled
                 />
             </CustomMap>

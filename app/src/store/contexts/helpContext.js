@@ -18,6 +18,7 @@ import {
     subscribeToDeleteHelp,
     changeCategories,
 } from '../../services/socket';
+import { alertSuccess } from '../../utils/Alert';
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
@@ -113,6 +114,21 @@ export default function HelpContextProvider(props) {
         }
     }
 
+    async function finishHelpByOwner(helpId) {
+        const finishHelpRequest = await callService(
+            HelpService,
+            'finishHelpByOwner',
+            [helpId, user._id],
+        );
+        if (!finishHelpRequest.error) {
+            alertSuccess(
+                'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudado!',
+            );
+            return true;
+        }
+        return false;
+    }
+
     function setupWebSocket() {
         disconnect();
         const { _id: userId } = user;
@@ -120,7 +136,9 @@ export default function HelpContextProvider(props) {
     }
 
     return (
-        <HelpContext.Provider value={{ helpList, dispatch, loadingHelps }}>
+        <HelpContext.Provider
+            value={{ helpList, dispatch, loadingHelps, finishHelpByOwner }}
+        >
             {props.children}
         </HelpContext.Provider>
     );

@@ -6,7 +6,7 @@ const headerStyle = ({
     navigation,
     route,
     iconType = 'drawer',
-    shouldRenderAuxiliarButton,
+    buttonProps,
 }) => {
     return {
         header: () => (
@@ -14,8 +14,7 @@ const headerStyle = ({
                 navigation={navigation}
                 title={getScreenTtile(route.name)}
                 iconType={iconType}
-                shouldRenderAuxiliarButton={shouldRenderAuxiliarButton}
-                route={route}
+                buttonProps={buttonProps}
             />
         ),
     };

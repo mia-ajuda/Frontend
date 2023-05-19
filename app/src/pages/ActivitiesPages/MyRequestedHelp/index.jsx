@@ -70,8 +70,8 @@ const MyRequestedHelp = ({ navigation }) => {
                                     navigation.navigate(
                                         'myRequestHelpDescription',
                                         {
-                                            help,
-                                            screen: 'InfosPedido',
+                                            helpId: help._id,
+                                            routeId: 'Help',
                                         },
                                     )
                                 }

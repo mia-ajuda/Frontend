@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { SocialNetworkProfileContext } from '../../store/contexts/socialNetworkProfileContext';
@@ -10,10 +10,15 @@ import { UserContext } from '../../store/contexts/userContext';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
-import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 import { useFocusEffect } from '@react-navigation/core';
+import { BordedScreenLayout } from '../../components/templates/BordedScreenLayout';
 
-export const UserProfile = ({ route, navigation }) => {
+export const UserProfile = ({
+    route,
+    navigation,
+    shouldUpdate,
+    setShouldUpdate,
+}) => {
     const [selectedOption, setSelectedOption] = useState(0);
     const [userInfo, setUserInfo] = useState();
     const [activities, setActivities] = useState({});
@@ -39,6 +44,13 @@ export const UserProfile = ({ route, navigation }) => {
             handleLoadScreenData();
         }, [navigation]),
     );
+
+    useEffect(() => {
+        if (shouldUpdate) {
+            handleLoadScreenData();
+            setShouldUpdate(false);
+        }
+    }, [shouldUpdate]);
 
     const handleLoadScreenData = async () => {
         setIsLoading(true);
@@ -88,18 +100,11 @@ export const UserProfile = ({ route, navigation }) => {
     return (
         <ScrollView contentContainerStyle={{ height: '100%' }}>
             <View className="flex-1 items-center mt-8">
-                <ProfilePhoto
-                    size={'md'}
-                    base64={photo}
-                    className={'absolute z-50 mt-2'}
-                />
-                <View className="flex-1 bg-white items-center px-8 py-7 gap-1 mt-12 w-full rounded-3xl">
-                    <Text
-                        className="font-ms-bold text-black text-lg"
-                        numberOfLines={1}
-                    >
-                        {displayName}
-                    </Text>
+                <BordedScreenLayout
+                    additionalStyles="items-center px-8 py-7 gap-1 mt-12 w-full"
+                    photo={photo}
+                    displayName={displayName}
+                >
                     {userInfo?.followsYou && (
                         <Text className="text-slate-400 font-ms-light">
                             Segue você
@@ -132,7 +137,7 @@ export const UserProfile = ({ route, navigation }) => {
                     {!isEntity && showBadges && (
                         <BadgesList badges={badges} userId={userId} />
                     )}
-                </View>
+                </BordedScreenLayout>
             </View>
         </ScrollView>
     );

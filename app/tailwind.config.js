@@ -16,8 +16,14 @@ module.exports = {
                     900: 'rgba(75, 138, 185, 0.9)',
                     contrast: '#81b0ff',
                 },
-                secondary: '#f7ef6e',
-                danger: '#e47171',
+                secondary: {
+                    DEFAULT: '#f7ef6e',
+                    500: '#FAD980',
+                },
+                danger: {
+                    DEFAULT: '#e47171',
+                    200: '#FFB0AB',
+                },
                 black: {
                     DEFAULT: 'rgba(53,53,53,1)',
                     100: 'rgba(53,53,53,0.1)',
@@ -26,14 +32,20 @@ module.exports = {
                 light: '#f7f7f7',
                 success: '#77dd77',
                 background: '#f1f1f1',
-                gray: '#e6e6e6',
                 new_background: '#F2F2F7',
+                gray: {
+                    DEFAULT: '#e6e6e6',
+                    contrast: '#D2D2D2',
+                },
                 'first-rank': '#BF6159',
                 'second-rank': '#538D95',
                 'thirt-rank': '#D0A408',
             },
             spacing: {
                 38: '9.5rem',
+            },
+            fontSize: {
+                xss: '10px',
             },
         },
         fontFamily: {

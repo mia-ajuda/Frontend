@@ -63,8 +63,9 @@ export const ExpansiveModal = ({
         if (!chooseHelperRequest.error) {
             alertSuccess('Interessado escolhido com sucesso!');
         }
-        setUpdateData(true);
         setConfirmationModalVisible(false);
+        handleCloseModal();
+        setUpdateData(true);
     };
 
     const renderClickAction = (selectedUserId) => {

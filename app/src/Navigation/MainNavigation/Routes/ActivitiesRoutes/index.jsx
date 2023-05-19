@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationGivenHelps } from '../../GivenHelps';
 import MyOfferHelpDescription from '../../../../pages/ActivitiesPages/MyOfferedHelp/MyOfferHelpDescription';
-import ListPossibleInteresteds from '../../../../components/InterestedList';
-import { MyRequestHelpDescription } from '../../MyRequestHelpDescription';
+import MyRequestDescription from '../../../../pages/ActivitiesPages/MyRequestedHelp/MyRequestHelpDescription';
 import CreateHelpRequest from '../../../../pages/HelpPages/CreateHelpRequest';
 import CreateHelpOffer from '../../../../pages/HelpPages/CreateHelpOffer';
 import CreateCampaign from '../../../../pages/HelpPages/CreateCampaign';
 import CampaignDescription from '../../../../pages/HelpPages/CampaignDescription';
 import headerStyle from '../../MainNavigationStyles/MainStackHeaderStyle';
 import { SelectedHelpOnMap } from '../../../../pages/ActivitiesPages/SelectedHelpOnMap';
+import { UserContext } from '../../../../store/contexts/userContext';
 
 const Stack = createStackNavigator();
 
 export const ActivitiesRoutes = () => {
+    const { user } = useContext(UserContext);
+    const [confirmationModalVisible, setConfirmationModalVisible] =
+        useState(false);
+    const [help, setHelp] = useState(null);
+
     return (
         <>
             <Stack.Screen
@@ -27,13 +32,35 @@ export const ActivitiesRoutes = () => {
             />
             <Stack.Screen
                 name="myRequestHelpDescription"
-                component={MyRequestHelpDescription}
-            />
-            <Stack.Screen
-                name="listHelpInteresteds"
-                component={ListPossibleInteresteds}
-            />
-
+                options={(props) =>
+                    headerStyle({
+                        ...props,
+                        iconType: 'back',
+                        buttonProps: {
+                            visible:
+                                help?.helperId && user._id == help?.ownerId,
+                            variant: 'danger',
+                            text: 'Finalizar pedido',
+                            onPress: () => setConfirmationModalVisible(true),
+                        },
+                    })
+                }
+            >
+                {({ route, navigation }) => {
+                    return (
+                        <MyRequestDescription
+                            route={route}
+                            navigation={navigation}
+                            confirmationModalVisible={confirmationModalVisible}
+                            setConfirmationModalVisible={
+                                setConfirmationModalVisible
+                            }
+                            help={help}
+                            setHelp={setHelp}
+                        />
+                    );
+                }}
+            </Stack.Screen>
             <Stack.Screen
                 name="createHelpRequest"
                 component={CreateHelpRequest}

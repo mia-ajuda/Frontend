@@ -17,6 +17,7 @@ import messageOperation from '../../../utils/messageOperation';
 
 import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { CategoriesList } from '../../../components/molecules/CategoriesList';
 import { BadgeContext } from '../../../store/contexts/badgeContext';
 
 export default function MapHelpDescription({ route, navigation }) {
@@ -26,7 +27,7 @@ export default function MapHelpDescription({ route, navigation }) {
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { increaseUserBadge } = useContext(BadgeContext);
 
-    const { help, helpType } = route.params;
+    const { help, routeId } = route.params;
 
     const [ownerInfo, setOwnerInfo] = useState(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
@@ -47,7 +48,7 @@ export default function MapHelpDescription({ route, navigation }) {
 
     async function getOwnerInfo() {
         setIsLoading(true);
-        if (helpType == 'offer') {
+        if (routeId == 'offer') {
             setTitleMessage('Se candidatar para essa oferta');
             setModalMessage('Você deseja confirmar a sua candidatura?');
 
@@ -78,7 +79,7 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     function removeElementFromMap() {
-        if (helpType == 'offer') {
+        if (routeId == 'offer') {
             setHelpOfferList((currentValue) =>
                 currentValue.filter((helpOffer) => helpOffer._id != help._id),
             );
@@ -92,7 +93,7 @@ export default function MapHelpDescription({ route, navigation }) {
 
     async function modalAction() {
         setIsLoading(true);
-        const functionName = messageOperation[helpType](false);
+        const functionName = messageOperation[routeId](false);
         const request = await callService(HelpService, functionName, [
             help._id,
             user._id,
@@ -103,9 +104,7 @@ export default function MapHelpDescription({ route, navigation }) {
                 'offer',
                 navigation,
             );
-            alertSuccess(
-                messageOperation[helpType](true, removeElementFromMap),
-            );
+            alertSuccess(messageOperation[routeId](true, removeElementFromMap));
             if (!badgeResponse.recentUpdated) goBackToMapPage();
         }
         setIsLoading(false);
@@ -147,13 +146,7 @@ export default function MapHelpDescription({ route, navigation }) {
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
                 <View style={styles.categoryContainer}>
-                    {help.categories.map((category) => (
-                        <View key={category._id} style={styles.categoryWarning}>
-                            <Text style={styles.categoryName}>
-                                {category.name}
-                            </Text>
-                        </View>
-                    ))}
+                    <CategoriesList categories={help.categories} />
                 </View>
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
