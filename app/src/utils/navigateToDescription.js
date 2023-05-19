@@ -1,11 +1,6 @@
 import verifyUserInfo from './verifyUserInfo';
 
-export default function navigateToDescription(
-    user,
-    navigation,
-    help,
-    type = 'default',
-) {
+export default function navigateToDescription(user, navigation, help, type) {
     const isUserVerified = verifyUserInfo(user);
     const isMyHelp = user?._id == help?.ownerId;
     const isCampaign = type == 'campaign';

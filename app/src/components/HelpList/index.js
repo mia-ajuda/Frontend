@@ -62,10 +62,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                             key={help._id}
                             onPress={() =>
                                 navigateToDescription(
-                                    'help',
                                     user,
                                     navigation,
                                     help,
+                                    'help',
                                 )
                             }
                         >
