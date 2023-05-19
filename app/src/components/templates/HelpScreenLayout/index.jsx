@@ -80,7 +80,7 @@ export function HelpScreenLayout({
                             title={activityMarkerTitle[route.name]}
                             activity={help}
                             activityType={'offer'}
-                            disabled={isNotOwner}
+                            disabled={true}
                         />
                     </CustomMap>
                     <TouchableOpacity

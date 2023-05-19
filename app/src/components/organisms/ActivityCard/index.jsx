@@ -54,7 +54,7 @@ export const ActivityCard = ({
         const activity = await getActitivtieById(variant, id);
         setIsLoading(false);
         if (!activity.error)
-            navigateToDescription(variant, user, navigation, activity);
+            navigateToDescription(user, navigation, activity, variant);
     };
 
     return (

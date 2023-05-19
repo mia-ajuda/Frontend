@@ -8,7 +8,13 @@ import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/core';
 import getActivityIcon from '../../../utils/getActivityIcon';
 
-export const ActivityMarker = ({ activity, activityType, index, title, disabled }) => {
+export const ActivityMarker = ({
+    activity,
+    activityType,
+    index,
+    title,
+    disabled,
+}) => {
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
 
@@ -30,7 +36,7 @@ export const ActivityMarker = ({ activity, activityType, index, title, disabled 
 
     const handleNavigate = () => {
         if (!disabled)
-            navigateToDescription(activityType, user, navigation, activity);
+            navigateToDescription(user, navigation, activity, activityType);
     };
 
     return (
