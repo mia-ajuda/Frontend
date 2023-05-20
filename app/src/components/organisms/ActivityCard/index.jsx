@@ -3,14 +3,14 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
-import navigateToDescription from '../../../utils/navigateToDescription';
-import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
-import { UserContext } from '../../../store/contexts/userContext';
-import { useNavigation } from '@react-navigation/native';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
 import getActivityIcon from '../../../utils/getActivityIcon';
 import SeedlingIcon from '../../../../assets/images/Seedling';
 import isRecentDate from '../../../utils/isRecentDate';
+import { UserContext } from '../../../store/contexts/userContext';
+import { useNavigation } from '@react-navigation/native';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
+import navigateToDescription from '../../../utils/navigateToDescription';
 
 export const ActivityCard = ({
     variant,
@@ -22,13 +22,14 @@ export const ActivityCard = ({
     count,
     id,
     creationDate,
+    ownerId
 }) => {
-    const { getActitivtieById } = useContext(ActivitiesContext);
-    const { setIsLoading } = useContext(LoadingContext);
-    const { user } = useContext(UserContext);
-    const navigation = useNavigation();
-    const isNewActivity = isRecentDate(creationDate);
+    const { user } = useContext(UserContext)
+    const { setIsLoading } = useContext(LoadingContext)
+    const { getActitivtieById, handleShowModal } = useContext(ActivitiesContext)
+    const navigation = useNavigation()
 
+    const isNewActivity = isRecentDate(creationDate);
     const activitiesVariants = {
         help: {
             translation: 'Pedido',
@@ -49,18 +50,22 @@ export const ActivityCard = ({
             : tailwindConfig.theme.extend.colors.primary[400],
     };
 
-    const handleClick = async () => {
-        setIsLoading(true);
-        const activity = await getActitivtieById(variant, id);
-        setIsLoading(false);
-        if (!activity.error)
-            navigateToDescription(user, navigation, activity, variant);
+    const handlePress = async () => {
+        if (ownerId != user._id)
+            handleShowModal(id, ownerId, variant)
+        else {
+            setIsLoading(true);
+            const activity = await getActitivtieById(variant, id);
+            setIsLoading(false);
+            if (!activity.error)
+                navigateToDescription(user, navigation, activity, variant);
+        }
     };
 
     return (
         <TouchableOpacity
             className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72"
-            onPress={handleClick}
+            onPress={handlePress}
         >
             <View className="flex-row items-center">
                 <Icon

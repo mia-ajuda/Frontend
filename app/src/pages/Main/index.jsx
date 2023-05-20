@@ -14,21 +14,19 @@ import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
-import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import { ActivitiesContext } from '../../store/contexts/activitiesContext';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
-    const [activityBottomSheetVisible, setActivityBottomSheetVisible] =
-        useState(false);
-    const [activity, setActivity] = useState();
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
+    const { handleShowModal, showActivityModal } = useContext(ActivitiesContext)
 
     useEffect(() => {
         setRegion(null);
@@ -48,7 +46,7 @@ export default function Main({ navigation }) {
                     activity={campaign}
                     activityType={'campaign'}
                     index={i + 1}
-                    onPress={() => handleMarkerPress(campaign, 'campaign')}
+                    onPress={() => handleShowModal(campaign._id, campaign.ownerId, 'campaign')}
                 />
             );
         });
@@ -62,7 +60,7 @@ export default function Main({ navigation }) {
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
-                    onPress={() => handleMarkerPress(help, 'help')}
+                    onPress={() => handleShowModal(help._id, help.ownerId, 'help')}
                 />
             );
         });
@@ -76,7 +74,7 @@ export default function Main({ navigation }) {
                     activity={helpOffer}
                     activityType={'offer'}
                     index={i + 1}
-                    onPress={() => handleMarkerPress(helpOffer, 'offer')}
+                    onPress={() => handleShowModal(helpOffer._id, helpOffer.ownerId, 'offer')}
                 />
             );
         });
@@ -100,11 +98,6 @@ export default function Main({ navigation }) {
                 renderCampaignMarkers(),
             ];
         }
-    };
-
-    const handleMarkerPress = (activityInfo, type) => {
-        setActivity({ info: activityInfo, type: type });
-        setActivityBottomSheetVisible(true);
     };
 
     const renderFilterButton = () => (
@@ -147,16 +140,16 @@ export default function Main({ navigation }) {
         <>
             {renderCreateRequestButton()}
             {renderFilterButton()}
-            <View style={styles.helpList}>
+            < View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
                     visible={helpListVisible}
                     setVisible={setHelpListVisible}
                     navigation={navigation}
                 />
-            </View>
+            </View >
         </>
-    );
+    )
     return (
         <>
             <CategoryListModal
@@ -173,14 +166,8 @@ export default function Main({ navigation }) {
             >
                 {renderMarkers()}
             </CustomMap>
-            {activityBottomSheetVisible && (
-                <ActivityBottomSheet
-                    selectedActivity={activity}
-                    setShowModal={setActivityBottomSheetVisible}
-                />
-            )}
 
-            {!activityBottomSheetVisible && renderActivitiesInteractions()}
+            {!showActivityModal && renderActivitiesInteractions()}
         </>
     );
 }

@@ -17,12 +17,12 @@ export const UserActivity = ({ activityType, activityInfo, ownerInfo, isRiskGrou
     return (
         <>
             <View className='flex-row items-center mb-4'>
-                <Icon name={activityIcon.name} type={activityIcon.type} size={22} color={indicatorColor.icon} />
-                <Text className={`${indicatorColor.text} font-ms-semibold text-lg ml-2`}>Pedido</Text>
+                <Icon name={activityIcon.name} type={activityIcon.type} size={32} color={indicatorColor.icon} />
+                <Text className={`${indicatorColor.text} font-ms-semibold text-2xl ml-2`}>Pedido</Text>
             </View>
             <View className='justify-center'>
                 <View className='flex-row mb-4'>
-                    <ProfilePhoto size={'md'} className="mr-2" />
+                    <ProfilePhoto size={'md'} className="mr-2" base64={ownerInfo?.photo}/>
                     <View>
                         <Text numberOfLines={1} className='text-lg font-ms-bold text-black'>
                             {ownerInfo?.name}
