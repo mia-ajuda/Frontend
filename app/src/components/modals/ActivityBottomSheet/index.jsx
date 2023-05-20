@@ -4,6 +4,8 @@ import { BaseBottomSheet } from '../BaseBottomSheet'
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext'
 import { UserActivity } from './UserActivity'
 import { LoadingContext } from '../../../store/contexts/loadingContext'
+import { EntityActivity } from './EntityActivity'
+import colors from '../../../../colors'
 
 export const ActivityBottomSheet = ({ selectedActivity, setShowModal, isRiskGroup }) => {
     const { fetchUserInfo } = useContext(UserContext)
@@ -12,12 +14,13 @@ export const ActivityBottomSheet = ({ selectedActivity, setShowModal, isRiskGrou
     const [ownerInfo, setOwnerInfo] = useState()
     const [activityInfo, setActivityInfo] = useState()
     const bottomSheetRef = useRef()
+    const isCampaign = selectedActivity.type === 'campaign'
 
     const getInfos = async () => {
         setIsLoading(true)
-        const owner = await fetchUserInfo(selectedActivity.info.ownerId)
+        const owner = await fetchUserInfo(selectedActivity.ownerId)
         setOwnerInfo(owner)
-        const activity = await getActitivtieById(selectedActivity.type, selectedActivity.info._id)
+        const activity = await getActitivtieById(selectedActivity.type, selectedActivity.id)
         setActivityInfo(activity)
         setIsLoading(false)
     }
@@ -32,8 +35,16 @@ export const ActivityBottomSheet = ({ selectedActivity, setShowModal, isRiskGrou
 
 
     return (
-        <BaseBottomSheet bottomSheetRef={bottomSheetRef} handleCloseModal={handleCloseModal} snapPoints={['75%']} background='#F2F2F7'>
-            <UserActivity activityType={selectedActivity.type} activityInfo={activityInfo} ownerInfo={ownerInfo} isRiskGroup={isRiskGroup} />
+        <BaseBottomSheet
+            bottomSheetRef={bottomSheetRef}
+            handleCloseModal={handleCloseModal}
+            snapPoints={['70%']}
+            background={colors.new_background}
+            coverPhoto={isCampaign && ownerInfo?.photo}>
+            {isCampaign ?
+                <EntityActivity activityInfo={activityInfo} ownerInfo={ownerInfo} /> :
+                <UserActivity activityType={selectedActivity.type} activityInfo={activityInfo} ownerInfo={ownerInfo} isRiskGroup={isRiskGroup} />
+            }
         </BaseBottomSheet>
     )
 }
