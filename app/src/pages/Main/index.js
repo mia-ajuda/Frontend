@@ -14,12 +14,16 @@ import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
     const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
+    const [activityBottomSheetVisible, setActivityBottomSheetVisible] =
+        useState(false);
+    const [activity, setActivity] = useState();
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
@@ -44,6 +48,7 @@ export default function Main({ navigation }) {
                     activity={campaign}
                     activityType={'campaign'}
                     index={i + 1}
+                    onPress={() => handleMarkerPress(campaign, 'campaign')}
                 />
             );
         });
@@ -57,6 +62,7 @@ export default function Main({ navigation }) {
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
+                    onPress={() => handleMarkerPress(help, 'help')}
                 />
             );
         });
@@ -70,6 +76,7 @@ export default function Main({ navigation }) {
                     activity={helpOffer}
                     activityType={'offer'}
                     index={i + 1}
+                    onPress={() => handleMarkerPress(helpOffer, 'offer')}
                 />
             );
         });
@@ -93,6 +100,11 @@ export default function Main({ navigation }) {
                 renderCampaignMarkers(),
             ];
         }
+    };
+
+    const handleMarkerPress = (activityInfo, type) => {
+        setActivity({ info: activityInfo, type: type });
+        setActivityBottomSheetVisible(true);
     };
 
     const renderFilterButton = () => (
@@ -131,6 +143,20 @@ export default function Main({ navigation }) {
         } else return <CreateHelpButtons />;
     };
 
+    const renderActivitiesInteractions = () => (
+        <>
+            {renderCreateRequestButton()}
+            {renderFilterButton()}
+            <View style={styles.helpList}>
+                <HelpList
+                    helps={helpList}
+                    visible={helpListVisible}
+                    setVisible={setHelpListVisible}
+                    navigation={navigation}
+                />
+            </View>
+        </>
+    );
     return (
         <>
             <CategoryListModal
@@ -147,18 +173,14 @@ export default function Main({ navigation }) {
             >
                 {renderMarkers()}
             </CustomMap>
-
-            {renderCreateRequestButton()}
-            {renderFilterButton()}
-
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
-                    navigation={navigation}
+            {activityBottomSheetVisible && (
+                <ActivityBottomSheet
+                    selectedActivity={activity}
+                    setShowModal={setActivityBottomSheetVisible}
                 />
-            </View>
+            )}
+
+            {!activityBottomSheetVisible && renderActivitiesInteractions()}
         </>
     );
 }

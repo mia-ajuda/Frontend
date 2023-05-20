@@ -13,7 +13,7 @@ export const ActivityMarker = ({
     activityType,
     index,
     title,
-    disabled,
+    onPress,
 }) => {
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
@@ -34,9 +34,8 @@ export const ActivityMarker = ({
     const icon = getActivityIcon(activityType);
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
 
-    const handleNavigate = () => {
-        if (!disabled)
-            navigateToDescription(user, navigation, activity, activityType);
+    const handleClick = () => {
+        onPress && onPress();
     };
 
     return (
@@ -50,7 +49,7 @@ export const ActivityMarker = ({
                     activity.location?.coordinates[0] ??
                     activity.user.location.coordinates[0],
             }}
-            onPress={handleNavigate}
+            onPress={handleClick}
         >
             <View className="bg-white py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center">
                 <Icon
