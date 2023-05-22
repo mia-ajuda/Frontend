@@ -3,7 +3,7 @@ import { ActivityCard } from '../ActivityCard';
 import { NotFound } from '../NotFound';
 import { HorizontalList } from '../HorizontalList';
 
-export const ActivitiesList = ({ activities }) => {
+export const ActivitiesList = ({ activities, userId }) => {
     const activitiesTypes = Object.keys(activities);
     const activitiesCount = activitiesTypes.reduce((currentValue, newValue) => {
         return currentValue + activities[newValue].length;
@@ -25,6 +25,7 @@ export const ActivitiesList = ({ activities }) => {
                         badges={activitie.categories}
                         distance={activitie.distance}
                         creationDate={activitie.creationDate}
+                        userId={userId}
                     />
                 )),
             )}
