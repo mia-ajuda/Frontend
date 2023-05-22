@@ -11,6 +11,7 @@ import { LoadingContext } from '../../../store/contexts/loadingContext';
 import getActivityIcon from '../../../utils/getActivityIcon';
 import SeedlingIcon from '../../../../assets/images/Seedling';
 import isRecentDate from '../../../utils/isRecentDate';
+import navigateToMyActivity from '../../../utils/navigateToMyActivity';
 
 export const ActivityCard = ({
     variant,
@@ -22,12 +23,14 @@ export const ActivityCard = ({
     count,
     id,
     creationDate,
+    userId
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
     const isNewActivity = isRecentDate(creationDate);
+    const isTheSameUser = user._id == userId;
 
     const activitiesVariants = {
         help: {
@@ -49,12 +52,16 @@ export const ActivityCard = ({
             : tailwindConfig.theme.extend.colors.primary[400],
     };
 
+
     const handleClick = async () => {
         setIsLoading(true);
         const activity = await getActitivtieById(variant, id);
         setIsLoading(false);
-        if (!activity.error)
-            navigateToDescription(user, navigation, activity, variant);
+        if (!activity.error) {
+            isTheSameUser ?
+                navigateToMyActivity(navigation, activity, variant) :
+                navigateToDescription(user, navigation, activity, variant);
+        }
     };
 
     return (
