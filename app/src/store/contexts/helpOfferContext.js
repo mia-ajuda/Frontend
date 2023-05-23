@@ -8,27 +8,20 @@ import { subscribeToDeleteHelpOffer } from '../../services/socket';
 export const HelpOfferContext = createContext();
 
 export default function HelpOfferContextProvider({ children }) {
-    const { user } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const [helpOfferList, setHelpOfferList] = useState([]);
     const { selectedCategories } = useContext(CategoryContext);
 
     useEffect(() => {
-        const isUserAuhtenticated = user._id;
-        if (isUserAuhtenticated) {
-            getHelpOfferList();
-        }
-    }, [user]);
-
-    useEffect(() => {
         const isUserAuthenticated = user._id;
-        if (isUserAuthenticated) {
+        if (isUserAuthenticated && userPosition) {
             if (selectedCategories.length) {
                 getHelpOfferListWithCategories();
             } else {
-                getHelpOfferList();
+                getHelpOfferList(userPosition);
             }
         }
-    }, [selectedCategories]);
+    }, [user, selectedCategories]);
 
     useEffect(() => {
         subscribeToDeleteHelpOffer((helpOfferId) =>
@@ -40,11 +33,11 @@ export default function HelpOfferContextProvider({ children }) {
         );
     }, []);
 
-    async function getHelpOfferList() {
+    async function getHelpOfferList(coords) {
         const helpOfferListResponse = await callService(
             HelpService,
             'listHelpOffer',
-            [user._id],
+            [coords, user._id],
         );
         if (!helpOfferListResponse.error && helpOfferListResponse) {
             setHelpOfferList(helpOfferListResponse);

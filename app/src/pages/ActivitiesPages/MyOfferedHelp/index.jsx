@@ -13,7 +13,7 @@ import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 export default function HelpsFinished({ navigation }) {
-    const { user } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -31,6 +31,7 @@ export default function HelpsFinished({ navigation }) {
         setIsLoading(true);
         const { _id: userId } = user;
         const resFinished = await callService(helpService, 'listHelpOffer', [
+            userPosition,
             userId,
             true,
         ]);
