@@ -5,3 +5,7 @@ export default function shortenName(name) {
 export function untilTwoLastNames(name) {
     return name.split(' ').slice(0, 3).join(' ');
 }
+
+export function firstName(name) {
+    return name.split(' ').slice(0, 1).join(' ');
+}
