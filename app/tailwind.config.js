@@ -15,6 +15,7 @@ module.exports = {
                     800: 'rgba(75, 138, 185, 0.8)',
                     900: 'rgba(75, 138, 185, 0.9)',
                     contrast: '#81b0ff',
+                    darker: '#182C3B',
                 },
                 secondary: {
                     DEFAULT: '#f7ef6e',
@@ -23,6 +24,7 @@ module.exports = {
                 danger: {
                     DEFAULT: '#e47171',
                     200: '#FFB0AB',
+                    darker: '#681111',
                 },
                 black: {
                     DEFAULT: 'rgba(53,53,53,1)',
