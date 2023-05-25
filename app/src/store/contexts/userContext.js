@@ -36,8 +36,8 @@ export const UserContextProvider = (props) => {
             setUserPosition({
                 latitude,
                 longitude,
-                latitudeDelta: 0.025,
-                longitudeDelta: 0.025,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
             });
         }
     }

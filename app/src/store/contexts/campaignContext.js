@@ -29,7 +29,7 @@ export default function CampaignContextProvider(props) {
     }
 
     return (
-        <CampaignContext.Provider value={{ campaignList }}>
+        <CampaignContext.Provider value={{ campaignList, setCampaignList }}>
             {props.children}
         </CampaignContext.Provider>
     );
