@@ -14,6 +14,7 @@ export const ActivityMarker = ({
     index,
     title,
     disabled,
+    focused,
 }) => {
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
@@ -33,6 +34,8 @@ export const ActivityMarker = ({
     const selectedType = types[activityType];
     const icon = getActivityIcon(activityType);
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
+    const markerColor = isRiskGroup ? 'bg-danger-darker' : 'bg-primary-darker';
+    const isFocused = focused ? markerColor : 'bg-white';
 
     const handleNavigate = () => {
         if (!disabled)
@@ -51,20 +54,21 @@ export const ActivityMarker = ({
                     activity.user.location.coordinates[0],
             }}
             onPress={handleNavigate}
+            zIndex={focused ? 10 : 0}
         >
-            <View className="bg-white py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center">
+            <View
+                className={`${isFocused} py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center`}
+            >
                 <Icon
                     name={icon.name}
                     type={icon.type}
                     size={18}
-                    color={
-                        isRiskGroup
-                            ? colors['danger-400']
-                            : colors['primary-400']
-                    }
+                    color={isRiskGroup ? colors['danger'] : colors['primary']}
                 />
                 <Text
-                    className="ml-2 text-sm font-ms-semibold text-black overflow-hidden "
+                    className={`ml-2 text-sm font-ms-semibold ${
+                        isRiskGroup ? 'text-danger' : 'text-primary'
+                    } overflow-hidden `}
                     numberOfLines={1}
                 >
                     {title || `${selectedType.text} ${index}`}

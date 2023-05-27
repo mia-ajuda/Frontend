@@ -7,7 +7,15 @@ export const DefaultButton = ({
     onPress,
     disabled,
     variant = 'primary',
+    size = 'lg',
 }) => {
+    // the ideia of this buttonSize is to define the button height. The width is determined inside of each DefaultButton parent
+    const buttonSize = {
+        sm: 'py-1',
+        md: 'py-2',
+        lg: 'py-3',
+    };
+
     const variantStyle = {
         transparent: {
             pressableStyle: 'bg-transparent',
@@ -17,6 +25,10 @@ export const DefaultButton = ({
             pressableStyle: 'bg-primary',
             textStyle: 'text-light',
         },
+        elevated: {
+            pressableStyle: 'bg-white shadow-md shadow-black',
+            textStyle: 'text-black font-ms-bold',
+        },
     };
 
     const variantPressableStyle = variantStyle[variant].pressableStyle;
@@ -25,7 +37,7 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`w-full py-3 rounded-md bg-primary ${variantPressableStyle}`}
+            className={`w-full rounded-md bg-primary ${variantPressableStyle} ${buttonSize[size]}`}
             disabled={disabled}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.contrast,
