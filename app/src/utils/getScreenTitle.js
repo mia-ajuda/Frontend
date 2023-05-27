@@ -1,4 +1,5 @@
-export const getScreenTtile = (screenName) => {
+export const getScreenTtile = (screenName, hasTitle = true) => {
+    if (!hasTitle) return '';
     const screenTitles = {
         notificationsDrawer: 'Notificações',
         notifications: 'Notificações',
