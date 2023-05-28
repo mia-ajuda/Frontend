@@ -19,6 +19,7 @@ import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { CategoriesList } from '../../../components/molecules/CategoriesList';
 import { BadgeContext } from '../../../store/contexts/badgeContext';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -26,6 +27,7 @@ export default function MapHelpDescription({ route, navigation }) {
     const { helpList, dispatch } = useContext(HelpContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { increaseUserBadge } = useContext(BadgeContext);
+    const { interactWithActivity } = useContext(ActivitiesContext);
 
     const { help, routeId } = route.params;
 
@@ -92,13 +94,8 @@ export default function MapHelpDescription({ route, navigation }) {
     }
 
     async function modalAction() {
-        setIsLoading(true);
-        const functionName = messageOperation[routeId](false);
-        const request = await callService(HelpService, functionName, [
-            help._id,
-            user._id,
-        ]);
-        if (!request.error) {
+        const response = await interactWithActivity(routeId, help._id, user._id);
+        if (!response.error) {
             const badgeResponse = await increaseUserBadge(
                 user._id,
                 'offer',

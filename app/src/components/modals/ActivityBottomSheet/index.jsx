@@ -43,7 +43,7 @@ export const ActivityBottomSheet = ({ selectedActivity, setShowModal, isRiskGrou
             coverPhoto={isCampaign && ownerInfo?.photo}>
             {isCampaign ?
                 <EntityActivity activityInfo={activityInfo} ownerInfo={ownerInfo} /> :
-                <UserActivity activityType={selectedActivity.type} activityInfo={activityInfo} ownerInfo={ownerInfo} isRiskGroup={isRiskGroup} />
+                <UserActivity activityType={selectedActivity.type} activityInfo={activityInfo} ownerInfo={ownerInfo} isRiskGroup={isRiskGroup} setShowModal={setShowModal} />
             }
         </BaseBottomSheet>
     )

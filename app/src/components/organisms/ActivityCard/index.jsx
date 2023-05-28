@@ -9,8 +9,8 @@ import isRecentDate from '../../../utils/isRecentDate';
 import { UserContext } from '../../../store/contexts/userContext';
 import { useNavigation } from '@react-navigation/native';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
-import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 import navigateToDescription from '../../../utils/navigateToDescription';
+import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
 
 export const ActivityCard = ({
     variant,
@@ -26,7 +26,7 @@ export const ActivityCard = ({
 }) => {
     const { user } = useContext(UserContext)
     const { setIsLoading } = useContext(LoadingContext)
-    const { getActitivtieById, handleShowModal } = useContext(ActivitiesContext)
+    const { getActitivtieById, handleShowModal } = useContext(ActivityBottomSheetContext)
     const navigation = useNavigation()
 
     const isNewActivity = isRecentDate(creationDate);

@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, StatusBar } from 'react-native';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
@@ -15,6 +14,8 @@ import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
 import { ActivitiesContext } from '../../store/contexts/activitiesContext';
+import colors from '../../../colors';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -26,7 +27,7 @@ export default function Main({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
-    const { handleShowModal, showActivityModal } = useContext(ActivitiesContext)
+    const { handleShowModal, showActivityModal } = useContext(ActivityBottomSheetContext)
 
     useEffect(() => {
         setRegion(null);
@@ -152,6 +153,7 @@ export default function Main({ navigation }) {
     )
     return (
         <>
+        <StatusBar backgroundColor={'transparent'}/>
             <CategoryListModal
                 visible={filterModalVisible}
                 setVisible={setFilterModalVisible}
