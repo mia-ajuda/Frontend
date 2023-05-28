@@ -23,7 +23,7 @@ export const ActivityCard = ({
     count,
     id,
     creationDate,
-    userId
+    userId,
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
     const { setIsLoading } = useContext(LoadingContext);
@@ -52,15 +52,14 @@ export const ActivityCard = ({
             : tailwindConfig.theme.extend.colors.primary[400],
     };
 
-
     const handleClick = async () => {
         setIsLoading(true);
         const activity = await getActitivtieById(variant, id);
         setIsLoading(false);
         if (!activity.error) {
-            isTheSameUser ?
-                navigateToMyActivity(navigation, activity, variant) :
-                navigateToDescription(user, navigation, activity, variant);
+            isTheSameUser
+                ? navigateToMyActivity(navigation, activity, variant)
+                : navigateToDescription(user, navigation, activity, variant);
         }
     };
 

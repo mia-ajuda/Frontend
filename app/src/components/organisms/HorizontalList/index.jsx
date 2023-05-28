@@ -9,7 +9,7 @@ export const HorizontalList = ({
 }) => {
     const margin = showMoreButton ? 'mt-8' : '';
     return (
-        <View className={`w-full h-60`}>
+        <View className={'w-full h-60'}>
             {showMoreButton && (
                 <Pressable
                     onPress={onPressMoreButton}
