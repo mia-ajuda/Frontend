@@ -54,7 +54,7 @@ export const ActivityCard = ({
 
     const handlePress = async () => {
         if (!isTheSameUser){
-            navigateToDescription(user, navigation, id, ownerId, variant)
+            navigateToDescription(user, navigation, id, ownerId, variant, handleShowModal)
         }
         else {
             setIsLoading(true);
