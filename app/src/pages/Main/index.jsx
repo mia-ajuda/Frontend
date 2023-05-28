@@ -15,6 +15,7 @@ import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
 import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
+import navigateToDescription from '../../utils/navigateToDescription';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -46,7 +47,7 @@ export default function Main({ navigation }) {
                     activity={campaign}
                     activityType={'campaign'}
                     index={i + 1}
-                    onPress={() => handleShowModal(campaign._id, campaign.ownerId, 'campaign')}
+                    onPress={() => navigateToDescription(user, navigation, campaign._id, campaign.ownerId, 'campaign', handleShowModal)}
                 />
             );
         });
@@ -60,7 +61,7 @@ export default function Main({ navigation }) {
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
-                    onPress={() => handleShowModal(help._id, help.ownerId, 'help')}
+                    onPress={() => navigateToDescription(user, navigation, help._id, help.ownerId, 'help', handleShowModal)}
                 />
             );
         });
@@ -74,7 +75,7 @@ export default function Main({ navigation }) {
                     activity={helpOffer}
                     activityType={'offer'}
                     index={i + 1}
-                    onPress={() => handleShowModal(helpOffer._id, helpOffer.ownerId, 'offer')}
+                    onPress={() => navigateToDescription(user, navigation, helpOffer._id, helpOffer.ownerId, 'offer', handleShowModal)}
                 />
             );
         });

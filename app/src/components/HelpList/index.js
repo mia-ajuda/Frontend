@@ -14,6 +14,7 @@ import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { UserContext } from '../../store/contexts/userContext';
 import navigateToDescription from '../../utils/navigateToDescription';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 
 export default function HelpList({ helps, visible, setVisible, navigation }) {
     const [iconName, setIconName] = useState('caret-up');
@@ -22,6 +23,7 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
     );
     const { user } = useContext(UserContext);
     const listHeight = useRef(new Animated.Value(40)).current;
+    const { handleShowModal } = useContext(ActivityBottomSheetContext);
 
     useEffect(() => {
         const isAnEmptyList = helps.length === 0;
@@ -64,8 +66,10 @@ export default function HelpList({ helps, visible, setVisible, navigation }) {
                                 navigateToDescription(
                                     user,
                                     navigation,
-                                    help,
+                                    help._id,
+                                    help.ownerId,
                                     'help',
+                                    handleShowModal,
                                 )
                             }
                         >

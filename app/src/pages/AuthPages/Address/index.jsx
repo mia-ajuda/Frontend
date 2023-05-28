@@ -12,8 +12,6 @@ export default function Address({ navigation, route }) {
     const { keyboard } = useContext(DeviceInformationContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
-    const { nextPage } = route.params;
-
     const [cep, setCep] = useState('');
     const [isCepValid, setCepValid] = useState(true);
     const [city, setCity] = useState('');
@@ -127,11 +125,9 @@ export default function Address({ navigation, route }) {
             number: numberPlace,
             complement,
         };
-        const nextPageParams = route.params.nextPageParams ?? {};
         const userDataFromAddressPage = {
             address,
-            nextPage,
-            nextPageParams,
+            ...route.params
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };
