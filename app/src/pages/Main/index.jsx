@@ -13,7 +13,6 @@ import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
-import { ActivitiesContext } from '../../store/contexts/activitiesContext';
 import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 

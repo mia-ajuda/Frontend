@@ -1,11 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Marker } from 'react-native-maps';
 import colors from '../../../../assets/styles/colorVariables';
-import navigateToDescription from '../../../utils/navigateToDescription';
-import { UserContext } from '../../../store/contexts/userContext';
-import { useNavigation } from '@react-navigation/core';
 import getActivityIcon from '../../../utils/getActivityIcon';
 
 export const ActivityMarker = ({
@@ -15,9 +12,6 @@ export const ActivityMarker = ({
     title,
     onPress,
 }) => {
-    const { user } = useContext(UserContext);
-    const navigation = useNavigation();
-
     const types = {
         help: {
             text: 'Pedido',
@@ -35,7 +29,8 @@ export const ActivityMarker = ({
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
 
     const handleClick = () => {
-        onPress && onPress();
+        if (onPress)
+            onPress();
     };
 
     return (

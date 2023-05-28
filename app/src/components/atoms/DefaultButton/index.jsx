@@ -3,7 +3,6 @@ import { Pressable, Text } from 'react-native';
 import tailwindConfig from '../../../../tailwind.config';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../colors';
-import { View } from 'native-base';
 
 export const DefaultButton = ({
     title,
