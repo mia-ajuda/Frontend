@@ -69,8 +69,8 @@ export default function HelpDescription({
 
     const renderButtons = () => {
         const possibleHelpersBadgeValue =
-            (help.possibleHelpers?.length || 0) +
-            (help.possibleEntities?.length || 0);
+            (help?.possibleHelpers?.length || 0) +
+            (help?.possibleEntities?.length || 0);
 
         return (
             <View className="mt-6">

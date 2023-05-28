@@ -132,7 +132,7 @@ export const UserProfile = ({
                     <DescriptionBox title="Biografia" description={biography} />
                     {renderActivityTitle()}
                     {showActivities && (
-                        <ActivitiesList activities={activities} />
+                        <ActivitiesList activities={activities} userId={userId} />
                     )}
                     {!isEntity && showBadges && (
                         <BadgesList badges={badges} userId={userId} />

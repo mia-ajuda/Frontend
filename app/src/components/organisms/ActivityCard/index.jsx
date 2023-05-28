@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import navigateToDescription from '../../../utils/navigateToDescription';
 import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
+import navigateToMyActivity from '../../../utils/navigateToMyActivity';
 
 export const ActivityCard = ({
     variant,
@@ -24,12 +25,13 @@ export const ActivityCard = ({
     creationDate,
     ownerId
 }) => {
-    const { user } = useContext(UserContext)
-    const { setIsLoading } = useContext(LoadingContext)
     const { getActitivtieById, handleShowModal } = useContext(ActivityBottomSheetContext)
-    const navigation = useNavigation()
-
+    const { setIsLoading } = useContext(LoadingContext);
+    const { user } = useContext(UserContext);
+    const navigation = useNavigation();
     const isNewActivity = isRecentDate(creationDate);
+    const isTheSameUser = user._id == ownerId;
+
     const activitiesVariants = {
         help: {
             translation: 'Pedido',
@@ -51,14 +53,14 @@ export const ActivityCard = ({
     };
 
     const handlePress = async () => {
-        if (ownerId != user._id)
+        if (!isTheSameUser)
             handleShowModal(id, ownerId, variant)
         else {
             setIsLoading(true);
             const activity = await getActitivtieById(variant, id);
             setIsLoading(false);
             if (!activity.error)
-                navigateToDescription(user, navigation, activity, variant);
+                navigateToMyActivity(navigation, activity, variant)
         }
     };
 
