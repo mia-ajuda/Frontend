@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { UserContext } from '../../../store/contexts/userContext'
 import { BaseBottomSheet } from '../BaseBottomSheet'
+import { UserContext } from '../../../store/contexts/userContext'
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext'
 import { UserActivity } from './UserActivity'
 import { LoadingContext } from '../../../store/contexts/loadingContext'
