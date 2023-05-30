@@ -1,6 +1,6 @@
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import { styles } from './styles';
-import { useContext } from 'react';
 import { SocialNetworkProfileContext } from '../../../store/contexts/socialNetworkProfileContext';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import shortenName from '../../../utils/shortenName';

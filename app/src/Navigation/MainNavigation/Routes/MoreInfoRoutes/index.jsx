@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Location from '../../../../pages/AuthPages/Location';
 import Photo from '../../../../pages/AuthPages/Photo';
@@ -13,14 +13,8 @@ export const MoreInfoRoutes = () => {
                 options={{ headerShown: false }}
                 component={Location}
             />
-            <Stack.Screen
-                name="address"
-                component={Address}
-            />
-            <Stack.Screen
-                name="photo"
-                component={Photo}
-            />
+            <Stack.Screen name="address" component={Address} />
+            <Stack.Screen name="photo" component={Photo} />
         </>
-    )
-}
+    );
+};

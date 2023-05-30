@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../../../../pages/Main';
 import MapHelpDescription from '../../../../pages/HelpPages/MapHelpDescription';
@@ -9,15 +9,11 @@ const Stack = createStackNavigator();
 export const MapRoutes = () => {
     return (
         <>
-            <Stack.Screen
-                name="home"
-                component={Main}
-                options={headerStyle}
-            />
+            <Stack.Screen name="home" component={Main} options={headerStyle} />
             <Stack.Screen
                 name="mapHelpDescription"
                 component={MapHelpDescription}
             />
         </>
-    )
-}
+    );
+};
