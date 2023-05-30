@@ -88,8 +88,8 @@ export const UserActivity = ({ activityType, activityInfo, ownerInfo, isRiskGrou
                 </View>
             </View>
             <View className='bg-white rounded-md p-4 pb-2'>
-                <Text className='text-lg font-ms-bold text-primary'> {activityInfo?.title} </Text>
-                <View className='flex-row'>
+                <Text className='text-lg font-ms-bold text-primary mb-1'> {activityInfo?.title} </Text>
+                <View className='flex-row mb-2'>
                     <CategoriesList categories={activityInfo?.categories} />
                 </View>
                 <Text className='text-base text-black h-28' numberOfLines={4}>{activityInfo?.description} </Text>

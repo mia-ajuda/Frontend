@@ -38,7 +38,7 @@ export const ActivityBottomSheet = ({ selectedActivity, setShowModal, isRiskGrou
         <BaseBottomSheet
             bottomSheetRef={bottomSheetRef}
             handleCloseModal={handleCloseModal}
-            snapPoints={['70%']}
+            snapPoints={isCampaign? ['75%'] : ['70%']}
             background={colors.new_background}
             coverPhoto={isCampaign && ownerInfo?.photo}>
             {isCampaign ?
