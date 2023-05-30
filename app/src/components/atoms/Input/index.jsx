@@ -29,9 +29,11 @@ export const Input = ({
 
     const selectedMaskOption = (mask && maskOptions[mask]) || {};
 
-    const disabledStyle = `border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium`;
+    const disabledStyle =
+        'border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium';
 
-    const enabledStyle = `border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium`;
+    const enabledStyle =
+        'border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium';
 
     const style = disabled ? disabledStyle : enabledStyle;
     const inputProps = {

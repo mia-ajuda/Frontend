@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 
 export const LoadingContext = createContext({});
