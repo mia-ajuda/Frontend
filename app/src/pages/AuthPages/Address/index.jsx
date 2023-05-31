@@ -127,7 +127,7 @@ export default function Address({ navigation, route }) {
         };
         const userDataFromAddressPage = {
             address,
-            ...route.params
+            ...route.params,
         };
         navigation.navigate('photo', { userDataFromAddressPage });
     };

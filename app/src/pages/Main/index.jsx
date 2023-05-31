@@ -27,7 +27,9 @@ export default function Main({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
-    const { handleShowModal, showActivityModal } = useContext(ActivityBottomSheetContext)
+    const { handleShowModal, showActivityModal } = useContext(
+        ActivityBottomSheetContext,
+    );
 
     useEffect(() => {
         setRegion(null);
@@ -47,7 +49,16 @@ export default function Main({ navigation }) {
                     activity={campaign}
                     activityType={'campaign'}
                     index={i + 1}
-                    onPress={() => navigateToDescription(user, navigation, campaign._id, campaign.ownerId, 'campaign', handleShowModal)}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            campaign._id,
+                            campaign.ownerId,
+                            'campaign',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -61,7 +72,16 @@ export default function Main({ navigation }) {
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
-                    onPress={() => navigateToDescription(user, navigation, help._id, help.ownerId, 'help', handleShowModal)}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            help._id,
+                            help.ownerId,
+                            'help',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -75,7 +95,16 @@ export default function Main({ navigation }) {
                     activity={helpOffer}
                     activityType={'offer'}
                     index={i + 1}
-                    onPress={() => navigateToDescription(user, navigation, helpOffer._id, helpOffer.ownerId, 'offer', handleShowModal)}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            helpOffer._id,
+                            helpOffer.ownerId,
+                            'offer',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -141,19 +170,19 @@ export default function Main({ navigation }) {
         <>
             {renderCreateRequestButton()}
             {renderFilterButton()}
-            < View style={styles.helpList}>
+            <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
                     visible={helpListVisible}
                     setVisible={setHelpListVisible}
                     navigation={navigation}
                 />
-            </View >
+            </View>
         </>
-    )
+    );
     return (
         <>
-        <StatusBar backgroundColor={'transparent'}/>
+            <StatusBar backgroundColor={'transparent'} />
             <CategoryListModal
                 visible={filterModalVisible}
                 setVisible={setFilterModalVisible}

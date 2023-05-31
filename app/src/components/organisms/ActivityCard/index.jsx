@@ -23,9 +23,11 @@ export const ActivityCard = ({
     count,
     id,
     creationDate,
-    ownerId
+    ownerId,
 }) => {
-    const { getActitivtieById, handleShowModal } = useContext(ActivityBottomSheetContext)
+    const { getActitivtieById, handleShowModal } = useContext(
+        ActivityBottomSheetContext,
+    );
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
@@ -53,15 +55,21 @@ export const ActivityCard = ({
     };
 
     const handlePress = async () => {
-        if (!isTheSameUser){
-            navigateToDescription(user, navigation, id, ownerId, variant, handleShowModal)
-        }
-        else {
+        if (!isTheSameUser) {
+            navigateToDescription(
+                user,
+                navigation,
+                id,
+                ownerId,
+                variant,
+                handleShowModal,
+            );
+        } else {
             setIsLoading(true);
             const activity = await getActitivtieById(variant, id);
             setIsLoading(false);
             if (!activity.error)
-                navigateToMyActivity(navigation, activity, variant)
+                navigateToMyActivity(navigation, activity, variant);
         }
     };
 

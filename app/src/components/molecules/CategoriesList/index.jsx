@@ -4,8 +4,10 @@ import { View } from 'native-base';
 
 export const CategoriesList = ({ categories, size = 'medium' }) => {
     return (
-        <View className='flex-row'>
-            {categories?.map((category) => (<Badge title={category.name} key={category._id} size={size} />))}
+        <View className="flex-row">
+            {categories?.map((category) => (
+                <Badge title={category.name} key={category._id} size={size} />
+            ))}
         </View>
     );
 };

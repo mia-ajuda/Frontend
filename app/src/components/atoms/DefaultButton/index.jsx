@@ -10,24 +10,24 @@ export const DefaultButton = ({
     disabled,
     icon,
     variant = 'primary',
-    size = 'w-full'
+    size = 'w-full',
 }) => {
     const variantStyle = {
         transparent: {
             pressableStyle: 'bg-transparent',
             textStyle: 'text-black',
-            iconColor: colors.black.DEFAULT
+            iconColor: colors.black.DEFAULT,
         },
         primary: {
             pressableStyle: 'bg-primary',
             textStyle: 'text-light',
-            iconColor: colors.light
+            iconColor: colors.light,
         },
         secondary: {
             pressableStyle: 'bg-white',
             textStyle: 'text-black',
-            iconColor: colors.black.DEFAULT
-        }
+            iconColor: colors.black.DEFAULT,
+        },
     };
 
     let { pressableStyle, textStyle, iconColor } = variantStyle[variant];
@@ -42,7 +42,14 @@ export const DefaultButton = ({
                 color: tailwindConfig.theme.extend.colors.gray.contrast,
             }}
         >
-            {icon && <Icon name={icon.name} type={icon.type} color={iconColor} size={20} />}
+            {icon && (
+                <Icon
+                    name={icon.name}
+                    type={icon.type}
+                    color={iconColor}
+                    size={20}
+                />
+            )}
             <Text
                 className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
             >

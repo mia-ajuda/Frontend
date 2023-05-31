@@ -10,18 +10,18 @@ export const ActivityBottomSheetContextProvider = ({ children }) => {
     const handleShowModal = (id, ownerId, type) => {
         setActivityInfo({ id, ownerId, type });
         setShowActivityModal(true);
-    }
+    };
 
     const handleHideModal = () => {
         setShowActivityModal(false);
         setActivityInfo();
-    }
+    };
 
     const contextValue = useMemo(() => {
         return {
             handleHideModal,
             handleShowModal,
-            setShowActivityModal
+            setShowActivityModal,
         };
     }, [handleHideModal, handleShowModal, setShowActivityModal]);
 
@@ -29,7 +29,10 @@ export const ActivityBottomSheetContextProvider = ({ children }) => {
         <ActivityBottomSheetContext.Provider value={contextValue}>
             {children}
             {showActivityModal && (
-                <ActivityBottomSheet selectedActivity={activityInfo} setShowModal={setShowActivityModal} />
+                <ActivityBottomSheet
+                    selectedActivity={activityInfo}
+                    setShowModal={setShowActivityModal}
+                />
             )}
         </ActivityBottomSheetContext.Provider>
     );

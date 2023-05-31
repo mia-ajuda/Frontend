@@ -6,11 +6,12 @@ import { LoadingContext } from './loadingContext';
 import { HelpOfferContext } from './helpOfferContext';
 import { HelpContext } from './helpContext';
 import { UserContext } from './userContext';
+import actions from '../actions';
 
 export const ActivitiesContext = createContext({});
 
 export const ActivitiesContextProvider = ({ children }) => {
-    const { setIsLoading } = useContext(LoadingContext)
+    const { setIsLoading } = useContext(LoadingContext);
     const { setHelpOfferList } = useContext(HelpOfferContext);
     const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
@@ -30,7 +31,7 @@ export const ActivitiesContextProvider = ({ children }) => {
         interact: {
             help: 'offerHelp',
             offer: 'participateHelpOffer',
-        }
+        },
     };
 
     async function getActitivtieById(activityType, activityId) {
@@ -48,29 +49,33 @@ export const ActivitiesContextProvider = ({ children }) => {
                 currentValue.filter((helpOffer) => helpOffer._id != activityId),
             );
         } else {
-            const filteredHelpList = helpList.filter((mapHelp) => mapHelp._id != activityId);
+            const filteredHelpList = helpList.filter(
+                (mapHelp) => mapHelp._id != activityId,
+            );
             dispatch({ type: actions.help.storeList, helps: filteredHelpList });
         }
     }
 
-    async function interactWithActivity(activityType, activityId, finishLoading = false) {
+    async function interactWithActivity(
+        activityType,
+        activityId,
+        finishLoading = false,
+    ) {
         setIsLoading(true);
         const response = await callService(
             activitiesServices[activityType],
             servicesEndpoints.interact[activityType],
             [activityId, user._id],
         );
-        if (!response.error)
-            removeElementFromMap(activityType, activityId)
-        if (finishLoading)
-            setIsLoading(false);
+        if (!response.error) removeElementFromMap(activityType, activityId);
+        if (finishLoading) setIsLoading(false);
         return response;
     }
 
     const contextValue = useMemo(() => {
         return {
             getActitivtieById,
-            interactWithActivity
+            interactWithActivity,
         };
     }, [getActitivtieById, interactWithActivity]);
 

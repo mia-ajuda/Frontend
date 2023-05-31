@@ -29,8 +29,7 @@ export const ActivityMarker = ({
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
 
     const handleClick = () => {
-        if (onPress)
-            onPress();
+        if (onPress) onPress();
     };
 
     return (

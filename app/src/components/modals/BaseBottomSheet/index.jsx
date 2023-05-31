@@ -1,14 +1,28 @@
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from '@gorhom/bottom-sheet'
-import React, { useEffect } from 'react'
+import {
+    BottomSheetBackdrop,
+    BottomSheetModal,
+    BottomSheetModalProvider,
+    BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
+import React, { useEffect } from 'react';
 import { FloatingIconButton } from '../../molecules/FloatingIconButton';
 import { View } from 'native-base';
 import { Image } from 'react-native';
 
-export const BaseBottomSheet = ({ bottomSheetRef, scrollable, snapPoints, handleCloseModal, coverPhoto, children, overDragResistanceFactor = 7, handleComponent = null, background = 'white' }) => {
-
+export const BaseBottomSheet = ({
+    bottomSheetRef,
+    scrollable,
+    snapPoints,
+    handleCloseModal,
+    coverPhoto,
+    children,
+    overDragResistanceFactor = 7,
+    handleComponent = null,
+    background = 'white',
+}) => {
     useEffect(() => {
-        bottomSheetRef.current?.present()
-    }, [])
+        bottomSheetRef.current?.present();
+    }, []);
 
     const renderBackdrop = (props) => (
         <BottomSheetBackdrop
@@ -20,7 +34,7 @@ export const BaseBottomSheet = ({ bottomSheetRef, scrollable, snapPoints, handle
         />
     );
 
-    const margin = coverPhoto ? 'mt-4' : 'mt-12'
+    const margin = coverPhoto ? 'mt-4' : 'mt-12';
 
     return (
         <BottomSheetModalProvider>
@@ -35,7 +49,14 @@ export const BaseBottomSheet = ({ bottomSheetRef, scrollable, snapPoints, handle
                 backgroundStyle={{ backgroundColor: background }}
             >
                 <BottomSheetScrollView scrollEnabled={scrollable}>
-                    {coverPhoto && <Image className='w-full h-36' source={{ uri: `data:image/png;base64,${coverPhoto}`, }} />}
+                    {coverPhoto && (
+                        <Image
+                            className="w-full h-36"
+                            source={{
+                                uri: `data:image/png;base64,${coverPhoto}`,
+                            }}
+                        />
+                    )}
                     <FloatingIconButton
                         iconName={'close'}
                         onPress={handleCloseModal}
@@ -46,5 +67,5 @@ export const BaseBottomSheet = ({ bottomSheetRef, scrollable, snapPoints, handle
                 </BottomSheetScrollView>
             </BottomSheetModal>
         </BottomSheetModalProvider>
-    )
-}
+    );
+};
