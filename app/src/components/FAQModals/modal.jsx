@@ -4,7 +4,6 @@ import styles from './styles';
 import { FloatingIconButton } from '../molecules/FloatingIconButton';
 
 export const ModalComponent = (props) => {
-
     return (
         <Modal
             visible={props.visible}
@@ -24,7 +23,10 @@ export const ModalComponent = (props) => {
                         {props.list.map((numbers) => {
                             return (
                                 <View key={numbers.id}>
-                                    <Text style={styles.title}> {numbers.number} </Text>
+                                    <Text style={styles.title}>
+                                        {' '}
+                                        {numbers.number}{' '}
+                                    </Text>
                                     <Text style={styles.description}>
                                         {' '}
                                         {numbers.description}{' '}
