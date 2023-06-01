@@ -199,7 +199,7 @@ export default function Main({ navigation, route }) {
     };
 
     const renderCards = ({ item, index }) => (
-        <View className="mt-2 h-44 w-[310]">
+        <View className={`mt-2 h-44 w-[300]`}>
             <ActivityCard
                 key={item._id}
                 variant={item.type}
@@ -259,9 +259,9 @@ export default function Main({ navigation, route }) {
                     keyExtractor={(item) => item._id}
                     horizontal
                     pagingEnabled
-                    snapToInterval={310}
+                    snapToInterval={300}
                     viewabilityConfig={{
-                        viewAreaCoveragePercentThreshold: 310,
+                        viewAreaCoveragePercentThreshold: 300,
                     }}
                     showsHorizontalScrollIndicator={false}
                     renderItem={renderCards}
