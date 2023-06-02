@@ -6,13 +6,14 @@ export default function CustomMap({
     children,
     initialRegion,
     animateToRegion,
+    showsMyLocationButton = true,
     ...rest
 }) {
     const mapRef = useRef(null);
 
     useEffect(() => {
         if (animateToRegion) {
-            mapRef.current.animateToRegion(animateToRegion, 1000);
+            mapRef.current.animateToRegion(animateToRegion, 900);
         }
     }, [animateToRegion]);
 
@@ -23,11 +24,12 @@ export default function CustomMap({
             initialRegion={initialRegion}
             className="w-full h-full"
             showsUserLocation={true}
+            showsTraffic={false}
             onPress={() =>
                 rest.setHelpListVisible && rest.setHelpListVisible(false)
             }
             customMapStyle={mapstyle.day.map}
-            showsMyLocationButton={false} // change
+            showsMyLocationButton={showsMyLocationButton}
         >
             {children}
         </MapView>

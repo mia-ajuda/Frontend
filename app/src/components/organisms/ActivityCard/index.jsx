@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
@@ -58,9 +58,12 @@ export const ActivityCard = ({
     };
 
     return (
-        <TouchableOpacity
+        <Pressable
             className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72 h-40"
             onPress={handleClick}
+            android_ripple={{
+                color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
+            }}
         >
             <View className="flex-row items-center mb-2">
                 <Icon
@@ -92,6 +95,6 @@ export const ActivityCard = ({
                     {distance?.split(' ').join('')}
                 </Text>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     );
 };
