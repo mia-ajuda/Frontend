@@ -9,7 +9,7 @@ export default function navigateToDescription(
     handleShowModal,
 ) {
     const isUserVerified = verifyUserInfo(user);
-    const params = [id, ownerId, type];
+    const params = [id, ownerId, type, navigation];
 
     if (isUserVerified) {
         handleShowModal(...params);

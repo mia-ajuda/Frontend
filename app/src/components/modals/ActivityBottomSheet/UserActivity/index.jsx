@@ -14,7 +14,6 @@ import { BadgeContext } from '../../../../store/contexts/badgeContext';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 import ConfirmationModal from '../../confirmationModal';
 import { UserContext } from '../../../../store/contexts/userContext';
-import { useNavigation } from '@react-navigation/native';
 
 export const UserActivity = ({
     activityType,
@@ -22,12 +21,12 @@ export const UserActivity = ({
     ownerInfo,
     isRiskGroup,
     setShowModal,
+    navigation,
 }) => {
     const { interactWithActivity } = useContext(ActivitiesContext);
     const { increaseUserBadge } = useContext(BadgeContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
-    const navigation = useNavigation();
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
 

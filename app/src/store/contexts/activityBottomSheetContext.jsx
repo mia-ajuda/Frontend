@@ -6,8 +6,10 @@ export const ActivityBottomSheetContext = createContext({});
 export const ActivityBottomSheetContextProvider = ({ children }) => {
     const [showActivityModal, setShowActivityModal] = useState(false);
     const [activityInfo, setActivityInfo] = useState();
+    const [navigation, setNavigation] = useState();
 
-    const handleShowModal = (id, ownerId, type) => {
+    const handleShowModal = (id, ownerId, type, navigationObj) => {
+        setNavigation(navigationObj);
         setActivityInfo({ id, ownerId, type });
         setShowActivityModal(true);
     };
@@ -32,6 +34,7 @@ export const ActivityBottomSheetContextProvider = ({ children }) => {
                 <ActivityBottomSheet
                     selectedActivity={activityInfo}
                     setShowModal={setShowActivityModal}
+                    navigation={navigation}
                 />
             )}
         </ActivityBottomSheetContext.Provider>

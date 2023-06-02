@@ -11,6 +11,7 @@ export const ActivityBottomSheet = ({
     selectedActivity,
     setShowModal,
     isRiskGroup,
+    navigation,
 }) => {
     const { fetchUserInfo } = useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
@@ -60,6 +61,7 @@ export const ActivityBottomSheet = ({
                     ownerInfo={ownerInfo}
                     isRiskGroup={isRiskGroup}
                     setShowModal={setShowModal}
+                    navigation={navigation}
                 />
             )}
         </BaseBottomSheet>
