@@ -1,0 +1,41 @@
+module.exports = {
+    primary: {
+        DEFAULT: 'rgba(75, 138, 185, 1)',
+        100: 'rgba(75, 138, 185, 0.1)',
+        200: 'rgba(75, 138, 185, 0.2)',
+        300: 'rgba(75, 138, 185, 0.3)',
+        400: 'rgba(75, 138, 185, 0.4)',
+        500: 'rgba(75, 138, 185, 0.5)',
+        600: 'rgba(75, 138, 185, 0.6)',
+        700: 'rgba(75, 138, 185, 0.7)',
+        800: 'rgba(75, 138, 185, 0.8)',
+        900: 'rgba(75, 138, 185, 0.9)',
+        contrast: '#81b0ff',
+    },
+    secondary: {
+        DEFAULT: '#f7ef6e',
+        500: '#FAD980',
+    },
+    danger: {
+        DEFAULT: 'rgba(228, 113, 113, 1)',
+        100: 'rgba(228, 113, 113, 0.1)',
+        200: 'rgba(228, 113, 113, 0.2)',
+        300: 'rgba(228, 113, 113, 0.3)',
+    },
+    black: {
+        DEFAULT: 'rgba(53,53,53,1)',
+        100: 'rgba(53,53,53,0.1)',
+        200: 'rgba(53,53,53,0.2)',
+    },
+    light: '#f7f7f7',
+    success: '#77dd77',
+    background: '#f1f1f1',
+    new_background: '#F2F2F7',
+    gray: {
+        DEFAULT: '#e6e6e6',
+        contrast: '#D2D2D2',
+    },
+    'first-rank': '#BF6159',
+    'second-rank': '#538D95',
+    'thirt-rank': '#D0A408',
+};

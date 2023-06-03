@@ -145,9 +145,10 @@ export default function MapHelpDescription({ route, navigation }) {
         <View style={styles.helpInfo}>
             <View style={styles.helpInfoText}>
                 <Text style={styles.titleFont}>{help.title}</Text>
-                <View style={styles.categoryContainer}>
-                    <CategoriesList categories={help.categories} />
-                </View>
+                <CategoriesList
+                    categories={help.categories}
+                    customStyle="w-full mt-4"
+                />
                 <Text style={[styles.infoText, styles.infoTextBottom]}>
                     {help.description}
                 </Text>

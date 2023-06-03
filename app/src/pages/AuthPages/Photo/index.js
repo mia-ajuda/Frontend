@@ -11,9 +11,13 @@ import entityService from '../../../services/Entity';
 import userService from '../../../services/User';
 import callService from '../../../services/callService';
 import actions from '../../../store/actions';
+import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
+import { useNavigationState } from '@react-navigation/native';
 export default function Photo({ route, navigation }) {
+    const state = useNavigationState((state) => state);
     const { userDataFromAddressPage } = route.params;
     const { dispatch, isEntity } = useContext(UserContext);
+    const { handleShowModal } = useContext(ActivityBottomSheetContext);
 
     async function requestPermission() {
         const permissionResult =
@@ -23,14 +27,16 @@ export default function Photo({ route, navigation }) {
             return;
         }
     }
+    const { routes } = state;
 
     const handleSaveInfo = async (pickerResult) => {
+        const initialRoute = routes[0].name;
         const userInfo = {
             ...userDataFromAddressPage,
             photo: pickerResult.base64,
         };
         let newUserInfo;
-        const { nextPage, nextPageParams } = userDataFromAddressPage;
+        const { modalParams } = userDataFromAddressPage;
         if (isEntity) {
             newUserInfo = await callService(entityService, 'editEntity', [
                 userInfo,
@@ -45,7 +51,12 @@ export default function Photo({ route, navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: newUserInfo });
             alertSuccess('Alteração feita com sucesso!');
         }
-        navigation.navigate(nextPage, { ...nextPageParams });
+
+        handleShowModal(...modalParams);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: initialRoute }],
+        });
     };
 
     async function openImagePickerAsync() {

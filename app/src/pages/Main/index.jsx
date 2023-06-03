@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, StatusBar } from 'react-native';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import colors from '../../../assets/styles/colorVariables';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
@@ -14,6 +13,10 @@ import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
+import colors from '../../../colors';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
+import navigateToDescription from '../../utils/navigateToDescription';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -25,6 +28,12 @@ export default function Main({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
+    const {
+        handleShowModal,
+        showActivityModal,
+        activityInfo,
+        setShowActivityModal,
+    } = useContext(ActivityBottomSheetContext);
 
     useEffect(() => {
         setRegion(null);
@@ -44,6 +53,16 @@ export default function Main({ navigation }) {
                     activity={campaign}
                     activityType={'campaign'}
                     index={i + 1}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            campaign._id,
+                            campaign.ownerId,
+                            'campaign',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -57,6 +76,16 @@ export default function Main({ navigation }) {
                     activity={help}
                     activityType={'help'}
                     index={i + 1}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            help._id,
+                            help.ownerId,
+                            'help',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -70,6 +99,16 @@ export default function Main({ navigation }) {
                     activity={helpOffer}
                     activityType={'offer'}
                     index={i + 1}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            helpOffer._id,
+                            helpOffer.ownerId,
+                            'offer',
+                            handleShowModal,
+                        )
+                    }
                 />
             );
         });
@@ -131,8 +170,23 @@ export default function Main({ navigation }) {
         } else return <CreateHelpButtons />;
     };
 
+    const renderActivitiesInteractions = () => (
+        <>
+            {renderCreateRequestButton()}
+            {renderFilterButton()}
+            <View style={styles.helpList}>
+                <HelpList
+                    helps={helpList}
+                    visible={helpListVisible}
+                    setVisible={setHelpListVisible}
+                    navigation={navigation}
+                />
+            </View>
+        </>
+    );
     return (
         <>
+            <StatusBar backgroundColor={'transparent'} />
             <CategoryListModal
                 visible={filterModalVisible}
                 setVisible={setFilterModalVisible}
@@ -147,18 +201,15 @@ export default function Main({ navigation }) {
             >
                 {renderMarkers()}
             </CustomMap>
-
-            {renderCreateRequestButton()}
-            {renderFilterButton()}
-
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
+            {showActivityModal && (
+                <ActivityBottomSheet
                     navigation={navigation}
+                    isRiskGroup={false}
+                    setShowModal={setShowActivityModal}
+                    selectedActivity={activityInfo}
                 />
-            </View>
+            )}
+            {!showActivityModal && renderActivitiesInteractions()}
         </>
     );
 }
