@@ -12,6 +12,7 @@ import { LoadingContext } from '../../../store/contexts/loadingContext';
 import navigateToDescription from '../../../utils/navigateToDescription';
 import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
 import navigateToMyActivity from '../../../utils/navigateToMyActivity';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 
 export const ActivityCard = ({
     variant,
@@ -25,8 +26,9 @@ export const ActivityCard = ({
     creationDate,
     ownerId,
 }) => {
-    const { getActitivtieById, handleShowModal } = useContext(
-        ActivityBottomSheetContext,
+    const { getActitivtieById } = useContext(ActivitiesContext);
+    const { handleShowModal } = useContext(
+        ActivityBottomSheetContext
     );
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
