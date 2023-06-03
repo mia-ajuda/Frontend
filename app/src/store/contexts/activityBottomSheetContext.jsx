@@ -1,48 +1,37 @@
-import React, { createContext, useMemo, useState } from 'react';
-import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 export const ActivityBottomSheetContext = createContext({});
 
 export const ActivityBottomSheetContextProvider = ({ children }) => {
     const [showActivityModal, setShowActivityModal] = useState(false);
     const [activityInfo, setActivityInfo] = useState();
-    const [navigation, setNavigation] = useState();
 
-    const handleShowModal = (id, ownerId, type, navigationObj) => {
-        setNavigation(navigationObj);
+    const handleShowModal = (id, ownerId, type) => {
         setActivityInfo({ id, ownerId, type });
         setShowActivityModal(true);
     };
 
-    const handleHideModal = () => {
-        setShowActivityModal(false);
-        setActivityInfo();
-    };
+    useEffect(() => {
+        if (!showActivityModal) setActivityInfo();
+    }, [showActivityModal]);
 
     const contextValue = useMemo(() => {
         return {
-            handleHideModal,
             handleShowModal,
             setShowActivityModal,
             showActivityModal,
+            activityInfo,
         };
     }, [
-        handleHideModal,
         handleShowModal,
         setShowActivityModal,
         showActivityModal,
+        activityInfo,
     ]);
 
     return (
         <ActivityBottomSheetContext.Provider value={contextValue}>
             {children}
-            {showActivityModal && (
-                <ActivityBottomSheet
-                    selectedActivity={activityInfo}
-                    setShowModal={setShowActivityModal}
-                    navigation={navigation}
-                />
-            )}
         </ActivityBottomSheetContext.Provider>
     );
 };

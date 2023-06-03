@@ -16,6 +16,7 @@ import { ActivityMarker } from '../../components/molecules/ActivityMarker';
 import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 import navigateToDescription from '../../utils/navigateToDescription';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
@@ -27,9 +28,12 @@ export default function Main({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
-    const { handleShowModal, showActivityModal } = useContext(
-        ActivityBottomSheetContext,
-    );
+    const {
+        handleShowModal,
+        showActivityModal,
+        activityInfo,
+        setShowActivityModal,
+    } = useContext(ActivityBottomSheetContext);
 
     useEffect(() => {
         setRegion(null);
@@ -197,7 +201,14 @@ export default function Main({ navigation }) {
             >
                 {renderMarkers()}
             </CustomMap>
-
+            {showActivityModal && (
+                <ActivityBottomSheet
+                    navigation={navigation}
+                    isRiskGroup={false}
+                    setShowModal={setShowActivityModal}
+                    selectedActivity={activityInfo}
+                />
+            )}
             {!showActivityModal && renderActivitiesInteractions()}
         </>
     );
