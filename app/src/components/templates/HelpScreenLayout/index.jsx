@@ -45,7 +45,7 @@ export function HelpScreenLayout({
             <Text className="text-2xl text-center font-ms-semibold text-black">
                 {help.title}
             </Text>
-            <CategoriesList categories={help.categories} spacing='mt-4'/>
+            <CategoriesList categories={help.categories} spacing="mt-4" />
             {isNotOwner && (
                 <InformativeField text={informationFieldVariant[route.name]} />
             )}

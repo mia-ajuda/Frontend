@@ -28,7 +28,7 @@ export default function Main({ navigation }) {
     const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
     const { handleShowModal, showActivityModal } = useContext(
-        ActivityBottomSheetContext
+        ActivityBottomSheetContext,
     );
 
     useEffect(() => {

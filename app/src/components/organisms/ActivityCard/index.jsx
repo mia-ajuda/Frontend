@@ -27,9 +27,7 @@ export const ActivityCard = ({
     ownerId,
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
-    const { handleShowModal } = useContext(
-        ActivityBottomSheetContext
-    );
+    const { handleShowModal } = useContext(ActivityBottomSheetContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
