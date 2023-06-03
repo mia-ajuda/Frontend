@@ -19,6 +19,7 @@ export const ActivitiesList = ({ activities, userId }) => {
                             activitieName.length - 1,
                         )}
                         id={activitie._id}
+                        ownerId={activitie.ownerId}
                         count={i + 1}
                         title={activitie.title}
                         description={activitie.description}
