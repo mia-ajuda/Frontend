@@ -6,7 +6,7 @@ export const CategoriesList = ({ categories, size = 'medium', spacing = '' }) =>
     return (
         <View className={`flex flex-row w-full justify-center flex-wrap ${spacing}`}>
             {categories?.map((category, i) => (
-                <Badge title={category.name} key={i} size={size} />
+                <Badge title={category.name} key={category._id} size={size} />
             ))}
         </View>
     );
