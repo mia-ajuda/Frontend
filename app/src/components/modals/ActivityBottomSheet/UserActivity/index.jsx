@@ -132,9 +132,7 @@ export const UserActivity = ({
                     {' '}
                     {activityInfo?.title}{' '}
                 </Text>
-                <View className="flex-row mb-2">
-                    <CategoriesList categories={activityInfo?.categories} />
-                </View>
+                <CategoriesList categories={activityInfo?.categories} />
                 <Text className="text-base text-black h-28" numberOfLines={4}>
                     {activityInfo?.description}{' '}
                 </Text>

@@ -24,8 +24,9 @@ export const ActivityBottomSheetContextProvider = ({ children }) => {
             handleHideModal,
             handleShowModal,
             setShowActivityModal,
+            showActivityModal
         };
-    }, [handleHideModal, handleShowModal, setShowActivityModal]);
+    }, [handleHideModal, handleShowModal, setShowActivityModal, showActivityModal]);
 
     return (
         <ActivityBottomSheetContext.Provider value={contextValue}>
