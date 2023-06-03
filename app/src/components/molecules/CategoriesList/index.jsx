@@ -5,12 +5,11 @@ import { View } from 'native-base';
 export const CategoriesList = ({
     categories,
     size = 'medium',
-    spacing = '',
+    customStyle = '',
 }) => {
+    const align = categories?.length >= 3 ? 'justify-center' : '';
     return (
-        <View
-            className={`flex flex-row w-full justify-center flex-wrap ${spacing}`}
-        >
+        <View className={`flex flex-row flex-wrap ${align} ${customStyle}`}>
             {categories?.map((category) => (
                 <Badge title={category.name} key={category._id} size={size} />
             ))}

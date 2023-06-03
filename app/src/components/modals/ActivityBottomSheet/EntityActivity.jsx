@@ -81,10 +81,10 @@ export const EntityActivity = ({ activityInfo, ownerInfo }) => {
                 <Text className="text-lg font-ms-bold text-primary">
                     {activityInfo?.title}{' '}
                 </Text>
+                <CategoriesList categories={activityInfo?.categories} />
                 <Text className="text-base text-black h-24" numberOfLines={4}>
                     {activityInfo?.description}
                 </Text>
-                <CategoriesList categories={activityInfo?.categories} />
             </View>
         </>
     );

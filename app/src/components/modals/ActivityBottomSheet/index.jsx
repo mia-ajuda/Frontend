@@ -6,6 +6,7 @@ import { UserActivity } from './UserActivity';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { EntityActivity } from './EntityActivity';
 import colors from '../../../../colors';
+import { Dimensions } from 'react-native';
 
 export const ActivityBottomSheet = ({
     selectedActivity,
@@ -19,7 +20,12 @@ export const ActivityBottomSheet = ({
     const [ownerInfo, setOwnerInfo] = useState();
     const [activityInfo, setActivityInfo] = useState();
     const bottomSheetRef = useRef();
+
     const isCampaign = selectedActivity.type === 'campaign';
+    const { height } = Dimensions.get('window');
+    const isBigPhone = height > 720;
+    const entitySnapPoints = isBigPhone ? ['70%'] : ['80%'];
+    const userSnapPoints = isBigPhone ? ['65%'] : ['75%'];
 
     const getInfos = async () => {
         setIsLoading(true);
@@ -45,7 +51,7 @@ export const ActivityBottomSheet = ({
         <BaseBottomSheet
             bottomSheetRef={bottomSheetRef}
             handleCloseModal={handleCloseModal}
-            snapPoints={isCampaign ? ['75%'] : ['70%']}
+            snapPoints={isCampaign ? entitySnapPoints : userSnapPoints}
             background={colors.new_background}
             coverPhoto={isCampaign && ownerInfo?.photo}
         >
