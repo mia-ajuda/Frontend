@@ -1,3 +1,4 @@
+import React from 'react';
 import Step1 from '../../assets/images/TutorialImages/Step1.svg';
 import Step2 from '../../assets/images/TutorialImages/Step2.svg';
 import Step3 from '../../assets/images/TutorialImages/Step3.svg';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import faqOption from '../../docs/FAQ/faqOptions';
 import { TutorialCard } from '../../components/molecules/TutorialCard';
 import { SliderModal } from '../../components/organisms/SliderModal';
