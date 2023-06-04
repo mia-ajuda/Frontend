@@ -12,7 +12,7 @@ import { DefaultButton } from '../../../../components/atoms/DefaultButton';
 import openWhatsapp from '../../../../utils/openWhatsapp';
 import callNumber from '../../../../utils/callNumber';
 import { HelpContext } from '../../../../store/contexts/helpContext';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigationState } from '@react-navigation/native';
 import { Dialog } from '../../../../components/molecules/Dialog';
 import { FeedbackContext } from '../../../../store/contexts/feedbackContext';
 import { FeedbackModal } from './FeedbackModal';
@@ -39,6 +39,11 @@ export default function HelpDescription({
     const [showSendedFeedbackDialog, setShowSendedFeedbackDialog] =
         useState(false);
     const [feedback, setFeedback] = useState('');
+
+    const state = useNavigationState((state) => state);
+
+    const { routes } = state;
+    const initialRoute = routes[0].name;
 
     const getHelp = async () => {
         setIsLoading(true);
@@ -163,10 +168,10 @@ export default function HelpDescription({
         }
     };
 
-    const navigateToActivities = () =>
+    const navigateToInitialScreen = () =>
         navigation.reset({
             index: 0,
-            routes: [{ name: 'activitiesDrawer' }],
+            routes: [{ name: initialRoute }],
         });
 
     const renderModals = () => {
@@ -188,7 +193,7 @@ export default function HelpDescription({
                         title="Pedido Finalizado"
                         description="Deseja deixar uma mensagem para o usuário que te ajudou?"
                         isVisible={showSuccessDialog}
-                        onCloseDialog={navigateToActivities}
+                        onCloseDialog={navigateToInitialScreen}
                         onCofirmPress={handleShowFeedbackBottomSheet}
                         cancelText={'Não'}
                         confirmText="Sim"
@@ -198,8 +203,8 @@ export default function HelpDescription({
                     <Dialog
                         description="Feedback enviado com sucesso!"
                         isVisible={showSendedFeedbackDialog}
-                        onCloseDialog={navigateToActivities}
-                        onCofirmPress={navigateToActivities}
+                        onCloseDialog={navigateToInitialScreen}
+                        onCofirmPress={navigateToInitialScreen}
                     />
                 )}
 
@@ -218,7 +223,7 @@ export default function HelpDescription({
                     <FeedbackModal
                         setShowFeedbackModal={setShowFeedbackModal}
                         showFeedbackModal={showFeedbackModal}
-                        onCloseModal={navigateToActivities}
+                        onCloseModal={navigateToInitialScreen}
                         feedback={feedback}
                         setFeedback={setFeedback}
                         onSubmit={handleSendFeedback}
