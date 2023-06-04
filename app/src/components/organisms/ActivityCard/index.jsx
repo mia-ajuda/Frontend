@@ -59,7 +59,7 @@ export const ActivityCard = ({
 
     return (
         <Pressable
-            className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72 h-40"
+            className="rounded-2xl shadow-md shadow-black p-4 mr-2 bg-white w-72 h-40"
             onPress={handleClick}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
