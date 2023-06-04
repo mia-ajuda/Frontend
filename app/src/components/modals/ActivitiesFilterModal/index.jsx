@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { BaseBottomSheet } from '../BaseBottomSheet';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import { Chips } from '../../atoms/Chips';
 import { DefaultButton } from '../../atoms/DefaultButton';
+import { CategoryContext } from '../../../store/contexts/categoryContext';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
@@ -20,12 +21,14 @@ const ViewWithDivider = ({ children }) => (
     <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
-export const AcitivitiesFilterModal = ({
-    handleCloseModal,
-    filterSelection,
-    setFilterSelection,
-}) => {
+export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
     const bottomSheetRef = useRef(null);
+    const {
+        categories,
+        selectedCategories,
+        setSelectedCategories,
+        setShouldFilter,
+    } = useContext(CategoryContext);
 
     const activities = {
         Campanha: 'campaign',
@@ -33,18 +36,26 @@ export const AcitivitiesFilterModal = ({
         Pedidos: 'help',
     };
 
-    const categories = [
-        'Apoio Físico',
-        'Apoio Psicológico',
-        'Apoio Social',
-        'Higiene Pessoal',
-        'Itens de Proteção',
-        'Pequenos Serviços',
-        'Suprimentos Básicos',
-        'Transporte de Emergência',
-    ];
+    useEffect(() => {
+        console.log(selectedCategories);
+    }, [selectedCategories]);
 
-    const handleWithSelection = (activity, type) => {};
+    const handleWithSelection = (activity, type) => {
+        if (selectedCategories[type].includes(activity)) {
+            const removeCategory = selectedCategories.filter(
+                (categoryFromState) => categoryFromState !== activity,
+            );
+            selectedCategories[type] = removeCategory;
+            setSelectedCategories({ ...selectedCategories });
+        } else {
+            if (type === 'activities') {
+                selectedCategories[type].push(activities[type]);
+                setSelectedCategories(selectedCategories);
+            } else {
+                selectedCategories[type].push(activity._id);
+            }
+        }
+    };
 
     const mapChips = (list) => {
         const isArray = Array.isArray(list);
@@ -55,15 +66,14 @@ export const AcitivitiesFilterModal = ({
                 {isArray
                     ? list.map((activity, index) => (
                           <Chips
-                              title={activity}
+                              title={activity.name}
                               key={index}
                               customStyle={customStyle}
                               type="filter"
                               icon="check"
-                              onPress={handleWithSelection(
-                                  activity,
-                                  'categories',
-                              )}
+                              onPress={() =>
+                                  handleWithSelection(activity, 'categories')
+                              }
                           />
                       ))
                     : Object.keys(list).map((activity, index) => (
@@ -73,10 +83,9 @@ export const AcitivitiesFilterModal = ({
                               customStyle={customStyle}
                               type="filter"
                               icon="check"
-                              onPress={handleWithSelection(
-                                  activity,
-                                  'activities',
-                              )}
+                              onPress={() =>
+                                  handleWithSelection(activity, 'activities')
+                              }
                           />
                       ))}
             </View>
@@ -86,7 +95,8 @@ export const AcitivitiesFilterModal = ({
     return (
         <BaseBottomSheet
             bottomSheetRef={bottomSheetRef}
-            snapPoints={['80%']}
+            snapPoints={['70%']}
+            scrollable={false}
             handleCloseModal={handleCloseModal}
         >
             <Text className="absolute -top-8 right-1/2 font-ms-bold text-xl">
@@ -100,7 +110,14 @@ export const AcitivitiesFilterModal = ({
                 {filterTitle('Categorias', 'category')}
                 {mapChips(categories)}
             </ViewWithDivider>
-            <DefaultButton title="Aplicar" disabled={filterSelection == null} />
+            <DefaultButton
+                title="Aplicar"
+                disabled={
+                    selectedCategories['categories'].length <= 0 &&
+                    selectedCategories['activities'].length <= 0
+                }
+                onPress={() => setShouldFilter(true)}
+            />
         </BaseBottomSheet>
     );
 };
