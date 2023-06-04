@@ -12,6 +12,8 @@ import { FlatList, StatusBar, View } from 'react-native';
 import { ScreenTemplateContext } from '../../store/contexts/ScreenTemplateContext';
 import { FloatingIconButton } from '../../components/molecules/FloatingIconButton';
 import { ActivityCard } from '../../components/organisms/ActivityCard';
+import { Chips } from '../../components/atoms/Chips';
+import { AcitivitiesFilterModal } from '../../components/modals/ActivitiesFilterModal';
 
 export default function MapScreen({ route, navigation }) {
     const { allActivities } = route.params;
@@ -19,6 +21,11 @@ export default function MapScreen({ route, navigation }) {
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
+    const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
+    const [filterSelection, setFilterSelection] = useState({
+        categories: [],
+        activities: [],
+    });
 
     useEffect(() => {
         setUseSafeAreaView(false);
@@ -95,6 +102,17 @@ export default function MapScreen({ route, navigation }) {
                 onPress={goBackButtonAction}
             />
             <View className="absolute bottom-3 left-4">
+                <View className="w-24 items-center">
+                    <Chips
+                        title="Filtrar"
+                        bgColor="bg-white"
+                        icon="filter-list"
+                        elevated
+                        color="bg-white"
+                        type="button"
+                        onPress={() => setShouldRenderFilter(true)}
+                    />
+                </View>
                 <FlatList
                     data={allActivities}
                     keyExtractor={(item) => item._id}
@@ -110,6 +128,13 @@ export default function MapScreen({ route, navigation }) {
                     onViewableItemsChanged={onViewableItemsChanged.current}
                 />
             </View>
+            {shouldRenderFilter && (
+                <AcitivitiesFilterModal
+                    handleCloseModal={() => setShouldRenderFilter(false)}
+                    setFilterSelection={setFilterSelection}
+                    filterSelection={filterSelection}
+                />
+            )}
         </Fragment>
     );
 }
