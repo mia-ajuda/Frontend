@@ -196,8 +196,7 @@ export default function HelpDescription({
                 )}
                 {showSendedFeedbackDialog && (
                     <Dialog
-                        title="Feedback enviado"
-                        description="Obrigado por enviar seu feedback!"
+                        description="Feedback enviado com sucesso!"
                         isVisible={showSendedFeedbackDialog}
                         onCloseDialog={navigateToActivities}
                         onCofirmPress={navigateToActivities}
