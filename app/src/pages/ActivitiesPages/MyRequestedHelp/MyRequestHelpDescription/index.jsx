@@ -16,6 +16,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Dialog } from '../../../../components/molecules/Dialog';
 import { Input } from '../../../../components/atoms/Input';
 import { BaseModal } from '../../../../components/modals/BaseModal';
+import { FeedbackContext } from '../../../../store/contexts/feedbackContext';
 
 export default function HelpDescription({
     route,
@@ -28,6 +29,7 @@ export default function HelpDescription({
     const { helpId, routeId } = route.params;
     const { user } = useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
+    const { createFeedback } = useContext(FeedbackContext);
     const [updateData, setUpdateData] = useState(false);
     const [showPossibleHelpers, setShowPossibleHelpers] = useState(false);
     const [helper, setHelper] = useState(null);
@@ -148,6 +150,20 @@ export default function HelpDescription({
         setShowFeedbackBottomSheet(true);
     };
 
+    const handleSendFeedback = async () => {
+        setIsLoading(true);
+        const response = await createFeedback(
+            help?.ownerId,
+            help?.helperId,
+            feedback,
+        );
+        setIsLoading(false);
+        if (!response.error) {
+            setShowFeedbackBottomSheet(false);
+            navigateToActivities();
+        }
+    };
+
     const navigateToActivities = () =>
         navigation.reset({
             index: 0,
@@ -222,7 +238,7 @@ export default function HelpDescription({
                     <View className="mt-4">
                         <DefaultButton
                             title="Enviar"
-                            onPress={() => setShowFeedbackBottomSheet(false)}
+                            onPress={handleSendFeedback}
                         />
                     </View>
                 </BaseModal>
