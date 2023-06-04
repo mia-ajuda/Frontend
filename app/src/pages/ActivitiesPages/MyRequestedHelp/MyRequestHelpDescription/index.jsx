@@ -11,9 +11,11 @@ import { UserProfileCard } from '../../../../components/atoms/UserProfileCard';
 import { DefaultButton } from '../../../../components/atoms/DefaultButton';
 import openWhatsapp from '../../../../utils/openWhatsapp';
 import callNumber from '../../../../utils/callNumber';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import { HelpContext } from '../../../../store/contexts/helpContext';
 import { useFocusEffect } from '@react-navigation/native';
+import { Dialog } from '../../../../components/molecules/Dialog';
+import { Input } from '../../../../components/atoms/Input';
+import { BaseModal } from '../../../../components/modals/BaseModal';
 
 export default function HelpDescription({
     route,
@@ -25,12 +27,16 @@ export default function HelpDescription({
 }) {
     const { helpId, routeId } = route.params;
     const { user } = useContext(UserContext);
-    const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const { setIsLoading } = useContext(LoadingContext);
     const [updateData, setUpdateData] = useState(false);
     const [showPossibleHelpers, setShowPossibleHelpers] = useState(false);
     const [helper, setHelper] = useState(null);
     const { finishHelpByOwner } = useContext(HelpContext);
     const { fetchUserInfo } = useContext(UserContext);
+    const [showSuccessDialog, setShowSuccesDialog] = useState(false);
+    const [showFeedbackBottomSheet, setShowFeedbackBottomSheet] =
+        useState(false);
+    const [feedback, setFeedback] = useState('');
 
     const getHelp = async () => {
         setIsLoading(true);
@@ -128,24 +134,50 @@ export default function HelpDescription({
         return [...possibleHelpers, ...possibleEntities];
     };
 
-    const finishHelpByOwnerAction = () => {
-        finishHelpByOwner(helpId);
+    const finishHelpByOwnerAction = async () => {
+        setConfirmationModalVisible(false);
+        setIsLoading(true);
+        const response = await finishHelpByOwner(helpId);
+        setIsLoading(false);
+        console.log(response);
+        if (!response) setShowSuccesDialog(true);
+    };
+
+    const handleShowFeedbackBottomSheet = () => {
+        setShowSuccesDialog(false);
+        setShowFeedbackBottomSheet(true);
+    };
+
+    const navigateToActivities = () =>
         navigation.reset({
             index: 0,
             routes: [{ name: 'activitiesDrawer' }],
         });
-    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <ConfirmationModal
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={finishHelpByOwnerAction}
-                message={
-                    'Você tem certeza que deseja finalizar este pedido de ajuda?'
-                }
-            />
+            {confirmationModalVisible && (
+                <Dialog
+                    title="Finalizar Pedido?"
+                    description="Você tem certeza que deseja finalizar este pedido de ajuda?"
+                    isVisible={confirmationModalVisible}
+                    onCloseDialog={() => setConfirmationModalVisible(false)}
+                    onCofirmPress={finishHelpByOwnerAction}
+                    cancelText={'Não'}
+                    confirmText="Sim"
+                />
+            )}
+            {showSuccessDialog && (
+                <Dialog
+                    title="Pedido Finalizado"
+                    description="Deseja deixar uma mensagem para o usuário que te ajudou?"
+                    isVisible={showSuccessDialog}
+                    onCloseDialog={navigateToActivities}
+                    onCofirmPress={handleShowFeedbackBottomSheet}
+                    cancelText={'Não'}
+                    confirmText="Sim"
+                />
+            )}
             {help && (
                 <HelpScreenLayout
                     help={help}
@@ -166,6 +198,34 @@ export default function HelpDescription({
                     showButton={true}
                     setUpdateData={setUpdateData}
                 />
+            )}
+            {showFeedbackBottomSheet && (
+                <BaseModal
+                    setIsVisible={setShowFeedbackBottomSheet}
+                    isVisible={showFeedbackBottomSheet}
+                    background="bg-new_background"
+                >
+                    <Text className="text-lg font-ms-bold text-center text-black -mt-6 mb-6">
+                        Feedback para Pessoa
+                    </Text>
+
+                    <Input
+                        label={'Mensagem'}
+                        placeholder={
+                            'Escreva sua mensagem que será enviada para o usuário Gelado'
+                        }
+                        value={feedback}
+                        setValue={setFeedback}
+                        lines={5}
+                        maxLength={150}
+                    />
+                    <View className="mt-4">
+                        <DefaultButton
+                            title="Enviar"
+                            onPress={() => setShowFeedbackBottomSheet(false)}
+                        />
+                    </View>
+                </BaseModal>
             )}
         </ScrollView>
     );
