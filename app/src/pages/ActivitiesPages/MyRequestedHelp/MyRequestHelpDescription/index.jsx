@@ -214,6 +214,7 @@ export default function HelpDescription({
                         userList={getAllPossibleHelpers()}
                         title="Possíveis ajudantes"
                         method="chooseHelper"
+                        confirmationText="Você deseja escolher esse usuário como ajudante?"
                         helpId={helpId}
                         showButton={true}
                         setUpdateData={setUpdateData}

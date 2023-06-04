@@ -18,7 +18,7 @@ export const Dialog = ({
             animationType={animationType}
             transparent
         >
-            <View className="flex-1 w-screen h-screen backdrop-blur-sm bg-black/30 items-center justify-center px-6">
+            <View className="flex-1 w-screen h-screen backdrop-blur-sm bg-black/40 items-center justify-center px-6">
                 <View className="bg-light rounded-xl p-6 min-w-full">
                     {title && (
                         <Text className="font-ms-semibold text-black text-left pb-4">

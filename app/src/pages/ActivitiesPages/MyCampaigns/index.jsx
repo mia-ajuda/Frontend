@@ -3,7 +3,6 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import callService from '../../../services/callService';
@@ -11,6 +10,7 @@ import campaignService from '../../../services/Campaign';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function CampaignsFinished({ navigation }) {
     const { isLoading, setIsLoading } = useContext(LoadingContext);
@@ -121,12 +121,14 @@ export default function CampaignsFinished({ navigation }) {
                 text="Criar campanha"
                 onPress={onPressPlusButton}
             />
-            <ConfirmationModal
-                attention={true}
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={excludeCampaign}
-                message={'Você deseja deletar essa campanha?'}
+            <Dialog
+                isVisible={confirmationModalVisible && !isLoading}
+                title="Finalizar campanha?"
+                description="Você tem certeza que deseja finalizar essa campanha?"
+                cancelText="Não"
+                confirmText="Sim"
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onCofirmPress={excludeCampaign}
             />
             {!isLoading && renderCampaignList()}
         </View>

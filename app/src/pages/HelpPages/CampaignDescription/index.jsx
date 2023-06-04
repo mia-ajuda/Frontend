@@ -12,7 +12,6 @@ import { Icon } from 'react-native-elements';
 import styles from './styles';
 import shortenName from '../../../utils/shortenName';
 import { UserContext } from '../../../store/contexts/userContext';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import callService from '../../../services/callService';
 import { alertSuccess } from '../../../utils/Alert';
 import CampaignService from '../../../services/Campaign';
@@ -20,6 +19,7 @@ import Button from '../../../components/UI/button';
 import openWhatsapp from '../../../utils/openWhatsapp';
 import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function CampaignDescription({ route, navigation }) {
     const { campaign } = route.params;
@@ -161,11 +161,14 @@ export default function CampaignDescription({ route, navigation }) {
                 {isTheSameUser && renderFinishCampaignButton()}
                 {!isTheSameUser && renderContactEntityButtons()}
             </View>
-            <ConfirmationModal
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={finishCampaign}
-                message={'Você tem certeza que deseja finalizar esta campanha?'}
+            <Dialog
+                isVisible={confirmationModalVisible && !isLoading}
+                title="Finalizar Campanha?"
+                description="Você tem certeza que deseja finalizar esta campanha?"
+                cancelText="Não"
+                confirmText="Sim"
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onCofirmPress={finishCampaign}
             />
         </ScrollView>
     );

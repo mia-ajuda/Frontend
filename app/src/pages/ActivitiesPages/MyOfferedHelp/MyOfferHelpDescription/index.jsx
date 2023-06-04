@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View } from 'react-native';
-import ConfirmationModal from '../../../../components/modals/confirmationModal';
 import HelpService from '../../../../services/Help';
 import { alertSuccess } from '../../../../utils/Alert';
 import { UserContext } from '../../../../store/contexts/userContext';
@@ -9,6 +8,7 @@ import { ExpansiveModal } from '../../../../components/modals/expansiveModal';
 import { DefaultButtonWithBadges } from '../../../../components/molecules/DefaultButtonWithBagdes';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 import { HelpScreenLayout } from '../../../../components/templates/HelpScreenLayout';
+import { Dialog } from '../../../../components/molecules/Dialog';
 
 export default function OfferHelpDescription({ route, navigation }) {
     const { helpId, routeId } = route.params;
@@ -89,14 +89,16 @@ export default function OfferHelpDescription({ route, navigation }) {
 
     return (
         <View className="h-full flex-1">
-            <ConfirmationModal
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={finishHelp}
-                message={
-                    'Você tem certeza que deseja finalizar essa oferta de ajuda?'
-                }
+            <Dialog
+                title="Finalizar oferta de ajuda"
+                description="Você tem certeza que deseja finalizar essa oferta de ajuda?"
+                cancelText="Não"
+                confirmText="Sim"
+                isVisible={confirmationModalVisible && !isLoading}
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onCofirmPress={finishHelp}
             />
+
             {help && (
                 <HelpScreenLayout
                     help={help}
@@ -113,6 +115,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                     userList={getAllPossibleHelpedUsers()}
                     title="Possíveis ajudados"
                     method="chooseHelpedUsers"
+                    confirmationText="Você deseja escolher esse usuário como ajudado?"
                     helpId={helpId}
                     showButton={true}
                     setUpdateData={setUpdateData}

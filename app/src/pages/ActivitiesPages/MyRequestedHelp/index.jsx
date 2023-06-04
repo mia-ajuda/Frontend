@@ -3,7 +3,6 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../components/NoHelps';
 import callService from '../../../services/callService';
@@ -11,6 +10,7 @@ import styles from '../styles';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { Dialog } from '../../../components/molecules/Dialog';
 
 const MyRequestedHelp = ({ navigation }) => {
     const { user } = useContext(UserContext);
@@ -105,12 +105,14 @@ const MyRequestedHelp = ({ navigation }) => {
                     createInteraction(user, navigation, 'createHelpRequest')
                 }
             />
-            <ConfirmationModal
-                attention={true}
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={() => excludeHelp()}
-                message={'Você deseja deletar esse pedido de ajuda?'}
+            <Dialog
+                isVisible={confirmationModalVisible && !isLoading}
+                title="Finalizar pedido?"
+                description="Você tem certeza que deseja finalizar esse pedido?"
+                cancelText="Não"
+                confirmText="Sim"
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onCofirmPress={excludeHelp}
             />
             {!isLoading && renderMyRequestsHelpList()}
         </View>
