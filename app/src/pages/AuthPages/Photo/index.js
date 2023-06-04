@@ -36,7 +36,7 @@ export default function Photo({ route, navigation }) {
             photo: pickerResult.base64,
         };
         let newUserInfo;
-        const { modalParams } = userDataFromAddressPage;
+        const { modalParams, nextPage } = userDataFromAddressPage;
         if (isEntity) {
             newUserInfo = await callService(entityService, 'editEntity', [
                 userInfo,
@@ -51,12 +51,18 @@ export default function Photo({ route, navigation }) {
             dispatch({ type: actions.user.storeUserInfo, data: newUserInfo });
             alertSuccess('Alteração feita com sucesso!');
         }
-
-        handleShowModal(...modalParams);
-        navigation.reset({
-            index: 0,
-            routes: [{ name: initialRoute }],
-        });
+        if (modalParams) {
+            handleShowModal(...modalParams);
+            navigation.reset({
+                index: 0,
+                routes: [{ name: initialRoute }],
+            });
+        } else {
+            navigation.reset({
+                index: 1,
+                routes: [{ name: initialRoute }, { name: nextPage }],
+            });
+        }
     };
 
     async function openImagePickerAsync() {
