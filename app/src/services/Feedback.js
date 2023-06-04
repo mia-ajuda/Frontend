@@ -1,17 +1,17 @@
 import api from '../services/Api';
 
 class FeedbackService {
-    async createFeedback(senderId, receiverId, body) {
+    async createFeedback(sender, receiver, message) {
         const response = await api.post('/feedback', {
-            senderId,
-            receiverId,
-            body,
+            sender,
+            receiver,
+            message,
         });
         return response.data;
     }
 
-    async getFeedbackByReceiverId(receiverId) {
-        const response = await api.get(`/feedback/${receiverId}`);
+    async getFeedbackByReceiverId(receiver) {
+        const response = await api.get(`/feedback/${receiver}`);
         return response.data;
     }
 }
