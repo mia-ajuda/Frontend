@@ -45,6 +45,16 @@ export const MainNavigation = () => {
                 {renderRoute('activities')}
             </Drawer.Screen>
             <Drawer.Screen
+                name="feedbackDrawer"
+                options={drawerScreenOptions(
+                    'Feedbacks',
+                    'comment-plus',
+                    'material-community',
+                )}
+            >
+                {renderRoute('feedbacks')}
+            </Drawer.Screen>
+            <Drawer.Screen
                 name="profileDrawer"
                 options={drawerScreenOptions('Perfil', 'person')}
             >

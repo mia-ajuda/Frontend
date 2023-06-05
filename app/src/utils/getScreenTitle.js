@@ -16,6 +16,7 @@ export const getScreenTtile = (screenName) => {
         searchUsers: 'Buscar Usuários',
         address: 'Endereço',
         photo: 'Foto',
+        feedbacks: 'Feedbacks',
     };
     return screenTitles[screenName] || 'Detalhes';
 };

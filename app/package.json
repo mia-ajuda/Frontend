@@ -65,6 +65,7 @@
         "react-native-svg": "12.3.0",
         "react-native-svg-transformer": "^0.14.3",
         "react-native-tab-view": "^2.13.0",
+        "react-native-timeline-flatlist": "^0.8.0",
         "react-native-web": "0.17.7",
         "react-native-webview": "11.18.1",
         "socket.io-client": "2.1.0",
