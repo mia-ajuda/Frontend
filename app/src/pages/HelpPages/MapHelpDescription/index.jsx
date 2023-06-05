@@ -174,7 +174,7 @@ export default function MapHelpDescription({ route, navigation }) {
                     cancelText="Não"
                     confirmText="Sim"
                     onCloseDialog={() => setConfirmationModalVisible(false)}
-                    onCofirmPress={modalAction}
+                    onConfirmPress={modalAction}
                 />
 
                 {ownerInfo && (

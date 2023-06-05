@@ -128,7 +128,7 @@ export default function CampaignsFinished({ navigation }) {
                 cancelText="Não"
                 confirmText="Sim"
                 onCloseDialog={() => setConfirmationModalVisible(false)}
-                onCofirmPress={excludeCampaign}
+                onConfirmPress={excludeCampaign}
             />
             {!isLoading && renderCampaignList()}
         </View>

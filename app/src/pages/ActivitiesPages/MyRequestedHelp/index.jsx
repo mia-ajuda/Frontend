@@ -112,7 +112,7 @@ const MyRequestedHelp = ({ navigation }) => {
                 cancelText="Não"
                 confirmText="Sim"
                 onCloseDialog={() => setConfirmationModalVisible(false)}
-                onCofirmPress={excludeHelp}
+                onConfirmPress={excludeHelp}
             />
             {!isLoading && renderMyRequestsHelpList()}
         </View>

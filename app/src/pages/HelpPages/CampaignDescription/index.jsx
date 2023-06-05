@@ -168,7 +168,7 @@ export default function CampaignDescription({ route, navigation }) {
                 cancelText="Não"
                 confirmText="Sim"
                 onCloseDialog={() => setConfirmationModalVisible(false)}
-                onCofirmPress={finishCampaign}
+                onConfirmPress={finishCampaign}
             />
         </ScrollView>
     );

@@ -96,7 +96,7 @@ export default function OfferHelpDescription({ route, navigation }) {
                 confirmText="Sim"
                 isVisible={confirmationModalVisible && !isLoading}
                 onCloseDialog={() => setConfirmationModalVisible(false)}
-                onCofirmPress={finishHelp}
+                onConfirmPress={finishHelp}
             />
 
             {help && (

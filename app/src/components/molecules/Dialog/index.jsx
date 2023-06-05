@@ -9,7 +9,7 @@ export const Dialog = ({
     cancelText,
     animationType = 'slide',
     confirmText = 'Ok',
-    onCofirmPress,
+    onConfirmPress,
 }) => {
     return (
         <Modal
@@ -36,7 +36,7 @@ export const Dialog = ({
                                 </Text>
                             </Pressable>
                         )}
-                        <Pressable onPress={onCofirmPress}>
+                        <Pressable onPress={onConfirmPress}>
                             <Text className="text-primary font-ms-semibold">
                                 {confirmText}
                             </Text>

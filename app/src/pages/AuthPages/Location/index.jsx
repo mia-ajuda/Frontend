@@ -128,7 +128,7 @@ export default function Location({ route }) {
                 cancelText="Não"
                 confirmText="Sim"
                 onCloseDialog={() => setConfirmationModalVisible(false)}
-                onCofirmPress={confirmPosition}
+                onConfirmPress={confirmPosition}
             />
         </>
     );
