@@ -14,11 +14,8 @@ export const CategoryContext = createContext();
 export default function CategoryContextProvider(props) {
     const [categories, setCategories] = useState([]);
     const { user } = useContext(UserContext);
-    const [selectedCategories, setSelectedCategories] = useState({
-        categories: [],
-        activities: [],
-    });
-    const [shouldFilter, setShouldFilter] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [filterCategories, setFilterCategories] = useState(false);
 
     useEffect(() => {
         const isUserAuthenticated = user._id;
@@ -37,15 +34,15 @@ export default function CategoryContextProvider(props) {
             categories,
             selectedCategories,
             setSelectedCategories,
-            shouldFilter,
-            setShouldFilter,
+            filterCategories,
+            setFilterCategories,
         };
     }, [
         categories,
         selectedCategories,
         setSelectedCategories,
-        shouldFilter,
-        setShouldFilter,
+        filterCategories,
+        setFilterCategories,
     ]);
 
     return (

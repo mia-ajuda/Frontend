@@ -22,6 +22,7 @@ export default function MapScreen({ route, navigation }) {
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
+    const [selectedActivities, setSelectedActivities] = useState([]);
 
     useEffect(() => {
         setUseSafeAreaView(false);
@@ -127,6 +128,8 @@ export default function MapScreen({ route, navigation }) {
             {shouldRenderFilter && (
                 <AcitivitiesFilterModal
                     handleCloseModal={() => setShouldRenderFilter(false)}
+                    setSelectedActivities={setSelectedActivities}
+                    selectedActivities={selectedActivities}
                 />
             )}
         </Fragment>

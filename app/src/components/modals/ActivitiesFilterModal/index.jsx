@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { BaseBottomSheet } from '../BaseBottomSheet';
-import { Text, View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import { Chips } from '../../atoms/Chips';
 import { DefaultButton } from '../../atoms/DefaultButton';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
+import filterButtonTypes from '../../../docs/filterMarkers';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
@@ -21,39 +22,32 @@ const ViewWithDivider = ({ children }) => (
     <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
-export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
+export const AcitivitiesFilterModal = ({
+    handleCloseModal,
+    setSelectedActivities,
+    selectedActivities,
+}) => {
     const bottomSheetRef = useRef(null);
     const {
         categories,
         selectedCategories,
         setSelectedCategories,
-        setShouldFilter,
+        setFilterCategories,
     } = useContext(CategoryContext);
+    const { height } = Dimensions.get('window');
+    const isBigPhone = height > 720;
 
-    const activities = {
-        Campanha: 'campaign',
-        Ofertas: 'offer',
-        Pedidos: 'help',
-    };
-
-    useEffect(() => {
-        console.log(selectedCategories);
-    }, [selectedCategories]);
-
-    const handleWithSelection = (activity, type) => {
-        if (selectedCategories[type].includes(activity)) {
-            const removeCategory = selectedCategories.filter(
-                (categoryFromState) => categoryFromState !== activity,
-            );
-            selectedCategories[type] = removeCategory;
-            setSelectedCategories({ ...selectedCategories });
+    const selectableChipsAction = (id, list, type) => {
+        const isCategory = type === 'categorias';
+        if (list.includes(id)) {
+            const removeId = list.filter((idFromState) => idFromState !== id);
+            isCategory
+                ? setSelectedCategories(removeId)
+                : setSelectedActivities(removeId);
         } else {
-            if (type === 'activities') {
-                selectedCategories[type].push(activities[type]);
-                setSelectedCategories(selectedCategories);
-            } else {
-                selectedCategories[type].push(activity._id);
-            }
+            isCategory
+                ? setSelectedCategories([...list, id])
+                : setSelectedActivities([...list, id]);
         }
     };
 
@@ -64,27 +58,35 @@ export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
         return (
             <View className="flex-row flex-wrap">
                 {isArray
-                    ? list.map((activity, index) => (
+                    ? list.map((category, index) => (
                           <Chips
-                              title={activity.name}
-                              key={index}
+                              title={category.name}
+                              key={index + category._id}
                               customStyle={customStyle}
                               type="filter"
                               icon="check"
                               onPress={() =>
-                                  handleWithSelection(activity, 'categories')
+                                  selectableChipsAction(
+                                      category._id,
+                                      selectedCategories,
+                                      'categorias',
+                                  )
                               }
                           />
                       ))
                     : Object.keys(list).map((activity, index) => (
                           <Chips
                               title={activity}
-                              key={index}
+                              key={index + activity}
                               customStyle={customStyle}
                               type="filter"
                               icon="check"
                               onPress={() =>
-                                  handleWithSelection(activity, 'activities')
+                                  selectableChipsAction(
+                                      list[activity].id,
+                                      selectedActivities,
+                                      'atividades',
+                                  )
                               }
                           />
                       ))}
@@ -95,7 +97,7 @@ export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
     return (
         <BaseBottomSheet
             bottomSheetRef={bottomSheetRef}
-            snapPoints={['70%']}
+            snapPoints={isBigPhone ? ['60%'] : ['70%']}
             scrollable={false}
             handleCloseModal={handleCloseModal}
         >
@@ -104,7 +106,7 @@ export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
             </Text>
             <ViewWithDivider>
                 {filterTitle('Atividades', 'local-activity')}
-                {mapChips(activities)}
+                {mapChips(filterButtonTypes)}
             </ViewWithDivider>
             <ViewWithDivider>
                 {filterTitle('Categorias', 'category')}
@@ -112,11 +114,11 @@ export const AcitivitiesFilterModal = ({ handleCloseModal }) => {
             </ViewWithDivider>
             <DefaultButton
                 title="Aplicar"
+                onPress={() => setFilterCategories(true)}
                 disabled={
-                    selectedCategories['categories'].length <= 0 &&
-                    selectedCategories['activities'].length <= 0
+                    selectedCategories.length <= 0 &&
+                    selectedActivities.length <= 0
                 }
-                onPress={() => setShouldFilter(true)}
             />
         </BaseBottomSheet>
     );
