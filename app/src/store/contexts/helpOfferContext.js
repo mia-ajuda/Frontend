@@ -10,7 +10,8 @@ export const HelpOfferContext = createContext();
 export default function HelpOfferContextProvider({ children }) {
     const { user, userPosition } = useContext(UserContext);
     const [helpOfferList, setHelpOfferList] = useState([]);
-    const { selectedCategories } = useContext(CategoryContext);
+    const { selectedCategories, filterCategories } =
+        useContext(CategoryContext);
 
     useEffect(() => {
         const isUserAuthenticated = user._id;
@@ -45,7 +46,7 @@ export default function HelpOfferContextProvider({ children }) {
     }
 
     async function getHelpOfferListWithCategories() {
-        if (selectedCategories.length) {
+        if (selectedCategories.length && filterCategories) {
             const helpOfferListResponse = await callService(
                 HelpService,
                 'listHelpOfferWithCategories',
