@@ -66,7 +66,7 @@ export const ExpansiveModal = ({
                 cancelText={'Cancelar'}
                 description={confirmationText}
                 confirmText={'Confirmar'}
-                onConfirm={buttonAction}
+                onConfirmPress={buttonAction}
             />
             <Text className="text-lg -mt-4 mb-4 font-[montserrat-bold] text-center">
                 {title}
