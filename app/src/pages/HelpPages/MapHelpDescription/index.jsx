@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Image, Text, ScrollView } from 'react-native';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import Button from '../../../components/UI/button';
 import getYearsSince from '../../../utils/getYearsSince';
 import styles from './styles';
@@ -19,6 +18,7 @@ import formatDate from '../../../utils/formatDate';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { CategoriesList } from '../../../components/molecules/CategoriesList';
 import { BadgeContext } from '../../../store/contexts/badgeContext';
+import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
@@ -167,11 +167,14 @@ export default function MapHelpDescription({ route, navigation }) {
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-                <ConfirmationModal
-                    visible={confirmationModalVisible && !isLoading}
-                    setVisible={setConfirmationModalVisible}
-                    action={modalAction}
-                    message={modalMessage}
+                <Dialog
+                    isVisible={confirmationModalVisible && !isLoading}
+                    title="Confirmar candidatura?"
+                    description={modalMessage}
+                    cancelText="Não"
+                    confirmText="Sim"
+                    onCloseDialog={() => setConfirmationModalVisible(false)}
+                    onConfirmPress={modalAction}
                 />
 
                 {ownerInfo && (

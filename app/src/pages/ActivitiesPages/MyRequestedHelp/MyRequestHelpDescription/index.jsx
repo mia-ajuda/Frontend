@@ -183,7 +183,7 @@ export default function HelpDescription({
                         description="Você tem certeza que deseja finalizar este pedido de ajuda?"
                         isVisible={confirmationModalVisible}
                         onCloseDialog={() => setConfirmationModalVisible(false)}
-                        onCofirmPress={finishHelpByOwnerAction}
+                        onConfirmPress={finishHelpByOwnerAction}
                         cancelText={'Não'}
                         confirmText="Sim"
                     />
@@ -194,7 +194,7 @@ export default function HelpDescription({
                         description="Deseja deixar uma mensagem para o usuário que te ajudou?"
                         isVisible={showSuccessDialog}
                         onCloseDialog={navigateToInitialScreen}
-                        onCofirmPress={handleShowFeedbackBottomSheet}
+                        onConfirmPress={handleShowFeedbackBottomSheet}
                         cancelText={'Não'}
                         confirmText="Sim"
                     />
@@ -204,7 +204,7 @@ export default function HelpDescription({
                         description="Feedback enviado com sucesso!"
                         isVisible={showSendedFeedbackDialog}
                         onCloseDialog={navigateToInitialScreen}
-                        onCofirmPress={navigateToInitialScreen}
+                        onConfirmPress={navigateToInitialScreen}
                     />
                 )}
 
@@ -214,6 +214,7 @@ export default function HelpDescription({
                         userList={getAllPossibleHelpers()}
                         title="Possíveis ajudantes"
                         method="chooseHelper"
+                        confirmationText="Você deseja escolher esse usuário como ajudante?"
                         helpId={helpId}
                         showButton={true}
                         setUpdateData={setUpdateData}

@@ -7,10 +7,10 @@ import styles from '../styles';
 import NoHelps from '../../../components/NoHelps';
 import { useFocusEffect } from '@react-navigation/native';
 import callService from '../../../services/callService';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function HelpsFinished({ navigation }) {
     const { user } = useContext(UserContext);
@@ -105,12 +105,14 @@ export default function HelpsFinished({ navigation }) {
                     createInteraction(user, navigation, 'createHelpOffer')
                 }
             />
-            <ConfirmationModal
-                attention={true}
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={() => excludeHelp()}
-                message={'Você deseja deletar essa oferta de ajuda?'}
+            <Dialog
+                isVisible={confirmationModalVisible && !isLoading}
+                title="Deletar oferta de ajuda?"
+                description="Você deseja deletar essa oferta de ajuda?"
+                cancelText="Não"
+                confirmText="Sim"
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onConfirmPress={excludeHelp}
             />
             {!isLoading && renderHelpList()}
         </View>
