@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import colors from '../../../../colors';
 
 export const Input = ({
     value,
@@ -41,6 +42,8 @@ export const Input = ({
         onChangeText: setValue,
         placeholder: placeholder,
         editable: !disabled,
+        placeholderTextColor: colors.black[300],
+        style: { textAlignVertical: 'top' },
     };
 
     return (

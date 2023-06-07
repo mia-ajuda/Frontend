@@ -12,8 +12,8 @@ import { alertSuccess } from '../../../../utils/Alert';
 import { ActivitiesContext } from '../../../../store/contexts/activitiesContext';
 import { BadgeContext } from '../../../../store/contexts/badgeContext';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
-import ConfirmationModal from '../../confirmationModal';
 import { UserContext } from '../../../../store/contexts/userContext';
+import { Dialog } from '../../../molecules/Dialog';
 
 export const UserActivity = ({
     activityType,
@@ -78,11 +78,14 @@ export const UserActivity = ({
 
     return (
         <>
-            <ConfirmationModal
-                visible={confirmationModalVisible}
-                setVisible={setConfirmationModalVisible}
-                action={handleConfirmPress}
-                message={messages[activityType].modal}
+            <Dialog
+                title={'Confirmar candidatura?'}
+                description={messages[activityType].modal}
+                cancelText={'Não'}
+                confirmText={'Sim'}
+                isVisible={confirmationModalVisible}
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onConfirmPress={handleConfirmPress}
             />
             <View className="flex-row items-center mb-4">
                 <Icon

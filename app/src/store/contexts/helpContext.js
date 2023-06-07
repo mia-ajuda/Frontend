@@ -18,7 +18,6 @@ import {
     subscribeToDeleteHelp,
     changeCategories,
 } from '../../services/socket';
-import { alertSuccess } from '../../utils/Alert';
 export const HelpContext = createContext();
 
 export default function HelpContextProvider(props) {
@@ -121,9 +120,6 @@ export default function HelpContextProvider(props) {
             [helpId, user._id],
         );
         if (!finishHelpRequest.error) {
-            alertSuccess(
-                'Ajuda finalizada com sucesso! Aguarde a confirmação do ajudado!',
-            );
             return true;
         }
         return false;

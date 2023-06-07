@@ -14,6 +14,7 @@ import { ActivitiesContextProvider } from './store/contexts/activitiesContext';
 import BadgeContextProvider from './store/contexts/badgeContext';
 import CepContextProvider from './store/contexts/cepContext';
 import { ActivityBottomSheetContextProvider } from './store/contexts/activityBottomSheetContext';
+import { FeedbackContextProvider } from './store/contexts/feedbackContext';
 
 export default function Root() {
     return (
@@ -30,11 +31,13 @@ export default function Root() {
                                                 <BadgeContextProvider>
                                                     <ActivitiesContextProvider>
                                                         <ActivityBottomSheetContextProvider>
-                                                            <CepContextProvider>
-                                                                <ScreenTemplate>
-                                                                    <Routes />
-                                                                </ScreenTemplate>
-                                                            </CepContextProvider>
+                                                            <FeedbackContextProvider>
+                                                                <CepContextProvider>
+                                                                    <ScreenTemplate>
+                                                                        <Routes />
+                                                                    </ScreenTemplate>
+                                                                </CepContextProvider>
+                                                            </FeedbackContextProvider>
                                                         </ActivityBottomSheetContextProvider>
                                                     </ActivitiesContextProvider>
                                                 </BadgeContextProvider>

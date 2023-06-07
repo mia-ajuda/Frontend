@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import UserItem from '../../UserItem';
 import { Text } from 'react-native';
-import ConfirmationModal from '../confirmationModal';
 import callService from '../../../services/callService';
 import helpService from '../../../services/Help';
 import { alertSuccess } from '../../../utils/Alert';
 import { BaseBottomSheet } from '../BaseBottomSheet';
+import { Dialog } from '../../molecules/Dialog';
 
 export const ExpansiveModal = ({
     setShowModal,
@@ -14,12 +14,12 @@ export const ExpansiveModal = ({
     method,
     helpId,
     setUpdateData,
+    confirmationText,
     showButton = false,
 }) => {
     const bottomSheetRef = useRef(null);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [isChooseRequestLoading, setChooseRequestLoading] = useState(false);
     const [selectedUser, setSelectedUser] = useState(false);
 
     useEffect(() => {
@@ -36,7 +36,6 @@ export const ExpansiveModal = ({
     const handleCloseModal = () => setShowModal(false);
 
     const buttonAction = async () => {
-        setChooseRequestLoading(true);
         const chooseHelperRequest = await callService(helpService, method, [
             helpId,
             selectedUser,
@@ -61,12 +60,13 @@ export const ExpansiveModal = ({
             handleCloseModal={handleCloseModal}
             scrollable={reachUserLimit}
         >
-            <ConfirmationModal
-                visible={confirmationModalVisible}
-                setVisible={setConfirmationModalVisible}
-                action={buttonAction}
-                message={'Você deseja oferecer ajuda a esse usuário?'}
-                isLoading={isChooseRequestLoading}
+            <Dialog
+                isVisible={confirmationModalVisible}
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                cancelText={'Cancelar'}
+                description={confirmationText}
+                confirmText={'Confirmar'}
+                onConfirmPress={buttonAction}
             />
             <Text className="text-lg -mt-4 mb-4 font-[montserrat-bold] text-center">
                 {title}
