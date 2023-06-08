@@ -9,13 +9,13 @@ function alertError(error, message = null) {
             message = 'Falha de conexão';
         } else if (error.code) {
             message = translateFirebaseError[error.code];
-        } else if (message == null) {
+        }
+        if (message == null) {
             try {
                 message =
                     error.response.data.error ||
                     error.message ||
                     'Algo deu errado, tente novamente mais tarde';
-                console.log(message);
             } catch (err) {
                 message =
                     error.message ||
@@ -45,7 +45,7 @@ function alertMessageEmailVerification(message) {
             },
             style: 'cancel',
         },
-        { text: 'OK', onPress: () => {} },
+        { text: 'OK', onPress: () => { } },
     ]);
 }
 

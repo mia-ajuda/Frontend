@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
+import "firebase/compat/auth";
 import Constants from 'expo-constants';
 import authConfig from '../config/authmiaajuda-firebase';
 import authConfigDev from '../config/authmiaajuda-firebase-dev';

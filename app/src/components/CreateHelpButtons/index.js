@@ -6,6 +6,7 @@ import styles from './styles';
 import { UserContext } from '../../store/contexts/userContext';
 import createInteraction from '../../utils/createInteraction';
 import { Icon } from 'react-native-elements';
+import colors from '../../../colors';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -110,8 +111,8 @@ export default function CreateHelpButtons() {
                     <Icon
                         name="hand-heart"
                         type="material-community"
-                        color="#fff"
-                        size={16}
+                        color={colors.primary.DEFAULT}
+                        size={32}
                     />
                 </View>
             </HelpButtonAnimated>
@@ -150,8 +151,8 @@ export default function CreateHelpButtons() {
                 <Icon
                     name="exclamation"
                     type="font-awesome"
-                    color="#fff"
-                    size={50}
+                    color={colors.primary.DEFAULT}
+                    size={32}
                 />
             </View>
         </HelpButtonAnimated>
