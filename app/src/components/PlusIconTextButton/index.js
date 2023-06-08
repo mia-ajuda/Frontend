@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
 
 import styles from './styles';
+import { Icon } from 'react-native-elements';
 
 export default function PlusIconTextButton({ text, onPress }) {
     return (
@@ -12,7 +12,7 @@ export default function PlusIconTextButton({ text, onPress }) {
                 activeOpacity={0.8}
                 onPress={onPress}
             >
-                <FontAwesome name="plus" size={16} color="#fff" />
+                <Icon name="plus" type="font-awesome" color="#fff" size={16} />
                 <Text style={styles.plusButtonText}>{text}</Text>
             </TouchableOpacity>
         </View>

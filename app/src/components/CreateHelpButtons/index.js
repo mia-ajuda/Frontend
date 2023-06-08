@@ -2,11 +2,10 @@ import React, { useContext, useState } from 'react';
 import Animated, { EasingNode, timing } from 'react-native-reanimated';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import styles from './styles';
-import colors from '../../../assets/styles/colorVariables';
 import { UserContext } from '../../store/contexts/userContext';
 import createInteraction from '../../utils/createInteraction';
+import { Icon } from 'react-native-elements';
 
 const buttonsTransleY = new Animated.Value(0);
 const BUTTON_MAX_HEIGHT = 120;
@@ -77,7 +76,7 @@ export default function CreateHelpButtons() {
                 activeOpacity={1}
                 onPress={toggleButtonsVisibility}
             >
-                <FontAwesome name="plus" size={30} color="#fff" />
+                <Icon name="plus" type="font-awesome" color="#fff" size={30} />
             </TouchableOpacity>
         </Animated.View>
     );
@@ -108,10 +107,11 @@ export default function CreateHelpButtons() {
                 )}
 
                 <View style={styles.helpButton}>
-                    <FontAwesome5
-                        name="hand-holding-heart"
-                        size={30}
-                        color={colors.primary}
+                    <Icon
+                        name="hand-heart"
+                        type="material-community"
+                        color="#fff"
+                        size={16}
                     />
                 </View>
             </HelpButtonAnimated>
@@ -147,10 +147,11 @@ export default function CreateHelpButtons() {
                     styles.helpButton,
                 ]}
             >
-                <FontAwesome
+                <Icon
                     name="exclamation"
+                    type="font-awesome"
+                    color="#fff"
                     size={50}
-                    color={colors.primary}
                 />
             </View>
         </HelpButtonAnimated>
