@@ -23,7 +23,7 @@ export const EditProfile = () => {
 
     const handleChangePhoto = async () => {
         const permissionResult =
-            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            await ImagePicker.requestCameraPermissionsAsync();
         if (!permissionResult.granted) {
             alertMessage('É preciso permissão para ter acesso as mídias!');
             return;
@@ -33,7 +33,7 @@ export const EditProfile = () => {
             allowsEditing: true,
             quality: 0.5,
         });
-        if (pickerResult.cancelled) return;
+        if (pickerResult.canceled) return;
         setPhoto(pickerResult.base64);
     };
 

@@ -21,7 +21,7 @@ export default function Photo({ route, navigation }) {
 
     async function requestPermission() {
         const permissionResult =
-            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            await ImagePicker.requestCameraPermissionsAsync();
         if (permissionResult.granted === false) {
             alertMessage('É preciso permissão para colocar uma foto.');
             return;
@@ -73,7 +73,7 @@ export default function Photo({ route, navigation }) {
             allowsEditing: true,
             quality: 0.5,
         });
-        if (pickerResult.cancelled === true) {
+        if (pickerResult.canceled === true) {
             return;
         }
         handleSaveInfo(pickerResult);
@@ -89,7 +89,7 @@ export default function Photo({ route, navigation }) {
             base64: true,
         });
 
-        if (pickerResult.cancelled === true) {
+        if (pickerResult.canceled === true) {
             return;
         }
         handleSaveInfo(pickerResult);

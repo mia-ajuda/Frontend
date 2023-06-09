@@ -33,7 +33,7 @@ class FirebaseService {
         return await this.firebase.auth().currentUser.getIdToken();
     }
     async getCurrentUser() {
-        return await this.firebase.auth().currentUser;
+        return this.firebase.auth().currentUser;
     }
     async resetUserPassword(email) {
         await this.firebase.auth().sendPasswordResetEmail(email);
