@@ -7,7 +7,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 export const screenOptions = ({ route }) => {
     const renderTabText = (text, style) => <Text style={style}>{text}</Text>;
 
-    return ({
+    return {
         tabBarLabel: ({ focused }) => {
             const commonStyle = {
                 ...fonts.body,
@@ -15,12 +15,12 @@ export const screenOptions = ({ route }) => {
                 fontSize: RFValue(14, 640),
                 width: Dimensions.get('screen').width * 0.3,
                 textAlign: 'center',
-            }
+            };
             const style = focused
                 ? {
-                    ...commonStyle,
-                    fontFamily: 'montserrat-bold',
-                }
+                      ...commonStyle,
+                      fontFamily: 'montserrat-bold',
+                  }
                 : commonStyle;
             return renderTabText(route.name, style);
         },
@@ -35,7 +35,6 @@ export const screenOptions = ({ route }) => {
             backgroundColor: colors.primary.DEFAULT,
             borderRadius: 16,
             padding: 1,
-        }
-
-    });
+        },
+    };
 };

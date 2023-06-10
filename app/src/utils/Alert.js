@@ -45,7 +45,7 @@ function alertMessageEmailVerification(message) {
             },
             style: 'cancel',
         },
-        { text: 'OK', onPress: () => { } },
+        { text: 'OK', onPress: () => {} },
     ]);
 }
 
