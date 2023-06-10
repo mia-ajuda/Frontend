@@ -11,7 +11,7 @@ export default function navigateToDescription(
     const isUserVerified = verifyUserInfo(user);
     const params = [id, ownerId, type, navigation];
 
-    if (isUserVerified) {
+    if (!isUserVerified) {
         handleShowModal(...params);
     } else {
         navigation.navigate('address', {

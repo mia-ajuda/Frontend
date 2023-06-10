@@ -12,6 +12,7 @@ import {
 } from 'expo-location';
 import callService from '../../services/callService';
 import firebaseService from '../../services/Firebase';
+import SessionService from '../../services/Session';
 export const UserContext = createContext();
 
 export const UserContextProvider = (props) => {
@@ -102,6 +103,14 @@ export const UserContextProvider = (props) => {
         return await callService(UserService, 'getAnyUser', [userId]);
     }
 
+    async function logout() {
+        const response = await callService(SessionService, 'signOut');
+        if (response)
+            dispatch({
+                type: actions.user.removeUserInfo,
+            });
+    }
+
     return (
         <UserContext.Provider
             value={{
@@ -114,6 +123,7 @@ export const UserContextProvider = (props) => {
                 editProfile,
                 editAddress,
                 fetchUserInfo,
+                logout,
             }}
         >
             {props.children}

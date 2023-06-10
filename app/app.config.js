@@ -1,4 +1,5 @@
-import { MAPS_API_KEY } from 'react-native-dotenv';
+
+const { MAPS_API_KEY } = process.env;
 
 export default ({ config }) => {
     return {

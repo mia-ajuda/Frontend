@@ -6,7 +6,6 @@ import myRequestedHelp from '../../../pages/ActivitiesPages/MyRequestedHelp';
 import { UserContext } from '../../../store/contexts/userContext';
 import myCampaigns from '../../../pages/ActivitiesPages/MyCampaigns';
 import { screenOptions } from '../screenOptions';
-import tabTopBarOptions from '../../tabTopBarOptions';
 
 const TopTab = createMaterialTopTabNavigator();
 export const NavigationGivenHelps = () => {
@@ -14,7 +13,6 @@ export const NavigationGivenHelps = () => {
     return (
         <TopTab.Navigator
             initialRouteName="Atividades"
-            tabBarOptions={tabTopBarOptions}
             screenOptions={screenOptions}
         >
             {isEntity ? OngGivenHelps() : UserGivenHelps()}

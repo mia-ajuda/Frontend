@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import Constants from 'expo-constants';
 import authConfig from '../config/authmiaajuda-firebase';
 import authConfigDev from '../config/authmiaajuda-firebase-dev';
@@ -32,7 +33,7 @@ class FirebaseService {
         return await this.firebase.auth().currentUser.getIdToken();
     }
     async getCurrentUser() {
-        return await this.firebase.auth().currentUser;
+        return this.firebase.auth().currentUser;
     }
     async resetUserPassword(email) {
         await this.firebase.auth().sendPasswordResetEmail(email);

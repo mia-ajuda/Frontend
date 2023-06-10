@@ -6,8 +6,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, { useEffect } from 'react';
 import { FloatingIconButton } from '../../molecules/FloatingIconButton';
-import { View } from 'native-base';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 
 export const BaseBottomSheet = ({
     bottomSheetRef,

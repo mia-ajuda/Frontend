@@ -1,58 +1,58 @@
-name: submit app to play store
+# name: submit app to play store
 
 
-on :
-  push :
-    branches : [ master ]
+# on :
+#   push :
+#     branches : [ master ]
 
-jobs:
-  submit:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./app
-        
-    steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v3
-      
-      - name: 🏗 Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: yarn
-          cache-dependency-path: app/yarn.lock
+# jobs:
+#   submit:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         shell: bash
+#         working-directory: ./app
 
-      - name: 🏗 Config files
-        run:  |
-              echo "$GOOGLE_SERVICES" > google-services.json
-              echo "$FIREBASE_CONFIG_DEV" > ./src/config/authmiaajuda-firebase-dev.json
-              echo "$FIREBASE_CONFIG" > ./src/config/authmiaajuda-firebase.json
-              echo "$ENV_VARIABLE" > .env
-              echo "$SERVICE_ACCOUNT_KEY" > ./serviceAccountKey.json
-        env: 
-          GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
-          FIREBASE_CONFIG_DEV: ${{ secrets.FIREBASE_CONFIG_DEV }}
-          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-          ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
-          SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+#     steps:
+#       - name: 🏗 Setup repo
+#         uses: actions/checkout@v3
 
-      - name: 🏗 Setup Expo and EAS
-        uses: expo/expo-github-action@v7
-        with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+#       - name: 🏗 Setup node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 16.x
+#           cache: yarn
+#           cache-dependency-path: app/yarn.lock
 
-      - name: 📦 Install dependencies
-        run: yarn install --pure-lockfile --non-interactive
+#       - name: 🏗 Config files
+#         run:  |
+#               echo "$GOOGLE_SERVICES" > google-services.json
+#               echo "$FIREBASE_CONFIG_DEV" > ./src/config/authmiaajuda-firebase-dev.json
+#               echo "$FIREBASE_CONFIG" > ./src/config/authmiaajuda-firebase.json
+#               echo "$ENV_VARIABLE" > .env
+#               echo "$SERVICE_ACCOUNT_KEY" > ./serviceAccountKey.json
+#         env:
+#           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
+#           FIREBASE_CONFIG_DEV: ${{ secrets.FIREBASE_CONFIG_DEV }}
+#           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+#           ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
+#           SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
-      - name: 📦 Build prod aab by expo build
-        run: expo build:android -t app-bundle --release-channel=prod --non-interactive
+#       - name: 🏗 Setup Expo and EAS
+#         uses: expo/expo-github-action@v7
+#         with:
+#           expo-version: latest
+#           eas-version: latest
+#           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 📦 Retrieve last build url version
-        run: echo "BUILD_URL=$(expo url:apk)" >> $GITHUB_ENV
-      
-      - name: 📦 Submit latest aab build to play store as production app
-        run: eas submit -p android --url ${{ env.BUILD_URL }}
+#       - name: 📦 Install dependencies
+#         run: yarn install --pure-lockfile --non-interactive
+
+#       - name: 📦 Build prod aab by expo build
+#         run: expo build:android -t app-bundle --release-channel=prod --non-interactive
+
+#       - name: 📦 Retrieve last build url version
+#         run: echo "BUILD_URL=$(expo url:apk)" >> $GITHUB_ENV
+
+#       - name: 📦 Submit latest aab build to play store as production app
+#         run: eas submit -p android --url ${{ env.BUILD_URL }}
