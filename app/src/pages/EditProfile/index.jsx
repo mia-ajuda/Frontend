@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { TextSwitch } from '../../components/molecules/TextSwitch';
 import { PersonalDataForm } from '../../components/organisms/PersonalDataForm';
 import { UserContext } from '../../store/contexts/userContext';
@@ -10,7 +10,6 @@ import actions from '../../store/actions';
 import { AddressForm } from '../../components/organisms/AddressForm';
 import { ProfilePhoto } from '../../components/molecules/ProfilePhoto';
 import { DefaultCamera } from '../../components/organisms/DefaultCamera';
-import { View } from 'react-native';
 import { Camera } from 'expo-camera';
 
 export const EditProfile = () => {
