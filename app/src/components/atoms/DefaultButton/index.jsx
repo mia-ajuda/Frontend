@@ -16,6 +16,8 @@ export const DefaultButton = ({
         lg: 'py-3',
     };
 
+    const disabledStyle = disabled && 'opacity-70';
+
     const variantStyle = {
         transparent: {
             pressableStyle: 'bg-transparent',
@@ -37,7 +39,7 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`w-full rounded-md bg-primary ${variantPressableStyle} ${buttonSize[size]}`}
+            className={`w-full rounded-md bg-primary ${variantPressableStyle} ${buttonSize[size]} ${disabledStyle}`}
             disabled={disabled}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.contrast,

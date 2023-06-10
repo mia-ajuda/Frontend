@@ -1,19 +1,19 @@
-const filterButtonTypes = {
-    Pedidos: {
-        id: 1,
+const filterButtonTypes = [
+    {
+        _id: 1,
+        name: 'Pedidos',
         isEnabled: false,
-        iconName: 'exclamation',
     },
-    Ofertas: {
-        id: 2,
+    {
+        _id: 2,
+        name: 'Ofertas',
         isEnabled: false,
-        iconName: 'hand-holding-heart',
     },
-    Campanhas: {
-        id: 3,
+    {
+        _id: 3,
+        name: 'Campanhas',
         isEnabled: false,
-        iconName: 'home',
     },
-};
+];
 
 export default filterButtonTypes;

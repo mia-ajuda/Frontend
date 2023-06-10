@@ -9,35 +9,35 @@ export const Chips = ({
     onPress,
     elevated = false,
     type,
-    color = 'bg-white',
     customStyle,
+    disabled = false,
 }) => {
-    const [shouldIconAppears, setShouldIconAppears] = useState(type == 'filter' ? false : icon != null);
-    const [chipColor, setChipColor] = useState(color);
+    const [isSelected, setIsSelected] = useState(false);
+    const chipColor = isSelected ? 'bg-secondary-500 border-0' : 'bg-white';
+    const elevatedStyle = elevated && 'shadow shadow-black';
+    const disabledStyle = disabled && 'opacity-30';
+    const shouldIconAppears =
+        icon && ((type == 'filter' && isSelected) || type == 'button');
 
     const variantsAction = {
         button: () => onPress(),
         filter: () => {
-            onPress(),
-            setChipColor(
-                chipColor == 'bg-white' ? 'bg-primary-contrast' : 'bg-white',
-            );
-            setShouldIconAppears(!shouldIconAppears);
+            onPress();
+            setIsSelected(!isSelected);
         },
     };
 
     return (
         <Pressable
             onPress={variantsAction[type]}
-            className={`px-4 py-2 ${
-                elevated && 'shadow shadow-black'
-            } ${customStyle} ${chipColor} flex-row rounded-lg items-center`}
+            className={`px-3 py-2 ${customStyle} ${chipColor} ${disabledStyle} ${elevatedStyle} flex-row rounded-lg items-center`}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
             }}
+            disabled={disabled}
         >
             {shouldIconAppears && icon && <Icon name={icon} size={16} />}
-            <Text className="font-ms-bold text-xs">{title}</Text>
+            <Text className="font-ms-semibold text-xs">{title}</Text>
         </Pressable>
     );
 };

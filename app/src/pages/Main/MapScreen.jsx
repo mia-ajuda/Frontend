@@ -14,15 +14,45 @@ import { FloatingIconButton } from '../../components/molecules/FloatingIconButto
 import { ActivityCard } from '../../components/organisms/ActivityCard';
 import { Chips } from '../../components/atoms/Chips';
 import { AcitivitiesFilterModal } from '../../components/modals/ActivitiesFilterModal';
+import { CategoryContext } from '../../store/contexts/categoryContext';
+import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
+import { LoadingContext } from '../../store/contexts/loadingContext';
 
 export default function MapScreen({ route, navigation }) {
-    const { allActivities } = route.params;
+    const { helpList, helpOfferList, campaignList } = route.params;
     const { userPosition } = useContext(UserContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
+    const { filterCategories } = useContext(CategoryContext);
+    const { setIsLoading } = useContext(LoadingContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
     const [selectedActivities, setSelectedActivities] = useState([]);
+    const [activities, setActivities] = useState(
+        sortActivitiesByDistance({
+            helpList,
+            helpOfferList,
+            campaignList,
+            limit: false,
+        }),
+    );
+
+    const markersStrategy = {
+        1: helpList,
+        2: helpOfferList,
+        3: campaignList,
+    };
+
+    useEffect(() => {
+        if (filterCategories && selectedActivities.length > 0) {
+            setIsLoading(true);
+            const filteredCategories = selectedActivities.map((activity) => {
+                return markersStrategy[activity];
+            });
+            setActivities(filteredCategories);
+            setIsLoading(false);
+        }
+    }, [selectedActivities]);
 
     useEffect(() => {
         setUseSafeAreaView(false);
@@ -78,7 +108,7 @@ export default function MapScreen({ route, navigation }) {
                 animateToRegion={focusedCardLocation}
                 showsMyLocationButton={false}
             >
-                {allActivities.map((activity, i) => {
+                {activities.map((activity, i) => {
                     const focused = visibleItemData?._id == activity._id;
                     return (
                         <ActivityMarker
@@ -111,7 +141,7 @@ export default function MapScreen({ route, navigation }) {
                     />
                 </View>
                 <FlatList
-                    data={allActivities}
+                    data={activities}
                     keyExtractor={(item) => item._id}
                     horizontal
                     pagingEnabled

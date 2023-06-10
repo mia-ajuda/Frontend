@@ -25,8 +25,6 @@ import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
 export default function Main({ navigation, route }) {
     const [region, setRegion] = useState(null);
     const [helpListVisible, setHelpListVisible] = useState(false);
-    const [filterModalVisible, setFilterModalVisible] = useState(false);
-    const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
@@ -198,7 +196,7 @@ export default function Main({ navigation, route }) {
     };
 
     const renderCards = ({ item, index }) => (
-        <View className={`mt-2 h-44 w-[300]`}>
+        <View className="mt-2 h-44 w-[300]">
             <ActivityCard
                 key={item._id}
                 variant={item.type}
@@ -244,7 +242,9 @@ export default function Main({ navigation, route }) {
                         className="text-primary font-ms-bold"
                         onPress={() =>
                             navigation.navigate('mapScreen', {
-                                allActivities,
+                                helpList,
+                                helpOfferList,
+                                campaignList,
                                 focusedCardLocation,
                                 visibleItemData,
                             })

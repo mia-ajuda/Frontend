@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { BaseBottomSheet } from '../BaseBottomSheet';
 import { Dimensions, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -36,60 +36,64 @@ export const AcitivitiesFilterModal = ({
     } = useContext(CategoryContext);
     const { height } = Dimensions.get('window');
     const isBigPhone = height > 720;
+    const [inputedActivities, setInputedActivities] = useState([]);
+    const [inputedCategories, setInputedCategories] = useState([]);
 
-    const selectableChipsAction = (id, list, type) => {
-        const isCategory = type === 'categorias';
-        if (list.includes(id)) {
-            const removeId = list.filter((idFromState) => idFromState !== id);
-            isCategory
-                ? setSelectedCategories(removeId)
-                : setSelectedActivities(removeId);
-        } else {
-            isCategory
-                ? setSelectedCategories([...list, id])
-                : setSelectedActivities([...list, id]);
-        }
+    const removeFromState = (id, list, setter) => {
+        const removeId = list.filter((idFromState) => idFromState !== id);
+        setter(removeId);
     };
 
-    const mapChips = (list) => {
-        const isArray = Array.isArray(list);
-        const customStyle = 'mt-2 mr-2 border border-gray-500';
+    const chipsSelection = (id, list, setter) => {
+        if (list.includes(id)) removeFromState(id, list, setter);
+        else setter([...list, id]);
+    };
 
+    const filterButtonAction = () => {
+        setSelectedActivities(inputedActivities);
+        setSelectedCategories(inputedCategories);
+        setFilterCategories(true);
+        handleCloseModal();
+    };
+
+    const mapChips = (list, type) => {
         return (
             <View className="flex-row flex-wrap">
-                {isArray
-                    ? list.map((category, index) => (
-                          <Chips
-                              title={category.name}
-                              key={index + category._id}
-                              customStyle={customStyle}
-                              type="filter"
-                              icon="check"
-                              onPress={() =>
-                                  selectableChipsAction(
-                                      category._id,
-                                      selectedCategories,
-                                      'categorias',
-                                  )
-                              }
-                          />
-                      ))
-                    : Object.keys(list).map((activity, index) => (
-                          <Chips
-                              title={activity}
-                              key={index + activity}
-                              customStyle={customStyle}
-                              type="filter"
-                              icon="check"
-                              onPress={() =>
-                                  selectableChipsAction(
-                                      list[activity].id,
-                                      selectedActivities,
-                                      'atividades',
-                                  )
-                              }
-                          />
-                      ))}
+                {list.map((activity, index) => {
+                    const isDisabled =
+                        type === 'categorias' &&
+                        inputedCategories.length >= 3 &&
+                        !inputedCategories.includes(activity._id);
+
+                    const isSelected =
+                        list.includes(activity._id) ||
+                        selectedActivities.includes(activity._id) ||
+                        selectedCategories.includes(activity._id);
+                    return (
+                        <Chips
+                            title={activity.name}
+                            key={index + activity._id}
+                            customStyle="mt-2 mr-2 border border-gray-500"
+                            type="filter"
+                            icon="check"
+                            onPress={() =>
+                                type == 'categorias'
+                                    ? chipsSelection(
+                                          activity._id,
+                                          inputedCategories,
+                                          setInputedCategories,
+                                      )
+                                    : chipsSelection(
+                                          activity._id,
+                                          inputedActivities,
+                                          setInputedActivities,
+                                      )
+                            }
+                            disabled={isDisabled}
+                            isSelected={isSelected}
+                        />
+                    );
+                })}
             </View>
         );
     };
@@ -106,18 +110,18 @@ export const AcitivitiesFilterModal = ({
             </Text>
             <ViewWithDivider>
                 {filterTitle('Atividades', 'local-activity')}
-                {mapChips(filterButtonTypes)}
+                {mapChips(filterButtonTypes, 'atividades')}
             </ViewWithDivider>
             <ViewWithDivider>
-                {filterTitle('Categorias', 'category')}
-                {mapChips(categories)}
+                {filterTitle('Categorias (Até 3)', 'category')}
+                {mapChips(categories, 'categorias')}
             </ViewWithDivider>
             <DefaultButton
                 title="Aplicar"
-                onPress={() => setFilterCategories(true)}
+                onPress={filterButtonAction}
                 disabled={
-                    selectedCategories.length <= 0 &&
-                    selectedActivities.length <= 0
+                    inputedCategories.length <= 0 &&
+                    inputedActivities.length <= 0
                 }
             />
         </BaseBottomSheet>
