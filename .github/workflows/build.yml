@@ -1,70 +1,70 @@
-name: expo publish
+# name: expo publish
 
 
-on :
-  push :
-    branches : [ develop ]
-  pull_request:
-    types: [opened, synchronize]
+# on :
+#   push :
+#     branches : [ develop ]
+#   pull_request:
+#     types: [opened, synchronize]
 
-concurrency:
-  group: publish-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: publish-${{ github.ref }}
+#   cancel-in-progress: true
 
-jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./app
-        
-    steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v3
-      
-      - name: 🏗 Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14.x
-          cache: yarn
-          cache-dependency-path: app/yarn.lock
+# jobs:
+#   build-deploy:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         shell: bash
+#         working-directory: ./app
 
-      - name: 🏗 Config files
-        run:  |
-              echo "$GOOGLE_SERVICES" > google-services.json
-              echo "$FIREBASE_CONFIG_DEV" > ./src/config/authmiaajuda-firebase-dev.json
-              echo "$FIREBASE_CONFIG" > ./src/config/authmiaajuda-firebase.json
-              echo "$ENV_VARIABLE" > .env
-        env: 
-          GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
-          FIREBASE_CONFIG_DEV: ${{ secrets.FIREBASE_CONFIG_DEV }}
-          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-          ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
+#     steps:
+#       - name: 🏗 Setup repo
+#         uses: actions/checkout@v3
 
-      - name: 🏗 Setup Expo
-        uses: expo/expo-github-action@v7
-        with:
-          expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+#       - name: 🏗 Setup node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 14.x
+#           cache: yarn
+#           cache-dependency-path: app/yarn.lock
 
-      - name: 📦 Install dependencies
-        run: yarn install --pure-lockfile --non-interactive
+#       - name: 🏗 Config files
+#         run:  |
+#               echo "$GOOGLE_SERVICES" > google-services.json
+#               echo "$FIREBASE_CONFIG_DEV" > ./src/config/authmiaajuda-firebase-dev.json
+#               echo "$FIREBASE_CONFIG" > ./src/config/authmiaajuda-firebase.json
+#               echo "$ENV_VARIABLE" > .env
+#         env:
+#           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
+#           FIREBASE_CONFIG_DEV: ${{ secrets.FIREBASE_CONFIG_DEV }}
+#           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+#           ENV_VARIABLE: ${{ secrets.ENV_VARIABLE }}
 
-      - name: 📦 Run lint
-        run: yarn lint
+#       - name: 🏗 Setup Expo
+#         uses: expo/expo-github-action@v7
+#         with:
+#           expo-version: latest
+#           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 📦 Publish staging
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
-        run: expo publish --release-channel=staging --non-interactive
+#       - name: 📦 Install dependencies
+#         run: yarn install --pure-lockfile --non-interactive
 
-      - name: 📦 Publish preview
-        if: ${{ github.event_name == 'pull_request' }}
-        run: expo publish --release-channel=pr-${{ github.event.number }}
+#       - name: 📦 Run lint
+#         run: yarn lint
 
-      - name: 📦 Comment preview
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: expo/expo-github-action/preview-comment@v7
-        with:
-          project: app
-          channel: pr-${{ github.event.number }}
+#       - name: 📦 Publish staging
+#         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+#         run: expo publish --release-channel=staging --non-interactive
+
+#       - name: 📦 Publish preview
+#         if: ${{ github.event_name == 'pull_request' }}
+#         run: expo publish --release-channel=pr-${{ github.event.number }}
+
+#       - name: 📦 Comment preview
+#         if: ${{ github.event_name == 'pull_request' }}
+#         uses: expo/expo-github-action/preview-comment@v7
+#         with:
+#           project: app
+#           channel: pr-${{ github.event.number }}

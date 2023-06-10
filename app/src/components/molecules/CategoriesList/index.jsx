@@ -1,6 +1,6 @@
 import React from 'react';
 import Badge from '../Badge';
-import { View } from 'native-base';
+import { View } from 'react-native';
 
 export const CategoriesList = ({
     categories,

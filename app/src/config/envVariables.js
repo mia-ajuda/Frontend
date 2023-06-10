@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { IP_ADDRESS, HOMOLOG_API } from 'react-native-dotenv';
+import { IP_ADDRESS, HOMOLOG_API } from '@env';
 
 const prodUrl = 'http://164.41.92.25:8000/';
 const homologUrl = `https://${HOMOLOG_API}/`;

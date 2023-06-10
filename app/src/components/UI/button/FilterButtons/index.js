@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../../../../assets/styles/colorVariables';
 import filterButtonTypes from '../../../../docs/filterMarkers';
+import { Icon } from 'react-native-elements';
 
 export default function FilterButtons({
     setSelectedMarkerType,
@@ -53,14 +53,15 @@ export default function FilterButtons({
                                 : styles.info
                         }
                     >
-                        <FontAwesome5
+                        <Icon
                             name={filterButton.iconName}
-                            size={45}
+                            type={filterButton.type}
                             color={
                                 selectedFilters.includes(filterButton.id)
                                     ? colors.light
                                     : colors.primary
                             }
+                            size={45}
                         />
                         <Text
                             style={

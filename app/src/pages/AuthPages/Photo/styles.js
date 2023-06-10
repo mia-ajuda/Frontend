@@ -1,14 +1,10 @@
 import { StyleSheet } from 'react-native';
 import fonts from '../../../../assets/styles/fontVariable';
-import colors from '../../../../assets/styles/colorVariables';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         paddingVertical: 20,
-        backgroundColor: colors.light,
     },
     logo: {
         flex: 1,

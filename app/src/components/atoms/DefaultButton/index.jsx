@@ -11,6 +11,7 @@ export const DefaultButton = ({
     icon,
     variant = 'primary',
     size = 'w-full',
+    margin = '',
 }) => {
     const variantStyle = {
         transparent: {
@@ -36,7 +37,7 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`flex-row items-center justify-center ${size} py-3 rounded-md bg-primary ${pressableStyle}`}
+            className={`flex-row items-center justify-center ${size} py-3 rounded-md bg-primary ${pressableStyle} ${margin}`}
             disabled={disabled}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.contrast,

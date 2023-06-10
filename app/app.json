@@ -3,7 +3,7 @@
         "name": "Mia Ajuda",
         "slug": "miaajuda",
         "privacy": "public",
-        "platforms": ["android"],
+        "platforms": ["android", "ios"],
         "notification": {
             "icon": "./assets/images/logo.png",
             "color": "#4b8ab9",
@@ -22,7 +22,8 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.miaajuda.app"
         },
         "packagerOpts": {
             "config": "metro.config.js",
