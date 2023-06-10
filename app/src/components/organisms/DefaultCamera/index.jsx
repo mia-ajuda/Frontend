@@ -9,7 +9,7 @@ export const DefaultCamera = ({
     photo,
     setPhoto,
     handleSubmitPhoto,
-    preview = false
+    preview = false,
 }) => {
     const renderCamera = () => (
         <>
@@ -21,7 +21,11 @@ export const DefaultCamera = ({
                     ref={cameraRef}
                 />
             </View>
-            <DefaultButton title="Tirar foto" onPress={handleTakePicture} />
+            <DefaultButton
+                title="Tirar foto"
+                onPress={handleTakePicture}
+                margin="mt-4"
+            />
         </>
     );
 
@@ -52,7 +56,7 @@ export const DefaultCamera = ({
     );
 
     return (
-        <View className="flex-1 items-center">
+        <View className="flex-1 items-center py-8 px-4">
             {photo && preview ? renderPhotoPreview() : renderCamera()}
         </View>
     );
