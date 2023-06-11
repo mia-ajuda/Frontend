@@ -32,7 +32,7 @@ export const BadgeEarnModal = ({
             });
     };
 
-    const message = badgeMessages[badge.category][badge.rank];
+    const message = `Parabéns, ${badgeMessages[badge.category][badge.rank]} `;
     const title = badge.rank == 1 ? 'Nova Conquista' : 'Novo Nível';
 
     return (
@@ -48,8 +48,8 @@ export const BadgeEarnModal = ({
                         {title}
                     </Text>
                     <Text className="text-base font-ms-regular text-black text-center leading-4 mb-2">
-                        {`Parabéns, ${message} `}{' '}
-                        <Text className="font-ms-bold">"{badge?.name}"</Text>
+                        {message}
+                        <Text className="font-ms-bold">{badge?.name}</Text>
                     </Text>
                     <Button title="Continuar" large press={handleContinue} />
                 </View>

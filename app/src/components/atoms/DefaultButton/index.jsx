@@ -1,11 +1,14 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
 import tailwindConfig from '../../../../tailwind.config';
+import { Icon } from 'react-native-elements';
+import colors from '../../../../colors';
 
 export const DefaultButton = ({
     title,
     onPress,
     disabled,
+    icon,
     variant = 'primary',
     size = 'lg',
 }) => {
@@ -22,10 +25,17 @@ export const DefaultButton = ({
         transparent: {
             pressableStyle: 'bg-transparent',
             textStyle: 'text-black',
+            iconColor: colors.black.DEFAULT,
         },
         primary: {
             pressableStyle: 'bg-primary',
             textStyle: 'text-light',
+            iconColor: colors.light,
+        },
+        secondary: {
+            pressableStyle: 'bg-white',
+            textStyle: 'text-black',
+            iconColor: colors.black.DEFAULT,
         },
         elevated: {
             pressableStyle: 'bg-white shadow-md shadow-black',
@@ -33,20 +43,28 @@ export const DefaultButton = ({
         },
     };
 
-    const variantPressableStyle = variantStyle[variant].pressableStyle;
-    const variantTextStyle = variantStyle[variant].textStyle;
+    let { pressableStyle, textStyle, iconColor } = variantStyle[variant];
+    textStyle = icon ? `${textStyle} ml-1` : textStyle;
 
     return (
         <Pressable
             onPress={onPress}
-            className={`w-full rounded-md bg-primary ${variantPressableStyle} ${buttonSize[size]} ${disabledStyle}`}
+            className={`w-full rounded-md bg-primary ${pressableStyle} ${buttonSize[size]} ${disabledStyle}`}
             disabled={disabled}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.contrast,
             }}
         >
+            {icon && (
+                <Icon
+                    name={icon.name}
+                    type={icon.type}
+                    color={iconColor}
+                    size={20}
+                />
+            )}
             <Text
-                className={`text-center text-light font-ms-semibold text-lg ${variantTextStyle}`}
+                className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
             >
                 {title}
             </Text>

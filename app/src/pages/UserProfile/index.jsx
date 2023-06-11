@@ -12,6 +12,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { BadgesList } from '../../components/organisms/BadgesList';
 import { useFocusEffect } from '@react-navigation/core';
 import { BordedScreenLayout } from '../../components/templates/BordedScreenLayout';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 
 export const UserProfile = ({
     route,
@@ -26,6 +28,9 @@ export const UserProfile = ({
     const { getUserProfile, getActivities } = useContext(
         SocialNetworkProfileContext,
     );
+
+    const { showActivityModal, activityInfo, setShowActivityModal } =
+        useContext(ActivityBottomSheetContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user, isEntity } = useContext(UserContext);
     const { getUserBadges } = useContext(BadgeContext);
@@ -132,13 +137,24 @@ export const UserProfile = ({
                     <DescriptionBox title="Biografia" description={biography} />
                     {renderActivityTitle()}
                     {showActivities && (
-                        <ActivitiesList activities={activities} />
+                        <ActivitiesList
+                            activities={activities}
+                            userId={userId}
+                        />
                     )}
                     {!isEntity && showBadges && (
                         <BadgesList badges={badges} userId={userId} />
                     )}
                 </BordedScreenLayout>
             </View>
+            {showActivityModal && (
+                <ActivityBottomSheet
+                    navigation={navigation}
+                    isRiskGroup={false}
+                    setShowModal={setShowActivityModal}
+                    selectedActivity={activityInfo}
+                />
+            )}
         </ScrollView>
     );
 };

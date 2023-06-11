@@ -5,7 +5,6 @@ import styles from './styles';
 import { UserContext } from '../../../store/contexts/userContext';
 
 import Button from '../../../components/UI/button';
-import ConfirmationModal from '../../../components/modals/confirmationModal';
 import showWarningFor from '../../../utils/warningPopUp';
 import { userPositionWarningMessage } from '../../../docs/warning';
 import texts from './texts.json';
@@ -16,6 +15,7 @@ import callService from '../../../services/callService';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { BadgeContext } from '../../../store/contexts/badgeContext';
 import { alertSuccess } from '../../../utils/Alert';
+import { Dialog } from '../../../components/molecules/Dialog';
 export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
 
@@ -121,11 +121,14 @@ export default function Location({ route }) {
                 />
             </View>
 
-            <ConfirmationModal
-                message={texts[requestType].confirmPosition}
-                visible={confirmationModalVisible && !isLoading}
-                setVisible={setConfirmationModalVisible}
-                action={confirmPosition}
+            <Dialog
+                isVisible={confirmationModalVisible && !isLoading}
+                title="Confirmar localização?"
+                description={texts[requestType].confirmPosition}
+                cancelText="Não"
+                confirmText="Sim"
+                onCloseDialog={() => setConfirmationModalVisible(false)}
+                onConfirmPress={confirmPosition}
             />
         </>
     );

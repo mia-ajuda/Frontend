@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import callService from '../../../services/callService';
 import { styles } from './styles';
-import SessionService from '../../../services/Session';
 import shortenName from '../../../utils/shortenName';
 import { ProfilePhoto } from '../ProfilePhoto';
+import { UserContext } from '../../../store/contexts/userContext';
 
 export const UserCard = ({ name, email, photo }) => {
+    const { logout } = useContext(UserContext);
     const handleLogout = async () => {
-        await callService(SessionService, 'signOut');
+        await logout();
     };
 
     return (

@@ -3,14 +3,16 @@ import { Pressable, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
-import navigateToDescription from '../../../utils/navigateToDescription';
-import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
-import { UserContext } from '../../../store/contexts/userContext';
-import { useNavigation } from '@react-navigation/native';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
 import getActivityIcon from '../../../utils/getActivityIcon';
 import SeedlingIcon from '../../../../assets/images/Seedling';
 import isRecentDate from '../../../utils/isRecentDate';
+import { UserContext } from '../../../store/contexts/userContext';
+import { useNavigation } from '@react-navigation/native';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
+import navigateToDescription from '../../../utils/navigateToDescription';
+import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
+import navigateToMyActivity from '../../../utils/navigateToMyActivity';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 
 export const ActivityCard = ({
     variant,
@@ -22,12 +24,15 @@ export const ActivityCard = ({
     count,
     id,
     creationDate,
+    ownerId,
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
+    const { handleShowModal } = useContext(ActivityBottomSheetContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { user } = useContext(UserContext);
     const navigation = useNavigation();
     const isNewActivity = isRecentDate(creationDate);
+    const isTheSameUser = user._id == ownerId;
 
     const activitiesVariants = {
         help: {
@@ -49,18 +54,29 @@ export const ActivityCard = ({
             : tailwindConfig.theme.extend.colors.primary[400],
     };
 
-    const handleClick = async () => {
-        setIsLoading(true);
-        const activity = await getActitivtieById(variant, id);
-        setIsLoading(false);
-        if (!activity.error)
-            navigateToDescription(user, navigation, activity, variant);
+    const handlePress = async () => {
+        if (!isTheSameUser) {
+            navigateToDescription(
+                user,
+                navigation,
+                id,
+                ownerId,
+                variant,
+                handleShowModal,
+            );
+        } else {
+            setIsLoading(true);
+            const activity = await getActitivtieById(variant, id);
+            setIsLoading(false);
+            if (!activity.error)
+                navigateToMyActivity(navigation, activity, variant);
+        }
     };
 
     return (
         <Pressable
             className="rounded-2xl shadow-md shadow-black p-4 mr-2 bg-white w-72 h-40"
-            onPress={handleClick}
+            onPress={handlePress}
             android_ripple={{
                 color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
             }}

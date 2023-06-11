@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import colors from '../../../../colors';
 
 export const Input = ({
     value,
@@ -29,9 +30,11 @@ export const Input = ({
 
     const selectedMaskOption = (mask && maskOptions[mask]) || {};
 
-    const disabledStyle = `border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium`;
+    const disabledStyle =
+        'border border-gray rounded-md bg-background py-2 px-4 text-black font-ms-medium';
 
-    const enabledStyle = `border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium`;
+    const enabledStyle =
+        'border border-gray rounded-md bg-white py-2 px-4 text-black font-ms-medium';
 
     const style = disabled ? disabledStyle : enabledStyle;
     const inputProps = {
@@ -39,6 +42,8 @@ export const Input = ({
         onChangeText: setValue,
         placeholder: placeholder,
         editable: !disabled,
+        placeholderTextColor: colors.black[300],
+        style: { textAlignVertical: 'top' },
     };
 
     return (
