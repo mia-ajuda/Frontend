@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import { Pressable, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import tailwindConfig from '../../../../tailwind.config';
+import colors from '../../../../colors';
 
 export const Chips = ({
     title,
     icon,
+    hiddenIcon = false,
     onPress,
     elevated = false,
     type,
     customStyle,
     disabled = false,
+    selected = false,
 }) => {
     const [isSelected, setIsSelected] = useState(false);
-    const chipColor = isSelected ? 'bg-secondary-500 border-0' : 'bg-white';
+    const chipColor =
+        isSelected || selected ? 'bg-secondary-500 border-0' : 'bg-white';
     const elevatedStyle = elevated && 'shadow shadow-black';
     const disabledStyle = disabled && 'opacity-30';
-    const shouldIconAppears =
-        icon && ((type == 'filter' && isSelected) || type == 'button');
+    const childrenOrder = type == 'input' ? 'flex-row-reverse' : 'flex-row';
 
     const variantsAction = {
         button: () => onPress(),
+        input: () => onPress(),
         filter: () => {
             onPress();
             setIsSelected(!isSelected);
@@ -30,13 +33,15 @@ export const Chips = ({
     return (
         <Pressable
             onPress={variantsAction[type]}
-            className={`px-3 py-2 ${customStyle} ${chipColor} ${disabledStyle} ${elevatedStyle} flex-row rounded-lg items-center`}
+            className={`px-3 py-2 ${customStyle} ${chipColor} ${disabledStyle} ${elevatedStyle} ${childrenOrder} rounded-lg items-center`}
             android_ripple={{
-                color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
+                color: colors.gray.DEFAULT,
             }}
             disabled={disabled}
         >
-            {shouldIconAppears && icon && <Icon name={icon} size={16} />}
+            {(!hiddenIcon || isSelected) && icon && (
+                <Icon name={icon} size={16} />
+            )}
             <Text className="font-ms-semibold text-xs">{title}</Text>
         </Pressable>
     );

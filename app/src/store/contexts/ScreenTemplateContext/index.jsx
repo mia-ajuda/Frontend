@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useState } from 'react';
 import { styles } from './styles';
 import { StatusBar, View } from 'react-native';
-import tailwindConfig from '../../../../tailwind.config';
+import colors from '../../../../colors';
 
 export const ScreenTemplateContext = createContext({});
 
@@ -17,9 +17,7 @@ export const ScreenTemplateContextProvider = ({ children }) => {
     return (
         <ScreenTemplateContext.Provider value={contextValue}>
             <StatusBar
-                backgroundColor={
-                    tailwindConfig.theme.extend.colors.new_background
-                }
+                backgroundColor={colors.new_background}
                 barStyle={'dark-content'}
                 translucent
             />
