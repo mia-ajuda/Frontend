@@ -5,9 +5,8 @@ import React, {
     Fragment,
     useRef,
 } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Pressable } from 'react-native';
 import { Icon } from 'react-native-elements';
-import colors from '../../../assets/styles/colorVariables';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { CampaignContext } from '../../store/contexts/campaignContext';
@@ -21,6 +20,7 @@ import { DefaultButton } from '../../components/atoms/DefaultButton';
 import { firstName } from '../../utils/shortenName';
 import { ActivityCard } from '../../components/organisms/ActivityCard';
 import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
+import colors from '../../../colors';
 
 export default function Main({ navigation, route }) {
     const [region, setRegion] = useState(null);
@@ -238,20 +238,15 @@ export default function Main({ navigation, route }) {
                     <Text className="text-black text-lg font-ms-bold">
                         Próximos a você
                     </Text>
-                    <Text
-                        className="text-primary font-ms-bold"
-                        onPress={() =>
-                            navigation.navigate('mapScreen', {
-                                helpList,
-                                helpOfferList,
-                                campaignList,
-                                focusedCardLocation,
-                                visibleItemData,
-                            })
-                        }
+                    <Pressable
+                        onPress={() => navigation.navigate('mapScreen')}
+                        android_ripple={{ color: colors.gray.DEFAULT }}
+                        className="p-1"
                     >
-                        VER MAIS
-                    </Text>
+                        <Text className="text-primary font-ms-bold">
+                            VER MAIS
+                        </Text>
+                    </Pressable>
                 </View>
                 <FlatList
                     data={activitiesList}

@@ -1,5 +1,6 @@
 import React, {
     Fragment,
+    useCallback,
     useContext,
     useEffect,
     useRef,
@@ -16,43 +17,69 @@ import { Chips } from '../../components/atoms/Chips';
 import { AcitivitiesFilterModal } from '../../components/modals/ActivitiesFilterModal';
 import { CategoryContext } from '../../store/contexts/categoryContext';
 import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
+import { useFocusEffect } from '@react-navigation/native';
+import { CampaignContext } from '../../store/contexts/campaignContext';
+import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
+import { HelpContext } from '../../store/contexts/helpContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 
-export default function MapScreen({ route, navigation }) {
-    const { helpList, helpOfferList, campaignList } = route.params;
+export default function MapScreen({ navigation }) {
+    const { campaignList } = useContext(CampaignContext);
+    const { helpOfferList } = useContext(HelpOfferContext);
     const { userPosition } = useContext(UserContext);
-    const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
-    const { filterCategories } = useContext(CategoryContext);
     const { setIsLoading } = useContext(LoadingContext);
+    const { helpList } = useContext(HelpContext);
+    const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
+    const { filterCategories, selectedCategories, setSelectedCategories } =
+        useContext(CategoryContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
     const [selectedActivities, setSelectedActivities] = useState([]);
-    const [activities, setActivities] = useState(
-        sortActivitiesByDistance({
-            helpList,
-            helpOfferList,
-            campaignList,
-            limit: false,
-        }),
-    );
+    const [activities, setActivities] = useState([]);
 
     const markersStrategy = {
-        1: helpList,
-        2: helpOfferList,
-        3: campaignList,
+        1: {
+            name: 'helpList',
+            value: helpList,
+        },
+        2: {
+            name: 'helpOfferList',
+            value: helpOfferList,
+        },
+        3: {
+            name: 'campaignList',
+            value: campaignList,
+        },
     };
 
-    useEffect(() => {
-        if (filterCategories && selectedActivities.length > 0) {
-            setIsLoading(true);
-            const filteredCategories = selectedActivities.map((activity) => {
-                return markersStrategy[activity];
-            });
-            setActivities(filteredCategories);
-            setIsLoading(false);
-        }
-    }, [selectedActivities]);
+    useFocusEffect(
+        useCallback(() => {
+            if (filterCategories && selectedActivities.length > 0) {
+                setIsLoading(true);
+                const argObj = {
+                    limit: false,
+                };
+
+                selectedActivities.forEach((key) => {
+                    const expectedKey = markersStrategy[key].name;
+                    argObj[expectedKey] = markersStrategy[key].value;
+                });
+
+                setActivities(sortActivitiesByDistance(argObj));
+                setIsLoading(false);
+            } else {
+                setActivities(
+                    sortActivitiesByDistance({
+                        helpList,
+                        helpOfferList,
+                        campaignList,
+                        limit: false,
+                    }),
+                );
+            }
+        }, [selectedActivities]),
+    );
 
     useEffect(() => {
         setUseSafeAreaView(false);
@@ -65,6 +92,19 @@ export default function MapScreen({ route, navigation }) {
     const goBackButtonAction = () => {
         setUseSafeAreaView(false);
         navigation.goBack();
+    };
+
+    const clearFilterSelection = () => {
+        setSelectedActivities([]);
+        setSelectedCategories([]);
+        setActivities(
+            sortActivitiesByDistance({
+                helpList,
+                helpOfferList,
+                campaignList,
+                limit: false,
+            }),
+        );
     };
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
@@ -95,6 +135,8 @@ export default function MapScreen({ route, navigation }) {
             />
         </View>
     );
+
+    const memoizedFlatListItem = useCallback(renderCards, [activities]);
 
     return (
         <Fragment>
@@ -128,20 +170,31 @@ export default function MapScreen({ route, navigation }) {
                 color="bg-white"
                 onPress={goBackButtonAction}
             />
-            <View className="absolute bottom-3 left-4">
-                <View className="w-24 items-center">
+            <View className="absolute bottom-3 left-4 mr-4">
+                <View className="flex-row mr-2">
                     <Chips
                         title="Filtrar"
-                        bgColor="bg-white"
                         icon="filter-list"
                         elevated
-                        color="bg-white"
+                        customStyle="w-20 justify-center ml-1"
                         type="button"
                         onPress={() => setShouldRenderFilter(true)}
                     />
+                    {(selectedActivities.length > 0 ||
+                        selectedCategories.length > 0) && (
+                        <Chips
+                            title="Limpar filtro"
+                            elevated
+                            icon="close"
+                            customStyle="w-28 justify-center ml-auto"
+                            type="input"
+                            onPress={clearFilterSelection}
+                        />
+                    )}
                 </View>
                 <FlatList
                     data={activities}
+                    removeClippedSubviews
                     keyExtractor={(item) => item._id}
                     horizontal
                     pagingEnabled
@@ -149,8 +202,10 @@ export default function MapScreen({ route, navigation }) {
                     viewabilityConfig={{
                         viewAreaCoveragePercentThreshold: 300,
                     }}
+                    initialNumToRender={2}
+                    maxToRenderPerBatch={2}
                     showsHorizontalScrollIndicator={false}
-                    renderItem={renderCards}
+                    renderItem={memoizedFlatListItem}
                     decelerationRate="fast"
                     onViewableItemsChanged={onViewableItemsChanged.current}
                 />

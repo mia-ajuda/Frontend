@@ -17,6 +17,7 @@ export const BaseBottomSheet = ({
     children,
     overDragResistanceFactor = 7,
     handleComponent = null,
+    shouldClose,
     background = 'white',
 }) => {
     useEffect(() => {
@@ -32,6 +33,10 @@ export const BaseBottomSheet = ({
             pressBehavior="close"
         />
     );
+
+    useEffect(() => {
+        if (shouldClose) bottomSheetRef.current?.dismiss();
+    }, [shouldClose]);
 
     const margin = coverPhoto ? 'mt-4' : 'mt-12';
 
@@ -58,7 +63,7 @@ export const BaseBottomSheet = ({
                     )}
                     <FloatingIconButton
                         iconName={'close'}
-                        onPress={handleCloseModal}
+                        onPress={() => bottomSheetRef.current.dismiss()}
                     />
                     <View className={`flex-1 px-6 h-full ${margin}`}>
                         {children}

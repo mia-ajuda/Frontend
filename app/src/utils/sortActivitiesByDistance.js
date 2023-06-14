@@ -1,7 +1,7 @@
 export default function sortActivitiesByDistance({
-    helpList,
-    helpOfferList,
-    campaignList,
+    helpList = [],
+    helpOfferList = [],
+    campaignList = [],
     limit,
 }) {
     let list = [...helpList, ...helpOfferList, ...campaignList];
