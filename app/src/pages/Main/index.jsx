@@ -21,6 +21,9 @@ import { firstName } from '../../utils/shortenName';
 import { ActivityCard } from '../../components/organisms/ActivityCard';
 import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
 import colors from '../../../colors';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import navigateToDescription from '../../utils/navigateToDescription';
 
 export default function Main({ navigation, route }) {
     const [region, setRegion] = useState(null);
@@ -32,6 +35,12 @@ export default function Main({ navigation, route }) {
     const { increaseUserBadge } = useContext(BadgeContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState({});
     const [visibleItemData, setVisibleItemData] = useState(null);
+    const {
+        handleShowModal,
+        showActivityModal,
+        activityInfo,
+        setShowActivityModal,
+    } = useContext(ActivityBottomSheetContext);
     const allActivities = sortActivitiesByDistance({
         helpList,
         helpOfferList,
@@ -207,6 +216,7 @@ export default function Main({ navigation, route }) {
                 badges={item.categories}
                 distance={item.distance}
                 creationDate={item.creationDate}
+                ownerId={item.ownerId}
             />
         </View>
     );
@@ -294,6 +304,16 @@ export default function Main({ navigation, route }) {
                                     activity={activity}
                                     activityType={activity.type}
                                     index={i + 1}
+                                    onPress={() =>
+                                        navigateToDescription(
+                                            user,
+                                            navigation,
+                                            activity._id,
+                                            activity.ownerId,
+                                            activity.type,
+                                            handleShowModal,
+                                        )
+                                    }
                                     focused={focused}
                                 />
                             );
@@ -302,6 +322,14 @@ export default function Main({ navigation, route }) {
                 </View>
             </View>
             {renderHelpCards()}
+            {showActivityModal && (
+                <ActivityBottomSheet
+                    navigation={navigation}
+                    isRiskGroup={false}
+                    setShowModal={setShowActivityModal}
+                    selectedActivity={activityInfo}
+                />
+            )}
             {/* {renderFilterButton()} */}
 
             {/* <View style={styles.helpList}>

@@ -100,6 +100,7 @@ export const UserContextProvider = (props) => {
     }
 
     async function fetchUserInfo(userId) {
+        console.log(userId);
         return await callService(UserService, 'getAnyUser', [userId]);
     }
 

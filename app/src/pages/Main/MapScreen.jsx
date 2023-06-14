@@ -21,13 +21,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { CampaignContext } from '../../store/contexts/campaignContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import { HelpContext } from '../../store/contexts/helpContext';
-import { LoadingContext } from '../../store/contexts/loadingContext';
 
 export default function MapScreen({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { userPosition } = useContext(UserContext);
-    const { setIsLoading } = useContext(LoadingContext);
     const { helpList } = useContext(HelpContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
     const { filterCategories, selectedCategories, setSelectedCategories } =
@@ -56,7 +54,6 @@ export default function MapScreen({ navigation }) {
     useFocusEffect(
         useCallback(() => {
             if (filterCategories && selectedActivities.length > 0) {
-                setIsLoading(true);
                 const argObj = {
                     limit: false,
                 };
@@ -67,7 +64,6 @@ export default function MapScreen({ navigation }) {
                 });
 
                 setActivities(sortActivitiesByDistance(argObj));
-                setIsLoading(false);
             } else {
                 setActivities(
                     sortActivitiesByDistance({

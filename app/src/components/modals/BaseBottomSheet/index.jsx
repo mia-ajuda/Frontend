@@ -6,7 +6,8 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, { useEffect } from 'react';
 import { FloatingIconButton } from '../../molecules/FloatingIconButton';
-import { Image, View } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
+import colors from '../../../../colors';
 
 export const BaseBottomSheet = ({
     bottomSheetRef,
@@ -19,6 +20,7 @@ export const BaseBottomSheet = ({
     handleComponent = null,
     shouldClose,
     background = 'white',
+    isLoading,
 }) => {
     useEffect(() => {
         bottomSheetRef.current?.present();
@@ -52,6 +54,17 @@ export const BaseBottomSheet = ({
                 overDragResistanceFactor={overDragResistanceFactor}
                 backgroundStyle={{ backgroundColor: background }}
             >
+                <FloatingIconButton
+                    iconName={'close'}
+                    onPress={() => bottomSheetRef.current.dismiss()}
+                />
+                {isLoading && (
+                    <ActivityIndicator
+                        size="large"
+                        color={colors.primary.DEFAULT}
+                        className="top-1/2"
+                    />
+                )}
                 <BottomSheetScrollView scrollEnabled={scrollable}>
                     {coverPhoto && (
                         <Image
@@ -61,12 +74,8 @@ export const BaseBottomSheet = ({
                             }}
                         />
                     )}
-                    <FloatingIconButton
-                        iconName={'close'}
-                        onPress={() => bottomSheetRef.current.dismiss()}
-                    />
                     <View className={`flex-1 px-6 h-full ${margin}`}>
-                        {children}
+                        {!isLoading && children}
                     </View>
                 </BottomSheetScrollView>
             </BottomSheetModal>
