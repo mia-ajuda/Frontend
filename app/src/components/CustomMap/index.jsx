@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import MapView from 'react-native-maps';
 import mapstyle from '../../../assets/styles/mapstyle';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function CustomMap({
     children,
@@ -11,11 +12,13 @@ export default function CustomMap({
 }) {
     const mapRef = useRef(null);
 
-    useEffect(() => {
-        if (animateToRegion) {
-            mapRef.current.animateToRegion(animateToRegion, 900);
-        }
-    }, [animateToRegion]);
+    useFocusEffect(
+        useCallback(() => {
+            if (animateToRegion) {
+                mapRef.current.animateToRegion(animateToRegion, 700);
+            }
+        }, [animateToRegion]),
+    );
 
     return (
         <MapView
