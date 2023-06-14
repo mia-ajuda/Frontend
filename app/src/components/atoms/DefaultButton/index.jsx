@@ -1,6 +1,5 @@
 import React from 'react';
 import { Pressable, Text } from 'react-native';
-import tailwindConfig from '../../../../tailwind.config';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../colors';
 
@@ -52,7 +51,7 @@ export const DefaultButton = ({
             className={`w-full rounded-md bg-primary ${pressableStyle} ${buttonSize[size]} ${disabledStyle}`}
             disabled={disabled}
             android_ripple={{
-                color: tailwindConfig.theme.extend.colors.gray.contrast,
+                color: colors.gray.contrast,
             }}
         >
             {icon && (

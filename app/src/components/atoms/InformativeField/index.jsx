@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import tailwindConfig from '../../../../tailwind.config';
+import colors from '../../../../colors';
 
 export const InformativeField = ({
     type = 'informative',
@@ -30,7 +30,7 @@ export const InformativeField = ({
                 <Icon
                     name={variants[type].icon}
                     size={20}
-                    color={tailwindConfig.theme.extend.colors.black.DEFAULT}
+                    color={colors.black.DEFAULT}
                 />
                 <View className="pr-3">
                     <Text className="font-ms-bold text-black">{title}</Text>

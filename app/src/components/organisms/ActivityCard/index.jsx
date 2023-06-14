@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
 import getActivityIcon from '../../../utils/getActivityIcon';
 import SeedlingIcon from '../../../../assets/images/Seedling';
@@ -13,6 +12,7 @@ import navigateToDescription from '../../../utils/navigateToDescription';
 import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
 import navigateToMyActivity from '../../../utils/navigateToMyActivity';
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
+import colors from '../../../../colors';
 
 export const ActivityCard = ({
     variant,
@@ -49,9 +49,7 @@ export const ActivityCard = ({
     const icon = getActivityIcon(variant);
     const color = {
         font: isRiskGroup ? 'text-danger' : 'text-primary-400',
-        icon: isRiskGroup
-            ? tailwindConfig.theme.extend.colors.danger
-            : tailwindConfig.theme.extend.colors.primary[400],
+        icon: isRiskGroup ? colors.danger : colors.primary[400],
     };
 
     const handlePress = async () => {
@@ -75,10 +73,10 @@ export const ActivityCard = ({
 
     return (
         <Pressable
-            className="rounded-2xl shadow-md shadow-black p-4 mr-2 bg-white w-72 h-40"
+            className="rounded-2xl shadow-md shadow-black p-4 mr-2 ml-1 bg-white w-72 h-40"
             onPress={handlePress}
             android_ripple={{
-                color: tailwindConfig.theme.extend.colors.gray.DEFAULT,
+                color: colors.gray.DEFAULT,
             }}
         >
             <View className="flex-row items-center mb-2">

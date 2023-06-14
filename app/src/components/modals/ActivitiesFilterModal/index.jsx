@@ -2,18 +2,15 @@ import React, { useContext, useRef, useState } from 'react';
 import { BaseBottomSheet } from '../BaseBottomSheet';
 import { Dimensions, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import tailwindConfig from '../../../../tailwind.config';
 import { Chips } from '../../atoms/Chips';
 import { DefaultButton } from '../../atoms/DefaultButton';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import filterButtonTypes from '../../../docs/filterMarkers';
+import colors from '../../../../colors';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
-        <Icon
-            name={icon}
-            color={tailwindConfig.theme.extend.colors.primary.DEFAULT}
-        />
+        <Icon name={icon} color={colors.primary.DEFAULT} />
         <Text className="font-ms-medium text-base">{title}</Text>
     </View>
 );
@@ -36,6 +33,7 @@ export const AcitivitiesFilterModal = ({
     } = useContext(CategoryContext);
     const { height } = Dimensions.get('window');
     const isBigPhone = height > 720;
+    const [shouldClose, setShouldClose] = useState(false);
     const [inputedActivities, setInputedActivities] = useState([]);
     const [inputedCategories, setInputedCategories] = useState([]);
 
@@ -50,10 +48,10 @@ export const AcitivitiesFilterModal = ({
     };
 
     const filterButtonAction = () => {
+        setShouldClose(true);
         setSelectedActivities(inputedActivities);
         setSelectedCategories(inputedCategories);
         setFilterCategories(true);
-        handleCloseModal();
     };
 
     const mapChips = (list, type) => {
@@ -65,10 +63,11 @@ export const AcitivitiesFilterModal = ({
                         inputedCategories.length >= 3 &&
                         !inputedCategories.includes(activity._id);
 
-                    const isSelected =
+                    const selected =
                         list.includes(activity._id) ||
                         selectedActivities.includes(activity._id) ||
                         selectedCategories.includes(activity._id);
+
                     return (
                         <Chips
                             title={activity.name}
@@ -90,7 +89,8 @@ export const AcitivitiesFilterModal = ({
                                       )
                             }
                             disabled={isDisabled}
-                            isSelected={isSelected}
+                            selected={selected}
+                            hiddenIcon={!selected}
                         />
                     );
                 })}
@@ -104,6 +104,7 @@ export const AcitivitiesFilterModal = ({
             snapPoints={isBigPhone ? ['60%'] : ['70%']}
             scrollable={false}
             handleCloseModal={handleCloseModal}
+            shouldClose={shouldClose}
         >
             <Text className="absolute -top-8 right-1/2 font-ms-bold text-xl">
                 Filtro
@@ -121,7 +122,9 @@ export const AcitivitiesFilterModal = ({
                 onPress={filterButtonAction}
                 disabled={
                     inputedCategories.length <= 0 &&
-                    inputedActivities.length <= 0
+                    inputedActivities.length <= 0 &&
+                    selectedActivities.length <= 0 &&
+                    selectedCategories.length <= 0
                 }
             />
         </BaseBottomSheet>
