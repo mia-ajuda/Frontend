@@ -27,6 +27,18 @@ export const UserContextProvider = (props) => {
         getLocation();
     }, []);
 
+    useEffect(() => {
+        if (Object.keys(user).length > 1 && userPosition) {
+            const service = isEntity ? EntityService : UserService;
+            const functionName = isEntity ? 'editEntity' : 'editUser';
+            const location = {
+                type: 'Point',
+                coordinates: [userPosition.longitude, userPosition.latitude],
+            };
+            callService(service, functionName, [{ location }]);
+        }
+    }, [user, userPosition]);
+
     async function getLocation() {
         const { granted } = await requestForegroundPermissionsAsync();
         if (granted) {
