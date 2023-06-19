@@ -68,9 +68,10 @@ class HelpService {
         return helpOfferList.data;
     }
 
-    async listHelpOfferWithCategories(userId, categoryId) {
+    async listHelpOfferWithCategories(coords, userId, categoryId) {
+        const { longitude, latitude } = coords;
         const helpOfferList = await api.get(
-            `/helpOffer/list?userId=${userId}&categoryId=${categoryId}`,
+            `/helpOffer/list?userId=${userId}&coords=${longitude},${latitude}&categoryId=${categoryId}`,
         );
         return helpOfferList.data;
     }

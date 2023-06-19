@@ -16,7 +16,7 @@ export default function HelpOfferContextProvider({ children }) {
         const isUserAuthenticated = user._id;
         if (isUserAuthenticated && userPosition) {
             if (selectedCategories.length) {
-                getHelpOfferListWithCategories();
+                getHelpOfferListWithCategories(userPosition);
             } else {
                 getHelpOfferList(userPosition);
             }
@@ -44,12 +44,12 @@ export default function HelpOfferContextProvider({ children }) {
         }
     }
 
-    async function getHelpOfferListWithCategories() {
+    async function getHelpOfferListWithCategories(coords) {
         if (selectedCategories.length) {
             const helpOfferListResponse = await callService(
                 HelpService,
                 'listHelpOfferWithCategories',
-                [user._id, selectedCategories],
+                [coords, user._id, selectedCategories],
             );
             if (!helpOfferListResponse.error) {
                 setHelpOfferList(helpOfferListResponse);
