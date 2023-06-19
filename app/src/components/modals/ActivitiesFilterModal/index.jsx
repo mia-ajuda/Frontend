@@ -7,6 +7,7 @@ import { DefaultButton } from '../../atoms/DefaultButton';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import filterButtonTypes from '../../../docs/filterMarkers';
 import colors from '../../../../colors';
+import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
@@ -32,8 +33,8 @@ export const AcitivitiesFilterModal = ({
         setFilterCategories,
     } = useContext(CategoryContext);
     const { height } = Dimensions.get('window');
+    const { setIsLoading } = useContext(LoadingContext);
     const isBigPhone = height > 720;
-    const [shouldClose, setShouldClose] = useState(false);
     const [inputedActivities, setInputedActivities] = useState([]);
     const [inputedCategories, setInputedCategories] = useState([]);
 
@@ -48,10 +49,12 @@ export const AcitivitiesFilterModal = ({
     };
 
     const filterButtonAction = () => {
-        setShouldClose(true);
+        setIsLoading(true);
         setSelectedActivities(inputedActivities);
         setSelectedCategories(inputedCategories);
         setFilterCategories(true);
+        bottomSheetRef.current.dismiss();
+        setIsLoading(false);
     };
 
     const mapChips = (list, type) => {
@@ -104,7 +107,6 @@ export const AcitivitiesFilterModal = ({
             snapPoints={isBigPhone ? ['60%'] : ['70%']}
             scrollable={false}
             handleCloseModal={handleCloseModal}
-            shouldClose={shouldClose}
         >
             <Text className="absolute -top-8 right-1/2 font-ms-bold text-xl">
                 Filtro

@@ -21,12 +21,16 @@ import { useFocusEffect } from '@react-navigation/native';
 import { CampaignContext } from '../../store/contexts/campaignContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import { HelpContext } from '../../store/contexts/helpContext';
+import { LoadingContext } from '../../store/contexts/loadingContext';
+import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
+import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 
 export default function MapScreen({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
     const { userPosition } = useContext(UserContext);
     const { helpList } = useContext(HelpContext);
+    const { setIsLoading } = useContext(LoadingContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
     const { filterCategories, selectedCategories, setSelectedCategories } =
         useContext(CategoryContext);
@@ -35,6 +39,8 @@ export default function MapScreen({ navigation }) {
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
     const [selectedActivities, setSelectedActivities] = useState([]);
     const [activities, setActivities] = useState([]);
+    const { showActivityModal, activityInfo, setShowActivityModal } =
+        useContext(ActivityBottomSheetContext);
 
     const markersStrategy = {
         1: {
@@ -58,12 +64,15 @@ export default function MapScreen({ navigation }) {
                     limit: false,
                 };
 
-                selectedActivities.forEach((key) => {
-                    const expectedKey = markersStrategy[key].name;
-                    argObj[expectedKey] = markersStrategy[key].value;
-                });
+                setTimeout(() => {
+                    selectedActivities.forEach((key) => {
+                        const expectedKey = markersStrategy[key].name;
+                        argObj[expectedKey] = markersStrategy[key].value;
+                    });
 
-                setActivities(sortActivitiesByDistance(argObj));
+                    setActivities(sortActivitiesByDistance(argObj));
+                    setIsLoading(false);
+                }, 0);
             } else {
                 setActivities(
                     sortActivitiesByDistance({
@@ -91,16 +100,19 @@ export default function MapScreen({ navigation }) {
     };
 
     const clearFilterSelection = () => {
-        setSelectedActivities([]);
-        setSelectedCategories([]);
-        setActivities(
-            sortActivitiesByDistance({
+        setIsLoading(true);
+        setTimeout(() => {
+            const sortedActivities = sortActivitiesByDistance({
                 helpList,
                 helpOfferList,
                 campaignList,
                 limit: false,
-            }),
-        );
+            });
+            setSelectedActivities([]);
+            setSelectedCategories([]);
+            setActivities(sortedActivities);
+            setIsLoading(false);
+        }, 0);
     };
 
     const onViewableItemsChanged = useRef(({ viewableItems }) => {
@@ -128,6 +140,7 @@ export default function MapScreen({ navigation }) {
                 badges={item.categories}
                 distance={item.distance}
                 creationDate={item.creationDate}
+                ownerId={item.ownerId}
             />
         </View>
     );
@@ -161,7 +174,7 @@ export default function MapScreen({ navigation }) {
             </CustomMap>
             <FloatingIconButton
                 iconName="arrow-back"
-                customTop="top-10"
+                customTop="top-10 z-0"
                 iconSize="2xl"
                 color="bg-white"
                 onPress={goBackButtonAction}
@@ -211,6 +224,14 @@ export default function MapScreen({ navigation }) {
                     handleCloseModal={() => setShouldRenderFilter(false)}
                     setSelectedActivities={setSelectedActivities}
                     selectedActivities={selectedActivities}
+                />
+            )}
+            {showActivityModal && (
+                <ActivityBottomSheet
+                    navigation={navigation}
+                    isRiskGroup={false}
+                    setShowModal={setShowActivityModal}
+                    selectedActivity={activityInfo}
                 />
             )}
         </Fragment>

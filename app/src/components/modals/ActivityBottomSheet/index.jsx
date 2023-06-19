@@ -15,12 +15,11 @@ export const ActivityBottomSheet = ({
     navigation,
 }) => {
     const { fetchUserInfo } = useContext(UserContext);
-    const { setIsLoading } = useContext(LoadingContext);
     const { getActitivtieById } = useContext(ActivitiesContext);
     const [ownerInfo, setOwnerInfo] = useState();
     const [activityInfo, setActivityInfo] = useState();
     const bottomSheetRef = useRef();
-
+    const [modalLoading, setModalLoading] = useState(false);
     const isCampaign = selectedActivity.type === 'campaign';
     const { height } = Dimensions.get('window');
     const isBigPhone = height > 720;
@@ -28,7 +27,7 @@ export const ActivityBottomSheet = ({
     const userSnapPoints = isBigPhone ? ['65%'] : ['75%'];
 
     const getInfos = async () => {
-        setIsLoading(true);
+        setModalLoading(true);
         const owner = await fetchUserInfo(selectedActivity.ownerId);
         setOwnerInfo(owner);
         const activity = await getActitivtieById(
@@ -36,7 +35,7 @@ export const ActivityBottomSheet = ({
             selectedActivity.id,
         );
         setActivityInfo(activity);
-        setIsLoading(false);
+        setModalLoading(false);
     };
 
     const handleCloseModal = () => {
@@ -54,6 +53,7 @@ export const ActivityBottomSheet = ({
             snapPoints={isCampaign ? entitySnapPoints : userSnapPoints}
             background={colors.new_background}
             coverPhoto={isCampaign && ownerInfo?.photo}
+            isLoading={modalLoading}
         >
             {isCampaign ? (
                 <EntityActivity
