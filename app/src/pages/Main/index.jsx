@@ -5,7 +5,7 @@ import React, {
     Fragment,
     useRef,
 } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
@@ -276,6 +276,8 @@ export default function Main({ navigation, route }) {
         );
     };
 
+    const mapHeight = Dimensions.get('window').height * 0.32;
+
     return (
         <View className="px-6">
             {/* <CategoryListModal
@@ -288,7 +290,10 @@ export default function Main({ navigation, route }) {
             {renderHelpButtons()}
             <View className="mt-4">
                 <Text className="text-lg font-ms-bold text-black">Mapa</Text>
-                <View className="mt-2 rounded-2xl overflow-hidden h-56">
+                <View
+                    className="mt-2 rounded-2xl overflow-hidden"
+                    style={{ height: mapHeight }}
+                >
                     <CustomMap
                         initialRegion={userPosition}
                         region={region}

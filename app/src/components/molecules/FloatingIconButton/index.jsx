@@ -13,7 +13,7 @@ export const FloatingIconButton = ({
     const convertPosition = `${position}-2`;
     const positionY = customTop ? customTop : 'top-2';
     return (
-        <View className={`absolute ${positionY} ${convertPosition}`}>
+        <View className={`absolute z-10 ${positionY} ${convertPosition}`}>
             <CircleIconButton
                 icon={iconName}
                 onPress={onPress}

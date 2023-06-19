@@ -18,7 +18,6 @@ export const BaseBottomSheet = ({
     children,
     overDragResistanceFactor = 7,
     handleComponent = null,
-    shouldClose,
     background = 'white',
     isLoading,
 }) => {
@@ -35,10 +34,6 @@ export const BaseBottomSheet = ({
             pressBehavior="close"
         />
     );
-
-    useEffect(() => {
-        if (shouldClose) bottomSheetRef.current?.dismiss();
-    }, [shouldClose]);
 
     const margin = coverPhoto ? 'mt-4' : 'mt-12';
 

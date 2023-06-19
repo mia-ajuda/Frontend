@@ -48,7 +48,7 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`w-full rounded-md bg-primary ${pressableStyle} ${buttonSize[size]} ${disabledStyle}`}
+            className={`w-full rounded-md bg-primary ${pressableStyle} ${buttonSize[size]} ${disabledStyle} flex-row justify-center items-center`}
             disabled={disabled}
             android_ripple={{
                 color: colors.gray.contrast,
