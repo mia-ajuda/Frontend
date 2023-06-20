@@ -99,13 +99,9 @@ export default function MapHelpDescription({ route, navigation }) {
             user._id,
         ]);
         if (!request.error) {
-            const badgeResponse = await increaseUserBadge(
-                user._id,
-                'offer',
-                navigation,
-            );
+            await increaseUserBadge(user._id, 'offer', navigation);
             alertSuccess(messageOperation[routeId](true, removeElementFromMap));
-            if (!badgeResponse.recentUpdated) goBackToMapPage();
+            goBackToMapPage();
         }
         setIsLoading(false);
         setConfirmationModalVisible(false);

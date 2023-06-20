@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseModal } from '../BaseModal';
 import { CircleBadge } from '../../atoms/CircleBadge';
 import { Text, View } from 'react-native';
 import Button from '../../UI/button';
 
 export const BadgeEarnModal = ({
-    badge,
-    navigation,
+    badges,
     setIsVisible,
+    onviewBadge,
     ...modalProps
 }) => {
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        onviewBadge(badges[index]._id);
+    }, [index]);
+
+    const badge = badges[index].template;
+
     const badgeMessages = {
         offer: {
             1: 'você está fazendo a diferença, e por conta disso conquistou a conquista',
@@ -21,15 +29,23 @@ export const BadgeEarnModal = ({
             2: 'você realmente é um guerreiro, e por conta disso conquistou a conquista',
             3: 'você realmente é um guerreiro, e por conta disso conquistou a conquista',
         },
+        help: {
+            1: 'você está fazendo a diferença, e por conta disso conquistou a conquista',
+            2: 'você continua tentando ajudar ao máximo, e por conta disso agora recebeu a conquista',
+            3: 'você continua tentando ajudar ao máximo, e por conta disso agora recebeu a conquista',
+        },
+    };
+
+    const handleClose = () => {
+        setIsVisible(false);
     };
 
     const handleContinue = () => {
+        if (index < badges.length - 1) {
+            setIndex(index + 1);
+            return;
+        }
         setIsVisible(false);
-        if (navigation)
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'home' }],
-            });
     };
 
     const message = `Parabéns, ${badgeMessages[badge.category][badge.rank]} `;
@@ -37,7 +53,7 @@ export const BadgeEarnModal = ({
 
     return (
         badge && (
-            <BaseModal onCloseModal={handleContinue} {...modalProps}>
+            <BaseModal onCloseModal={handleClose} {...modalProps}>
                 <View className="items-center">
                     <CircleBadge
                         badgeIcon={badge?.iconName}

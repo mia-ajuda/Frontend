@@ -63,15 +63,10 @@ export default function Location({ route }) {
         setConfirmationModalVisible(false);
 
         if (!response.error) {
-            let badgeResponse;
             if (requestType == 'HelpOffer')
-                badgeResponse = await increaseUserBadge(
-                    user._id,
-                    'offer',
-                    navigation,
-                );
+                await increaseUserBadge(user._id, 'offer', navigation);
             alertSuccess(texts[requestType].successText);
-            if (!badgeResponse?.recentUpdated) navigation.navigate('home');
+            navigation.navigate('home');
         }
         setIsLoading(false);
     }

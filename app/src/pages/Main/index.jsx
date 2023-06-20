@@ -24,10 +24,10 @@ export default function Main({ navigation }) {
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
-    const { userPosition, user, isEntity, env } = useContext(UserContext);
+    const { userPosition, user, isEntity } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
     const { helpOfferList } = useContext(HelpOfferContext);
-    const { increaseUserBadge } = useContext(BadgeContext);
+    const { getBadgeList } = useContext(BadgeContext);
     const {
         handleShowModal,
         showActivityModal,
@@ -39,11 +39,13 @@ export default function Main({ navigation }) {
         setRegion(null);
     }, [region]);
 
+    const handleGetBadges = async () => {
+        await getBadgeList(user._id);
+    };
+
     useEffect(() => {
-        if (!env.production && !isEntity) {
-            increaseUserBadge(user._id, 'tester');
-        }
-    }, []);
+        if (!showActivityModal) handleGetBadges();
+    }, [showActivityModal]);
 
     const renderCampaignMarkers = () => {
         return campaignList.map((campaign, i) => {
