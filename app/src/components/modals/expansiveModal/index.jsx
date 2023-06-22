@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import UserItem from '../../UserItem';
 import { Text } from 'react-native';
 import callService from '../../../services/callService';
@@ -6,7 +6,6 @@ import helpService from '../../../services/Help';
 import { alertSuccess } from '../../../utils/Alert';
 import { BaseBottomSheet } from '../BaseBottomSheet';
 import { Dialog } from '../../molecules/Dialog';
-import { BadgeContext } from '../../../store/contexts/badgeContext';
 
 export const ExpansiveModal = ({
     setShowModal,
@@ -22,7 +21,6 @@ export const ExpansiveModal = ({
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [selectedUser, setSelectedUser] = useState(false);
-    const { increaseUserBadge } = useContext(BadgeContext);
 
     useEffect(() => {
         bottomSheetRef.current?.present();
@@ -44,7 +42,6 @@ export const ExpansiveModal = ({
         ]);
         if (!chooseHelperRequest.error) {
             alertSuccess('Interessado escolhido com sucesso!');
-            await increaseUserBadge(selectedUser, 'help');
         }
         setConfirmationModalVisible(false);
         handleCloseModal();

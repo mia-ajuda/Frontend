@@ -16,6 +16,7 @@ import { useFocusEffect, useNavigationState } from '@react-navigation/native';
 import { Dialog } from '../../../../components/molecules/Dialog';
 import { FeedbackContext } from '../../../../store/contexts/feedbackContext';
 import { FeedbackModal } from './FeedbackModal';
+import { BadgeContext } from '../../../../store/contexts/badgeContext';
 
 export default function HelpDescription({
     route,
@@ -29,6 +30,8 @@ export default function HelpDescription({
     const { user } = useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { createFeedback } = useContext(FeedbackContext);
+    const { increaseUserBadge } = useContext(BadgeContext);
+
     const [updateData, setUpdateData] = useState(false);
     const [showPossibleHelpers, setShowPossibleHelpers] = useState(false);
     const [helper, setHelper] = useState(null);
@@ -146,7 +149,10 @@ export default function HelpDescription({
         setIsLoading(true);
         const response = await finishHelpByOwner(helpId);
         setIsLoading(false);
-        if (response) setShowSuccesDialog(true);
+        if (response) {
+            setShowSuccesDialog(true);
+            increaseUserBadge(help?.helperId, 'help');
+        }
     };
 
     const handleShowFeedbackBottomSheet = () => {

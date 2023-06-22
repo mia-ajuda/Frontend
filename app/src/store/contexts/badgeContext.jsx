@@ -24,9 +24,8 @@ export default function BadgeContextProvider({ children }) {
         ]);
         const updatedBadges = badgeList.filter(
             (badge) =>
-                !badge.visualizedAt || badge.visualizedAt > badge.updatedAt,
+                !badge.visualizedAt || badge.visualizedAt < badge.updatedAt,
         );
-        console.log(updatedBadges);
         showUpdatedBadges(updatedBadges);
     }
 

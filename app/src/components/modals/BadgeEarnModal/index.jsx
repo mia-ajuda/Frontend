@@ -54,6 +54,14 @@ export const BadgeEarnModal = ({
     return (
         badge && (
             <BaseModal onCloseModal={handleClose} {...modalProps}>
+                <Text
+                    className={
+                        'absolute top-4 right-2 font-ms-medium text-black'
+                    }
+                >
+                    {' '}
+                    {index + 1}/{badges.length}{' '}
+                </Text>
                 <View className="items-center">
                     <CircleBadge
                         badgeIcon={badge?.iconName}
