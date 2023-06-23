@@ -20,7 +20,7 @@ const ViewWithDivider = ({ children }) => (
     <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
-export const AcitivitiesFilterModal = ({
+export const AcitivitiesFilterBottomSheet = ({
     handleCloseModal,
     setSelectedActivities,
     selectedActivities,
@@ -54,7 +54,6 @@ export const AcitivitiesFilterModal = ({
         setSelectedCategories(inputedCategories);
         setFilterCategories(true);
         bottomSheetRef.current.dismiss();
-        setIsLoading(false);
     };
 
     const mapChips = (list, type) => {
@@ -104,7 +103,7 @@ export const AcitivitiesFilterModal = ({
     return (
         <BaseBottomSheet
             bottomSheetRef={bottomSheetRef}
-            snapPoints={isBigPhone ? ['60%'] : ['70%']}
+            snapPoints={isBigPhone ? ['57%'] : ['70%']}
             scrollable={false}
             handleCloseModal={handleCloseModal}
         >
