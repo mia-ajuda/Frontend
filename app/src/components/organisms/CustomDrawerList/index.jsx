@@ -7,7 +7,7 @@ import { CustomDrawerItem } from '../../molecules/CustomDrawerItem';
 import { styles } from './styles';
 
 const sections = [
-    ['notificationsDrawer', 'homeDrawer', 'activitiesDrawer', 'feedbackDrawer'],
+    ['notificationsDrawer', 'homeDrawer', 'activitiesDrawer', 'timelineDrawer', 'feedbackDrawer'],
     ['profileDrawer', 'findUserDrawer', 'helpDrawer'],
 ];
 

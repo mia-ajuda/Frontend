@@ -45,6 +45,15 @@ export const MainNavigation = () => {
                 {renderRoute('activities')}
             </Drawer.Screen>
             <Drawer.Screen
+                name="timelineDrawer"
+                options={drawerScreenOptions(
+                    'Linha do tempo',
+                    'timeline'
+                )}
+            >
+                {renderRoute('timeline')}
+            </Drawer.Screen>
+            <Drawer.Screen
                 name="feedbackDrawer"
                 options={drawerScreenOptions(
                     'Feedbacks',
