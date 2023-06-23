@@ -12,7 +12,7 @@ export const ActivitiesContext = createContext({});
 
 export const ActivitiesContextProvider = ({ children }) => {
     const { setIsLoading } = useContext(LoadingContext);
-    const { setHelpOfferList } = useContext(HelpOfferContext);
+    const { helpOfferList, helpOfferDispatch } = useContext(HelpOfferContext);
     const { helpList, dispatch } = useContext(HelpContext);
     const { user } = useContext(UserContext);
 
@@ -45,9 +45,13 @@ export const ActivitiesContextProvider = ({ children }) => {
 
     function removeElementFromMap(activityType, activityId) {
         if (activityType == 'offer') {
-            setHelpOfferList((currentValue) =>
-                currentValue.filter((helpOffer) => helpOffer._id != activityId),
-            );
+            const helpOfferListFiltered = helpOfferList.filter((helpOffer) => {
+                return helpOffer._id != activityId;
+            });
+            helpOfferDispatch({
+                type: actions.help.storeList,
+                helps: helpOfferListFiltered,
+            });
         } else {
             const filteredHelpList = helpList.filter(
                 (mapHelp) => mapHelp._id != activityId,

@@ -22,7 +22,7 @@ import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function MapHelpDescription({ route, navigation }) {
     const { user } = useContext(UserContext);
-    const { setHelpOfferList } = useContext(HelpOfferContext);
+    const { helpOfferList, helpOfferDispatch } = useContext(HelpOfferContext);
     const { helpList, dispatch } = useContext(HelpContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { increaseUserBadge } = useContext(BadgeContext);
@@ -80,9 +80,13 @@ export default function MapHelpDescription({ route, navigation }) {
 
     function removeElementFromMap() {
         if (routeId == 'offer') {
-            setHelpOfferList((currentValue) =>
-                currentValue.filter((helpOffer) => helpOffer._id != help._id),
-            );
+            let filteredHelpOfferList = helpOfferList.filter((helpOffer) => {
+                return helpOffer._id != help._id;
+            });
+            helpOfferDispatch({
+                type: actions.help.storeList,
+                helps: filteredHelpOfferList,
+            });
         } else {
             let filteredHelpList = helpList.filter((helpFromMap) => {
                 return helpFromMap._id != help._id;
