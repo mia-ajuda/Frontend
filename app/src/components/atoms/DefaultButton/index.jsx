@@ -10,6 +10,7 @@ export const DefaultButton = ({
     icon,
     variant = 'primary',
     size = 'lg',
+    width = 'w-full',
 }) => {
     // the ideia of this buttonSize is to define the button height. The width is determined inside of each DefaultButton parent
     const buttonSize = {
@@ -48,7 +49,7 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`w-full rounded-md bg-primary ${pressableStyle} ${buttonSize[size]} ${disabledStyle} flex-row justify-center items-center`}
+            className={`rounded-md bg-primary ${width} ${pressableStyle} ${buttonSize[size]} ${disabledStyle} flex-row justify-center items-center`}
             disabled={disabled}
             android_ripple={{
                 color: colors.gray.contrast,
