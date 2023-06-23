@@ -9,12 +9,11 @@ import React, {
 import CustomMap from '../../components/CustomMap';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
 import { UserContext } from '../../store/contexts/userContext';
-import { FlatList, StatusBar, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { ScreenTemplateContext } from '../../store/contexts/ScreenTemplateContext';
 import { FloatingIconButton } from '../../components/molecules/FloatingIconButton';
-import { ActivityCard } from '../../components/organisms/ActivityCard';
 import { Chips } from '../../components/atoms/Chips';
-import { AcitivitiesFilterModal } from '../../components/modals/ActivitiesFilterModal';
+import { AcitivitiesFilterBottomSheet } from '../../components/modals/ActivitiesFilterBottomSheet';
 import { CategoryContext } from '../../store/contexts/categoryContext';
 import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
 import { useFocusEffect } from '@react-navigation/native';
@@ -24,16 +23,22 @@ import { HelpContext } from '../../store/contexts/helpContext';
 import { LoadingContext } from '../../store/contexts/loadingContext';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import { ActivityFlatList } from '../../components/atoms/ActivityFlatList';
 
 export default function MapScreen({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
-    const { helpOfferList } = useContext(HelpOfferContext);
+    const { helpOfferList, getHelpOfferListWithCategories } =
+        useContext(HelpOfferContext);
     const { userPosition } = useContext(UserContext);
     const { helpList } = useContext(HelpContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
-    const { filterCategories, selectedCategories, setSelectedCategories } =
-        useContext(CategoryContext);
+    const {
+        setFilterCategories,
+        filterCategories,
+        selectedCategories,
+        setSelectedCategories,
+    } = useContext(CategoryContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
@@ -50,6 +55,7 @@ export default function MapScreen({ navigation }) {
         2: {
             name: 'helpOfferList',
             value: helpOfferList,
+            categoriesRequest: getHelpOfferListWithCategories(userPosition),
         },
         3: {
             name: 'campaignList',
@@ -59,10 +65,20 @@ export default function MapScreen({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            if (filterCategories && selectedActivities.length > 0) {
+            if (filterCategories) {
                 const argObj = {
                     limit: false,
                 };
+
+                if (selectedActivities.length > 0) {
+                    selectedActivities.forEach(async (key) => {
+                        await markersStrategy[key].categoriesRequest;
+                    });
+                } else {
+                    getHelpOfferListWithCategories(userPosition);
+                }
+
+                setFilterCategories(false);
 
                 setTimeout(() => {
                     selectedActivities.forEach((key) => {
@@ -128,25 +144,6 @@ export default function MapScreen({ navigation }) {
         }
     });
 
-    const renderCards = ({ item, index }) => (
-        <View className="mt-2 h-44 w-[300]">
-            <ActivityCard
-                key={item._id}
-                variant={item.type}
-                id={item._id}
-                count={index + 1}
-                title={item.title}
-                description={item.description || item.categories.description}
-                badges={item.categories}
-                distance={item.distance}
-                creationDate={item.creationDate}
-                ownerId={item.ownerId}
-            />
-        </View>
-    );
-
-    const memoizedFlatListItem = useCallback(renderCards, [activities]);
-
     return (
         <Fragment>
             <StatusBar
@@ -179,7 +176,7 @@ export default function MapScreen({ navigation }) {
                 color="bg-white"
                 onPress={goBackButtonAction}
             />
-            <View className="absolute bottom-3 left-4 mr-4">
+            <View className="absolute bottom-3 left-4 mr-4 border">
                 <View className="flex-row mr-2">
                     <Chips
                         title="Filtrar"
@@ -201,26 +198,13 @@ export default function MapScreen({ navigation }) {
                         />
                     )}
                 </View>
-                <FlatList
-                    data={activities}
-                    removeClippedSubviews
-                    keyExtractor={(item) => item._id}
-                    horizontal
-                    pagingEnabled
-                    snapToInterval={300}
-                    viewabilityConfig={{
-                        viewAreaCoveragePercentThreshold: 300,
-                    }}
-                    initialNumToRender={2}
-                    maxToRenderPerBatch={2}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={memoizedFlatListItem}
-                    decelerationRate="fast"
-                    onViewableItemsChanged={onViewableItemsChanged.current}
+                <ActivityFlatList
+                    list={activities}
+                    onViewableItemsChanged={onViewableItemsChanged}
                 />
             </View>
             {shouldRenderFilter && (
-                <AcitivitiesFilterModal
+                <AcitivitiesFilterBottomSheet
                     handleCloseModal={() => setShouldRenderFilter(false)}
                     setSelectedActivities={setSelectedActivities}
                     selectedActivities={selectedActivities}

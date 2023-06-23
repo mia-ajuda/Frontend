@@ -24,6 +24,7 @@ import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
 import navigateToDescription from '../../utils/navigateToDescription';
+import { ActivityFlatList } from '../../components/atoms/ActivityFlatList';
 
 export default function Main({ navigation, route }) {
     const [region, setRegion] = useState(null);
@@ -204,23 +205,6 @@ export default function Main({ navigation, route }) {
         );
     };
 
-    const renderCards = ({ item, index }) => (
-        <View className="mt-2 h-44 w-[300]">
-            <ActivityCard
-                key={item._id}
-                variant={item.type}
-                id={item._id}
-                count={index + 1}
-                title={item.title}
-                description={item.description || item.categories.description}
-                badges={item.categories}
-                distance={item.distance}
-                creationDate={item.creationDate}
-                ownerId={item.ownerId}
-            />
-        </View>
-    );
-
     const renderHelpCards = () => {
         const activitiesList = sortActivitiesByDistance({
             helpList,
@@ -258,19 +242,9 @@ export default function Main({ navigation, route }) {
                         </Text>
                     </Pressable>
                 </View>
-                <FlatList
-                    data={activitiesList}
-                    keyExtractor={(item) => item._id}
-                    horizontal
-                    pagingEnabled
-                    snapToInterval={300}
-                    viewabilityConfig={{
-                        viewAreaCoveragePercentThreshold: 300,
-                    }}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={renderCards}
-                    decelerationRate="fast"
-                    onViewableItemsChanged={onViewableItemsChanged.current}
+                <ActivityFlatList
+                    list={activitiesList}
+                    onViewableItemsChanged={onViewableItemsChanged}
                 />
             </View>
         );
