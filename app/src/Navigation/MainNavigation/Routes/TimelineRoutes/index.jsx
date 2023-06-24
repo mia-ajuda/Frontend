@@ -8,8 +8,11 @@ const Stack = createStackNavigator();
 export const TimelineRoutes = () => {
     return (
         <>
-            <Stack.Screen name="timeline"
-                options={headerStyle} component={Timeline} />
+            <Stack.Screen
+                name="timeline"
+                options={headerStyle}
+                component={Timeline}
+            />
         </>
     );
 };

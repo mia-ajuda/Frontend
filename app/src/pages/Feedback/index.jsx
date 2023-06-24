@@ -35,7 +35,7 @@ export const FeedbackScreen = () => {
     return (
         <View className="flex-1  h-full p-4">
             {hasFeedbacks && (
-                <DefaultTimeline data={mappedFeedbacks} hasImage/>
+                <DefaultTimeline data={mappedFeedbacks} hasImage />
             )}
             {!hasFeedbacks && !isLoading && (
                 <NotFound
