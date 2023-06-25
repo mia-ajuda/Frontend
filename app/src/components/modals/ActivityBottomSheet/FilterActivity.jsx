@@ -7,7 +7,8 @@ import { DefaultButton } from '../../atoms/DefaultButton';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import filterButtonTypes from '../../../docs/filterMarkers';
 import colors from '../../../../colors';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { UserContext } from '../../../store/contexts/userContext';
+import { HelpOfferContext } from '../../../store/contexts/helpOfferContext';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
@@ -20,23 +21,23 @@ const ViewWithDivider = ({ children }) => (
     <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
-export const AcitivitiesFilterBottomSheet = ({
-    handleCloseModal,
-    setSelectedActivities,
-    selectedActivities,
-}) => {
+export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
     const bottomSheetRef = useRef(null);
     const {
         categories,
         selectedCategories,
         setSelectedCategories,
         setFilterCategories,
+        setSelectedActivities,
+        selectedActivities,
     } = useContext(CategoryContext);
+    const { getHelpOfferListWithCategories } = useContext(HelpOfferContext);
+    const { userPosition } = useContext(UserContext);
     const { height } = Dimensions.get('window');
-    const { setIsLoading } = useContext(LoadingContext);
     const isBigPhone = height > 720;
     const [inputedActivities, setInputedActivities] = useState([]);
     const [inputedCategories, setInputedCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const removeFromState = (id, list, setter) => {
         const removeId = list.filter((idFromState) => idFromState !== id);
@@ -48,12 +49,35 @@ export const AcitivitiesFilterBottomSheet = ({
         else setter([...list, id]);
     };
 
-    const filterButtonAction = () => {
+    const categoriesStrategy = {
+        2: getHelpOfferListWithCategories(userPosition),
+    };
+
+    const updateActivitiesLists = async () => {
+        if (inputedActivities.length > 0 && inputedCategories.length > 0) {
+            inputedActivities.map(async (key) => {
+                await categoriesStrategy[key];
+            });
+        }
+
+        if (!inputedActivities.length && inputedCategories.length > 0) {
+            await getHelpOfferListWithCategories(userPosition);
+        }
+        setIsLoading(false);
+    };
+
+    const filterButtonAction = async () => {
         setIsLoading(true);
-        setSelectedActivities(inputedActivities);
-        setSelectedCategories(inputedCategories);
-        setFilterCategories(true);
-        bottomSheetRef.current.dismiss();
+
+        setTimeout(() => {
+            setFilterCategories(true);
+            setSelectedActivities(inputedActivities);
+            setSelectedCategories(inputedCategories);
+            (async () => {
+                await updateActivitiesLists();
+                // bottomSheetRef.current.dismiss();
+            })();
+        }, 0);
     };
 
     const mapChips = (list, type) => {
@@ -120,13 +144,14 @@ export const AcitivitiesFilterBottomSheet = ({
             </ViewWithDivider>
             <DefaultButton
                 title="Aplicar"
-                onPress={filterButtonAction}
+                onPress={() => filterButtonAction()}
                 disabled={
                     inputedCategories.length <= 0 &&
                     inputedActivities.length <= 0 &&
                     selectedActivities.length <= 0 &&
                     selectedCategories.length <= 0
                 }
+                isLoading={isLoading}
             />
         </BaseBottomSheet>
     );
