@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { ActivityIndicator, Pressable, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../colors';
 
@@ -11,6 +11,7 @@ export const DefaultButton = ({
     variant = 'primary',
     size = 'lg',
     width = 'w-full',
+    isLoading = false,
 }) => {
     // the ideia of this buttonSize is to define the button height. The width is determined inside of each DefaultButton parent
     const buttonSize = {
@@ -46,6 +47,22 @@ export const DefaultButton = ({
     let { pressableStyle, textStyle, iconColor } = variantStyle[variant];
     textStyle = icon ? `${textStyle} ml-1` : textStyle;
 
+    const renderIcon = () => {
+        return (
+            (icon && (
+                <Icon
+                    name={icon.name}
+                    type={icon.type}
+                    color={iconColor}
+                    size={20}
+                />
+            )) ||
+            (isLoading && (
+                <ActivityIndicator size={28} color={colors.background} />
+            ))
+        );
+    };
+
     return (
         <Pressable
             onPress={onPress}
@@ -55,19 +72,14 @@ export const DefaultButton = ({
                 color: colors.gray.contrast,
             }}
         >
-            {icon && (
-                <Icon
-                    name={icon.name}
-                    type={icon.type}
-                    color={iconColor}
-                    size={20}
-                />
+            {renderIcon()}
+            {!isLoading && (
+                <Text
+                    className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
+                >
+                    {title}
+                </Text>
             )}
-            <Text
-                className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
-            >
-                {title}
-            </Text>
         </Pressable>
     );
 };
