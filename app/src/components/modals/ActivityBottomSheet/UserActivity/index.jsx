@@ -58,7 +58,6 @@ export const UserActivity = ({
     const handleConfirmPress = async () => {
         const isRequest = activityType === 'help';
         const response = await interactWithActivity(
-            activityType,
             activityInfo._id,
             !isRequest,
         );

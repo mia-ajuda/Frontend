@@ -4,10 +4,7 @@ import styles from './styles';
 import { Icon } from 'react-native-elements';
 import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
-import { HelpContext } from '../../store/contexts/helpContext';
-import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
-import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
 import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
@@ -17,16 +14,15 @@ import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 import navigateToDescription from '../../utils/navigateToDescription';
 import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import { ActivitiesContext } from '../../store/contexts/activitiesContext';
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
     const [helpListVisible, setHelpListVisible] = useState(false);
+    const { activitiesList } = useContext(ActivitiesContext);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
-    const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
-    const { campaignList } = useContext(CampaignContext);
-    const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
     const {
         handleShowModal,
@@ -45,93 +41,27 @@ export default function Main({ navigation }) {
         }
     }, []);
 
-    const renderCampaignMarkers = () => {
-        return campaignList.map((campaign, i) => {
-            return (
-                <ActivityMarker
-                    key={campaign._id}
-                    activity={campaign}
-                    activityType={'campaign'}
-                    index={i + 1}
-                    onPress={() =>
-                        navigateToDescription(
-                            user,
-                            navigation,
-                            campaign._id,
-                            campaign.ownerId,
-                            'campaign',
-                            handleShowModal,
-                        )
-                    }
-                />
-            );
-        });
-    };
-
-    const renderHelpMakers = () => {
-        return helpList.map((help, i) => {
-            return (
-                <ActivityMarker
-                    key={help._id}
-                    activity={help}
-                    activityType={'help'}
-                    index={i + 1}
-                    onPress={() =>
-                        navigateToDescription(
-                            user,
-                            navigation,
-                            help._id,
-                            help.ownerId,
-                            'help',
-                            handleShowModal,
-                        )
-                    }
-                />
-            );
-        });
-    };
-
-    const renderHelpOfferMakers = () => {
-        return helpOfferList.map((helpOffer, i) => {
-            return (
-                <ActivityMarker
-                    key={helpOffer._id}
-                    activity={helpOffer}
-                    activityType={'offer'}
-                    index={i + 1}
-                    onPress={() =>
-                        navigateToDescription(
-                            user,
-                            navigation,
-                            helpOffer._id,
-                            helpOffer.ownerId,
-                            'offer',
-                            handleShowModal,
-                        )
-                    }
-                />
-            );
-        });
-    };
-
-    const markersStrategy = {
-        1: renderHelpMakers(),
-        2: renderHelpOfferMakers(),
-        3: renderCampaignMarkers(),
-    };
-
     const renderMarkers = () => {
-        if (selectedMarker.length) {
-            return selectedMarker.map((marker) => {
-                return markersStrategy[marker];
-            });
-        } else {
-            return [
-                renderHelpMakers(),
-                renderHelpOfferMakers(),
-                renderCampaignMarkers(),
-            ];
-        }
+        return activitiesList.map((activity, i) => {
+            return (
+                <ActivityMarker
+                    key={activity._id}
+                    activity={activity}
+                    activityType={activity.type}
+                    index={i + 1}
+                    onPress={() =>
+                        navigateToDescription(
+                            user,
+                            navigation,
+                            activity._id,
+                            activity.ownerId,
+                            activity.type,
+                            handleShowModal,
+                        )
+                    }
+                />
+            );
+        });
     };
 
     const renderFilterButton = () => (
@@ -170,20 +100,27 @@ export default function Main({ navigation }) {
         } else return <CreateHelpButtons />;
     };
 
-    const renderActivitiesInteractions = () => (
-        <>
-            {renderCreateRequestButton()}
-            {renderFilterButton()}
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
-                    navigation={navigation}
-                />
-            </View>
-        </>
-    );
+    const renderActivitiesInteractions = () => {
+        const helps = activitiesList.filter(
+            (activity) => activity.type == 'help',
+        );
+        return (
+            <>
+                {renderCreateRequestButton()}
+                {renderFilterButton()}
+                {activitiesList.length > 0 && (
+                    <View style={styles.helpList}>
+                        <HelpList
+                            helps={helps}
+                            visible={helpListVisible}
+                            setVisible={setHelpListVisible}
+                            navigation={navigation}
+                        />
+                    </View>
+                )}
+            </>
+        );
+    };
     return (
         <>
             <StatusBar backgroundColor={'transparent'} />

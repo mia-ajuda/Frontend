@@ -9,12 +9,12 @@ export default function CampaignContextProvider(props) {
     const { user, userPosition } = useContext(UserContext);
     const [campaignList, setCampaignList] = useState([]);
 
-    useEffect(() => {
-        const isUserAuthenticated = user._id;
-        if (isUserAuthenticated) {
-            getEntityList(userPosition);
-        }
-    }, [user, userPosition]);
+    // useEffect(() => {
+    //     const isUserAuthenticated = user._id;
+    //     if (isUserAuthenticated) {
+    //         getEntityList(userPosition);
+    //     }
+    // }, [user, userPosition]);
 
     async function getEntityList(coords) {
         if (coords) {
