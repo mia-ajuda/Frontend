@@ -1,20 +1,34 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useReducer,
+    useState,
+} from 'react';
 import callService from '../../services/callService';
 import helpService from '../../services/Help';
 import campaignService from '../../services/Campaign';
 import { LoadingContext } from './loadingContext';
-import { HelpOfferContext } from './helpOfferContext';
-import { HelpContext } from './helpContext';
 import { UserContext } from './userContext';
 import actions from '../actions';
+import helpReducer from '../reducers/helpReducer';
+import activityService from '../../services/Activity';
 
 export const ActivitiesContext = createContext({});
 
 export const ActivitiesContextProvider = ({ children }) => {
     const { setIsLoading } = useContext(LoadingContext);
-    const { setHelpOfferList } = useContext(HelpOfferContext);
-    const { helpList, dispatch } = useContext(HelpContext);
-    const { user } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
+    const [activitiesList, dispatch] = useReducer(helpReducer, []);
+    const [loadingActivities, setLoadingActivities] = useState(false);
+
+    useEffect(() => {
+        if (userPosition && user._id) {
+            setLoadingActivities(true);
+            getActivityList();
+        }
+    }, [user._id, userPosition]);
 
     const activitiesServices = {
         help: helpService,
@@ -34,6 +48,21 @@ export const ActivitiesContextProvider = ({ children }) => {
         },
     };
 
+    async function getActivityList(categoryId = null, activityId = null) {
+        const activitiesListResponse = await callService(
+            activityService,
+            'getActivityList',
+            [user._id, userPosition, categoryId, activityId],
+        );
+        if (!activitiesListResponse.error) {
+            dispatch({
+                type: actions.help.storeList,
+                helps: activitiesListResponse,
+            });
+        }
+        setLoadingActivities(false);
+    }
+
     async function getActitivtieById(activityType, activityId) {
         const activityInfo = await callService(
             activitiesServices[activityType],
@@ -43,17 +72,11 @@ export const ActivitiesContextProvider = ({ children }) => {
         return activityInfo;
     }
 
-    function removeElementFromMap(activityType, activityId) {
-        if (activityType == 'offer') {
-            setHelpOfferList((currentValue) =>
-                currentValue.filter((helpOffer) => helpOffer._id != activityId),
-            );
-        } else {
-            const filteredHelpList = helpList.filter(
-                (mapHelp) => mapHelp._id != activityId,
-            );
-            dispatch({ type: actions.help.storeList, helps: filteredHelpList });
-        }
+    function removeElementFromMap(activityId) {
+        const filteredActivityList = activitiesList.filter(
+            (mapHelp) => mapHelp._id != activityId,
+        );
+        dispatch({ type: actions.help.storeList, helps: filteredActivityList });
     }
 
     async function interactWithActivity(
@@ -67,7 +90,7 @@ export const ActivitiesContextProvider = ({ children }) => {
             servicesEndpoints.interact[activityType],
             [activityId, user._id],
         );
-        if (!response.error) removeElementFromMap(activityType, activityId);
+        if (!response.error) removeElementFromMap(activityId);
         if (finishLoading) setIsLoading(false);
         return response;
     }
@@ -76,8 +99,15 @@ export const ActivitiesContextProvider = ({ children }) => {
         return {
             getActitivtieById,
             interactWithActivity,
+            activitiesList,
+            loadingActivities,
         };
-    }, [getActitivtieById, interactWithActivity]);
+    }, [
+        getActitivtieById,
+        interactWithActivity,
+        activitiesList,
+        loadingActivities,
+    ]);
 
     return (
         <ActivitiesContext.Provider value={contextValue}>
