@@ -19,7 +19,7 @@ export const DefaultTimeline = ({
             lineWidth={lineWidth}
             lineColor={colors.primary[300]}
             circleColor={useIcon ? 'transparent' : colors.primary.DEFAULT}
-            circleSize={24}
+            circleSize={useIcon ? 32 : 24}
             innerCircle={useIcon ? 'icon' : 'none'}
             timeStyle={{
                 backgroundColor: colors.primary.DEFAULT,

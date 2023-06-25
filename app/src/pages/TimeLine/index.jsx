@@ -28,12 +28,14 @@ export const Timeline = () => {
             title,
             description,
             icon: (
-                <Icon
-                    name={iconName}
-                    type="material-community"
-                    color={colors.primary.DEFAULT}
-                    size={24}
-                />
+                <View className="bg-light rounded-full p-1 border-[0.5px] border-black-100">
+                    <Icon
+                        name={iconName}
+                        type="material-community"
+                        color={colors.primary.DEFAULT}
+                        size={22}
+                    />
+                </View>
             ),
             time,
         };
