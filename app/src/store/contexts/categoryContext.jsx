@@ -15,6 +15,7 @@ export default function CategoryContextProvider(props) {
     const [categories, setCategories] = useState([]);
     const { user } = useContext(UserContext);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedActivities, setSelectedActivities] = useState([]);
     const [filterCategories, setFilterCategories] = useState(false);
 
     useEffect(() => {
@@ -36,6 +37,8 @@ export default function CategoryContextProvider(props) {
             setSelectedCategories,
             filterCategories,
             setFilterCategories,
+            selectedActivities,
+            setSelectedActivities,
         };
     }, [
         categories,

@@ -13,7 +13,7 @@ import { StatusBar, View } from 'react-native';
 import { ScreenTemplateContext } from '../../store/contexts/ScreenTemplateContext';
 import { FloatingIconButton } from '../../components/molecules/FloatingIconButton';
 import { Chips } from '../../components/atoms/Chips';
-import { AcitivitiesFilterBottomSheet } from '../../components/modals/ActivitiesFilterBottomSheet';
+import { AcitivitiesFilterBottomSheet } from '../../components/modals/ActivityBottomSheet/FilterActivity';
 import { CategoryContext } from '../../store/contexts/categoryContext';
 import sortActivitiesByDistance from '../../utils/sortActivitiesByDistance';
 import { useFocusEffect } from '@react-navigation/native';
@@ -27,27 +27,27 @@ import { ActivityFlatList } from '../../components/atoms/ActivityFlatList';
 
 export default function MapScreen({ navigation }) {
     const { campaignList } = useContext(CampaignContext);
-    const { helpOfferList, getHelpOfferListWithCategories } =
-        useContext(HelpOfferContext);
+    const { helpOfferList } = useContext(HelpOfferContext);
     const { userPosition } = useContext(UserContext);
     const { helpList } = useContext(HelpContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
     const {
-        setFilterCategories,
-        filterCategories,
         selectedCategories,
         setSelectedCategories,
+        selectedActivities,
+        setSelectedActivities,
+        setFilterCategories,
+        filterCategories,
     } = useContext(CategoryContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
     const [visibleItemData, setVisibleItemData] = useState();
     const [shouldRenderFilter, setShouldRenderFilter] = useState(false);
-    const [selectedActivities, setSelectedActivities] = useState([]);
     const [activities, setActivities] = useState([]);
     const { showActivityModal, activityInfo, setShowActivityModal } =
         useContext(ActivityBottomSheetContext);
 
-    const markersStrategy = {
+    const activitiesStrategy = {
         1: {
             name: 'helpList',
             value: helpList,
@@ -55,7 +55,6 @@ export default function MapScreen({ navigation }) {
         2: {
             name: 'helpOfferList',
             value: helpOfferList,
-            categoriesRequest: getHelpOfferListWithCategories(userPosition),
         },
         3: {
             name: 'campaignList',
@@ -70,24 +69,14 @@ export default function MapScreen({ navigation }) {
                     limit: false,
                 };
 
-                if (selectedActivities.length > 0) {
-                    selectedActivities.forEach(async (key) => {
-                        await markersStrategy[key].categoriesRequest;
-                    });
-                } else {
-                    getHelpOfferListWithCategories(userPosition);
-                }
-
-                setFilterCategories(false);
-
                 setTimeout(() => {
                     selectedActivities.forEach((key) => {
-                        const expectedKey = markersStrategy[key].name;
-                        argObj[expectedKey] = markersStrategy[key].value;
+                        const expectedKey = activitiesStrategy[key].name;
+                        argObj[expectedKey] = activitiesStrategy[key].value;
                     });
 
+                    setFilterCategories(false);
                     setActivities(sortActivitiesByDistance(argObj));
-                    setIsLoading(false);
                 }, 0);
             } else {
                 setActivities(
@@ -99,7 +88,7 @@ export default function MapScreen({ navigation }) {
                     }),
                 );
             }
-        }, [selectedActivities]),
+        }, [helpOfferList]),
     );
 
     useEffect(() => {
@@ -206,8 +195,6 @@ export default function MapScreen({ navigation }) {
             {shouldRenderFilter && (
                 <AcitivitiesFilterBottomSheet
                     handleCloseModal={() => setShouldRenderFilter(false)}
-                    setSelectedActivities={setSelectedActivities}
-                    selectedActivities={selectedActivities}
                 />
             )}
             {showActivityModal && (
