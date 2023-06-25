@@ -6,10 +6,12 @@ import { TimelineContext } from '../../store/contexts/timelineContext';
 import { Icon } from 'react-native-elements';
 import colors from '../../../colors';
 import formatDate from '../../utils/formatDate';
+import { NotFound } from '../../components/organisms/NotFound';
 
 export const Timeline = () => {
     const [timelineItems, setTimelineItems] = useState([]);
     const { getTimelineItems } = useContext(TimelineContext);
+    const hasTimelineItems = timelineItems.length > 0;
 
     useFocusEffect(
         useCallback(() => {
@@ -43,7 +45,8 @@ export const Timeline = () => {
 
     return (
         <View className="bg-new_background flex-1 px-4 py-6">
-            <DefaultTimeline data={parsedTimelineItems} useIcon />
+            {hasTimelineItems && <DefaultTimeline data={parsedTimelineItems} useIcon />}
+            {!hasTimelineItems && <NotFound size='large' title='Possivelmente você é dev' body='Se você está vendo isso é porque criou a conta antes dessa feat e não atualizou seu banco de dados'/>}
         </View>
     );
 };
