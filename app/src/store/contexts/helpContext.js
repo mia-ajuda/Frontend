@@ -27,7 +27,7 @@ export default function HelpContextProvider(props) {
     }, [finishHelpByOwner]);
 
     return (
-        <HelpContext.Provider value={{ contextValue }}>
+        <HelpContext.Provider value={contextValue}>
             {props.children}
         </HelpContext.Provider>
     );
