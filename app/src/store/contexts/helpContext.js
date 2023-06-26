@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { UserContext } from './userContext';
 import callService from '../../services/callService';
 import HelpService from '../../services/Help';
@@ -20,8 +20,14 @@ export default function HelpContextProvider(props) {
         return false;
     }
 
+    const contextValue = useMemo(() => {
+        return {
+            finishHelpByOwner,
+        };
+    }, [finishHelpByOwner]);
+
     return (
-        <HelpContext.Provider value={{ finishHelpByOwner }}>
+        <HelpContext.Provider value={{ contextValue }}>
             {props.children}
         </HelpContext.Provider>
     );

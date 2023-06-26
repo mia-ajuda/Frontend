@@ -1,8 +1,6 @@
 import api from '../services/Api';
 
 class ActivityService {
-    constructor() {}
-
     async getActivityList(id, coords, categoryId, activityId) {
         const { longitude, latitude } = coords;
         const url =
