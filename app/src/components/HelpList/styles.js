@@ -7,7 +7,7 @@ export default StyleSheet.create({
     helpListContainer: {
         width: '100%',
         marginBottom: 16,
-        marginHorizontal: 8,
+        paddingHorizontal: 8,
     },
 
     listContent: {
@@ -54,6 +54,7 @@ export default StyleSheet.create({
         padding: 16,
         borderRadius: 100,
         elevation: 5,
-        marginBottom: 4,
+        marginBottom: 8,
+        alignSelf: 'flex-end',
     },
 });

@@ -11,22 +11,6 @@ export default function HelpList({
     filterModalVisible,
     setFilterModalVisible,
 }) {
-    const renderFilterButton = () => (
-        <TouchableOpacity
-            style={styles.filter}
-            onPress={() => {
-                setFilterModalVisible(!filterModalVisible);
-            }}
-        >
-            <Icon
-                name="filter"
-                type="font-awesome"
-                color={colors.black.DEFAULT}
-                size={20}
-            />
-        </TouchableOpacity>
-    );
-
     const renderHelpList = () => {
         return (
             <FlatList
@@ -59,7 +43,19 @@ export default function HelpList({
 
     return (
         <View style={styles.helpListContainer}>
-            {renderFilterButton()}
+            <TouchableOpacity
+                style={styles.filter}
+                onPress={() => {
+                    setFilterModalVisible(!filterModalVisible);
+                }}
+            >
+                <Icon
+                    name="filter"
+                    type="font-awesome"
+                    color={colors.black.DEFAULT}
+                    size={20}
+                />
+            </TouchableOpacity>
             {helps.length > 0 && renderHelpList()}
         </View>
     );
