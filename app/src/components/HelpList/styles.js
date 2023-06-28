@@ -54,6 +54,6 @@ export default StyleSheet.create({
         padding: 16,
         borderRadius: 100,
         elevation: 5,
-        marginBottom: 16,
+        marginBottom: 4,
     },
 });

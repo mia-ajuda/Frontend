@@ -22,6 +22,7 @@ export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
+    const [helpListVisible, setHelpListVisible] = useState(true);
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
@@ -156,13 +157,15 @@ export default function Main({ navigation }) {
     const renderActivitiesInteractions = () => (
         <>
             {renderCreateRequestButton()}
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    filterModalVisible={filterModalVisible}
-                    setFilterModalVisible={setFilterModalVisible}
-                />
-            </View>
+            {helpListVisible && (
+                <View style={styles.helpList}>
+                    <HelpList
+                        helps={helpList}
+                        filterModalVisible={filterModalVisible}
+                        setFilterModalVisible={setFilterModalVisible}
+                    />
+                </View>
+            )}
         </>
     );
     return (
@@ -175,7 +178,11 @@ export default function Main({ navigation }) {
                 setSelectedMarker={setSelectedMarker}
                 selectedMarker={selectedMarker}
             />
-            <CustomMap initialRegion={userPosition} region={region}>
+            <CustomMap
+                initialRegion={userPosition}
+                region={region}
+                setHelpListVisible={setHelpListVisible}
+            >
                 {renderMarkers()}
             </CustomMap>
             {showActivityModal && (
