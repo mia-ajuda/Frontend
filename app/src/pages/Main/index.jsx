@@ -1,19 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import styles from './styles';
-import { Icon } from 'react-native-elements';
-import CreateHelpButtons from '../../components/CreateHelpButtons';
 import CategoryListModal from '../../components/modals/category/CategoryList';
 import { HelpContext } from '../../store/contexts/helpContext';
 import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import HelpList from '../../components/HelpList';
-import createInteraction from '../../utils/createInteraction';
 import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
 import { ActivityMarker } from '../../components/molecules/ActivityMarker';
-import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
 import navigateToDescription from '../../utils/navigateToDescription';
 import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
@@ -134,29 +130,8 @@ export default function Main({ navigation }) {
         }
     };
 
-    const renderCreateRequestButton = () => {
-        if (isEntity) {
-            return (
-                <TouchableOpacity
-                    style={styles.campaignButton}
-                    onPress={() => {
-                        createInteraction(user, navigation, 'createCampaign');
-                    }}
-                >
-                    <Icon
-                        name="plus"
-                        type="font-awesome"
-                        color={colors.light}
-                        size={30}
-                    />
-                </TouchableOpacity>
-            );
-        } else return <CreateHelpButtons />;
-    };
-
     const renderActivitiesInteractions = () => (
         <>
-            {renderCreateRequestButton()}
             {helpListVisible && (
                 <View style={styles.helpList}>
                     <HelpList
