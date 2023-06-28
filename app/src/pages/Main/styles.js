@@ -25,17 +25,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.2)',
         borderRadius: 50,
     },
-    filter: {
-        position: 'absolute',
-        width: 50,
-        bottom: 55,
-        left: 20,
-        zIndex: 1,
-        backgroundColor: '#F7EF6E',
-        padding: 15,
-        borderRadius: 100,
-        elevation: 5,
-    },
     campaignButton: {
         position: 'absolute',
         right: 20,

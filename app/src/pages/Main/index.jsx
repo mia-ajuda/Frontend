@@ -20,7 +20,6 @@ import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
-    const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
     const { helpList } = useContext(HelpContext);
@@ -134,22 +133,6 @@ export default function Main({ navigation }) {
         }
     };
 
-    const renderFilterButton = () => (
-        <TouchableOpacity
-            style={styles.filter}
-            onPress={() => {
-                setFilterModalVisible(!filterModalVisible);
-            }}
-        >
-            <Icon
-                name="filter"
-                type="font-awesome"
-                color={colors.dark}
-                size={20}
-            />
-        </TouchableOpacity>
-    );
-
     const renderCreateRequestButton = () => {
         if (isEntity) {
             return (
@@ -173,13 +156,11 @@ export default function Main({ navigation }) {
     const renderActivitiesInteractions = () => (
         <>
             {renderCreateRequestButton()}
-            {renderFilterButton()}
             <View style={styles.helpList}>
                 <HelpList
                     helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
-                    navigation={navigation}
+                    filterModalVisible={filterModalVisible}
+                    setFilterModalVisible={setFilterModalVisible}
                 />
             </View>
         </>
@@ -194,11 +175,7 @@ export default function Main({ navigation }) {
                 setSelectedMarker={setSelectedMarker}
                 selectedMarker={selectedMarker}
             />
-            <CustomMap
-                initialRegion={userPosition}
-                region={region}
-                setHelpListVisible={setHelpListVisible}
-            >
+            <CustomMap initialRegion={userPosition} region={region}>
                 {renderMarkers()}
             </CustomMap>
             {showActivityModal && (
