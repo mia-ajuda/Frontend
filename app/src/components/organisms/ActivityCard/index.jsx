@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import tailwindConfig from '../../../../tailwind.config';
 import Badge from '../../molecules/Badge';
 import getActivityIcon from '../../../utils/getActivityIcon';
 import SeedlingIcon from '../../../../assets/images/Seedling';
@@ -13,6 +12,7 @@ import navigateToDescription from '../../../utils/navigateToDescription';
 import { ActivityBottomSheetContext } from '../../../store/contexts/activityBottomSheetContext';
 import navigateToMyActivity from '../../../utils/navigateToMyActivity';
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
+import colors from '../../../../colors';
 
 export const ActivityCard = ({
     variant,
@@ -48,10 +48,8 @@ export const ActivityCard = ({
     const selectedVariant = activitiesVariants[variant];
     const icon = getActivityIcon(variant);
     const color = {
-        font: isRiskGroup ? 'text-danger' : 'text-primary-400',
-        icon: isRiskGroup
-            ? tailwindConfig.theme.extend.colors.danger
-            : tailwindConfig.theme.extend.colors.primary[400],
+        font: isRiskGroup ? 'text-danger-300' : 'text-primary-400',
+        icon: isRiskGroup ? colors.danger[300] : colors.primary[400],
     };
 
     const handlePress = async () => {

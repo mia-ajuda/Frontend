@@ -5,10 +5,9 @@ import fonts from '../../../assets/styles/fontVariable';
 
 export default StyleSheet.create({
     helpListContainer: {
-        backgroundColor: colors.primary,
         width: '100%',
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        marginBottom: 16,
+        paddingHorizontal: 8,
     },
 
     listContent: {
@@ -46,5 +45,16 @@ export default StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         marginTop: 60,
+    },
+
+    filter: {
+        width: 48,
+        height: 48,
+        backgroundColor: '#F7EF6E',
+        padding: 16,
+        borderRadius: 100,
+        elevation: 5,
+        marginBottom: 8,
+        alignSelf: 'flex-end',
     },
 });

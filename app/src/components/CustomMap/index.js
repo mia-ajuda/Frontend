@@ -6,7 +6,7 @@ export default function CustomMap({
     children,
     initialRegion,
     region,
-    ...rest
+    setHelpListVisible,
 }) {
     const mapRef = useRef(null);
 
@@ -18,10 +18,13 @@ export default function CustomMap({
             region={region}
             className="w-full h-full"
             showsUserLocation={true}
-            onPress={() =>
-                rest.setHelpListVisible && rest.setHelpListVisible(false)
-            }
             customMapStyle={mapstyle.day.map}
+            onRegionChange={() =>
+                setHelpListVisible && setHelpListVisible(false)
+            }
+            onRegionChangeComplete={() =>
+                setHelpListVisible && setHelpListVisible(true)
+            }
         >
             {children}
         </MapView>

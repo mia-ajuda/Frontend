@@ -20,9 +20,9 @@ import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet
 
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
-    const [helpListVisible, setHelpListVisible] = useState(false);
     const [filterModalVisible, setFilterModalVisible] = useState(false);
     const [selectedMarker, setSelectedMarker] = useState([]);
+    const [helpListVisible, setHelpListVisible] = useState(true);
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity } = useContext(UserContext);
     const { campaignList } = useContext(CampaignContext);
@@ -136,22 +136,6 @@ export default function Main({ navigation }) {
         }
     };
 
-    const renderFilterButton = () => (
-        <TouchableOpacity
-            style={styles.filter}
-            onPress={() => {
-                setFilterModalVisible(!filterModalVisible);
-            }}
-        >
-            <Icon
-                name="filter"
-                type="font-awesome"
-                color={colors.dark}
-                size={20}
-            />
-        </TouchableOpacity>
-    );
-
     const renderCreateRequestButton = () => {
         if (isEntity) {
             return (
@@ -175,15 +159,15 @@ export default function Main({ navigation }) {
     const renderActivitiesInteractions = () => (
         <>
             {renderCreateRequestButton()}
-            {renderFilterButton()}
-            <View style={styles.helpList}>
-                <HelpList
-                    helps={helpList}
-                    visible={helpListVisible}
-                    setVisible={setHelpListVisible}
-                    navigation={navigation}
-                />
-            </View>
+            {helpListVisible && (
+                <View style={styles.helpList}>
+                    <HelpList
+                        helps={helpList}
+                        filterModalVisible={filterModalVisible}
+                        setFilterModalVisible={setFilterModalVisible}
+                    />
+                </View>
+            )}
         </>
     );
     return (
