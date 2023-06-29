@@ -60,10 +60,14 @@ class HelpService {
         return help.data;
     }
 
-    async listHelpOffer(coords, userId, getOtherUsers) {
-        const { longitude, latitude } = coords;
+    async listHelpOffer(userId, getOtherUsers, coords) {
+        let longitude, latitude;
+        if (coords) {
+            ({ longitude, latitude } = coords);
+        }
         const helpOfferList = await api.get(
-            `/helpOffer/list/?userId=${userId}&coords=${longitude},${latitude}&getOtherUsers=${getOtherUsers}`,
+            `/helpOffer/list/?userId=${userId}&getOtherUsers=${getOtherUsers}` +
+                (coords ? `&coords=${longitude},${latitude}` : ''),
         );
         return helpOfferList.data;
     }

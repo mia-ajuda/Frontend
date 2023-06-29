@@ -8,8 +8,6 @@ import React, {
 import { View, Text, FlatList, Pressable, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import CategoryListModal from '../../components/modals/category/CategoryList';
-import { HelpContext } from '../../store/contexts/helpContext';
-import { CampaignContext } from '../../store/contexts/campaignContext';
 import { UserContext } from '../../store/contexts/userContext';
 import { HelpOfferContext } from '../../store/contexts/helpOfferContext';
 import createInteraction from '../../utils/createInteraction';
@@ -31,8 +29,6 @@ export default function Main({ navigation, route }) {
     const [helpListVisible, setHelpListVisible] = useState(false);
     const { helpList } = useContext(HelpContext);
     const { userPosition, user, isEntity, env } = useContext(UserContext);
-    const { campaignList } = useContext(CampaignContext);
-    const { helpOfferList } = useContext(HelpOfferContext);
     const { increaseUserBadge } = useContext(BadgeContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState({});
     const [visibleItemData, setVisibleItemData] = useState(null);
