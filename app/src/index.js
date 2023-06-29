@@ -2,7 +2,6 @@ import React from 'react';
 import Routes from './Navigation';
 import { UserContextProvider } from './store/contexts/userContext';
 import HelpContextProvider from './store/contexts/helpContext';
-import CampaignContextProvider from './store/contexts/campaignContext';
 import CategoryContextProvider from './store/contexts/categoryContext';
 import DeviceInfoProvider from './store/contexts/deviceInformationContext';
 import HelpOfferContextProvider from './store/contexts/helpOfferContext';
@@ -26,23 +25,21 @@ export default function Root() {
                             <SocialNetworkProfileContextProvider>
                                 <CategoryContextProvider>
                                     <HelpOfferContextProvider>
-                                        <CampaignContextProvider>
-                                            <HelpContextProvider>
-                                                <BadgeContextProvider>
-                                                    <ActivitiesContextProvider>
-                                                        <ActivityBottomSheetContextProvider>
-                                                            <FeedbackContextProvider>
-                                                                <CepContextProvider>
-                                                                    <ScreenTemplate>
-                                                                        <Routes />
-                                                                    </ScreenTemplate>
-                                                                </CepContextProvider>
-                                                            </FeedbackContextProvider>
-                                                        </ActivityBottomSheetContextProvider>
-                                                    </ActivitiesContextProvider>
-                                                </BadgeContextProvider>
-                                            </HelpContextProvider>
-                                        </CampaignContextProvider>
+                                        <HelpContextProvider>
+                                            <BadgeContextProvider>
+                                                <ActivitiesContextProvider>
+                                                    <ActivityBottomSheetContextProvider>
+                                                        <FeedbackContextProvider>
+                                                            <CepContextProvider>
+                                                                <ScreenTemplate>
+                                                                    <Routes />
+                                                                </ScreenTemplate>
+                                                            </CepContextProvider>
+                                                        </FeedbackContextProvider>
+                                                    </ActivityBottomSheetContextProvider>
+                                                </ActivitiesContextProvider>
+                                            </BadgeContextProvider>
+                                        </HelpContextProvider>
                                     </HelpOfferContextProvider>
                                 </CategoryContextProvider>
                             </SocialNetworkProfileContextProvider>
