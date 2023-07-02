@@ -13,7 +13,7 @@ export const screenOptions = ({ route }) => {
                 ...fonts.body,
                 color: colors.dark,
                 fontSize: RFValue(14, 640),
-                width: Dimensions.get('screen').width * 0.3,
+                width: Dimensions.get('screen').width * 0.25,
                 textAlign: 'center',
             };
             const style = focused
