@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
 import callService from '../../../services/callService';
@@ -10,20 +10,20 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 
 const OfferHelpPage = ({ navigation }) => {
-    const { user } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const [myOfferedHelp, setMyOfferedHelps] = useState([]);
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            getHelps();
-        });
-        return unsubscribe;
-    }, [navigation]);
+        if (user._id && userPosition) {
+            getHelps(setIsLoading);
+        }
+    }, [user._id, userPosition]);
 
-    async function getHelps() {
-        setIsLoading(true);
+    async function getHelps(loadingSetter) {
+        loadingSetter(true);
         const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
@@ -32,32 +32,31 @@ const OfferHelpPage = ({ navigation }) => {
         if (!filteredHelps.error) {
             setMyOfferedHelps(filteredHelps);
         }
-        setIsLoading(false);
+        loadingSetter(false);
     }
 
     const renderHelpRequestsList = () => {
         if (myOfferedHelp.length > 0) {
             return (
-                <ScrollView>
-                    {myOfferedHelp.map((help) => {
-                        return (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={() =>
-                                    navigation.navigate(
-                                        'myOfferHelpDescription',
-                                        {
-                                            helpId: help._id,
-                                            routeId: 'Help',
-                                        },
-                                    )
-                                }
-                            >
-                                <HistoricCard object={help} />
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                <FlatList
+                    data={myOfferedHelp}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            key={item._id}
+                            onPress={() =>
+                                navigation.navigate('myOfferHelpDescription', {
+                                    helpId: item._id,
+                                    routeId: 'Help',
+                                })
+                            }
+                        >
+                            <HistoricCard object={item} />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(help) => help._id}
+                    refreshing={isRefreshing}
+                    onRefresh={async () => getHelps(setIsRefreshing)}
+                />
             );
         } else {
             return (

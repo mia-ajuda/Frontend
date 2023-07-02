@@ -1,11 +1,10 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, TouchableOpacity, FlatList } from 'react-native';
 import MyRequestHelpCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import styles from '../styles';
 import NoHelps from '../../../components/NoHelps';
-import { useFocusEffect } from '@react-navigation/native';
 import callService from '../../../services/callService';
 import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
@@ -20,15 +19,15 @@ export default function HelpsFinished({ navigation }) {
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [shouldUpdate, setShouldUpdate] = useState(true);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadOnGoingOffers();
-        }, [navigation]),
-    );
+    useEffect(() => {
+        if (shouldUpdate) loadOnGoingOffers(setIsLoading);
+    }, []);
 
-    async function loadOnGoingOffers() {
-        setIsLoading(true);
+    async function loadOnGoingOffers(loadingSetter) {
+        loadingSetter(true);
         const { _id: userId } = user;
         const resFinished = await callService(helpService, 'listHelpOffer', [
             userId,
@@ -37,11 +36,11 @@ export default function HelpsFinished({ navigation }) {
         if (!resFinished.error) {
             setFinishedHelpList(resFinished);
         }
-        setIsLoading(false);
+        loadingSetter(false);
+        setShouldUpdate(false);
     }
 
     async function excludeHelp() {
-        setIsLoading(true);
         const validDeleteRequest = await callService(
             helpService,
             'deleteHelp',
@@ -53,45 +52,44 @@ export default function HelpsFinished({ navigation }) {
             });
             setFinishedHelpList(updatedArray);
         }
-        setIsLoading(false);
         setConfirmationModalVisible(false);
+        setShouldUpdate(true);
     }
+
+    const renderCards = ({ item }) => (
+        <TouchableOpacity
+            key={item._id}
+            onPress={() =>
+                navigation.navigate('myOfferHelpDescription', {
+                    helpId: item._id,
+                    routeId: 'HelpOffer',
+                })
+            }
+        >
+            <MyRequestHelpCard
+                object={item}
+                possibleInterestedList={[
+                    ...item.possibleHelpedUsers,
+                    ...item.helpedUserId,
+                ]}
+                setConfirmationModalVisible={setConfirmationModalVisible}
+                setSelectedHelp={setHelpToDelete}
+            />
+        </TouchableOpacity>
+    );
 
     const renderHelpList = () => {
         if (finishedHelpList.length > 0) {
             return (
-                <ScrollView>
-                    <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => {
-                            return (
-                                <TouchableOpacity
-                                    key={help._id}
-                                    onPress={() =>
-                                        navigation.navigate(
-                                            'myOfferHelpDescription',
-                                            {
-                                                helpId: help._id,
-                                                routeId: 'HelpOffer',
-                                            },
-                                        )
-                                    }
-                                >
-                                    <MyRequestHelpCard
-                                        object={help}
-                                        possibleInterestedList={[
-                                            ...help.possibleHelpedUsers,
-                                            ...help.helpedUserId,
-                                        ]}
-                                        setConfirmationModalVisible={
-                                            setConfirmationModalVisible
-                                        }
-                                        setSelectedHelp={setHelpToDelete}
-                                    />
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-                </ScrollView>
+                <View style={styles.helpList}>
+                    <FlatList
+                        data={finishedHelpList}
+                        renderItem={renderCards}
+                        key={(item) => item._id}
+                        refreshing={isRefreshing}
+                        onRefresh={() => loadOnGoingOffers(setIsRefreshing)}
+                    />
+                </View>
             );
         } else {
             return <NoHelps title={'Você não possui nenhuma oferta criada'} />;

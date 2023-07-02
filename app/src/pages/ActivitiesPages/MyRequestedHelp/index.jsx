@@ -1,9 +1,8 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, TouchableOpacity, FlatList } from 'react-native';
 import MyRequestCard from '../../../components/MyRequestCard';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
-import { useFocusEffect } from '@react-navigation/native';
 import NoHelps from '../../../components/NoHelps';
 import callService from '../../../services/callService';
 import styles from '../styles';
@@ -20,12 +19,12 @@ const MyRequestedHelp = ({ navigation }) => {
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [shouldUpdate, setShouldUpdate] = useState(true);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadOnGoingHelps();
-        }, [navigation]),
-    );
+    useEffect(() => {
+        if (shouldUpdate) loadOnGoingHelps();
+    }, [navigation]);
 
     async function loadOnGoingHelps() {
         const { _id: userId } = user;
@@ -39,6 +38,7 @@ const MyRequestedHelp = ({ navigation }) => {
             setMyRequestedHelps(filteredHelps);
         }
         setIsLoading(false);
+        setShouldUpdate(false);
     }
 
     async function excludeHelp() {
@@ -56,41 +56,41 @@ const MyRequestedHelp = ({ navigation }) => {
         }
         setIsLoading(false);
         setConfirmationModalVisible(false);
+        setShouldUpdate(true);
     }
+
+    const renderCards = ({ item }) => (
+        <TouchableOpacity
+            key={item._id}
+            onPress={() =>
+                navigation.navigate('myRequestHelpDescription', {
+                    helpId: item._id,
+                    routeId: 'Help',
+                })
+            }
+        >
+            <MyRequestCard
+                object={item}
+                deleteVisible={true}
+                possibleInterestedList={item.possibleHelpers}
+                setConfirmationModalVisible={setConfirmationModalVisible}
+                setSelectedHelp={setHelpToDelete}
+            />
+        </TouchableOpacity>
+    );
 
     const renderMyRequestsHelpList = () => {
         if (myRequestedHelps.length > 0) {
             return (
-                <ScrollView>
-                    <View style={styles.helpList}>
-                        {myRequestedHelps.map((help) => (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={() =>
-                                    navigation.navigate(
-                                        'myRequestHelpDescription',
-                                        {
-                                            helpId: help._id,
-                                            routeId: 'Help',
-                                        },
-                                    )
-                                }
-                            >
-                                <MyRequestCard
-                                    object={help}
-                                    deleteVisible={true}
-                                    possibleInterestedList={
-                                        help.possibleHelpers
-                                    }
-                                    setConfirmationModalVisible={
-                                        setConfirmationModalVisible
-                                    }
-                                    setSelectedHelp={setHelpToDelete}
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </ScrollView>
+                <View style={styles.helpList}>
+                    <FlatList
+                        data={myRequestedHelps}
+                        renderItem={renderCards}
+                        key={(item) => item._id}
+                        refreshing={isRefreshing}
+                        onRefresh={() => loadOnGoingHelps(setIsRefreshing)}
+                    />
+                </View>
             );
         } else {
             return <NoHelps title={'Você não possui ajudas em andamento'} />;
