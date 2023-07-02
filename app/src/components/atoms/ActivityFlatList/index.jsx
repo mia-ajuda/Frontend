@@ -4,13 +4,13 @@ import { FlatList } from 'react-native-gesture-handler';
 import { ActivityCard } from '../../organisms/ActivityCard';
 
 export const ActivityFlatList = ({ list, onViewableItemsChanged }) => {
-    const renderCards = ({ item, index }) => (
+    const renderCards = ({ item }) => (
         <View className="mt-2 h-44 w-[300]">
             <ActivityCard
                 key={item._id}
                 variant={item.type}
                 id={item._id}
-                count={index + 1}
+                count={item.index}
                 title={item.title}
                 description={item.description || item.categories.description}
                 badges={item.categories}
