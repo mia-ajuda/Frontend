@@ -96,20 +96,20 @@ export default function Main({ navigation }) {
         );
     };
 
-    const renderHelpCards = () => {
-        const onViewableItemsChanged = useRef(({ viewableItems }) => {
-            if (viewableItems && viewableItems.length > 0) {
-                const visibleItem = viewableItems[0].item;
-                setVisibleItemData(visibleItem);
-                setFocusedCardLocation({
-                    latitudeDelta: 0.0015,
-                    longitudeDelta: 0.0015,
-                    longitude: visibleItem.location.coordinates[0],
-                    latitude: visibleItem.location.coordinates[1],
-                });
-            }
-        });
+    const onViewableItemsChanged = useRef(({ viewableItems }) => {
+        if (viewableItems && viewableItems.length > 0) {
+            const visibleItem = viewableItems[0].item;
+            setVisibleItemData(visibleItem);
+            setFocusedCardLocation({
+                latitudeDelta: 0.0015,
+                longitudeDelta: 0.0015,
+                longitude: visibleItem.location.coordinates[0],
+                latitude: visibleItem.location.coordinates[1],
+            });
+        }
+    });
 
+    const useRenderHelpCards = () => {
         return (
             <View className="mt-4">
                 <View className="flex-row items-center justify-between">
@@ -153,7 +153,7 @@ export default function Main({ navigation }) {
                     />
                 </View>
             </View>
-            {renderHelpCards()}
+            {useRenderHelpCards()}
             {showActivityModal && (
                 <ActivityBottomSheet
                     navigation={navigation}

@@ -71,7 +71,7 @@ export const ActivitiesFilterBottomSheet = ({
             type === 'categorias' ? inputedCategories : inputedActivities;
         return (
             <View className="flex-row flex-wrap">
-                {list.map((activity, index) => {
+                {list.map((activity) => {
                     const isDisabled =
                         type === 'categorias' &&
                         inputedCategories.length >= 3 &&
@@ -82,7 +82,7 @@ export const ActivitiesFilterBottomSheet = ({
                     return (
                         <Chips
                             title={activity.name}
-                            key={index + activity._id + activityArray}
+                            key={activity._id + activityArray}
                             customStyle="mt-2 mr-2 border border-gray-500"
                             type="filter"
                             icon="check"

@@ -3,7 +3,6 @@ import { BaseBottomSheet } from '../BaseBottomSheet';
 import { UserContext } from '../../../store/contexts/userContext';
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 import { UserActivity } from './UserActivity';
-import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { EntityActivity } from './EntityActivity';
 import colors from '../../../../colors';
 import { Dimensions } from 'react-native';
