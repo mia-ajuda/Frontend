@@ -8,7 +8,7 @@ import Button from '../../../components/UI/button';
 import showWarningFor from '../../../utils/warningPopUp';
 import { userPositionWarningMessage } from '../../../docs/warning';
 import texts from './texts.json';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import campaignService from '../../../services/Campaign';
 import helpService from '../../../services/Help';
 import callService from '../../../services/callService';
@@ -18,10 +18,13 @@ import { alertSuccess } from '../../../utils/Alert';
 import { Dialog } from '../../../components/molecules/Dialog';
 export default function Location({ route }) {
     const { requestInfo, requestType } = route.params;
-
     const { userPosition, user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { increaseUserBadge } = useContext(BadgeContext);
+
+    const state = useNavigationState((state) => state);
+    const { routes } = state;
+    const initialRoute = routes[0].name;
 
     const [markLocation, setMarkerLocation] = useState({
         type: 'Point',
@@ -71,7 +74,8 @@ export default function Location({ route }) {
                     navigation,
                 );
             alertSuccess(texts[requestType].successText);
-            if (!badgeResponse?.recentUpdated) navigation.navigate('home');
+            if (!badgeResponse?.recentUpdated)
+                navigation.navigate(initialRoute);
         }
         setIsLoading(false);
     }
