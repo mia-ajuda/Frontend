@@ -14,9 +14,6 @@ export const CategoryContext = createContext();
 export default function CategoryContextProvider(props) {
     const [categories, setCategories] = useState([]);
     const { user } = useContext(UserContext);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [selectedActivities, setSelectedActivities] = useState([]);
-    const [filterCategories, setFilterCategories] = useState(false);
 
     useEffect(() => {
         const isUserAuthenticated = user._id;
@@ -33,20 +30,8 @@ export default function CategoryContextProvider(props) {
     const contextValue = useMemo(() => {
         return {
             categories,
-            selectedCategories,
-            setSelectedCategories,
-            filterCategories,
-            setFilterCategories,
-            selectedActivities,
-            setSelectedActivities,
         };
-    }, [
-        categories,
-        selectedCategories,
-        setSelectedCategories,
-        filterCategories,
-        setFilterCategories,
-    ]);
+    }, [categories]);
 
     return (
         <CategoryContext.Provider value={contextValue}>

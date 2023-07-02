@@ -8,7 +8,6 @@ export default function CustomMap({
     initialRegion,
     animateToRegion,
     showsMyLocationButton = true,
-    ...rest
 }) {
     const mapRef = useRef(null);
 
@@ -28,9 +27,6 @@ export default function CustomMap({
             className="w-full h-full"
             showsUserLocation={true}
             showsTraffic={false}
-            onPress={() =>
-                rest.setHelpListVisible && rest.setHelpListVisible(false)
-            }
             customMapStyle={mapstyle.day.map}
             showsMyLocationButton={showsMyLocationButton}
         >
