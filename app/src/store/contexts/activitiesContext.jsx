@@ -156,12 +156,14 @@ export const ActivitiesContextProvider = ({ children }) => {
             interactWithActivity,
             activitiesList,
             loadingActivities,
+            getActivityList,
         };
     }, [
         getActitivtieById,
         interactWithActivity,
         activitiesList,
         loadingActivities,
+        getActivityList,
     ]);
 
     return (

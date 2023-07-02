@@ -7,8 +7,7 @@ import { DefaultButton } from '../../atoms/DefaultButton';
 import { CategoryContext } from '../../../store/contexts/categoryContext';
 import filterButtonTypes from '../../../docs/filterMarkers';
 import colors from '../../../../colors';
-import { UserContext } from '../../../store/contexts/userContext';
-import { HelpOfferContext } from '../../../store/contexts/helpOfferContext';
+import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
@@ -21,23 +20,22 @@ const ViewWithDivider = ({ children }) => (
     <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
-export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
+export const ActivitiesFilterBottomSheet = ({
+    handleCloseModal,
+    storedActivities,
+    storedCategories,
+    storeFilterSelection,
+}) => {
     const bottomSheetRef = useRef(null);
-    const {
-        categories,
-        selectedCategories,
-        setSelectedCategories,
-        setFilterCategories,
-        setSelectedActivities,
-        selectedActivities,
-    } = useContext(CategoryContext);
-    const { getHelpOfferListWithCategories } = useContext(HelpOfferContext);
-    const { userPosition } = useContext(UserContext);
+    const { categories } = useContext(CategoryContext);
+    const { getActivityList } = useContext(ActivitiesContext);
     const { height } = Dimensions.get('window');
     const isBigPhone = height > 720;
-    const [inputedActivities, setInputedActivities] = useState([]);
-    const [inputedCategories, setInputedCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [inputedActivities, setInputedActivities] =
+        useState(storedActivities);
+    const [inputedCategories, setInputedCategories] =
+        useState(storedCategories);
 
     const removeFromState = (id, list, setter) => {
         const removeId = list.filter((idFromState) => idFromState !== id);
@@ -49,20 +47,10 @@ export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
         else setter([...list, id]);
     };
 
-    const categoriesStrategy = {
-        2: getHelpOfferListWithCategories(userPosition),
-    };
-
-    const updateActivitiesLists = async () => {
-        if (inputedActivities.length > 0 && inputedCategories.length > 0) {
-            inputedActivities.map(async (key) => {
-                await categoriesStrategy[key];
-            });
-        }
-
-        if (!inputedActivities.length && inputedCategories.length > 0) {
-            await getHelpOfferListWithCategories(userPosition);
-        }
+    const updateActivitiesList = async () => {
+        const categories = inputedCategories.length ? inputedCategories : null;
+        const activities = inputedActivities.length ? inputedActivities : null;
+        await getActivityList(categories, activities);
         setIsLoading(false);
     };
 
@@ -70,17 +58,17 @@ export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
         setIsLoading(true);
 
         setTimeout(() => {
-            setFilterCategories(true);
-            setSelectedActivities(inputedActivities);
-            setSelectedCategories(inputedCategories);
+            storeFilterSelection(inputedActivities, inputedCategories);
             (async () => {
-                await updateActivitiesLists();
-                // bottomSheetRef.current.dismiss();
+                await updateActivitiesList();
+                bottomSheetRef.current.dismiss();
             })();
         }, 0);
     };
 
     const mapChips = (list, type) => {
+        const activityArray =
+            type === 'categorias' ? inputedCategories : inputedActivities;
         return (
             <View className="flex-row flex-wrap">
                 {list.map((activity, index) => {
@@ -89,20 +77,17 @@ export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
                         inputedCategories.length >= 3 &&
                         !inputedCategories.includes(activity._id);
 
-                    const selected =
-                        list.includes(activity._id) ||
-                        selectedActivities.includes(activity._id) ||
-                        selectedCategories.includes(activity._id);
+                    const selected = activityArray.includes(activity._id);
 
                     return (
                         <Chips
                             title={activity.name}
-                            key={index + activity._id}
+                            key={index + activity._id + activityArray}
                             customStyle="mt-2 mr-2 border border-gray-500"
                             type="filter"
                             icon="check"
                             onPress={() =>
-                                type == 'categorias'
+                                type === 'categorias'
                                     ? chipsSelection(
                                           activity._id,
                                           inputedCategories,
@@ -147,9 +132,7 @@ export const AcitivitiesFilterBottomSheet = ({ handleCloseModal }) => {
                 onPress={() => filterButtonAction()}
                 disabled={
                     inputedCategories.length <= 0 &&
-                    inputedActivities.length <= 0 &&
-                    selectedActivities.length <= 0 &&
-                    selectedCategories.length <= 0
+                    inputedActivities.length <= 0
                 }
                 isLoading={isLoading}
             />

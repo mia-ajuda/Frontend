@@ -1,16 +1,16 @@
 const filterButtonTypes = [
     {
-        _id: 1,
+        _id: 'help',
         name: 'Pedidos',
         isEnabled: false,
     },
     {
-        _id: 2,
+        _id: 'helpOffer',
         name: 'Ofertas',
         isEnabled: false,
     },
     {
-        _id: 3,
+        _id: 'campaign',
         name: 'Campanhas',
         isEnabled: false,
     },
