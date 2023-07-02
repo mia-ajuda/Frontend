@@ -31,9 +31,9 @@ export default function HelpsFinished({ navigation }) {
         setIsLoading(true);
         const { _id: userId } = user;
         const resFinished = await callService(helpService, 'listHelpOffer', [
-            userPosition,
             userId,
             true,
+            userPosition,
         ]);
         if (!resFinished.error) {
             setFinishedHelpList(resFinished);
