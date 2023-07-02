@@ -5,9 +5,6 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import CustomMap from '../../components/CustomMap';
-import { ActivityMarker } from '../../components/molecules/ActivityMarker';
-import { UserContext } from '../../store/contexts/userContext';
 import { StatusBar, View } from 'react-native';
 import { ScreenTemplateContext } from '../../store/contexts/ScreenTemplateContext';
 import { FloatingIconButton } from '../../components/molecules/FloatingIconButton';
@@ -19,9 +16,9 @@ import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet
 import { ActivityFlatList } from '../../components/atoms/ActivityFlatList';
 import { ActivitiesContext } from '../../store/contexts/activitiesContext';
 import { NotFound } from '../../components/organisms/NotFound';
+import { AnimatedMap } from '../../components/organisms/AnimatedMap';
 
 export default function MapScreen({ navigation }) {
-    const { userPosition } = useContext(UserContext);
     const { setIsLoading } = useContext(LoadingContext);
     const { setUseSafeAreaView } = useContext(ScreenTemplateContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState();
@@ -81,24 +78,12 @@ export default function MapScreen({ navigation }) {
                 backgroundColor={'transparent'}
                 barStyle={'dark-content'}
             />
-            <CustomMap
-                initialRegion={userPosition}
-                animateToRegion={focusedCardLocation}
-                showsMyLocationButton={false}
-            >
-                {activitiesList.map((activity) => {
-                    const focused = visibleItemData?._id == activity._id;
-                    return (
-                        <ActivityMarker
-                            key={activity._id + `${focused}`}
-                            activity={activity}
-                            activityType={activity.type}
-                            index={activity.index}
-                            focused={focused}
-                        />
-                    );
-                })}
-            </CustomMap>
+            <AnimatedMap
+                focusedCardLocation={focusedCardLocation}
+                list={activitiesList}
+                navigation={navigation}
+                visibleItemData={visibleItemData}
+            />
             <FloatingIconButton
                 iconName="arrow-back"
                 customTop="top-10 z-0"
