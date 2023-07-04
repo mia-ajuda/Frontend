@@ -11,7 +11,7 @@ export const FloatingIconButton = ({
     color,
 }) => {
     const convertPosition = `${position}-2`;
-    const positionY = customTop ? customTop : 'top-2';
+    const positionY = customTop || 'top-2';
     return (
         <View className={`absolute z-10 ${positionY} ${convertPosition}`}>
             <CircleIconButton

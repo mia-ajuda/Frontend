@@ -62,24 +62,22 @@ export const EntityActivity = ({ activityInfo, ownerInfo }) => {
                 </View>
             </View>
             <View className="flex-1 flex-row mb-4 w-full justify-between flex-wrap">
-                <View className="w-[46%]">
-                    <DefaultButton
-                        variant="secondary"
-                        onPress={handleCall}
-                        title={'Ligar'}
-                        icon={phoneIcon}
-                        size="md"
-                    />
-                </View>
-                <View className="w-[46%]">
-                    <DefaultButton
-                        variant="secondary"
-                        onPress={handleOpenMaps}
-                        title={'Rotas'}
-                        icon={locationIcon}
-                        size="md"
-                    />
-                </View>
+                <DefaultButton
+                    width="w-[46%]"
+                    variant="secondary"
+                    onPress={handleCall}
+                    title={'Ligar'}
+                    icon={phoneIcon}
+                    size="md"
+                />
+                <DefaultButton
+                    width="w-[46%]"
+                    variant="secondary"
+                    onPress={handleOpenMaps}
+                    title={'Rotas'}
+                    icon={locationIcon}
+                    size="md"
+                />
             </View>
             <View className="bg-white rounded-md p-4">
                 <Text className="text-lg font-ms-bold text-primary">

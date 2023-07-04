@@ -28,8 +28,10 @@ export const ActivityMarker = ({
     const selectedType = types[activityType];
     const icon = getActivityIcon(activityType);
     const isRiskGroup = activity.user?.riskGroup?.length > 0;
-    const markerColor = isRiskGroup ? 'bg-danger-darker' : 'bg-primary-darker';
-    const isFocused = focused ? markerColor : 'bg-white';
+    const markerDefaultColor = isRiskGroup
+        ? 'bg-danger-darker'
+        : 'bg-primary-darker';
+    const currentMarkerColor = focused ? markerDefaultColor : 'bg-white';
 
     const handleClick = () => {
         if (onPress) onPress();
@@ -50,7 +52,7 @@ export const ActivityMarker = ({
             zIndex={focused ? 10 : 0}
         >
             <View
-                className={`${isFocused} py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center`}
+                className={`${currentMarkerColor} py-1 px-2 w-40 rounded-full rounded-bl-none shadow-lg shadow-black border-[0.2px] border-black-200 flex-row items-center justify-center`}
             >
                 <Icon
                     name={icon.name}

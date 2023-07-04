@@ -40,28 +40,12 @@ export const DefaultButton = ({
         },
         elevated: {
             pressableStyle: 'bg-white shadow-md shadow-black',
-            textStyle: 'text-black font-ms-bold',
+            textStyle: 'text-black-900 font-ms-bold',
         },
     };
 
     let { pressableStyle, textStyle, iconColor } = variantStyle[variant];
     textStyle = icon ? `${textStyle} ml-1` : textStyle;
-
-    const renderIcon = () => {
-        return (
-            (icon && (
-                <Icon
-                    name={icon.name}
-                    type={icon.type}
-                    color={iconColor}
-                    size={20}
-                />
-            )) ||
-            (isLoading && (
-                <ActivityIndicator size={28} color={colors.background} />
-            ))
-        );
-    };
 
     return (
         <Pressable
@@ -72,13 +56,24 @@ export const DefaultButton = ({
                 color: colors.gray.contrast,
             }}
         >
-            {renderIcon()}
-            {!isLoading && (
-                <Text
-                    className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
-                >
-                    {title}
-                </Text>
+            {isLoading ? (
+                <ActivityIndicator size={28} color={colors.background} />
+            ) : (
+                <>
+                    {icon && (
+                        <Icon
+                            name={icon.name}
+                            type={icon.type}
+                            color={iconColor}
+                            size={20}
+                        />
+                    )}
+                    <Text
+                        className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
+                    >
+                        {title}
+                    </Text>
+                </>
             )}
         </Pressable>
     );

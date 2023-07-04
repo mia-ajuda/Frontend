@@ -8,16 +8,13 @@ import { CategoryContext } from '../../../store/contexts/categoryContext';
 import filterButtonTypes from '../../../docs/filterMarkers';
 import colors from '../../../../colors';
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
+import { ViewWithDivider } from '../../atoms/ViewWithDivider';
 
 const filterTitle = (title, icon) => (
     <View className="flex-row space-x-2 items-center">
         <Icon name={icon} color={colors.primary.DEFAULT} />
         <Text className="font-ms-medium text-base">{title}</Text>
     </View>
-);
-
-const ViewWithDivider = ({ children }) => (
-    <View className="border-b border-b-gray-200 py-4">{children}</View>
 );
 
 export const ActivitiesFilterBottomSheet = ({
@@ -59,10 +56,11 @@ export const ActivitiesFilterBottomSheet = ({
 
         setTimeout(() => {
             storeFilterSelection(inputedActivities, inputedCategories);
-            (async () => {
+            const updateActivities = async () => {
                 await updateActivitiesList();
                 bottomSheetRef.current.dismiss();
-            })();
+            };
+            updateActivities();
         }, 0);
     };
 
@@ -82,7 +80,7 @@ export const ActivitiesFilterBottomSheet = ({
                     return (
                         <Chips
                             title={activity.name}
-                            key={activity._id + activityArray}
+                            key={activity._id + selected}
                             customStyle="mt-2 mr-2 border border-gray-500"
                             type="filter"
                             icon="check"
@@ -129,7 +127,7 @@ export const ActivitiesFilterBottomSheet = ({
             </ViewWithDivider>
             <DefaultButton
                 title="Aplicar"
-                onPress={() => filterButtonAction()}
+                onPress={filterButtonAction}
                 disabled={
                     inputedCategories.length <= 0 &&
                     inputedActivities.length <= 0

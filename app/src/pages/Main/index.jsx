@@ -34,12 +34,6 @@ export default function Main({ navigation }) {
         }
     }, []);
 
-    const navigateToCreatePage = (page) => {
-        const creationPage =
-            page == 'help' ? 'createHelpRequest' : 'createHelpOffer';
-        createInteraction(user, navigation, creationPage);
-    };
-
     const renderHelpButtons = () => {
         return (
             <Fragment>
@@ -64,14 +58,26 @@ export default function Main({ navigation }) {
                             title="Criar pedido"
                             variant="elevated"
                             size="md"
-                            onPress={() => navigateToCreatePage('help')}
+                            onPress={() =>
+                                createInteraction(
+                                    user,
+                                    navigation,
+                                    'createHelpRequest',
+                                )
+                            }
                         />
                         <DefaultButton
                             width="w-[48%]"
                             title="Criar oferta"
                             variant="elevated"
                             size="md"
-                            onPress={() => navigateToCreatePage('offer')}
+                            onPress={() =>
+                                createInteraction(
+                                    user,
+                                    navigation,
+                                    'createHelpOffer',
+                                )
+                            }
                         />
                     </View>
                 )}
@@ -85,8 +91,8 @@ export default function Main({ navigation }) {
             : 'o que vamos fazer hoje?';
         return (
             <View className="mt-4 mb-3">
-                <Text className="font-ms-regular text-lg text-black leading-6">
-                    <Text className="font-ms-bold">
+                <Text className="font-ms-regular text-lg text-black-900 leading-6">
+                    <Text className="font-ms-bold text-black-900">
                         Olá {firstName(user.name)},
                     </Text>
                     {'\n'}
@@ -113,7 +119,7 @@ export default function Main({ navigation }) {
         return (
             <View className="mt-4">
                 <View className="flex-row items-center justify-between">
-                    <Text className="text-black text-lg font-ms-bold">
+                    <Text className="text-black-900 text-lg font-ms-bold">
                         Próximos a você
                     </Text>
                     <Pressable
@@ -140,7 +146,9 @@ export default function Main({ navigation }) {
         <View className="px-6">
             {renderHelpButtons()}
             <View className="mt-4">
-                <Text className="text-lg font-ms-bold text-black">Mapa</Text>
+                <Text className="text-lg font-ms-bold text-black-900">
+                    Mapa
+                </Text>
                 <View
                     className="mt-2 rounded-2xl overflow-hidden"
                     style={{ height: mapHeight }}

@@ -14,9 +14,8 @@ export const Chips = ({
     disabled = false,
     selected = false,
 }) => {
-    const [isSelected, setIsSelected] = useState(false);
-    const chipColor =
-        isSelected || selected ? 'bg-secondary-500 border-0' : 'bg-white';
+    const [isSelected, setIsSelected] = useState(selected);
+    const chipColor = isSelected ? 'bg-secondary-500 border-0' : 'bg-white';
     const elevatedStyle = elevated && 'shadow shadow-black';
     const disabledStyle = disabled && 'opacity-30';
     const childrenOrder = type == 'input' ? 'flex-row-reverse' : 'flex-row';
