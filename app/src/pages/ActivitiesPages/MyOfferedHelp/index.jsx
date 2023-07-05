@@ -12,7 +12,7 @@ import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { Dialog } from '../../../components/molecules/Dialog';
 
 export default function HelpsFinished({ navigation }) {
-    const { user } = useContext(UserContext);
+    const { user, userPosition } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const [finishedHelpList, setFinishedHelpList] = useState([]);
@@ -32,6 +32,7 @@ export default function HelpsFinished({ navigation }) {
         const resFinished = await callService(helpService, 'listHelpOffer', [
             userId,
             true,
+            userPosition,
         ]);
         if (!resFinished.error) {
             setFinishedHelpList(resFinished);

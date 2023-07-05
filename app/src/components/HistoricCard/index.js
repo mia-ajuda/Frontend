@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from './styles';
 export default function HistoricCard({ object, isRiskGroup, children }) {
     return (
@@ -19,11 +19,6 @@ export default function HistoricCard({ object, isRiskGroup, children }) {
                 <Text numberOfLines={3} style={styles.descriptionContent}>
                     {object.description}
                 </Text>
-
-                <Image
-                    source={require('../../../assets/images/home.png')}
-                    style={styles.imageBackground}
-                ></Image>
                 <View style={styles.bottomItens}>
                     <View style={styles.categoryContainer}>
                         {object.categories.map((category) => (
