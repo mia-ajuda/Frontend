@@ -1,39 +1,32 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, StatusBar } from 'react-native';
-import styles from './styles';
-import { Icon } from 'react-native-elements';
-import CreateHelpButtons from '../../components/CreateHelpButtons';
-import CategoryListModal from '../../components/modals/category/CategoryList';
+import React, {
+    useState,
+    useContext,
+    useEffect,
+    Fragment,
+    useRef,
+} from 'react';
+import { View, Text, Pressable, Dimensions } from 'react-native';
 import { UserContext } from '../../store/contexts/userContext';
-import HelpList from '../../components/HelpList';
 import createInteraction from '../../utils/createInteraction';
-import CustomMap from '../../components/CustomMap';
 import { BadgeContext } from '../../store/contexts/badgeContext';
-import { ActivityMarker } from '../../components/molecules/ActivityMarker';
+import { DefaultButton } from '../../components/atoms/DefaultButton';
+import { firstName } from '../../utils/shortenName';
 import colors from '../../../colors';
 import { ActivityBottomSheetContext } from '../../store/contexts/activityBottomSheetContext';
-import navigateToDescription from '../../utils/navigateToDescription';
 import { ActivityBottomSheet } from '../../components/modals/ActivityBottomSheet';
+import { ActivityFlatList } from '../../components/atoms/ActivityFlatList';
 import { ActivitiesContext } from '../../store/contexts/activitiesContext';
+import { AnimatedMap } from '../../components/organisms/AnimatedMap';
 
 export default function Main({ navigation }) {
-    const [region, setRegion] = useState(null);
-    const [helpListVisible, setHelpListVisible] = useState(false);
-    const { activitiesList } = useContext(ActivitiesContext);
-    const [filterModalVisible, setFilterModalVisible] = useState(false);
-    const [selectedMarker, setSelectedMarker] = useState([]);
-    const { userPosition, user, isEntity, env } = useContext(UserContext);
+    const { user, isEntity, env } = useContext(UserContext);
     const { increaseUserBadge } = useContext(BadgeContext);
-    const {
-        handleShowModal,
-        showActivityModal,
-        activityInfo,
-        setShowActivityModal,
-    } = useContext(ActivityBottomSheetContext);
-
-    useEffect(() => {
-        setRegion(null);
-    }, [region]);
+    const [focusedCardLocation, setFocusedCardLocation] = useState({});
+    const [visibleItemData, setVisibleItemData] = useState(null);
+    const { showActivityModal, activityInfo, setShowActivityModal } =
+        useContext(ActivityBottomSheetContext);
+    const { activitiesList } = useContext(ActivitiesContext);
+    const limitedActivitiesList = activitiesList.slice(0, 15);
 
     useEffect(() => {
         if (!env.production && !isEntity) {
@@ -41,103 +34,134 @@ export default function Main({ navigation }) {
         }
     }, []);
 
-    const renderMarkers = () => {
-        return activitiesList.map((activity, i) => {
-            return (
-                <ActivityMarker
-                    key={activity._id}
-                    activity={activity}
-                    activityType={activity.type}
-                    index={i + 1}
-                    onPress={() =>
-                        navigateToDescription(
-                            user,
-                            navigation,
-                            activity._id,
-                            activity.ownerId,
-                            activity.type,
-                            handleShowModal,
-                        )
-                    }
-                />
-            );
-        });
-    };
-
-    const renderFilterButton = () => (
-        <TouchableOpacity
-            style={styles.filter}
-            onPress={() => {
-                setFilterModalVisible(!filterModalVisible);
-            }}
-        >
-            <Icon
-                name="filter"
-                type="font-awesome"
-                color={colors.dark}
-                size={20}
-            />
-        </TouchableOpacity>
-    );
-
-    const renderCreateRequestButton = () => {
-        if (isEntity) {
-            return (
-                <TouchableOpacity
-                    style={styles.campaignButton}
-                    onPress={() => {
-                        createInteraction(user, navigation, 'createCampaign');
-                    }}
-                >
-                    <Icon
-                        name="plus"
-                        type="font-awesome"
-                        color={colors.light}
-                        size={30}
-                    />
-                </TouchableOpacity>
-            );
-        } else return <CreateHelpButtons />;
-    };
-
-    const renderActivitiesInteractions = () => {
-        const helps = activitiesList.filter(
-            (activity) => activity.type == 'help',
-        );
+    const renderHelpButtons = () => {
         return (
-            <>
-                {renderCreateRequestButton()}
-                {renderFilterButton()}
-                {activitiesList.length > 0 && (
-                    <View style={styles.helpList}>
-                        <HelpList
-                            helps={helps}
-                            visible={helpListVisible}
-                            setVisible={setHelpListVisible}
-                            navigation={navigation}
+            <Fragment>
+                {renderWelcomeText()}
+                {isEntity ? (
+                    <DefaultButton
+                        title="Criar campanha"
+                        variant="elevated"
+                        size="md"
+                        onPress={() =>
+                            createInteraction(
+                                user,
+                                navigation,
+                                'createCampaign',
+                            )
+                        }
+                    />
+                ) : (
+                    <View className="flex-row space-x-2 justify-between">
+                        <DefaultButton
+                            width="w-[48%]"
+                            title="Criar pedido"
+                            variant="elevated"
+                            size="md"
+                            onPress={() =>
+                                createInteraction(
+                                    user,
+                                    navigation,
+                                    'createHelpRequest',
+                                )
+                            }
+                        />
+                        <DefaultButton
+                            width="w-[48%]"
+                            title="Criar oferta"
+                            variant="elevated"
+                            size="md"
+                            onPress={() =>
+                                createInteraction(
+                                    user,
+                                    navigation,
+                                    'createHelpOffer',
+                                )
+                            }
                         />
                     </View>
                 )}
-            </>
+            </Fragment>
         );
     };
+
+    const renderWelcomeText = () => {
+        const welcomeText = isEntity
+            ? 'vamos mudar a vida das pessoas?'
+            : 'o que vamos fazer hoje?';
+        return (
+            <View className="mt-4 mb-3">
+                <Text className="font-ms-regular text-lg text-black-900 leading-6">
+                    <Text className="font-ms-bold text-black-900">
+                        Olá {firstName(user.name)},
+                    </Text>
+                    {'\n'}
+                    {welcomeText}
+                </Text>
+            </View>
+        );
+    };
+
+    const onViewableItemsChanged = useRef(({ viewableItems }) => {
+        if (viewableItems && viewableItems.length > 0) {
+            const visibleItem = viewableItems[0].item;
+            setVisibleItemData(visibleItem);
+            setFocusedCardLocation({
+                latitudeDelta: 0.0015,
+                longitudeDelta: 0.0015,
+                longitude: visibleItem.location.coordinates[0],
+                latitude: visibleItem.location.coordinates[1],
+            });
+        }
+    });
+
+    const useRenderHelpCards = () => {
+        return (
+            <View className="mt-4">
+                <View className="flex-row items-center justify-between">
+                    <Text className="text-black-900 text-lg font-ms-bold">
+                        Próximos a você
+                    </Text>
+                    <Pressable
+                        onPress={() => navigation.navigate('mapScreen')}
+                        android_ripple={{ color: colors.gray.DEFAULT }}
+                        className="p-1"
+                    >
+                        <Text className="text-primary font-ms-bold">
+                            VER MAIS
+                        </Text>
+                    </Pressable>
+                </View>
+                <ActivityFlatList
+                    list={limitedActivitiesList}
+                    onViewableItemsChanged={onViewableItemsChanged}
+                />
+            </View>
+        );
+    };
+
+    const mapHeight = Dimensions.get('window').height * 0.32;
+
     return (
-        <>
-            <StatusBar backgroundColor={'transparent'} />
-            <CategoryListModal
-                visible={filterModalVisible}
-                setVisible={setFilterModalVisible}
-                isHistoryPage={false}
-                setSelectedMarker={setSelectedMarker}
-                selectedMarker={selectedMarker}
-            />
-            <CustomMap
-                initialRegion={userPosition}
-                region={region}
-                setHelpListVisible={setHelpListVisible}
-            >
-                {renderMarkers()}
-            </CustomMap>
+        <View className="px-6">
+            {renderHelpButtons()}
+            <View className="mt-4">
+                <Text className="text-lg font-ms-bold text-black-900">
+                    Mapa
+                </Text>
+                <View
+                    className="mt-2 rounded-2xl overflow-hidden"
+                    style={{ height: mapHeight }}
+                >
+                    <AnimatedMap
+                        list={limitedActivitiesList}
+                        navigation={navigation}
+                        focusedCardLocation={focusedCardLocation}
+                        visibleItemData={visibleItemData}
+                    />
+                </View>
+            </View>
+            {useRenderHelpCards()}
             {showActivityModal && (
                 <ActivityBottomSheet
                     navigation={navigation}
@@ -146,7 +170,6 @@ export default function Main({ navigation }) {
                     selectedActivity={activityInfo}
                 />
             )}
-            {!showActivityModal && renderActivitiesInteractions()}
-        </>
+        </View>
     );
 }
