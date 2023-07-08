@@ -55,7 +55,7 @@ export function MyActivitiesFlatList({
             renderItem={renderItem || renderCards}
             key={(item) => item._id}
             refreshing={isRefreshing}
-            onRefresh={async () => loadOnGoingActivity(setIsRefreshing)}
+            onRefresh={() => loadOnGoingActivity(setIsRefreshing)}
         />
     );
 }
