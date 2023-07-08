@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
-import MyRequestHelpCard from '../../../components/MyRequestCard';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import styles from '../styles';
@@ -11,6 +10,8 @@ import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { Dialog } from '../../../components/molecules/Dialog';
+import { ActivityCard } from '../../../components/organisms/ActivityCard';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function HelpsFinished({ navigation }) {
     const { user, userPosition } = useContext(UserContext);
@@ -19,7 +20,7 @@ export default function HelpsFinished({ navigation }) {
     const [finishedHelpList, setFinishedHelpList] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [helpToDelete, setHelpToDelete] = useState(null);
+    const [helpToDelete] = useState(null);
 
     useFocusEffect(
         useCallback(() => {
@@ -61,38 +62,26 @@ export default function HelpsFinished({ navigation }) {
     const renderHelpList = () => {
         if (finishedHelpList.length > 0) {
             return (
-                <ScrollView>
-                    <View style={styles.helpList}>
-                        {finishedHelpList.map((help) => {
-                            return (
-                                <TouchableOpacity
-                                    key={help._id}
-                                    onPress={() =>
-                                        navigation.navigate(
-                                            'myOfferHelpDescription',
-                                            {
-                                                helpId: help._id,
-                                                routeId: 'HelpOffer',
-                                            },
-                                        )
-                                    }
-                                >
-                                    <MyRequestHelpCard
-                                        object={help}
-                                        possibleInterestedList={[
-                                            ...help.possibleHelpedUsers,
-                                            ...help.helpedUserId,
-                                        ]}
-                                        setConfirmationModalVisible={
-                                            setConfirmationModalVisible
-                                        }
-                                        setSelectedHelp={setHelpToDelete}
-                                    />
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-                </ScrollView>
+                <FlatList
+                    data={finishedHelpList}
+                    style={{ marginHorizontal: 8, marginTop: 8 }}
+                    renderItem={({ item, index }) => (
+                        <ActivityCard
+                            variant={item.type}
+                            id={item._id}
+                            ownerId={item.ownerId}
+                            count={index + 1}
+                            title={item.title}
+                            description={item.description}
+                            badges={item.categories}
+                            distance={item.distance}
+                            creationDate={item.creationDate}
+                            userId={item.ownerId}
+                            size='large'
+                        />
+                    )}
+                    keyExtractor={(item) => item._id}
+                />
             );
         } else {
             return <NoHelps title={'Você não possui nenhuma oferta criada'} />;

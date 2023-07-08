@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
-import MyRequestCard from '../../../components/MyRequestCard';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
 import NoHelps from '../../../components/NoHelps';
@@ -11,6 +10,8 @@ import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { Dialog } from '../../../components/molecules/Dialog';
+import { FlatList } from 'react-native-gesture-handler';
+import { ActivityCard } from '../../../components/organisms/ActivityCard';
 
 export default function CampaignsFinished({ navigation }) {
     const { isLoading, setIsLoading } = useContext(LoadingContext);
@@ -63,50 +64,26 @@ export default function CampaignsFinished({ navigation }) {
     const renderCampaignList = () => {
         if (finishedCampaignList.length > 0) {
             return (
-                <ScrollView>
-                    <View style={styles.campaignList}>
-                        {finishedCampaignList.map((campaign) => {
-                            if (campaign.ownerId === user._id) {
-                                return (
-                                    <TouchableOpacity
-                                        // Botão que leva para a page de Descrição
-                                        key={campaign._id}
-                                        onPress={() =>
-                                            navigation.navigate(
-                                                'campaignDescription',
-                                                {
-                                                    campaign,
-                                                },
-                                            )
-                                        }
-                                    >
-                                        {/* Tirar isEntityUser depois */}
-                                        <MyRequestCard
-                                            object={campaign}
-                                            isEntityUser={true}
-                                            setConfirmationModalVisible={
-                                                setConfirmationModalVisible
-                                            }
-                                            setSelectedHelp={
-                                                setCampaignToDelete
-                                            }
-                                        />
-                                    </TouchableOpacity>
-                                );
-                            } else {
-                                return (
-                                    <NoHelps
-                                        key={campaign._id}
-                                        title={
-                                            'Você não possui nenhuma campanha criada'
-                                        }
-                                    />
-                                );
-                            }
-                        })}
-                        {/*TODO: O `if` foi adicionado porque as ajudas estavam aparecendo mesmo se voce nao for dono... Rever essa logica para uma mais escalavel.*/}
-                    </View>
-                </ScrollView>
+                <FlatList
+                    data={finishedCampaignList}
+                    style={{ marginHorizontal: 8, marginTop: 8 }}
+                    renderItem={({ item, index }) => (
+                        <ActivityCard
+                            variant={item.type}
+                            id={item._id}
+                            ownerId={item.ownerId}
+                            count={index + 1}
+                            title={item.title}
+                            description={item.description}
+                            badges={item.categories}
+                            distance={item.distance}
+                            creationDate={item.creationDate}
+                            userId={item.ownerId}
+                            size='large'
+                        />
+                    )}
+                    keyExtractor={(item) => item._id}
+                />
             );
         } else {
             return (
