@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
-import tailwindConfig from '../../../../tailwind.config';
+import colors from '../../../../colors';
+
 export const TutorialCard = ({
     title,
     description,
@@ -12,7 +13,7 @@ export const TutorialCard = ({
     return (
         <Pressable
             android_ripple={{
-                color: tailwindConfig.theme.extend.colors.gray.contrast,
+                color: colors.gray.contrast,
             }}
             onPress={onPress}
             className={`w-full ${flexRow} bg-white rounded-lg shadow-md border-[0.5px] border-black-100 p-4 items-center justify-between ${margin} h-40`}
@@ -23,13 +24,10 @@ export const TutorialCard = ({
                 style={{ resizeMode: 'contain' }}
             />
             <View className="w-3/4">
-                <Text
-                    className="font-ms-semibold text-base text-black"
-                    numberOfLines={2}
-                >
+                <Text className="font-ms-semibold text-base text-black">
                     {title}
                 </Text>
-                <Text className="font-ms-regular text-black" numberOfLines={4}>
+                <Text className="font-ms-regular text-black">
                     {description}
                 </Text>
             </View>

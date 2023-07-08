@@ -37,7 +37,7 @@ const faqOptions = [
             ),
             getSliderBody(
                 2,
-                'Procurar pedido, oferta ou camapanha',
+                'Procurar pedido, oferta ou campanha',
                 'No mapa aparecerão alguns marcadores indicando pedidos, campanhas e ofertas, além de uma lista inferior com esses pedidos.',
             ),
             getSliderBody(
