@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
-import MyRequestCard from '../../../components/MyRequestCard';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import { useFocusEffect } from '@react-navigation/native';
@@ -11,6 +10,8 @@ import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { Dialog } from '../../../components/molecules/Dialog';
+import { FlatList } from 'react-native-gesture-handler';
+import { ActivityCard } from '../../../components/organisms/ActivityCard';
 
 const MyRequestedHelp = ({ navigation }) => {
     const { user } = useContext(UserContext);
@@ -19,7 +20,7 @@ const MyRequestedHelp = ({ navigation }) => {
     const [myRequestedHelps, setMyRequestedHelps] = useState([]);
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
-    const [helpToDelete, setHelpToDelete] = useState(null);
+    const [helpToDelete] = useState(null);
 
     useFocusEffect(
         useCallback(() => {
@@ -61,36 +62,26 @@ const MyRequestedHelp = ({ navigation }) => {
     const renderMyRequestsHelpList = () => {
         if (myRequestedHelps.length > 0) {
             return (
-                <ScrollView>
-                    <View style={styles.helpList}>
-                        {myRequestedHelps.map((help) => (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={() =>
-                                    navigation.navigate(
-                                        'myRequestHelpDescription',
-                                        {
-                                            helpId: help._id,
-                                            routeId: 'Help',
-                                        },
-                                    )
-                                }
-                            >
-                                <MyRequestCard
-                                    object={help}
-                                    deleteVisible={true}
-                                    possibleInterestedList={
-                                        help.possibleHelpers
-                                    }
-                                    setConfirmationModalVisible={
-                                        setConfirmationModalVisible
-                                    }
-                                    setSelectedHelp={setHelpToDelete}
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </ScrollView>
+                <FlatList
+                    data={myRequestedHelps}
+                    style={{ marginHorizontal: 8, marginTop: 8 }}
+                    renderItem={({ item, index }) => (
+                        <ActivityCard
+                            variant={item.type}
+                            id={item._id}
+                            ownerId={item.ownerId}
+                            count={index + 1}
+                            title={item.title}
+                            description={item.description}
+                            badges={item.categories}
+                            distance={item.distance}
+                            creationDate={item.creationDate}
+                            userId={item.ownerId}
+                            size='large'
+                        />
+                    )}
+                    keyExtractor={(item) => item._id}
+                />
             );
         } else {
             return <NoHelps title={'Você não possui ajudas em andamento'} />;

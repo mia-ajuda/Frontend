@@ -7,6 +7,7 @@ module.exports = {
             colors: colors,
             spacing: {
                 38: '9.5rem',
+                88: '22rem',
             },
             fontSize: {
                 xss: '10px',

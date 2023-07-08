@@ -6,8 +6,9 @@ import callService from '../../../services/callService';
 import helpService from '../../../services/Help';
 import NoHelps from '../../../components/NoHelps';
 import HistoricCard from '../../../components/HistoricCard';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { ActivityCard } from '../../../components/organisms/ActivityCard';
 
 const OfferHelpPage = ({ navigation }) => {
     const { user } = useContext(UserContext);
@@ -38,26 +39,26 @@ const OfferHelpPage = ({ navigation }) => {
     const renderHelpRequestsList = () => {
         if (myOfferedHelp.length > 0) {
             return (
-                <ScrollView>
-                    {myOfferedHelp.map((help) => {
-                        return (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={() =>
-                                    navigation.navigate(
-                                        'myOfferHelpDescription',
-                                        {
-                                            helpId: help._id,
-                                            routeId: 'Help',
-                                        },
-                                    )
-                                }
-                            >
-                                <HistoricCard object={help} />
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                <FlatList
+                    data={myOfferedHelp}
+                    style={{ marginHorizontal: 8, marginTop: 8 }}
+                    renderItem={({ item, index }) => (
+                        <ActivityCard
+                            variant={item.type}
+                            id={item._id}
+                            ownerId={item.ownerId}
+                            count={index + 1}
+                            title={item.title}
+                            description={item.description}
+                            badges={item.categories}
+                            distance={item.distance}
+                            creationDate={item.creationDate}
+                            userId={item.ownerId}
+                            size='large'
+                        />
+                    )}
+                    keyExtractor={(item) => item._id}
+                />
             );
         } else {
             return (
