@@ -60,16 +60,22 @@ class HelpService {
         return help.data;
     }
 
-    async listHelpOffer(userId, getOtherUsers) {
+    async listHelpOffer(userId, getOtherUsers, coords) {
+        let longitude, latitude;
+        if (coords) {
+            ({ longitude, latitude } = coords);
+        }
         const helpOfferList = await api.get(
-            `/helpOffer/list/?userId=${userId}&getOtherUsers=${getOtherUsers}`,
+            `/helpOffer/list/?userId=${userId}&getOtherUsers=${getOtherUsers}` +
+                (coords ? `&coords=${longitude},${latitude}` : ''),
         );
         return helpOfferList.data;
     }
 
-    async listHelpOfferWithCategories(userId, categoryId) {
+    async listHelpOfferWithCategories(coords, userId, categoryId) {
+        const { longitude, latitude } = coords;
         const helpOfferList = await api.get(
-            `/helpOffer/list?userId=${userId}&categoryId=${categoryId}`,
+            `/helpOffer/list?userId=${userId}&coords=${longitude},${latitude}&categoryId=${categoryId}`,
         );
         return helpOfferList.data;
     }
