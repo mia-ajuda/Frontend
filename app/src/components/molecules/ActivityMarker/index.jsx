@@ -66,7 +66,7 @@ export const ActivityMarker = ({
                     } overflow-hidden `}
                     numberOfLines={1}
                 >
-                    {title || `${selectedType.text} ${index}`}
+                    {title || `${selectedType.text} ${index || ''}`}
                 </Text>
             </View>
         </Marker>

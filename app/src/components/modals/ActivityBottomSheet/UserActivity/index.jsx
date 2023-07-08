@@ -14,6 +14,7 @@ import { BadgeContext } from '../../../../store/contexts/badgeContext';
 import { LoadingContext } from '../../../../store/contexts/loadingContext';
 import { UserContext } from '../../../../store/contexts/userContext';
 import { Dialog } from '../../../molecules/Dialog';
+import { translatedActivities } from '../../../../utils/translatedActivities';
 
 export const UserActivity = ({
     activityType,
@@ -31,6 +32,7 @@ export const UserActivity = ({
         useState(false);
 
     const activityIcon = getActivityIcon(activityType);
+    const activity = translatedActivities[activityType].translation;
     const indicatorColor = isRiskGroup
         ? { icon: colors.danger[300], text: 'text-danger-300' }
         : { icon: colors.primary[300], text: 'text-primary-300' };
@@ -65,15 +67,11 @@ export const UserActivity = ({
         if (!response.error) {
             alertSuccess(messages[activityType].success);
             if (isRequest) {
-                const badgeResponse = await increaseUserBadge(
-                    user._id,
-                    'offer',
-                    navigation,
-                );
-                if (!badgeResponse.recentUpdated) closeModal();
-            } else closeModal();
+                await increaseUserBadge(user._id, 'offer', navigation);
+            }
         }
         if (isRequest) setIsLoading(false);
+        closeModal();
     };
 
     return (
@@ -97,7 +95,7 @@ export const UserActivity = ({
                 <Text
                     className={`${indicatorColor.text} font-ms-semibold text-2xl ml-2`}
                 >
-                    Pedido
+                    {activity}
                 </Text>
             </View>
             <View className="justify-center">
