@@ -21,7 +21,7 @@ import { AnimatedMap } from '../../components/organisms/AnimatedMap';
 export default function Main({ navigation }) {
     const [region, setRegion] = useState(null);
 
-    const { user, isEntity, env } = useContext(UserContext);
+    const { user, isEntity } = useContext(UserContext);
     const { getBadgeList } = useContext(BadgeContext);
     const [focusedCardLocation, setFocusedCardLocation] = useState({});
     const [visibleItemData, setVisibleItemData] = useState(null);
