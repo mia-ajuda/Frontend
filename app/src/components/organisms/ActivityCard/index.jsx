@@ -13,6 +13,7 @@ import { ActivityBottomSheetContext } from '../../../store/contexts/activityBott
 import navigateToMyActivity from '../../../utils/navigateToMyActivity';
 import { ActivitiesContext } from '../../../store/contexts/activitiesContext';
 import colors from '../../../../colors';
+import { translatedActivities } from '../../../utils/translatedActivities';
 
 export const ActivityCard = ({
     variant,
@@ -34,18 +35,7 @@ export const ActivityCard = ({
     const isNewActivity = isRecentDate(creationDate);
     const isTheSameUser = user._id == ownerId;
 
-    const activitiesVariants = {
-        help: {
-            translation: 'Pedido',
-        },
-        offer: {
-            translation: 'Oferta',
-        },
-        campaign: {
-            translation: 'Campanha',
-        },
-    };
-    const selectedVariant = activitiesVariants[variant];
+    const selectedVariant = translatedActivities[variant].translation;
     const icon = getActivityIcon(variant);
     const color = {
         font: isRiskGroup ? 'text-danger' : 'text-primary-400',
@@ -87,7 +77,7 @@ export const ActivityCard = ({
                     type={icon.type}
                 />
                 <Text className={`${color.font} font-ms-bold ml-1 text-base`}>
-                    {`${selectedVariant.translation} ${count || ''}`}
+                    {`${selectedVariant} ${count || ''}`}
                 </Text>
                 {isNewActivity && <SeedlingIcon className="ml-auto" />}
             </View>
