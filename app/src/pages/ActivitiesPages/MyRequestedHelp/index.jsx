@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, TouchableOpacity, FlatList } from 'react-native';
-import MyRequestCard from '../../../components/MyRequestCard';
+import React, { useState, useContext, useCallback } from 'react';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import helpService from '../../../services/Help';
 import NoHelps from '../../../components/NoHelps';
@@ -10,8 +9,10 @@ import PlusIconTextButton from '../../../components/PlusIconTextButton';
 import createInteraction from '../../../utils/createInteraction';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
 import { Dialog } from '../../../components/molecules/Dialog';
+import { MyActivitiesFlatList } from '../../../components/molecules/MyActivitiesFlatList';
+import { useFocusEffect } from '@react-navigation/native';
 
-const MyRequestedHelp = ({ navigation }) => {
+const MyRequestedHelp = ({ navigation, route }) => {
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
@@ -19,16 +20,16 @@ const MyRequestedHelp = ({ navigation }) => {
     const [confirmationModalVisible, setConfirmationModalVisible] =
         useState(false);
     const [helpToDelete, setHelpToDelete] = useState(null);
-    const [isRefreshing, setIsRefreshing] = useState(false);
-    const [shouldUpdate, setShouldUpdate] = useState(true);
 
-    useEffect(() => {
-        if (shouldUpdate) loadOnGoingHelps();
-    }, [navigation]);
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params.shouldUpdate) loadOnGoingHelps(setIsLoading);
+        }, [route.params.shouldUpdate]),
+    );
 
-    async function loadOnGoingHelps() {
+    async function loadOnGoingHelps(loadingSetter) {
         const { _id: userId } = user;
-        setIsLoading(true);
+        loadingSetter(true);
         const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
@@ -37,8 +38,8 @@ const MyRequestedHelp = ({ navigation }) => {
         if (!filteredHelps.error) {
             setMyRequestedHelps(filteredHelps);
         }
-        setIsLoading(false);
-        setShouldUpdate(false);
+        loadingSetter(false);
+        navigation.setParams({ shouldUpdate: false });
     }
 
     async function excludeHelp() {
@@ -56,39 +57,22 @@ const MyRequestedHelp = ({ navigation }) => {
         }
         setIsLoading(false);
         setConfirmationModalVisible(false);
-        setShouldUpdate(true);
+        navigation.setParams({ shouldUpdate: true });
     }
-
-    const renderCards = ({ item }) => (
-        <TouchableOpacity
-            key={item._id}
-            onPress={() =>
-                navigation.navigate('myRequestHelpDescription', {
-                    helpId: item._id,
-                    routeId: 'Help',
-                })
-            }
-        >
-            <MyRequestCard
-                object={item}
-                deleteVisible={true}
-                possibleInterestedList={item.possibleHelpers}
-                setConfirmationModalVisible={setConfirmationModalVisible}
-                setSelectedHelp={setHelpToDelete}
-            />
-        </TouchableOpacity>
-    );
 
     const renderMyRequestsHelpList = () => {
         if (myRequestedHelps.length > 0) {
             return (
                 <View style={styles.helpList}>
-                    <FlatList
+                    <MyActivitiesFlatList
                         data={myRequestedHelps}
-                        renderItem={renderCards}
-                        key={(item) => item._id}
-                        refreshing={isRefreshing}
-                        onRefresh={() => loadOnGoingHelps(setIsRefreshing)}
+                        loadOnGoingActivity={loadOnGoingHelps}
+                        navigation={navigation}
+                        setConfirmationModalVisible={
+                            setConfirmationModalVisible
+                        }
+                        setHelpToDelete={setHelpToDelete}
+                        type="help"
                     />
                 </View>
             );

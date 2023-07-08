@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import React, { useCallback, useContext, useState } from 'react';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
 import callService from '../../../services/callService';
@@ -8,19 +8,22 @@ import NoHelps from '../../../components/NoHelps';
 import HistoricCard from '../../../components/HistoricCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { MyActivitiesFlatList } from '../../../components/molecules/MyActivitiesFlatList';
+import { useFocusEffect } from '@react-navigation/native';
 
-const OfferHelpPage = ({ navigation }) => {
-    const { user, userPosition } = useContext(UserContext);
+const OfferHelpPage = ({ navigation, route }) => {
+    const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
-    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const [myOfferedHelp, setMyOfferedHelps] = useState([]);
 
-    useEffect(() => {
-        if (user._id && userPosition) {
-            getHelps(setIsLoading);
-        }
-    }, [user._id, userPosition]);
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params.shouldUpdate) {
+                getHelps(setIsLoading);
+            }
+        }, [route.params.shouldUpdate]),
+    );
 
     async function getHelps(loadingSetter) {
         loadingSetter(true);
@@ -33,12 +36,13 @@ const OfferHelpPage = ({ navigation }) => {
             setMyOfferedHelps(filteredHelps);
         }
         loadingSetter(false);
+        navigation.setParams({ shouldUpdate: false });
     }
 
     const renderHelpRequestsList = () => {
         if (myOfferedHelp.length > 0) {
             return (
-                <FlatList
+                <MyActivitiesFlatList
                     data={myOfferedHelp}
                     renderItem={({ item }) => (
                         <TouchableOpacity
@@ -53,9 +57,7 @@ const OfferHelpPage = ({ navigation }) => {
                             <HistoricCard object={item} />
                         </TouchableOpacity>
                     )}
-                    keyExtractor={(help) => help._id}
-                    refreshing={isRefreshing}
-                    onRefresh={async () => getHelps(setIsRefreshing)}
+                    loadOnGoingActivity={getHelps}
                 />
             );
         } else {
