@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useCallback, useContext, useState } from 'react';
+import { View } from 'react-native';
 import { UserContext } from '../../../store/contexts/userContext';
 import styles from '../styles';
 import callService from '../../../services/callService';
@@ -8,22 +8,25 @@ import NoHelps from '../../../components/NoHelps';
 import HistoricCard from '../../../components/HistoricCard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LoadingContext } from '../../../store/contexts/loadingContext';
+import { MyActivitiesFlatList } from '../../../components/molecules/MyActivitiesFlatList';
+import { useFocusEffect } from '@react-navigation/native';
 
-const OfferHelpPage = ({ navigation }) => {
+const OfferHelpPage = ({ navigation, route }) => {
     const { user } = useContext(UserContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     const [myOfferedHelp, setMyOfferedHelps] = useState([]);
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            getHelps();
-        });
-        return unsubscribe;
-    }, [navigation]);
+    useFocusEffect(
+        useCallback(() => {
+            if (route.params.shouldUpdate) {
+                getHelps(setIsLoading);
+            }
+        }, [route.params.shouldUpdate]),
+    );
 
-    async function getHelps() {
-        setIsLoading(true);
+    async function getHelps(loadingSetter) {
+        loadingSetter(true);
         const filteredHelps = await callService(
             helpService,
             'getHelpMultipleStatus',
@@ -32,32 +35,30 @@ const OfferHelpPage = ({ navigation }) => {
         if (!filteredHelps.error) {
             setMyOfferedHelps(filteredHelps);
         }
-        setIsLoading(false);
+        loadingSetter(false);
+        navigation.setParams({ shouldUpdate: false });
     }
 
     const renderHelpRequestsList = () => {
         if (myOfferedHelp.length > 0) {
             return (
-                <ScrollView>
-                    {myOfferedHelp.map((help) => {
-                        return (
-                            <TouchableOpacity
-                                key={help._id}
-                                onPress={() =>
-                                    navigation.navigate(
-                                        'myOfferHelpDescription',
-                                        {
-                                            helpId: help._id,
-                                            routeId: 'Help',
-                                        },
-                                    )
-                                }
-                            >
-                                <HistoricCard object={help} />
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                <MyActivitiesFlatList
+                    data={myOfferedHelp}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            key={item._id}
+                            onPress={() =>
+                                navigation.navigate('myOfferHelpDescription', {
+                                    helpId: item._id,
+                                    routeId: 'Help',
+                                })
+                            }
+                        >
+                            <HistoricCard object={item} />
+                        </TouchableOpacity>
+                    )}
+                    loadOnGoingActivity={getHelps}
+                />
             );
         } else {
             return (
