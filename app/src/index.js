@@ -43,7 +43,7 @@ export default function Root() {
                         </SocialNetworkProfileContextProvider>
                     </UserContextProvider>
                 </LoadingContextProvider>
-            </DeviceInfoProvider>
+            </DeviceInfoProvider >
         </>
     );
 }
