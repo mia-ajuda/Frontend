@@ -67,15 +67,11 @@ export const UserActivity = ({
         if (!response.error) {
             alertSuccess(messages[activityType].success);
             if (isRequest) {
-                const badgeResponse = await increaseUserBadge(
-                    user._id,
-                    'offer',
-                    navigation,
-                );
-                if (!badgeResponse.recentUpdated) closeModal();
-            } else closeModal();
+                await increaseUserBadge(user._id, 'offer', navigation);
+            }
         }
         if (isRequest) setIsLoading(false);
+        closeModal();
     };
 
     return (

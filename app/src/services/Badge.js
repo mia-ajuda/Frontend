@@ -13,6 +13,15 @@ class BadgeService {
         const response = await api.post('/badges/', { userId, category });
         return response.data;
     }
+    async getBadgeList(userId) {
+        const response = await api.get(`/badges/list?userId=${userId}`);
+        return response.data;
+    }
+
+    async viewBadge(badgeId) {
+        const response = await api.put(`/badges/${badgeId}`);
+        return response.data;
+    }
 }
 
 const badgeService = new BadgeService();

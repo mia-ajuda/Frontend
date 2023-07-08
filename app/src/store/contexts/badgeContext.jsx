@@ -6,28 +6,46 @@ export const BadgeContext = createContext();
 
 export default function BadgeContextProvider({ children }) {
     const [showModal, setShowModal] = useState(false);
-    const [badge, setBadge] = useState();
-    const [navigation, setNavigation] = useState();
+    const [badges, setBadges] = useState();
+
+    const showUpdatedBadges = (updatedBadges) => {
+        if (updatedBadges.length > 0) {
+            setBadges(updatedBadges);
+            setShowModal(true);
+        }
+    };
     async function getUserBadges(userId) {
         return await callService(badgeService, 'getUserBadges', [userId]);
+    }
+
+    async function getBadgeList(userId) {
+        const badgeList = await callService(badgeService, 'getBadgeList', [
+            userId,
+        ]);
+        const updatedBadges = badgeList.filter(
+            (badge) =>
+                !badge.visualizedAt || badge.visualizedAt < badge.updatedAt,
+        );
+        showUpdatedBadges(updatedBadges);
     }
 
     async function getBadgesHistory(userId) {
         return await callService(badgeService, 'getBadgesHistory', [userId]);
     }
-    async function increaseUserBadge(userId, category, navigationObject) {
+
+    async function increaseUserBadge(userId, category) {
         const response = await callService(badgeService, 'increaseUserBadge', [
             userId,
             category,
         ]);
-        if (!response.error) {
-            setNavigation(navigationObject);
-            setBadge({
-                ...response.badge,
-                recentUpdated: response.recentUpdated,
-            });
-            setShowModal(response.recentUpdated);
-        }
+        return response;
+    }
+
+    async function viewBadge(userId, badgeId) {
+        const response = await callService(badgeService, 'viewBadge', [
+            userId,
+            badgeId,
+        ]);
         return response;
     }
 
@@ -36,18 +54,27 @@ export default function BadgeContextProvider({ children }) {
             getUserBadges,
             getBadgesHistory,
             increaseUserBadge,
+            getBadgeList,
+            showUpdatedBadges,
+            viewBadge,
         };
-    }, [getUserBadges, getBadgesHistory, increaseUserBadge]);
+    }, [
+        getUserBadges,
+        getBadgesHistory,
+        increaseUserBadge,
+        getBadgeList,
+        showUpdatedBadges,
+    ]);
 
     return (
         <BadgeContext.Provider value={contextValue}>
             {children}
             {showModal && (
                 <BadgeEarnModal
-                    badge={badge.template}
+                    badges={badges}
                     setIsVisible={setShowModal}
                     isVisible={showModal}
-                    navigation={navigation}
+                    onviewBadge={viewBadge}
                 />
             )}
         </BadgeContext.Provider>
