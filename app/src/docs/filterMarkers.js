@@ -1,24 +1,18 @@
 const filterButtonTypes = [
     {
-        id: 1,
-        name: 'PEDIDOS',
+        _id: 'help',
+        name: 'Pedidos',
         isEnabled: false,
-        iconName: 'exclamation',
-        type: 'font-awesome',
     },
     {
-        id: 2,
-        name: 'OFERTAS',
+        _id: 'helpOffer',
+        name: 'Ofertas',
         isEnabled: false,
-        iconName: 'volunteer-activism',
-        type: 'material',
     },
     {
-        id: 3,
-        name: 'INSTITUIÇÕES',
+        _id: 'campaign',
+        name: 'Campanhas',
         isEnabled: false,
-        iconName: 'home',
-        type: 'material',
     },
 ];
 

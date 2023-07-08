@@ -38,7 +38,7 @@ export const EntityActivity = ({ activityInfo, ownerInfo }) => {
     return (
         <>
             <View className="flex-row items-start mb-2">
-                <View className="flex-row items-center">
+                <View className="flex-row items-center flex-1">
                     <Icon name={'home'} size={32} color={colors.primary[300]} />
                     <Text
                         className={
@@ -48,7 +48,7 @@ export const EntityActivity = ({ activityInfo, ownerInfo }) => {
                         Campanha
                     </Text>
                 </View>
-                <View className="justify-center ml-auto">
+                <View className="justify-center ml-auto flex-1">
                     <Text
                         numberOfLines={1}
                         className="text-lg font-ms-bold text-black"
@@ -61,20 +61,22 @@ export const EntityActivity = ({ activityInfo, ownerInfo }) => {
                     </Text>
                 </View>
             </View>
-            <View className="flex-1 flex-row mb-4 w-full justify-between">
+            <View className="flex-1 flex-row mb-4 w-full justify-between flex-wrap">
                 <DefaultButton
+                    width="w-[46%]"
                     variant="secondary"
                     onPress={handleCall}
                     title={'Ligar'}
-                    size="w-[46%]"
                     icon={phoneIcon}
+                    size="md"
                 />
                 <DefaultButton
+                    width="w-[46%]"
                     variant="secondary"
                     onPress={handleOpenMaps}
                     title={'Rotas'}
-                    size="w-[46%]"
                     icon={locationIcon}
+                    size="md"
                 />
             </View>
             <View className="bg-white rounded-md p-4">

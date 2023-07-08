@@ -1,6 +1,5 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
-import tailwindConfig from '../../../../tailwind.config';
+import { ActivityIndicator, Pressable, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import colors from '../../../../colors';
 
@@ -10,9 +9,19 @@ export const DefaultButton = ({
     disabled,
     icon,
     variant = 'primary',
-    size = 'w-full',
-    margin = '',
+    size = 'lg',
+    width = 'w-full',
+    isLoading = false,
 }) => {
+    // the ideia of this buttonSize is to define the button height. The width is determined inside of each DefaultButton parent
+    const buttonSize = {
+        sm: 'py-1',
+        md: 'py-2',
+        lg: 'py-3',
+    };
+
+    const disabledStyle = disabled && 'opacity-70';
+
     const variantStyle = {
         transparent: {
             pressableStyle: 'bg-transparent',
@@ -29,6 +38,10 @@ export const DefaultButton = ({
             textStyle: 'text-black',
             iconColor: colors.black.DEFAULT,
         },
+        elevated: {
+            pressableStyle: 'bg-white shadow-md shadow-black',
+            textStyle: 'text-black-900 font-ms-bold',
+        },
     };
 
     let { pressableStyle, textStyle, iconColor } = variantStyle[variant];
@@ -37,25 +50,31 @@ export const DefaultButton = ({
     return (
         <Pressable
             onPress={onPress}
-            className={`flex-row items-center justify-center ${size} py-3 rounded-md bg-primary ${pressableStyle} ${margin}`}
+            className={`rounded-md bg-primary ${width} ${pressableStyle} ${buttonSize[size]} ${disabledStyle} flex-row justify-center items-center`}
             disabled={disabled}
             android_ripple={{
-                color: tailwindConfig.theme.extend.colors.gray.contrast,
+                color: colors.gray.contrast,
             }}
         >
-            {icon && (
-                <Icon
-                    name={icon.name}
-                    type={icon.type}
-                    color={iconColor}
-                    size={20}
-                />
+            {isLoading ? (
+                <ActivityIndicator size={28} color={colors.background} />
+            ) : (
+                <>
+                    {icon && (
+                        <Icon
+                            name={icon.name}
+                            type={icon.type}
+                            color={iconColor}
+                            size={20}
+                        />
+                    )}
+                    <Text
+                        className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
+                    >
+                        {title}
+                    </Text>
+                </>
             )}
-            <Text
-                className={`text-center text-light font-ms-semibold text-lg ${textStyle}`}
-            >
-                {title}
-            </Text>
         </Pressable>
     );
 };
