@@ -51,7 +51,7 @@ const faqOptions = [
         id: 3,
         title: 'Contatos Importantes',
         description:
-            'Não sabe como criar um pedido oferta ou campanha? Clique aqui para entender melhor como fazer.',
+            'Lista dos principais contatos que você pode utilizar em uma situação de emergência.',
         emergencyModal: true,
     },
 ];
