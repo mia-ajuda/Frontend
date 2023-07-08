@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Badge from '../../molecules/Badge';
 import getActivityIcon from '../../../utils/getActivityIcon';
@@ -72,11 +72,14 @@ export const ActivityCard = ({
     };
 
     return (
-        <TouchableOpacity
-            className="rounded-2xl shadow-md shadow-black p-4 mx-2 bg-white w-72"
+        <Pressable
+            className="rounded-2xl shadow-md shadow-black p-4 mr-2 ml-1 bg-white w-72 h-40"
             onPress={handlePress}
+            android_ripple={{
+                color: colors.gray.DEFAULT,
+            }}
         >
-            <View className="flex-row items-center">
+            <View className="flex-row items-center mb-2">
                 <Icon
                     name={icon.name}
                     size={18}
@@ -95,17 +98,17 @@ export const ActivityCard = ({
                 {title}
             </Text>
             <Text
-                className="text-black text-xs mb-4 font-ms-regular"
+                className="text-black text-xs font-ms-regular"
                 numberOfLines={2}
             >
                 {description}
             </Text>
-            <View className="flex-row justify-between">
+            <View className="flex-row justify-between mt-auto">
                 {badges && <Badge title={badges[0].name} />}
                 <Text className="font-ms-bold text-black">
                     {distance?.split(' ').join('')}
                 </Text>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     );
 };
