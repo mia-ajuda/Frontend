@@ -25,6 +25,7 @@ export const ActivityCard = ({
     id,
     creationDate,
     ownerId,
+    size = 'regular'
 }) => {
     const { getActitivtieById } = useContext(ActivitiesContext);
     const { handleShowModal } = useContext(ActivityBottomSheetContext);
@@ -33,6 +34,14 @@ export const ActivityCard = ({
     const navigation = useNavigation();
     const isNewActivity = isRecentDate(creationDate);
     const isTheSameUser = user._id == ownerId;
+
+    const sizeVariants = {
+        small: 'w-56',
+        regular: 'w-72',
+        large: 'w-80',
+    };
+
+    const selectedSize = sizeVariants[size];
 
     const activitiesVariants = {
         help: {
@@ -48,8 +57,8 @@ export const ActivityCard = ({
     const selectedVariant = activitiesVariants[variant];
     const icon = getActivityIcon(variant);
     const color = {
-        font: isRiskGroup ? 'text-danger' : 'text-primary-400',
-        icon: isRiskGroup ? colors.danger : colors.primary[400],
+        font: isRiskGroup ? 'text-danger-300' : 'text-primary-400',
+        icon: isRiskGroup ? colors.danger[300] : colors.primary[400],
     };
 
     const handlePress = async () => {
@@ -73,7 +82,7 @@ export const ActivityCard = ({
 
     return (
         <Pressable
-            className="rounded-2xl shadow-md shadow-black p-4 mr-2 ml-1 bg-white w-72 h-40"
+            className={`rounded-2xl shadow-md shadow-black m-2 ml-1 bg-white p-4 h-40 ${selectedSize}`}
             onPress={handlePress}
             android_ripple={{
                 color: colors.gray.DEFAULT,

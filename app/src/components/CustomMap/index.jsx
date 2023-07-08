@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 export default function CustomMap({
     children,
     initialRegion,
+    setHelpListVisible,
     animateToRegion,
     showsMyLocationButton = true,
 }) {
@@ -26,8 +27,14 @@ export default function CustomMap({
             initialRegion={initialRegion}
             className="w-full h-full"
             showsUserLocation={true}
-            showsTraffic={false}
             customMapStyle={mapstyle.day.map}
+            onRegionChange={() =>
+                setHelpListVisible && setHelpListVisible(false)
+            }
+            onRegionChangeComplete={() =>
+                setHelpListVisible && setHelpListVisible(true)
+            }
+            showsTraffic={false}
             showsMyLocationButton={showsMyLocationButton}
         >
             {children}

@@ -1,0 +1,48 @@
+import { StyleSheet } from 'react-native';
+import colors from '../../../assets/styles/colorVariables';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        height: '100%',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#f7f7f7',
+    },
+
+    map: {
+        width: '100%',
+        height: '100%',
+    },
+
+    recenter: {
+        position: 'absolute',
+        top: 50,
+        right: 30,
+        zIndex: 5,
+        elevation: 10,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        borderRadius: 50,
+    },
+    campaignButton: {
+        position: 'absolute',
+        right: 20,
+        bottom: 55,
+        zIndex: 1,
+        backgroundColor: colors.primary,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        borderRadius: 100,
+        elevation: 5,
+    },
+    helpList: {
+        position: 'absolute',
+        bottom: 0,
+        elevation: 6,
+        width: '100%',
+        zIndex: 5,
+    },
+});
+
+export default styles;
