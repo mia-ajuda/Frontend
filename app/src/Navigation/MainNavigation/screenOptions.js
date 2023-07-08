@@ -29,12 +29,10 @@ export const screenOptions = ({ route }) => {
             shadowColor: 'transparent',
             borderBottomWidth: 1,
             borderColor: '#BCCBCA',
-            paddingHorizontal: 8,
         },
         tabBarIndicatorStyle: {
             backgroundColor: colors.primary.DEFAULT,
-            borderRadius: 16,
-            padding: 1,
+            borderRadius: 100,
         },
     };
 };

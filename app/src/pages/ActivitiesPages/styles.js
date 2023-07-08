@@ -11,8 +11,7 @@ const styles = StyleSheet.create({
     },
 
     helpList: {
-        marginLeft: 15,
-        marginRight: 15,
+        paddingHorizontal: 15,
         marginBottom: 15,
     },
 
