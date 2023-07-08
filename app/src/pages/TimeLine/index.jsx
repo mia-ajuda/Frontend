@@ -45,8 +45,16 @@ export const Timeline = () => {
 
     return (
         <View className="bg-new_background flex-1 px-4 py-6">
-            {hasTimelineItems && <DefaultTimeline data={parsedTimelineItems} useIcon />}
-            {!hasTimelineItems && <NotFound size='large' title='Possivelmente você é dev' body='Se você está vendo isso é porque criou a conta antes dessa feat e não atualizou seu banco de dados'/>}
+            {hasTimelineItems && (
+                <DefaultTimeline data={parsedTimelineItems} useIcon />
+            )}
+            {!hasTimelineItems && (
+                <NotFound
+                    size="large"
+                    title="Possivelmente você é dev"
+                    body="Se você está vendo isso é porque criou a conta antes dessa feat e não atualizou seu banco de dados"
+                />
+            )}
         </View>
     );
 };

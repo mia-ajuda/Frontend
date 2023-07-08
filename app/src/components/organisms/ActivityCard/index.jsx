@@ -87,7 +87,7 @@ export const ActivityCard = ({
                     type={icon.type}
                 />
                 <Text className={`${color.font} font-ms-bold ml-1 text-base`}>
-                    {`${selectedVariant.translation} ${count}`}
+                    {`${selectedVariant.translation} ${count || ''}`}
                 </Text>
                 {isNewActivity && <SeedlingIcon className="ml-auto" />}
             </View>
