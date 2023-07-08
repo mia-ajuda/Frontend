@@ -16,7 +16,11 @@ export const NavigationGivenHelps = () => {
             screenOptions={screenOptions}
         >
             {isEntity ? OngGivenHelps() : UserGivenHelps()}
-            <TopTab.Screen name="Interações" component={History} />
+            <TopTab.Screen
+                name="Interações"
+                component={History}
+                initialParams={{ shouldUpdate: true }}
+            />
         </TopTab.Navigator>
     );
 };
@@ -28,6 +32,10 @@ const OngGivenHelps = () => (
 const UserGivenHelps = () => (
     <>
         <TopTab.Screen name="Minhas ofertas" component={myOfferedHelp} />
-        <TopTab.Screen name="Meus pedidos" component={myRequestedHelp} />
+        <TopTab.Screen
+            name="Meus pedidos"
+            component={myRequestedHelp}
+            initialParams={{ shouldUpdate: true }}
+        />
     </>
 );
