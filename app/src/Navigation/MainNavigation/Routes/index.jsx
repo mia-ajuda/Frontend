@@ -9,6 +9,7 @@ import { MoreInfoRoutes } from './MoreInfoRoutes';
 import { MapRoutes } from './MapRoutes';
 import { BadgeRoutes } from './BadgeRoutes';
 import { FeedbackRoutes } from './FeedbackRoutes';
+import { TimelineRoutes } from './TimelineRoutes';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const othersRoutes = [
     ActivitiesRoutes,
     ProfileRoutes,
     SocialNetworkRoutes,
+    TimelineRoutes,
     BadgeRoutes,
     FeedbackRoutes,
 ];
