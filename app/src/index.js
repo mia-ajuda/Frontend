@@ -12,6 +12,7 @@ import BadgeContextProvider from './store/contexts/badgeContext';
 import CepContextProvider from './store/contexts/cepContext';
 import { ActivityBottomSheetContextProvider } from './store/contexts/activityBottomSheetContext';
 import { FeedbackContextProvider } from './store/contexts/feedbackContext';
+import { TimelineContextProvider } from './store/contexts/timelineContext';
 
 export default function Root() {
     return (
@@ -26,11 +27,13 @@ export default function Root() {
                                         <ActivitiesContextProvider>
                                             <ActivityBottomSheetContextProvider>
                                                 <FeedbackContextProvider>
-                                                    <CepContextProvider>
-                                                        <ScreenTemplateContextProvider>
-                                                            <Routes />
-                                                        </ScreenTemplateContextProvider>
-                                                    </CepContextProvider>
+                                                    <TimelineContextProvider>
+                                                        <CepContextProvider>
+                                                            <ScreenTemplateContextProvider>
+                                                                <Routes />
+                                                            </ScreenTemplateContextProvider>
+                                                        </CepContextProvider>
+                                                    </TimelineContextProvider>
                                                 </FeedbackContextProvider>
                                             </ActivityBottomSheetContextProvider>
                                         </ActivitiesContextProvider>
@@ -40,7 +43,7 @@ export default function Root() {
                         </SocialNetworkProfileContextProvider>
                     </UserContextProvider>
                 </LoadingContextProvider>
-            </DeviceInfoProvider>
+            </DeviceInfoProvider >
         </>
     );
 }
