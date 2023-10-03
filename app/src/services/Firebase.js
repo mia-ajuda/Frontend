@@ -30,7 +30,7 @@ class FirebaseService {
     }
 
     async getUserId() {
-        return await this.firebase.auth().currentUser.getIdToken();
+        return await this.firebase.auth().currentUser?.getIdToken();
     }
     async getCurrentUser() {
         return this.firebase.auth().currentUser;
