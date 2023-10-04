@@ -1,5 +1,14 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { initializeApp } from 'firebase/app';
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    getIdToken,
+    signOut,
+    signInWithCredential,
+    onAuthStateChanged,
+} from 'firebase/auth';
 import Constants from 'expo-constants';
 import authConfig from '../config/authmiaajuda-firebase';
 import authConfigDev from '../config/authmiaajuda-firebase-dev';
@@ -9,58 +18,49 @@ class FirebaseService {
         const env = Constants.manifest.releaseChannel;
         const { apiKey, authDomain, projectId } =
             env == 'prod' ? authConfig : authConfigDev;
-        this.firebase = firebase.initializeApp({
+        this.app = initializeApp({
             apiKey,
             authDomain,
             projectId,
         });
+        this.auth = getAuth();
     }
 
     isEmailVerified() {
-        return this.firebase.auth().currentUser.emailVerified;
+        return this.auth.currentUser.emailVerified;
     }
 
     async login(email, password) {
-        return await this.firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password);
+        return await signInWithEmailAndPassword(this.auth, email, password);
     }
+
     async sendEmailVerification() {
-        await this.firebase.auth().currentUser.sendEmailVerification();
+        await sendEmailVerification(this.auth.currentUser);
     }
 
     async getUserId() {
-        return await this.firebase.auth().currentUser?.getIdToken();
+        return await getIdToken(this.auth.currentUser);
     }
+
     async getCurrentUser() {
-        return this.firebase.auth().currentUser;
+        return this.auth.currentUser;
     }
+
     async resetUserPassword(email) {
-        await this.firebase.auth().sendPasswordResetEmail(email);
+        await sendPasswordResetEmail(this.auth, email);
         return true;
     }
-    async setPersistence() {
-        await this.firebase
-            .auth()
-            .setPersistence(this.firebase.auth.Auth.Persistence.LOCAL);
-    }
-    async getCredentialFacebook(token) {
-        return await this.firebase.auth.FacebookAuthProvider.credential(token);
-    }
+
     async signInWithCredential(credential) {
-        return await this.firebase.auth().signInWithCredential(credential);
+        return await signInWithCredential(this.auth, credential);
     }
-    async getCredentialGoogle(idToken, accessToken) {
-        return await this.firebase.auth.GoogleAuthProvider.credential(
-            idToken,
-            accessToken,
-        );
-    }
+
     async signOut() {
-        await this.firebase.auth().signOut();
+        await signOut(this.auth);
     }
+
     async onAuthStateChanged(callbackfunction) {
-        this.firebase.auth().onAuthStateChanged(callbackfunction);
+        onAuthStateChanged(this.auth, callbackfunction);
     }
 }
 
