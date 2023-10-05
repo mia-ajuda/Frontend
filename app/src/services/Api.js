@@ -11,8 +11,8 @@ const api = axios.create({
 api.interceptors.request.use(
     async (config) => {
         let accessToken = await AsyncStorage.getItem('accessToken');
-
-        if (accessToken) {
+        const user = await firebaseService.getCurrentUser();
+        if (user && accessToken) {
             const expireDate = jwt_decode(accessToken).exp;
             const now = Date.now() / 1000;
 
