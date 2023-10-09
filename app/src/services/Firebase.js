@@ -10,8 +10,8 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import Constants from 'expo-constants';
-import authConfig from '../config/authmiaajuda-firebase';
-import authConfigDev from '../config/authmiaajuda-firebase-dev';
+const authConfig = JSON.parse(process.env.AUTH_CONFIG_JSON);
+const authConfigDev = JSON.parse(process.env.AUTH_DEV_CONFIG_JSON);
 
 class FirebaseService {
     constructor() {

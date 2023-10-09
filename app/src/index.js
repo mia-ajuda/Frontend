@@ -18,8 +18,8 @@ export default function Root() {
     return (
         <>
             <DeviceInfoProvider>
-                <LoadingContextProvider>
-                    <UserContextProvider>
+                <UserContextProvider>
+                    <LoadingContextProvider>
                         <SocialNetworkProfileContextProvider>
                             <CategoryContextProvider>
                                 <HelpContextProvider>
@@ -41,8 +41,8 @@ export default function Root() {
                                 </HelpContextProvider>
                             </CategoryContextProvider>
                         </SocialNetworkProfileContextProvider>
-                    </UserContextProvider>
-                </LoadingContextProvider>
+                    </LoadingContextProvider>
+                </UserContextProvider>
             </DeviceInfoProvider>
         </>
     );

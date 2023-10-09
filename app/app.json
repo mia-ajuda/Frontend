@@ -3,13 +3,16 @@
         "name": "Mia Ajuda",
         "slug": "miaajuda",
         "privacy": "public",
-        "platforms": ["android", "ios"],
+        "platforms": [
+            "android",
+            "ios"
+        ],
         "notification": {
             "icon": "./assets/images/logo.png",
             "color": "#4b8ab9",
             "androidMode": "default"
         },
-        "version": "2.2.0 Mutt",
+        "version": "3.0.2 Corgi",
         "orientation": "portrait",
         "icon": "./assets/images/logo.png",
         "splash": {
@@ -20,7 +23,9 @@
         "updates": {
             "fallbackToCacheTimeout": 0
         },
-        "assetBundlePatterns": ["**/*"],
+        "assetBundlePatterns": [
+            "**/*"
+        ],
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.miaajuda.app"
@@ -40,6 +45,11 @@
                 "wasm",
                 "svg"
             ]
+        },
+        "extra": {
+            "eas": {
+                "projectId": ""
+            }
         }
     }
 }

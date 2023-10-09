@@ -15,13 +15,13 @@ export default ({ config }) => {
                 'READ_PHONE_STATE',
                 'WRITE_EXTERNAL_STORAGE',
             ],
-            googleServicesFile: './google-services.json',
+            googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
             config: {
                 googleMaps: {
-                    apiKey: MAPS_API_KEY,
+                    apiKey: process.env.MAPS_API_KEY,
                 },
             },
-            versionCode: 220,
+            versionCode: 302,
         },
     };
 };
