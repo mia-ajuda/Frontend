@@ -1,5 +1,5 @@
 
-const { MAPS_API_KEY } = process.env;
+const { MAPS_API_KEY, GOOGLE_SERVICES_JSON } = process.env;
 
 export default ({ config }) => {
     return {
@@ -15,13 +15,13 @@ export default ({ config }) => {
                 'READ_PHONE_STATE',
                 'WRITE_EXTERNAL_STORAGE',
             ],
-            googleServicesFile: './google-services.json',
+            googleServicesFile: GOOGLE_SERVICES_JSON,
             config: {
                 googleMaps: {
                     apiKey: MAPS_API_KEY,
                 },
             },
-            versionCode: 220,
+            versionCode: 303,
         },
     };
 };

@@ -10,14 +10,16 @@ import {
     onAuthStateChanged,
 } from 'firebase/auth';
 import Constants from 'expo-constants';
-import authConfig from '../config/authmiaajuda-firebase';
-import authConfigDev from '../config/authmiaajuda-firebase-dev';
+const { AUTH_CONFIG_JSON, AUTH_DEV_CONFIG_JSON } = process.env
+console.log(process.env)
+// console.log(AUTH_CONFIG_JSON)
+// const authConfig = JSON.parse(AUTH_CONFIG_JSON);
+// const authConfigDev = JSON.parse(AUTH_DEV_CONFIG_JSON);
 
 class FirebaseService {
     constructor() {
         const env = Constants.manifest.releaseChannel;
-        const { apiKey, authDomain, projectId } =
-            env == 'prod' ? authConfig : authConfigDev;
+        const { apiKey, authDomain, projectId } = {};
         this.app = initializeApp({
             apiKey,
             authDomain,

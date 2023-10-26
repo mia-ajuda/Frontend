@@ -2,8 +2,8 @@ import Constants from 'expo-constants';
 import { IP_ADDRESS, HOMOLOG_API } from '@env';
 
 const prodUrl = 'http://164.41.92.25:8000/';
-const homologUrl = `https://${HOMOLOG_API}/`;
-const devUrl = `http://${IP_ADDRESS}:8000/`;
+const homologUrl = 'http://164.41.92.25:8000/'
+const devUrl = 'http://164.41.92.25:8000/'
 
 const ENV = {
     dev: {

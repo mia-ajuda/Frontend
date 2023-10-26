@@ -7,7 +7,7 @@ import actions from '../actions';
 import env from '../../config/envVariables';
 
 import {
-    getCurrentPositionAsync,
+    getLastKnownPositionAsync,
     requestForegroundPermissionsAsync,
 } from 'expo-location';
 import callService from '../../services/callService';
@@ -42,7 +42,7 @@ export const UserContextProvider = (props) => {
     async function getLocation() {
         const { granted } = await requestForegroundPermissionsAsync();
         if (granted) {
-            const { coords } = await getCurrentPositionAsync({
+            const { coords } = await getLastKnownPositionAsync({
                 enableHighAccuracy: true,
             });
             const { latitude, longitude } = coords;
